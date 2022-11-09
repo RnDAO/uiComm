@@ -53,6 +53,15 @@ const colors = {
   "gray-background": "#EDEDED",
 };
 
+const backgroundImage = {
+  "gradient-mantle":
+    "linear-gradient(90.64deg, #FFFFFF 69.92%, #D1D0DA 99.54%)",
+};
+
+const boxShadow = {
+  base: "0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px rgba(138, 138, 138, 0.16)",
+};
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -63,6 +72,12 @@ module.exports = {
     extend: {
       colors: {
         ...colors,
+      },
+      backgroundImage: {
+        ...backgroundImage,
+      },
+      boxShadow: {
+        ...boxShadow,
       },
     },
   },

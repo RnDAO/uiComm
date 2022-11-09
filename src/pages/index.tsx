@@ -1,5 +1,9 @@
-import React from "react";
+import { RowOne } from "../components/pages/pageIndex/RowOne";
 
-export default function Home() {
-  return <h1 className="text-5xl font-bold underline">Hello world!</h1>;
+export default function PageIndex(): JSX.Element {
+  return (
+    <>
+      <RowOne />
+    </>
+  );
 }
