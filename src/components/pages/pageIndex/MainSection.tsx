@@ -5,7 +5,7 @@ type Props = {};
 const MainSection = (props: Props) => {
   return (
     <div>
-      Community Insights
+      <h3 className="pb-4">Community Insights</h3>
       <Chart />
     </div>
   );

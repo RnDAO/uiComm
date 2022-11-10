@@ -1,4 +1,4 @@
-const WEEK_DAYS = ["Mon", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+const WEEK_DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
 const HOURE_DAYS = [
     "12",
@@ -144,7 +144,7 @@ const chartData = [
     [4, 18, 8],
     [4, 19, 5],
     [4, 20, 3],
-    [4, 21, 7],
+    [4, 21, 205],
     [4, 22, 3],
     [4, 23, 0],
     [5, 0, 2],
@@ -195,12 +195,14 @@ const chartData = [
     [6, 21, 2],
     [6, 22, 2],
     [6, 23, 6],
-].map((item) => [item[1], item[0], item[2] || "-"]);
+].map((item) => [item[1], item[0], item[2] || 0]);
 
 const options = {
     chart: {
         type: "heatmap",
         plotBorderWidth: 0,
+        height: (4 / 12 * 100) + '%',
+
     },
     legend: {
         title: {
@@ -224,9 +226,10 @@ const options = {
             step: 1,
             style: {
                 fontSize: "14px",
-                fontFamily: "Open Sans",
+                fontFamily: "Inter",
             },
         },
+        opposite: true,
         gridLineWidth: 0,
         lineWidth: 0,
         lineColor: "rgba(0,0,0,0.75)",
@@ -234,7 +237,7 @@ const options = {
         tickLength: 0,
         tickColor: "rgba(0,0,0,0.75)",
         title: {
-            text: "Hour",
+            text: "",
         },
     },
     yAxis: {
@@ -242,29 +245,31 @@ const options = {
         lineWidth: 0,
         gridLineWidth: 0,
         title: "Weekdays",
+        reversed: true,
         labels: {
             style: {
                 fontSize: "14px",
-                fontFamily: "Open Sans",
+                fontFamily: "Inter",
             },
         },
     },
     tooltip: {
-        formatter: function () {
-            return (
-                "<b>Hour Is: </b>" +
-                this.point.x +
-                "<br /><b>Day Is:</b> " +
-                this.point.y +
-                "<br />" +
-                "<b>Revenue Is:</b> $" +
-                this.point.value
-            );
-        },
+        enabled:false,
+        // formatter: function () {
+        //     return (
+        //         "<b>Hour Is: </b>" +
+        //         this.point.x +
+        //         "<br /><b>Day Is:</b> " +
+        //         WEEK_DAYS[this.point.y] +
+        //         "<br />" +
+        //         "<b>Revenue Is:</b>" +
+        //         this.point.value
+        //     );
+        // },
     },
     colorAxis: {
         min: 0,
-        minColor: '#FFFFFF',
+        minColor: '#F3F3F3',
         maxColor: '#45367B',
         max: 100,
         stops: [
@@ -284,10 +289,12 @@ const options = {
             borderColor: "white",
             dataLabels: {
                 enabled: true,
-                color: "#000000",
+                color: "#222222",
             },
-            pointPadding: 0,
+            pointPadding: 2,
             data: chartData,
+            colsize: 0.9,
+            rowsize: 0.8,
         },
     ],
 };
