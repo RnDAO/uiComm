@@ -5,7 +5,7 @@ type Props = {};
 const MainSection = (props: Props) => {
   return (
     <div>
-      MainSection
+      Community Insights
       <Chart />
     </div>
   );
