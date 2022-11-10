@@ -8,6 +8,8 @@ specifiers:
   clsx: ^1.2.1
   eslint: 8.27.0
   eslint-config-next: 13.0.2
+  highcharts: ^10.3.1
+  highcharts-react-official: ^3.1.0
   next: 13.0.2
   postcss: ^8.4.18
   react: 18.2.0
@@ -22,6 +24,8 @@ dependencies:
   clsx: 1.2.1
   eslint: 8.27.0
   eslint-config-next: 13.0.2_rmayb2veg2btbq6mbmnyivgasy
+  highcharts: 10.3.1
+  highcharts-react-official: 3.1.0_kaesdfuq6zh2iafnkdfvxacia4
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -1229,6 +1233,20 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+
+  /highcharts-react-official/3.1.0_kaesdfuq6zh2iafnkdfvxacia4:
+    resolution: {integrity: sha512-CkWJHrVMOc6CT8KFu1dR+a0w5OxCVKKgZUNWtEi5TmR0xqBDIDe+RyM652MAN/jBYppxMo6TCUVlRObCyWAn0Q==}
+    peerDependencies:
+      highcharts: '>=6.0.0'
+      react: '>=16.8.0'
+    dependencies:
+      highcharts: 10.3.1
+      react: 18.2.0
+    dev: false
+
+  /highcharts/10.3.1:
+    resolution: {integrity: sha512-8UgVcLmgpiYwnsII0Ht76O+GRutfbrLslZFH3c53fXgl3aZ6NRB4mW5qsIyfsUExMny/n9JqYO/BFNejOKC6AA==}
+    dev: false
 
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
