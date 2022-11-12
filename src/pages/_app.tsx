@@ -1,10 +1,23 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import React from "react";
 
-export default function App({ Component, pageProps }: AppProps) {
+type ComponentWithPageLayout = AppProps & {
+  Component: AppProps["Component"] & {
+    pageLayout?: React.ComponentType | any; // should fix type
+  };
+};
+
+export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
-      <Component {...pageProps} />
+      {Component.pageLayout ? (
+        <Component.pageLayout>
+          <Component {...pageProps} />
+        </Component.pageLayout>
+      ) : (
+        <Component {...pageProps} />
+      )}
     </>
   );
 }
