@@ -63,8 +63,8 @@ const Sidebar = () => {
         <div
           className={
             currentRoute === el.path
-              ? "py-2 rounded-lg text-center bg-white hover:bg-white ease-in delay-100 cursor-pointer"
-              : "py-2 rounded-lg text-center hover:bg-white ease-in delay-100 cursor-pointer"
+              ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
+              : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
           }
         >
           {el.icon}

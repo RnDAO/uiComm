@@ -12,7 +12,7 @@ type Props = {};
 const ZonePicker = (props: Props) => {
   return (
     <div className="flex flex-row items-center bg-gray-background px-3 items-center rounded-md">
-      <GoGlobe size={20} className="mr-3" />
+      <GoGlobe size={20} className="mr-3 text-lite-gray" />
       <Autocomplete
         disablePortal
         id="combo-box-demo"
@@ -20,7 +20,7 @@ const ZonePicker = (props: Props) => {
         sx={{ width: 200 }}
         disableClearable
         defaultValue={defaultTimeZone}
-        className="bg-transparent border-0 outline-0"
+        className="bg-transparent border-0 outline-0 text-lite-gray"
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
             <input
@@ -28,8 +28,8 @@ const ZonePicker = (props: Props) => {
               autoFocus
               className={
                 defaultTimeZone
-                  ? "bg-white outline-0 hover:bg-lite cursor-pointer rounded-md px-3"
-                  : "bg-transparent outline-0 hover:bg-lite cursor-pointer rounded-md px-3"
+                  ? "bg-gray-background outline-0 focus:bg-white hover:bg-lite cursor-pointer rounded-md px-2"
+                  : "bg-transparent outline-0 focus:bg-white hover:bg-lite cursor-pointer rounded-md px-2"
               }
             />
           </div>
