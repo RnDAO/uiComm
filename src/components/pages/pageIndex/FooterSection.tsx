@@ -5,13 +5,19 @@ import Image from "next/image";
 import graph from "../../../assets/svg/graph.svg";
 import members from "../../../assets/svg/members.svg";
 import metrics from "../../../assets/svg/metrics.svg";
-import arrowBottom from '../../../assets/svg/arrowBottom.svg'
-import benchmark from '../../../assets/svg/benchmark.svg'
+import arrowBottom from "../../../assets/svg/arrowBottom.svg";
+import benchmark from "../../../assets/svg/benchmark.svg";
+
+import { BsClockHistory } from "react-icons/bs";
 
 export const FooterSection = (): JSX.Element => {
   return (
     <>
       <div className="flex flex-col space-y-5">
+        <div>
+          <p className="text-xl mb-2 font-bold text-center">COMING SOON...</p>
+          <BsClockHistory size={70} className="mx-auto bg-gray-100 rounded-full p-3" />
+        </div>
         <div className="flex flex-row justify-between space-x-3">
           <Card
             title={"Spot value-adding members in your community"}

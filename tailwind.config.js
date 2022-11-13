@@ -50,6 +50,7 @@ const colors = {
     300: "#FFD761",
     400: "#FFCB33",
   },
+  lite:'#F8F8F8',
   "gray-background": "#EDEDED",
 };
 
@@ -69,7 +70,7 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/layouts/**.{js,ts,jsx,tsx}"
   ],
-  important: "#root",
+  important:true,
   theme: {
     extend: {
       colors: {
