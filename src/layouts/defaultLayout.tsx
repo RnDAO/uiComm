@@ -8,11 +8,11 @@ type Props = {
 export const defaultLayout = ({ children }: Props) => {
   return (
     <>
-      <div className="flex flex-row justify-between w-full">
-        <div className="bg-gray-background min-w-3/12">
+      <div className="w-screen flex flex-row justify-between w-full">
+        <aside className="bg-gray-background shadow-inner w-28 shadow-inner fixed min-h-screen">
           <Sidebar />
-        </div>
-        <div className="w-11/12">{children}</div>
+        </aside>
+        <main className="ml-28 flex-1">{children}</main>
       </div>
     </>
   );
