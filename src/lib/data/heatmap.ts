@@ -204,6 +204,9 @@ const options = {
         height: (4 / 12 * 100) + '%',
 
     },
+    title: {
+        text: null
+    },
     legend: {
         title: {
             text: 'Number of interactions',
@@ -254,7 +257,7 @@ const options = {
         },
     },
     tooltip: {
-        enabled:false,
+        enabled: false,
         // formatter: function () {
         //     return (
         //         "<b>Hour Is: </b>" +

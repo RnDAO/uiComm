@@ -18,7 +18,12 @@ import {
   faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { useRouter } from "next/router";
+import Link from "next/link";
+
 const Sidebar = () => {
+  const router = useRouter();
+  const currentRoute = router.pathname;
   const menuItems: items[] = [
     {
       name: "Community Insights",
@@ -32,7 +37,7 @@ const Sidebar = () => {
     },
     {
       name: "Community Health",
-      path: "/",
+      path: "/t",
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
@@ -42,7 +47,7 @@ const Sidebar = () => {
     },
     {
       name: "Settings",
-      path: "/",
+      path: "/b",
       icon: (
         <FontAwesomeIcon
           icon={faGear}
@@ -54,10 +59,18 @@ const Sidebar = () => {
 
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className="py-4">
-      <div className="py-2 rounded-lg text-center hover:bg-white ease-in delay-100 cursor-pointer">
-        {el.icon}
-      </div>
-      <p className="text-center text-sm">{el.name}</p>
+      <Link href={el.path}>
+        <div
+          className={
+            currentRoute === el.path
+              ? "py-2 rounded-lg text-center bg-white hover:bg-white ease-in delay-100 cursor-pointer"
+              : "py-2 rounded-lg text-center hover:bg-white ease-in delay-100 cursor-pointer"
+          }
+        >
+          {el.icon}
+        </div>
+        <p className="text-center text-sm">{el.name}</p>
+      </Link>
     </li>
   ));
 
@@ -72,7 +85,7 @@ const Sidebar = () => {
             <p className="text-sm font-medium">Polygon DAO</p>
           </div>
         </div>
-        <hr className="mx-2"/>
+        <hr className="mx-2" />
         <ul className="flex flex-col px-3">{menuItem}</ul>
       </nav>
     </>
