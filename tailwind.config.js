@@ -51,6 +51,7 @@ const colors = {
     400: "#FFCB33",
   },
   lite:'#F8F8F8',
+  'lite-black':'#3E3E3E',
   "gray-background": "#EDEDED",
 };
 
@@ -61,6 +62,7 @@ const backgroundImage = {
 
 const boxShadow = {
   base: "0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px rgba(138, 138, 138, 0.16)",
+  box:'0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 10px rgba(138, 138, 138, 0.1)'
 };
 
 module.exports = {

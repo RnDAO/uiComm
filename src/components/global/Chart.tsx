@@ -41,8 +41,8 @@ const communityActiveDates = [
 
 const Chart = (props: Props) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-3">
-      <div className="flex flex-row justify-between">
+    <div className="bg-white shadow-box rounded-lg p-5">
+      <div className="flex flex-row justify-between items-center">
         <h3 className="font-bold text-xl">
           When is the community most active?
         </h3>

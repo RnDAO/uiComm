@@ -3,7 +3,7 @@ import React from "react";
 export const RowOne = (): JSX.Element => {
   return (
     <>
-        <div className="bg-gradient-mantle w-full h-80 rounded-lg overflow-hidden shadow-base">
+        <div className="bg-gradient-mantle w-full h-80 rounded-lg overflow-hidden shadow-box">
           <div className="h-80 bg-[url('../assets/svg/commiunity.svg')] bg-no-repeat bg-right-bottom px-12 py-8">
             <div className="w-1/3 leading-10	">
               <h3 className="text-3xl font-bold">
