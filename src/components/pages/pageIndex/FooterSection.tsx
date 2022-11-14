@@ -9,6 +9,8 @@ import arrowBottom from "../../../assets/svg/arrowBottom.svg";
 import benchmark from "../../../assets/svg/benchmark.svg";
 
 import { BsClockHistory } from "react-icons/bs";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import Link from "next/link";
 
 export const FooterSection = (): JSX.Element => {
   return (
@@ -16,7 +18,10 @@ export const FooterSection = (): JSX.Element => {
       <div className="flex flex-col space-y-5">
         <div>
           <p className="text-xl mb-2 font-bold text-center">COMING SOON...</p>
-          <BsClockHistory size={70} className="mx-auto bg-gray-100 rounded-full p-3" />
+          <BsClockHistory
+            size={70}
+            className="mx-auto bg-gray-100 rounded-full p-3"
+          />
         </div>
         <div className="flex flex-row justify-between space-x-3">
           <Card
@@ -38,8 +43,16 @@ export const FooterSection = (): JSX.Element => {
             <Image src={metrics} alt="Picture of the author" width={400} />
           </div>
           <span>Read our research on </span>
-          <button className="bg-white bg-opacity-20 px-3 rounded-full">
-            Community Health <span className="text-error">arrow-right</span>
+          <button className="bg-white bg-opacity-20 py-1 px-3 rounded-full hover:bg-white ease-in delay-75font-bold hover:text-black">
+            <Link
+              href={
+                "https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM"
+              }
+            >
+              <span className="flex flex-row items-center">
+                Community Health <HiOutlineArrowRight size={25} />
+              </span>
+            </Link>
           </button>
         </div>
         <div className="flex flex-row justify-between space-x-3">
