@@ -2,7 +2,7 @@ import React from "react";
 
 import { ImArrowDown } from "react-icons/im";
 
-export const RowOne = (): JSX.Element => {
+export const HeaderSection = (): JSX.Element => {
   return (
     <>
       <div className="bg-gradient-mantle w-full h-80 rounded-lg overflow-hidden shadow-box">
