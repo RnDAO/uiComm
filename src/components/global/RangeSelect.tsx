@@ -30,7 +30,7 @@ const RangeSelect = ({ options, icon }: Props) => {
                       : "py-1 px-1.5 text-sm rounded-md cursor-pointer text-light-gray hover:bg-lite"
                   }
                 >
-                  <div className="">{el.title}</div>
+                  <div>{el.title}</div>
                 </li>
               ))
             : ""}

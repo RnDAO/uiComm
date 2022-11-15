@@ -42,10 +42,15 @@ const communityActiveDates = [
 const Chart = (props: Props) => {
   return (
     <div className="bg-white shadow-box rounded-lg p-5">
-      <div className="flex flex-row justify-between items-center">
-        <h3 className="font-bold text-xl">
-          When is the community most active?
-        </h3>
+      <div className="flex flex-row justify-between items-baseline">
+        <div>
+          <h3 className="font-bold text-3xl">
+            When is the community most active?
+          </h3>
+          <p className="text-lg py-4 text-gray-700 font-light">
+            Hourly interaction summed over the selected time period.
+          </p>
+        </div>
         <div className="flex flex-row space-x-3">
           <ZonePicker />
           <RangeSelect

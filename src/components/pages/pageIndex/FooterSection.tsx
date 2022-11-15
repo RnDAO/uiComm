@@ -72,11 +72,11 @@ export const FooterSection = (): JSX.Element => {
           </p>
           <div
             style={{
-              width: "60%",
+              width: "30%",
               top: "3rem",
               position: "relative",
               left: "70%",
-              transform: "translateX(-40%)",
+              transform: "translateX(-60%)",
               paddingBottom: "3rem",
             }}
           >

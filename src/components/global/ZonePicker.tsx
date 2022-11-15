@@ -30,11 +30,12 @@ const ZonePicker = (props: Props) => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
   return (
     <div className="flex flex-row items-center bg-gray-background px-3 items-center rounded-md">
       <GoGlobe size={20} className="mr-3 text-lite-gray" />
-      <button aria-describedby={id} onClick={handleClick}>
-        Open Popover
+      <button aria-describedby={id} onClick={handleClick} className="hover:bg-lite active:bg-white px-1 rounded-md">
+        Central European Time
       </button>
       <Popover
         id={id}
@@ -50,8 +51,21 @@ const ZonePicker = (props: Props) => {
           horizontal: "center",
         }}
       >
-        <div className="px-5 py-3">
-          <TextField id="outlined-basic" placeholder="Search" size="small" variant="outlined" />
+        <div className="px-5 py-3 w-full">
+          <TextField
+            id="outlined-basic"
+            placeholder="Search"
+            size="small"
+            className="w-full"
+            variant="outlined"
+          />
+          <ul className="h-64 w-full mt-2">
+            {timeZonesList.map((el) => (
+              <li key={el} className="py-2">
+                <div>{el}</div>
+              </li>
+            ))}
+          </ul>
         </div>
       </Popover>
       {/* <Autocomplete
