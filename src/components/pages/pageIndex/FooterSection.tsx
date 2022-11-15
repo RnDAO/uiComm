@@ -24,22 +24,62 @@ export const FooterSection = (): JSX.Element => {
           />
         </div>
         <div className="flex flex-row justify-between space-x-3">
-          <Card
-            title={"Spot value-adding members in your community"}
-            srcImage={members}
-          />
-          <Card
-            title={"Use data to improve onboarding"}
-            className={"bg-primary text-white"}
-            srcImage={graph}
-            srcWidth={650}
-          />
+          <div className="w-1/2 shadow-xl rounded-xl p-8">
+            <p className="text-3xl font-bold">
+              Spot value-adding members <br /> in your community
+            </p>
+            <div
+              style={{
+                position: "relative",
+                width: "70%",
+                top:"2rem",
+                float: "right",
+                paddingBottom: "50%",
+              }}
+            >
+              <Image
+                alt="Image Alt"
+                src={members}
+                layout="fill"
+                objectFit="contain" 
+              />
+            </div>
+          </div>
+          <div className="w-1/2 shadow-xl bg-primary rounded-xl p-8">
+            <p className="text-3xl font-bold text-white">
+              Use data to improve onboarding
+            </p>
+            <div
+              style={{
+                position: "relative",
+                width: "70%",
+                float: "left",
+                paddingBottom: "50%",
+              }}
+            >
+              <Image
+                alt="Image Alt"
+                src={graph}
+                layout="fill"
+                objectFit="contain" 
+              />
+            </div>
+          </div>
         </div>
         <div className="w-full bg-secondary  shadow-lg rounded-xl p-6 text-white">
-          <p className="text-2xl font-bold">
-            Explore all the metrics that determine the health of your community
+          <p className="text-3xl font-bold">
+            Explore all the metrics that determine <br /> the health of your community
           </p>
-          <div className="mx-auto w-1/3">
+          <div
+            style={{
+              width: "60%",
+              top: "3rem",
+              position: "relative",
+              left: "70%",
+              transform: "translateX(-40%)",
+              paddingBottom: "3rem",
+            }}
+          >
             <Image src={metrics} alt="Picture of the author" width={400} />
           </div>
           <span>Read our research on </span>
@@ -56,19 +96,50 @@ export const FooterSection = (): JSX.Element => {
           </button>
         </div>
         <div className="flex flex-row justify-between space-x-3">
-          <Card
-            title={
-              "Monitor members who disengage and take action to bring them back"
-            }
-            className={"bg-yellow-400"}
-            srcImage={arrowBottom}
-          />
-          <Card
-            title={"Benchmark your metrics and learn from others"}
-            className={"bg-white text-black"}
-            srcImage={benchmark}
-            srcWidth={650}
-          />
+          <div className="w-1/2 shadow-box bg-yellow-400 rounded-xl p-8 overflow-hidden" >
+            <p className="text-3xl font-bold">
+              Monitor members who disengage <br /> and take action to bring them
+              back
+            </p>
+            <div
+              style={{
+                position: "relative",
+                width: "60%",
+                top: "3rem",
+                left: "50%",
+                transform: "translate(-50%,0)",
+                float: "left",
+                paddingBottom: "50%",
+              }}
+            >
+              <Image
+                alt="Image Alt"
+                src={arrowBottom}
+                layout="fill"
+                objectFit="contain" 
+              />
+            </div>
+          </div>
+          <div className="w-1/2 shadow-xl rounded-xl p-8">
+            <p className="text-3xl font-bold">
+              Benchmark your metrics and learn <br /> from others
+            </p>
+            <div
+              style={{
+                position: "relative",
+                width: "70%",
+                float: "right",
+                paddingBottom: "50%",
+              }}
+            >
+              <Image
+                alt="Image Alt"
+                src={benchmark}
+                layout="fill"
+                objectFit="contain" 
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>

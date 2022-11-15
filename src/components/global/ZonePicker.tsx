@@ -1,4 +1,10 @@
-import { Autocomplete, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Popover,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { GoGlobe } from "react-icons/go";
 
@@ -10,10 +16,45 @@ const timeZonesList = momentTZ.tz.names();
 type Props = {};
 
 const ZonePicker = (props: Props) => {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   return (
     <div className="flex flex-row items-center bg-gray-background px-3 items-center rounded-md">
       <GoGlobe size={20} className="mr-3 text-lite-gray" />
-      <Autocomplete
+      <button aria-describedby={id} onClick={handleClick}>
+        Open Popover
+      </button>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <div className="px-5 py-3">
+          <TextField id="outlined-basic" placeholder="Search" size="small" variant="outlined" />
+        </div>
+      </Popover>
+      {/* <Autocomplete
         disablePortal
         id="combo-box-demo"
         options={timeZonesList}
@@ -35,7 +76,7 @@ const ZonePicker = (props: Props) => {
           </div>
         )}
         onChange={(event, value) => (defaultTimeZone = value)}
-      />
+      /> */}
     </div>
   );
 };

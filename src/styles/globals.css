@@ -12,24 +12,29 @@
 }
 
 @font-face {
-    font-family: Inter;
-    font-weight: bold;
-    font-style: bold;
-    font-display: swap;
-    src: url("../lib/fonts/inter/Inter-Bold.ttf")
-      format("truetype");
-  }
+  font-family: Inter;
+  font-weight: bold;
+  font-style: bold;
+  font-display: swap;
+  src: url("../lib/fonts/inter/Inter-Bold.ttf") format("truetype");
+}
 
-  @font-face {
-    font-family: Inter;
-    font-weight: medium;
-    font-style: medium;
-    font-display: swap;
-    src: url("../lib/fonts/inter/Inter-Medium.ttf")
-      format("truetype");
-  }
+@font-face {
+  font-family: Inter;
+  font-weight: medium;
+  font-style: medium;
+  font-display: swap;
+  src: url("../lib/fonts/inter/Inter-Medium.ttf") format("truetype");
+}
 
 *,
 body {
   font-family: Inter;
+}
+
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
 }
