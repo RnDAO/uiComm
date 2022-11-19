@@ -201,7 +201,8 @@ const options = {
     chart: {
         type: "heatmap",
         plotBorderWidth: 0,
-        height: (4 / 12 * 100) + '%',
+        // height: (4 / 12 * 100) + '%',
+        width:"100%"
 
     },
     title: {

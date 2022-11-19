@@ -4,7 +4,7 @@ type Props = {};
 
 const MainSection = (props: Props) => {
   return (
-    <div>
+    <div className="block">
       <h3 className="pb-4 text-lg font-medium text-lite-black">Community Insights</h3>
       <Chart />
     </div>

@@ -86,6 +86,12 @@ module.exports = {
       boxShadow: {
         ...boxShadow,
       },
+      height: {
+        '128': '36rem',
+        '130': '38rem',
+        '140':'40rem',
+        '150':'50rem'
+      }
     },
   },
   plugins: [],

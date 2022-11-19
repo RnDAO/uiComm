@@ -23,16 +23,16 @@ export const FooterSection = (): JSX.Element => {
             className="mx-auto bg-gray-100 rounded-full p-3"
           />
         </div>
-        <div className="flex flex-row justify-between space-x-3">
-          <div className="w-1/2 shadow-xl rounded-xl p-8">
-            <p className="text-3xl font-bold">
+        <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-3">
+          <div className="w-full md:w-1/2 shadow-xl rounded-xl p-4 md:p-8">
+            <p className="text-xl md:text-3xl font-bold">
               Spot value-adding members <br /> in your community
             </p>
             <div
               style={{
                 position: "relative",
                 width: "70%",
-                top:"2rem",
+                top: "2rem",
                 float: "right",
                 paddingBottom: "50%",
               }}
@@ -41,12 +41,12 @@ export const FooterSection = (): JSX.Element => {
                 alt="Image Alt"
                 src={members}
                 layout="fill"
-                objectFit="contain" 
+                objectFit="contain"
               />
             </div>
           </div>
-          <div className="w-1/2 shadow-xl bg-primary rounded-xl p-8">
-            <p className="text-3xl font-bold text-white">
+          <div className="w-full md:w-1/2 shadow-xl bg-primary rounded-xl p-4 md:p-8">
+            <p className="text-xl text-white md:text-3xl font-bold">
               Use data to improve onboarding
             </p>
             <div
@@ -61,14 +61,15 @@ export const FooterSection = (): JSX.Element => {
                 alt="Image Alt"
                 src={graph}
                 layout="fill"
-                objectFit="contain" 
+                objectFit="contain"
               />
             </div>
           </div>
         </div>
-        <div className="w-full bg-secondary  shadow-lg rounded-xl p-6 text-white">
-          <p className="text-3xl font-bold">
-            Explore all the metrics that determine <br /> the health of your community
+        <div className="w-full bg-secondary  shadow-lg rounded-xl p-4 md:p-6 text-white">
+          <p className="text-xl md:text-3xl font-bold">
+            Explore all the metrics that determine <br /> the health of your
+            community
           </p>
           <div
             style={{
@@ -83,7 +84,7 @@ export const FooterSection = (): JSX.Element => {
             <Image src={metrics} alt="Picture of the author" width={400} />
           </div>
           <span>Read our research on </span>
-          <button className="bg-white bg-opacity-20 py-1 px-3 rounded-full hover:bg-white ease-in delay-75font-bold hover:text-black">
+          <button className="bg-white mt-2 md:mt-0 bg-opacity-20 py-1 px-3 rounded-full hover:bg-white ease-in delay-75font-bold hover:text-black">
             <Link
               href={
                 "https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM"
@@ -95,9 +96,9 @@ export const FooterSection = (): JSX.Element => {
             </Link>
           </button>
         </div>
-        <div className="flex flex-row justify-between space-x-3">
-          <div className="w-1/2 shadow-box bg-yellow-400 rounded-xl p-8 overflow-hidden" >
-            <p className="text-3xl font-bold">
+        <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-3">
+          <div className="w-full md:w-1/2 shadow-box bg-yellow-400 rounded-xl p-4 md:p-8 overflow-hidden">
+            <p className="text-xl md:text-3xl font-bold">
               Monitor members who disengage <br /> and take action to bring them
               back
             </p>
@@ -116,12 +117,12 @@ export const FooterSection = (): JSX.Element => {
                 alt="Image Alt"
                 src={arrowBottom}
                 layout="fill"
-                objectFit="contain" 
+                objectFit="contain"
               />
             </div>
           </div>
-          <div className="w-1/2 shadow-xl rounded-xl p-8">
-            <p className="text-3xl font-bold">
+          <div className="w-full md:w-1/2 shadow-xl rounded-xl p-4 md:p-8">
+            <p className="text-xl md:text-3xl font-bold">
               Benchmark your metrics and learn <br /> from others
             </p>
             <div
@@ -136,7 +137,7 @@ export const FooterSection = (): JSX.Element => {
                 alt="Image Alt"
                 src={benchmark}
                 layout="fill"
-                objectFit="contain" 
+                objectFit="contain"
               />
             </div>
           </div>
