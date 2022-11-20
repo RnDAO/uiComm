@@ -35,7 +35,7 @@ const Sidebar = () => {
       icon: (
         <FontAwesomeIcon
           icon={faUserGroup}
-          style={{ fontSize: 20, color: "black" }}
+          style={{ fontSize: 30, color: "black" }}
         />
       ),
     },
@@ -45,7 +45,7 @@ const Sidebar = () => {
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
-          style={{ fontSize: 20, color: "black" }}
+          style={{ fontSize: 30, color: "black" }}
         />
       ),
     },
@@ -55,7 +55,7 @@ const Sidebar = () => {
       icon: (
         <FontAwesomeIcon
           icon={faGear}
-          style={{ fontSize: 20, color: "black" }}
+          style={{ fontSize: 30, color: "black" }}
         />
       ),
     },
@@ -77,13 +77,13 @@ const Sidebar = () => {
         <div
           className={
             currentRoute === el.path
-              ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
-              : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
+              ? "w-1/2 mx-auto py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
+              : "w-1/2 mx-auto py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
           }
         >
           {el.icon}
         </div>
-        <p className="text-center text-sm">{el.name}</p>
+        <p className="text-center text-lg">{el.name}</p>
       </Link>
     </li>
   ));
