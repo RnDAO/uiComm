@@ -51,7 +51,7 @@ const Chart = (props: Props) => {
             Hourly interaction summed over the selected time period.
           </p>
         </div>
-        <div className="flex flex-col-reverse md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+        <div className="flex flex-col-reverse w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
           <ZonePicker />
           <RangeSelect
             options={communityActiveDates}

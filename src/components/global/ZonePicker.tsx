@@ -34,7 +34,7 @@ const ZonePicker = (props: Props) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <div className="flex flex-row items-center bg-gray-background px-3 items-center rounded-md">
+    <div className="flex flex-row w-1/2 md:w-auto items-center bg-gray-background px-3 py-1 mt-2 md:mt-0 items-center rounded-md">
       <GoGlobe size={20} className="mr-3 text-lite-gray" />
       <button
         aria-describedby={id}

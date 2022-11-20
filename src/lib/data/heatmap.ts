@@ -201,9 +201,6 @@ const options = {
     chart: {
         type: "heatmap",
         plotBorderWidth: 0,
-        // height: (4 / 12 * 100) + '%',
-        width:"100%"
-
     },
     title: {
         text: null
@@ -259,17 +256,6 @@ const options = {
     },
     tooltip: {
         enabled: false,
-        // formatter: function () {
-        //     return (
-        //         "<b>Hour Is: </b>" +
-        //         this.point.x +
-        //         "<br /><b>Day Is:</b> " +
-        //         WEEK_DAYS[this.point.y] +
-        //         "<br />" +
-        //         "<b>Revenue Is:</b>" +
-        //         this.point.value
-        //     );
-        // },
     },
     colorAxis: {
         min: 0,
@@ -301,6 +287,54 @@ const options = {
             rowsize: 0.8,
         },
     ],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 400
+            },
+            // Make the labels less space demanding on mobile
+            chartOptions: {
+                chart: {
+                    scrollablePlotArea: {
+                        maxWidth: 400,
+                    },
+                },
+                xAxis: {
+                    width:1000,
+                    labels: {
+                        step: 1,
+                        style: {
+                            fontSize: "10px",
+                            fontFamily: "Inter",
+                        },
+                    },
+                },
+                yAxis: {
+                    labels: {
+                        style: {
+                            fontSize: "10px",
+                            fontFamily: "Inter",
+                        },
+                    },
+                },
+                series: [
+                    {
+                        name: "Revenue",
+                        borderWidth: 0.5,
+                        borderColor: "white",
+                        dataLabels: {
+                            enabled: true,
+                            color: "#222222",
+                        },
+                        pointPadding: .8,
+                        data: chartData,
+                        colsize: .7,
+                        rowsize: .7,
+                    },
+                ],
+            }
+        }]
+    }
 };
 
 export {

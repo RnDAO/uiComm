@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 type items = {
@@ -7,7 +7,7 @@ type items = {
   icon: any;
 };
 
-import polygon from "../../assets/svg/polygon.svg";
+import polygon from "../../../assets/svg/polygon.svg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,6 +20,10 @@ import {
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Drawer } from "@mui/material";
+
+import { GoThreeBars } from "react-icons/go";
+import { MdKeyboardBackspace } from "react-icons/md";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -57,6 +61,16 @@ const Sidebar = () => {
     },
   ];
 
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className="py-4">
       <Link href={el.path}>
@@ -75,20 +89,27 @@ const Sidebar = () => {
   ));
 
   return (
-    <aside className="hidden md:block bg-gray-background shadow-inner md:w-28 shadow-inner fixed min-h-screen">
-      <nav>
-        <div>
-          <div className="text-center my-4">
-            <div className="w-8 h-8 mb-2 mx-auto">
+    <>
+      <div className="bg-gray-background sticky top-0 z-10 py-4 px-5 flex md:hidden flex-row justify-between items-center">
+        <div className="flex flex-row">
+          <div className="flex flex-row text-center items-center">
+            <div className="w-8 h-8 mr-3">
               <Image src={polygon} alt="polygon" width="100" height="100" />
             </div>
-            <p className="text-sm font-medium">Polygon DAO</p>
+            <p className="text-md font-bold">Polygon DAO</p>
           </div>
         </div>
-        <hr className="mx-2" />
-        <ul className="flex flex-col px-3">{menuItem}</ul>
-      </nav>
-    </aside>
+        <GoThreeBars size={30} onClick={handleDrawerOpen} />
+      </div>
+      <Drawer variant="persistent" anchor="right" open={open}>
+        <div className="bg-gray-background h-screen p-3">
+          <MdKeyboardBackspace size={30} onClick={handleDrawerClose} />
+          <nav>
+            <ul className="flex flex-col px-3">{menuItem}</ul>
+          </nav>
+        </div>
+      </Drawer>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "../components/layouts/Sidebar";
+import SidebarXs from "../components/layouts/xs/SidebarXs";
 
 type Props = {
   children: React.ReactNode;
@@ -8,10 +9,9 @@ type Props = {
 export const defaultLayout = ({ children }: Props) => {
   return (
     <>
-      <div className="w-screen flex flex-row justify-between w-full">
-        <aside className="hidden md:block bg-gray-background shadow-inner md:w-28 shadow-inner fixed min-h-screen">
-          <Sidebar />
-        </aside>
+      <div className="w-screen flex flex-col md:flex-row justify-between w-full">
+        <Sidebar />
+        <SidebarXs/>
         <main className="md:ml-28 flex-1">{children}</main>
       </div>
     </>
