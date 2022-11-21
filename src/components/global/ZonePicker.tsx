@@ -1,10 +1,4 @@
-import {
-  Autocomplete,
-  Button,
-  Popover,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Popover, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { GoGlobe } from "react-icons/go";
 
@@ -28,10 +22,23 @@ const ZonePicker = (props: Props) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setZones(timeZonesList)
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  const [zones, setZones] = useState(timeZonesList);
+
+  const searchZones = (e: { target: { value: string } }) => {
+    const results = timeZonesList.filter((zone) => {
+      if (e.target.value === "") {
+        return timeZonesList;
+      }
+      return zone.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setZones(results);
+  };
 
   return (
     <div className="flex flex-row w-1/2 md:w-auto items-center bg-gray-background px-3 py-1 mt-2 md:mt-0 items-center rounded-md">
@@ -57,24 +64,33 @@ const ZonePicker = (props: Props) => {
           horizontal: "center",
         }}
       >
-        <div className="px-5 py-3 w-full">
-          <TextField
-            id="outlined-basic"
-            placeholder="Search"
-            size="small"
-            className="w-full sticky"
-            variant="outlined"
-          />
-          <ul className="h-64 w-full mt-2">
-            {timeZonesList.map((el) => (
-              <li
-                key={el}
-                className="py-2 hover:bg-lite px-3 cursor-pointer"
-                onClick={() => (setSelectedZone(el), setAnchorEl(null))}
-              >
-                <div>{el}</div>
-              </li>
-            ))}
+        <div className="h-64 overflow-scroll w-full">
+          <div className="bg-white sticky top-0 p-3">
+            <TextField
+              id="outlined-basic"
+              placeholder="Search"
+              size="small"
+              className="w-full sticky"
+              variant="outlined"
+              onChange={searchZones}
+            />
+          </div>
+          <ul className="w-full mt-2 px-3 py-1">
+            {zones.length > 0 ? (
+              zones.map((el) => (
+                <li
+                  key={el}
+                  className="py-2 hover:bg-lite px-3 cursor-pointer"
+                  onClick={() => (setSelectedZone(el), setAnchorEl(null))}
+                >
+                  <div>{el}</div>
+                </li>
+              ))
+            ) : (
+              <div className="mx-auto py-12 text-gray-300 px-12 w-full text-center">
+                Not founded
+              </div>
+            )}
           </ul>
         </div>
       </Popover>

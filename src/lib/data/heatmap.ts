@@ -343,8 +343,8 @@ const options = {
                         },
                         pointPadding: .8,
                         data: chartData,
-                        colsize: .7,
-                        rowsize: .7,
+                        colsize: .9,
+                        rowsize: .9,
                     },
                 ],
             }
