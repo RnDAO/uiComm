@@ -54,7 +54,8 @@ const colors = {
   'lite-black':'#3E3E3E',
   "gray-background": "#EDEDED",
   "lite-gray":'#515151',
-  "gray-custom":'#222222'
+  "gray-custom":'#222222',
+  "border-gray":'#B4B4B4'
 };
 
 const backgroundImage = {

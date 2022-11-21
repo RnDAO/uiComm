@@ -296,8 +296,23 @@ const options = {
             chartOptions: {
                 chart: {
                     scrollablePlotArea: {
-                        maxWidth: 400,
+                        minWidth: 1080,
                     },
+                },
+                legend: {
+                    title: {
+                        text: 'Number of interactions',
+                        style: {
+                            fontStyle: "bold",
+                        },
+                    },
+                    align: "left",
+                    layout: "horizental",
+                    margin: 0,
+                    verticalAlign: "bottom",
+                    y: 0,
+                    x: 25,
+                    symbolHeight: 20,
                 },
                 xAxis: {
                     width:1000,
