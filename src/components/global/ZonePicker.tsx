@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { GoGlobe } from "react-icons/go";
 
 import momentTZ from "moment-timezone";
+import moment from 'moment';
+import 'moment-timezone';
 
 let defaultTimeZone = momentTZ.tz.guess();
 const timeZonesList = momentTZ.tz.names();
@@ -63,6 +65,9 @@ const ZonePicker = (props: Props) => {
           vertical: "top",
           horizontal: "center",
         }}
+        PaperProps={{
+          style: { width: '18rem' },
+        }}
       >
         <div className="h-64 overflow-scroll w-full">
           <div className="bg-white sticky top-0 p-3">
@@ -80,10 +85,13 @@ const ZonePicker = (props: Props) => {
               zones.map((el) => (
                 <li
                   key={el}
-                  className="py-2 hover:bg-lite px-3 cursor-pointer"
+                  className="py-2 hover:bg-lite px-3 cursor-pointer flex flex-row justify-between"
                   onClick={() => (setSelectedZone(el), setAnchorEl(null))}
                 >
                   <div>{el}</div>
+                  <div>
+                    {moment.tz(moment(), el).format('HH a')}
+                  </div>
                 </li>
               ))
             ) : (
