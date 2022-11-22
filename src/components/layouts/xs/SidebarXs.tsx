@@ -101,7 +101,16 @@ const Sidebar = () => {
         </div>
         <GoThreeBars size={30} onClick={handleDrawerOpen} />
       </div>
-      <Drawer variant="persistent" anchor="right" open={open}>
+      <Drawer
+        variant="persistent"
+        anchor="right"
+        sx={{
+          "& .MuiPaper-root": {
+            width: "100%",
+          },
+        }}
+        open={open}
+      >
         <div className="bg-gray-background h-screen p-3">
           <MdKeyboardBackspace size={30} onClick={handleDrawerClose} />
           <nav>
