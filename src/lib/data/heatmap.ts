@@ -290,7 +290,7 @@ const options = {
     responsive: {
         rules: [{
             condition: {
-                maxWidth: 400
+                maxWidth: 600
             },
             // Make the labels less space demanding on mobile
             chartOptions: {
