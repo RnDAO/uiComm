@@ -66,7 +66,7 @@ const ZonePicker = (props: Props) => {
           horizontal: "center",
         }}
         PaperProps={{
-          style: { width: "22rem" },
+          style: { width: "26rem" },
         }}
       >
         <div className="h-64 overflow-scroll w-full">

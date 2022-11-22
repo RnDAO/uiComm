@@ -26,8 +26,8 @@ const RangeSelect = ({ options, icon }: Props) => {
                   key={el.value}
                   className={
                     active === el.value
-                      ? "py-1 px-3 md:px-1.5 text-sm rounded-md bg-white text-light-gray cursor-pointer hover:bg-lite"
-                      : "py-1 px-3 md:px-1.5 text-sm rounded-md cursor-pointer text-light-gray hover:bg-lite"
+                      ? "py-1 px-2 whitespace-nowrap md:px-1.5 text-sm rounded-md bg-white text-light-gray cursor-pointer hover:bg-lite"
+                      : "py-1 px-3 whitespace-nowrap md:px-1.5 text-sm rounded-md cursor-pointer text-light-gray hover:bg-lite"
                   }
                 >
                   <div>{el.title}</div>
