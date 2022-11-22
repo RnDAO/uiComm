@@ -3,7 +3,7 @@ import { FooterSection } from "../components/pages/pageIndex/FooterSection";
 import MainSection from "../components/pages/pageIndex/MainSection";
 
 import { defaultLayout } from "../layouts/defaultLayout";
-import SEO from "../components/global/Seo";
+import SEO from "../components/global/SEO";
 function PageIndex(): JSX.Element {
   return (
     <>
