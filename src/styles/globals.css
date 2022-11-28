@@ -35,6 +35,15 @@
   src: url("../lib/fonts/inter/Inter-Light.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: Roboto;
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  src: url("../lib/fonts/roboto/roboto-v29-latin-regular.woff")
+    format("truetype");
+}
+
 *,
 body {
   font-family: Inter;
@@ -45,4 +54,6 @@ body {
   padding: 0;
   margin: 0;
   overflow-x: hidden;
+  line-height: 24px;
 }
+

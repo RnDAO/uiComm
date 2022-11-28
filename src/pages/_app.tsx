@@ -12,16 +12,22 @@ type ComponentWithPageLayout = AppProps & {
   };
 };
 
+import { ThemeProvider } from "@mui/material";
+import { theme } from "../utils/theme";
+
+
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
-      {Component.pageLayout ? (
-        <Component.pageLayout>
+      <ThemeProvider theme={theme}>
+        {Component.pageLayout ? (
+          <Component.pageLayout>
+            <Component {...pageProps} />
+          </Component.pageLayout>
+        ) : (
           <Component {...pageProps} />
-        </Component.pageLayout>
-      ) : (
-        <Component {...pageProps} />
-      )}
+        )}
+      </ThemeProvider>
     </>
   );
 }
