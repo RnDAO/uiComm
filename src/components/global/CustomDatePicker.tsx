@@ -24,7 +24,6 @@ const CustomDatePicker: FC<IProps> = ({ placeholder  }): JSX.Element => {
         ref={ref} // necessary
         readOnly
         placeholder={placeholder}
-        value={`${dayRange.from?.day}/${dayRange.from?.month}/${dayRange.from?.year} - ${dayRange.to?.day}/${dayRange.to?.month}/${dayRange.to?.year}`}
         className="bg-transparent  outline-none"
       />
     </div>

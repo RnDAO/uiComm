@@ -22,7 +22,7 @@ export const theme = createTheme({
                     }
                 }
             }
-        }
+        },
     }
 });
 

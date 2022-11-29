@@ -20,6 +20,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import SEO from "../components/global/SEO";
 import CustomDatePicker from "../components/global/CustomDatePicker";
+import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
+import clsx from "clsx";
 
 
 const ColorlibConnector = styled(StepConnector)(() => ({
@@ -41,6 +43,27 @@ const ColorlibConnector = styled(StepConnector)(() => ({
     border: 0,
     backgroundColor: "#F5F5F5",
     borderRadius: 1,
+  },
+}));
+
+const VerticalColorlibConnector = styled(StepConnector)(() => ({
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundColor: "#35B9B7",
+    },
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundColor: "#35B9B7",
+    },
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    marginTop: "-8px",
+    marginBottom: "-8px",
+    marginLeft: '8px',
+    minHeight: "calc(24px + 1.5rem)",
+    borderLeftWidth: '6px',
+    borderColor: '#F5F5F5'
   },
 }));
 
@@ -143,7 +166,7 @@ export default function Login() {
         </div>
       </div>
       <div className="p-3">
-        <div className="shadow-xl md:w-5/12 mx-auto rounded-2xl overflow-hidden mt-4 md:my-12">
+        <div className="shadow-xl md:w-[700px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
           {activeStep === 0 ? (
             <>
               <div className="bg-secondary text-white text-center py-8">
@@ -157,6 +180,22 @@ export default function Login() {
           <div className="py-12">
             <div className="py-3 px-8 text-center mx-auto">
               <Stepper
+                className={clsx(" md:hidden", activeStep === 0 ? 'block' : 'flex')}
+                orientation={activeStep === 0 ? 'vertical' : 'horizontal'}
+                alternativeLabel={activeStep === 0 ? false : true}
+                activeStep={activeStep}
+                connector={activeStep === 0 ? <VerticalColorlibConnector /> : <ColorlibConnector />}
+              >
+                {steps.map((label, index) => (
+                  <Step key={index}>
+                    <StepLabel StepIconComponent={ColorlibStepIcon}>
+                      {activeStep === 0 ? label : ''}
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              <Stepper
+                className="hidden md:flex"
                 alternativeLabel
                 activeStep={activeStep}
                 connector={<ColorlibConnector />}
@@ -188,7 +227,7 @@ export default function Login() {
                   />
                   <div className="flex justify-center mt-8">
                     <Button
-                      className="bg-aqua text-white px-8 py-3 rounded-md"
+                      className="bg-aqua text-white px-8 py-3 rounded-md text-base	"
                       disabled={!isTermsChecked}
                       onClick={() => setActiveStep(activeStep + 1)}
                     >
@@ -200,10 +239,10 @@ export default function Login() {
                 <>
                   <div className="flex flex-col space-y-8 text-left mt-8 p-1 md:p-6">
                     <div>
-                      <h3 className="font-bold">
+                      <h3 className="font-bold text-base">
                         Choose date period for data analysis
                       </h3>
-                      <p>
+                      <p className="text-base">
                         You will be able to change date period and selected
                         channels in the future.
                       </p>
@@ -229,14 +268,14 @@ export default function Login() {
                       </ul>
                     </div>
                     <div>
-                      <h3 className="font-bold">
+                      <h3 className="font-bold text-base pb-3">
                         Confirm your imported channels
                       </h3>
-                      <p>
+                      <p className="text-base">
                         Selected channels:
                         <b> {2}</b>{" "}
                         <span
-                          className="pl-4 text-aqua underline cursor-pointer"
+                          className="pl-4 text-aqua underline cursor-pointer font-bold"
                           onClick={() => setOpen(true)}
                         >
                           Show Channels
@@ -244,7 +283,7 @@ export default function Login() {
                       </p>
                     </div>
                     <div>
-                      <p className="font-bold">Type your email</p>
+                      <p className="font-bold pb-2">Type your email</p>
                       <TextField
                         id="filled-basic"
                         label="Email Address"
@@ -258,7 +297,7 @@ export default function Login() {
                     </div>
                     <div className="flex justify-center">
                       <Button
-                        className="text-white bg-aqua w-full md:w-1/3 py-3"
+                        className="text-white bg-aqua w-full md:w-1/3 py-3 text-base"
                         onClick={() => setActiveStep(activeStep + 1)}
                         disabled={!activeStep || !emailAddress}
                       >
@@ -273,13 +312,13 @@ export default function Login() {
                     <h3 className="font-bold text-3xl pt-7">
                       {"Perfect, you're all set!"}
                     </h3>
-                    <p className="py-8">
+                    <p className="py-8 text-base">
                       Data import just started. It might take up to 12 hours to
                       finish. Once it is done we will send you a{" "}
                       <b>message on Discord.</b>
                     </p>
                     <Button
-                      className="text-white bg-aqua w-full md:w-1/3 py-3"
+                      className="text-white bg-aqua w-full md:w-2/4 py-3 text-base"
                       onClick={() => router.push("/")}
                     >
                       I Understand
@@ -312,6 +351,7 @@ export default function Login() {
             "& .MuiPaper-root": {
               width: "100%",
               maxWidth: "650px",
+              borderRadius: "10px"
             },
           },
         }}
@@ -320,19 +360,19 @@ export default function Login() {
         <div className="p-4">
           <div>
             <div className="flex flex-row justify-between md:items-center cursor-pointer">
-              <h3 className="text-lg font-bold">
+              <h3 className="font-bold text-xl">
                 Import activities from channels
               </h3>
               <IoClose size={30} onClick={handleClose} />
             </div>
-            <p className="py-4">
+            <p className="py-4 text-base">
               Select channels to import activity in this workspace. Please give
               XYZ access to all selected private channels by updating the
               channels permissions in Discord. Discord permission will affect
               the channels the bot can see.
             </p>
           </div>
-          <div className="border border-1 border-gray-300 px-4 py-4 rounded-md max-h-150">
+          <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-scroll text-base">
             <div>
               <h3 className="font-bold">PROJECT UNITS</h3>
               <div className="md:pl-4">
@@ -383,7 +423,7 @@ export default function Login() {
             </div>
           </div>
           <div className="flex justify-center mt-5">
-            <Button className="bg-aqua text-white py-3 px-16" onClick={handleClose}>
+            <Button className="bg-aqua text-white py-3 px-16 text-base" onClick={handleClose}>
               Save channels
             </Button>
           </div>
