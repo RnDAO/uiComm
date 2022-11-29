@@ -8,6 +8,7 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^6.2.0
   '@fortawesome/free-solid-svg-icons': ^6.2.0
   '@fortawesome/react-fontawesome': ^0.2.0
+  '@hassanmojab/react-modern-calendar-datepicker': ^3.1.7
   '@mui/material': ^5.10.13
   '@types/node': 18.11.9
   '@types/react': 18.0.25
@@ -26,6 +27,7 @@ specifiers:
   react-dom: 18.2.0
   react-helmet-async: ^1.3.0
   react-icons: ^4.6.0
+  react-modern-calendar-datepicker: ^3.1.6
   react-router-dom: ^6.4.3
   react-timezone-select: ^1.3.2
   tailwindcss: ^3.2.2
@@ -40,6 +42,7 @@ dependencies:
   '@fortawesome/free-regular-svg-icons': 6.2.0
   '@fortawesome/free-solid-svg-icons': 6.2.0
   '@fortawesome/react-fontawesome': 0.2.0_6j2wdqxompc6mcokhxkpep2gqu
+  '@hassanmojab/react-modern-calendar-datepicker': 3.1.7_biqbaboplfbrettd7655fr4n2y
   '@mui/material': 5.10.13_thp4wrxo45nyllusrnt46mid4u
   '@types/node': 18.11.9
   '@types/react': 18.0.25
@@ -56,6 +59,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
   react-icons: 4.6.0_react@18.2.0
+  react-modern-calendar-datepicker: 3.1.6_biqbaboplfbrettd7655fr4n2y
   react-router-dom: 6.4.3_biqbaboplfbrettd7655fr4n2y
   react-timezone-select: 1.3.2_o6ujcdmwt6ni5mv4wdf5n6tg3y
   timezones-list: 3.0.1
@@ -501,6 +505,17 @@ packages:
       '@fortawesome/fontawesome-svg-core': 6.2.0
       prop-types: 15.8.1
       react: 18.2.0
+    dev: false
+
+  /@hassanmojab/react-modern-calendar-datepicker/3.1.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-dX/FXGcvIW31dgA1fcFJkHmIx3k4AqX166SfCQ6weBb0ZLr6C/f5YzcXVop19ifX18ezEw11Xb+l02JGj4+R6g==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      jalaali-js: 1.2.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.7:
@@ -2144,6 +2159,10 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: false
 
+  /jalaali-js/1.2.6:
+    resolution: {integrity: sha512-io974va+Qyu+UfuVX3UIAgJlxLhAMx9Y8VMfh+IG00Js7hXQo1qNQuwSiSa0xxco0SVgx5HWNkaiCcV+aZ8WPw==}
+    dev: false
+
   /js-sdsl/4.1.5:
     resolution: {integrity: sha512-08bOAKweV2NUC1wqTtf3qZlnpOX/R2DU9ikpjOHs0H+ibQv3zpncVQg6um4uYtRtrwIX8M4Nh3ytK4HGlYAq7Q==}
     dev: false
@@ -2658,6 +2677,17 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-modern-calendar-datepicker/3.1.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-lnMqEMj9Wn32/sm119tjCl5lOkq4u9vJE7wggi7hdXV4s8rPdKlH56FVVehlBi0dfYeWQVZ9npY384Zprjn4WA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      jalaali-js: 1.2.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-router-dom/6.4.3_biqbaboplfbrettd7655fr4n2y:

@@ -16,10 +16,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { FiCalendar } from "react-icons/fi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SEO from "../components/global/SEO";
+import CustomDatePicker from "../components/global/CustomDatePicker";
+
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -124,6 +125,10 @@ export default function Login() {
   const [activePeriod, setActivePeriod] = useState(0);
   const [emailAddress, setEmailAddress] = useState('');
   const [isTermsChecked, setTermsCheck] = useState(false)
+  const [dayRange, setDayRange] = React.useState<DayRange>({
+    from: null,
+    to: null,
+  });
 
   const handleClose = () => {
     setOpen(false);
@@ -220,10 +225,7 @@ export default function Login() {
                             </li>
                           ))
                           : ""}
-                        <li className="flex bg-gray-background flex-row mt-2 md:mt-0 items-center px-3 md:px-2.5 py-2 md:py-1.5 rounded-md cursor-pointer">
-                          <FiCalendar size={20} className="mr-2" />
-                          Specific date
-                        </li>
+                        <CustomDatePicker />
                       </ul>
                     </div>
                     <div>

@@ -75,7 +75,7 @@ const Sidebar = () => {
   ));
 
   return (
-    <aside className="hidden md:block bg-gray-background shadow-inner md:w-28 shadow-inner fixed h-screen">
+    <aside className="hidden md:block bg-gray-background shadow-inner md:w-[100px] xl:w-[150px] shadow-inner fixed h-screen">
       <nav>
         <div>
           <div className="text-center my-4">

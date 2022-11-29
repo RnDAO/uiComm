@@ -8,7 +8,7 @@ function PageIndex(): JSX.Element {
   return (
     <>
       <SEO />
-      <div className="flex flex-col space-y-8 justify-between px-4 md:px-12 py-4">
+      <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
         <HeaderSection />
         <MainSection />
         <FooterSection />

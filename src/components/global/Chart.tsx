@@ -44,7 +44,7 @@ const Chart = (props: Props) => {
     <div className="bg-white shadow-box rounded-lg p-5">
       <div className="flex flex-col md:flex-row justify-between items-baseline">
         <div>
-          <h3 className="font-bold text-xl md:text-3xl">
+          <h3 className="font-bold text-xl md:text-2xl">
             When is the community most active?
           </h3>
           <p className="text-md md:text-lg pt-4 text-gray-700 font-light">

@@ -25,8 +25,8 @@ export const FooterSection = (): JSX.Element => {
         </div>
         <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-3">
           <div className="w-full md:w-1/2 shadow-xl rounded-xl p-4 md:p-8">
-            <p className="text-xl md:text-3xl font-bold">
-              Spot value-adding members <br /> in your community
+            <p className="text-xl md:text-2xl font-bold">
+              Spot value-adding members in your community
             </p>
             <div
               style={{
@@ -46,7 +46,7 @@ export const FooterSection = (): JSX.Element => {
             </div>
           </div>
           <div className="w-full md:w-1/2 shadow-xl bg-primary rounded-xl p-4 md:p-8">
-            <p className="text-xl text-white md:text-3xl font-bold">
+            <p className="text-xl text-white md:text-2xl font-bold">
               Use data to improve onboarding
             </p>
             <div
@@ -67,8 +67,8 @@ export const FooterSection = (): JSX.Element => {
           </div>
         </div>
         <div className="w-full bg-secondary  shadow-lg rounded-xl p-4 md:p-6 text-white">
-          <p className="text-xl md:text-3xl font-bold">
-            Explore all the metrics that determine <br /> the health of your
+          <p className="text-xl md:text-2xl font-bold">
+            Explore all the metrics that determine the health of your
             community
           </p>
           <div
@@ -98,14 +98,14 @@ export const FooterSection = (): JSX.Element => {
         </div>
         <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-3">
           <div className="w-full md:w-1/2 shadow-box bg-yellow-400 rounded-xl p-4 md:p-8 overflow-hidden">
-            <p className="text-xl md:text-3xl font-bold">
-              Monitor members who disengage <br /> and take action to bring them
+            <p className="text-xl md:text-2xl font-bold">
+              Monitor members who disengage and take action to bring them
               back
             </p>
             <div
               style={{
                 position: "relative",
-                width: "60%",
+                width: "45%",
                 top: "3rem",
                 left: "50%",
                 transform: "translate(-50%,0)",
@@ -122,8 +122,8 @@ export const FooterSection = (): JSX.Element => {
             </div>
           </div>
           <div className="w-full md:w-1/2 shadow-xl rounded-xl p-4 md:p-8">
-            <p className="text-xl md:text-3xl font-bold">
-              Benchmark your metrics and learn <br /> from others
+            <p className="text-xl md:text-2xl font-bold">
+              Benchmark your metrics and learn from others
             </p>
             <div
               style={{
