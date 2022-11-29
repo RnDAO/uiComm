@@ -148,10 +148,6 @@ export default function Login() {
   const [activePeriod, setActivePeriod] = useState(0);
   const [emailAddress, setEmailAddress] = useState('');
   const [isTermsChecked, setTermsCheck] = useState(false)
-  const [dayRange, setDayRange] = React.useState<DayRange>({
-    from: null,
-    to: null,
-  });
 
   const handleClose = () => {
     setOpen(false);
@@ -264,7 +260,7 @@ export default function Login() {
                             </li>
                           ))
                           : ""}
-                        <CustomDatePicker />
+                        <CustomDatePicker className={activePeriod === 4 ? "bg-black text-white" : ''} onClick={() => { setActivePeriod(4) }} />
                       </ul>
                     </div>
                     <div>
