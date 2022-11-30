@@ -13,11 +13,6 @@ interface IProps {
   onClick: any;
 }
 
-interface Ref {
-  value: string;
-  setValue: (value: string) => void;
-}
-
 const CustomDatePicker: FC<IProps> = ({
   placeholder,
   className,
@@ -28,7 +23,7 @@ const CustomDatePicker: FC<IProps> = ({
     to: null,
   });
 
-  const renderCustomInput = ({ ref }: { ref: Ref }) => (
+  const renderCustomInput = ({ ref }: { ref: RefObject<HTMLInputElement> | any }) => (
     <div
       onClick={onClick}
       className={clsx(
