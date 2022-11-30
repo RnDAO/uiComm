@@ -18,12 +18,12 @@ const CustomDatePicker: FC<IProps> = ({
   className,
   onClick,
 }): JSX.Element => {
-  const [dayRange, setDayRange] = React.useState<DayRange>({
+  const [dayRange, setDayRange] = useState<DayRange>({
     from: null,
     to: null,
   });
 
-  const renderCustomInput = ({ ref }) => (
+  const renderCustomInput = (ref : { ref : any }) => (
     <div
       onClick={onClick}
       className={clsx(
@@ -39,7 +39,7 @@ const CustomDatePicker: FC<IProps> = ({
           dayRange.from
             ? ` ${moment(dayRange.from?.month).format("MMM")} ${moment(
               dayRange.from?.day
-            ).format("DD")} - ${moment(dayRange.to?.month).format("MMM")} ${dayRange.to?.day}  ${dayRange.to?.year}`
+            ).format("DD")} - ${dayRange.to?.month ? moment(dayRange.to?.month).format("MMM") : ''} ${dayRange.to?.day ? dayRange.to?.day : ''}  ${dayRange.to?.year ? dayRange.to?.year : ''}`
             : ""
         }
         placeholder={placeholder}
