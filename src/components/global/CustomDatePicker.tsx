@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, RefObject, useState } from "react";
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, {
   DayRange,
@@ -13,6 +13,11 @@ interface IProps {
   onClick: any;
 }
 
+interface Ref {
+  value: string;
+  setValue: (value: string) => void;
+}
+
 const CustomDatePicker: FC<IProps> = ({
   placeholder,
   className,
@@ -23,7 +28,7 @@ const CustomDatePicker: FC<IProps> = ({
     to: null,
   });
 
-  const renderCustomInput = (ref : { ref : any }) => (
+  const renderCustomInput = ({ ref }: { ref: Ref }) => (
     <div
       onClick={onClick}
       className={clsx(
