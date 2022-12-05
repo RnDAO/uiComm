@@ -271,33 +271,36 @@ export default function Login() {
                         You will be able to change date period and selected
                         channels in the future.
                       </p>
-                      <ul className="flex flex-row flex-wrap md:space-y-0 space-x-1.5 md:space-x-3 mt-3">
-                        {datePeriod.length > 0
-                          ? datePeriod.map((el) => (
-                            <li
-                              className={`
+                      <div className="flex flex-row flex-wrap md:space-x-3 mt-2">
+                        <ul className="flex flex-row flex-wrap space-x-1.5 md:space-x-3">
+                          {datePeriod.length > 0
+                            ? datePeriod.map((el) => (
+                              <li
+                                className={`
                            flex flex-row items-center px-3 md:px-2.5 py-2 md:py-1.5 rounded-md cursor-pointer
                            ${activePeriod == el.value
-                                  ? "bg-black text-white"
-                                  : "bg-gray-background"
-                                }`}
-                              key={el.value}
-                              onClick={() => setActivePeriod(el.value)}
-                            >
-                              {el.icon ? el.icon : ""}
-                              <div>{el.title}</div>
-                            </li>
-                          ))
-                          : ""}
+                                    ? "bg-black text-white"
+                                    : "bg-gray-background"
+                                  }`}
+                                key={el.value}
+                                onClick={() => setActivePeriod(el.value)}
+                              >
+                                {el.icon ? el.icon : ""}
+                                <div>{el.title}</div>
+                              </li>
+                            ))
+                            : ""}
+
+                        </ul>
                         <CustomDatePicker
                           className={
-                            activePeriod === 4 ? "bg-black text-white" : ""
+                            clsx('mt-2 md:mt-0', activePeriod === 4 ? "bg-black text-white" : "")
                           }
                           onClick={() => {
                             setActivePeriod(4);
                           }}
                         />
-                      </ul>
+                      </div>
                     </div>
                     <div>
                       <h3 className="font-bold text-base pb-3">

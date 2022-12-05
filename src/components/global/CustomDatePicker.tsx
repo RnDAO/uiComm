@@ -27,7 +27,7 @@ const CustomDatePicker: FC<IProps> = ({
     <div
       onClick={onClick}
       className={clsx(
-        "flex flex-row bg-gray-background text-center py-2 px-3 text-sm rounded-md cursor-pointer",
+        "flex flex-row bg-gray-background text-center py-2.5 md:py-2 px-3 text-sm rounded-md cursor-pointer",
         className
       )}
     >
