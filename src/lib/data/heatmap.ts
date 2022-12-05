@@ -288,9 +288,10 @@ const options = {
             dataLabels: {
                 enabled: true,
                 style: {
-                    fontSize: "12px",
+                    fontSize: "14px",
                     fontFamily: "Inter",
                     textOutline: 'none',
+                    fontWeight: "normal",
                 },
             },
             pointPadding: 1.5,

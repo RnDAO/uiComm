@@ -20,9 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import SEO from "../components/global/SEO";
 import CustomDatePicker from "../components/global/CustomDatePicker";
-import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
 import clsx from "clsx";
-
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -60,10 +58,10 @@ const VerticalColorlibConnector = styled(StepConnector)(() => ({
   [`& .${stepConnectorClasses.line}`]: {
     marginTop: "-8px",
     marginBottom: "-8px",
-    marginLeft: '8px',
+    marginLeft: "8px",
     minHeight: "calc(24px + 1.5rem)",
-    borderLeftWidth: '6px',
-    borderColor: '#F5F5F5'
+    borderLeftWidth: "6px",
+    borderColor: "#F5F5F5",
   },
 }));
 
@@ -111,9 +109,15 @@ function ColorlibStepIcon(props: StepIconProps) {
 }
 
 const steps = [
-  <><b>Connect</b> your Discord community</>,
-  <><b>Select</b> time periond an channels you want to be analysed</>,
-  <><b>Begin</b> data import</>,
+  <>
+    <b>Connect</b> your Discord community
+  </>,
+  <>
+    <b>Select</b> time periond and channels you want to be analysed
+  </>,
+  <>
+    <b>Begin</b> data import
+  </>,
 ];
 
 type dateItems = {
@@ -144,10 +148,10 @@ export default function Login() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(-1);
   const [activePeriod, setActivePeriod] = useState(0);
-  const [emailAddress, setEmailAddress] = useState('');
-  const [isTermsChecked, setTermsCheck] = useState(false)
+  const [emailAddress, setEmailAddress] = useState("");
+  const [isTermsChecked, setTermsCheck] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -156,18 +160,18 @@ export default function Login() {
   return (
     <>
       <SEO titleTemplate="Connect your commiunity" />
-      <div className="mx-auto flex justify-center mt-4 md:mt-12">
+      <div className="mx-auto flex justify-center mt-4 md:mt-8">
         <div className="text-xs md:text-lg h-12 w-12 md:h-20 md:w-20 bg-gray-background rounded-full justify-center flex font-bold text-gray-500	items-center text-center">
           XYZ LOGO
         </div>
       </div>
       <div className="p-3">
-        <div className="shadow-xl md:w-[700px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
-          {activeStep === 0 ? (
+        <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
+          {activeStep === 0 || activeStep === -1 ? (
             <>
               <div className="bg-secondary text-white text-center py-8">
                 <h1 className="font-bold text-2xl">Welcome to XYZ</h1>
-                <p className="text-xl">Let’s connect your community.</p>
+                <p className="text-base pt-3">Let’s connect your community.</p>
               </div>
             </>
           ) : (
@@ -176,42 +180,67 @@ export default function Login() {
           <div className="py-12">
             <div className="py-3 px-8 text-center mx-auto">
               <Stepper
-                className={clsx(" md:hidden", activeStep === 0 ? 'block' : 'flex')}
-                orientation={activeStep === 0 ? 'vertical' : 'horizontal'}
-                alternativeLabel={activeStep === 0 ? false : true}
+                className={clsx(
+                  "md:hidden",
+                  activeStep === 0 || activeStep === -1 ? "block" : "flex"
+                )}
+                orientation={
+                  activeStep === 0 || activeStep === -1
+                    ? "vertical"
+                    : "horizontal"
+                }
+                alternativeLabel={
+                  activeStep === 0 || activeStep === -1 ? false : true
+                }
                 activeStep={activeStep}
-                connector={activeStep === 0 ? <VerticalColorlibConnector /> : <ColorlibConnector />}
+                connector={
+                  activeStep === 0 || activeStep === -1 ? (
+                    <VerticalColorlibConnector />
+                  ) : (
+                    <ColorlibConnector />
+                  )
+                }
               >
                 {steps.map((label, index) => (
                   <Step key={index}>
                     <StepLabel StepIconComponent={ColorlibStepIcon}>
-                      {activeStep === 0 ? label : ''}
+                      {activeStep === 0 || activeStep === -1 ? label : ""}
                     </StepLabel>
                   </Step>
                 ))}
               </Stepper>
-              <Stepper
-                className="hidden md:flex"
-                alternativeLabel
-                activeStep={activeStep}
-                connector={<ColorlibConnector />}
-              >
-                {steps.map((label, index) => (
-                  <Step key={index}>
-                    <StepLabel StepIconComponent={ColorlibStepIcon}>
-                      {activeStep === 0 ? label : ''}
-                    </StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              {activeStep === 0 ? (
+              <div>
+                <Stepper
+                  className={clsx(
+                    "hidden md:flex",
+                    activeStep === 0 || activeStep === -1
+                      ? "w-full"
+                      : "w-2/3 mx-auto"
+                  )}
+                  alternativeLabel
+                  activeStep={activeStep}
+                  connector={<ColorlibConnector />}
+                >
+                  {steps.map((label, index) => (
+                    <Step key={index}>
+                      <StepLabel StepIconComponent={ColorlibStepIcon}>
+                        {activeStep === 0 || activeStep === -1 ? label : ""}
+                      </StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </div>
+              {activeStep === 0 || activeStep === -1 ? (
                 <>
                   <FormControlLabel
                     className="pt-12 md:w-2/3 font-medium text-left items-start"
                     control={
-                      <Checkbox color="primary"
+                      <Checkbox
+                        color="primary"
                         value={isTermsChecked}
-                        onChange={(e) => setTermsCheck(e.target.checked)} />}
+                        onChange={(e) => setTermsCheck(e.target.checked)}
+                      />
+                    }
                     label={
                       <span className="text-sm">
                         I understand and agree to the{" "}
@@ -223,9 +252,9 @@ export default function Login() {
                   />
                   <div className="flex justify-center mt-8">
                     <Button
-                      className="bg-aqua text-white px-8 py-3 rounded-md text-base	"
+                      className="bg-aqua text-white py-3 w-[240px] rounded-md text-base"
                       disabled={!isTermsChecked}
-                      onClick={() => setActiveStep(activeStep + 1)}
+                      onClick={() => setActiveStep(1)}
                     >
                       Connect your community
                     </Button>
@@ -260,7 +289,14 @@ export default function Login() {
                             </li>
                           ))
                           : ""}
-                        <CustomDatePicker className={activePeriod === 4 ? "bg-black text-white" : ''} onClick={() => { setActivePeriod(4) }} />
+                        <CustomDatePicker
+                          className={
+                            activePeriod === 4 ? "bg-black text-white" : ""
+                          }
+                          onClick={() => {
+                            setActivePeriod(4);
+                          }}
+                        />
                       </ul>
                     </div>
                     <div>
@@ -284,7 +320,7 @@ export default function Login() {
                         id="filled-basic"
                         label="Email Address"
                         variant="filled"
-                        autoComplete='off'
+                        autoComplete="off"
                         value={emailAddress}
                         InputProps={{ disableUnderline: true }}
                         className="w-full md:w-2/5"
@@ -293,9 +329,9 @@ export default function Login() {
                     </div>
                     <div className="flex justify-center">
                       <Button
-                        className="text-white bg-aqua w-full md:w-1/3 py-3 text-base"
-                        onClick={() => setActiveStep(activeStep + 1)}
-                        disabled={!activeStep || !emailAddress}
+                        className="text-white bg-aqua w-[240px] py-3 text-base"
+                        onClick={() => setActiveStep(2)}
+                        disabled={!activeStep}
                       >
                         Continue
                       </Button>
@@ -314,7 +350,7 @@ export default function Login() {
                       <b>message on Discord.</b>
                     </p>
                     <Button
-                      className="text-white bg-aqua w-full md:w-2/4 py-3 text-base"
+                      className="text-white bg-aqua w-[240px] py-3 text-base"
                       onClick={() => router.push("/")}
                     >
                       I Understand
@@ -347,7 +383,7 @@ export default function Login() {
             "& .MuiPaper-root": {
               width: "100%",
               maxWidth: "650px",
-              borderRadius: "10px"
+              borderRadius: "10px",
             },
           },
         }}
@@ -419,7 +455,10 @@ export default function Login() {
             </div>
           </div>
           <div className="flex justify-center mt-5">
-            <Button className="bg-aqua text-white py-3 px-16 text-base" onClick={handleClose}>
+            <Button
+              className="bg-aqua text-white py-3 px-16 text-base"
+              onClick={handleClose}
+            >
               Save channels
             </Button>
           </div>

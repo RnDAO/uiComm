@@ -17,12 +17,29 @@ export const theme = createTheme({
                 root: {
                     borderRadius: "4px",
                     color: "#909090",
+                    background:'red',
                     "&.Mui-disabled": {
-                        opacity: 0.7
+                        opacity: 0.7,
                     }
                 }
             }
         },
+        MuiCheckbox:{
+            styleOverrides:{
+                root:{
+                    padding:'0 9px'
+                }
+            }
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    "& label.Mui-focused": {
+                        color: '#909090'
+                    },
+                }
+            }
+        }
     }
 });
 
