@@ -6,13 +6,13 @@ export const HeaderSection = (): JSX.Element => {
   return (
     <>
       <div className="bg-gradient-mantle w-full h-140 md:h-80 rounded-lg overflow-hidden shadow-box">
-        <div className="h-140 md:h-80 bg-[url('../assets/svg/commiunity.svg')] bg-no-repeat bg-right-bottom px-4 md:px-12 py-4 md:py-8">
+        <div className="h-140 md:h-80 bg-[url('../assets/svg/commiunity.svg')] bg-no-repeat bg-right-bottom px-4 md:px-8 py-4 md:py-8">
           <div className="w-full xl:w-1/3 leading-6">
             <h3 className="text-xl md:text-3xl font-bold">
               The new way to manage your community
             </h3>
           </div>
-          <div className="w-full lg:w-3/5 leading-6 py-8 text-sm md:text-lg md:text-auto">
+          <div className="w-full lg:w-3/5 leading-6 py-8 text-sm md:text-base md:text-auto">
             <p>
               We believe communities are the beating heart of DAOs. But there
               was no way to assess and improve. We assembled a team of

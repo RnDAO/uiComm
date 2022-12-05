@@ -2,10 +2,10 @@ import React from "react";
 import Chart from "../../global/Chart";
 type Props = {};
 
-const MainSection = (props: Props) => {
+const MainSection = () => {
   return (
     <div className="block">
-      <h3 className="pb-4 text-lg font-medium text-lite-black">Community Insights</h3>
+      <h3 className="pb-6 text-lg font-medium text-lite-black">Community Insights</h3>
       <Chart />
     </div>
   );

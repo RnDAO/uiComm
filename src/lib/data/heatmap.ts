@@ -269,9 +269,11 @@ const options = {
         maxColor: '#45367B',
         max: 100,
         stops: [
-            [0, "#F3F3F3"],
-            [0.1, "#E0F1F7"],
-            [0.2, "#AEDFF0"],
+            [0, "#F1F3F3"],
+            [0.1, "#EBF2F5"],
+            [0.15, "#E0F1F7"],
+            [0.2, "#C4D8F8"],
+            [0.25, "#AEDFF0"],
             [0.3, "#DAD0FF"],
             [0.5, "#AE9DF0"],
             [0.7, "#8474C0"],
@@ -288,6 +290,7 @@ const options = {
                 style: {
                     fontSize: "12px",
                     fontFamily: "Inter",
+                    textOutline: 'none',
                 },
             },
             pointPadding: 1.5,

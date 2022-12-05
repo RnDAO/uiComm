@@ -43,15 +43,15 @@ const Chart = (props: Props) => {
   return (
     <div className="bg-white shadow-box rounded-lg p-5">
       <div className="flex flex-col md:flex-row justify-between items-baseline">
-        <div>
+        <div className="px-3">
           <h3 className="font-bold text-xl md:text-2xl">
             When is the community most active?
           </h3>
-          <p className="text-md md:text-lg pt-4 text-gray-700 font-light">
+          <p className="text-md md:text-base pt-4 text-gray-700 font-light">
             Hourly interaction summed over the selected time period.
           </p>
         </div>
-        <div className="flex flex-col-reverse w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+        <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
           <ZonePicker />
           <RangeSelect
             options={communityActiveDates}

@@ -66,9 +66,9 @@ export const FooterSection = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="w-full bg-secondary  shadow-lg rounded-xl p-4 md:p-6 text-white">
+        <div className="w-full bg-secondary  shadow-lg rounded-xl p-4 md:p-8 text-white">
           <p className="text-xl md:text-2xl font-bold">
-            Explore all the metrics that determine the health of your
+            Explore all the metrics that determine <br /> the health of your
             community
           </p>
           <div
