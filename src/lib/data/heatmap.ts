@@ -244,7 +244,7 @@ const options = {
                 fontSize: "14px",
                 fontFamily: "Inter",
             },
-            align:'low',
+            align: 'low',
         },
     },
     yAxis: {
@@ -285,6 +285,11 @@ const options = {
             name: "Revenue",
             borderWidth: 0.5,
             borderColor: "white",
+            states: {
+                hover: {
+                    enabled: false
+                }
+            },
             dataLabels: {
                 enabled: true,
                 style: {
@@ -330,7 +335,7 @@ const options = {
                     symbolHeight: 20,
                 },
                 xAxis: {
-                    width:1000,
+                    width: 1000,
                     labels: {
                         step: 1,
                         style: {

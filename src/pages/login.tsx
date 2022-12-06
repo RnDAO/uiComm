@@ -343,7 +343,7 @@ export default function Login() {
                 </>
               ) : (
                 <>
-                  <div className="w-full md:w-3/4 text-center mx-auto py-12 md:py-12">
+                  <div className="w-full md:w-4/5 text-center mx-auto py-12 md:py-12">
                     <h3 className="font-bold text-3xl pt-7">
                       {"Perfect, you're all set!"}
                     </h3>
