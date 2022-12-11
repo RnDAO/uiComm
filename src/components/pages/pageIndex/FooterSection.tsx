@@ -1,5 +1,4 @@
 import React from "react";
-import Card from "../../global/Card";
 import Image from "next/image";
 
 import graph from "../../../assets/svg/graph.svg";

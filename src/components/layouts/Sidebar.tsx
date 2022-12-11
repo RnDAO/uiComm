@@ -47,7 +47,7 @@ const Sidebar = () => {
     },
     {
       name: "Settings",
-      path: "/b",
+      path: "/settings",
       icon: (
         <FontAwesomeIcon
           icon={faGear}

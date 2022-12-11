@@ -57,7 +57,7 @@ const colors = {
   "gray-custom": "#222222",
   "border-gray": "#B4B4B4",
   aqua: "#35B9B7",
-  aquaDisabled: "#84E3DE",
+  success: "#56C054",
 };
 
 const backgroundImage = {
@@ -115,12 +115,12 @@ module.exports = {
       container: {
         center: true,
         screens: {
-          sm: '760px',
-          md: '1023px',
-          lg: '1200px',
-          xl: '1400px'
-        }
-      }
+          sm: "760px",
+          md: "1023px",
+          lg: "1200px",
+          xl: "1400px",
+        },
+      },
     },
   },
   plugins: [],
