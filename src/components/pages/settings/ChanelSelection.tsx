@@ -29,6 +29,8 @@ export default function ChanelSelection() {
                 open={open}
                 sx={{
                     "& .MuiDialog-container": {
+                        alignItems: "flex-start",
+                        verticalAlign: "top",
                         "& .MuiPaper-root": {
                             width: "100%",
                             maxWidth: "650px",
