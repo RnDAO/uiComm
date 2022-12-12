@@ -17,7 +17,6 @@ export const theme = createTheme({
         root: {
           borderRadius: "4px",
           color: "#909090",
-          background: "red",
           "&.Mui-disabled": {
             opacity: 0.7,
           },
