@@ -73,7 +73,7 @@ const Sidebar = () => {
 
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className="py-4">
-      <Link href={el.path}>
+      <Link href={el.path} onClick={() => setOpen(false)}>
         <div
           className={
             currentRoute === el.path

@@ -1,20 +1,20 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-} from "@mui/material";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
+type IModalProps = {
+  isOpen: boolean;
+  toggleModal: (arg0: boolean) => void;
+  children: any;
+  hasClose: boolean;
+};
 export default function ConfirmModal({
   isOpen,
   toggleModal,
   children,
   hasClose,
-}) {
+  ...rest
+}: IModalProps) {
   const handleClose = () => {
     toggleModal(false);
   };
@@ -25,6 +25,8 @@ export default function ConfirmModal({
         onClose={handleClose}
         sx={{
           "& .MuiDialog-container": {
+            alignItems: "flex-start",
+            verticalAlign: "top",
             "& .MuiPaper-root": {
               width: "100%",
               maxWidth: "650px",
@@ -32,6 +34,7 @@ export default function ConfirmModal({
             },
           },
         }}
+        {...rest}
       >
         {hasClose ? (
           <DialogTitle

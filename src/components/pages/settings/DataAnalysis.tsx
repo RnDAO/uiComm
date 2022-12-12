@@ -18,7 +18,7 @@ export default function DataAnalysis() {
     };
 
     return (
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-4">
             <p className="text-sm text-black">
                 It might take up to 12 hours to finish new data import. Once it is done
                 we will <br /> send you a message on Discord.
@@ -27,23 +27,25 @@ export default function DataAnalysis() {
                 activePeriod={activePeriod}
                 onChangeActivePeriod={handleActivePeriod}
             />
-            <CustomButton
-                classes="bg-aqua text-white"
-                label={"Confirm selection"}
-                disabled={isDisabled}
-                onClick={() => toggleModal(true)}
-            />
+            <div>
+                <CustomButton
+                    classes="bg-aqua text-white mt-2"
+                    label={"Confirm selection"}
+                    disabled={isDisabled}
+                    onClick={() => toggleModal(true)}
+                />
+            </div>
             <CustomModal isOpen={open} toggleModal={toggleModal} hasClose={true}>
                 <div className="mx-auto text-center w-2/3 space-y-6 pb-8">
                     <BsClockHistory
                         size={60}
                         className="mx-auto bg-gray-100 rounded-full p-3"
                     />
-                    <h3 className="text-lg font-bold">
+                    <h3 className="text-xl font-bold">
                         We are changing date period for data analysis now
                     </h3>
                     <p className="text-sm">
-                        It might take up to 12 hours to finish new data import. Once it is
+                        It might take up to 12 hours to finish new data import. <br /> Once it is
                         done we will send you a message on Discord.
                     </p>
                     <CustomButton

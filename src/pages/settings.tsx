@@ -55,6 +55,7 @@ function Settings(): JSX.Element {
                     <CustomButton
                         classes="bg-aqua text-white"
                         startIcon={isEmailUpdated ? <FaRegCheckCircle /> : ''}
+                        disabled={emailAddress === 'example@gmail.com'}
                         label={isEmailUpdated ? 'Email saved' : "Save email"}
                         onClick={() => setEmailUpdated(true)}
                     />
@@ -68,7 +69,7 @@ function Settings(): JSX.Element {
         <>
             <SEO titleTemplate="Settings" />
             <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
-                <Paper className="px-8 py-6 rounded-xl shadow-box">
+                <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box">
                     <h3 className="text-xl md:text-3xl font-bold">Settings</h3>
                     <Accardion title="Community settings" childs={CommunityItems} />
                     <Accardion title="Personal settings" childs={personalItems} />

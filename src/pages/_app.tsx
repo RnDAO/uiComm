@@ -15,6 +15,9 @@ type ComponentWithPageLayout = AppProps & {
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../utils/theme";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
@@ -28,6 +31,7 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
           <Component {...pageProps} />
         )}
       </ThemeProvider>
+      <ToastContainer />
     </>
   );
 }

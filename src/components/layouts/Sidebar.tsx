@@ -20,6 +20,7 @@ import {
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Tooltip, Typography } from "@mui/material";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const Sidebar = () => {
     },
     {
       name: "Community Health",
-      path: "/t",
+      path: "/community-health",
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
@@ -59,19 +60,36 @@ const Sidebar = () => {
 
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className="py-4">
-      <Link href={el.path}>
-        <div
-          className={
-            currentRoute === el.path
-              ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
-              : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
-          }
-        >
-          {el.icon}
-        </div>
-        <p className="text-center text-sm">{el.name}</p>
-      </Link>
-    </li>
+      {el.path === "/community-health" ? (
+        <>
+          <Tooltip title={<Typography fontSize={14}>Comming soon</Typography>} arrow placement="right">
+            <div
+              className={
+                currentRoute === el.path
+                  ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
+                  : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
+              }
+            >
+              {el.icon}
+            </div>
+          </Tooltip>
+          <p className="text-center text-sm">{el.name}</p>
+        </>
+      ) : (
+        <Link href={el.path}>
+          <div
+            className={
+              currentRoute === el.path
+                ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
+                : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
+            }
+          >
+            {el.icon}
+          </div>
+          <p className="text-center text-sm">{el.name}</p>
+        </Link>
+      )}
+    </li >
   ));
 
   return (

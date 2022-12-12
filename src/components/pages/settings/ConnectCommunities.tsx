@@ -36,7 +36,7 @@ export default function ConnectCommunities() {
             size={60}
             className="mx-auto bg-gray-100 rounded-full p-3"
           />
-          <h3 className="text-lg font-bold">{"Perfect, you're all set!"}</h3>
+          <h3 className="text-xl font-bold">{"Perfect, you're all set!"}</h3>
           <p className="text-sm">
             Data import just started. It might take up to 12 hours to finish.
             Once it is done we will send you a message on Discord.
@@ -76,7 +76,7 @@ export default function ConnectCommunities() {
           </div>
         </div>
       </CustomModal>
-      <div className="h-[268px]">
+      <div className="h-[268px] flex justify-center">
         <div className="h-[200px] w-[200px]">
           <p className="text-base whitespace-nowrap font-semibold pt-2">
             Connect your communities
