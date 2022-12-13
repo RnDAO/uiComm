@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import SEO from "../components/global/SEO";
 import CustomDatePicker from "../components/global/CustomDatePicker";
 import clsx from "clsx";
+import CustomButton from "../components/global/CustomButton";
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -251,13 +252,12 @@ export default function Login() {
                     }
                   />
                   <div className="flex justify-center mt-8">
-                    <Button
-                      className="bg-aqua text-white py-3 w-[240px] rounded-md text-base"
+                    <CustomButton
                       disabled={!isTermsChecked}
+                      label="Connect your community"
                       onClick={() => setActiveStep(1)}
-                    >
-                      Connect your community
-                    </Button>
+                      classes={"bg-aqua text-white"}
+                    />
                   </div>
                 </>
               ) : activeStep === 1 ? (
@@ -275,27 +275,28 @@ export default function Login() {
                         <ul className="flex flex-row flex-wrap space-x-1.5 md:space-x-3">
                           {datePeriod.length > 0
                             ? datePeriod.map((el) => (
-                              <li
-                                className={`
+                                <li
+                                  className={`
                            flex flex-row items-center px-3 md:px-2.5 py-2 md:py-1.5 rounded-md cursor-pointer
-                           ${activePeriod == el.value
-                                    ? "bg-black text-white"
-                                    : "bg-gray-background"
-                                  }`}
-                                key={el.value}
-                                onClick={() => setActivePeriod(el.value)}
-                              >
-                                {el.icon ? el.icon : ""}
-                                <div>{el.title}</div>
-                              </li>
-                            ))
+                           ${
+                             activePeriod == el.value
+                               ? "bg-black text-white"
+                               : "bg-gray-background"
+                           }`}
+                                  key={el.value}
+                                  onClick={() => setActivePeriod(el.value)}
+                                >
+                                  {el.icon ? el.icon : ""}
+                                  <div>{el.title}</div>
+                                </li>
+                              ))
                             : ""}
-
                         </ul>
                         <CustomDatePicker
-                          className={
-                            clsx('mt-2 md:mt-0', activePeriod === 4 ? "bg-black text-white" : "")
-                          }
+                          className={clsx(
+                            "mt-2 md:mt-0",
+                            activePeriod === 4 ? "bg-black text-white" : ""
+                          )}
                           onClick={() => {
                             setActivePeriod(4);
                           }}
@@ -330,14 +331,13 @@ export default function Login() {
                         onChange={(e) => setEmailAddress(e.target.value)}
                       />
                     </div>
-                    <div className="flex justify-center">
-                      <Button
-                        className="text-white bg-aqua w-[240px] py-3 text-base"
+                    <div className="flex justify-center mt-4">
+                      <CustomButton
+                        classes="text-white bg-aqua"
                         onClick={() => setActiveStep(2)}
+                        label="Continue"
                         disabled={!activeStep}
-                      >
-                        Continue
-                      </Button>
+                      />
                     </div>
                   </div>
                 </>
@@ -352,12 +352,12 @@ export default function Login() {
                       finish. Once it is done we will send you a{" "}
                       <b>message on Discord.</b>
                     </p>
-                    <Button
-                      className="text-white bg-aqua w-[240px] py-3 text-base"
+                    <CustomButton
+                      classes="text-white bg-aqua"
                       onClick={() => router.push("/")}
-                    >
-                      I Understand
-                    </Button>
+                      label="I Understand"
+                      disabled={!activeStep}
+                    />
                   </div>
                   <p className="text-left md:text-center">
                     While you are waiting, read our research about{" "}

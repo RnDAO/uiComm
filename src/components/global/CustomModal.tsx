@@ -31,7 +31,11 @@ export default function ConfirmModal({
               width: "100%",
               maxWidth: "650px",
               borderRadius: "10px",
+              overflow:'visible'
             },
+            "& .MuiDialogContent-root": {
+              overflow: 'visible'
+            }
           },
         }}
         {...rest}

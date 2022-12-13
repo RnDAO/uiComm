@@ -11,7 +11,7 @@ export default function CustomButton({ classes, label, ...rest }: IButtonProps) 
   return (
     <>
       <Button
-        className={clsx("py-3 w-[240px] rounded-md text-base", classes)}
+        className={clsx("py-3 w-full  md:w-[240px] rounded-md text-base", classes)}
         {...rest}
       >
         {label}
