@@ -10,9 +10,6 @@ const ConnectedCommunitiesItems = [
   {
     serverName: "Ploygon DAO",
     connectedAt: "Connected 12 Jun 2022",
-  },{
-    serverName: "Ploygon DAO",
-    connectedAt: "Connected 12 Jun 2022",
   }
 ];
 
@@ -47,13 +44,13 @@ export default function ConnectedCommunitiesList() {
         ))}
       </div>
       <CustomModal isOpen={open} toggleModal={toggleModal} hasClose={true}>
-        <div className="mx-auto text-center w-2/3 space-y-6 pb-8">
+        <div className="mx-auto text-center md:w-2/3 space-y-6 pb-8">
           <BsClockHistory
             size={60}
             className="mx-auto bg-gray-100 rounded-full p-3"
           />
           <h3 className="text-xl font-bold">
-            Are you sure you want to disconnect your community?
+            Are you sure you want to <br className="hidden md:flex"/> disconnect your community?
           </h3>
           <p className="text-sm">
             Importing activities and members will be stopped. Historical

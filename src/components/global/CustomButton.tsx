@@ -5,7 +5,6 @@ import React from "react";
 interface IButtonProps extends ButtonProps {
   classes: string;
   label: string;
-  onClick: () => void;
 }
 export default function CustomButton({ classes, label, ...rest }: IButtonProps) {
   return (

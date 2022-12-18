@@ -402,7 +402,7 @@ export default function Login() {
             </div>
             <p className="py-4 text-base">
               Select channels to import activity in this workspace. Please give
-              XYZ access to all selected private channels by updating the
+              Together Crew access to all selected private channels by updating the
               channels permissions in Discord. Discord permission will affect
               the channels the bot can see.
             </p>

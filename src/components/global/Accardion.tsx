@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { MdExpandMore } from "react-icons/md";
 
@@ -10,8 +10,8 @@ type AcProps = {
 type AcChildProps = {
   title: string;
   id: string;
-  icon?: JSX.Element;
-  detailsComponent: JSX.Element;
+  icon?: ReactElement;
+  detailsComponent: ReactElement;
 };
 
 export default function Accardion({ title, childs }: AcProps) {
@@ -41,7 +41,7 @@ export default function Accardion({ title, childs }: AcProps) {
           }}
         >
           <AccordionSummary
-            expandIcon={<MdExpandMore color="#37474F" size={25} fill="#37474F"/>}
+            expandIcon={<MdExpandMore color="#37474F" size={25} fill="#37474F" />}
             aria-controls={`${el.id}-content`}
             id={el.id}
           >

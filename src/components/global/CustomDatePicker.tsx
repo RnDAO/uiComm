@@ -55,6 +55,7 @@ const CustomDatePicker: FC<IProps> = ({
       renderInput={renderCustomInput}
       colorPrimary="#35B9B7" // added this
       colorPrimaryLight="#D0FBF8" // and this
+      calendarPopperPosition="bottom"
     />
   );
 };

@@ -31,7 +31,7 @@ export default function ConnectCommunities() {
         toggleModal={toggleConfirmModal}
         hasClose={true}
       >
-        <div className="mx-auto text-center w-2/3 space-y-6 pb-8">
+        <div className="mx-auto text-center md:w-2/3 space-y-6 pb-8">
           <BsClockHistory
             size={60}
             className="mx-auto bg-gray-100 rounded-full p-3"
@@ -49,7 +49,7 @@ export default function ConnectCommunities() {
         </div>
       </CustomModal>
       <CustomModal isOpen={open} toggleModal={toggleModal} hasClose={true}>
-        <div className="mx-auto text-left w-11/12 space-y-6 pb-8">
+        <div className="mx-auto text-left w-11/12 space-y-6 last:space-y-0  pb-8">
           <h3 className="font-bold text-base">
             Choose date period for data analysis
           </h3>
@@ -61,13 +61,15 @@ export default function ConnectCommunities() {
             activePeriod={activePeriod}
             onChangeActivePeriod={handleActivePeriod}
           />
-          <h3 className="font-bold text-base pb-3">
+        </div>
+        <div className="mx-auto text-left w-11/12 space-y-3 pb-8">
+          <h3 className="font-bold text-base">
             Confirm your imported channels
           </h3>
-          <ChanelSelection />
+          <ChanelSelection/>
           <div className="text-center">
             <CustomButton
-              classes="bg-aqua text-white"
+              classes="bg-aqua text-white mt-6"
               label={"Continue"}
               onClick={() => {
                 setOpen(false), toggleConfirmModal(true);
