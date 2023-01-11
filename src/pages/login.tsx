@@ -1,28 +1,28 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import StepConnector, {
   stepConnectorClasses,
-} from "@mui/material/StepConnector";
-import { StepIconProps } from "@mui/material/StepIcon";
-import { IoClose } from "react-icons/io5";
+} from '@mui/material/StepConnector';
+import { StepIconProps } from '@mui/material/StepIcon';
+import { IoClose } from 'react-icons/io5';
 import {
   Button,
   Checkbox,
   Dialog,
   FormControlLabel,
   TextField,
-} from "@mui/material";
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import SEO from "../components/global/SEO";
-import CustomDatePicker from "../components/global/CustomDatePicker";
-import clsx from "clsx";
-import CustomButton from "../components/global/CustomButton";
-import useAppStore from "../store/useStore";
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import SEO from '../components/global/SEO';
+import CustomDatePicker from '../components/global/CustomDatePicker';
+import clsx from 'clsx';
+import CustomButton from '../components/global/CustomButton';
+import useAppStore from '../store/useStore';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -30,18 +30,18 @@ const ColorlibConnector = styled(StepConnector)(() => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: "#35B9B7",
+      backgroundColor: '#35B9B7',
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: "#35B9B7",
+      backgroundColor: '#35B9B7',
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
     height: 6,
     border: 0,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: '#F5F5F5',
     borderRadius: 1,
   },
 }));
@@ -49,45 +49,45 @@ const ColorlibConnector = styled(StepConnector)(() => ({
 const VerticalColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: "#35B9B7",
+      backgroundColor: '#35B9B7',
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: "#35B9B7",
+      backgroundColor: '#35B9B7',
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
-    marginTop: "-8px",
-    marginBottom: "-8px",
-    marginLeft: "8px",
-    minHeight: "calc(24px + 1.5rem)",
-    borderLeftWidth: "6px",
-    borderColor: "#F5F5F5",
+    marginTop: '-8px',
+    marginBottom: '-8px',
+    marginLeft: '8px',
+    minHeight: 'calc(24px + 1.5rem)',
+    borderLeftWidth: '6px',
+    borderColor: '#F5F5F5',
   },
 }));
 
-const ColorlibStepIconRoot = styled("div")<{
+const ColorlibStepIconRoot = styled('div')<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ ownerState }) => ({
-  backgroundColor: "#FFFFFF",
+  backgroundColor: '#FFFFFF',
   zIndex: 1,
-  color: "#222222",
-  fontWeight: "bold",
+  color: '#222222',
+  fontWeight: 'bold',
   width: 50,
   height: 50,
-  fontSize: "27px",
-  display: "flex",
-  borderRadius: "50%",
-  justifyContent: "center",
-  alignItems: "center",
-  boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.2)",
+  fontSize: '27px',
+  display: 'flex',
+  borderRadius: '50%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.2)',
   ...(ownerState.active && {
-    border: "solid 4px #35B9B7",
+    border: 'solid 4px #35B9B7',
   }),
   ...(ownerState.completed && {
-    backgroundColor: "#35B9B7",
-    color: "white",
+    backgroundColor: '#35B9B7',
+    color: 'white',
   }),
 }));
 
@@ -129,19 +129,19 @@ type dateItems = {
 };
 const datePeriod: dateItems[] = [
   {
-    title: "Last 7 days",
+    title: 'Last 7 days',
     value: 0,
   },
   {
-    title: "1M",
+    title: '1M',
     value: 1,
   },
   {
-    title: "3M",
+    title: '3M',
     value: 2,
   },
   {
-    title: "1Y",
+    title: '1Y',
     value: 3,
   },
 ];
@@ -152,10 +152,36 @@ export default function Login() {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [activeStep, setActiveStep] = useState(-1);
   const [activePeriod, setActivePeriod] = useState(0);
-  const [emailAddress, setEmailAddress] = useState("");
+  const [emailAddress, setEmailAddress] = useState('');
   const [isTermsChecked, setTermsCheck] = useState(false);
-  
-  const { redirectToDiscord } = useAppStore()
+
+  const { redirectToDiscord, loginWithDiscord,fetchGuildChannels } = useAppStore();
+
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
+        setActiveStep(1);
+        const {
+          accessToken,
+          accessExp,
+          guildId,
+          guildName,
+          refreshExp,
+          refreshToken,
+          isSuccessful
+        } = Object.assign({}, router.query);
+        loginWithDiscord({
+          accessToken,
+          accessExp,
+          guildId,
+          guildName,
+          refreshExp,
+          refreshToken,
+          isSuccessful
+        });
+      }
+    }, [router]);
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -179,19 +205,19 @@ export default function Login() {
               </div>
             </>
           ) : (
-            ""
+            ''
           )}
           <div className="py-12">
             <div className="py-3 px-8 text-center mx-auto">
               <Stepper
                 className={clsx(
-                  "md:hidden",
-                  activeStep === 0 || activeStep === -1 ? "block" : "flex"
+                  'md:hidden',
+                  activeStep === 0 || activeStep === -1 ? 'block' : 'flex'
                 )}
                 orientation={
                   activeStep === 0 || activeStep === -1
-                    ? "vertical"
-                    : "horizontal"
+                    ? 'vertical'
+                    : 'horizontal'
                 }
                 alternativeLabel={
                   activeStep === 0 || activeStep === -1 ? false : true
@@ -208,7 +234,7 @@ export default function Login() {
                 {steps.map((label, index) => (
                   <Step key={index}>
                     <StepLabel StepIconComponent={ColorlibStepIcon}>
-                      {activeStep === 0 || activeStep === -1 ? label : ""}
+                      {activeStep === 0 || activeStep === -1 ? label : ''}
                     </StepLabel>
                   </Step>
                 ))}
@@ -216,10 +242,10 @@ export default function Login() {
               <div>
                 <Stepper
                   className={clsx(
-                    "hidden md:flex",
+                    'hidden md:flex',
                     activeStep === 0 || activeStep === -1
-                      ? "w-full"
-                      : "w-2/3 mx-auto"
+                      ? 'w-full'
+                      : 'w-2/3 mx-auto'
                   )}
                   alternativeLabel
                   activeStep={activeStep}
@@ -228,7 +254,7 @@ export default function Login() {
                   {steps.map((label, index) => (
                     <Step key={index}>
                       <StepLabel StepIconComponent={ColorlibStepIcon}>
-                        {activeStep === 0 || activeStep === -1 ? label : ""}
+                        {activeStep === 0 || activeStep === -1 ? label : ''}
                       </StepLabel>
                     </Step>
                   ))}
@@ -247,7 +273,7 @@ export default function Login() {
                     }
                     label={
                       <span className="text-sm">
-                        I understand and agree to the{" "}
+                        I understand and agree to the{' '}
                         <b className="text-aqua">
                           Privacy Policy and Terms of Service.
                         </b>
@@ -258,8 +284,8 @@ export default function Login() {
                     <CustomButton
                       disabled={!isTermsChecked}
                       label="Connect your community"
-                      onClick={() => {redirectToDiscord(), setActiveStep(1)}}
-                      classes={"bg-aqua text-white"}
+                      onClick={() => redirectToDiscord()}
+                      classes={'bg-aqua text-white'}
                     />
                   </div>
                 </>
@@ -283,22 +309,22 @@ export default function Login() {
                            flex flex-row items-center px-3 md:px-2.5 py-2 md:py-1.5 rounded-md cursor-pointer
                            ${
                              activePeriod == el.value
-                               ? "bg-black text-white"
-                               : "bg-gray-background"
+                               ? 'bg-black text-white'
+                               : 'bg-gray-background'
                            }`}
                                   key={el.value}
                                   onClick={() => setActivePeriod(el.value)}
                                 >
-                                  {el.icon ? el.icon : ""}
+                                  {el.icon ? el.icon : ''}
                                   <div>{el.title}</div>
                                 </li>
                               ))
-                            : ""}
+                            : ''}
                         </ul>
                         <CustomDatePicker
                           className={clsx(
-                            "mt-2 md:mt-0",
-                            activePeriod === 4 ? "bg-black text-white" : ""
+                            'mt-2 md:mt-0',
+                            activePeriod === 4 ? 'bg-black text-white' : ''
                           )}
                           onClick={() => {
                             setActivePeriod(4);
@@ -312,10 +338,10 @@ export default function Login() {
                       </h3>
                       <p className="text-base">
                         Selected channels:
-                        <b> {2}</b>{" "}
+                        <b> {2}</b>{' '}
                         <span
                           className="pl-4 text-aqua underline cursor-pointer font-bold"
-                          onClick={() => setOpen(true)}
+                          onClick={() => {fetchGuildChannels("1012430565959553145"),setOpen(true)}}
                         >
                           Show Channels
                         </span>
@@ -352,23 +378,23 @@ export default function Login() {
                     </h3>
                     <p className="py-8 text-base">
                       Data import just started. It might take up to 12 hours to
-                      finish. Once it is done we will send you a{" "}
+                      finish. Once it is done we will send you a{' '}
                       <b>message on Discord.</b>
                     </p>
                     <CustomButton
                       classes="text-white bg-aqua"
-                      onClick={() => router.push("/")}
+                      onClick={() => router.push('/')}
                       label="I Understand"
                       disabled={!activeStep}
                     />
                   </div>
                   <p className="text-left md:text-center">
-                    While you are waiting, read our research about{" "}
+                    While you are waiting, read our research about{' '}
                     <b className="text-aqua">
-                      {" "}
+                      {' '}
                       <Link
                         href={
-                          "https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM"
+                          'https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM'
                         }
                       >
                         Community Health.
@@ -385,11 +411,11 @@ export default function Login() {
         fullWidth={fullWidth}
         open={open}
         sx={{
-          "& .MuiDialog-container": {
-            "& .MuiPaper-root": {
-              width: "100%",
-              maxWidth: "650px",
-              borderRadius: "10px",
+          '& .MuiDialog-container': {
+            '& .MuiPaper-root': {
+              width: '100%',
+              maxWidth: '650px',
+              borderRadius: '10px',
             },
           },
         }}
@@ -405,9 +431,9 @@ export default function Login() {
             </div>
             <p className="py-4 text-base">
               Select channels to import activity in this workspace. Please give
-              Together Crew access to all selected private channels by updating the
-              channels permissions in Discord. Discord permission will affect
-              the channels the bot can see.
+              Together Crew access to all selected private channels by updating
+              the channels permissions in Discord. Discord permission will
+              affect the channels the bot can see.
             </p>
           </div>
           <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-scroll text-base">

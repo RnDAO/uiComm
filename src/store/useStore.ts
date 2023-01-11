@@ -6,5 +6,4 @@ const useAppStore = create<IAuth>()((...a) => ({
     ...createAuthSlice(...a),
 }));
 
-
 export default useAppStore;
