@@ -22,6 +22,7 @@ import SEO from "../components/global/SEO";
 import CustomDatePicker from "../components/global/CustomDatePicker";
 import clsx from "clsx";
 import CustomButton from "../components/global/CustomButton";
+import useAppStore from "../store/useStore";
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -153,6 +154,8 @@ export default function Login() {
   const [activePeriod, setActivePeriod] = useState(0);
   const [emailAddress, setEmailAddress] = useState("");
   const [isTermsChecked, setTermsCheck] = useState(false);
+  
+  const { redirectToDiscord } = useAppStore()
 
   const handleClose = () => {
     setOpen(false);
@@ -255,7 +258,7 @@ export default function Login() {
                     <CustomButton
                       disabled={!isTermsChecked}
                       label="Connect your community"
-                      onClick={() => setActiveStep(1)}
+                      onClick={() => {redirectToDiscord(), setActiveStep(1)}}
                       classes={"bg-aqua text-white"}
                     />
                   </div>
