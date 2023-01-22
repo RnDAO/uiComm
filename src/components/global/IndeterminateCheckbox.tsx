@@ -27,7 +27,6 @@ export default function IndeterminateCheckbox({ data }: IProps) {
     const updatedCheckedState = checkedState.map((item, index) => {
       return index === position ? !item : item;
     });
-    console.log(updatedCheckedState, 'updatedCheckedState');
 
     setCheckedState(updatedCheckedState);
 
