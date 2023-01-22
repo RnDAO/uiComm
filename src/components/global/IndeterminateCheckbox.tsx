@@ -13,7 +13,7 @@ export default function IndeterminateCheckbox({ data }: IProps) {
     new Array(data.subChannels.length).fill(true)
   );
 
-  const handleCheckAll = (e) => {
+  const handleCheckAll = (e: any) => {
     if (e.target.checked) {
       setActive(true);
       setCheckedState(new Array(data.subChannels.length).fill(true));
