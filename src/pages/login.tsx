@@ -19,10 +19,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SEO from '../components/global/SEO';
-import CustomDatePicker from '../components/global/CustomDatePicker';
 import clsx from 'clsx';
 import CustomButton from '../components/global/CustomButton';
 import useAppStore from '../store/useStore';
+import Loading from '../components/global/Loading';
+import IndeterminateCheckbox from '../components/global/IndeterminateCheckbox';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -141,8 +142,12 @@ const datePeriod: dateItems[] = [
     value: 2,
   },
   {
-    title: '1Y',
+    title: '6M',
     value: 3,
+  },
+  {
+    title: '1Y',
+    value: 4,
   },
 ];
 
@@ -154,8 +159,16 @@ export default function Login() {
   const [activePeriod, setActivePeriod] = useState(0);
   const [emailAddress, setEmailAddress] = useState('');
   const [isTermsChecked, setTermsCheck] = useState(false);
+  const [guild, setGuild] = useState('');
 
-  const { redirectToDiscord, loginWithDiscord,fetchGuildChannels } = useAppStore();
+  const {
+    isLoading,
+    redirectToDiscord,
+    loginWithDiscord,
+    fetchGuildChannels,
+    guildChannels,
+    changeEmail,
+  } = useAppStore();
 
   if (typeof window !== 'undefined') {
     useEffect(() => {
@@ -168,8 +181,11 @@ export default function Login() {
           guildName,
           refreshExp,
           refreshToken,
-          isSuccessful
+          isSuccessful,
         } = Object.assign({}, router.query);
+
+        setGuild(guildId);
+
         loginWithDiscord({
           accessToken,
           accessExp,
@@ -177,14 +193,24 @@ export default function Login() {
           guildName,
           refreshExp,
           refreshToken,
-          isSuccessful
+          isSuccessful,
         });
       }
     }, [router]);
   }
-
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const updateUserProfile = () => {
+    try {
+      changeEmail(emailAddress);
+      setActiveStep(2);
+    } catch (error) {}
+  };
+
+  const handleSelectChannels = (event: any) => {
+    console.log('test', event);
   };
 
   return (
@@ -321,15 +347,6 @@ export default function Login() {
                               ))
                             : ''}
                         </ul>
-                        <CustomDatePicker
-                          className={clsx(
-                            'mt-2 md:mt-0',
-                            activePeriod === 4 ? 'bg-black text-white' : ''
-                          )}
-                          onClick={() => {
-                            setActivePeriod(4);
-                          }}
-                        />
                       </div>
                     </div>
                     <div>
@@ -341,7 +358,9 @@ export default function Login() {
                         <b> {2}</b>{' '}
                         <span
                           className="pl-4 text-aqua underline cursor-pointer font-bold"
-                          onClick={() => {fetchGuildChannels("1012430565959553145"),setOpen(true)}}
+                          onClick={() => {
+                            fetchGuildChannels(guild), setOpen(true);
+                          }}
                         >
                           Show Channels
                         </span>
@@ -363,7 +382,7 @@ export default function Login() {
                     <div className="flex justify-center mt-4">
                       <CustomButton
                         classes="text-white bg-aqua"
-                        onClick={() => setActiveStep(2)}
+                        onClick={() => updateUserProfile()}
                         label="Continue"
                         disabled={!activeStep}
                       />
@@ -436,54 +455,17 @@ export default function Login() {
               affect the channels the bot can see.
             </p>
           </div>
-          <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-scroll text-base">
+          <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-y-scroll text-base">
             <div>
-              <h3 className="font-bold">PROJECT UNITS</h3>
-              <div className="md:pl-4">
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="All Channels"
-                />
-                <p>Channels</p>
-                <div className="flex flex-col">
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="# 👋 Introductions"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="# 🧑‍🤝‍🧑 Community health"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="# ‍💬 Chat"
-                  />
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <div>
+                  {guildChannels.map((server: any, index) => (
+                    <IndeterminateCheckbox data={server} />
+                  ))}
                 </div>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-bold">ARCHIVE</h3>
-              <div className="md:pl-4">
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="All Channels"
-                />
-                <p>Channels</p>
-                <div className="flex flex-col">
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="# 👋 Introductions"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="# 🧑‍🤝‍🧑 Community health"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="# ‍💬 Chat"
-                  />
-                </div>
-              </div>
+              )}
             </div>
           </div>
           <div className="flex justify-center mt-5">
