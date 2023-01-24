@@ -5,10 +5,20 @@ import IHeatmap from '../types/IHeatmap';
 const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
   isLoading: false,
   heatmapRecords: [],
-  fetchHeatmapData: async (guild_id: string) => {
+  fetchHeatmapData: async (
+    guild_id: string,
+    startDate: string,
+    endDate: string,
+    timeZone: string
+  ) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.get(`/heatmaps/${guild_id}`);
+      const { data } = await axiosInstance.post(`/heatmaps/${guild_id}`, {
+        startDate,
+        endDate,
+        timeZone,
+      });
+
       set({ heatmapRecords: [...data], isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
@@ -10,6 +10,9 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from './RangeSelect';
 import ZonePicker from './ZonePicker';
 import useAppStore from '../../store/useStore';
+import moment from 'moment';
+import 'moment-timezone';
+import momentTZ from 'moment-timezone';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -41,15 +44,66 @@ const communityActiveDates = [
 ];
 
 const Chart = (props: Props) => {
-  const { isLoading, fetchHeatmapData } = useAppStore();
+  const { isLoading, heatmapRecords, fetchHeatmapData } = useAppStore();
+  const [endDate, setEndDate] = useState<any>();
+  let [selectedZone, setSelectedZone] = useState('');
+
   useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = () => {
     try {
+      let defaultTimeZone = momentTZ.tz.guess();
+      setSelectedZone(defaultTimeZone);
       const { guildId } = JSON.parse(
         localStorage.getItem('RNDAO_guild') || '{}'
       );
-      fetchHeatmapData(guildId);
+
+      fetchHeatmapData(
+        guildId,
+        moment().subtract(7, 'days'),
+        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        momentTZ.tz.guess()
+      );
     } catch (error) {}
-  }, []);
+  };
+
+  const handleSelectedZone = (zone: string) => {
+    setSelectedZone(zone);
+    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
+    fetchHeatmapData(
+      guildId,
+      moment().subtract(7, 'days'),
+      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      zone
+    );
+  };
+
+  const handleEndDate = (value: number | string) => {
+    console.log('value');
+    let dateTime = null;
+    switch (value) {
+      case 0:
+        dateTime = moment().subtract(7, 'days');
+        break;
+      case 1:
+        dateTime = moment().subtract(1, 'months');
+        break;
+      case 2:
+        dateTime = moment().subtract(3, 'months');
+        break;
+      case 3:
+        dateTime = moment().subtract(6, 'months');
+      case 4:
+        dateTime = moment().subtract(1, 'year');
+        break;
+      default:
+        dateTime = moment().subtract(7, 'days');
+        break;
+    }
+    setEndDate(dateTime.format('YYYY-MM-DDTHH:mm:ss[Z]'));
+  };
   return (
     <div className="bg-white shadow-box rounded-lg p-5">
       <div className="flex flex-col md:flex-row justify-between items-baseline">
@@ -62,10 +116,14 @@ const Chart = (props: Props) => {
           </p>
         </div>
         <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-          <ZonePicker />
+          <ZonePicker
+            selectedZone={selectedZone}
+            handleSelectedZone={handleSelectedZone}
+          />
           <RangeSelect
             options={communityActiveDates}
             icon={<FiCalendar size={18} />}
+            onClick={handleEndDate}
           />
         </div>
       </div>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 type Props = {
   className?: string;
   options: optionItem[];
   icon: JSX.Element;
+  onClick: (value: number | string) => void;
 };
 
 type optionItem = {
@@ -11,7 +12,7 @@ type optionItem = {
   value: number;
 };
 
-const RangeSelect = ({ options, icon }: Props) => {
+const RangeSelect = ({ options, icon, onClick }: Props) => {
   const [active, setActive] = useState(1);
 
   return (
@@ -22,18 +23,20 @@ const RangeSelect = ({ options, icon }: Props) => {
           {options.length > 0
             ? options.map((el) => (
                 <li
-                  onClick={(e) => setActive(el.value)}
+                  onClick={(e) => {
+                    setActive(el.value), onClick(el.value);
+                  }}
                   key={el.value}
                   className={
                     active === el.value
-                      ? "py-1 px-2 whitespace-nowrap md:px-1.5 text-sm rounded-md bg-white text-light-gray cursor-pointer hover:bg-lite"
-                      : "py-1 px-3 whitespace-nowrap md:px-1.5 text-sm rounded-md cursor-pointer text-light-gray hover:bg-lite"
+                      ? 'py-1 px-2 whitespace-nowrap md:px-1.5 text-sm rounded-md bg-white text-light-gray cursor-pointer hover:bg-lite'
+                      : 'py-1 px-3 whitespace-nowrap md:px-1.5 text-sm rounded-md cursor-pointer text-light-gray hover:bg-lite'
                   }
                 >
                   <div>{el.title}</div>
                 </li>
               ))
-            : ""}
+            : ''}
         </ul>
       </div>
     </>

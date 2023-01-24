@@ -1,22 +1,25 @@
-import { Popover, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { GoGlobe } from "react-icons/go";
+import { Popover, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { GoGlobe } from 'react-icons/go';
 
-import momentTZ from "moment-timezone";
-import moment from "moment";
-import "moment-timezone";
+import momentTZ from 'moment-timezone';
+import moment from 'moment';
+import 'moment-timezone';
 
-let defaultTimeZone = momentTZ.tz.guess();
+// let defaultTimeZone = momentTZ.tz.guess();
 const timeZonesList = momentTZ.tz.names();
 
-type Props = {};
+type IProps = {
+  selectedZone: string;
+  handleSelectedZone: (zone: string) => void;
+};
 
-const ZonePicker = (props: Props) => {
+const ZonePicker = ({ selectedZone,handleSelectedZone }: IProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
 
-  let [selectedZone, setSelectedZone] = useState(defaultTimeZone);
+  // let [selectedZone, setSelectedZone] = useState(defaultTimeZone);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -28,13 +31,13 @@ const ZonePicker = (props: Props) => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   const [zones, setZones] = useState(timeZonesList);
 
   const searchZones = (e: { target: { value: string } }) => {
     const results = timeZonesList.filter((zone) => {
-      if (e.target.value === "") {
+      if (e.target.value === '') {
         return timeZonesList;
       }
       return zone.toLowerCase().includes(e.target.value.toLowerCase());
@@ -43,7 +46,7 @@ const ZonePicker = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-row w-1/2 md:w-auto items-center bg-gray-background px-3 py-1 mt-2 md:mt-0 items-center rounded-md">
+    <div className="flex flex-row w-1/2 md:w-auto bg-gray-background px-3 py-1 mt-2 md:mt-0 items-center rounded-md">
       <GoGlobe size={20} className="mr-3 text-lite-gray" />
       <button
         aria-describedby={id}
@@ -58,15 +61,15 @@ const ZonePicker = (props: Props) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
         PaperProps={{
-          style: { width: "26rem" },
+          style: { width: '26rem' },
         }}
       >
         <div className="h-64 overflow-scroll w-full">
@@ -86,12 +89,18 @@ const ZonePicker = (props: Props) => {
                 <li
                   key={el}
                   className="py-2 hover:bg-lite px-3 cursor-pointer flex w-full text-sm flex-row justify-between"
-                  onClick={() => (setSelectedZone(el), setAnchorEl(null),setZones(timeZonesList))}
+                  onClick={() => (
+                    handleSelectedZone(el),
+                    setAnchorEl(null),
+                    setZones(timeZonesList)
+                  )}
                 >
                   <div>{el}</div>
                   <div className="flex flex-row">
-                    <div className="text-info pr-3">{moment.tz(moment(), el).format("z,Z")}</div>
-                    <div>{moment.tz(moment(), el).format("H a")}</div>
+                    <div className="text-info pr-3">
+                      {moment.tz(moment(), el).format('z,Z')}
+                    </div>
+                    <div>{moment.tz(moment(), el).format('H a')}</div>
                   </div>
                 </li>
               ))

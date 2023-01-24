@@ -7,11 +7,12 @@ type IChannelListProps = {
 
 export default function ChannelList({ guild }: IChannelListProps) {
   const [active, setActive] = useState(true);
+  const [selected, setSelected] = useState({
+    key: null,
+  });
   const [checkedState, setCheckedState] = useState(
     new Array(guild.subChannels.length).fill(true)
   );
-
-  useEffect(() => {}, [checkedState]);
 
   const handleCheckAll = (e: any) => {
     if (e.target.checked) {

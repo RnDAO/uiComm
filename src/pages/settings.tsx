@@ -14,8 +14,6 @@ import useAppStore from '../store/useStore';
 
 function Settings(): JSX.Element {
   useEffect(() => {
-    console.log('test');
-    
     const token = localStorage.getItem('RNDAO_access_token');
     if (!token) {
       location.replace('/login')
@@ -25,9 +23,7 @@ function Settings(): JSX.Element {
   const [emailAddress, setEmailAddress] = useState('example@gmail.com');
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
-  const updateEmailAddress = () => {
-    console.log('test');
-    
+  const updateEmailAddress = () => {    
     changeEmail(emailAddress).then((res: any) => {
       setEmailUpdated(true);
     });

@@ -174,9 +174,6 @@ export default function Login() {
     changeEmail,
     updateGuildById,
   } = useAppStore();
-  // const [selectedChannels, setSelectedChannels] = useState<any>(
-  //   guildChannels.map((guild) => [])
-  // );
 
   if (typeof window !== 'undefined') {
     useEffect(() => {
@@ -216,11 +213,12 @@ export default function Login() {
       );
 
       updateGuildById(guildId, selectedPeriod, []).then((res: any) => {
-        console.log(res);
         if (emailAddress && emailAddress != '') {
-          changeEmail(emailAddress).then((res:any) => {
+          changeEmail(emailAddress).then((res: any) => {
             setActiveStep(2);
           });
+        }else{
+          setActiveStep(2);
         }
       });
     } catch (error) {}
@@ -506,7 +504,7 @@ export default function Login() {
                     <Loading />
                   ) : (
                     <div>
-                      {guildChannels.map((guild, index) => (
+                      {guildChannels.map((guild: any, index: any) => (
                         <ChannelList guild={guild} key={index} />
                       ))}
                     </div>
