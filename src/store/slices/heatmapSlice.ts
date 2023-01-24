@@ -10,7 +10,9 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(`/heatmaps/${guild_id}`);
       set({ heatmapRecords: [...data], isLoading: false });
-    } catch (error) {}
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
   },
 });
 

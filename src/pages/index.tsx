@@ -4,7 +4,16 @@ import MainSection from "../components/pages/pageIndex/MainSection";
 
 import { defaultLayout } from "../layouts/defaultLayout";
 import SEO from "../components/global/SEO";
+import { useEffect } from "react";
 function PageIndex(): JSX.Element {
+  useEffect(() => {
+    console.log('test');
+    
+    const token = localStorage.getItem('RNDAO_access_token');
+    if (!token) {
+      location.replace('/login')
+    }
+  }, []);
   return (
     <>
       <SEO />
