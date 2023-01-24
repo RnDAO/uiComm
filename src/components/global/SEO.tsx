@@ -16,7 +16,7 @@ const SEO: FC<IProps> = ({
     <Helmet>
       <meta charSet="utf-8" />
       <title>
-        {title} - {titleTemplate}
+        {title} | {titleTemplate}
       </title>
       <meta name="description" content={description} />
     </Helmet>
@@ -24,9 +24,9 @@ const SEO: FC<IProps> = ({
 );
 
 SEO.defaultProps = {
-  title: "RnDAO",
+  title: "ToghetherCrew",
   titleTemplate: "CH Dashboard",
-  description: "RnDAO CH Dashboard",
+  description: "ToghetherCrew",
 };
 
 export default SEO;
