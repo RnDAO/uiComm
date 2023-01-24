@@ -1,16 +1,17 @@
-import React from "react";
+import { useEffect } from 'react';
 
-import Highcharts from "highcharts";
-import HighchartsHeatmap from "highcharts/modules/heatmap";
-import HighchartsReact from "highcharts-react-official";
+import Highcharts from 'highcharts';
+import HighchartsHeatmap from 'highcharts/modules/heatmap';
+import HighchartsReact from 'highcharts-react-official';
 
-import { options } from "../../lib/data/heatmap";
+import { options } from '../../lib/data/heatmap';
 
-import { FiCalendar } from "react-icons/fi";
-import RangeSelect from "./RangeSelect";
-import ZonePicker from "./ZonePicker";
+import { FiCalendar } from 'react-icons/fi';
+import RangeSelect from './RangeSelect';
+import ZonePicker from './ZonePicker';
+import useAppStore from '../../store/useStore';
 
-if (typeof Highcharts === "object") {
+if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
 }
 
@@ -18,28 +19,37 @@ type Props = {};
 
 const communityActiveDates = [
   {
-    title: "Last 7 days",
+    title: 'Last 7 days',
     value: 1,
   },
   {
-    title: "1M",
+    title: '1M',
     value: 2,
   },
   {
-    title: "3M",
+    title: '3M',
     value: 3,
   },
   {
-    title: "6M",
+    title: '6M',
     value: 4,
   },
   {
-    title: "1Y",
+    title: '1Y',
     value: 5,
   },
 ];
 
 const Chart = (props: Props) => {
+  const { isLoading, fetchHeatmapData } = useAppStore();
+  useEffect(() => {
+    try {
+      const { guildId } = JSON.parse(
+        localStorage.getItem('RNDAO_guild') || '{}'
+      );
+      fetchHeatmapData(guildId);
+    } catch (error) {}
+  }, []);
   return (
     <div className="bg-white shadow-box rounded-lg p-5">
       <div className="flex flex-col md:flex-row justify-between items-baseline">

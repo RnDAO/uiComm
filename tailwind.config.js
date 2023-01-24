@@ -2,94 +2,95 @@
 
 const colors = {
   primary: {
-    DEFAULT: "#5E4F96",
-    50: "#F8F6FF",
-    100: "#E4DCFF",
-    200: "#BBA9FF",
-    300: "#8D7CD0",
-    400: "#7564B3",
+    DEFAULT: '#5E4F96',
+    50: '#F8F6FF',
+    100: '#E4DCFF',
+    200: '#BBA9FF',
+    300: '#8D7CD0',
+    400: '#7564B3',
   },
   secondary: {
-    DEFAULT: "#804EE1",
-    50: "#F6FDFF",
-    100: "#E3F8FF",
-    200: "#BCEEFF",
-    300: "#8CD3EA",
-    400: "#4E90A6",
+    DEFAULT: '#804EE1',
+    50: '#F6FDFF',
+    100: '#E3F8FF',
+    200: '#BCEEFF',
+    300: '#8CD3EA',
+    400: '#4E90A6',
+    500: '#225262',
   },
   info: {
-    DEFAULT: "#69A7A4",
-    50: "#F7FFFE",
-    100: "#D0FBF8",
-    200: "#A7F3F0",
-    300: "#92DAD6",
-    400: "#7DC0BD",
-    500: "#39C2C0",
+    DEFAULT: '#69A7A4',
+    50: '#F7FFFE',
+    100: '#D0FBF8',
+    200: '#A7F3F0',
+    300: '#92DAD6',
+    400: '#7DC0BD',
+    500: '#39C2C0',
   },
   error: {
-    DEFAULT: "#B6435B",
-    50: "#FFF0F3",
-    100: "#FFC5D1",
-    200: "#FD98AE",
-    300: "#F06885",
-    400: "#D3546F",
+    DEFAULT: '#B6435B',
+    50: '#FFF0F3',
+    100: '#FFC5D1',
+    200: '#FD98AE',
+    300: '#F06885',
+    400: '#D3546F',
   },
   warning: {
-    DEFAULT: "#BB6842",
-    50: "#FFF5F0",
-    100: "#FFD6C3",
-    200: "#FFB897",
-    300: "#F59467",
-    400: "#D87D53",
+    DEFAULT: '#BB6842',
+    50: '#FFF5F0',
+    100: '#FFD6C3',
+    200: '#FFB897',
+    300: '#F59467',
+    400: '#D87D53',
   },
   yellow: {
-    DEFAULT: "#DDAD21",
-    50: "#FFFAEA",
-    100: "#FFEEBD",
-    200: "#FFE28F",
-    300: "#FFD761",
-    400: "#FFCB33",
+    DEFAULT: '#DDAD21',
+    50: '#FFFAEA',
+    100: '#FFEEBD',
+    200: '#FFE28F',
+    300: '#FFD761',
+    400: '#FFCB33',
   },
-  lite: "#F8F8F8",
-  "lite-black": "#3E3E3E",
-  "gray-background": "#EDEDED",
-  "lite-gray": "#515151",
-  "gray-custom": "#222222",
-  "border-gray": "#B4B4B4",
-  aqua: "#35B9B7",
-  success: "#56C054",
+  lite: '#F8F8F8',
+  'lite-black': '#3E3E3E',
+  'gray-background': '#EDEDED',
+  'lite-gray': '#515151',
+  'gray-custom': '#222222',
+  'border-gray': '#B4B4B4',
+  aqua: '#35B9B7',
+  success: '#56C054',
 };
 
 const backgroundImage = {
-  "gradient-mantle":
-    "linear-gradient(90.64deg, #FFFFFF 69.92%, #D1D0DA 99.54%)",
+  'gradient-mantle':
+    'linear-gradient(90.64deg, #FFFFFF 69.92%, #D1D0DA 99.54%)',
 };
 
 const boxShadow = {
-  base: "0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px rgba(138, 138, 138, 0.16)",
-  box: "0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 10px rgba(138, 138, 138, 0.1)",
+  base: '0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px rgba(138, 138, 138, 0.16)',
+  box: '0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 10px rgba(138, 138, 138, 0.1)',
 };
 
 const screens = {
-  sm: "760px",
+  sm: '760px',
   // => @media (min-width: 576px) { ... }
 
-  md: "1023px",
+  md: '1023px',
   // => @media (min-width: 768px) { ... }
 
-  lg: "1200px",
+  lg: '1200px',
   // => @media (min-width: 992px) { ... }
 
-  xl: "1600px",
+  xl: '1600px',
   // => @media (min-width: 1200px) { ... }
 };
 
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-    "./src/layouts/**.{js,ts,jsx,tsx}",
+    './app/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/layouts/**.{js,ts,jsx,tsx}',
   ],
   important: true,
   theme: {
@@ -107,18 +108,18 @@ module.exports = {
         ...boxShadow,
       },
       height: {
-        128: "36rem",
-        130: "38rem",
-        140: "40rem",
-        150: "50rem",
+        128: '36rem',
+        130: '38rem',
+        140: '40rem',
+        150: '50rem',
       },
       container: {
         center: true,
         screens: {
-          sm: "760px",
-          md: "1023px",
-          lg: "1200px",
-          xl: "1400px",
+          sm: '760px',
+          md: '1023px',
+          lg: '1200px',
+          xl: '1400px',
         },
       },
     },

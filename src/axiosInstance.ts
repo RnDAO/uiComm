@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { conf } from './configs/index';
-import useAppStore from './store/useStore';
 import { StorageService } from './services/StorageService';
+import router from 'next/router';
 
 export const axiosInstance = axios.create({
   baseURL: conf.API_BASE_URL,
@@ -32,11 +32,11 @@ const refreshToken = async () => {
     const { data } = await axiosInstance.post(`/auth/refresh-tokens`, {
       refreshToken: refreshToken,
     });
-    StorageService.removeLocalStorage('RNDAO_refreshToken')
-    StorageService.removeLocalStorage('RNDAO_access_token')
+    StorageService.removeLocalStorage('RNDAO_refreshToken');
+    StorageService.removeLocalStorage('RNDAO_access_token');
     StorageService.writeLocalStorage('access_token', data.accessToken);
     StorageService.writeLocalStorage('refresh_Token', data.refreshToken);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 axiosInstance.interceptors.response.use(
@@ -45,7 +45,8 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status == 401) {
-      await refreshToken();
+      router.push('/login');
+      return Promise.reject(error);
     }
   }
 );

@@ -42,5 +42,5 @@ export default interface IAuth {
     period: string,
     selectedChannels: { channelId: string; channelName: string }[]
   ) => any;
-  changeEmail: (email: string) => void;
+  changeEmail: (email: string) => any;
 }

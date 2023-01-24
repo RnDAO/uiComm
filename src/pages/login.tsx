@@ -217,7 +217,11 @@ export default function Login() {
 
       updateGuildById(guildId, selectedPeriod, []).then((res: any) => {
         console.log(res);
-        setActiveStep(2);
+        if (emailAddress && emailAddress != '') {
+          changeEmail(emailAddress).then((res:any) => {
+            setActiveStep(2);
+          });
+        }
       });
     } catch (error) {}
   };

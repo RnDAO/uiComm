@@ -1,9 +1,10 @@
-import { create } from "zustand";
-import IAuth from "./types/IAuth";
-import createAuthSlice from "./slices/authSlice";
+import { create } from 'zustand';
+import createAuthSlice from './slices/authSlice';
+import createHeatmapSlice from './slices/heatmapSlice';
 
-const useAppStore = create<IAuth>()((...a) => ({
-    ...createAuthSlice(...a),
+const useAppStore = create<any>()((...a) => ({
+  ...createAuthSlice(...a),
+  ...createHeatmapSlice(...a),
 }));
 
 export default useAppStore;
