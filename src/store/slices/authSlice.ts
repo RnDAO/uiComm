@@ -5,7 +5,7 @@ import { axiosInstance } from '../../axiosInstance';
 import { StorageService } from '../../services/StorageService';
 
 const BASE_URL = conf.API_BASE_URL;
-const DISCORD_BASE_URL = conf.DISCORD_BASE_URL
+const DISCORD_BASE_URL = conf.DISCORD_BASE_URL;
 
 const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   isLoggedIn: false,
@@ -52,12 +52,7 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
         period,
-        selectedChannels: [
-          {
-            channelId: '1012430565959553145',
-            channelName: 'general',
-          },
-        ],
+        selectedChannels: [],
       });
       set({ isLoading: false });
     } catch (error) {
