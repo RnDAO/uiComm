@@ -11,19 +11,24 @@ import IntegrateDiscord from '../components/pages/settings/IntegrateDiscord';
 import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
 import useAppStore from '../store/useStore';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 function Settings(): JSX.Element {
   useEffect(() => {
     const token = localStorage.getItem('RNDAO_access_token');
     if (!token) {
-      location.replace('/login')
+      location.replace('/login');
     }
   }, []);
-  const { isLoading, changeEmail } = useAppStore();
-  const [emailAddress, setEmailAddress] = useState('example@gmail.com');
+
+  useEffect(() => {
+    return () => getUserGuildsInformation();
+  }, []);
+  const { isLoading, changeEmail, getUserGuildsInformation } = useAppStore();
+  const [emailAddress, setEmailAddress] = useState('');
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
-  const updateEmailAddress = () => {    
+  const updateEmailAddress = () => {
     changeEmail(emailAddress).then((res: any) => {
       setEmailUpdated(true);
     });
@@ -82,13 +87,17 @@ function Settings(): JSX.Element {
   return (
     <>
       <SEO titleTemplate="Settings" />
-      <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
-        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box">
-          <h3 className="text-xl md:text-3xl font-bold">Settings</h3>
-          <Accardion title="Community settings" childs={CommunityItems} />
-          <Accardion title="Personal settings" childs={personalItems} />
-        </Paper>
-      </div>
+      {isLoading ? (
+        <SimpleBackdrop />
+      ) : (
+        <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
+          <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box">
+            <h3 className="text-xl md:text-3xl font-bold">Settings</h3>
+            <Accardion title="Community settings" childs={CommunityItems} />
+            <Accardion title="Personal settings" childs={personalItems} />
+          </Paper>
+        </div>
+      )}
     </>
   );
 }
