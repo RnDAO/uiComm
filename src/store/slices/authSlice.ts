@@ -5,6 +5,7 @@ import { axiosInstance } from '../../axiosInstance';
 import { StorageService } from '../../services/StorageService';
 
 const BASE_URL = conf.API_BASE_URL;
+const DISCORD_BASE_URL = conf.DISCORD_BASE_URL
 
 const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   isLoggedIn: false,
@@ -12,7 +13,7 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   user: {},
   guildChannels: [],
   redirectToDiscord: () => {
-    location.replace(`${BASE_URL}/auth/login`);
+    location.replace(`${DISCORD_BASE_URL}/auth/login`);
   },
   loginWithDiscord: (user: any) =>
     set((state) => {

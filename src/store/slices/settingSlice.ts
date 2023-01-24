@@ -9,7 +9,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `users/@me/guilds-with-admin-role`
+        `/users/@me/guilds-with-admin-role`
       );
 
       set({ guildsInfo: data, isLoading: false });
