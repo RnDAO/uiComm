@@ -18,7 +18,7 @@ export default function ChanelSelection() {
             <p className="text-base">
                 Selected channels: <b>{0}</b>{" "}
                 <span
-                    className="pl-4 text-aqua underline cursor-pointer font-bold"
+                    className="pl-4 text-secondary underline cursor-pointer font-bold"
                     onClick={() => setOpen(true)}
                 >
                     Show Channels
@@ -107,7 +107,7 @@ export default function ChanelSelection() {
                     </div>
                     <div className="flex justify-center mt-5">
                         <Button
-                            className="bg-aqua text-white py-3 px-16 text-base"
+                            className="bg-secondary text-white py-3 px-16 text-base"
                             onClick={handleClose}
                         >
                             Save channels

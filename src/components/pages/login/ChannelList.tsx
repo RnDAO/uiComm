@@ -5,9 +5,7 @@ type IChannelListProps = {
   guild: any;
 };
 
-export default function ChannelList({
-  guild,
-}: IChannelListProps) {
+export default function ChannelList({ guild }: IChannelListProps) {
   const [active, setActive] = useState(true);
   const [checkedState, setCheckedState] = useState(
     new Array(guild.subChannels.length).fill(true)
@@ -25,7 +23,10 @@ export default function ChannelList({
     }
   };
 
-  const handleOnChange = (event: React.FormEvent<HTMLInputElement>, position: any) => {
+  const handleOnChange = (
+    event: React.FormEvent<HTMLInputElement>,
+    position: any
+  ) => {
     const updatedCheckedState = checkedState.map((item, index) => {
       return index === position ? !item : item;
     });
@@ -49,6 +50,7 @@ export default function ChannelList({
               <Checkbox
                 name={channel.name}
                 value={channel.id}
+                color="secondary"
                 checked={checkedState[index]}
                 onChange={(e) => handleOnChange(e, index)}
               />
@@ -66,7 +68,13 @@ export default function ChannelList({
       <div className="ml-4">
         <FormControlLabel
           label="All Channels"
-          control={<Checkbox checked={active} onChange={handleCheckAll} />}
+          control={
+            <Checkbox
+              checked={active}
+              color="secondary"
+              onChange={handleCheckAll}
+            />
+          }
         />
         {subChannelsList}
       </div>

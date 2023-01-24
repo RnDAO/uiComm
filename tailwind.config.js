@@ -10,7 +10,7 @@ const colors = {
     400: "#7564B3",
   },
   secondary: {
-    DEFAULT: "#225262",
+    DEFAULT: "#804EE1",
     50: "#F6FDFF",
     100: "#E3F8FF",
     200: "#BCEEFF",

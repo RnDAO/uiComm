@@ -25,7 +25,7 @@ export default function ConnectedCommunitiesItem({ onClick }: IProps) {
             <p className="text-xs">Connected 12 Jun 2022</p>
           </div>
         </div>
-        <div className="border-t text-aqua font-bold pt-2  cursor-pointer" onClick={onClick}>
+        <div className="border-t text-secondary font-bold pt-2  cursor-pointer" onClick={onClick}>
           Disconnect
         </div>
       </Paper>

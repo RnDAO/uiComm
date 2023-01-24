@@ -29,7 +29,7 @@ export default function DataAnalysis() {
             />
             <div>
                 <CustomButton
-                    classes="bg-aqua text-white mt-2"
+                    classes="bg-secondary text-white mt-2"
                     label={"Confirm selection"}
                     disabled={isDisabled}
                     onClick={() => toggleModal(true)}
@@ -49,7 +49,7 @@ export default function DataAnalysis() {
                         done we will send you a message on Discord.
                     </p>
                     <CustomButton
-                        classes="bg-aqua text-white"
+                        classes="bg-secondary text-white"
                         label={"I understand"}
                         onClick={() => setOpen(false)}
                     />

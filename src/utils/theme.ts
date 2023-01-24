@@ -16,7 +16,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "4px",
-          color: "#909090",
+          color: "#804EE1",
           "&.Mui-disabled": {
             opacity: 0.7,
           },
@@ -34,7 +34,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           "& label.Mui-focused": {
-            color: "#909090",
+            color: "#804EE1",
           },
         },
       },

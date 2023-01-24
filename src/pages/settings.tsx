@@ -53,7 +53,7 @@ function Settings(): JSX.Element {
                         onChange={(e) => (setEmailAddress(e.target.value))}
                     />
                     <CustomButton
-                        classes="bg-aqua text-white"
+                        classes="bg-secondary text-white"
                         startIcon={isEmailUpdated ? <FaRegCheckCircle /> : ''}
                         disabled={emailAddress === 'example@gmail.com'}
                         label={isEmailUpdated ? 'Email saved' : "Save email"}

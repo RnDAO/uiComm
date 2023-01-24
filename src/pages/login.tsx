@@ -26,6 +26,8 @@ import Loading from '../components/global/Loading';
 import ChannelList from '../components/pages/login/ChannelList';
 import moment from 'moment';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import tclogo from '../assets/svg/tc-logo.svg';
+import Image from 'next/image';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -33,12 +35,12 @@ const ColorlibConnector = styled(StepConnector)(() => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#35B9B7',
+      backgroundColor: '#804EE1',
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#35B9B7',
+      backgroundColor: '#804EE1',
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -52,12 +54,12 @@ const ColorlibConnector = styled(StepConnector)(() => ({
 const VerticalColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#35B9B7',
+      backgroundColor: '#804EE1',
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#35B9B7',
+      backgroundColor: '#804EE1',
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -86,10 +88,10 @@ const ColorlibStepIconRoot = styled('div')<{
   alignItems: 'center',
   boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.2)',
   ...(ownerState.active && {
-    border: 'solid 4px #35B9B7',
+    border: 'solid 4px #804EE1',
   }),
   ...(ownerState.completed && {
-    backgroundColor: '#35B9B7',
+    backgroundColor: '#804EE1',
     color: 'white',
   }),
 }));
@@ -199,7 +201,7 @@ export default function Login() {
           refreshToken,
           isSuccessful,
         });
-        setSelectedDatePeriod(0)
+        setSelectedDatePeriod(0);
       }
     }, [router]);
   }
@@ -254,9 +256,7 @@ export default function Login() {
         <>
           <SEO titleTemplate="Connect your commiunity" />
           <div className="mx-auto flex justify-center mt-4 md:mt-8">
-            <div className="text-xs md:text-lg h-12 w-12 md:h-20 md:w-20 bg-gray-background rounded-full justify-center flex font-bold text-gray-500	items-center text-center">
-              XYZ LOGO
-            </div>
+            <Image alt="Image Alt" src={tclogo} />
           </div>
           <div className="p-3">
             <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
@@ -331,7 +331,7 @@ export default function Login() {
                         className="pt-12 md:w-2/3 font-medium text-left items-start"
                         control={
                           <Checkbox
-                            color="primary"
+                            color="secondary"
                             value={isTermsChecked}
                             onChange={(e) => setTermsCheck(e.target.checked)}
                           />
@@ -339,7 +339,7 @@ export default function Login() {
                         label={
                           <span className="text-sm">
                             I understand and agree to the{' '}
-                            <b className="text-aqua">
+                            <b className="text-secondary">
                               Privacy Policy and Terms of Service.
                             </b>
                           </span>
@@ -350,7 +350,7 @@ export default function Login() {
                           disabled={!isTermsChecked}
                           label="Connect your community"
                           onClick={() => redirectToDiscord()}
-                          classes={'bg-aqua text-white'}
+                          classes={'bg-secondary text-white'}
                         />
                       </div>
                     </>
@@ -398,7 +398,7 @@ export default function Login() {
                             Selected channels:
                             <b> {2}</b>{' '}
                             <span
-                              className="pl-4 text-aqua underline cursor-pointer font-bold"
+                              className="pl-4 text-secondary underline cursor-pointer font-bold"
                               onClick={() => {
                                 fetchGuildChannels(guild), setOpen(true);
                               }}
@@ -422,7 +422,7 @@ export default function Login() {
                         </div>
                         <div className="flex justify-center mt-4">
                           <CustomButton
-                            classes="text-white bg-aqua"
+                            classes="text-white bg-secondary"
                             onClick={() => updateGuild()}
                             label="Continue"
                             disabled={!activeStep}
@@ -442,7 +442,7 @@ export default function Login() {
                           <b>message on Discord.</b>
                         </p>
                         <CustomButton
-                          classes="text-white bg-aqua"
+                          classes="text-white bg-secondary"
                           onClick={() => router.push('/')}
                           label="I Understand"
                           disabled={!activeStep}
@@ -450,7 +450,7 @@ export default function Login() {
                       </div>
                       <p className="text-left md:text-center">
                         While you are waiting, read our research about{' '}
-                        <b className="text-aqua">
+                        <b className="text-secondary">
                           {' '}
                           <Link
                             href={
@@ -511,7 +511,7 @@ export default function Login() {
               </div>
               <div className="flex justify-center mt-5">
                 <Button
-                  className="bg-aqua text-white py-3 px-16 text-base"
+                  className="bg-secondary text-white py-3 px-16 text-base"
                   onClick={handleClose}
                 >
                   Save channels

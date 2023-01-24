@@ -58,14 +58,14 @@ export default function ConnectedCommunitiesList() {
           </p>
           <div>
             <CustomButton
-              classes="bg-aqua text-white"
+              classes="bg-secondary text-white"
               label={"Yes, disconnect"}
               onClick={() => {
                 setOpen(false), notify();
               }}
             />
             <CustomButton
-              classes="text-aqua mt-2"
+              classes="text-secondary mt-2"
               label={"Cancel"}
               onClick={() => setOpen(false)}
             />

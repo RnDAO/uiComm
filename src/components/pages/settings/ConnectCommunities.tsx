@@ -42,7 +42,7 @@ export default function ConnectCommunities() {
             Once it is done we will send you a message on Discord.
           </p>
           <CustomButton
-            classes="bg-aqua text-white"
+            classes="bg-secondary text-white"
             label={"I understand"}
             onClick={() => setConfirmModalOpen(false)}
           />
@@ -69,7 +69,7 @@ export default function ConnectCommunities() {
           <ChanelSelection/>
           <div className="text-center">
             <CustomButton
-              classes="bg-aqua text-white mt-6"
+              classes="bg-secondary text-white mt-6"
               label={"Continue"}
               onClick={() => {
                 setOpen(false), toggleConfirmModal(true);
@@ -89,7 +89,7 @@ export default function ConnectCommunities() {
           >
             <p className="font-sm">Discord</p>
             <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
-            <div className="text-aqua text-base flex items-center justify-center">
+            <div className="text-secondary text-base flex items-center justify-center">
               <GoPlus size={20} className="mr-1" />
               <p className="font-bold">Connect</p>
             </div>
