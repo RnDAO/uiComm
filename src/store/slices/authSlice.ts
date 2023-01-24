@@ -41,12 +41,17 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(`/guilds/${guild_id}/channels`);
-      data.map((el: IGuildChannels) => {
-        el.subChannels.map((channel: ISubChannels) => {
-          channel.isChecked = true;
-        });
+      set({ guildChannels: [...data], isLoading: false });
+    } catch (error) {}
+  },
+  updateGuildById: async (guildId, period, selectedChannels) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
+        period,
+        selectedChannels,
       });
-      set({ guildChannels: [...data], isLoading: false });      
+      set({ isLoading: false });
     } catch (error) {}
   },
   changeEmail: async (emailAddress: string) => {

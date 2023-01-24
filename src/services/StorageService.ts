@@ -5,7 +5,7 @@ export class StorageService {
   public static readLocalStorage<T>(
     key: string,
     type: DataType = 'object'
-  ): T | undefined {
+  ): T | undefined {    
     if (!key) return undefined;
     const data = localStorage.getItem(STORAGE_PREFIX + key);
     if (!data) return undefined;
@@ -19,7 +19,7 @@ export class StorageService {
           return Boolean(data) as any;
         case 'array':
           return JSON.parse(data || '[]');
-        default:
+        default:          
           return JSON.parse(data || '{}');
       }
     } catch (error) {

@@ -27,7 +27,6 @@ export type ISubChannels = {
   readonly rate_limit_per_user: number;
   readonly topic: string | null;
   readonly type: number;
-  isChecked?: boolean;
 };
 
 export default interface IAuth {
@@ -38,5 +37,10 @@ export default interface IAuth {
   redirectToDiscord: () => void;
   loginWithDiscord: (user: IUser | {}) => void;
   fetchGuildChannels: (guild_id: string) => void;
+  updateGuildById: (
+    guildId: string,
+    period: string,
+    selectedChannels: { channelId: string; channelName: string }[]
+  ) => any;
   changeEmail: (email: string) => void;
 }
