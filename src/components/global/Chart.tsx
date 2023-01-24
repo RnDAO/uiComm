@@ -44,13 +44,16 @@ const communityActiveDates = [
 ];
 
 const Chart = (props: Props) => {
-  const { isLoading, heatmapRecords, fetchHeatmapData } = useAppStore();
+  const { heatmapRecords, fetchHeatmapData } = useAppStore();
   const [endDate, setEndDate] = useState<any>();
   let [selectedZone, setSelectedZone] = useState('');
 
-  useEffect(() => {
-    fetch();
-  }, []);
+  // useEffect(() => {
+  //   let called = false
+  //   return () => {
+  //     fetch();
+  //   };
+  // }, []);
 
   const fetch = () => {
     try {
