@@ -48,11 +48,11 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
     }
   },
   updateGuildById: async (guildId, period, selectedChannels) => {
-    try {
+    try {      
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
         period,
-        selectedChannels: [],
+        selectedChannels: selectedChannels,
       });
       set({ isLoading: false });
     } catch (error) {

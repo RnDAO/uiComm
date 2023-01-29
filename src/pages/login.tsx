@@ -165,6 +165,8 @@ export default function Login() {
   const [isTermsChecked, setTermsCheck] = useState(false);
   const [guild, setGuild] = useState<any>('');
   const [selectedPeriod, setSelectedPeriod] = useState<any>('');
+  const [channels, setChannels] = useState<Array<any>>([]);
+  const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
   const {
     isLoading,
     redirectToDiscord,
@@ -175,9 +177,83 @@ export default function Login() {
     updateGuildById,
   } = useAppStore();
 
+  useEffect(() => {
+    const channels = guildChannels.map((guild: any, index: any) => {
+      const selected: Record<any, any> = {};
+      guild.subChannels.forEach((subChannel: any) => {
+        selected[subChannel.id] = true;
+      });
+
+      return { ...guild, selected: selected };
+    });
+
+    const subChannelsStatus = channels.map((channel: any) => {
+      return channel.selected;
+    });
+
+    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
+    let activeChannel: string[] = [];
+    for (const key in selectedChannelsStatus) {
+      if (selectedChannelsStatus[key]) {
+        activeChannel.push(key);
+      }
+    }
+
+    const result = [].concat(
+      ...channels.map((channel: any) => {
+        return channel.subChannels
+          .filter((subChannel: any) => {
+            if (activeChannel.includes(subChannel.id)) {
+              return subChannel;
+            }
+          })
+          .map((filterdItem: any) => {
+            return { channelId: filterdItem.id, channelName: filterdItem.name };
+          });
+      })
+    );
+    setSelectedChannels(result);
+
+    setChannels(channels);
+  }, [guildChannels]);
+
+  const onChange = (
+    channelId: string,
+    subChannelId: string,
+    status: boolean
+  ) => {
+    setChannels((preChannels) => {
+      return preChannels.map((preChannel) => {
+        if (preChannel.id !== channelId) return preChannel;
+
+        const selected = preChannel.selected;
+        selected[subChannelId] = status;
+
+        return { ...preChannel, selected };
+      });
+    });
+  };
+  const handleCheckAll = (guild: any, status: boolean) => {
+    const selectedGuild: any = channels.filter(
+      (channel: any) => channel.id === guild.id
+    )[0].id;
+
+    setChannels((preChannels) => {
+      return preChannels.map((preChannel) => {
+        if (selectedGuild === preChannel.id) {
+          Object.keys(preChannel.selected).forEach((key: any) => {
+            preChannel.selected[key] = status;
+          });
+        }
+        return preChannel;
+      });
+    });
+  };
+
   if (typeof window !== 'undefined') {
     useEffect(() => {
       if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
+        fetchGuildChannels(router.query.guildId);
         setActiveStep(1);
         const {
           accessToken,
@@ -202,6 +278,36 @@ export default function Login() {
       }
     }, [router]);
   }
+  const submitChannels = () => {
+    const subChannelsStatus = channels.map((channel: any) => {
+      return channel.selected;
+    });
+
+    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
+    let activeChannel: string[] = [];
+    for (const key in selectedChannelsStatus) {
+      if (selectedChannelsStatus[key]) {
+        activeChannel.push(key);
+      }
+    }
+
+    const result = [].concat(
+      ...channels.map((channel: any) => {
+        return channel.subChannels
+          .filter((subChannel: any) => {
+            if (activeChannel.includes(subChannel.id)) {
+              return subChannel;
+            }
+          })
+          .map((filterdItem: any) => {
+            return { channelId: filterdItem.id, channelName: filterdItem.name };
+          });
+      })
+    );
+    setSelectedChannels(result);
+    setOpen(false);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -212,15 +318,17 @@ export default function Login() {
         localStorage.getItem('RNDAO_guild') || '{}'
       );
 
-      updateGuildById(guildId, selectedPeriod, []).then((res: any) => {
-        if (emailAddress && emailAddress != '') {
-          changeEmail(emailAddress).then((res: any) => {
+      updateGuildById(guildId, selectedPeriod, selectedChannels).then(
+        (res: any) => {
+          if (emailAddress && emailAddress != '') {
+            changeEmail(emailAddress).then((_res: any) => {
+              setActiveStep(2);
+            });
+          } else {
             setActiveStep(2);
-          });
-        }else{
-          setActiveStep(2);
+          }
         }
-      });
+      );
     } catch (error) {}
   };
 
@@ -398,11 +506,11 @@ export default function Login() {
                           </h3>
                           <p className="text-base">
                             Selected channels:
-                            <b> {2}</b>{' '}
+                            <b>{selectedChannels.length}</b>{' '}
                             <span
                               className="pl-4 text-secondary underline cursor-pointer font-bold"
                               onClick={() => {
-                                fetchGuildChannels(guild), setOpen(true);
+                                setOpen(true);
                               }}
                             >
                               Show Channels
@@ -504,9 +612,18 @@ export default function Login() {
                     <Loading />
                   ) : (
                     <div>
-                      {guildChannels.map((guild: any, index: any) => (
-                        <ChannelList guild={guild} key={index} />
-                      ))}
+                      {channels && channels.length > 0
+                        ? channels.map((guild: any, index: any) => {
+                            return (
+                              <ChannelList
+                                guild={guild}
+                                key={index}
+                                onChange={onChange}
+                                handleCheckAll={handleCheckAll}
+                              />
+                            );
+                          })
+                        : ''}
                     </div>
                   )}
                 </div>
@@ -514,7 +631,7 @@ export default function Login() {
               <div className="flex justify-center mt-5">
                 <Button
                   className="bg-secondary text-white py-3 px-16 text-base"
-                  onClick={handleClose}
+                  onClick={submitChannels}
                 >
                   Save channels
                 </Button>

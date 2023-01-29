@@ -3,44 +3,15 @@ import { useEffect, useState } from 'react';
 
 type IChannelListProps = {
   guild: any;
+  onChange: (channelId: string, subChannelId: string, status: boolean) => void;
+  handleCheckAll: (guild: any, status: boolean) => void;
 };
 
-export default function ChannelList({ guild }: IChannelListProps) {
-  const [active, setActive] = useState(true);
-  const [selected, setSelected] = useState({
-    key: null,
-  });
-  const [checkedState, setCheckedState] = useState(
-    new Array(guild.subChannels.length).fill(true)
-  );
-
-  const handleCheckAll = (e: any) => {
-    if (e.target.checked) {
-      setActive(true);
-      setCheckedState(new Array(guild.subChannels.length).fill(true));
-    } else {
-      setActive(false);
-      setCheckedState(new Array(guild.subChannels.length).fill(false));
-    }
-  };
-
-  const handleOnChange = (
-    event: React.FormEvent<HTMLInputElement>,
-    position: any
-  ) => {
-    const updatedCheckedState = checkedState.map((item, index) => {
-      return index === position ? !item : item;
-    });
-
-    setCheckedState(updatedCheckedState);
-
-    if (updatedCheckedState.includes(false)) {
-      setActive(false);
-    } else {
-      setActive(true);
-    }
-  };
-
+export default function ChannelList({
+  guild,
+  onChange,
+  handleCheckAll,
+}: IChannelListProps) {
   const subChannelsList = (
     <>
       <p className="text-sm">Channels</p>
@@ -52,8 +23,10 @@ export default function ChannelList({ guild }: IChannelListProps) {
                 name={channel.name}
                 value={channel.id}
                 color="secondary"
-                checked={checkedState[index]}
-                onChange={(e) => handleOnChange(e, index)}
+                checked={guild.selected[channel.id]}
+                onChange={(e) =>
+                  onChange(guild.id, channel.id, e.target.checked)
+                }
               />
             }
             label={channel.name}
@@ -63,6 +36,13 @@ export default function ChannelList({ guild }: IChannelListProps) {
     </>
   );
 
+  // let selectedNum = 0;
+  // Object.keys(guild.selected).forEach((pre) => {
+  //   if (guild.selected[pre]) {
+  //     selectedNum++;
+  //   }
+  // });
+
   return (
     <div className="flex flex-col">
       <p className="text-md font-bold">{guild.title}</p>
@@ -71,9 +51,9 @@ export default function ChannelList({ guild }: IChannelListProps) {
           label="All Channels"
           control={
             <Checkbox
-              checked={active}
+              checked={Object.values(guild.selected).every((item) => item)}
               color="secondary"
-              onChange={handleCheckAll}
+              onChange={(e) => handleCheckAll(guild, e.target.checked)}
             />
           }
         />
