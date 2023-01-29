@@ -5,8 +5,6 @@ import MainSection from '../components/pages/pageIndex/MainSection';
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
 import { useEffect } from 'react';
-import useAppStore from '../store/useStore';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 function PageIndex(): JSX.Element {
   useEffect(() => {

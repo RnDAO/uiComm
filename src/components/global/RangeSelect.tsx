@@ -4,6 +4,7 @@ type Props = {
   className?: string;
   options: optionItem[];
   icon: JSX.Element;
+  active: number | string;
   onClick: (value: number | string) => void;
 };
 
@@ -12,8 +13,7 @@ type optionItem = {
   value: number;
 };
 
-const RangeSelect = ({ options, icon, onClick }: Props) => {
-  const [active, setActive] = useState(1);
+const RangeSelect = ({ options, icon, onClick, active }: Props) => {
 
   return (
     <>
@@ -24,7 +24,7 @@ const RangeSelect = ({ options, icon, onClick }: Props) => {
             ? options.map((el) => (
                 <li
                   onClick={(e) => {
-                    setActive(el.value), onClick(el.value);
+                    onClick(el.value);
                   }}
                   key={el.value}
                   className={
