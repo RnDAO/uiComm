@@ -134,24 +134,24 @@ type dateItems = {
 };
 const datePeriod: dateItems[] = [
   {
-    title: 'Last 7 days',
-    value: 0,
-  },
-  {
-    title: '1M',
+    title: "Last 7 days",
     value: 1,
   },
   {
-    title: '3M',
+    title: "1M",
     value: 2,
   },
   {
-    title: '6M',
+    title: "3M",
     value: 3,
   },
   {
-    title: '1Y',
+    title: "6M",
     value: 4,
+  },
+  {
+    title: "1Y",
+    value: 5,
   },
 ];
 
@@ -160,7 +160,7 @@ export default function Login() {
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [activeStep, setActiveStep] = useState(-1);
-  const [activePeriod, setActivePeriod] = useState(0);
+  const [activePeriod, setActivePeriod] = useState<number | string>(1);
   const [emailAddress, setEmailAddress] = useState('');
   const [isTermsChecked, setTermsCheck] = useState(false);
   const [guild, setGuild] = useState<any>('');
@@ -274,7 +274,7 @@ export default function Login() {
           refreshToken,
           isSuccessful,
         });
-        setSelectedDatePeriod(0);
+        setSelectedDatePeriod(1);
       }
     }, [router]);
   }
@@ -332,30 +332,45 @@ export default function Login() {
     } catch (error) {}
   };
 
-  const setSelectedDatePeriod = (value: number) => {
-    setActivePeriod(value);
-
-    let dateTime = null;
-    switch (value) {
-      case 0:
-        dateTime = moment().subtract('7', 'days');
-        break;
+  const setSelectedDatePeriod = (dateRangeType: number | string) => {
+    let dateTime = '';
+    switch (dateRangeType) {
       case 1:
-        dateTime = moment().subtract('1', 'months');
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('7', 'days')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 2:
-        dateTime = moment().subtract('3', 'months');
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('1', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 3:
-        dateTime = moment().subtract('6', 'months');
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('3', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
       case 4:
-        dateTime = moment().subtract('1', 'year');
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('6', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 5:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('1', 'year')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       default:
-        dateTime = moment().subtract('7', 'days');
         break;
     }
-    setSelectedPeriod(dateTime.format('YYYY-MM-DDTHH:mm:ss[Z]'));
+    setSelectedPeriod(dateTime);
+    
+    setActivePeriod(dateRangeType);
   };
 
   return (
