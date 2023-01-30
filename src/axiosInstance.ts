@@ -47,7 +47,20 @@ axiosInstance.interceptors.response.use(
   },
 
   async (error) => {
+    console.log(error.response.data.message);
+    
     switch (error.response.status) {
+      case 400:
+        toast.error(`${error.response.data.message}`, {
+          position: 'bottom-left',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 0,
+        });
+        break;
       case 401:
         localStorage.removeItem('RNDAO_refreshToken');
         localStorage.removeItem('RNDAO_access_token');
@@ -63,7 +76,7 @@ axiosInstance.interceptors.response.use(
         });
         break;
       case 404:
-        toast.error(`${error.response.statusText}`, {
+        toast.error(`${error.response.data.message}`, {
           position: 'bottom-left',
           autoClose: 5000,
           hideProgressBar: false,
@@ -73,9 +86,8 @@ axiosInstance.interceptors.response.use(
           progress: 0,
         });
         break;
-
       case 590:
-        toast.error(`${error.response.message}`, {
+        toast.error(`${error.response.data.message}`, {
           position: 'bottom-left',
           autoClose: 5000,
           hideProgressBar: false,
