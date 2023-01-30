@@ -80,16 +80,17 @@ const Chart = (_props: Props) => {
   ]);
   const [guildId, setGuildId] = useState<string>('');
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
-
-  useEffect(() => {
-    return () => {
-      const { guildId } = JSON.parse(
-        localStorage.getItem('RNDAO_guild') || '{}'
-      );
-      setGuildId(guildId);
-      fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone);
-    };
-  }, []);
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      return () => {
+        const { guildId } = JSON.parse(
+          localStorage.getItem('RNDAO_guild') || '{}'
+        );
+        setGuildId(guildId);
+        fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone);
+      };
+    }, []);
+  }
 
   const fetchHeatmap = (
     guildId: string,
@@ -201,11 +202,7 @@ const Chart = (_props: Props) => {
                 },
               },
               pointPadding: 1.5,
-              data: _res.map((item: any[]) => [
-                item[1],
-                item[0],
-                item[2] || 0,
-              ]),
+              data: _res.map((item: any[]) => [item[1], item[0], item[2] || 0]),
               colsize: 0.9,
               rowsize: 0.8,
             },

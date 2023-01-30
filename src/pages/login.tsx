@@ -388,7 +388,7 @@ export default function Login() {
               {activeStep === 0 || activeStep === -1 ? (
                 <>
                   <div className="bg-secondary text-white text-center py-8">
-                    <h1 className="font-bold text-2xl">Welcome to XYZ</h1>
+                    <h1 className="font-bold text-2xl">Welcome to TogetherCrew</h1>
                     <p className="text-base pt-3">
                       Let’s connect your community.
                     </p>
