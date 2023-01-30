@@ -12,10 +12,11 @@ export default interface ISetting {
   userInfo: {};
   guildInfoByDiscord: {};
   getUserGuildInfo: (guildId: string) => void;
-  getUserInfo: () => void;
+  getUserInfo: () => any;
   getGuildInfoByDiscord: (guildId: string) => void;
   updateSelectedChannels: (
     guildId: string,
     selectedChannels: { channelId: string; channelName: string }[]
   ) => void;
+  updateAnalysisDatePeriod: (guildId: string, period: string) => void;
 }

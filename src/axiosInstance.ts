@@ -49,8 +49,8 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     switch (error.response.status) {
       case 401:
-        localStorage.removeItem('RNDAO_refreshToken')
-        localStorage.removeItem('RNDAO_access_token')
+        localStorage.removeItem('RNDAO_refreshToken');
+        localStorage.removeItem('RNDAO_access_token');
         router.push('/');
         toast.error('Token expired...', {
           position: 'bottom-left',
@@ -64,6 +64,18 @@ axiosInstance.interceptors.response.use(
         break;
       case 404:
         toast.error(`${error.response.statusText}`, {
+          position: 'bottom-left',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 0,
+        });
+        break;
+
+      case 590:
+        toast.error(`${error.response.message}`, {
           position: 'bottom-left',
           autoClose: 5000,
           hideProgressBar: false,

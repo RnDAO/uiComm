@@ -99,7 +99,6 @@ const Chart = (_props: Props) => {
   ) => {
     fetchHeatmapData(guildId, startDate, endDate, timezone).then(
       (_res: any) => {
-        console.log({_res});
         setHeatmapChart({
           chart: {
             type: 'heatmap',

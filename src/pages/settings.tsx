@@ -23,7 +23,7 @@ function Settings(): JSX.Element {
     fetchGuildChannels,
   } = useAppStore();
 
-  const [emailAddress, setEmailAddress] = useState('');
+  const [emailAddress, setEmailAddress] = useState(userInfo.email);
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ function Settings(): JSX.Element {
 
   useEffect(() => {
     return () => {
-      getUserInfo().then((_res: any) => {
-        setEmailAddress(userInfo.email);
+      getUserInfo().then((_res: any) => {        
+        setEmailAddress(_res.email);
       });
     };
   }, []);
@@ -73,7 +73,7 @@ function Settings(): JSX.Element {
       id: '3',
     },
   ];
-
+  
   const personalItems = [
     {
       title: 'Email',
@@ -85,7 +85,7 @@ function Settings(): JSX.Element {
             label="Email Address"
             variant="filled"
             autoComplete="off"
-            value={emailAddress}
+            defaultValue={emailAddress}
             InputProps={{ disableUnderline: true }}
             className="w-full md:w-[240px]"
             onChange={(e) => setEmailAddress(e.target.value)}

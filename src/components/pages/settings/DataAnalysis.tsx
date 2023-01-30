@@ -11,19 +11,83 @@ export default function DataAnalysis() {
   const [activePeriod, setActivePeriod] = useState<number | string>(1);
   const [analysisStateDate, setAnalysisStartDate] = useState<any>('');
   const [open, setOpen] = useState<boolean>(false);
+  const [datePeriod, setDatePeriod] = useState<string>('');
   const [isDisabled, toggleDisabled] = useState<boolean>(true);
-  const { guildInfo } = useAppStore();
-  const handleActivePeriod = (e: number) => {
+  const { guildInfo, updateAnalysisDatePeriod, getUserGuildInfo } =
+    useAppStore();
+
+  const handleActivePeriod = (dateRangeType: number | string) => {
+    let dateTime = '';
+    switch (dateRangeType) {
+      case 1:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('7', 'days')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 2:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('1', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 3:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('3', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 4:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('6', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 5:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('1', 'year')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      default:
+        break;
+    }
+    setDatePeriod(dateTime);
     toggleDisabled(false);
-    setActivePeriod(e);
   };
 
   useEffect(() => {
+    const start = moment(guildInfo.period, 'YYYY-MM-DD');
+    const end = moment();
+
+    const datePeriod = moment.duration(end.diff(start)).asMonths();
+
+    if (datePeriod < 1) {
+      setActivePeriod(1);
+    } else if (datePeriod < 3) {
+      setActivePeriod(2);
+    } else if (datePeriod < 6) {
+      setActivePeriod(3);
+    } else if (datePeriod < 12) {
+      setActivePeriod(4);
+    } else {
+      setActivePeriod(5);
+    }
+
     setAnalysisStartDate(guildInfo.period);
   }, [guildInfo]);
 
   const toggleModal = (e: boolean) => {
     setOpen(e);
+  };
+
+  const submitNewDatePeriod = () => {
+    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
+
+    updateAnalysisDatePeriod(guildId, datePeriod).then((_res: any) => {
+      getUserGuildInfo(guildId);
+      setOpen(false);
+    });
   };
 
   return (
@@ -68,7 +132,7 @@ export default function DataAnalysis() {
           <CustomButton
             classes="bg-secondary text-white"
             label={'I understand'}
-            onClick={() => setOpen(false)}
+            onClick={submitNewDatePeriod}
           />
         </div>
       </CustomModal>
