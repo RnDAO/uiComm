@@ -82,9 +82,13 @@ const Chart = (_props: Props) => {
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
 
   useEffect(() => {
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    setGuildId(guildId);
-    fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone);
+    return () => {
+      const { guildId } = JSON.parse(
+        localStorage.getItem('RNDAO_guild') || '{}'
+      );
+      setGuildId(guildId);
+      fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone);
+    };
   }, []);
 
   const fetchHeatmap = (
@@ -94,7 +98,7 @@ const Chart = (_props: Props) => {
     timezone: string
   ) => {
     fetchHeatmapData(guildId, startDate, endDate, timezone).then(
-      (_res: any) => {        
+      (_res: any) => {
         setHeatmapChart({
           chart: {
             type: 'heatmap',
@@ -197,7 +201,11 @@ const Chart = (_props: Props) => {
                 },
               },
               pointPadding: 1.5,
-              data: heatmapRecords.map((item: any[]) => [item[1], item[0], item[2] || 0]),
+              data: heatmapRecords.map((item: any[]) => [
+                item[1],
+                item[0],
+                item[2] || 0,
+              ]),
               colsize: 0.9,
               rowsize: 0.8,
             },
@@ -263,7 +271,11 @@ const Chart = (_props: Props) => {
                         },
                       },
                       pointPadding: 0.8,
-                      data: heatmapRecords.map((item: any[]) => [item[1], item[0], item[2] || 0]),
+                      data: heatmapRecords.map((item: any[]) => [
+                        item[1],
+                        item[0],
+                        item[2] || 0,
+                      ]),
                       colsize: 0.9,
                       rowsize: 0.9,
                     },

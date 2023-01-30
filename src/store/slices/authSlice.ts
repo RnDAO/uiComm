@@ -48,7 +48,7 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
     }
   },
   updateGuildById: async (guildId, period, selectedChannels) => {
-    try {      
+    try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
         period,
@@ -61,14 +61,10 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   },
   changeEmail: async (emailAddress: string) => {
     try {
-      set(() => ({ isLoading: true }));
       await axiosInstance.patch(`/users/@me`, {
         email: emailAddress,
       });
-      set({ isLoading: false });
-    } catch (error) {
-      set({ isLoading: false });
-    }
+    } catch (error) {}
   },
 });
 

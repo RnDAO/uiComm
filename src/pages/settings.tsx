@@ -12,17 +12,34 @@ import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
 import useAppStore from '../store/useStore';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import router from 'next/router';
 
 function Settings(): JSX.Element {
-  const { isLoading, changeEmail, getUserGuildInfo, fetchGuildChannels } =
-    useAppStore();
+  const {
+    isLoading,
+    userInfo,
+    getUserInfo,
+    changeEmail,
+    getUserGuildInfo,
+    fetchGuildChannels,
+  } = useAppStore();
+
   const [emailAddress, setEmailAddress] = useState('');
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
+
   useEffect(() => {
     const token = localStorage.getItem('RNDAO_access_token');
     if (!token) {
       location.replace('/login');
     }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      getUserInfo().then((_res: any) => {
+        setEmailAddress(userInfo.email);
+      });
+    };
   }, []);
 
   useEffect(() => {
@@ -77,7 +94,7 @@ function Settings(): JSX.Element {
           <CustomButton
             classes="bg-secondary text-white"
             startIcon={isEmailUpdated ? <FaRegCheckCircle /> : ''}
-            disabled={emailAddress === 'example@gmail.com'}
+            disabled={emailAddress === userInfo.email}
             label={isEmailUpdated ? 'Email saved' : 'Save email'}
             onClick={() => updateEmailAddress()}
           />

@@ -8,7 +8,12 @@ export default interface IGuildInfo {
 }
 export default interface ISetting {
   isLoading: boolean;
-  guildInfo?: IGuildInfo[] | [];
+  guildInfo?: IGuildInfo | {};
+  userInfo: {};
   getUserGuildInfo: (guildId: string) => void;
-  updateSelectedChannels:(guildId:string,selectedChannels:{ channelId: string; channelName: string }[])
+  getUserInfo: () => void;
+  updateSelectedChannels: (
+    guildId: string,
+    selectedChannels: { channelId: string; channelName: string }[]
+  ) => void;
 }

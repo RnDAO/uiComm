@@ -4,13 +4,23 @@ import ISetting from '../types/ISetting';
 
 const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   isLoading: false,
-  guildInfo: [],
+  guildInfo: {},
+  userInfo: {},
   getUserGuildInfo: async (guildId: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(`/guilds/${guildId}`);
 
       set({ guildInfo: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  getUserInfo: async () => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.get('/users/@me');
+      set({ userInfo : data , isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }
