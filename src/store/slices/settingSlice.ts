@@ -6,6 +6,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   isLoading: false,
   guildInfo: {},
   userInfo: {},
+  guildInfoByDiscord: {},
   getUserGuildInfo: async (guildId: string) => {
     try {
       set(() => ({ isLoading: true }));
@@ -20,7 +21,18 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get('/users/@me');
-      set({ userInfo : data , isLoading: false });
+      set({ userInfo: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  getGuildInfoByDiscord: async (guildId) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.get(
+        `/guilds/discord-api/${guildId}`
+      );      
+      set({ guildInfoByDiscord: data, isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }

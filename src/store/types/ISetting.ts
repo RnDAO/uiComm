@@ -10,8 +10,10 @@ export default interface ISetting {
   isLoading: boolean;
   guildInfo?: IGuildInfo | {};
   userInfo: {};
+  guildInfoByDiscord: {};
   getUserGuildInfo: (guildId: string) => void;
   getUserInfo: () => void;
+  getGuildInfoByDiscord: (guildId: string) => void;
   updateSelectedChannels: (
     guildId: string,
     selectedChannels: { channelId: string; channelName: string }[]

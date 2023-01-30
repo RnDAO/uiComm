@@ -1,5 +1,5 @@
-import React from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type items = {
   name: string;
@@ -7,52 +7,66 @@ type items = {
   icon: any;
 };
 
-import polygon from "../../assets/svg/polygon.svg";
+import polygon from '../../assets/svg/polygon.svg';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // import the icons you need
 import {
   faUserGroup,
   faHeartPulse,
   faGear,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { Tooltip, Typography } from "@mui/material";
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { Tooltip, Typography } from '@mui/material';
+import useAppStore from '../../store/useStore';
 
 const Sidebar = () => {
+  const { guildInfoByDiscord, getGuildInfoByDiscord } = useAppStore();
+  const [guildId, setGuildId] = useState('');
   const router = useRouter();
   const currentRoute = router.pathname;
+
+  useEffect(() => {
+    return () => {
+      const { guildId } = JSON.parse(
+        localStorage.getItem('RNDAO_guild') || '{}'
+      );
+      setGuildId(guildId);
+      getGuildInfoByDiscord(guildId);
+    };
+  }, [getGuildInfoByDiscord]);
+
   const menuItems: items[] = [
     {
-      name: "Community Insights",
-      path: "/dashboard",
+      name: 'Community Insights',
+      path: '/dashboard',
       icon: (
         <FontAwesomeIcon
           icon={faUserGroup}
-          style={{ fontSize: 20, color: "black" }}
+          style={{ fontSize: 20, color: 'black' }}
         />
       ),
     },
     {
-      name: "Community Health",
-      path: "/community-health",
+      name: 'Community Health',
+      path: '/community-health',
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
-          style={{ fontSize: 20, color: "black" }}
+          style={{ fontSize: 20, color: 'black' }}
         />
       ),
     },
     {
-      name: "Settings",
-      path: "/settings",
+      name: 'Settings',
+      path: '/settings',
       icon: (
         <FontAwesomeIcon
           icon={faGear}
-          style={{ fontSize: 20, color: "black" }}
+          style={{ fontSize: 20, color: 'black' }}
         />
       ),
     },
@@ -60,14 +74,18 @@ const Sidebar = () => {
 
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className="py-4">
-      {el.path === "/community-health" ? (
+      {el.path === '/community-health' ? (
         <>
-          <Tooltip title={<Typography fontSize={14}>Comming soon</Typography>} arrow placement="right">
+          <Tooltip
+            title={<Typography fontSize={14}>Comming soon</Typography>}
+            arrow
+            placement="right"
+          >
             <div
               className={
                 currentRoute === el.path
-                  ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
-                  : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
+                  ? 'py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer'
+                  : 'py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer'
               }
             >
               {el.icon}
@@ -80,8 +98,8 @@ const Sidebar = () => {
           <div
             className={
               currentRoute === el.path
-                ? "py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer"
-                : "py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer"
+                ? 'py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer'
+                : 'py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer'
             }
           >
             {el.icon}
@@ -89,18 +107,34 @@ const Sidebar = () => {
           <p className="text-center text-sm">{el.name}</p>
         </Link>
       )}
-    </li >
+    </li>
   ));
 
   return (
-    <aside className="hidden md:block bg-gray-background shadow-inner md:w-[100px] xl:w-[150px] shadow-inner fixed h-screen">
+    <aside className="hidden md:block bg-gray-background shadow-inner md:w-[100px] xl:w-[150px] fixed h-screen">
       <nav>
         <div>
-          <div className="text-center my-4">
-            <div className="w-8 h-8 mb-2 mx-auto">
-              <Image src={polygon} alt="polygon" width="100" height="100" />
+          <div className="flex flex-col mx-auto justify-center text-center my-4">
+            <div className="w-full mx-auto">
+              <div className="w-10 h-10 mb-2 mx-auto">
+                {guildId && guildInfoByDiscord.icon ? (
+                  <Image
+                    src={`https://cdn.discordapp.com/icons/${guildId}/${guildInfoByDiscord.icon}`}
+                    width="100"
+                    height="100"
+                    alt={guildInfoByDiscord.name ? guildInfoByDiscord.name : ''}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="bg-gray-300 text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs">
+                    LOGO
+                  </div>
+                )}
+              </div>
             </div>
-            <p className="text-sm font-medium">Polygon DAO</p>
+            <p className="text-sm w-9/12 font-bold text-center  mx-auto">
+              {guildInfoByDiscord.name}
+            </p>
           </div>
         </div>
         <hr className="mx-2" />
