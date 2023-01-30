@@ -1,4 +1,3 @@
 export const conf = {
   API_BASE_URL: process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL,
-  DISCORD_BASE_URL: process.env.NEXT_PUBLIC_DISCORD_API_BASE_URL,
 };
