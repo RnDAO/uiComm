@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import IAuth, { IGuildChannels, ISubChannels } from '../types/IAuth';
+import IAuth from '../types/IAuth';
 import { conf } from '../../configs';
 import { axiosInstance } from '../../axiosInstance';
 import { StorageService } from '../../services/StorageService';
