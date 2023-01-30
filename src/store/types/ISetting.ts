@@ -1,13 +1,14 @@
 export default interface IGuildInfo {
   id?: string;
-  name?: string;
-  icon?: string;
-  owner?: boolean;
-  permissions?: string;
-  features?: string[];
+  guildId?: string;
+  ownerId?: string;
+  name?: boolean;
+  period?: string;
+  selectedChannels?: { channelId: string; channelName: string }[];
 }
 export default interface ISetting {
   isLoading: boolean;
-  guildsInfo?: IGuildInfo[] | [];
-  getUserGuildsInformation: () => void;
+  guildInfo?: IGuildInfo[] | [];
+  getUserGuildInfo: (guildId: string) => void;
+  updateSelectedChannels:(guildId:string,selectedChannels:{ channelId: string; channelName: string }[])
 }

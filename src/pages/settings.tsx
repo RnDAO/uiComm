@@ -14,6 +14,10 @@ import useAppStore from '../store/useStore';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 function Settings(): JSX.Element {
+  const { isLoading, changeEmail, getUserGuildInfo, fetchGuildChannels } =
+    useAppStore();
+  const [emailAddress, setEmailAddress] = useState('');
+  const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
   useEffect(() => {
     const token = localStorage.getItem('RNDAO_access_token');
     if (!token) {
@@ -22,11 +26,10 @@ function Settings(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    return () => getUserGuildsInformation();
+    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
+    fetchGuildChannels(guildId);
+    getUserGuildInfo(guildId);
   }, []);
-  const { isLoading, changeEmail, getUserGuildsInformation } = useAppStore();
-  const [emailAddress, setEmailAddress] = useState('');
-  const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
   const updateEmailAddress = () => {
     changeEmail(emailAddress).then((res: any) => {

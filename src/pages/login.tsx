@@ -338,21 +338,21 @@ export default function Login() {
     let dateTime = null;
     switch (value) {
       case 0:
-        dateTime = moment().subtract(7, 'days');
+        dateTime = moment().subtract('7', 'days');
         break;
       case 1:
-        dateTime = moment().subtract(1, 'months');
+        dateTime = moment().subtract('1', 'months');
         break;
       case 2:
-        dateTime = moment().subtract(3, 'months');
+        dateTime = moment().subtract('3', 'months');
         break;
       case 3:
-        dateTime = moment().subtract(6, 'months');
+        dateTime = moment().subtract('6', 'months');
       case 4:
-        dateTime = moment().subtract(1, 'year');
+        dateTime = moment().subtract('1', 'year');
         break;
       default:
-        dateTime = moment().subtract(7, 'days');
+        dateTime = moment().subtract('7', 'days');
         break;
     }
     setSelectedPeriod(dateTime.format('YYYY-MM-DDTHH:mm:ss[Z]'));
@@ -608,24 +608,18 @@ export default function Login() {
               </div>
               <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-y-scroll text-base">
                 <div>
-                  {isLoading ? (
-                    <Loading />
-                  ) : (
-                    <div>
-                      {channels && channels.length > 0
-                        ? channels.map((guild: any, index: any) => {
-                            return (
-                              <ChannelList
-                                guild={guild}
-                                key={index}
-                                onChange={onChange}
-                                handleCheckAll={handleCheckAll}
-                              />
-                            );
-                          })
-                        : ''}
-                    </div>
-                  )}
+                  {channels && channels.length > 0
+                    ? channels.map((guild: any, index: any) => {
+                        return (
+                          <ChannelList
+                            guild={guild}
+                            key={index}
+                            onChange={onChange}
+                            handleCheckAll={handleCheckAll}
+                          />
+                        );
+                      })
+                    : ''}
                 </div>
               </div>
               <div className="flex justify-center mt-5">
