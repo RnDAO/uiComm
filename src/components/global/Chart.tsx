@@ -72,7 +72,7 @@ const HOURE_DAYS = [
 const Chart = (_props: Props) => {
   const [heatmapChart, setHeatmapChart] = useState({});
 
-  const { heatmapRecords, isLoading, fetchHeatmapData } = useAppStore();
+  const { isLoading, fetchHeatmapData } = useAppStore();
   const [active, setActive] = useState(1);
   const [dateRange, setDateRange] = useState<any>([
     moment().subtract(7, 'days'),
@@ -99,6 +99,7 @@ const Chart = (_props: Props) => {
   ) => {
     fetchHeatmapData(guildId, startDate, endDate, timezone).then(
       (_res: any) => {
+        console.log({_res});
         setHeatmapChart({
           chart: {
             type: 'heatmap',
@@ -201,7 +202,7 @@ const Chart = (_props: Props) => {
                 },
               },
               pointPadding: 1.5,
-              data: heatmapRecords.map((item: any[]) => [
+              data: _res.map((item: any[]) => [
                 item[1],
                 item[0],
                 item[2] || 0,
@@ -271,7 +272,7 @@ const Chart = (_props: Props) => {
                         },
                       },
                       pointPadding: 0.8,
-                      data: heatmapRecords.map((item: any[]) => [
+                      data: _res.map((item: any[]) => [
                         item[1],
                         item[0],
                         item[2] || 0,

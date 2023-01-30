@@ -19,6 +19,7 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
         timeZone,
       });
       set({ heatmapRecords: [...data], isLoading: false });
+      return data;
     } catch (error) {
       set(() => ({ isLoading: false }));
     }

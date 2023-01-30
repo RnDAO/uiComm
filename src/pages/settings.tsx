@@ -12,7 +12,6 @@ import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
 import useAppStore from '../store/useStore';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import router from 'next/router';
 
 function Settings(): JSX.Element {
   const {
