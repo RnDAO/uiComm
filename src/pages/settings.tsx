@@ -23,7 +23,7 @@ function Settings(): JSX.Element {
     fetchGuildChannels,
   } = useAppStore();
 
-  const [emailAddress, setEmailAddress] = useState(userInfo.email);
+  const [emailAddress, setEmailAddress] = useState<string>('');
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -34,11 +34,15 @@ function Settings(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    getUserInfo().then((_res: any) => {
-      setEmailAddress(_res.email);
-    });
+    fetchEmail();
   }, []);
 
+  const fetchEmail = async () => {
+    await getUserInfo().then((_res: any) => {
+      setEmailAddress(_res.email);
+    });
+  };
+  
   useEffect(() => {
     const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
     fetchGuildChannels(guildId);
@@ -83,7 +87,7 @@ function Settings(): JSX.Element {
             label="Email Address"
             variant="filled"
             autoComplete="off"
-            defaultValue={emailAddress}
+            value={emailAddress}
             InputProps={{ disableUnderline: true }}
             className="w-full md:w-[240px]"
             onChange={(e) => setEmailAddress(e.target.value)}
