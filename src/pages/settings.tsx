@@ -34,11 +34,9 @@ function Settings(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    return () => {
-      getUserInfo().then((_res: any) => {        
-        setEmailAddress(_res.email);
-      });
-    };
+    getUserInfo().then((_res: any) => {
+      setEmailAddress(_res.email);
+    });
   }, []);
 
   useEffect(() => {
@@ -73,7 +71,7 @@ function Settings(): JSX.Element {
       id: '3',
     },
   ];
-  
+
   const personalItems = [
     {
       title: 'Email',
