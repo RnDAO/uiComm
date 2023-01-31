@@ -1,6 +1,11 @@
 import { HeaderSection } from '../components/pages/pageIndex/HeaderSection';
 import { FooterSection } from '../components/pages/pageIndex/FooterSection';
-import MainSection from '../components/pages/pageIndex/MainSection';
+import dynamic from 'next/dynamic';
+
+const MainSection = dynamic(
+  () => import('../components/pages/pageIndex/MainSection'),
+  { ssr: false }
+);
 
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';

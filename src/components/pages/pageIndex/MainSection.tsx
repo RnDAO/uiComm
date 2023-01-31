@@ -1,6 +1,5 @@
 import React from "react";
 import Chart from "../../global/Chart";
-type Props = {};
 
 const MainSection = () => {
   return (

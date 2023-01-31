@@ -17,8 +17,6 @@ if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
 }
 
-type Props = {};
-
 const communityActiveDates = [
   {
     title: 'Last 7 days',
@@ -69,15 +67,12 @@ const HOURE_DAYS = [
   '11',
 ];
 
-const Chart = (_props: Props) => {
+const Chart = () => {
   const [heatmapChart, setHeatmapChart] = useState({});
 
   const { isLoading, fetchHeatmapData } = useAppStore();
   const [active, setActive] = useState(1);
-  const [dateRange, setDateRange] = useState<any>([
-    moment().subtract(7, 'days'),
-    moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-  ]);
+  const [dateRange, setDateRange] = useState<any>([null, null]);
   const [guildId, setGuildId] = useState<string>('');
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
   if (typeof window !== 'undefined') {
@@ -87,11 +82,14 @@ const Chart = (_props: Props) => {
           localStorage.getItem('RNDAO_guild') || '{}'
         );
         setGuildId(guildId);
+        setDateRange([
+          moment().subtract(7, 'days'),
+          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        ]);
         fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone);
       };
     }, []);
   }
-
   const fetchHeatmap = (
     guildId: string,
     startDate: string,
