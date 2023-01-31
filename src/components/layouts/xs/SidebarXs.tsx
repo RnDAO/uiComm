@@ -31,14 +31,12 @@ const Sidebar = () => {
   const currentRoute = router.pathname;
 
   useEffect(() => {
-    return () => {
       const { guildId } = JSON.parse(
         localStorage.getItem('RNDAO_guild') || '{}'
       );
       setGuildId(guildId);
       getGuildInfoByDiscord(guildId);
-    };
-  }, [getGuildInfoByDiscord]);
+  }, []);
 
   const menuItems: items[] = [
     {
