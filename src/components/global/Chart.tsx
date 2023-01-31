@@ -86,14 +86,19 @@ const Chart = () => {
           moment().subtract(7, 'days'),
           moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
         ]);
-        fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone);
+        fetchHeatmap(
+          guildId,
+          moment().subtract(7, 'days'),
+          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          selectedZone
+        );
       };
     }, []);
   }
   const fetchHeatmap = (
     guildId: string,
-    startDate: string,
-    endDate: string,
+    startDate: any,
+    endDate: any,
     timezone: string
   ) => {
     fetchHeatmapData(guildId, startDate, endDate, timezone).then(
