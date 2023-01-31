@@ -69,32 +69,26 @@ const HOURE_DAYS = [
 
 const Chart = () => {
   const [heatmapChart, setHeatmapChart] = useState({});
-
   const { isLoading, fetchHeatmapData } = useAppStore();
   const [active, setActive] = useState(1);
   const [dateRange, setDateRange] = useState<any>([null, null]);
-  const [guildId, setGuildId] = useState<string>('');
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
-  if (typeof window !== 'undefined') {
-    useEffect(() => {
-      return () => {
-        const { guildId } = JSON.parse(
-          localStorage.getItem('RNDAO_guild') || '{}'
-        );
-        setGuildId(guildId);
-        setDateRange([
-          moment().subtract(7, 'days'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ]);
-        fetchHeatmap(
-          guildId,
-          moment().subtract(7, 'days'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          selectedZone
-        );
-      };
-    }, []);
-  }
+
+  useEffect(() => {
+    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
+
+    setDateRange([
+      moment().subtract(7, 'days'),
+      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+    ]);
+    fetchHeatmap(
+      guildId,
+      moment().subtract(7, 'days'),
+      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      selectedZone
+    );
+  }, []);
+
   const fetchHeatmap = (
     guildId: string,
     startDate: any,
@@ -291,6 +285,7 @@ const Chart = () => {
 
   const handleSelectedZone = (zone: string) => {
     setSelectedZone(zone);
+    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
     fetchHeatmap(guildId, dateRange[0], dateRange[1], zone);
   };
   const handleDateRange = (dateRangeType: string | number) => {
@@ -335,6 +330,7 @@ const Chart = () => {
         break;
     }
     setDateRange([...dateTime]);
+    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
     fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone);
   };
   return (
