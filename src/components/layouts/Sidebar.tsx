@@ -128,7 +128,7 @@ const Sidebar = () => {
                 )}
               </div>
             </div>
-            <p className="text-sm w-9/12 font-bold text-center  mx-auto">
+            <p className="text-sm w-9/12 font-bold text-center overflow-hidden mx-auto">
               {guildInfoByDiscord.name}
             </p>
           </div>
