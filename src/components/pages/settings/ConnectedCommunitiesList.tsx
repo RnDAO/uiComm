@@ -35,27 +35,31 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
       notify();
     });
   };
-
+  
   return (
     <>
-      {guilds && guilds.length > 0
-        ? guilds.map((guild: any) => (
-            <div className="bg-gray-background rounded-lg px-4 md:h-[268px]">
-              <p className="text-base font-semibold pt-2">
-                Connected communities
-              </p>
-              <div className="p-4 flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4">
-                <ConnectedCommunitiesItem
+      {guilds && guilds.length > 0 ? (
+        <div className="bg-gray-background rounded-lg px-4 md:h-[268px]">
+          <p className="text-base font-semibold pt-2">Connected communities</p>
+          {guilds && guilds.length > 0
+            ? guilds.map((guild: any) => (
+                <div
+                  className="p-4 flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4"
                   key={guild.id}
-                  guild={guild}
-                  onClick={(guildId: any) => {
-                    setGuildId(guildId), setOpen(true);
-                  }}
-                />
-              </div>
-            </div>
-          ))
-        : ''}
+                >
+                  <ConnectedCommunitiesItem
+                    guild={guild}
+                    onClick={(guildId: any) => {
+                      setGuildId(guildId), setOpen(true);
+                    }}
+                  />
+                </div>
+              ))
+            : ''}
+        </div>
+      ) : (
+        ''
+      )}
       <CustomModal isOpen={open} toggleModal={toggleModal} hasClose={true}>
         <div className="mx-auto text-center md:w-full space-y-6 pt-4 pb-8">
           <h3 className="text-xl font-bold">

@@ -78,20 +78,17 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   disconnecGuildById: async (guildId, disconnectType) => {
     try {
       set(() => ({ isLoading: true }));
-      await axiosInstance.post(
-        `/guilds/${guildId}/disconnect`,
-        {
-          disconnectType: disconnectType,
-        }
-      );
+      await axiosInstance.post(`/guilds/${guildId}/disconnect`, {
+        disconnectType: disconnectType,
+      });
       set({ isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }
   },
-  connectNewGuild: () => {
+  connectNewGuild: async () => {
     try {
-      axiosInstance.get(`${BASE_URL}/guilds/connect`);
+      location.replace(`${BASE_URL}/guilds/connect`);
     } catch (error) {}
   },
 });
