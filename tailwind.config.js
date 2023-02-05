@@ -42,6 +42,7 @@ const colors = {
     200: '#FFB897',
     300: '#F59467',
     400: '#D87D53',
+    500: '#FF9022',
   },
   yellow: {
     DEFAULT: '#DDAD21',

@@ -1,13 +1,13 @@
 import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
 import ISetting from '../types/ISetting';
-import { userInfo } from 'os';
 
 const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   isLoading: false,
   guildInfo: {},
   userInfo: {},
   guildInfoByDiscord: {},
+  guilds: [],
   getUserGuildInfo: async (guildId: string) => {
     try {
       set(() => ({ isLoading: true }));
@@ -42,7 +42,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   updateSelectedChannels: async (guildId, selectedChannels) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
+      await axiosInstance.patch(`/guilds/${guildId}`, {
         selectedChannels: selectedChannels,
       });
       set({ isLoading: false });
@@ -53,10 +53,19 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   updateAnalysisDatePeriod: async (guildId, period) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
-        period
+      await axiosInstance.patch(`/guilds/${guildId}`, {
+        period,
       });
       set({ isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  getGuilds: async () => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.get(`/guilds?isDisconnected=${false}`);
+      set({ guilds: [...data.results], isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }
