@@ -12,6 +12,8 @@ import moment from 'moment';
 import 'moment-timezone';
 import momentTZ from 'moment-timezone';
 import SimpleBackdrop from './LoadingBackdrop';
+import { StorageService } from '../../services/StorageService';
+import { IUser } from '../../utils/types';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -70,23 +72,27 @@ const HOURE_DAYS = [
 const Chart = () => {
   const [heatmapChart, setHeatmapChart] = useState({});
   const { isLoading, fetchHeatmapData } = useAppStore();
+  const [user, setUser] = useState<IUser>();
   const [active, setActive] = useState(1);
   const [dateRange, setDateRange] = useState<any>([null, null]);
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
 
   useEffect(() => {
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-
-    setDateRange([
-      moment().subtract(7, 'days'),
-      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-    ]);
-    fetchHeatmap(
-      guildId,
-      moment().subtract(7, 'days'),
-      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      selectedZone
-    );
+    const user = StorageService.readLocalStorage<IUser>('user');
+    setUser(user);
+    if (user) {
+      const { guildId } = user.guild;
+      setDateRange([
+        moment().subtract(7, 'days'),
+        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      ]);
+      fetchHeatmap(
+        guildId,
+        moment().subtract(7, 'days'),
+        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        selectedZone
+      );
+    }
   }, []);
 
   const fetchHeatmap = (
@@ -285,8 +291,10 @@ const Chart = () => {
 
   const handleSelectedZone = (zone: string) => {
     setSelectedZone(zone);
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    fetchHeatmap(guildId, dateRange[0], dateRange[1], zone);
+    if (user) {
+      const { guildId } = user.guild;
+      fetchHeatmap(guildId, dateRange[0], dateRange[1], zone);
+    }
   };
   const handleDateRange = (dateRangeType: string | number) => {
     let dateTime: string[] = [];
@@ -330,45 +338,43 @@ const Chart = () => {
         break;
     }
     setDateRange([...dateTime]);
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone);
+    if (user) {
+      const { guildId } = user.guild;
+      fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone);
+    }
   };
+
+  if (isLoading) return <SimpleBackdrop />;
+
   return (
     <div className="bg-white shadow-box rounded-lg p-5 min-h-[400px]">
-      {isLoading ? (
-        <SimpleBackdrop />
-      ) : (
-        <>
-          {' '}
-          <div className="flex flex-col md:flex-row justify-between items-baseline">
-            <div className="px-3">
-              <h3 className="font-bold text-xl md:text-2xl">
-                When is the community most active?
-              </h3>
-              <p className="text-md md:text-base pt-4 text-gray-700 font-light">
-                Hourly interaction summed over the selected time period.
-              </p>
-            </div>
-            <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-              <ZonePicker
-                selectedZone={selectedZone}
-                handleSelectedZone={handleSelectedZone}
-              />
-              <RangeSelect
-                options={communityActiveDates}
-                icon={<FiCalendar size={18} />}
-                active={active}
-                onClick={handleDateRange}
-              />
-            </div>
-          </div>
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={heatmapChart}
-            allowChartUpdate
+      <div className="flex flex-col md:flex-row justify-between items-baseline">
+        <div className="px-3">
+          <h3 className="font-bold text-xl md:text-2xl">
+            When is the community most active?
+          </h3>
+          <p className="text-md md:text-base pt-4 text-gray-700 font-light">
+            Hourly interaction summed over the selected time period.
+          </p>
+        </div>
+        <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+          <ZonePicker
+            selectedZone={selectedZone}
+            handleSelectedZone={handleSelectedZone}
           />
-        </>
-      )}
+          <RangeSelect
+            options={communityActiveDates}
+            icon={<FiCalendar size={18} />}
+            active={active}
+            onClick={handleDateRange}
+          />
+        </div>
+      </div>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={heatmapChart}
+        allowChartUpdate
+      />
     </div>
   );
 };

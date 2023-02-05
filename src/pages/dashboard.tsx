@@ -5,12 +5,24 @@ import MainSection from '../components/pages/pageIndex/MainSection';
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
 import { useEffect } from 'react';
+import { StorageService } from '../services/StorageService';
+import { IUser } from '../utils/types';
+import { useRouter } from 'next/router';
 
 function Dashboard(): JSX.Element {
+  const router = useRouter();
+
   useEffect(() => {
-    const token = localStorage.getItem('RNDAO_access_token');
-    if (!token) {
-      location.replace('/login');
+    const user = StorageService.readLocalStorage<IUser>('user');
+    if (user) {
+      const { token } = user;
+      if (!token.accessToken) {
+        router.replace('/login');
+      } else {
+        router.push('/dashboard');
+      }
+    }else{
+      router.replace('/login');
     }
   }, []);
   return (

@@ -12,6 +12,9 @@ import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
 import useAppStore from '../store/useStore';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { useRouter } from 'next/router';
+import { StorageService } from '../services/StorageService';
+import { IUser } from '../utils/types';
 
 function Settings(): JSX.Element {
   const {
@@ -26,10 +29,19 @@ function Settings(): JSX.Element {
   const [emailAddress, setEmailAddress] = useState<string>('');
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    const token = localStorage.getItem('RNDAO_access_token');
-    if (!token) {
-      location.replace('/login');
+    const user = StorageService.readLocalStorage<IUser>('user');
+    if (user) {
+      const { token } = user;
+      if (!token.accessToken) {
+        router.replace('/login');
+      } else {
+        router.push('/settings');
+      }
+    } else {
+      router.replace('/login');
     }
   }, []);
 
@@ -42,11 +54,15 @@ function Settings(): JSX.Element {
       setEmailAddress(_res.email);
     });
   };
-  
+
   useEffect(() => {
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    fetchGuildChannels(guildId);
-    getUserGuildInfo(guildId);
+    const user = StorageService.readLocalStorage<IUser>('user');
+
+    if (user) {
+      const { guildId } = user.guild;
+      fetchGuildChannels(guildId);
+      getUserGuildInfo(guildId);
+    }
   }, []);
 
   const updateEmailAddress = () => {

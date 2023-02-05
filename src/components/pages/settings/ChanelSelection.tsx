@@ -3,15 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import useAppStore from '../../../store/useStore';
 import ChannelList from '../login/ChannelList';
-
-type props = {
-  label: string;
-};
+import { StorageService } from '../../../services/StorageService';
+import { IGuild, IUser } from '../../../utils/types';
 
 export default function ChanelSelection() {
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
-  const [guild, setGuild] = useState<any>('');
+  const [guild, setGuild] = useState<IGuild>();
   const [channels, setChannels] = useState<Array<any>>([]);
   const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
 
@@ -24,6 +22,11 @@ export default function ChanelSelection() {
   } = useAppStore();
 
   useEffect(() => {
+    const user = StorageService.readLocalStorage<IUser>('user');
+    if (user) {
+      setGuild(user.guild);
+    }
+
     const activeChannles =
       guildInfo && guildInfo.selectedChannels
         ? guildInfo.selectedChannels.map((channel: any) => {
@@ -135,11 +138,9 @@ export default function ChanelSelection() {
       })
     );
     setSelectedChannels(result);
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-
-    updateSelectedChannels(guildId, result).then((_res: any) => {
+    updateSelectedChannels(guild?.guildId, result).then((_res: any) => {
       setOpen(false);
-      getUserGuildInfo(guildId);
+      getUserGuildInfo(guild?.guildId);
     });
   };
 

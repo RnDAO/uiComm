@@ -4,6 +4,7 @@ import { StorageService } from './services/StorageService';
 import router from 'next/router';
 
 import { toast } from 'react-toastify';
+import { IUser } from './utils/types';
 
 export const axiosInstance = axios.create({
   baseURL: conf.API_BASE_URL,
@@ -11,13 +12,17 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config: any) => {
-    const accessToken = StorageService.readLocalStorage<string>(
-      'access_token',
-      'string'
-    );
-    if (accessToken) {
-      config.headers!['Authorization'] = `Bearer ${accessToken}`;
+    const user: IUser | undefined =
+      StorageService.readLocalStorage<IUser>('user');
+
+    if (user) {
+      const { token } = user;
+
+      if (token.accessToken) {
+        config.headers!['Authorization'] = `Bearer ${token.accessToken}`;
+      }
     }
+
     return config;
   },
   (error) => {
@@ -25,30 +30,13 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-const refreshToken = async () => {
-  try {
-    const refreshToken = StorageService.readLocalStorage<string>(
-      'refresh_Token',
-      'string'
-    );
-    const { data } = await axiosInstance.post(`/auth/refresh-tokens`, {
-      refreshToken: refreshToken,
-    });
-    StorageService.removeLocalStorage('RNDAO_refreshToken');
-    StorageService.removeLocalStorage('RNDAO_access_token');
-    StorageService.writeLocalStorage('access_token', data.accessToken);
-    StorageService.writeLocalStorage('refresh_Token', data.refreshToken);
-  } catch (error) {}
-};
-
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-
   async (error) => {
     console.log(error.response.data.message);
-    
+
     switch (error.response.status) {
       case 400:
         toast.error(`${error.response.data.message}`, {
@@ -62,8 +50,7 @@ axiosInstance.interceptors.response.use(
         });
         break;
       case 401:
-        localStorage.removeItem('RNDAO_refreshToken');
-        localStorage.removeItem('RNDAO_access_token');
+        StorageService.removeLocalStorage('user');
         router.push('/');
         toast.error('Token expired...', {
           position: 'bottom-left',

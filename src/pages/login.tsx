@@ -314,11 +314,7 @@ export default function Login() {
 
   const updateGuild = () => {
     try {
-      const { guildId } = JSON.parse(
-        localStorage.getItem('RNDAO_guild') || '{}'
-      );
-
-      updateGuildById(guildId, selectedPeriod, selectedChannels).then(
+      updateGuildById(guild, selectedPeriod, selectedChannels).then(
         (res: any) => {
           if (emailAddress && emailAddress != '') {
             changeEmail(emailAddress).then((_res: any) => {
