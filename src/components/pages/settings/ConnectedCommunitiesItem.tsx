@@ -6,7 +6,7 @@ import moment from 'moment';
 
 type IProps = {
   guild: any;
-  onClick: () => void;
+  onClick: (guildId: string) => void;
 };
 export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
   return (
@@ -39,15 +39,15 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
             </p>
           </div>
         </div>
-        {!guild.isInProgress ? (
+        {guild.isInProgress ? (
           <div
             className="border-t text-secondary font-bold pt-2  cursor-pointer"
-            onClick={onClick}
+            onClick={() => onClick(guild.guildId)}
           >
             Disconnect
           </div>
         ) : (
-          <div className="min-h-[30px]"/>
+          <div className="min-h-[30px]" />
         )}
       </Paper>
     </div>

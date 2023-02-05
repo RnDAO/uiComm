@@ -7,6 +7,8 @@ export type IGuildInfo = {
   selectedChannels?: { channelId: string; channelName: string }[];
 };
 
+export type DISCONNECT_TYPE = 'soft' | 'hard';
+
 export default interface IGuildList extends IGuildInfo {
   isInProgress?: boolean;
   isDisconnected?: boolean;
@@ -27,4 +29,8 @@ export default interface ISetting {
   ) => void;
   updateAnalysisDatePeriod: (guildId: string, period: string) => void;
   getGuilds: () => void;
+  disconnecGuildById: (
+    guildId: string,
+    disconnectType: DISCONNECT_TYPE
+  ) => void;
 }

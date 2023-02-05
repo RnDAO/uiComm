@@ -7,11 +7,13 @@ import DatePeriodRange from "../../global/DatePeriodRange";
 import CustomModal from "../../global/CustomModal";
 import ChanelSelection from "../../pages/settings/ChanelSelection";
 import { BsClockHistory } from "react-icons/bs";
+import useAppStore from "../../../store/useStore";
 
 export default function ConnectCommunities() {
   const [open, setOpen] = useState<boolean>(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
   const [activePeriod, setActivePeriod] = useState<number | string>(0);
+  const {connectNewGuild} = useAppStore()
 
   const handleActivePeriod = (e: number) => {
     setActivePeriod(e);
@@ -85,7 +87,7 @@ export default function ConnectCommunities() {
           </p>
           <Paper
             className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
-            onClick={() => toggleModal(true)}
+            onClick={() => connectNewGuild()}
           >
             <p className="font-sm">Discord</p>
             <FaDiscord size={60} className="mx-auto mt-2 mb-2" />

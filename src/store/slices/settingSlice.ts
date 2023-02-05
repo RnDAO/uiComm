@@ -1,6 +1,9 @@
 import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
 import ISetting from '../types/ISetting';
+import { conf } from '../../configs';
+
+const BASE_URL = conf.API_BASE_URL;
 
 const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   isLoading: false,
@@ -64,11 +67,32 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   getGuilds: async () => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.get(`/guilds?isDisconnected=${false}`);
+      const { data } = await axiosInstance.get(
+        `/guilds?isDisconnected=${false}`
+      );
       set({ guilds: [...data.results], isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }
+  },
+  disconnecGuildById: async (guildId, disconnectType) => {
+    try {
+      set(() => ({ isLoading: true }));
+      await axiosInstance.post(
+        `/guilds/${guildId}/disconnect`,
+        {
+          disconnectType: disconnectType,
+        }
+      );
+      set({ isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  connectNewGuild: () => {
+    try {
+      axiosInstance.get(`${BASE_URL}/guilds/connect`);
+    } catch (error) {}
   },
 });
 
