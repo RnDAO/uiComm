@@ -120,7 +120,7 @@ const steps = [
     <b>Connect</b> your Discord community
   </>,
   <>
-    <b>Select</b> time periond and channels you want to be analysed
+    <b>Select</b> time period and channels you want to be analysed
   </>,
   <>
     <b>Begin</b> data import
