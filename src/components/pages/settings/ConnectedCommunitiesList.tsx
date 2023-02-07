@@ -47,21 +47,23 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
       {guilds && guilds.length > 0 ? (
         <div className="bg-gray-background rounded-lg px-4 md:h-[268px]">
           <p className="text-base font-semibold pt-2">Connected communities</p>
-          {guilds && guilds.length > 0
-            ? guilds.map((guild: any) => (
-                <div
-                  className="p-4 flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4"
-                  key={guild.id}
-                >
-                  <ConnectedCommunitiesItem
-                    guild={guild}
-                    onClick={(guildId: any) => {
-                      setGuildId(guildId), setOpen(true);
-                    }}
-                  />
-                </div>
-              ))
-            : ''}
+          <div className="flex flex-row">
+            {guilds && guilds.length > 0
+              ? guilds.map((guild: any) => (
+                  <div
+                    className="p-4 flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4"
+                    key={guild.id}
+                  >
+                    <ConnectedCommunitiesItem
+                      guild={guild}
+                      onClick={(guildId: any) => {
+                        setGuildId(guildId), setOpen(true);
+                      }}
+                    />
+                  </div>
+                ))
+              : ''}
+          </div>
         </div>
       ) : (
         ''
