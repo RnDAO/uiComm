@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import IAuth from '../types/IAuth';
+import IAuth, { IUser } from '../types/IAuth';
 import { conf } from '../../configs';
 import { axiosInstance } from '../../axiosInstance';
 import { StorageService } from '../../services/StorageService';
@@ -11,33 +11,33 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   isLoading: false,
   user: {},
   guildChannels: [],
+
   redirectToDiscord: () => {
     location.replace(`${BASE_URL}/auth/login`);
   },
-  loginWithDiscord: (user: any) =>
+
+  loginWithDiscord: (user: IUser) =>
     set((state) => {
-      const guild = Object.assign(
-        {},
-        { guildId: user.guildId, guildName: user.guildName }
-      );
-      const token = Object.assign(
-        {},
-        {
+      StorageService.writeLocalStorage('user', {
+        guild: {
+          guildId: user.guildId,
+          guildName: user.guildName,
+        },
+        token: {
           accessToken: user.accessToken,
           accessExp: user.accessExp,
           refreshToken: user.refreshToken,
           refreshExp: user.refreshExp,
-        }
-      );
-      StorageService.writeLocalStorage('guild', guild);
-      StorageService.writeLocalStorage('access_token', token.accessToken);
-      StorageService.writeLocalStorage('refresh_Token', token.refreshToken);
+        },
+      });
+
       if (user.isSuccessful) {
         state.isLoggedIn = user.isSuccessful;
       }
       return { user };
     }),
-  fetchGuildChannels: async (guild_id) => {
+
+  fetchGuildChannels: async (guild_id: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(`/guilds/${guild_id}/channels`);
@@ -46,10 +46,11 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
       set(() => ({ isLoading: false }));
     }
   },
+
   updateGuildById: async (guildId, period, selectedChannels) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.patch(`/guilds/${guildId}`, {
+      await axiosInstance.patch(`/guilds/${guildId}`, {
         period,
         selectedChannels: selectedChannels,
       });
@@ -58,6 +59,7 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
       set(() => ({ isLoading: false }));
     }
   },
+
   changeEmail: async (emailAddress: string) => {
     try {
       await axiosInstance.patch(`/users/@me`, {

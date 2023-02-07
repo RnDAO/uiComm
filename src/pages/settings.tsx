@@ -6,12 +6,15 @@ import { FaHashtag, FaCodeBranch, FaRegCheckCircle } from 'react-icons/fa';
 import Accardion from '../components/global/Accardion';
 import { Paper, TextField } from '@mui/material';
 import CustomButton from '../components/global/CustomButton';
-import ChanelSelection from '../components/pages/settings/ChanelSelection';
+import ChannelSelection from '../components/pages/settings/ChannelSelection';
 import IntegrateDiscord from '../components/pages/settings/IntegrateDiscord';
 import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
 import useAppStore from '../store/useStore';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { useRouter } from 'next/router';
+import { StorageService } from '../services/StorageService';
+import { IUser } from '../utils/types';
 
 function Settings(): JSX.Element {
   const {
@@ -21,15 +24,23 @@ function Settings(): JSX.Element {
     changeEmail,
     getUserGuildInfo,
     fetchGuildChannels,
+    getGuilds,
   } = useAppStore();
 
   const [emailAddress, setEmailAddress] = useState<string>('');
   const [isEmailUpdated, setEmailUpdated] = useState<boolean>(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    const token = localStorage.getItem('RNDAO_access_token');
-    if (!token) {
-      location.replace('/login');
+    const user = StorageService.readLocalStorage<IUser>('user');
+    if (user) {
+      const { token } = user;
+      if (!token.accessToken) {
+        router.replace('/login');
+      }
+    } else {
+      router.replace('/login');
     }
   }, []);
 
@@ -39,15 +50,34 @@ function Settings(): JSX.Element {
 
   const fetchEmail = async () => {
     await getUserInfo().then((_res: any) => {
-      setEmailAddress(_res.email);
+      setEmailAddress(_res?.email);
     });
   };
-  
+
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
+        const { guildId } = router?.query;
+        fetchGuildChannels(guildId);
+        getUserGuildInfo(guildId);
+      }
+    }, [router]);
+  }
+
   useEffect(() => {
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    fetchGuildChannels(guildId);
-    getUserGuildInfo(guildId);
+    const user = StorageService.readLocalStorage<IUser>('user');
+
+    if (user) {
+      const { guildId } = user.guild;      
+      if (guildId) {
+        fetchGuildChannels(guildId);
+        getUserGuildInfo(guildId);
+      }
+    }
+    getGuilds();
   }, []);
+
+
 
   const updateEmailAddress = () => {
     changeEmail(emailAddress).then((res: any) => {
@@ -65,7 +95,7 @@ function Settings(): JSX.Element {
     {
       title: 'Change your imported channels',
       icon: <FaHashtag color="black" />,
-      detailsComponent: <ChanelSelection />,
+      detailsComponent: <ChannelSelection />,
       id: '2',
     },
     {

@@ -23,6 +23,8 @@ import { Drawer } from '@mui/material';
 import { GoThreeBars } from 'react-icons/go';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import useAppStore from '../../../store/useStore';
+import { StorageService } from '../../../services/StorageService';
+import { IUser } from '../../../utils/types';
 
 const Sidebar = () => {
   const { guildInfoByDiscord, getGuildInfoByDiscord } = useAppStore();
@@ -31,11 +33,15 @@ const Sidebar = () => {
   const currentRoute = router.pathname;
 
   useEffect(() => {
-      const { guildId } = JSON.parse(
-        localStorage.getItem('RNDAO_guild') || '{}'
-      );
-      setGuildId(guildId);
-      getGuildInfoByDiscord(guildId);
+    const user = StorageService.readLocalStorage<IUser>('user');
+
+    if (user) {
+      const { guildId } = user.guild;
+      if (guildId) {
+        setGuildId(guildId);
+        getGuildInfoByDiscord(guildId);
+      }
+    }
   }, []);
 
   const menuItems: items[] = [

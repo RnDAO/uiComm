@@ -1,5 +1,4 @@
 import { FormControlLabel, Checkbox } from '@mui/material';
-import { useEffect, useState } from 'react';
 
 type IChannelListProps = {
   guild: any;
@@ -14,9 +13,9 @@ export default function ChannelList({
 }: IChannelListProps) {
   const subChannelsList = (
     <>
-      <p className="text-sm">Channels</p>
+      <p className="text-sm my-1">Channels</p>
       {guild.subChannels.map((channel: any, index: any) => (
-        <div className="flex flex-col space-y-1" key={index}>
+        <div className="flex flex-col space-y-3 mb-1" key={index}>
           <FormControlLabel
             control={
               <Checkbox
@@ -36,17 +35,10 @@ export default function ChannelList({
     </>
   );
 
-  // let selectedNum = 0;
-  // Object.keys(guild.selected).forEach((pre) => {
-  //   if (guild.selected[pre]) {
-  //     selectedNum++;
-  //   }
-  // });
-
   return (
     <div className="flex flex-col">
-      <p className="text-md font-bold">{guild.title}</p>
-      <div className="ml-4">
+      <p className="text-md font-bold mb-2">{guild.title}</p>
+      <div className="ml-5">
         <FormControlLabel
           label="All Channels"
           control={

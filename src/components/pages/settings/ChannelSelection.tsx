@@ -3,27 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import useAppStore from '../../../store/useStore';
 import ChannelList from '../login/ChannelList';
+import { StorageService } from '../../../services/StorageService';
+import { IGuild, IUser } from '../../../utils/types';
 
-type props = {
-  label: string;
+type IProps = {
+  emitable?: boolean;
+  submit?: (selectedChannels: any) => any;
 };
-
-export default function ChanelSelection() {
+export default function ChannelSelection({ emitable, submit }: IProps) {
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
-  const [guild, setGuild] = useState<any>('');
+  const [guild, setGuild] = useState<IGuild>();
   const [channels, setChannels] = useState<Array<any>>([]);
   const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
 
-  const {
-    isLoading,
-    guildChannels,
-    guildInfo,
-    updateSelectedChannels,
-    getUserGuildInfo,
-  } = useAppStore();
+  const { guildChannels, guildInfo, updateSelectedChannels, getUserGuildInfo } =
+    useAppStore();
 
   useEffect(() => {
+    const user = StorageService.readLocalStorage<IUser>('user');
+    if (user) {
+      setGuild(user.guild);
+    }
+
     const activeChannles =
       guildInfo && guildInfo.selectedChannels
         ? guildInfo.selectedChannels.map((channel: any) => {
@@ -135,12 +137,15 @@ export default function ChanelSelection() {
       })
     );
     setSelectedChannels(result);
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-
-    updateSelectedChannels(guildId, result).then((_res: any) => {
+    if (emitable) {
+      if (submit) submit(result);
       setOpen(false);
-      getUserGuildInfo(guildId);
-    });
+    } else {
+      updateSelectedChannels(guild?.guildId, result).then((_res: any) => {
+        setOpen(false);
+        getUserGuildInfo(guild?.guildId);
+      });
+    }
   };
 
   const handleClose = () => {
@@ -194,12 +199,13 @@ export default function ChanelSelection() {
               {channels && channels.length > 0
                 ? channels.map((guild: any, index: any) => {
                     return (
-                      <ChannelList
-                        guild={guild}
-                        key={index}
-                        onChange={onChange}
-                        handleCheckAll={handleCheckAll}
-                      />
+                      <div className="my-2" key={index}>
+                        <ChannelList
+                          guild={guild}
+                          onChange={onChange}
+                          handleCheckAll={handleCheckAll}
+                        />
+                      </div>
                     );
                   })
                 : ''}
@@ -219,6 +225,6 @@ export default function ChanelSelection() {
   );
 }
 
-ChanelSelection.defaultProps = {
-  label: 'Selected channels:',
+ChannelSelection.defaultProps = {
+  emitable: false,
 };

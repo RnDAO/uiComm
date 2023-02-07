@@ -1,11 +1,11 @@
 export type DataType = 'string' | 'object' | 'array' | 'number' | 'boolean';
-const STORAGE_PREFIX = "RNDAO_";
+const STORAGE_PREFIX = 'TC_';
 
 export class StorageService {
   public static readLocalStorage<T>(
     key: string,
     type: DataType = 'object'
-  ): T | undefined {    
+  ): T | undefined {
     if (!key) return undefined;
     const data = localStorage.getItem(STORAGE_PREFIX + key);
     if (!data) return undefined;
@@ -19,7 +19,7 @@ export class StorageService {
           return Boolean(data) as any;
         case 'array':
           return JSON.parse(data || '[]');
-        default:          
+        default:
           return JSON.parse(data || '{}');
       }
     } catch (error) {
@@ -31,6 +31,6 @@ export class StorageService {
     localStorage.setItem(STORAGE_PREFIX + key, v);
   }
   public static removeLocalStorage(key: string): void {
-    localStorage.removeItem(STORAGE_PREFIX +key);
+    localStorage.removeItem(STORAGE_PREFIX + key);
   }
 }

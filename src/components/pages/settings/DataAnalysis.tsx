@@ -6,9 +6,12 @@ import { BsClockHistory } from 'react-icons/bs';
 import useAppStore from '../../../store/useStore';
 import { FiInfo } from 'react-icons/fi';
 import moment from 'moment';
+import { StorageService } from '../../../services/StorageService';
+import { IGuild, IUser } from '../../../utils/types';
 
 export default function DataAnalysis() {
   const [activePeriod, setActivePeriod] = useState<number | string>(1);
+  const [guild, setGuild] = useState<IGuild>();
   const [analysisStateDate, setAnalysisStartDate] = useState<any>('');
   const [open, setOpen] = useState<boolean>(false);
   const [datePeriod, setDatePeriod] = useState<string>('');
@@ -57,6 +60,10 @@ export default function DataAnalysis() {
   };
 
   useEffect(() => {
+    const user = StorageService.readLocalStorage<IUser>('user');
+    if (user) {
+      setGuild(user.guild);
+    }
     const start = moment(guildInfo.period, 'YYYY-MM-DD');
     const end = moment();
 
@@ -82,10 +89,8 @@ export default function DataAnalysis() {
   };
 
   const submitNewDatePeriod = () => {
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-
-    updateAnalysisDatePeriod(guildId, datePeriod).then((_res: any) => {
-      getUserGuildInfo(guildId);
+    updateAnalysisDatePeriod(guild?.guildId, datePeriod).then((_res: any) => {
+      getUserGuildInfo(guild?.guildId);
       setOpen(false);
     });
   };

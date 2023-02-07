@@ -1,20 +1,101 @@
-import { Paper } from "@mui/material";
-import React, { useState } from "react";
-import { FaDiscord } from "react-icons/fa";
-import { GoPlus } from "react-icons/go";
-import CustomButton from "../../global/CustomButton";
-import DatePeriodRange from "../../global/DatePeriodRange";
-import CustomModal from "../../global/CustomModal";
-import ChanelSelection from "../../pages/settings/ChanelSelection";
-import { BsClockHistory } from "react-icons/bs";
+import { Paper, Tooltip, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { FaDiscord } from 'react-icons/fa';
+import { GoPlus } from 'react-icons/go';
+import CustomButton from '../../global/CustomButton';
+import DatePeriodRange from '../../global/DatePeriodRange';
+import CustomModal from '../../global/CustomModal';
+import ChannelSelection from './ChannelSelection';
+import { BsClockHistory } from 'react-icons/bs';
+import useAppStore from '../../../store/useStore';
+import { useRouter } from 'next/router';
+import moment from 'moment';
+import { StorageService } from '../../../services/StorageService';
+import { IUser } from '../../../utils/types';
 
 export default function ConnectCommunities() {
+  const router = useRouter();
+
   const [open, setOpen] = useState<boolean>(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
-  const [activePeriod, setActivePeriod] = useState<number | string>(0);
+  const [guildId, setGuildId] = useState<any>('');
+  const [activePeriod, setActivePeriod] = useState<number | string>(1);
+  const [datePeriod, setDatePeriod] = useState<string>('');
+  const [selectedChannels, setSelectedChannels] = useState<any[]>([]);
 
-  const handleActivePeriod = (e: number) => {
-    setActivePeriod(e);
+  const {
+    guilds,
+    connectNewGuild,
+    patchGuildById,
+    getUserGuildInfo,
+  } = useAppStore();
+
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
+        const { guildId, guildName } = router?.query;
+        let user: any = StorageService.readLocalStorage<IUser>('user');
+        user = { token: user.token, guild: { guildId, guildName } };
+        StorageService.writeLocalStorage('user', user);
+        setGuildId(guildId);
+        toggleModal(true);
+        setDatePeriod(
+          moment().subtract('7', 'days').format('YYYY-MM-DDTHH:mm:ss[Z]')
+        );
+      }
+    }, [router]);
+  }
+
+  const updateSelectedChannels = (channels: any) => {
+    setSelectedChannels(channels);
+  };
+
+  const handleActivePeriod = (dateRangeType: number | string) => {
+    let dateTime = '';
+    switch (dateRangeType) {
+      case 1:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('7', 'days')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 2:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('1', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 3:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('3', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 4:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('6', 'months')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      case 5:
+        setActivePeriod(dateRangeType);
+        dateTime = moment()
+          .subtract('1', 'year')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]');
+        break;
+      default:
+        break;
+    }
+    setDatePeriod(dateTime);
+  };
+
+  const submitGuild = async () => {
+    await patchGuildById(guildId, datePeriod, selectedChannels).then(
+      (_res: any) => {
+        setOpen(false);
+        toggleConfirmModal(true);
+      }
+    );
   };
 
   const toggleModal = (e: boolean) => {
@@ -23,6 +104,9 @@ export default function ConnectCommunities() {
 
   const toggleConfirmModal = (e: boolean) => {
     setConfirmModalOpen(e);
+    router.replace({
+      pathname: '/settings',
+    });
   };
   return (
     <>
@@ -43,8 +127,10 @@ export default function ConnectCommunities() {
           </p>
           <CustomButton
             classes="bg-secondary text-white"
-            label={"I understand"}
-            onClick={() => setConfirmModalOpen(false)}
+            label={'I understand'}
+            onClick={() => {
+              getUserGuildInfo(guildId), setConfirmModalOpen(false);
+            }}
           />
         </div>
       </CustomModal>
@@ -66,13 +152,16 @@ export default function ConnectCommunities() {
           <h3 className="font-bold text-base">
             Confirm your imported channels
           </h3>
-          <ChanelSelection/>
+          <ChannelSelection
+            emitable={true}
+            submit={(channels) => updateSelectedChannels(channels)}
+          />
           <div className="text-center">
             <CustomButton
               classes="bg-secondary text-white mt-6"
-              label={"Continue"}
+              label={'Continue'}
               onClick={() => {
-                setOpen(false), toggleConfirmModal(true);
+                submitGuild();
               }}
             />
           </div>
@@ -83,17 +172,38 @@ export default function ConnectCommunities() {
           <p className="text-base whitespace-nowrap font-semibold pt-2">
             Connect your communities
           </p>
-          <Paper
-            className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
-            onClick={() => toggleModal(true)}
-          >
-            <p className="font-sm">Discord</p>
-            <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
-            <div className="text-secondary text-base flex items-center justify-center">
-              <GoPlus size={20} className="mr-1" />
-              <p className="font-bold">Connect</p>
-            </div>
-          </Paper>
+          {guilds.length === 1 ? (
+            <Tooltip
+              title={
+                <Typography fontSize={14}>
+                  It will be possible to connect more communities soon.
+                </Typography>
+              }
+              arrow
+              placement="right"
+            >
+              <Paper className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer opacity-60">
+                <p className="font-sm">Discord</p>
+                <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
+                <div className="text-secondary text-base flex items-center justify-center">
+                  <GoPlus size={20} className="mr-1" />
+                  <p className="font-bold">Connect</p>
+                </div>
+              </Paper>
+            </Tooltip>
+          ) : (
+            <Paper
+              className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
+              onClick={() => connectNewGuild()}
+            >
+              <p className="font-sm">Discord</p>
+              <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
+              <div className="text-secondary text-base flex items-center justify-center">
+                <GoPlus size={20} className="mr-1" />
+                <p className="font-bold">Connect</p>
+              </div>
+            </Paper>
+          )}
         </div>
       </div>
     </>

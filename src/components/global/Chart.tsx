@@ -12,6 +12,8 @@ import moment from 'moment';
 import 'moment-timezone';
 import momentTZ from 'moment-timezone';
 import SimpleBackdrop from './LoadingBackdrop';
+import { StorageService } from '../../services/StorageService';
+import { IUser } from '../../utils/types';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -70,23 +72,27 @@ const HOURE_DAYS = [
 const Chart = () => {
   const [heatmapChart, setHeatmapChart] = useState({});
   const { isLoading, fetchHeatmapData } = useAppStore();
+  const [user, setUser] = useState<IUser>();
   const [active, setActive] = useState(1);
   const [dateRange, setDateRange] = useState<any>([null, null]);
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
 
   useEffect(() => {
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-
-    setDateRange([
-      moment().subtract(7, 'days'),
-      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-    ]);
-    fetchHeatmap(
-      guildId,
-      moment().subtract(7, 'days'),
-      moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      selectedZone
-    );
+    const user = StorageService.readLocalStorage<IUser>('user');
+    setUser(user);
+    if (user) {
+      const { guildId } = user.guild;
+      setDateRange([
+        moment().subtract(7, 'days'),
+        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      ]);
+      fetchHeatmap(
+        guildId,
+        moment().subtract(7, 'days'),
+        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        selectedZone
+      );
+    }
   }, []);
 
   const fetchHeatmap = (
@@ -95,198 +101,206 @@ const Chart = () => {
     endDate: any,
     timezone: string
   ) => {
-    fetchHeatmapData(guildId, startDate, endDate, timezone).then(
-      (_res: any) => {
-        setHeatmapChart({
-          chart: {
-            type: 'heatmap',
-            plotBorderWidth: 0,
-          },
-          title: {
-            text: null,
-          },
-          legend: {
+    if (guildId) {
+      fetchHeatmapData(guildId, startDate, endDate, timezone).then(
+        (_res: any) => {
+          setHeatmapChart({
+            chart: {
+              type: 'heatmap',
+              plotBorderWidth: 0,
+            },
             title: {
-              text: 'Number of interactions',
-              style: {
-                fontStyle: 'bold',
-              },
+              text: null,
             },
-            align: 'right',
-            layout: 'horizental',
-            margin: 0,
-            verticalAlign: 'top',
-            y: 0,
-            x: 25,
-            symbolHeight: 25,
-          },
-          xAxis: {
-            categories: HOURE_DAYS,
-            tickInterval: 1,
-            labels: {
-              step: 1,
-              style: {
-                fontSize: '14px',
-                fontFamily: 'Inter',
-              },
-            },
-            opposite: true,
-            gridLineWidth: 0,
-            lineWidth: 0,
-            lineColor: 'rgba(0,0,0,0.75)',
-            tickWidth: 0,
-            tickLength: 0,
-            tickColor: 'rgba(0,0,0,0.75)',
-            title: {
-              text: 'Hour',
-              style: {
-                fontSize: '14px',
-                fontFamily: 'Inter',
-              },
-              align: 'low',
-            },
-          },
-          yAxis: {
-            categories: WEEK_DAYS,
-            lineWidth: 0,
-            gridLineWidth: 0,
-            title: 'Weekdays',
-            reversed: true,
-            labels: {
-              style: {
-                fontSize: '14px',
-                fontFamily: 'Inter',
-              },
-            },
-          },
-          tooltip: {
-            enabled: false,
-          },
-          colorAxis: {
-            min: 0,
-            minColor: '#F3F3F3',
-            maxColor: '#45367B',
-            max: 100,
-            stops: [
-              [0, '#F1F3F3'],
-              [0.1, '#EBF2F5'],
-              [0.15, '#E0F1F7'],
-              [0.2, '#C4D8F8'],
-              [0.25, '#AEDFF0'],
-              [0.3, '#DAD0FF'],
-              [0.5, '#AE9DF0'],
-              [0.7, '#8474C0'],
-              [1, '#45367B'],
-            ],
-          },
-          series: [
-            {
-              name: 'Revenue',
-              borderWidth: 0.5,
-              borderColor: 'white',
-              states: {
-                hover: {
-                  enabled: false,
+            legend: {
+              title: {
+                text: 'Number of interactions',
+                style: {
+                  fontStyle: 'bold',
                 },
               },
-              dataLabels: {
-                enabled: true,
+              align: 'right',
+              layout: 'horizental',
+              margin: 0,
+              verticalAlign: 'top',
+              y: 0,
+              x: 25,
+              symbolHeight: 25,
+            },
+            xAxis: {
+              categories: HOURE_DAYS,
+              tickInterval: 1,
+              labels: {
+                step: 1,
                 style: {
                   fontSize: '14px',
                   fontFamily: 'Inter',
-                  textOutline: 'none',
-                  fontWeight: 'normal',
                 },
               },
-              pointPadding: 1.5,
-              data: _res.map((item: any[]) => [item[1], item[0], item[2] || 0]),
-              colsize: 0.9,
-              rowsize: 0.8,
-            },
-          ],
-          responsive: {
-            rules: [
-              {
-                condition: {
-                  maxWidth: 600,
+              opposite: true,
+              gridLineWidth: 0,
+              lineWidth: 0,
+              lineColor: 'rgba(0,0,0,0.75)',
+              tickWidth: 0,
+              tickLength: 0,
+              tickColor: 'rgba(0,0,0,0.75)',
+              title: {
+                text: 'Hour',
+                style: {
+                  fontSize: '14px',
+                  fontFamily: 'Inter',
                 },
-                // Make the labels less space demanding on mobile
-                chartOptions: {
-                  chart: {
-                    scrollablePlotArea: {
-                      minWidth: 1080,
-                    },
+                align: 'low',
+              },
+            },
+            yAxis: {
+              categories: WEEK_DAYS,
+              lineWidth: 0,
+              gridLineWidth: 0,
+              title: 'Weekdays',
+              reversed: true,
+              labels: {
+                style: {
+                  fontSize: '14px',
+                  fontFamily: 'Inter',
+                },
+              },
+            },
+            tooltip: {
+              enabled: false,
+            },
+            colorAxis: {
+              min: 0,
+              minColor: '#F3F3F3',
+              maxColor: '#45367B',
+              max: 100,
+              stops: [
+                [0, '#F1F3F3'],
+                [0.1, '#EBF2F5'],
+                [0.15, '#E0F1F7'],
+                [0.2, '#C4D8F8'],
+                [0.25, '#AEDFF0'],
+                [0.3, '#DAD0FF'],
+                [0.5, '#AE9DF0'],
+                [0.7, '#8474C0'],
+                [1, '#45367B'],
+              ],
+            },
+            series: [
+              {
+                name: 'Revenue',
+                borderWidth: 0.5,
+                borderColor: 'white',
+                states: {
+                  hover: {
+                    enabled: false,
                   },
-                  legend: {
-                    title: {
-                      text: 'Number of interactions',
-                      style: {
-                        fontStyle: 'bold',
-                        fontSize: '10px',
-                        fontFamily: 'Inter',
+                },
+                dataLabels: {
+                  enabled: true,
+                  style: {
+                    fontSize: '14px',
+                    fontFamily: 'Inter',
+                    textOutline: 'none',
+                    fontWeight: 'normal',
+                  },
+                },
+                pointPadding: 1.5,
+                data: _res?.map((item: any[]) => [
+                  item[1],
+                  item[0],
+                  item[2] || 0,
+                ]),
+                colsize: 0.9,
+                rowsize: 0.8,
+              },
+            ],
+            responsive: {
+              rules: [
+                {
+                  condition: {
+                    maxWidth: 600,
+                  },
+                  // Make the labels less space demanding on mobile
+                  chartOptions: {
+                    chart: {
+                      scrollablePlotArea: {
+                        minWidth: 1080,
                       },
                     },
-                    align: 'left',
-                    layout: 'horizental',
-                    margin: 0,
-                    verticalAlign: 'bottom',
-                    y: 0,
-                    x: 25,
-                    symbolHeight: 20,
-                  },
-                  xAxis: {
-                    width: 1000,
-                    labels: {
-                      step: 1,
-                      style: {
-                        fontSize: '10px',
-                        fontFamily: 'Inter',
+                    legend: {
+                      title: {
+                        text: 'Number of interactions',
+                        style: {
+                          fontStyle: 'bold',
+                          fontSize: '10px',
+                          fontFamily: 'Inter',
+                        },
                       },
+                      align: 'left',
+                      layout: 'horizental',
+                      margin: 0,
+                      verticalAlign: 'bottom',
+                      y: 0,
+                      x: 25,
+                      symbolHeight: 20,
                     },
-                  },
-                  yAxis: {
-                    labels: {
-                      style: {
-                        fontSize: '10px',
-                        fontFamily: 'Inter',
-                      },
-                    },
-                  },
-                  series: [
-                    {
-                      name: 'Revenue',
-                      borderWidth: 0.5,
-                      borderColor: 'white',
-                      dataLabels: {
-                        enabled: true,
+                    xAxis: {
+                      width: 1000,
+                      labels: {
+                        step: 1,
                         style: {
                           fontSize: '10px',
                           fontFamily: 'Inter',
                         },
                       },
-                      pointPadding: 0.8,
-                      data: _res.map((item: any[]) => [
-                        item[1],
-                        item[0],
-                        item[2] || 0,
-                      ]),
-                      colsize: 0.9,
-                      rowsize: 0.9,
                     },
-                  ],
+                    yAxis: {
+                      labels: {
+                        style: {
+                          fontSize: '10px',
+                          fontFamily: 'Inter',
+                        },
+                      },
+                    },
+                    series: [
+                      {
+                        name: 'Revenue',
+                        borderWidth: 0.5,
+                        borderColor: 'white',
+                        dataLabels: {
+                          enabled: true,
+                          style: {
+                            fontSize: '10px',
+                            fontFamily: 'Inter',
+                          },
+                        },
+                        pointPadding: 0.8,
+                        data: _res?.map((item: any[]) => [
+                          item[1],
+                          item[0],
+                          item[2] || 0,
+                        ]),
+                        colsize: 0.9,
+                        rowsize: 0.9,
+                      },
+                    ],
+                  },
                 },
-              },
-            ],
-          },
-        });
-      }
-    );
+              ],
+            },
+          });
+        }
+      );
+    }
   };
 
   const handleSelectedZone = (zone: string) => {
     setSelectedZone(zone);
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    fetchHeatmap(guildId, dateRange[0], dateRange[1], zone);
+    if (user) {
+      const { guildId } = user.guild;
+      fetchHeatmap(guildId, dateRange[0], dateRange[1], zone);
+    }
   };
   const handleDateRange = (dateRangeType: string | number) => {
     let dateTime: string[] = [];
@@ -330,45 +344,43 @@ const Chart = () => {
         break;
     }
     setDateRange([...dateTime]);
-    const { guildId } = JSON.parse(localStorage.getItem('RNDAO_guild') || '{}');
-    fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone);
+    if (user) {
+      const { guildId } = user.guild;
+      fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone);
+    }
   };
+
+  if (isLoading) return <SimpleBackdrop />;
+
   return (
     <div className="bg-white shadow-box rounded-lg p-5 min-h-[400px]">
-      {isLoading ? (
-        <SimpleBackdrop />
-      ) : (
-        <>
-          {' '}
-          <div className="flex flex-col md:flex-row justify-between items-baseline">
-            <div className="px-3">
-              <h3 className="font-bold text-xl md:text-2xl">
-                When is the community most active?
-              </h3>
-              <p className="text-md md:text-base pt-4 text-gray-700 font-light">
-                Hourly interaction summed over the selected time period.
-              </p>
-            </div>
-            <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-              <ZonePicker
-                selectedZone={selectedZone}
-                handleSelectedZone={handleSelectedZone}
-              />
-              <RangeSelect
-                options={communityActiveDates}
-                icon={<FiCalendar size={18} />}
-                active={active}
-                onClick={handleDateRange}
-              />
-            </div>
-          </div>
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={heatmapChart}
-            allowChartUpdate
+      <div className="flex flex-col md:flex-row justify-between items-baseline">
+        <div className="px-3">
+          <h3 className="font-bold text-xl md:text-2xl">
+            When is the community most active?
+          </h3>
+          <p className="text-md md:text-base pt-4 text-gray-700 font-light">
+            Hourly interaction summed over the selected time period.
+          </p>
+        </div>
+        <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+          <ZonePicker
+            selectedZone={selectedZone}
+            handleSelectedZone={handleSelectedZone}
           />
-        </>
-      )}
+          <RangeSelect
+            options={communityActiveDates}
+            icon={<FiCalendar size={18} />}
+            active={active}
+            onClick={handleDateRange}
+          />
+        </div>
+      </div>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={heatmapChart}
+        allowChartUpdate
+      />
     </div>
   );
 };

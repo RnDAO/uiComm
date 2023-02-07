@@ -22,7 +22,6 @@ import SEO from '../components/global/SEO';
 import clsx from 'clsx';
 import CustomButton from '../components/global/CustomButton';
 import useAppStore from '../store/useStore';
-import Loading from '../components/global/Loading';
 import ChannelList from '../components/pages/login/ChannelList';
 import moment from 'moment';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
@@ -120,7 +119,7 @@ const steps = [
     <b>Connect</b> your Discord community
   </>,
   <>
-    <b>Select</b> time periond and channels you want to be analysed
+    <b>Select</b> time period and channels you want to be analysed
   </>,
   <>
     <b>Begin</b> data import
@@ -134,23 +133,23 @@ type dateItems = {
 };
 const datePeriod: dateItems[] = [
   {
-    title: "Last 7 days",
+    title: 'Last 7 days',
     value: 1,
   },
   {
-    title: "1M",
+    title: '1M',
     value: 2,
   },
   {
-    title: "3M",
+    title: '3M',
     value: 3,
   },
   {
-    title: "6M",
+    title: '6M',
     value: 4,
   },
   {
-    title: "1Y",
+    title: '1Y',
     value: 5,
   },
 ];
@@ -314,11 +313,7 @@ export default function Login() {
 
   const updateGuild = () => {
     try {
-      const { guildId } = JSON.parse(
-        localStorage.getItem('RNDAO_guild') || '{}'
-      );
-
-      updateGuildById(guildId, selectedPeriod, selectedChannels).then(
+      updateGuildById(guild, selectedPeriod, selectedChannels).then(
         (res: any) => {
           if (emailAddress && emailAddress != '') {
             changeEmail(emailAddress).then((_res: any) => {
@@ -369,7 +364,7 @@ export default function Login() {
         break;
     }
     setSelectedPeriod(dateTime);
-    
+
     setActivePeriod(dateRangeType);
   };
 
@@ -381,14 +376,18 @@ export default function Login() {
         <>
           <SEO titleTemplate="Connect your commiunity" />
           <div className="mx-auto flex justify-center mt-4 md:mt-8">
-            <Image alt="Image Alt" src={tclogo} />
+            <a href="https://togethercrew.com/">
+              <Image alt="Image Alt" src={tclogo} />
+            </a>
           </div>
           <div className="p-3">
             <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
               {activeStep === 0 || activeStep === -1 ? (
                 <>
                   <div className="bg-secondary text-white text-center py-8">
-                    <h1 className="font-bold text-2xl">Welcome to TogetherCrew</h1>
+                    <h1 className="font-bold text-2xl">
+                      Welcome to TogetherCrew
+                    </h1>
                     <p className="text-base pt-3">
                       Let’s connect your community.
                     </p>
@@ -465,7 +464,12 @@ export default function Login() {
                           <span className="text-sm">
                             I understand and agree to the{' '}
                             <b className="text-secondary">
-                              Privacy Policy and Terms of Service.
+                              <a
+                                href="https://togethercrew.com/privacy"
+                                target="blank"
+                              >
+                                Privacy Policy and Terms of Service.
+                              </a>
                             </b>
                           </span>
                         }
@@ -626,12 +630,13 @@ export default function Login() {
                   {channels && channels.length > 0
                     ? channels.map((guild: any, index: any) => {
                         return (
-                          <ChannelList
-                            guild={guild}
-                            key={index}
-                            onChange={onChange}
-                            handleCheckAll={handleCheckAll}
-                          />
+                          <div key={index} className="my-2">
+                            <ChannelList
+                              guild={guild}
+                              onChange={onChange}
+                              handleCheckAll={handleCheckAll}
+                            />
+                          </div>
                         );
                       })
                     : ''}
