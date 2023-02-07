@@ -10,6 +10,8 @@ import { BsClockHistory } from 'react-icons/bs';
 import useAppStore from '../../../store/useStore';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { StorageService } from '../../../services/StorageService';
+import { IUser } from '../../../utils/types';
 
 export default function ConnectCommunities() {
   const router = useRouter();
@@ -21,17 +23,22 @@ export default function ConnectCommunities() {
   const [datePeriod, setDatePeriod] = useState<string>('');
   const [selectedChannels, setSelectedChannels] = useState<any[]>([]);
 
-  const { guilds, connectNewGuild, patchGuildById } = useAppStore();
+  const {
+    guilds,
+    connectNewGuild,
+    patchGuildById,
+    getUserGuildInfo,
+  } = useAppStore();
 
   if (typeof window !== 'undefined') {
     useEffect(() => {
       if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
-        const { guildId } = router?.query;
+        const { guildId, guildName } = router?.query;
+        let user: any = StorageService.readLocalStorage<IUser>('user');
+        user = { token: user.token, guild: { guildId, guildName } };
+        StorageService.writeLocalStorage('user', user);
         setGuildId(guildId);
         toggleModal(true);
-        Object.keys(router.query).forEach(
-          (param) => delete router.query[param]
-        );
         setDatePeriod(
           moment().subtract('7', 'days').format('YYYY-MM-DDTHH:mm:ss[Z]')
         );
@@ -97,6 +104,9 @@ export default function ConnectCommunities() {
 
   const toggleConfirmModal = (e: boolean) => {
     setConfirmModalOpen(e);
+    router.replace({
+      pathname: '/settings',
+    });
   };
   return (
     <>
@@ -118,7 +128,9 @@ export default function ConnectCommunities() {
           <CustomButton
             classes="bg-secondary text-white"
             label={'I understand'}
-            onClick={() => toggleConfirmModal(false)}
+            onClick={() => {
+              getUserGuildInfo(guildId), setConfirmModalOpen(false);
+            }}
           />
         </div>
       </CustomModal>

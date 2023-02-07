@@ -101,192 +101,198 @@ const Chart = () => {
     endDate: any,
     timezone: string
   ) => {
-    fetchHeatmapData(guildId, startDate, endDate, timezone).then(
-      (_res: any) => {
-        setHeatmapChart({
-          chart: {
-            type: 'heatmap',
-            plotBorderWidth: 0,
-          },
-          title: {
-            text: null,
-          },
-          legend: {
+    if (guildId) {
+      fetchHeatmapData(guildId, startDate, endDate, timezone).then(
+        (_res: any) => {
+          setHeatmapChart({
+            chart: {
+              type: 'heatmap',
+              plotBorderWidth: 0,
+            },
             title: {
-              text: 'Number of interactions',
-              style: {
-                fontStyle: 'bold',
-              },
+              text: null,
             },
-            align: 'right',
-            layout: 'horizental',
-            margin: 0,
-            verticalAlign: 'top',
-            y: 0,
-            x: 25,
-            symbolHeight: 25,
-          },
-          xAxis: {
-            categories: HOURE_DAYS,
-            tickInterval: 1,
-            labels: {
-              step: 1,
-              style: {
-                fontSize: '14px',
-                fontFamily: 'Inter',
-              },
-            },
-            opposite: true,
-            gridLineWidth: 0,
-            lineWidth: 0,
-            lineColor: 'rgba(0,0,0,0.75)',
-            tickWidth: 0,
-            tickLength: 0,
-            tickColor: 'rgba(0,0,0,0.75)',
-            title: {
-              text: 'Hour',
-              style: {
-                fontSize: '14px',
-                fontFamily: 'Inter',
-              },
-              align: 'low',
-            },
-          },
-          yAxis: {
-            categories: WEEK_DAYS,
-            lineWidth: 0,
-            gridLineWidth: 0,
-            title: 'Weekdays',
-            reversed: true,
-            labels: {
-              style: {
-                fontSize: '14px',
-                fontFamily: 'Inter',
-              },
-            },
-          },
-          tooltip: {
-            enabled: false,
-          },
-          colorAxis: {
-            min: 0,
-            minColor: '#F3F3F3',
-            maxColor: '#45367B',
-            max: 100,
-            stops: [
-              [0, '#F1F3F3'],
-              [0.1, '#EBF2F5'],
-              [0.15, '#E0F1F7'],
-              [0.2, '#C4D8F8'],
-              [0.25, '#AEDFF0'],
-              [0.3, '#DAD0FF'],
-              [0.5, '#AE9DF0'],
-              [0.7, '#8474C0'],
-              [1, '#45367B'],
-            ],
-          },
-          series: [
-            {
-              name: 'Revenue',
-              borderWidth: 0.5,
-              borderColor: 'white',
-              states: {
-                hover: {
-                  enabled: false,
+            legend: {
+              title: {
+                text: 'Number of interactions',
+                style: {
+                  fontStyle: 'bold',
                 },
               },
-              dataLabels: {
-                enabled: true,
+              align: 'right',
+              layout: 'horizental',
+              margin: 0,
+              verticalAlign: 'top',
+              y: 0,
+              x: 25,
+              symbolHeight: 25,
+            },
+            xAxis: {
+              categories: HOURE_DAYS,
+              tickInterval: 1,
+              labels: {
+                step: 1,
                 style: {
                   fontSize: '14px',
                   fontFamily: 'Inter',
-                  textOutline: 'none',
-                  fontWeight: 'normal',
                 },
               },
-              pointPadding: 1.5,
-              data: _res.map((item: any[]) => [item[1], item[0], item[2] || 0]),
-              colsize: 0.9,
-              rowsize: 0.8,
-            },
-          ],
-          responsive: {
-            rules: [
-              {
-                condition: {
-                  maxWidth: 600,
+              opposite: true,
+              gridLineWidth: 0,
+              lineWidth: 0,
+              lineColor: 'rgba(0,0,0,0.75)',
+              tickWidth: 0,
+              tickLength: 0,
+              tickColor: 'rgba(0,0,0,0.75)',
+              title: {
+                text: 'Hour',
+                style: {
+                  fontSize: '14px',
+                  fontFamily: 'Inter',
                 },
-                // Make the labels less space demanding on mobile
-                chartOptions: {
-                  chart: {
-                    scrollablePlotArea: {
-                      minWidth: 1080,
-                    },
+                align: 'low',
+              },
+            },
+            yAxis: {
+              categories: WEEK_DAYS,
+              lineWidth: 0,
+              gridLineWidth: 0,
+              title: 'Weekdays',
+              reversed: true,
+              labels: {
+                style: {
+                  fontSize: '14px',
+                  fontFamily: 'Inter',
+                },
+              },
+            },
+            tooltip: {
+              enabled: false,
+            },
+            colorAxis: {
+              min: 0,
+              minColor: '#F3F3F3',
+              maxColor: '#45367B',
+              max: 100,
+              stops: [
+                [0, '#F1F3F3'],
+                [0.1, '#EBF2F5'],
+                [0.15, '#E0F1F7'],
+                [0.2, '#C4D8F8'],
+                [0.25, '#AEDFF0'],
+                [0.3, '#DAD0FF'],
+                [0.5, '#AE9DF0'],
+                [0.7, '#8474C0'],
+                [1, '#45367B'],
+              ],
+            },
+            series: [
+              {
+                name: 'Revenue',
+                borderWidth: 0.5,
+                borderColor: 'white',
+                states: {
+                  hover: {
+                    enabled: false,
                   },
-                  legend: {
-                    title: {
-                      text: 'Number of interactions',
-                      style: {
-                        fontStyle: 'bold',
-                        fontSize: '10px',
-                        fontFamily: 'Inter',
+                },
+                dataLabels: {
+                  enabled: true,
+                  style: {
+                    fontSize: '14px',
+                    fontFamily: 'Inter',
+                    textOutline: 'none',
+                    fontWeight: 'normal',
+                  },
+                },
+                pointPadding: 1.5,
+                data: _res?.map((item: any[]) => [
+                  item[1],
+                  item[0],
+                  item[2] || 0,
+                ]),
+                colsize: 0.9,
+                rowsize: 0.8,
+              },
+            ],
+            responsive: {
+              rules: [
+                {
+                  condition: {
+                    maxWidth: 600,
+                  },
+                  // Make the labels less space demanding on mobile
+                  chartOptions: {
+                    chart: {
+                      scrollablePlotArea: {
+                        minWidth: 1080,
                       },
                     },
-                    align: 'left',
-                    layout: 'horizental',
-                    margin: 0,
-                    verticalAlign: 'bottom',
-                    y: 0,
-                    x: 25,
-                    symbolHeight: 20,
-                  },
-                  xAxis: {
-                    width: 1000,
-                    labels: {
-                      step: 1,
-                      style: {
-                        fontSize: '10px',
-                        fontFamily: 'Inter',
+                    legend: {
+                      title: {
+                        text: 'Number of interactions',
+                        style: {
+                          fontStyle: 'bold',
+                          fontSize: '10px',
+                          fontFamily: 'Inter',
+                        },
                       },
+                      align: 'left',
+                      layout: 'horizental',
+                      margin: 0,
+                      verticalAlign: 'bottom',
+                      y: 0,
+                      x: 25,
+                      symbolHeight: 20,
                     },
-                  },
-                  yAxis: {
-                    labels: {
-                      style: {
-                        fontSize: '10px',
-                        fontFamily: 'Inter',
-                      },
-                    },
-                  },
-                  series: [
-                    {
-                      name: 'Revenue',
-                      borderWidth: 0.5,
-                      borderColor: 'white',
-                      dataLabels: {
-                        enabled: true,
+                    xAxis: {
+                      width: 1000,
+                      labels: {
+                        step: 1,
                         style: {
                           fontSize: '10px',
                           fontFamily: 'Inter',
                         },
                       },
-                      pointPadding: 0.8,
-                      data: _res.map((item: any[]) => [
-                        item[1],
-                        item[0],
-                        item[2] || 0,
-                      ]),
-                      colsize: 0.9,
-                      rowsize: 0.9,
                     },
-                  ],
+                    yAxis: {
+                      labels: {
+                        style: {
+                          fontSize: '10px',
+                          fontFamily: 'Inter',
+                        },
+                      },
+                    },
+                    series: [
+                      {
+                        name: 'Revenue',
+                        borderWidth: 0.5,
+                        borderColor: 'white',
+                        dataLabels: {
+                          enabled: true,
+                          style: {
+                            fontSize: '10px',
+                            fontFamily: 'Inter',
+                          },
+                        },
+                        pointPadding: 0.8,
+                        data: _res?.map((item: any[]) => [
+                          item[1],
+                          item[0],
+                          item[2] || 0,
+                        ]),
+                        colsize: 0.9,
+                        rowsize: 0.9,
+                      },
+                    ],
+                  },
                 },
-              },
-            ],
-          },
-        });
-      }
-    );
+              ],
+            },
+          });
+        }
+      );
+    }
   };
 
   const handleSelectedZone = (zone: string) => {

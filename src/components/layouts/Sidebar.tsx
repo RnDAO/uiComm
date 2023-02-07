@@ -36,8 +36,10 @@ const Sidebar = () => {
 
     if (user) {
       const { guildId } = user.guild;
-      setGuildId(guildId);
-      getGuildInfoByDiscord(guildId);
+      if (guildId) {
+        setGuildId(guildId);
+        getGuildInfoByDiscord(guildId);
+      }
     }
   }, []);
 

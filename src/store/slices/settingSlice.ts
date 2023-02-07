@@ -18,7 +18,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
 
       set({ guildInfo: data, isLoading: false });
     } catch (error) {
-      set(() => ({ isLoading: false }));
+      set(() => ({ guildInfo: {}, isLoading: false }));
     }
   },
   getUserInfo: async () => {

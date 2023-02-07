@@ -7,6 +7,8 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 import { Paper } from '@mui/material';
 import useAppStore from '../../../store/useStore';
 import { DISCONNECT_TYPE } from '../../../store/types/ISetting';
+import { StorageService } from '../../../services/StorageService';
+import { IUser } from '../../../utils/types';
 
 export default function ConnectedCommunitiesList({ guilds }: any) {
   const { disconnecGuildById, getGuilds } = useAppStore();
@@ -34,6 +36,9 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
     disconnecGuildById(guildId, discconectType).then((_res: any) => {
       notify();
       getGuilds();
+      let user: any = StorageService.readLocalStorage<IUser>('user');
+      user = { token: user.token, guild: { guildId: '', guildName: '' } };
+      StorageService.writeLocalStorage('user', user);
     });
   };
 

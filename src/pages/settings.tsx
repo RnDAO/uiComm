@@ -54,16 +54,30 @@ function Settings(): JSX.Element {
     });
   };
 
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
+        const { guildId } = router?.query;
+        fetchGuildChannels(guildId);
+        getUserGuildInfo(guildId);
+      }
+    }, [router]);
+  }
+
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
 
     if (user) {
-      const { guildId } = user.guild;
-      fetchGuildChannels(guildId);
-      getUserGuildInfo(guildId);
+      const { guildId } = user.guild;      
+      if (guildId) {
+        fetchGuildChannels(guildId);
+        getUserGuildInfo(guildId);
+      }
     }
     getGuilds();
   }, []);
+
+
 
   const updateEmailAddress = () => {
     changeEmail(emailAddress).then((res: any) => {
