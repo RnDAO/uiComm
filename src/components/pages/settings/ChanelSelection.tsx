@@ -17,12 +17,8 @@ export default function ChanelSelection({ emitable, submit }: IProps) {
   const [channels, setChannels] = useState<Array<any>>([]);
   const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
 
-  const {
-    guildChannels,
-    guildInfo,
-    updateSelectedChannels,
-    getUserGuildInfo,
-  } = useAppStore();
+  const { guildChannels, guildInfo, updateSelectedChannels, getUserGuildInfo } =
+    useAppStore();
 
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
@@ -142,7 +138,7 @@ export default function ChanelSelection({ emitable, submit }: IProps) {
     );
     setSelectedChannels(result);
     if (emitable) {
-      submit(result);
+      if (submit) submit(result);
       setOpen(false);
     } else {
       updateSelectedChannels(guild?.guildId, result).then((_res: any) => {
