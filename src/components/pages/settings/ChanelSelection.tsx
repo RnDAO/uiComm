@@ -6,7 +6,11 @@ import ChannelList from '../login/ChannelList';
 import { StorageService } from '../../../services/StorageService';
 import { IGuild, IUser } from '../../../utils/types';
 
-export default function ChanelSelection() {
+type IProps = {
+  emitable?: boolean;
+  submit?: (selectedChannels: any) => any;
+};
+export default function ChanelSelection({ emitable, submit }: IProps) {
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [guild, setGuild] = useState<IGuild>();
@@ -14,7 +18,6 @@ export default function ChanelSelection() {
   const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
 
   const {
-    isLoading,
     guildChannels,
     guildInfo,
     updateSelectedChannels,
@@ -138,10 +141,15 @@ export default function ChanelSelection() {
       })
     );
     setSelectedChannels(result);
-    updateSelectedChannels(guild?.guildId, result).then((_res: any) => {
+    if (emitable) {
+      submit(result);
       setOpen(false);
-      getUserGuildInfo(guild?.guildId);
-    });
+    } else {
+      updateSelectedChannels(guild?.guildId, result).then((_res: any) => {
+        setOpen(false);
+        getUserGuildInfo(guild?.guildId);
+      });
+    }
   };
 
   const handleClose = () => {
@@ -221,5 +229,5 @@ export default function ChanelSelection() {
 }
 
 ChanelSelection.defaultProps = {
-  label: 'Selected channels:',
+  emitable: false,
 };

@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Paper, Tooltip, Typography } from '@mui/material';
 import { FaDiscord } from 'react-icons/fa';
 import Image from 'next/image';
 import polygon from '../../../assets/svg/polygon.svg';
@@ -16,11 +16,29 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
           <div className="font-sm flex justify-center items-center text-center">
             <p className="pr-1">Discord</p>
             {guild.isInProgress}
-            <span
-              className={`md:h-3 md:w-3 rounded-full ${
-                !guild.isInProgress ? 'bg-success' : 'bg-warning-500'
-              }`}
-            />
+            <Tooltip
+              title={
+                <Typography fontSize={14}>
+                  {guild.isDisconnected
+                    ? 'We don’t have access to your server anymore. Please make sure the Bot is installed properly.'
+                    : !guild.isInProgress
+                    ? 'Discord is connected'
+                    : 'The Discord bot has been connected, and we need time to analyze your data'}
+                </Typography>
+              }
+              arrow
+              placement="right"
+            >
+              <span
+                className={`md:h-3 md:w-3 rounded-full ${
+                  guild.isDisconnected
+                    ? 'bg-error-500'
+                    : !guild.isInProgress
+                    ? 'bg-success'
+                    : 'bg-warning-500'
+                }`}
+              />
+            </Tooltip>
           </div>
           <FaDiscord size={30} className="mx-auto mt-2 mb-3" />
         </div>
@@ -30,10 +48,10 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
             <p className="font-bold">{guild.name}</p>
             <p
               className={`text-xs ${
-                !guild.isInProgress ? 'text-black' : 'text-warning-500'
+                !guild.isInProgress || guild.isDisconnected ? 'text-black' : 'text-warning-500'
               }`}
             >
-              {!guild.isInProgress
+              {!guild.isInProgress || guild.isDisconnected
                 ? `Connected ${moment(guild.connectedAt).format('DD MMM yyyy')}`
                 : 'Data import in progress'}
             </p>

@@ -38,8 +38,6 @@ function Settings(): JSX.Element {
       const { token } = user;
       if (!token.accessToken) {
         router.replace('/login');
-      } else {
-        router.push('/settings');
       }
     } else {
       router.replace('/login');

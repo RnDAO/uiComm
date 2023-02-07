@@ -27,6 +27,11 @@ export default interface ISetting {
     guildId: string,
     selectedChannels: { channelId: string; channelName: string }[]
   ) => void;
+  patchGuildById: (
+    guildId: string,
+    period: string,
+    selectedChannels: { channelId: string; channelName: string }[]
+  ) => any;
   updateAnalysisDatePeriod: (guildId: string, period: string) => void;
   getGuilds: () => void;
   disconnecGuildById: (

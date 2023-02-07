@@ -18,8 +18,6 @@ function Dashboard(): JSX.Element {
       const { token } = user;
       if (!token.accessToken) {
         router.replace('/login');
-      } else {
-        router.push('/dashboard');
       }
     }else{
       router.replace('/login');

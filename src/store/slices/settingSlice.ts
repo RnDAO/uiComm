@@ -53,6 +53,18 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
       set(() => ({ isLoading: false }));
     }
   },
+  patchGuildById: async (guildId, period, selectedChannels) => {
+    try {
+      // set(() => ({ isLoading: true }));
+      await axiosInstance.patch(`/guilds/${guildId}`, {
+        period,
+        selectedChannels: selectedChannels,
+      });
+      set({ isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
   updateAnalysisDatePeriod: async (guildId, period) => {
     try {
       set(() => ({ isLoading: true }));
@@ -70,7 +82,10 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
       const { data } = await axiosInstance.get(
         `/guilds?isDisconnected=${false}`
       );
-      set({ guilds: [...data.results], isLoading: false });
+      set({
+        guilds: [...data.results],
+        isLoading: false,
+      });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }

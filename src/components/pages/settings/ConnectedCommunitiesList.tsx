@@ -9,7 +9,7 @@ import useAppStore from '../../../store/useStore';
 import { DISCONNECT_TYPE } from '../../../store/types/ISetting';
 
 export default function ConnectedCommunitiesList({ guilds }: any) {
-  const { disconnecGuildById } = useAppStore();
+  const { disconnecGuildById, getGuilds } = useAppStore();
   const [open, setOpen] = useState<boolean>(false);
   const [guildId, setGuildId] = useState<string>('');
   const toggleModal = (e: boolean) => {
@@ -33,9 +33,10 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
   const disconnectGuild = (discconectType: DISCONNECT_TYPE) => {
     disconnecGuildById(guildId, discconectType).then((_res: any) => {
       notify();
+      getGuilds();
     });
   };
-  
+
   return (
     <>
       {guilds && guilds.length > 0 ? (
