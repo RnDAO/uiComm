@@ -199,12 +199,14 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
               {channels && channels.length > 0
                 ? channels.map((guild: any, index: any) => {
                     return (
-                      <ChannelList
+                      <div className='my-2'>
+                        <ChannelList
                         guild={guild}
                         key={index}
                         onChange={onChange}
                         handleCheckAll={handleCheckAll}
                       />
+                      </div>
                     );
                   })
                 : ''}

@@ -134,23 +134,23 @@ type dateItems = {
 };
 const datePeriod: dateItems[] = [
   {
-    title: "Last 7 days",
+    title: 'Last 7 days',
     value: 1,
   },
   {
-    title: "1M",
+    title: '1M',
     value: 2,
   },
   {
-    title: "3M",
+    title: '3M',
     value: 3,
   },
   {
-    title: "6M",
+    title: '6M',
     value: 4,
   },
   {
-    title: "1Y",
+    title: '1Y',
     value: 5,
   },
 ];
@@ -365,7 +365,7 @@ export default function Login() {
         break;
     }
     setSelectedPeriod(dateTime);
-    
+
     setActivePeriod(dateRangeType);
   };
 
@@ -384,7 +384,9 @@ export default function Login() {
               {activeStep === 0 || activeStep === -1 ? (
                 <>
                   <div className="bg-secondary text-white text-center py-8">
-                    <h1 className="font-bold text-2xl">Welcome to TogetherCrew</h1>
+                    <h1 className="font-bold text-2xl">
+                      Welcome to TogetherCrew
+                    </h1>
                     <p className="text-base pt-3">
                       Let’s connect your community.
                     </p>
@@ -622,12 +624,14 @@ export default function Login() {
                   {channels && channels.length > 0
                     ? channels.map((guild: any, index: any) => {
                         return (
-                          <ChannelList
-                            guild={guild}
-                            key={index}
-                            onChange={onChange}
-                            handleCheckAll={handleCheckAll}
-                          />
+                          <div className="my-2">
+                            <ChannelList
+                              guild={guild}
+                              key={index}
+                              onChange={onChange}
+                              handleCheckAll={handleCheckAll}
+                            />
+                          </div>
                         );
                       })
                     : ''}
