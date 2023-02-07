@@ -15,20 +15,31 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
         <div>
           <div className="font-sm flex justify-center items-center text-center">
             <p className="pr-1">Discord</p>
-            {guild.isInProgress}
-            <Tooltip
-              title={
-                <Typography fontSize={14}>
-                  {guild.isDisconnected
-                    ? 'We don’t have access to your server anymore. Please make sure the Bot is installed properly.'
-                    : !guild.isInProgress
-                    ? 'Discord is connected'
-                    : 'The Discord bot has been connected, and we need time to analyze your data'}
-                </Typography>
-              }
-              arrow
-              placement="right"
-            >
+            {!guild.isInProgress || guild.isDisconnected ? (
+              <Tooltip
+                title={
+                  <Typography fontSize={14}>
+                    {guild.isDisconnected
+                      ? 'We don’t have access to your server anymore. Please make sure the Bot is installed properly.'
+                      : !guild.isInProgress
+                      ? 'Discord is connected'
+                      : 'The Discord bot has been connected, and we need time to analyze your data'}
+                  </Typography>
+                }
+                arrow
+                placement="right"
+              >
+                <span
+                  className={`md:h-3 md:w-3 rounded-full ${
+                    guild.isDisconnected
+                      ? 'bg-error-500'
+                      : !guild.isInProgress
+                      ? 'bg-success'
+                      : 'bg-warning-500'
+                  }`}
+                />
+              </Tooltip>
+            ) : (
               <span
                 className={`md:h-3 md:w-3 rounded-full ${
                   guild.isDisconnected
@@ -38,17 +49,31 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
                     : 'bg-warning-500'
                 }`}
               />
-            </Tooltip>
+            )}
           </div>
           <FaDiscord size={30} className="mx-auto mt-2 mb-3" />
         </div>
         <div className="text-sm flex items-center justify-center">
-          <Image src={polygon} alt="polygon" width="30" height="30" />
+          {guild.guildId && guild.icon ? (
+            <Image
+              src={`https://cdn.discordapp.com/icons/${guild.guildId}/${guild.icon}`}
+              width="100"
+              height="100"
+              alt={guild.name ? guild.name : ''}
+              className="rounded-full"
+            />
+          ) : (
+            <div className="bg-gray-300 text-center w-9 h-9 rounded-full align-center flex flex-col justify-center text-xs">
+              LOGO
+            </div>
+          )}{' '}
           <div className="flex flex-col text-left pl-1">
             <p className="font-bold">{guild.name}</p>
             <p
               className={`text-xs ${
-                !guild.isInProgress || guild.isDisconnected ? 'text-black' : 'text-warning-500'
+                !guild.isInProgress || guild.isDisconnected
+                  ? 'text-black'
+                  : 'text-warning-500'
               }`}
             >
               {!guild.isInProgress || guild.isDisconnected
