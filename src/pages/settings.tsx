@@ -50,7 +50,7 @@ function Settings(): JSX.Element {
 
   const fetchEmail = async () => {
     await getUserInfo().then((_res: any) => {
-      setEmailAddress(_res.email);
+      setEmailAddress(_res?.email);
     });
   };
 
