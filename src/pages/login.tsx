@@ -22,7 +22,6 @@ import SEO from '../components/global/SEO';
 import clsx from 'clsx';
 import CustomButton from '../components/global/CustomButton';
 import useAppStore from '../store/useStore';
-import Loading from '../components/global/Loading';
 import ChannelList from '../components/pages/login/ChannelList';
 import moment from 'moment';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
@@ -377,7 +376,9 @@ export default function Login() {
         <>
           <SEO titleTemplate="Connect your commiunity" />
           <div className="mx-auto flex justify-center mt-4 md:mt-8">
-            <Image alt="Image Alt" src={tclogo} />
+            <a href="https://togethercrew.com/">
+              <Image alt="Image Alt" src={tclogo} />
+            </a>
           </div>
           <div className="p-3">
             <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
@@ -463,7 +464,12 @@ export default function Login() {
                           <span className="text-sm">
                             I understand and agree to the{' '}
                             <b className="text-secondary">
-                              Privacy Policy and Terms of Service.
+                              <a
+                                href="https://togethercrew.com/privacy"
+                                target="blank"
+                              >
+                                Privacy Policy and Terms of Service.
+                              </a>
                             </b>
                           </span>
                         }
@@ -624,10 +630,9 @@ export default function Login() {
                   {channels && channels.length > 0
                     ? channels.map((guild: any, index: any) => {
                         return (
-                          <div className="my-2">
+                          <div key={index} className="my-2">
                             <ChannelList
                               guild={guild}
-                              key={index}
                               onChange={onChange}
                               handleCheckAll={handleCheckAll}
                             />
