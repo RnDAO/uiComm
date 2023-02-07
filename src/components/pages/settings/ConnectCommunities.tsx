@@ -5,7 +5,7 @@ import { GoPlus } from 'react-icons/go';
 import CustomButton from '../../global/CustomButton';
 import DatePeriodRange from '../../global/DatePeriodRange';
 import CustomModal from '../../global/CustomModal';
-import ChanelSelection from '../../pages/settings/ChanelSelection';
+import ChannelSelection from './ChannelSelection';
 import { BsClockHistory } from 'react-icons/bs';
 import useAppStore from '../../../store/useStore';
 import { useRouter } from 'next/router';
@@ -140,7 +140,7 @@ export default function ConnectCommunities() {
           <h3 className="font-bold text-base">
             Confirm your imported channels
           </h3>
-          <ChanelSelection
+          <ChannelSelection
             emitable={true}
             submit={(channels) => updateSelectedChannels(channels)}
           />

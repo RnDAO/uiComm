@@ -6,7 +6,7 @@ import { FaHashtag, FaCodeBranch, FaRegCheckCircle } from 'react-icons/fa';
 import Accardion from '../components/global/Accardion';
 import { Paper, TextField } from '@mui/material';
 import CustomButton from '../components/global/CustomButton';
-import ChanelSelection from '../components/pages/settings/ChanelSelection';
+import ChannelSelection from '../components/pages/settings/ChannelSelection';
 import IntegrateDiscord from '../components/pages/settings/IntegrateDiscord';
 import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
@@ -81,7 +81,7 @@ function Settings(): JSX.Element {
     {
       title: 'Change your imported channels',
       icon: <FaHashtag color="black" />,
-      detailsComponent: <ChanelSelection />,
+      detailsComponent: <ChannelSelection />,
       id: '2',
     },
     {

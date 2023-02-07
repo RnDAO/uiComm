@@ -10,7 +10,7 @@ type IProps = {
   emitable?: boolean;
   submit?: (selectedChannels: any) => any;
 };
-export default function ChanelSelection({ emitable, submit }: IProps) {
+export default function ChannelSelection({ emitable, submit }: IProps) {
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [guild, setGuild] = useState<IGuild>();
@@ -224,6 +224,6 @@ export default function ChanelSelection({ emitable, submit }: IProps) {
   );
 }
 
-ChanelSelection.defaultProps = {
+ChannelSelection.defaultProps = {
   emitable: false,
 };
