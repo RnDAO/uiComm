@@ -14,12 +14,12 @@ function PageIndex(): JSX.Element {
     if (user) {
       const { token } = user;
       if (!token.accessToken) {
-        router.replace('/login');
+        router.replace('/tryNow');
       } else {
         router.push('/dashboard');
       }
     } else {
-      router.replace('/login');
+      router.replace('/tryNow');
     }
   }, []);
   return (

@@ -37,10 +37,10 @@ function Settings(): JSX.Element {
     if (user) {
       const { token } = user;
       if (!token.accessToken) {
-        router.replace('/login');
+        router.replace('/tryNow');
       }
     } else {
-      router.replace('/login');
+      router.replace('/tryNow');
     }
   }, []);
 
