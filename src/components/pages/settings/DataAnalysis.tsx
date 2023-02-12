@@ -5,6 +5,7 @@ import DatePeriodRange from '../../global/DatePeriodRange';
 import { BsClockHistory } from 'react-icons/bs';
 import useAppStore from '../../../store/useStore';
 import { FiInfo } from 'react-icons/fi';
+import { BiError } from 'react-icons/bi';
 import moment from 'moment';
 import { StorageService } from '../../../services/StorageService';
 import { IGuild, IUser } from '../../../utils/types';
@@ -16,7 +17,7 @@ export default function DataAnalysis() {
   const [open, setOpen] = useState<boolean>(false);
   const [datePeriod, setDatePeriod] = useState<string>('');
   const [isDisabled, toggleDisabled] = useState<boolean>(true);
-  const { guildInfo, updateAnalysisDatePeriod, getUserGuildInfo } =
+  const { guildInfo, updateAnalysisDatePeriod, getUserGuildInfo, guilds } =
     useAppStore();
 
   const handleActivePeriod = (dateRangeType: number | string) => {
@@ -94,6 +95,38 @@ export default function DataAnalysis() {
       setOpen(false);
     });
   };
+
+  if (guilds.length === 0) {
+    return (
+      <div className="flex flex-col space-y-4">
+        <p className="text-sm text-black">
+          It might take up to 12 hours to finish new data import. Once it is
+          done we will <br /> send you a message on Discord.
+        </p>
+        <p className="flex flex-row items-stretch text-sm text-warning-500">
+          <BiError size={24} />
+          <span className="pl-1 text-sm">
+            There is no community connected at the moment. To be able to select
+            the date period,
+            <br className="hidden md:block" /> please connect your community
+            first.
+          </span>
+        </p>
+        <div className="blur-[1px] pointer-events-none">
+          <DatePeriodRange
+            activePeriod={1}
+            onChangeActivePeriod={handleActivePeriod}
+          />
+          <CustomButton
+            classes="bg-secondary text-white mt-5"
+            label={'Confirm selection'}
+            disabled={isDisabled}
+            onClick={() => toggleModal(true)}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col space-y-4">

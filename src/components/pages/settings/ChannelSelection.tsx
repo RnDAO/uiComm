@@ -5,6 +5,7 @@ import useAppStore from '../../../store/useStore';
 import ChannelList from '../login/ChannelList';
 import { StorageService } from '../../../services/StorageService';
 import { IGuild, IUser } from '../../../utils/types';
+import { BiError } from 'react-icons/bi';
 
 type IProps = {
   emitable?: boolean;
@@ -17,8 +18,13 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
   const [channels, setChannels] = useState<Array<any>>([]);
   const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
 
-  const { guildChannels, guildInfo, updateSelectedChannels, getUserGuildInfo } =
-    useAppStore();
+  const {
+    guildChannels,
+    guildInfo,
+    updateSelectedChannels,
+    getUserGuildInfo,
+    guilds,
+  } = useAppStore();
 
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
@@ -151,6 +157,27 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  if (guilds.length === 0) {
+    return (
+      <div className="text-base">
+        Selected channels: <b>{selectedChannels.length}</b>{' '}
+        <span
+          className="pl-4 text-secondary underline cursor-pointer font-bold blur-[1px] pointer-events-none"
+          onClick={() => setOpen(true)}
+        >
+          Show Channels
+        </span>
+        <p className="flex flex-row items-stretch text-sm text-warning-500 mt-4">
+          <BiError size={24} />
+          <span className="text-sm pl-2">
+            There is no community connected at the moment. To be able to change
+            channels, please <br /> connect your community first.
+          </span>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
