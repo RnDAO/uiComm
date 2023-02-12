@@ -20,7 +20,7 @@ export default function callback() {
   }
 
   const notify = () => {
-    toast('Discord process faild.please try again.', {
+    toast('Discord authentication faild.please try again.', {
       position: 'bottom-left',
       autoClose: 3000,
       hideProgressBar: true,
@@ -37,11 +37,15 @@ export default function callback() {
   const statusDecoder = (params: callbackUrlParams) => {
     const { statusCode } = params;
     let user = StorageService.readLocalStorage<IUser>('user');
-    console.log({ statusCode });
     switch (statusCode) {
       case '490':
         notify();
-        router.push('/tryNow')
+        router.push('/tryNow');
+        break;
+
+      case '491':
+        notify();
+        router.push('/settings');
         break;
 
       case '501':
@@ -131,6 +135,22 @@ export default function callback() {
         router.push('/tryNow');
         break;
 
+      case '603':
+        StorageService.writeLocalStorage('user', {
+          guild: {
+            guildId: params.guildId,
+            guildName: params.guildName,
+          },
+          token: {
+            accessToken: params.accessToken,
+            accessExp: params.accessExp,
+            refreshToken: params.refreshToken,
+            refreshExp: params.refreshExp,
+          },
+        });
+        router.push('/dashboard');
+        break;
+
       case '701':
         if (user) {
           StorageService.writeLocalStorage('user', {
@@ -157,7 +177,6 @@ export default function callback() {
             guild: {
               guildId: params.guildId,
               guildName: params.guildName,
-              isSuccessful: true,
             },
             token: user.token,
           });
@@ -175,7 +194,6 @@ export default function callback() {
       default:
         break;
     }
-    console.log({ params });
   };
 
   if (loading) {
