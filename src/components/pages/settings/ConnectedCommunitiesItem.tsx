@@ -63,10 +63,8 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
               className="rounded-full"
             />
           ) : (
-            <div className="bg-gray-300 text-center w-9 h-9 rounded-full align-center flex flex-col justify-center text-xs">
-              LOGO
-            </div>
-          )}{' '}
+            <div className="bg-secondary text-center  w-9 h-9 rounded-full align-center flex flex-col justify-center text-xs" />
+          )}
           <div className="flex flex-col text-left pl-1">
             <p className="font-bold">{guild.name}</p>
             <p

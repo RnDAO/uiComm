@@ -120,9 +120,7 @@ const Sidebar = () => {
                     className="rounded-full"
                   />
                 ) : (
-                  <div className="bg-gray-300 text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs">
-                    LOGO
-                  </div>
+                  <div className="bg-secondary text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs" />
                 )}
               </div>
             </div>
