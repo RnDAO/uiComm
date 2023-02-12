@@ -76,7 +76,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `/guilds`
+        `/guilds?isDisconnected=${false}`
       );
       set({
         guilds: [...data.results],

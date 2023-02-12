@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { callbackUrlParams } from '../utils/types';
+import { IUser, callbackUrlParams } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
 
@@ -19,6 +19,7 @@ export default function callback() {
 
   const statusDecoder = (params: callbackUrlParams) => {
     const { statusCode } = params;
+    let user = StorageService.readLocalStorage<IUser>('user');
     console.log({ statusCode });
     switch (statusCode) {
       case '501':
@@ -83,6 +84,47 @@ export default function callback() {
         router.push({
           pathname: '/dashboard',
         });
+        break;
+
+      case '701':
+        if (user) {
+          StorageService.writeLocalStorage('user', {
+            guild: {
+              guildId: params.guildId,
+              guildName: params.guildName,
+            },
+            token: user.token,
+          });
+          router.push({
+            pathname: '/settings',
+            query: {
+              guildId: params.guildId,
+              guildName: params.guildName,
+              isSuccessful: true,
+            },
+          });
+        }
+        break;
+
+      case '702':
+        if (user) {
+          StorageService.writeLocalStorage('user', {
+            guild: {
+              guildId: params.guildId,
+              guildName: params.guildName,
+              isSuccessful: true,
+            },
+            token: user.token,
+          });
+          router.push({
+            pathname: '/settings',
+            query: {
+              guildId: params.guildId,
+              guildName: params.guildName,
+              isSuccessful: true,
+            },
+          });
+        }
         break;
 
       default:
