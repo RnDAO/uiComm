@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { IUser, callbackUrlParams } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
+import { toast } from 'react-toastify';
+import { BiError } from 'react-icons/bi';
 
 export default function callback() {
   const router = useRouter();
@@ -17,11 +19,31 @@ export default function callback() {
     }, [router]);
   }
 
+  const notify = () => {
+    toast('Discord process faild.please try again.', {
+      position: 'bottom-left',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      closeButton: false,
+      theme: 'light',
+      icon: <BiError color="#FB3E56" size={40} />,
+    });
+  };
+
   const statusDecoder = (params: callbackUrlParams) => {
     const { statusCode } = params;
     let user = StorageService.readLocalStorage<IUser>('user');
     console.log({ statusCode });
     switch (statusCode) {
+      case '490':
+        notify();
+        router.push('/tryNow')
+        break;
+
       case '501':
         router.push({
           pathname: '/tryNow',
@@ -36,6 +58,7 @@ export default function callback() {
           },
         });
         break;
+
       case '502':
         router.push({
           pathname: '/tryNow',
@@ -50,6 +73,7 @@ export default function callback() {
           },
         });
         break;
+
       case '503':
         StorageService.writeLocalStorage('user', {
           guild: {
@@ -84,6 +108,27 @@ export default function callback() {
         router.push({
           pathname: '/dashboard',
         });
+        break;
+
+      case '601':
+        StorageService.writeLocalStorage('user', {
+          guild: {
+            guildId: params.guildId,
+            guildName: params.guildName,
+          },
+          token: {
+            accessToken: params.accessToken,
+            accessExp: params.accessExp,
+            refreshToken: params.refreshToken,
+            refreshExp: params.refreshExp,
+          },
+        });
+        router.push('/dashboard');
+        break;
+
+      case '602':
+        StorageService.removeLocalStorage('user');
+        router.push('/tryNow');
         break;
 
       case '701':

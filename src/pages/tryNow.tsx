@@ -641,7 +641,7 @@ export default function TryNow() {
                 </span>
                 <CustomButton
                   classes="bg-secondary text-white mx-auto mt-4"
-                  label={'Login'}
+                  label={'Log in'}
                   onClick={() => {
                     redirectToSettings();
                   }}
