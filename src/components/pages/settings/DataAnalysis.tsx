@@ -112,7 +112,7 @@ export default function DataAnalysis() {
             first.
           </span>
         </p>
-        <div className="blur-[1px] pointer-events-none">
+        <div className="pointer-events-none opacity-50">
           <DatePeriodRange
             activePeriod={1}
             onChangeActivePeriod={handleActivePeriod}

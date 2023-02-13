@@ -49,6 +49,7 @@ axiosInstance.interceptors.response.use(
         break;
       case 401:
         StorageService.removeLocalStorage('user');
+        StorageService.removeLocalStorage('analysis_state');
         router.push('/');
         toast.error('Token expired...', {
           position: 'bottom-left',
