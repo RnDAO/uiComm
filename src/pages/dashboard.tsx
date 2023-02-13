@@ -15,7 +15,7 @@ import useAppStore from '../store/useStore';
 import { Alert, Collapse } from '@mui/material';
 
 function Dashboard(): JSX.Element {
-  const [alertStateOpen, setAlertStateOpen] = useState(true);
+  const [alertStateOpen, setAlertStateOpen] = useState(false);
 
   const { guilds } = useAppStore();
   const router = useRouter();
@@ -27,10 +27,36 @@ function Dashboard(): JSX.Element {
       if (!token.accessToken) {
         router.replace('/tryNow');
       }
-    }else{
+    } else {
       router.replace('/tryNow');
     }
   }, []);
+
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      const show_analysis_state: { isRead: boolean; visible: boolean } =
+        StorageService.readLocalStorage('analysis_state') || {
+          isRead: false,
+          visible: true,
+        };
+
+      if (show_analysis_state && !show_analysis_state.isRead) {
+        StorageService.writeLocalStorage('analysis_state', {
+          isRead: false,
+          visible: guilds[0]?.isInProgress,
+        });
+        setAlertStateOpen(guilds[0]?.isInProgress);
+      }
+    }, [guilds]);
+  }
+
+  const toggleAnalysisState = () => {
+    StorageService.writeLocalStorage('analysis_state', {
+      isRead: true,
+      visible: false,
+    });
+    setAlertStateOpen(false);
+  };
 
   if (guilds && guilds.length === 0) {
     return (
@@ -47,19 +73,16 @@ function Dashboard(): JSX.Element {
       <Collapse
         in={alertStateOpen}
         sx={{
-          ':root': {
-            position: 'sticky',
-          },
+          position: 'sticky',
+          top: 0,
+          zIndex: 999,
         }}
       >
         {guilds && guilds[0].isInProgress ? (
           <Alert
             variant="filled"
-            onClose={() => {
-              setAlertStateOpen(false);
-            }}
+            onClose={toggleAnalysisState}
             severity="warning"
-            sx={{}}
           >
             Data import is in progress. It might take up to 12 hours to finish
             the data import. Once it is done we will send you a message on

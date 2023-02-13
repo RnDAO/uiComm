@@ -163,7 +163,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       <div className="text-base">
         Selected channels: <b>{selectedChannels.length}</b>{' '}
         <span
-          className="pl-4 text-secondary underline cursor-pointer font-bold blur-[1px] pointer-events-none"
+          className="pl-4 text-secondary underline cursor-pointer font-bold opacity-50 pointer-events-none"
           onClick={() => setOpen(true)}
         >
           Show Channels
