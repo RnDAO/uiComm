@@ -27,7 +27,7 @@ import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 
 const Sidebar = () => {
-  const { guildInfoByDiscord, getGuildInfoByDiscord } = useAppStore();
+  const { guildInfoByDiscord } = useAppStore();
   const [guildId, setGuildId] = useState('');
   const router = useRouter();
   const currentRoute = router.pathname;
@@ -39,7 +39,6 @@ const Sidebar = () => {
       const { guildId } = user.guild;
       if (guildId) {
         setGuildId(guildId);
-        getGuildInfoByDiscord(guildId);
       }
     }
   }, []);

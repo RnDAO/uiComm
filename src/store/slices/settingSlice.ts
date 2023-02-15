@@ -35,7 +35,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `/guilds/discord-api/${guildId}`
+        `/guilds/${guildId}`
       );
       set({ guildInfoByDiscord: data, isLoading: false });
     } catch (error) {

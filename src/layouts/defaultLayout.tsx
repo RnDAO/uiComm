@@ -11,12 +11,16 @@ type Props = {
 };
 
 export const defaultLayout = ({ children }: Props) => {
-  const { getGuilds } = useAppStore();
+  const { getGuilds, getGuildInfoByDiscord } = useAppStore();
 
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
     if (user) {
+      const { guildId } = user.guild;
       getGuilds();
+      if (guildId) {
+        getGuildInfoByDiscord(guildId);
+      }
     }
   }, []);
 
