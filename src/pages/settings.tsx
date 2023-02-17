@@ -24,7 +24,6 @@ function Settings(): JSX.Element {
     changeEmail,
     getUserGuildInfo,
     fetchGuildChannels,
-    getGuilds,
   } = useAppStore();
 
   const [emailAddress, setEmailAddress] = useState<string>('');
@@ -37,10 +36,10 @@ function Settings(): JSX.Element {
     if (user) {
       const { token } = user;
       if (!token.accessToken) {
-        router.replace('/login');
+        router.replace('/tryNow');
       }
     } else {
-      router.replace('/login');
+      router.replace('/tryNow');
     }
   }, []);
 
@@ -74,7 +73,6 @@ function Settings(): JSX.Element {
         getUserGuildInfo(guildId);
       }
     }
-    getGuilds();
   }, []);
 
 

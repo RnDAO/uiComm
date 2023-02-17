@@ -5,7 +5,6 @@ export type IUser = {
   readonly guildName: string;
   readonly refreshExp: string;
   readonly refreshToken: string;
-  isSuccessful: boolean;
 };
 
 export type IGuildChannels = {
@@ -34,7 +33,7 @@ export default interface IAuth {
   isLoading: boolean;
   isLoggedIn: boolean;
   guildChannels: IGuildChannels[];
-  redirectToDiscord: () => void;
+  signUp: () => void;
   loginWithDiscord: (user: IUser) => void;
   fetchGuildChannels: (guild_id: string) => void;
   updateGuildById: (

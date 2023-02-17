@@ -12,12 +12,12 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   user: {},
   guildChannels: [],
 
-  redirectToDiscord: () => {
-    location.replace(`${BASE_URL}/auth/login`);
+  signUp: () => {
+    location.replace(`${BASE_URL}/auth/try-now`);
   },
 
   loginWithDiscord: (user: IUser) =>
-    set((state) => {
+    set(() => {
       StorageService.writeLocalStorage('user', {
         guild: {
           guildId: user.guildId,
@@ -31,9 +31,6 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
         },
       });
 
-      if (user.isSuccessful) {
-        state.isLoggedIn = user.isSuccessful;
-      }
       return { user };
     }),
 

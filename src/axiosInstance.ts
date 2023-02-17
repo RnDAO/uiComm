@@ -35,8 +35,6 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error.response.data.message);
-
     switch (error.response.status) {
       case 400:
         toast.error(`${error.response.data.message}`, {
@@ -51,6 +49,7 @@ axiosInstance.interceptors.response.use(
         break;
       case 401:
         StorageService.removeLocalStorage('user');
+        StorageService.removeLocalStorage('analysis_state');
         router.push('/');
         toast.error('Token expired...', {
           position: 'bottom-left',

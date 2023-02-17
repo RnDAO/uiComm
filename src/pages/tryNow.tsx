@@ -8,6 +8,7 @@ import StepConnector, {
 } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { IoClose } from 'react-icons/io5';
+import { BiError } from 'react-icons/bi';
 import {
   Button,
   Checkbox,
@@ -27,6 +28,7 @@ import moment from 'moment';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import tclogo from '../assets/svg/tc-logo.svg';
 import Image from 'next/image';
+import { StorageService } from '../services/StorageService';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -154,7 +156,7 @@ const datePeriod: dateItems[] = [
   },
 ];
 
-export default function Login() {
+export default function TryNow() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
@@ -166,9 +168,12 @@ export default function Login() {
   const [selectedPeriod, setSelectedPeriod] = useState<any>('');
   const [channels, setChannels] = useState<Array<any>>([]);
   const [selectedChannels, setSelectedChannels] = useState<Array<any>>([]);
+  const [tryNowState, setTryNowState] = useState<'active' | 'passive'>(
+    'active'
+  );
   const {
     isLoading,
-    redirectToDiscord,
+    signUp,
     loginWithDiscord,
     fetchGuildChannels,
     guildChannels,
@@ -251,29 +256,31 @@ export default function Login() {
 
   if (typeof window !== 'undefined') {
     useEffect(() => {
-      if (Object.keys(router?.query).length > 0 && router.query.isSuccessful) {
-        fetchGuildChannels(router.query.guildId);
-        setActiveStep(1);
-        const {
-          accessToken,
-          accessExp,
-          guildId,
-          guildName,
-          refreshExp,
-          refreshToken,
-          isSuccessful,
-        } = Object.assign({}, router.query);
-        setGuild(guildId);
-        loginWithDiscord({
-          accessToken,
-          accessExp,
-          guildId,
-          guildName,
-          refreshExp,
-          refreshToken,
-          isSuccessful,
-        });
-        setSelectedDatePeriod(1);
+      if (Object.keys(router?.query).length > 0 && router.query.statusCode) {
+        if (router.query.statusCode === '501') {
+          fetchGuildChannels(router.query.guildId);
+          setActiveStep(1);
+          const {
+            accessToken,
+            accessExp,
+            guildId,
+            guildName,
+            refreshExp,
+            refreshToken,
+          } = Object.assign({}, router.query);
+          setGuild(guildId);
+          loginWithDiscord({
+            accessToken,
+            accessExp,
+            guildId,
+            guildName,
+            refreshExp,
+            refreshToken,
+          });
+          setSelectedDatePeriod(1);
+        } else {
+          setTryNowState('passive');
+        }
       }
     }, [router]);
   }
@@ -325,6 +332,23 @@ export default function Login() {
         }
       );
     } catch (error) {}
+  };
+
+  const redirectToSettings = () => {
+    const user = router.query;
+    StorageService.writeLocalStorage('user', {
+      guild: {
+        guildId: user.guildId,
+        guildName: user.guildName,
+      },
+      token: {
+        accessToken: user.accessToken,
+        accessExp: user.accessExp,
+        refreshToken: user.refreshToken,
+        refreshExp: user.refreshExp,
+      },
+    });
+    router.push('/settings');
   };
 
   const setSelectedDatePeriod = (dateRangeType: number | string) => {
@@ -380,65 +404,46 @@ export default function Login() {
               <Image alt="Image Alt" src={tclogo} />
             </a>
           </div>
-          <div className="p-3">
-            <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
-              {activeStep === 0 || activeStep === -1 ? (
-                <>
-                  <div className="bg-secondary text-white text-center py-8">
-                    <h1 className="font-bold text-2xl">
-                      Welcome to TogetherCrew
-                    </h1>
-                    <p className="text-base pt-3">
-                      Let’s connect your community.
-                    </p>
-                  </div>
-                </>
-              ) : (
-                ''
-              )}
-              <div className="py-12">
-                <div className="py-3 px-8 text-center mx-auto">
-                  <Stepper
-                    className={clsx(
-                      'md:hidden',
-                      activeStep === 0 || activeStep === -1 ? 'block' : 'flex'
-                    )}
-                    orientation={
-                      activeStep === 0 || activeStep === -1
-                        ? 'vertical'
-                        : 'horizontal'
-                    }
-                    alternativeLabel={
-                      activeStep === 0 || activeStep === -1 ? false : true
-                    }
-                    activeStep={activeStep}
-                    connector={
-                      activeStep === 0 || activeStep === -1 ? (
-                        <VerticalColorlibConnector />
-                      ) : (
-                        <ColorlibConnector />
-                      )
-                    }
-                  >
-                    {steps.map((label, index) => (
-                      <Step key={index}>
-                        <StepLabel StepIconComponent={ColorlibStepIcon}>
-                          {activeStep === 0 || activeStep === -1 ? label : ''}
-                        </StepLabel>
-                      </Step>
-                    ))}
-                  </Stepper>
-                  <div>
+          {tryNowState === 'active' ? (
+            <div className="p-3">
+              <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-6">
+                {activeStep === 0 || activeStep === -1 ? (
+                  <>
+                    <div className="bg-secondary text-white text-center py-8">
+                      <h1 className="font-bold text-2xl">
+                        Welcome to TogetherCrew
+                      </h1>
+                      <p className="text-base pt-3">
+                        Let’s connect your community.
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  ''
+                )}
+                <div className="py-12">
+                  <div className="py-3 px-8 text-center mx-auto">
                     <Stepper
                       className={clsx(
-                        'hidden md:flex',
-                        activeStep === 0 || activeStep === -1
-                          ? 'w-full'
-                          : 'w-2/3 mx-auto'
+                        'md:hidden',
+                        activeStep === 0 || activeStep === -1 ? 'block' : 'flex'
                       )}
-                      alternativeLabel
+                      orientation={
+                        activeStep === 0 || activeStep === -1
+                          ? 'vertical'
+                          : 'horizontal'
+                      }
+                      alternativeLabel={
+                        activeStep === 0 || activeStep === -1 ? false : true
+                      }
                       activeStep={activeStep}
-                      connector={<ColorlibConnector />}
+                      connector={
+                        activeStep === 0 || activeStep === -1 ? (
+                          <VerticalColorlibConnector />
+                        ) : (
+                          <ColorlibConnector />
+                        )
+                      }
                     >
                       {steps.map((label, index) => (
                         <Step key={index}>
@@ -448,154 +453,202 @@ export default function Login() {
                         </Step>
                       ))}
                     </Stepper>
-                  </div>
-                  {activeStep === 0 || activeStep === -1 ? (
-                    <>
-                      <FormControlLabel
-                        className="pt-12 md:w-2/3 font-medium text-left items-start"
-                        control={
-                          <Checkbox
-                            color="secondary"
-                            value={isTermsChecked}
-                            onChange={(e) => setTermsCheck(e.target.checked)}
-                          />
-                        }
-                        label={
-                          <span className="text-sm">
-                            I understand and agree to the{' '}
-                            <b className="text-secondary">
-                              <a
-                                href="https://togethercrew.com/privacy"
-                                target="blank"
-                              >
-                                Privacy Policy and Terms of Service.
-                              </a>
-                            </b>
-                          </span>
-                        }
-                      />
-                      <div className="flex justify-center mt-8">
-                        <CustomButton
-                          disabled={!isTermsChecked}
-                          label="Connect your community"
-                          onClick={() => redirectToDiscord()}
-                          classes={'bg-secondary text-white'}
-                        />
-                      </div>
-                    </>
-                  ) : activeStep === 1 ? (
-                    <>
-                      <div className="flex flex-col space-y-8 text-left mt-8 p-1 md:p-6">
-                        <div>
-                          <h3 className="font-bold text-base">
-                            Choose date period for data analysis
-                          </h3>
-                          <p className="text-base">
-                            You will be able to change date period and selected
-                            channels in the future.
-                          </p>
-                          <div className="flex flex-row flex-wrap md:space-x-3 mt-2">
-                            <ul className="flex flex-row flex-wrap space-x-1.5 md:space-x-3">
-                              {datePeriod.length > 0
-                                ? datePeriod.map((el) => (
-                                    <li
-                                      className={`
-                           flex flex-row items-center px-3 md:px-2.5 py-2 md:py-1.5 rounded-md cursor-pointer
-                           ${
-                             activePeriod == el.value
-                               ? 'bg-black text-white'
-                               : 'bg-gray-background'
-                           }`}
-                                      key={el.value}
-                                      onClick={() =>
-                                        setSelectedDatePeriod(el.value)
-                                      }
-                                    >
-                                      {el.icon ? el.icon : ''}
-                                      <div>{el.title}</div>
-                                    </li>
-                                  ))
+                    <div>
+                      <Stepper
+                        className={clsx(
+                          'hidden md:flex',
+                          activeStep === 0 || activeStep === -1
+                            ? 'w-full'
+                            : 'w-2/3 mx-auto'
+                        )}
+                        alternativeLabel
+                        activeStep={activeStep}
+                        connector={<ColorlibConnector />}
+                      >
+                        {steps.map((label, index) => (
+                          <Step key={index}>
+                            <StepLabel StepIconComponent={ColorlibStepIcon}>
+                              {activeStep === 0 || activeStep === -1
+                                ? label
                                 : ''}
-                            </ul>
+                            </StepLabel>
+                          </Step>
+                        ))}
+                      </Stepper>
+                    </div>
+                    {activeStep === 0 || activeStep === -1 ? (
+                      <>
+                        <FormControlLabel
+                          className="pt-12 md:w-2/3 font-medium text-left items-start"
+                          control={
+                            <Checkbox
+                              color="secondary"
+                              value={isTermsChecked}
+                              onChange={(e) => setTermsCheck(e.target.checked)}
+                            />
+                          }
+                          label={
+                            <span className="text-sm">
+                              I understand and agree to the{' '}
+                              <b className="text-secondary">
+                                <a
+                                  href="https://togethercrew.com/privacy"
+                                  target="blank"
+                                >
+                                  Privacy Policy and Terms of Service.
+                                </a>
+                              </b>
+                            </span>
+                          }
+                        />
+                        <div className="flex justify-center mt-8">
+                          <CustomButton
+                            disabled={!isTermsChecked}
+                            label="Connect your community"
+                            onClick={() => signUp()}
+                            classes={'bg-secondary text-white'}
+                          />
+                        </div>
+                      </>
+                    ) : activeStep === 1 ? (
+                      <>
+                        <div className="flex flex-col space-y-8 text-left mt-8 p-1 md:p-6">
+                          <div>
+                            <h3 className="font-bold text-base">
+                              Choose date period for data analysis
+                            </h3>
+                            <p className="text-base">
+                              You will be able to change date period and
+                              selected channels in the future.
+                            </p>
+                            <div className="flex flex-row flex-wrap md:space-x-3 mt-2">
+                              <ul className="flex flex-row flex-wrap space-x-1.5 md:space-x-3">
+                                {datePeriod.length > 0
+                                  ? datePeriod.map((el) => (
+                                      <li
+                                        className={`
+                         flex flex-row items-center px-3 md:px-2.5 py-2 md:py-1.5 rounded-md cursor-pointer
+                         ${
+                           activePeriod == el.value
+                             ? 'bg-black text-white'
+                             : 'bg-gray-background'
+                         }`}
+                                        key={el.value}
+                                        onClick={() =>
+                                          setSelectedDatePeriod(el.value)
+                                        }
+                                      >
+                                        {el.icon ? el.icon : ''}
+                                        <div>{el.title}</div>
+                                      </li>
+                                    ))
+                                  : ''}
+                              </ul>
+                            </div>
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-base pb-3">
+                              Confirm your imported channels
+                            </h3>
+                            <p className="text-base">
+                              Selected channels:
+                              <b>{selectedChannels.length}</b>{' '}
+                              <span
+                                className="pl-4 text-secondary underline cursor-pointer font-bold"
+                                onClick={() => {
+                                  setOpen(true);
+                                }}
+                              >
+                                Show Channels
+                              </span>
+                            </p>
+                          </div>
+                          <div>
+                            <p className="font-bold pb-2">Type your email</p>
+                            <TextField
+                              id="filled-basic"
+                              label="Email Address"
+                              variant="filled"
+                              autoComplete="off"
+                              value={emailAddress}
+                              InputProps={{ disableUnderline: true }}
+                              className="w-full md:w-2/5"
+                              onChange={(e) => setEmailAddress(e.target.value)}
+                            />
+                          </div>
+                          <div className="flex justify-center mt-4">
+                            <CustomButton
+                              classes="text-white bg-secondary"
+                              onClick={() => updateGuild()}
+                              label="Continue"
+                              disabled={!activeStep}
+                            />
                           </div>
                         </div>
-                        <div>
-                          <h3 className="font-bold text-base pb-3">
-                            Confirm your imported channels
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-full md:w-4/5 text-center mx-auto py-12 md:py-12">
+                          <h3 className="font-bold text-3xl pt-7">
+                            {"Perfect, you're all set!"}
                           </h3>
-                          <p className="text-base">
-                            Selected channels:
-                            <b>{selectedChannels.length}</b>{' '}
-                            <span
-                              className="pl-4 text-secondary underline cursor-pointer font-bold"
-                              onClick={() => {
-                                setOpen(true);
-                              }}
-                            >
-                              Show Channels
-                            </span>
+                          <p className="py-8 text-base">
+                            Data import just started. It might take up to 12
+                            hours to finish. Once it is done we will send you a{' '}
+                            <b>message on Discord.</b>
                           </p>
-                        </div>
-                        <div>
-                          <p className="font-bold pb-2">Type your email</p>
-                          <TextField
-                            id="filled-basic"
-                            label="Email Address"
-                            variant="filled"
-                            autoComplete="off"
-                            value={emailAddress}
-                            InputProps={{ disableUnderline: true }}
-                            className="w-full md:w-2/5"
-                            onChange={(e) => setEmailAddress(e.target.value)}
-                          />
-                        </div>
-                        <div className="flex justify-center mt-4">
                           <CustomButton
                             classes="text-white bg-secondary"
-                            onClick={() => updateGuild()}
-                            label="Continue"
+                            onClick={() => router.push('/')}
+                            label="I Understand"
                             disabled={!activeStep}
                           />
                         </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-full md:w-4/5 text-center mx-auto py-12 md:py-12">
-                        <h3 className="font-bold text-3xl pt-7">
-                          {"Perfect, you're all set!"}
-                        </h3>
-                        <p className="py-8 text-base">
-                          Data import just started. It might take up to 12 hours
-                          to finish. Once it is done we will send you a{' '}
-                          <b>message on Discord.</b>
+                        <p className="text-left md:text-center">
+                          While you are waiting, read our research about{' '}
+                          <b className="text-secondary">
+                            {' '}
+                            <Link
+                              href={
+                                'https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM'
+                              }
+                            >
+                              Community Health.
+                            </Link>
+                          </b>
                         </p>
-                        <CustomButton
-                          classes="text-white bg-secondary"
-                          onClick={() => router.push('/')}
-                          label="I Understand"
-                          disabled={!activeStep}
-                        />
-                      </div>
-                      <p className="text-left md:text-center">
-                        While you are waiting, read our research about{' '}
-                        <b className="text-secondary">
-                          {' '}
-                          <Link
-                            href={
-                              'https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM'
-                            }
-                          >
-                            Community Health.
-                          </Link>
-                        </b>
-                      </p>
-                    </>
-                  )}
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-14">
+              <div className="p-8 text-center mx-auto flex flex-col space-y-7 py-12">
+                <div className="mx-auto">
+                  <BiError size={48} className="text-error-500" />
+                </div>
+                <p className="text-xl font-bold">
+                  Please, disconnect your <br className="hidden md:block" />{' '}
+                  community first
+                </p>
+                <span className="text-sm w-10/12 text-center mx-auto">
+                  There is one Discord community under your email already. If
+                  you want to add a new community, please disconnect the current
+                  community first. Go to the <b>Settings</b> section and choose{' '}
+                  <b>Disconnect</b> option.
+                </span>
+                <CustomButton
+                  classes="bg-secondary text-white mx-auto mt-4"
+                  label={'Log in'}
+                  onClick={() => {
+                    redirectToSettings();
+                  }}
+                />
+              </div>
+            </div>
+          )}
           <Dialog
             fullWidth={fullWidth}
             open={open}
