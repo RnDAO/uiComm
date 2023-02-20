@@ -133,7 +133,7 @@ const Sidebar = () => {
                 )}
               </div>
             </div>
-            <p className="text-sm w-9/12 font-bold text-center overflow-hidden mx-auto">
+            <p className="text-sm w-9/12 font-bold text-center overflow-hidden mx-auto break-words">
               {guildInfoByDiscord.name}
             </p>
           </div>
