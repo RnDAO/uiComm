@@ -115,7 +115,7 @@ const Chart = () => {
             },
             legend: {
               title: {
-                text: 'Number of interactions',
+                text: 'Number of messages',
                 style: {
                   fontStyle: 'bold',
                 },
@@ -361,7 +361,7 @@ const Chart = () => {
             When is the community most active?
           </h3>
           <p className="text-md md:text-base pt-4 text-gray-700 font-light">
-            Hourly interaction summed over the selected time period.
+            Hourly messages summed over the selected time period.
           </p>
         </div>
         <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
