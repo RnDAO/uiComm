@@ -46,7 +46,7 @@ const Sidebar = () => {
   const menuItems: items[] = [
     {
       name: 'Community Insights',
-      path: '/dashboard',
+      path: '/',
       icon: (
         <FontAwesomeIcon
           icon={faUserGroup}
