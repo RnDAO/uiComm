@@ -17,15 +17,18 @@ import { theme } from '../utils/theme';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from '../utils/privateRoute';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
       <ThemeProvider theme={theme}>
         {Component.pageLayout ? (
-          <Component.pageLayout>
-            <Component {...pageProps} />
-          </Component.pageLayout>
+          <PrivateRoute>
+            <Component.pageLayout>
+              <Component {...pageProps} />
+            </Component.pageLayout>
+          </PrivateRoute>
         ) : (
           <Component {...pageProps} />
         )}
