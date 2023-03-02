@@ -70,13 +70,13 @@ export default function DataAnalysis() {
 
     const datePeriod = moment.duration(end.diff(start)).asMonths();
 
-    if (datePeriod < 1) {
+    if (datePeriod < 0.5) {
       setActivePeriod(1);
-    } else if (datePeriod < 3) {
+    } else if (datePeriod < 1) {
       setActivePeriod(2);
-    } else if (datePeriod < 6) {
+    } else if (datePeriod < 3) {
       setActivePeriod(3);
-    } else if (datePeriod < 12) {
+    } else if (datePeriod < 6) {
       setActivePeriod(4);
     } else {
       setActivePeriod(5);
