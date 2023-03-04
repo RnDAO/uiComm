@@ -16,8 +16,6 @@ export default function privateRoute({ children }: any) {
       const { token } = user;
       if (!token.accessToken) {
         router.replace('/tryNow');
-      } else {
-        router.push('/');
       }
     } else {
       router.replace('/tryNow');

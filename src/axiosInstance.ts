@@ -6,12 +6,15 @@ import router from 'next/router';
 import { toast } from 'react-toastify';
 import { IUser } from './utils/types';
 
+let isRefreshing = false;
+let refreshQueue: Array<Function> = [];
+
 export const axiosInstance = axios.create({
   baseURL: conf.API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(
-  (config: any) => {
+  async (config: any) => {
     const user: IUser | undefined =
       StorageService.readLocalStorage<IUser>('user');
 
@@ -48,9 +51,62 @@ axiosInstance.interceptors.response.use(
         });
         break;
       case 401:
+        const user: IUser | undefined =
+          StorageService.readLocalStorage<IUser>('user');
+
+        if (user) {
+          const { token } = user;
+          if (token.refreshToken) {
+            if (!isRefreshing) {
+              isRefreshing = true;
+
+              try {
+                const response = await axiosInstance.post(
+                  '/auth/refresh-tokens',
+                  {
+                    refreshToken: token.refreshToken,
+                  }
+                );
+
+                StorageService.writeLocalStorage('user', {
+                  guild: user.guild,
+                  token: {
+                    accessToken: response.data.access.token,
+                    refreshToken: response.data.refresh.token,
+                  },
+                });
+
+                axiosInstance.defaults.headers['Authorization'] =
+                  'Bearer ' + response.data.access.token;
+
+                refreshQueue.forEach((cb) => cb(response.data.access.token));
+                refreshQueue = [];
+                return axiosInstance(error.config);
+              } catch (error) {
+                toast.error('Token expired...', {
+                  position: 'bottom-left',
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: 0,
+                });
+                console.error(error);
+              } finally {
+                isRefreshing = false;
+              }
+            }
+            return new Promise((resolve) => {
+              refreshQueue.push((newToken: string) => {
+                error.config.headers['Authorization'] = `Bearer ${newToken}`;
+                resolve(axiosInstance(error.config));
+              });
+            });
+          }
+        }
         StorageService.removeLocalStorage('user');
         StorageService.removeLocalStorage('analysis_state');
-        router.push('/');
         toast.error('Token expired...', {
           position: 'bottom-left',
           autoClose: 5000,
@@ -60,7 +116,8 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
-        break;
+        router.push('/');
+        return Promise.reject(error);
       case 404:
         toast.error(`${error.response.data.message}`, {
           position: 'bottom-left',
