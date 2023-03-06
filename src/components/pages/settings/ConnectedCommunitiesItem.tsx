@@ -1,7 +1,6 @@
 import { Paper, Tooltip, Typography } from '@mui/material';
 import { FaDiscord } from 'react-icons/fa';
 import Image from 'next/image';
-import polygon from '../../../assets/svg/polygon.svg';
 import moment from 'moment';
 
 type IProps = {

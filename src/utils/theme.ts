@@ -63,6 +63,43 @@ export const theme = createTheme({
         filledWarning: { background: '#FF8022' },
       },
     },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          borderBottom: 'none',
+        },
+        indicator: {
+          backgroundColor: 'transparent',
+          borderBottom: 'none',
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px 10px 0 0',
+          padding: '8px 24px',
+          width: '214px',
+          height: '40px',
+          gap: '10px',
+          borderBottom: 'none',
+          '&.Mui-selected': {
+            background: '#804EE1',
+            color: 'white',
+            border: 0,
+            borderBottom: 'none',
+          },
+          '&$selected': {
+            borderBottom: 'none',
+          },
+          '&:not(.Mui-selected)': {
+            backgroundColor: '#EDEDED',
+            color: '#222222',
+          },
+          selected: {},
+        },
+      },
+    },
   },
 });
 

@@ -7,8 +7,8 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-  src: url("../lib/fonts/inter/Inter-VariableFont_slnt\,wght.ttf")
-    format("truetype");
+  src: url('../lib/fonts/inter/Inter-VariableFont_slnt\,wght.ttf')
+    format('truetype');
 }
 
 @font-face {
@@ -16,7 +16,7 @@
   font-weight: bold;
   font-style: bold;
   font-display: swap;
-  src: url("../lib/fonts/inter/Inter-Bold.ttf") format("truetype");
+  src: url('../lib/fonts/inter/Inter-Bold.ttf') format('truetype');
 }
 
 @font-face {
@@ -24,7 +24,7 @@
   font-weight: medium;
   font-style: medium;
   font-display: swap;
-  src: url("../lib/fonts/inter/Inter-Medium.ttf") format("truetype");
+  src: url('../lib/fonts/inter/Inter-Medium.ttf') format('truetype');
 }
 
 @font-face {
@@ -32,7 +32,7 @@
   font-weight: light;
   font-style: light;
   font-display: swap;
-  src: url("../lib/fonts/inter/Inter-Light.ttf") format("truetype");
+  src: url('../lib/fonts/inter/Inter-Light.ttf') format('truetype');
 }
 
 @font-face {
@@ -40,8 +40,8 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-  src: url("../lib/fonts/roboto/roboto-v29-latin-regular.woff")
-    format("truetype");
+  src: url('../lib/fonts/roboto/roboto-v29-latin-regular.woff')
+    format('truetype');
 }
 
 *,
@@ -57,8 +57,10 @@ body {
   line-height: 24px;
 }
 
-
-.css-1hv8oq8-MuiStepLabel-label.MuiStepLabel-alternativeLabel{
+.css-1hv8oq8-MuiStepLabel-label.MuiStepLabel-alternativeLabel {
   font-size: 16px !important;
   line-height: 24px !important;
+}
+.MuiBox-root .css-1gsv261 {
+  border-bottom: none !important;
 }
