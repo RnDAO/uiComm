@@ -1,30 +1,48 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
+import { ReactElement, SyntheticEvent, useState } from 'react';
 import Tab from '@mui/material/Tab';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box } from '@mui/material';
 
-interface MyTabsProps {
+interface ICustomTab {
   labels: string[];
+  content: ReactElement[];
 }
 
-const MyTabs: React.FC<MyTabsProps> = ({ labels }) => {
-  const [value, setValue] = React.useState(0);
+function CustomTab({ labels, content }: ICustomTab) {
+  const [activeTab, setActiveTab] = useState('1');
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (
+    event: SyntheticEvent<Element, globalThis.Event>,
+    newValue: string
+  ) => {
+    setActiveTab(newValue);
   };
 
   return (
-    <Tabs value={value} onChange={handleChange}>
-      {labels.map((label) => (
-        <Tab key={label} label={label} />
-      ))}
-    </Tabs>
+    <Box sx={{ typography: 'body5' }}>
+      <TabContext value={activeTab}>
+        <TabList onChange={handleChange} aria-label="custom tabs">
+          {labels.map((label: string, index: number) => (
+            <Tab
+              key={index}
+              label={label}
+              value={`${index + 1}`}
+              disabled={`${index + 1}` ? true : false}
+            />
+          ))}
+        </TabList>
+        {content.map((con: ReactElement, index: number) => (
+          <TabPanel
+            key={index}
+            value={`${index + 1}`}
+            className="shadow-lg rounded-md"
+          >
+            {con}
+          </TabPanel>
+        ))}
+      </TabContext>
+    </Box>
   );
-};
+}
 
-MyTabs.propTypes = {
-  labels: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-export default MyTabs;
+export default CustomTab;
