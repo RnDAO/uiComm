@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import CustomTab from '../components/global/CustomTab';
 import { defaultLayout } from '../layouts/defaultLayout';
+import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
+import Onboarding from '../components/pages/statistics/Onboarding';
 import InteractionsSection from '../components/pages/statistics/InteractionsSection';
+import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
 import useAppStore from '../store/useStore';
@@ -80,10 +84,18 @@ const Statistics = () => {
         <CustomTab
           labels={['Active members', 'Disengaged members']}
           content={[
-            <InteractionsSection
-              activePeriod={active}
-              handleDateRange={handleDateRange}
-            />,
+            <div className="flex flex-col space-y-8">
+              <ActiveMembersComposition />
+              <Onboarding />
+              <InteractionsSection
+                activePeriod={active}
+                handleDateRange={handleDateRange}
+              />
+            </div>,
+            <div className="flex flex-col space-y-8">
+              <DisengagedMembersComposition />
+              <InactiveMembers />
+            </div>,
           ]}
         />
       </div>

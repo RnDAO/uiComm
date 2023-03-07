@@ -10,14 +10,20 @@ const defaultOptions = {
     text: '',
   },
   xAxis: {
-    categories: [],
+    categories: ['03 May', '04 May', '05 May', '06 May'],
   },
   yAxis: {
     title: {
       text: '',
     },
   },
-  series: [],
+  series: [
+    {
+      name: 'Still active',
+      data: [2, 4, 56, 233],
+      color: '#FBD13E',
+    },
+  ],
   legend: {
     enabled: false,
   },
@@ -56,6 +62,7 @@ export default function InteractionsSection({
     {
       label: string;
       percentageChange: any;
+      description: string;
       value: any;
       colorBadge: string;
     }[]
@@ -63,40 +70,35 @@ export default function InteractionsSection({
 
   useEffect(() => {
     // Copy options on each changes
-    const newOptions = JSON.parse(JSON.stringify(defaultOptions));
+    // const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    const newSeries = interactions?.series?.map((interaction: any) => {
-      if (interaction.name === 'messages') {
-        return {
-          ...interaction,
-          color: '#804EE1',
-        };
-      } else if (interaction.name === 'emojis') {
-        return {
-          ...interaction,
-          color: '#FF9022',
-        };
-      }
-      return interaction;
-    });
+    // const newSeries = interactions?.series?.map((interaction: any) => {
+    //   if (interaction.name === 'messages') {
+    //     return {
+    //       ...interaction,
+    //       color: '#804EE1',
+    //     };
+    //   } else if (interaction.name === 'emojis') {
+    //     return {
+    //       ...interaction,
+    //       color: '#FF9022',
+    //     };
+    //   }
+    //   return interaction;
+    // });
 
-    newOptions.series = newSeries;
-    newOptions.xAxis.categories = interactions.categories;
+    // newOptions.series = newSeries;
+    // newOptions.xAxis.categories = interactions.categories;
 
-    setOptions(newOptions);
+    // setOptions(newOptions);
 
     setStatistics([
       {
-        label: 'Messages',
-        percentageChange: interactions.msgPercentageChange,
-        value: interactions.messages,
-        colorBadge: 'bg-secondary',
-      },
-      {
-        label: 'Emojies',
-        percentageChange: interactions.emojiPercentageChange,
-        value: interactions.emojis,
-        colorBadge: 'bg-warning-500',
+        label: 'Still active',
+        description: 'Were disengaged and became active again',
+        percentageChange: 0,
+        value: 0,
+        colorBadge: 'bg-yellow',
       },
     ]);
   }, [interactions]);
@@ -105,7 +107,7 @@ export default function InteractionsSection({
     <>
       <div className="flex flex-row justify-between">
         <h3 className="text-lg font-medium text-lite-black">
-          Type of interaction
+          Inactive members
         </h3>
         <RangeSelect
           options={communityActiveDates}

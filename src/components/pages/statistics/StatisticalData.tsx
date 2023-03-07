@@ -16,7 +16,12 @@ type StatisticalDataProps = {
 
 const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
   return (
-    <div className="flex flex-row my-3 space-x-1">
+    <div
+      className={clsx(
+        'flex flex-row my-3 space-x-1',
+        statistics.length > 3 ? 'justify-between' : 'justify-start'
+      )}
+    >
       {statistics.map((stat) => (
         <div
           className={clsx(
@@ -51,7 +56,13 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
             />
             <span className="text-base">{stat.label}</span>
           </div>
-          <span className="text-sm text-gray-custom">{stat.description}</span>
+          {stat.description ? (
+            <span className="text-sm text-gray-custom px-7 pt-2">
+              {stat.description}
+            </span>
+          ) : (
+            ''
+          )}
         </div>
       ))}
     </div>
