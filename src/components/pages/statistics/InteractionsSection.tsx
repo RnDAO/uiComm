@@ -4,9 +4,14 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
-import moment from 'moment';
 
 const defaultOptions = {
+  chart: {
+    zoomType: 'x',
+  },
+  rangeSelector: {
+    enabled: true,
+  },
   title: {
     text: '',
   },
@@ -21,6 +26,15 @@ const defaultOptions = {
   series: [],
   legend: {
     enabled: false,
+  },
+  plotOptions: {
+    series: {
+      turboThreshold: 10000,
+      dataGrouping: {
+        enabled: true,
+        groupPixelWidth: 20,
+      },
+    },
   },
 };
 
