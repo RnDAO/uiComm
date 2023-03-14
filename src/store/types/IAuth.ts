@@ -34,6 +34,7 @@ export default interface IAuth {
   isLoggedIn: boolean;
   guildChannels: IGuildChannels[];
   signUp: () => void;
+  login: () => void;
   loginWithDiscord: (user: IUser) => void;
   fetchGuildChannels: (guild_id: string) => void;
   updateGuildById: (
