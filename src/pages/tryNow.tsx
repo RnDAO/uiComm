@@ -407,7 +407,7 @@ export default function TryNow() {
             </a>
           </div>
           {tryNowState === 'active' ? (
-            <div className="p-3">
+            <div className="p-3 md:p-0">
               <div className="shadow-xl md:w-[650px] md:h-[570px] mx-auto rounded-xl overflow-hidden mt-4 mb-2 md:mt-6 md:mb-3">
                 {activeStep === 0 || activeStep === -1 ? (
                   <>
@@ -636,28 +636,30 @@ export default function TryNow() {
               </div>
             </div>
           ) : (
-            <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-14">
-              <div className="p-8 text-center mx-auto flex flex-col space-y-7 py-12">
-                <div className="mx-auto">
-                  <BiError size={48} className="text-error-500" />
+            <div className="p-3 md:p-0">
+              <div className="shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 md:my-14">
+                <div className="p-8 text-center mx-auto flex flex-col space-y-7 py-12">
+                  <div className="mx-auto">
+                    <BiError size={48} className="text-error-500" />
+                  </div>
+                  <p className="text-xl font-bold">
+                    Please, disconnect your <br className="hidden md:block" />{' '}
+                    community first
+                  </p>
+                  <span className="text-sm w-10/12 text-center mx-auto">
+                    There is one Discord community under your email already. If
+                    you want to add a new community, please disconnect the
+                    current community first. Go to the <b>Settings</b> section
+                    and choose <b>Disconnect</b> option.
+                  </span>
+                  <CustomButton
+                    classes="bg-secondary text-white mx-auto mt-4"
+                    label={'Log in'}
+                    onClick={() => {
+                      redirectToSettings();
+                    }}
+                  />
                 </div>
-                <p className="text-xl font-bold">
-                  Please, disconnect your <br className="hidden md:block" />{' '}
-                  community first
-                </p>
-                <span className="text-sm w-10/12 text-center mx-auto">
-                  There is one Discord community under your email already. If
-                  you want to add a new community, please disconnect the current
-                  community first. Go to the <b>Settings</b> section and choose{' '}
-                  <b>Disconnect</b> option.
-                </span>
-                <CustomButton
-                  classes="bg-secondary text-white mx-auto mt-4"
-                  label={'Log in'}
-                  onClick={() => {
-                    redirectToSettings();
-                  }}
-                />
               </div>
             </div>
           )}
