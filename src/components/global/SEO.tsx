@@ -25,7 +25,7 @@ const SEO: FC<IProps> = ({
 
 SEO.defaultProps = {
   title: 'TogetherCrew',
-  titleTemplate: 'CH Dashboard',
+  titleTemplate: 'Community Insights',
   description: 'TogetherCrew',
 };
 

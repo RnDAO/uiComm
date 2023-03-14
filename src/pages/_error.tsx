@@ -18,11 +18,11 @@ const ErrorPage: NextComponentType<
 
   return (
     <div className="container">
-      <div className="flex w-10/12 py-4 md:w-8/12 md:py-4 mx-auto">
+      <div className="flex px-3 md:px-0 py-4 md:w-8/12 md:py-4 mx-auto">
         <Image alt="Image Alt" src={tcLogo} />
       </div>{' '}
-      <div className="flex flex-col md:flex-row justify-center space-x-8 items-center md:mt-8">
-        <div className="block md:relative md:w-[248px] md:h-[214px]">
+      <div className="flex flex-col md:flex-row justify-center p-3 md:p-0 md:space-x-8 items-center md:mt-8">
+        <div className="hidden md:relative md:block md:w-[248px] md:h-[214px]">
           <Image
             alt="Image Alt"
             src={notFounded}
@@ -53,7 +53,7 @@ const ErrorPage: NextComponentType<
               You might retype the URL or try some helpful links instead:
             </p>
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between">
             <CustomButton
               onClick={() => router.push('/')}
               classes={'text-black'}
