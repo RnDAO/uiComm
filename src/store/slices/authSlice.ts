@@ -16,6 +16,10 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
     location.replace(`${BASE_URL}/auth/try-now`);
   },
 
+  login: () => {
+    location.replace(`${BASE_URL}/auth/login`);
+  },
+
   loginWithDiscord: (user: IUser) =>
     set(() => {
       StorageService.writeLocalStorage('user', {

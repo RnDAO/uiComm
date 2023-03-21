@@ -11,10 +11,16 @@ export default function callback() {
   const [loading, toggleLoading] = useState<boolean>(true);
   if (typeof window !== 'undefined') {
     useEffect(() => {
-      if (Object.keys(router?.query) && Object.keys(router?.query).length > 0) {
+      if (
+        router?.query &&
+        Object.keys(router?.query) &&
+        Object.keys(router?.query).length > 0
+      ) {
         const routerParams: callbackUrlParams = Object.assign(router.query);
 
         statusDecoder(routerParams);
+      } else {
+        router.push('/tryNow');
       }
     }, [router]);
   }
@@ -92,7 +98,7 @@ export default function callback() {
           },
         });
         router.push({
-          pathname: '/dashboard',
+          pathname: '/',
         });
         break;
 
@@ -110,7 +116,7 @@ export default function callback() {
           },
         });
         router.push({
-          pathname: '/dashboard',
+          pathname: '/',
         });
         break;
 
@@ -127,7 +133,7 @@ export default function callback() {
             refreshExp: params.refreshExp,
           },
         });
-        router.push('/dashboard');
+        router.push('/');
         break;
 
       case '602':
@@ -148,7 +154,7 @@ export default function callback() {
             refreshExp: params.refreshExp,
           },
         });
-        router.push('/dashboard');
+        router.push('/');
         break;
 
       case '701':

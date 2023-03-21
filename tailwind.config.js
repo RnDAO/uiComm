@@ -61,6 +61,8 @@ const colors = {
   'border-gray': '#B4B4B4',
   aqua: '#35B9B7',
   success: '#56C054',
+  'gray-hover':'#F7F7F7',
+  'purple-light':'#8474C0'
 };
 
 const backgroundImage = {
