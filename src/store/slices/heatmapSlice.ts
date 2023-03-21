@@ -20,6 +20,7 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
           startDate,
           endDate,
           timeZone,
+          channelIds: [],
         }
       );
       set({ heatmapRecords: [...data], isLoading: false });
