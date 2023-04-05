@@ -6,6 +6,12 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 
 const defaultOptions = {
+  chart: {
+    zoomType: 'x',
+  },
+  rangeSelector: {
+    enabled: true,
+  },
   title: {
     text: '',
   },
@@ -20,6 +26,15 @@ const defaultOptions = {
   series: [],
   legend: {
     enabled: false,
+  },
+  plotOptions: {
+    series: {
+      turboThreshold: 10000,
+      dataGrouping: {
+        enabled: true,
+        groupPixelWidth: 20,
+      },
+    },
   },
 };
 
@@ -103,7 +118,7 @@ export default function InteractionsSection({
 
   return (
     <>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col md:flex-row justify-between">
         <h3 className="text-lg font-medium text-lite-black">
           Type of interaction
         </h3>

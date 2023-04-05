@@ -1,5 +1,5 @@
-import type { FC } from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import type { FC } from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 interface IProps {
   title?: string;
@@ -16,7 +16,7 @@ const SEO: FC<IProps> = ({
     <Helmet>
       <meta charSet="utf-8" />
       <title>
-        {title} | {titleTemplate}
+        {titleTemplate} | {title}
       </title>
       <meta name="description" content={description} />
     </Helmet>
@@ -24,9 +24,9 @@ const SEO: FC<IProps> = ({
 );
 
 SEO.defaultProps = {
-  title: "ToghetherCrew",
-  titleTemplate: "CH Dashboard",
-  description: "ToghetherCrew",
+  title: 'TogetherCrew',
+  titleTemplate: 'Community Insights',
+  description: 'TogetherCrew',
 };
 
 export default SEO;

@@ -96,6 +96,10 @@ const Statistics = () => {
               <DisengagedMembersComposition />
               <InactiveMembers />
             </div>,
+            <InteractionsSection
+              activePeriod={active}
+              handleDateRange={handleDateRange}
+            />,
           ]}
         />
       </div>

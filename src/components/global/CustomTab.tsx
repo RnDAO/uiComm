@@ -19,11 +19,16 @@ function CustomTab({ labels, content }: ICustomTab) {
   };
 
   return (
-    <Box sx={{ typography: 'body1' }}>
+    <Box sx={{ typography: 'body5' }}>
       <TabContext value={activeTab}>
         <TabList onChange={handleChange} aria-label="custom tabs">
           {labels.map((label: string, index: number) => (
-            <Tab key={index} label={label} value={`${index + 1}`} />
+            <Tab
+              key={index}
+              label={label}
+              value={`${index + 1}`}
+              disabled={`${index + 1}` ? true : false}
+            />
           ))}
         </TabList>
         {content.map((con: ReactElement, index: number) => (

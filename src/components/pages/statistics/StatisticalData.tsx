@@ -27,8 +27,8 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
           className={clsx(
             'flex flex-col text-center justify-center relative rounded-2xl hover:bg-gray-hover',
             stat.description
-              ? 'md:w-[280px] md:h-[200px]'
-              : 'md:w-[280px] md:h-[180px]'
+              ? 'w-[220px] h-[200px] md:w-[280px] md:h-[200px]'
+              : 'w-[270px] h-[170px] md:w-[280px] md:h-[180px]'
           )}
           key={stat.label}
         >

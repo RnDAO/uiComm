@@ -20,6 +20,7 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
           startDate,
           endDate,
           timeZone,
+          channelIds: [],
         }
       );
       set({ heatmapRecords: [...data], isLoading: false });
@@ -42,8 +43,6 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
           endDate,
         }
       );
-      console.log({ data });
-
       set({ interactions: data, isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
