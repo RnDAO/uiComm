@@ -52,16 +52,13 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
             <span className="text-base">{stat.label}</span>
           </div>
           {stat.description && (
-            <span className="text-sm text-center text-gray-custom px-7 pt-2">
+            <span className="text-sm text-center text-gray-custom px-5 pt-2">
               {stat.description}
               <div className="text-center mx-auto">
                 {stat.hasTooltip && (
                   <Tooltip title={stat.tooltipText} arrow placement="bottom">
-                    <span className="md:top-0 md:-right-2">
-                      <AiOutlineExclamationCircle
-                        size={'18px'}
-                        className="text-center mx-auto"
-                      />
+                    <span className="absolute md:bottom-11 md:right-8">
+                      <AiOutlineExclamationCircle size={'18px'} />
                     </span>
                   </Tooltip>
                 )}
