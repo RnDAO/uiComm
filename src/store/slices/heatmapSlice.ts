@@ -6,6 +6,7 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
   isLoading: false,
   heatmapRecords: [],
   interactions: {},
+  activeMembers: {},
   fetchHeatmapData: async (
     guild_id: string,
     startDate: string,
@@ -44,6 +45,25 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
         }
       );
       set({ interactions: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  fetchActiveMembers: async (
+    guild_id: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.post(
+        `/member-activity/${guild_id}/active-members-composition-line-graph`,
+        {
+          startDate,
+          endDate,
+        }
+      );
+      set({ activeMembers: data, isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }

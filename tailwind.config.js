@@ -19,13 +19,14 @@ const colors = {
     500: '#225262',
   },
   info: {
-    DEFAULT: '#69A7A4',
+    DEFAULT: '#4368F1',
     50: '#F7FFFE',
     100: '#D0FBF8',
     200: '#A7F3F0',
     300: '#92DAD6',
     400: '#7DC0BD',
     500: '#39C2C0',
+    600: '#313671',
   },
   error: {
     DEFAULT: '#B6435B',
@@ -46,12 +47,15 @@ const colors = {
     500: '#FF9022',
   },
   yellow: {
-    DEFAULT: '#DDAD21',
+    DEFAULT: '#FBD13E',
     50: '#FFFAEA',
     100: '#FFEEBD',
     200: '#FFE28F',
     300: '#FFD761',
     400: '#FFCB33',
+  },
+  green: {
+    DEFAULT: '#3AAE2B',
   },
   lite: '#F8F8F8',
   'lite-black': '#3E3E3E',

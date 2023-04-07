@@ -1,29 +1,29 @@
+import { Tooltip } from '@mui/material';
 import clsx from 'clsx';
 import React from 'react';
 import { RxArrowTopRight, RxArrowBottomRight } from 'react-icons/rx';
-
-type Statistic = {
-  label: string;
-  value: number | string;
-  description?: string;
-  percentageChange: number;
-  colorBadge?: string;
-};
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 type StatisticalDataProps = {
-  statistics: Statistic[];
+  statistics: StatisticsProps[];
 };
 
 const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
   return (
-    <div className="flex flex-row my-3 space-x-5 overflow-x-scroll md:overflow-auto">
+    <div
+      className={clsx(
+        'flex flex-row my-3 space-x-1',
+        statistics.length > 3 ? 'justify-between' : 'justify-start'
+      )}
+    >
       {statistics.map((stat) => (
         <div
           className={clsx(
             'flex flex-col text-center justify-center relative rounded-2xl hover:bg-gray-hover',
             stat.description
-              ? 'w-[220px] h-[200px] md:w-[280px] md:h-[200px]'
-              : 'w-[270px] h-[170px] md:w-[280px] md:h-[180px]'
+              ? 'min-w-full h-[200px] md:min-w-[220px] md:max-w-[220px] md:h-[200px]'
+              : 'min-w-full h-[170px] md:min-w-[280px] md:max-w-[280px] md:h-[180px]'
           )}
           key={stat.label}
         >
@@ -44,18 +44,48 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
               {stat?.percentageChange?.toFixed(0)} %
             </span>
           </span>
-          <span className="text-4xl font-bold pb-1">{stat.value}</span>
+          <span className="text-4xl font-bold pb-1">{stat.value ?? 0}</span>
           <div className="flex items-center justify-center">
             <div
               className={clsx('rounded-full w-3.5 h-3.5 mr-2', stat.colorBadge)}
             />
             <span className="text-base">{stat.label}</span>
           </div>
-          <span className="text-sm text-gray-custom">{stat.description}</span>
+          {stat.description && (
+            <span className="text-sm text-center text-gray-custom px-7 pt-2">
+              {stat.description}
+              <div className="text-center mx-auto">
+                {stat.hasTooltip && (
+                  <Tooltip title={stat.tooltipText} arrow placement="bottom">
+                    <span className="md:top-0 md:-right-2">
+                      <AiOutlineExclamationCircle
+                        size={'18px'}
+                        className="text-center mx-auto"
+                      />
+                    </span>
+                  </Tooltip>
+                )}
+              </div>
+            </span>
+          )}
         </div>
       ))}
     </div>
   );
+};
+
+StatisticalData.defaultProps = {
+  statistics: [
+    {
+      label: '',
+      value: 0,
+      description: '',
+      percentageChange: 0,
+      colorBadge: '',
+      hasTooltip: false,
+      tooltipText: '',
+    },
+  ],
 };
 
 export default StatisticalData;
