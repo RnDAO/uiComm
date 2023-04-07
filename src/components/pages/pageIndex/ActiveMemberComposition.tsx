@@ -8,22 +8,13 @@ import { IUser } from '../../../utils/types';
 import moment from 'moment';
 import RangeSelect from '../../global/RangeSelect';
 import { FiCalendar } from 'react-icons/fi';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const ActiveMemberComposition = () => {
   const router = useRouter();
   const [active, setActive] = useState(1);
   const { fetchActiveMembers, activeMembers } = useAppStore();
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      description: string;
-      value: any;
-      colorBadge: string;
-      hasTooltip: boolean;
-      tooltipText?: React.ReactNode;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');

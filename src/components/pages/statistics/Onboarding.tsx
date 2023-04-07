@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   title: {
@@ -45,15 +46,7 @@ const defaultOptions = {
 export default function Onboarding() {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      description: string;
-      value: any;
-      colorBadge: string;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
@@ -86,6 +79,7 @@ export default function Onboarding() {
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-info',
+        hasTooltip: false,
       },
       {
         label: 'Newly active',
@@ -94,6 +88,7 @@ export default function Onboarding() {
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-warning-500',
+        hasTooltip: false,
       },
       {
         label: 'Still active',
@@ -102,6 +97,7 @@ export default function Onboarding() {
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-yellow',
+        hasTooltip: false,
       },
       {
         label: 'Dropped',
@@ -110,6 +106,7 @@ export default function Onboarding() {
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-error-500',
+        hasTooltip: false,
       },
     ]);
   }, [interactions]);

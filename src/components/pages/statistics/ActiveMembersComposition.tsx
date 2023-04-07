@@ -4,6 +4,12 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
+import { StatisticsProps } from '../../../utils/interfaces';
+
+export interface DisengagedMembersComposition {
+  activePeriod: number;
+  handleDateRange: (range: string | number) => void;
+}
 
 const defaultOptions = {
   chart: {
@@ -64,20 +70,10 @@ const communityActiveDates = [
 export default function ActiveMembersComposition({
   activePeriod,
   handleDateRange,
-}: any) {
+}: DisengagedMembersComposition) {
   const { activeMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      description: string;
-      value: any;
-      colorBadge: string;
-      hasTooltip: boolean;
-      tooltipText?: React.ReactNode;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes

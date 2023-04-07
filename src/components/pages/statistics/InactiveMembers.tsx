@@ -4,6 +4,7 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   title: {
@@ -52,21 +53,13 @@ const communityActiveDates = [
   },
 ];
 
-export default function InteractionsSection({
+export default function InactiveMembers({
   activePeriod,
   handleDateRange,
 }: any) {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      description: string;
-      value: any;
-      colorBadge: string;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
@@ -99,6 +92,7 @@ export default function InteractionsSection({
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-yellow',
+        hasTooltip: false,
       },
     ]);
   }, [interactions]);

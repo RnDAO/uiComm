@@ -4,6 +4,12 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
+import { StatisticsProps } from '../../../utils/interfaces';
+
+export interface DisengagedMembersComposition {
+  activePeriod: number;
+  handleDateRange: (range: string | number) => void;
+}
 
 const defaultOptions = {
   title: {
@@ -67,21 +73,13 @@ const communityActiveDates = [
   },
 ];
 
-export default function ActiveMembersComposition({
+export default function DisengagedMembersComposition({
   activePeriod,
   handleDateRange,
-}: any) {
+}: DisengagedMembersComposition) {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      description: string;
-      value: any;
-      colorBadge: string;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
@@ -114,6 +112,7 @@ export default function ActiveMembersComposition({
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-error-500',
+        hasTooltip: false,
       },
       {
         label: 'Were newly active',
@@ -122,6 +121,7 @@ export default function ActiveMembersComposition({
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-warning-500',
+        hasTooltip: false,
       },
       {
         label: 'Were consistently active',
@@ -130,6 +130,7 @@ export default function ActiveMembersComposition({
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-secondary',
+        hasTooltip: false,
       },
       {
         label: 'Were vital members',
@@ -137,6 +138,7 @@ export default function ActiveMembersComposition({
         percentageChange: 0,
         value: 0,
         colorBadge: 'bg-info-600',
+        hasTooltip: false,
       },
     ]);
   }, [interactions]);

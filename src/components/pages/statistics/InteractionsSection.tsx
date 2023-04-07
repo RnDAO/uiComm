@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   chart: {
@@ -62,14 +63,7 @@ const communityActiveDates = [
 export default function InteractionsSection() {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      value: any;
-      colorBadge: string;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
@@ -101,12 +95,14 @@ export default function InteractionsSection() {
         percentageChange: interactions.msgPercentageChange,
         value: interactions.messages,
         colorBadge: 'bg-secondary',
+        hasTooltip: false,
       },
       {
         label: 'Emojies',
         percentageChange: interactions.emojiPercentageChange,
         value: interactions.emojis,
         colorBadge: 'bg-warning-500',
+        hasTooltip: false,
       },
     ]);
   }, [interactions]);

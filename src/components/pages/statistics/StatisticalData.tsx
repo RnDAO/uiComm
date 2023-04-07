@@ -3,19 +3,10 @@ import clsx from 'clsx';
 import React from 'react';
 import { RxArrowTopRight, RxArrowBottomRight } from 'react-icons/rx';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-
-type Statistic = {
-  label: string;
-  value: number | string;
-  description?: string;
-  percentageChange: number;
-  colorBadge?: string;
-  hasTooltip?: boolean;
-  tooltipText?: React.ReactNode;
-};
+import { StatisticsProps } from '../../../utils/interfaces';
 
 type StatisticalDataProps = {
-  statistics: Statistic[];
+  statistics: StatisticsProps[];
 };
 
 const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
@@ -61,13 +52,16 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
             <span className="text-base">{stat.label}</span>
           </div>
           {stat.description && (
-            <span className="text-sm text-gray-custom px-7 pt-2">
+            <span className="text-sm text-center text-gray-custom px-7 pt-2">
               {stat.description}
-              <div className="relative -left-1 md:float-right md:-left-2 md:top-0.5">
+              <div className="text-center mx-auto">
                 {stat.hasTooltip && (
                   <Tooltip title={stat.tooltipText} arrow placement="bottom">
-                    <span className="absolute md:top-0 md:-right-2">
-                      <AiOutlineExclamationCircle size={'18px'} />
+                    <span className="md:top-0 md:-right-2">
+                      <AiOutlineExclamationCircle
+                        size={'18px'}
+                        className="text-center mx-auto"
+                      />
                     </span>
                   </Tooltip>
                 )}
