@@ -44,7 +44,7 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
               {stat?.percentageChange?.toFixed(0)} %
             </span>
           </span>
-          <span className="text-4xl font-bold pb-1">{stat.value}</span>
+          <span className="text-4xl font-bold pb-1">{stat.value ?? 0}</span>
           <div className="flex items-center justify-center">
             <div
               className={clsx('rounded-full w-3.5 h-3.5 mr-2', stat.colorBadge)}
