@@ -1,6 +1,8 @@
+import { Tooltip } from '@mui/material';
 import clsx from 'clsx';
 import React from 'react';
 import { RxArrowTopRight, RxArrowBottomRight } from 'react-icons/rx';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
 type Statistic = {
   label: string;
@@ -8,6 +10,8 @@ type Statistic = {
   description?: string;
   percentageChange: number;
   colorBadge?: string;
+  hasTooltip?: boolean;
+  tooltipText?: React.ReactNode;
 };
 
 type StatisticalDataProps = {
@@ -27,8 +31,8 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
           className={clsx(
             'flex flex-col text-center justify-center relative rounded-2xl hover:bg-gray-hover',
             stat.description
-              ? 'w-[220px] h-[200px] md:w-[280px] md:h-[200px]'
-              : 'w-[270px] h-[170px] md:w-[280px] md:h-[180px]'
+              ? 'min-w-full h-[200px] md:min-w-[220px] md:max-w-[220px] md:h-[200px]'
+              : 'min-w-full h-[170px] md:min-w-[280px] md:max-w-[280px] md:h-[180px]'
           )}
           key={stat.label}
         >
@@ -56,17 +60,38 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
             />
             <span className="text-base">{stat.label}</span>
           </div>
-          {stat.description ? (
+          {stat.description && (
             <span className="text-sm text-gray-custom px-7 pt-2">
               {stat.description}
+              <div className="relative -left-1 md:float-right md:-left-2 md:top-0.5">
+                {stat.hasTooltip && (
+                  <Tooltip title={stat.tooltipText} arrow placement="bottom">
+                    <span className="absolute md:top-0 md:-right-2">
+                      <AiOutlineExclamationCircle size={'18px'} />
+                    </span>
+                  </Tooltip>
+                )}
+              </div>
             </span>
-          ) : (
-            ''
           )}
         </div>
       ))}
     </div>
   );
+};
+
+StatisticalData.defaultProps = {
+  statistics: [
+    {
+      label: '',
+      value: 0,
+      description: '',
+      percentageChange: 0,
+      colorBadge: '',
+      hasTooltip: false,
+      tooltipText: '',
+    },
+  ],
 };
 
 export default StatisticalData;

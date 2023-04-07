@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
-import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from '../../global/RangeSelect';
 
 const defaultOptions = {
   chart: {
@@ -61,10 +59,7 @@ const communityActiveDates = [
   },
 ];
 
-export default function InteractionsSection({
-  activePeriod,
-  handleDateRange,
-}: any) {
+export default function InteractionsSection() {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<
@@ -122,14 +117,10 @@ export default function InteractionsSection({
         <h3 className="text-lg font-medium text-lite-black">
           Type of interaction
         </h3>
-        <RangeSelect
-          options={communityActiveDates}
-          icon={<FiCalendar size={18} />}
-          active={activePeriod}
-          onClick={handleDateRange}
-        />
       </div>
-      <StatisticalData statistics={[...statistics]} />
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+        <StatisticalData statistics={[...statistics]} />
+      </div>
       <LineGraph options={options} />
     </>
   );

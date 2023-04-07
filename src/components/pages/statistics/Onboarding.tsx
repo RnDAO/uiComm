@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
-import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from '../../global/RangeSelect';
 
 const defaultOptions = {
   title: {
@@ -44,30 +42,7 @@ const defaultOptions = {
   },
 };
 
-const communityActiveDates = [
-  {
-    title: 'Last 7 days',
-    value: 1,
-  },
-  {
-    title: '1M',
-    value: 2,
-  },
-  {
-    title: '3M',
-    value: 3,
-  },
-  {
-    title: '6M',
-    value: 4,
-  },
-  {
-    title: '1Y',
-    value: 5,
-  },
-];
-
-export default function Onboarding({ activePeriod, handleDateRange }: any) {
+export default function Onboarding() {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<
@@ -145,12 +120,6 @@ export default function Onboarding({ activePeriod, handleDateRange }: any) {
         <div className="w-full">
           <div className="flex flex-row justify-between items-center">
             <h3 className="text-lg font-medium text-lite-black">Onboarding</h3>
-            <RangeSelect
-              options={communityActiveDates}
-              icon={<FiCalendar size={18} />}
-              active={activePeriod}
-              onClick={handleDateRange}
-            />
           </div>
           <p className="text-sm text-gray-custom">New members retention</p>
         </div>
