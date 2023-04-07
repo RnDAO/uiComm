@@ -4,7 +4,7 @@ import { defaultLayout } from '../layouts/defaultLayout';
 import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
 // import Onboarding from '../components/pages/statistics/Onboarding';
 import InteractionsSection from '../components/pages/statistics/InteractionsSection';
-import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
+// import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
 import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
@@ -99,7 +99,7 @@ const Statistics = () => {
               <InteractionsSection />
             </div>,
             <div className="flex flex-col space-y-8">
-              <DisengagedMembersComposition />
+              {/* <DisengagedMembersComposition /> */}
               <InactiveMembers />
             </div>,
           ]}
