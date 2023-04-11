@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
-import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from '../../global/RangeSelect';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   chart: {
@@ -38,43 +37,10 @@ const defaultOptions = {
   },
 };
 
-const communityActiveDates = [
-  {
-    title: 'Last 7 days',
-    value: 1,
-  },
-  {
-    title: '1M',
-    value: 2,
-  },
-  {
-    title: '3M',
-    value: 3,
-  },
-  {
-    title: '6M',
-    value: 4,
-  },
-  {
-    title: '1Y',
-    value: 5,
-  },
-];
-
-export default function InteractionsSection({
-  activePeriod,
-  handleDateRange,
-}: any) {
+export default function InteractionsSection() {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
-  const [statistics, setStatistics] = useState<
-    {
-      label: string;
-      percentageChange: any;
-      value: any;
-      colorBadge: string;
-    }[]
-  >([]);
+  const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
@@ -106,12 +72,14 @@ export default function InteractionsSection({
         percentageChange: interactions.msgPercentageChange,
         value: interactions.messages,
         colorBadge: 'bg-secondary',
+        hasTooltip: false,
       },
       {
         label: 'Emojies',
         percentageChange: interactions.emojiPercentageChange,
         value: interactions.emojis,
         colorBadge: 'bg-warning-500',
+        hasTooltip: false,
       },
     ]);
   }, [interactions]);
@@ -122,14 +90,10 @@ export default function InteractionsSection({
         <h3 className="text-lg font-medium text-lite-black">
           Type of interaction
         </h3>
-        <RangeSelect
-          options={communityActiveDates}
-          icon={<FiCalendar size={18} />}
-          active={activePeriod}
-          onClick={handleDateRange}
-        />
       </div>
-      <StatisticalData statistics={[...statistics]} />
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+        <StatisticalData statistics={[...statistics]} />
+      </div>
       <LineGraph options={options} />
     </>
   );

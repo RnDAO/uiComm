@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import CustomTab from '../components/global/CustomTab';
 import { defaultLayout } from '../layouts/defaultLayout';
+import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
+// import Onboarding from '../components/pages/statistics/Onboarding';
 import InteractionsSection from '../components/pages/statistics/InteractionsSection';
+// import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
 import useAppStore from '../store/useStore';
@@ -10,12 +14,17 @@ import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 const Statistics = () => {
   const [active, setActive] = useState(1);
-  const { fetchInteractions, isLoading } = useAppStore();
+  const { fetchInteractions, fetchActiveMembers, isLoading } = useAppStore();
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
     if (user) {
       const { guild } = user;
       fetchInteractions(
+        guild.guildId,
+        moment().subtract(7, 'days'),
+        moment().format('YYYY-MM-DDTHH:mm:ss[Z]')
+      );
+      fetchActiveMembers(
         guild.guildId,
         moment().subtract(7, 'days'),
         moment().format('YYYY-MM-DDTHH:mm:ss[Z]')
@@ -68,6 +77,7 @@ const Statistics = () => {
     if (user) {
       const { guild } = user;
       fetchInteractions(guild.guildId, dateTime[0], dateTime[1]);
+      fetchActiveMembers(guild.guildId, dateTime[0], dateTime[1]);
     }
   };
 
@@ -80,10 +90,18 @@ const Statistics = () => {
         <CustomTab
           labels={['Active members', 'Disengaged members']}
           content={[
-            <InteractionsSection
-              activePeriod={active}
-              handleDateRange={handleDateRange}
-            />,
+            <div className="flex flex-col space-y-8">
+              <ActiveMembersComposition
+                activePeriod={active}
+                handleDateRange={handleDateRange}
+              />
+              {/* <Onboarding /> */}
+              <InteractionsSection />
+            </div>,
+            <div className="flex flex-col space-y-8">
+              {/* <DisengagedMembersComposition /> */}
+              <InactiveMembers />
+            </div>,
           ]}
         />
       </div>
