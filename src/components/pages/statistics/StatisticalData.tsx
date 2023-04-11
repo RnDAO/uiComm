@@ -22,7 +22,7 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
           className={clsx(
             'flex flex-col text-center justify-center relative rounded-2xl hover:bg-gray-hover',
             stat.description
-              ? 'min-w-full h-[200px] md:min-w-[220px] md:max-w-[220px] md:h-[200px]'
+              ? 'min-w-full h-[200px] md:min-w-[220px] md:max-w-[280px] md:h-[200px]'
               : 'min-w-full h-[170px] md:min-w-[280px] md:max-w-[280px] md:h-[180px]'
           )}
           key={stat.label}
@@ -57,8 +57,11 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
               <div className="text-center mx-auto">
                 {stat.hasTooltip && (
                   <Tooltip title={stat.tooltipText} arrow placement="bottom">
-                    <span className="absolute md:bottom-11 md:right-8">
-                      <AiOutlineExclamationCircle size={'18px'} />
+                    <span>
+                      <AiOutlineExclamationCircle
+                        size={'18px'}
+                        className="mx-auto"
+                      />
                     </span>
                   </Tooltip>
                 )}

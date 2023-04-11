@@ -6,9 +6,9 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { StatisticsProps } from '../../../utils/interfaces';
 
-export interface DisengagedMembersComposition {
+export interface ActiveMembersComposition {
   activePeriod: number;
-  handleDateRange: (range: string | number) => void;
+  handleDateRange: (range: number) => void;
 }
 
 const defaultOptions = {
@@ -70,7 +70,7 @@ const communityActiveDates = [
 export default function ActiveMembersComposition({
   activePeriod,
   handleDateRange,
-}: DisengagedMembersComposition) {
+}: ActiveMembersComposition) {
   const { activeMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
