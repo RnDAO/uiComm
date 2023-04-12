@@ -7,26 +7,35 @@ import RangeSelect from '../../global/RangeSelect';
 import { StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
+  chart: {
+    zoomType: 'x',
+  },
+  rangeSelector: {
+    enabled: true,
+  },
   title: {
     text: '',
   },
   xAxis: {
-    categories: ['03 May', '04 May', '05 May', '06 May'],
+    categories: [],
   },
   yAxis: {
     title: {
       text: '',
     },
   },
-  series: [
-    {
-      name: 'Still active',
-      data: [2, 4, 56, 233],
-      color: '#FBD13E',
-    },
-  ],
+  series: [],
   legend: {
     enabled: false,
+  },
+  plotOptions: {
+    series: {
+      turboThreshold: 10000,
+      dataGrouping: {
+        enabled: true,
+        groupPixelWidth: 20,
+      },
+    },
   },
 };
 
@@ -57,37 +66,32 @@ export default function InactiveMembers({
   activePeriod,
   handleDateRange,
 }: any) {
-  const { interactions } = useAppStore();
+  const { inactiveMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
-    // const newOptions = JSON.parse(JSON.stringify(defaultOptions));
+    const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    // const newSeries = interactions?.series?.map((interaction: any) => {
-    //   if (interaction.name === 'messages') {
-    //     return {
-    //       ...interaction,
-    //       color: '#804EE1',
-    //     };
-    //   } else if (interaction.name === 'emojis') {
-    //     return {
-    //       ...interaction,
-    //       color: '#FF9022',
-    //     };
-    //   }
-    //   return interaction;
-    // });
+    const newSeries = inactiveMembers?.series?.map((inactiveMember: any) => {
+      if (inactiveMember.name === 'returned') {
+        return {
+          ...inactiveMember,
+          color: '#FBD13E',
+        };
+      }
+      return inactiveMember;
+    });
 
-    // newOptions.series = newSeries;
-    // newOptions.xAxis.categories = interactions.categories;
+    newOptions.series = newSeries;
+    newOptions.xAxis.categories = inactiveMembers.categories;
 
-    // setOptions(newOptions);
+    setOptions(newOptions);
 
     setStatistics([
       {
-        label: 'Still active',
+        label: 'Returned',
         description: 'Were disengaged and became active again',
         percentageChange: 0,
         value: 0,
@@ -95,7 +99,7 @@ export default function InactiveMembers({
         hasTooltip: false,
       },
     ]);
-  }, [interactions]);
+  }, [inactiveMembers]);
 
   return (
     <>
@@ -103,14 +107,10 @@ export default function InactiveMembers({
         <h3 className="text-lg font-medium text-lite-black">
           Inactive members
         </h3>
-        <RangeSelect
-          options={communityActiveDates}
-          icon={<FiCalendar size={18} />}
-          active={activePeriod}
-          onClick={handleDateRange}
-        />
       </div>
-      <StatisticalData statistics={[...statistics]} />
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+        <StatisticalData statistics={[...statistics]} />
+      </div>
       <LineGraph options={options} />
     </>
   );

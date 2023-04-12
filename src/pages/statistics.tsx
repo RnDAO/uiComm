@@ -5,11 +5,13 @@ import CustomTab from '../components/global/CustomTab';
 import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
 import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
 import InteractionsSection from '../components/pages/statistics/InteractionsSection';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { defaultLayout } from '../layouts/defaultLayout';
 import { IUser } from '../utils/types';
 import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
+import SEO from '../components/global/SEO';
 
 const Statistics = () => {
   const [activeMemberDate, setActiveMemberDate] = useState(1);
@@ -18,6 +20,7 @@ const Statistics = () => {
     fetchInteractions,
     fetchActiveMembers,
     fetchDisengagedMembers,
+    fetchInactiveMembers,
     isLoading,
   } = useAppStore();
 
@@ -46,6 +49,11 @@ const Statistics = () => {
     } else {
       const disengagedDateRange = getDateRange(disengagedMemberDate);
       fetchDisengagedMembers(
+        guild.guildId,
+        disengagedDateRange[0],
+        disengagedDateRange[1]
+      );
+      fetchInactiveMembers(
         guild.guildId,
         disengagedDateRange[0],
         disengagedDateRange[1]
@@ -93,6 +101,11 @@ const Statistics = () => {
 
   return (
     <>
+      <SEO
+        titleTemplate={
+          activeTab === '1' ? 'Active Members' : 'Disengaged Members'
+        }
+      />
       <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
         <CustomTab
           activeTab={activeTab}
@@ -111,6 +124,7 @@ const Statistics = () => {
                 activePeriod={disengagedMemberDate}
                 handleDateRange={handleDisengagedMemberDateRange}
               />
+              <InactiveMembers />
             </div>,
           ]}
         />

@@ -5,7 +5,11 @@ export default function SimpleBackdrop() {
   return (
     <Backdrop
       open={true}
-      sx={{ color: '#804EE1', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      sx={{
+        color: '#804EE1',
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        top: '-4rem',
+      }}
     >
       <CircularProgress color="inherit" size={'80px'} />
     </Backdrop>
