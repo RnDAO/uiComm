@@ -4,6 +4,7 @@ export default interface IHeatmap {
   interactions: {};
   activeMembers: {};
   disengagedMembers: {};
+  inactiveMembers: {};
   fetchHeatmapData: (
     guild_id: string,
     startDate: string,
@@ -23,6 +24,12 @@ export default interface IHeatmap {
     timeZone: string
   ) => any;
   fetchDisengagedMembers: (
+    guild_id: string,
+    startDate: string,
+    endDate: string,
+    timeZone: string
+  ) => any;
+  fetchInactiveMembers: (
     guild_id: string,
     startDate: string,
     endDate: string,
