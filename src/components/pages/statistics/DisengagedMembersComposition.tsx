@@ -8,45 +8,39 @@ import { StatisticsProps } from '../../../utils/interfaces';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
-  handleDateRange: (range: string | number) => void;
+  handleDateRange: (range: number) => void;
 }
 
 const defaultOptions = {
+  chart: {
+    zoomType: 'x',
+  },
+  rangeSelector: {
+    enabled: true,
+  },
   title: {
     text: '',
   },
   xAxis: {
-    categories: ['03 May', '04 May', '05 May', '06 May'],
+    categories: [],
   },
   yAxis: {
     title: {
       text: '',
     },
   },
-  series: [
-    {
-      name: 'Became disengaged',
-      data: [2, 4, 56, 233],
-      color: '#FB3E56',
-    },
-    {
-      name: 'Were newly active',
-      data: [22, 43, 156, 233],
-      color: '#FF9022',
-    },
-    {
-      name: 'Were consistently active',
-      data: [12, 14, 52, 23],
-      color: '#804EE1',
-    },
-    {
-      name: 'Were vital members',
-      data: [25, 43, 16, 33],
-      color: '#313671',
-    },
-  ],
+  series: [],
   legend: {
     enabled: false,
+  },
+  plotOptions: {
+    series: {
+      turboThreshold: 10000,
+      dataGrouping: {
+        enabled: true,
+        groupPixelWidth: 20,
+      },
+    },
   },
 };
 
@@ -77,40 +71,53 @@ export default function DisengagedMembersComposition({
   activePeriod,
   handleDateRange,
 }: DisengagedMembersComposition) {
-  const { interactions } = useAppStore();
+  const { disengagedMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
-    // const newOptions = JSON.parse(JSON.stringify(defaultOptions));
+    const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    // const newSeries = interactions?.series?.map((interaction: any) => {
-    //   if (interaction.name === 'messages') {
-    //     return {
-    //       ...interaction,
-    //       color: '#804EE1',
-    //     };
-    //   } else if (interaction.name === 'emojis') {
-    //     return {
-    //       ...interaction,
-    //       color: '#FF9022',
-    //     };
-    //   }
-    //   return interaction;
-    // });
+    const newSeries = disengagedMembers?.series?.map(
+      (disengagedMember: any) => {
+        if (disengagedMember.name === 'becameDisengaged') {
+          return {
+            ...disengagedMember,
+            color: '#FB3E56',
+          };
+        } else if (disengagedMember.name === 'wereNewlyActive') {
+          return {
+            ...disengagedMember,
+            color: '#FF9022',
+          };
+        } else if (disengagedMember.name === 'wereConsistentlyActive') {
+          return {
+            ...disengagedMember,
+            color: '#804EE1',
+          };
+        } else if (disengagedMember.name === 'wereVitalMembers') {
+          return {
+            ...disengagedMember,
+            color: '#313671',
+          };
+        }
 
-    // newOptions.series = newSeries;
-    // newOptions.xAxis.categories = interactions.categories;
+        return disengagedMember;
+      }
+    );
 
-    // setOptions(newOptions);
+    newOptions.series = newSeries;
+    newOptions.xAxis.categories = disengagedMembers.categories;
+
+    setOptions(newOptions);
 
     setStatistics([
       {
         label: 'Became disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
-        percentageChange: 0,
-        value: 0,
+        percentageChange: disengagedMembers.becameDisengagedPercentageChange,
+        value: disengagedMembers.becameDisengaged,
         colorBadge: 'bg-error-500',
         hasTooltip: false,
       },
@@ -118,36 +125,56 @@ export default function DisengagedMembersComposition({
         label: 'Were newly active',
         description:
           'Started interacting for the first time in the last 7 days',
-        percentageChange: 0,
-        value: 0,
+        percentageChange: disengagedMembers.wereNewlyActivePercentageChange,
+        value: disengagedMembers.wereNewlyActive,
         colorBadge: 'bg-warning-500',
-        hasTooltip: false,
+        hasTooltip: true,
+        tooltipText: (
+          <>
+            <span>Interactions are all messages that:</span>
+            <ol className="list-disc pl-8">
+              <li>mention someone</li>
+              <li>receive a reply</li>
+              <li>receive a reaction</li>
+              <li>happen in a thread</li>
+            </ol>
+            <p>Messages without replies or reactions are not counted.</p>
+          </>
+        ),
       },
       {
         label: 'Were consistently active',
         description:
           'Were interacting every week for at least 3 out of the last 4 weeks',
-        percentageChange: 0,
-        value: 0,
+        percentageChange:
+          disengagedMembers.wereConsistentlyActivePercentageChange,
+        value: disengagedMembers.wereConsistentlyActive,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
       },
       {
         label: 'Were vital members',
         description: 'Were consistently active and very connected',
-        percentageChange: 0,
-        value: 0,
+        percentageChange: disengagedMembers.wereVitalMembersPercentageChange,
+        value: disengagedMembers.wereVitalMembers,
         colorBadge: 'bg-info-600',
-        hasTooltip: false,
+        hasTooltip: true,
+        tooltipText: (
+          <>
+            <span>
+              Active member = at least 5 interactions with 5 other members.
+            </span>
+          </>
+        ),
       },
     ]);
-  }, [interactions]);
+  }, [disengagedMembers]);
 
   return (
     <>
       <div className="flex flex-row justify-between">
         <div className="w-full">
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
             <h3 className="text-lg font-medium text-lite-black">
               Disengaged members composition
             </h3>
@@ -160,7 +187,9 @@ export default function DisengagedMembersComposition({
           </div>
         </div>
       </div>
-      <StatisticalData statistics={[...statistics]} />
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+        <StatisticalData statistics={[...statistics]} />
+      </div>
       <LineGraph options={options} />
     </>
   );
