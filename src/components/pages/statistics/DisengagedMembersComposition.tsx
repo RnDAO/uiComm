@@ -31,7 +31,7 @@ const defaultOptions = {
   },
   series: [],
   legend: {
-    enabled: false,
+    enabled: true,
   },
   plotOptions: {
     series: {
@@ -116,7 +116,9 @@ export default function DisengagedMembersComposition({
       {
         label: 'Became disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
-        percentageChange: disengagedMembers.becameDisengagedPercentageChange,
+        percentageChange: disengagedMembers.becameDisengagedPercentageChange
+          ? disengagedMembers.becameDisengagedPercentageChange
+          : 0,
         value: disengagedMembers.becameDisengaged,
         colorBadge: 'bg-error-500',
         hasTooltip: false,
@@ -125,7 +127,9 @@ export default function DisengagedMembersComposition({
         label: 'Were newly active',
         description:
           'Started interacting for the first time in the last 7 days',
-        percentageChange: disengagedMembers.wereNewlyActivePercentageChange,
+        percentageChange: disengagedMembers.wereNewlyActivePercentageChange
+          ? disengagedMembers.wereNewlyActivePercentageChange
+          : 0,
         value: disengagedMembers.wereNewlyActive,
         colorBadge: 'bg-warning-500',
         hasTooltip: true,
@@ -147,7 +151,9 @@ export default function DisengagedMembersComposition({
         description:
           'Were interacting every week for at least 3 out of the last 4 weeks',
         percentageChange:
-          disengagedMembers.wereConsistentlyActivePercentageChange,
+          disengagedMembers.wereConsistentlyActivePercentageChange
+            ? disengagedMembers.wereConsistentlyActivePercentageChange
+            : 0,
         value: disengagedMembers.wereConsistentlyActive,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
@@ -155,7 +161,9 @@ export default function DisengagedMembersComposition({
       {
         label: 'Were vital members',
         description: 'Were consistently active and very connected',
-        percentageChange: disengagedMembers.wereVitalMembersPercentageChange,
+        percentageChange: disengagedMembers.wereVitalMembersPercentageChange
+          ? disengagedMembers.wereVitalMembersPercentageChange
+          : 0,
         value: disengagedMembers.wereVitalMembers,
         colorBadge: 'bg-info-600',
         hasTooltip: true,

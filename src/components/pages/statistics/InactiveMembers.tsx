@@ -26,7 +26,7 @@ const defaultOptions = {
   },
   series: [],
   legend: {
-    enabled: false,
+    enabled: true,
   },
   plotOptions: {
     series: {
@@ -93,8 +93,10 @@ export default function InactiveMembers({
       {
         label: 'Returned',
         description: 'Were disengaged and became active again',
-        percentageChange: 0,
-        value: 0,
+        percentageChange: inactiveMembers.returnedPercentageChange
+          ? inactiveMembers.returnedPercentageChange
+          : 0,
+        value: inactiveMembers.returned,
         colorBadge: 'bg-yellow',
         hasTooltip: false,
       },

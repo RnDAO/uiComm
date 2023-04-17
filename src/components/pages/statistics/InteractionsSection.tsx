@@ -24,7 +24,7 @@ const defaultOptions = {
   },
   series: [],
   legend: {
-    enabled: false,
+    enabled: true,
   },
   plotOptions: {
     series: {
@@ -69,14 +69,18 @@ export default function InteractionsSection() {
     setStatistics([
       {
         label: 'Messages',
-        percentageChange: interactions.msgPercentageChange,
+        percentageChange: interactions.msgPercentageChange
+          ? interactions.msgPercentageChange
+          : 0,
         value: interactions.messages,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
       },
       {
         label: 'Emojies',
-        percentageChange: interactions.emojiPercentageChange,
+        percentageChange: interactions.emojiPercentageChange
+          ? interactions.emojiPercentageChange
+          : 0,
         value: interactions.emojis,
         colorBadge: 'bg-warning-500',
         hasTooltip: false,
