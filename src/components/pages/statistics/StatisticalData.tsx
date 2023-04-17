@@ -20,7 +20,7 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
       {statistics.map((stat) => (
         <div
           className={clsx(
-            'flex flex-col text-center justify-center relative rounded-2xl hover:bg-gray-hover',
+            'flex flex-col flex-1 text-center justify-center relative rounded-2xl hover:bg-gray-hover',
             stat.description
               ? 'min-w-full h-[200px] md:min-w-[220px] md:max-w-[280px] md:h-[200px]'
               : 'min-w-full h-[170px] md:min-w-[280px] md:max-w-[280px] md:h-[180px]'
