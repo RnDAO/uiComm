@@ -57,7 +57,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Tot active members',
         description: 'Interacted at least once in the last 7 days',
-        percentageChange: activeMembers.totActiveMembersPercentageChange,
+        percentageChange: activeMembers.totActiveMembersPercentageChange
+          ? activeMembers.totActiveMembersPercentageChange
+          : 0,
         value: activeMembers.totActiveMembers,
         colorBadge: 'bg-green',
         hasTooltip: true,
@@ -78,7 +80,9 @@ const ActiveMemberComposition = () => {
         label: 'Newly active',
         description:
           'Started interacting for the first time in the last 7 days',
-        percentageChange: activeMembers.newlyActivePercentageChange,
+        percentageChange: activeMembers.newlyActivePercentageChange
+          ? activeMembers.newlyActivePercentageChange
+          : 0,
         value: activeMembers.newlyActive,
         colorBadge: 'bg-warning-500',
         hasTooltip: false,
@@ -86,7 +90,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Consistently active',
         description: 'Interacted weekly for at least 3 out of 4 weeks',
-        percentageChange: activeMembers.consistentlyActivePercentageChange,
+        percentageChange: activeMembers.consistentlyActivePercentageChange
+          ? activeMembers.consistentlyActivePercentageChange
+          : 0,
         value: activeMembers.consistentlyActive,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
@@ -94,7 +100,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Vital members',
         description: 'Are consistently active and very connected',
-        percentageChange: activeMembers.vitalMembersPercentageChange,
+        percentageChange: activeMembers.vitalMembersPercentageChange
+          ? activeMembers.vitalMembersPercentageChange
+          : 0,
         value: activeMembers.vitalMembers,
         colorBadge: 'bg-info-600',
         hasTooltip: true,
@@ -109,7 +117,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Became disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
-        percentageChange: activeMembers.becameDisengagedPercentageChange,
+        percentageChange: activeMembers.becameDisengagedPercentageChange
+          ? activeMembers.becameDisengagedPercentageChange
+          : 0,
         value: activeMembers.becameDisengaged,
         colorBadge: 'bg-error-500',
         hasTooltip: false,
