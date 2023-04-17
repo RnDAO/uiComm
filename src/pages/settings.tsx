@@ -3,11 +3,13 @@ import SEO from '../components/global/SEO';
 import { defaultLayout } from '../layouts/defaultLayout';
 import { FiCalendar } from 'react-icons/fi';
 import { FaHashtag, FaCodeBranch, FaRegCheckCircle } from 'react-icons/fa';
+import { HiOutlineUserPlus } from 'react-icons/hi2';
 import Accardion from '../components/global/Accardion';
 import { Paper, TextField } from '@mui/material';
 import CustomButton from '../components/global/CustomButton';
 import ChannelSelection from '../components/pages/settings/ChannelSelection';
 import IntegrateDiscord from '../components/pages/settings/IntegrateDiscord';
+import RollSelection from '../components/pages/settings/RollSelection';
 import { HiOutlineMail } from 'react-icons/hi';
 import DataAnalysis from '../components/pages/settings/DataAnalysis';
 import useAppStore from '../store/useStore';
@@ -97,10 +99,16 @@ function Settings(): JSX.Element {
       id: '2',
     },
     {
+      title: 'Roles and permissions',
+      icon: <HiOutlineUserPlus color="black" />,
+      detailsComponent: <RollSelection />,
+      id: '3',
+    },
+    {
       title: 'Integration',
       icon: <FaCodeBranch color="black" />,
       detailsComponent: <IntegrateDiscord />,
-      id: '3',
+      id: '4',
     },
   ];
 
