@@ -23,12 +23,8 @@ export default function ConnectCommunities() {
   const [datePeriod, setDatePeriod] = useState<string>('');
   const [selectedChannels, setSelectedChannels] = useState<any[]>([]);
 
-  const {
-    guilds,
-    connectNewGuild,
-    patchGuildById,
-    getUserGuildInfo,
-  } = useAppStore();
+  const { guilds, connectNewGuild, patchGuildById, getUserGuildInfo } =
+    useAppStore();
 
   if (typeof window !== 'undefined') {
     useEffect(() => {
@@ -187,7 +183,7 @@ export default function ConnectCommunities() {
                 <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
                 <div className="text-secondary text-base flex items-center justify-center">
                   <GoPlus size={20} className="mr-1" />
-                  <p className="font-bold">Connect</p>
+                  <p className="font-semibold">Connect</p>
                 </div>
               </Paper>
             </Tooltip>
@@ -200,7 +196,7 @@ export default function ConnectCommunities() {
               <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
               <div className="text-secondary text-base flex items-center justify-center">
                 <GoPlus size={20} className="mr-1" />
-                <p className="font-bold">Connect</p>
+                <p className="font-semibold">Connect</p>
               </div>
             </Paper>
           )}
