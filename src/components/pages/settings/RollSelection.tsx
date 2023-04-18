@@ -13,8 +13,8 @@ export default function RollSelection() {
       </p>
       <p className="text-lite-gray text-sm pt-4 ">Add admin by:</p>
       <div className="flex flex-row pt-3 justify-between">
-        <ByHandle title='By handle'/>
-        <ByHandle title='By role'/>
+        <ByHandle title='By handle' id='1'/>
+        <ByHandle title='By role' id='2'/>
       </div>
 
       <p className="font-bold text-base pt-10">Viewers</p>
@@ -24,8 +24,8 @@ export default function RollSelection() {
       </p>
       <p className="text-lite-gray text-sm pt-4 ">Add admin by:</p>
       <div className="flex flex-row pt-3 pb-8 justify-between">
-        <ByHandle title='By handle'/>
-        <ByHandle title='By role'/>
+        <ByHandle title='By handle' id='3'/>
+        <ByHandle title='By role' id='4'/>
       </div>
 
     </div>
