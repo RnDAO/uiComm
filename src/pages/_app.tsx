@@ -20,7 +20,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from '../utils/privateRoute';
 import { conf } from '../configs';
-import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
+// import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
 import Script from 'next/script';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
 
   return (
     <>
-      <AmplitudeAnalytics />
+      {/* <AmplitudeAnalytics /> */}
       <Script id="tawk" strategy="lazyOnload">
         {`
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
