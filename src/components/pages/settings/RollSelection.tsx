@@ -2,7 +2,6 @@ import useAppStore from '../../../store/useStore';
 import ByHandle from './ByHandle';
 
 export default function RollSelection() {
-  const { guilds } = useAppStore();
 
   return (
     <div className="flex flex-col">
@@ -13,8 +12,8 @@ export default function RollSelection() {
       </p>
       <p className="text-lite-gray text-sm pt-4 ">Add admin by:</p>
       <div className="flex flex-row pt-3 justify-between">
-        <ByHandle title='By handle' id='1'/>
-        <ByHandle title='By role' id='2'/>
+        <ByHandle title='By handle' id='1' isAdmin={true} isRole={false}/>
+        <ByHandle title='By role' id='2' isAdmin={true} isRole={true}/>
       </div>
 
       <p className="font-bold text-base pt-10">Viewers</p>
@@ -22,10 +21,10 @@ export default function RollSelection() {
         Viewers can see all the metrics but don't have permission to change the
         settings.
       </p>
-      <p className="text-lite-gray text-sm pt-4 ">Add admin by:</p>
+      <p className="text-lite-gray text-sm pt-4 ">Add viewer by:</p>
       <div className="flex flex-row pt-3 pb-8 justify-between">
-        <ByHandle title='By handle' id='3'/>
-        <ByHandle title='By role' id='4'/>
+        <ByHandle title='By handle' id='3' isAdmin={false} isRole={false}/>
+        <ByHandle title='By role' id='4' isAdmin={false} isRole={true}/>
       </div>
 
     </div>
