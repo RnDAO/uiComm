@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from '../utils/privateRoute';
 import { conf } from '../configs';
 import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
+import Script from 'next/script';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   useEffect(() => {
@@ -37,6 +38,19 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
       <AmplitudeAnalytics />
+      <Script id="tawk" strategy="lazyOnload">
+        {`
+          var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+          (function(){
+          var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+          s1.async=true;
+          s1.src='https://embed.tawk.to/6439985c4247f20fefebb1d9/1gu0fmap5';
+          s1.charset='UTF-8';
+          s1.setAttribute('crossorigin','*');
+          s0.parentNode.insertBefore(s1,s0);
+          })();
+        `}
+      </Script>
       <ThemeProvider theme={theme}>
         {Component.pageLayout ? (
           <PrivateRoute>
