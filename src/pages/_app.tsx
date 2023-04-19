@@ -20,6 +20,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from '../utils/privateRoute';
 import { conf } from '../configs';
+import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
 
   return (
     <>
+      <AmplitudeAnalytics />
       <ThemeProvider theme={theme}>
         {Component.pageLayout ? (
           <PrivateRoute>
