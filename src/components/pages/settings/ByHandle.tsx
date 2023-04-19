@@ -4,12 +4,12 @@ import Paper from '@mui/material/Paper';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import Icon from '@/components/global/Icon';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import IconButton from '@mui/material/IconButton';
 import { VscSearch } from 'react-icons/vsc';
 import { MdClose } from 'react-icons/md';
+import { FiCheck } from 'react-icons/fi';
 import InputBase from '@mui/material/InputBase';
 import { roleLists } from '@/utils/mock';
 import DiscordRoleCard from '@/components/global/DiscordRoleCard';
@@ -112,7 +112,7 @@ export default function ByHandle({
               <MdClose />
             </IconButton>
           </div>
-          <div className="flex flex-col border border-solid rounded-sm border-[#C6C6C6] w-[450px] px-3 py-5">
+          <div className="flex flex-col border border-solid rounded-sm border-[#C6C6C6] w-[450px] px-3 py-5 h-96 overflow-y-auto overflow-x-hidden">
             <Paper
               component="form"
               sx={{
@@ -135,24 +135,36 @@ export default function ByHandle({
                 }}
               />
             </Paper>
-            <div className="pt-5 ml-5">All roles</div>
+            <div className="flex flex-row gap-2 pt-5 ml-5">
+            <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center rounded-md">
+                    <IconButton>
+                      <FiCheck className="text-white" />
+                    </IconButton>
+                  </div>
+              All roles
+            </div>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Discord roles
             </Typography>
             <div className="flex flex-col py-2">
               {roleLists.map(({ title, level }, index) => (
-                <div key={index} className="flex flex-row py-1 gap-2 ml-5 items-center">
-                  <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center">
-                    <Icon>check</Icon>
+                <div
+                  key={index}
+                  className="flex flex-row py-1 gap-2 ml-5 items-center"
+                >
+                  <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center rounded-md">
+                    <IconButton>
+                      <FiCheck className="text-white" />
+                    </IconButton>
                   </div>
-                  <DiscordRoleCard level={level} title={title}/>
+                  <DiscordRoleCard level={level} title={title} />
                 </div>
               ))}
             </div>
           </div>
           <CustomButton
             label="Save"
-            classes="flex mt-4 mx-auto bg-[#CEBBF3] text-white"
+            classes="flex mt-4 mx-auto bg-[#804EE1] text-white"
             onClick={() => handleClose(isRole)}
           />
         </Box>
@@ -205,7 +217,7 @@ export default function ByHandle({
           <div className="bg-[#F5F5F5] rounded-sm w-[425px] h-[80px]"></div>
           <CustomButton
             label="Save"
-            classes="flex mt-4 mx-auto bg-[#CEBBF3] text-white"
+            classes="flex mt-4 mx-auto bg-[#804EE1] text-white"
             onClick={() => handleClose(isRole)}
           />
         </Box>
