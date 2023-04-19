@@ -12,6 +12,7 @@ import { VscSearch } from 'react-icons/vsc';
 import { MdClose } from 'react-icons/md';
 import InputBase from '@mui/material/InputBase';
 import { roleLists } from '@/utils/mock';
+import DiscordRoleCard from '@/components/global/DiscordRoleCard';
 interface ByHandleProps {
   title: string;
   id: string;
@@ -139,22 +140,12 @@ export default function ByHandle({
               Discord roles
             </Typography>
             <div className="flex flex-col py-2">
-              {roleLists.map(({title, level}, index) => (
-                <div key={index} className="flex flex-row py-1 gap-2">
-                  {/* {filter[key] ? (
-                    <div className="flex bg-[#804EE1] w-[20px] h-[20px] items-center justify-center">
-                      <Icon>check</Icon>
-                    </div>
-                  ) : (
-                    <div
-                      className="border-gray-400 border-2 w-[20px] h-[20px]"
-                      onClick={() => console.log("Miracle", key, true)}
-                    ></div>
-                  )} */}
-                  <div className="flex bg-[#804EE1] w-[20px] h-[20px] items-center justify-center">
+              {roleLists.map(({ title, level }, index) => (
+                <div key={index} className="flex flex-row py-1 gap-2 ml-5 items-center">
+                  <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center">
                     <Icon>check</Icon>
                   </div>
-                  <span>{title}</span>
+                  <DiscordRoleCard level={level} title={title}/>
                 </div>
               ))}
             </div>
