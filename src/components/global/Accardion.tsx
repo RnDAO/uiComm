@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-import { MdExpandMore } from "react-icons/md";
+import React, { ReactElement } from 'react';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { MdExpandMore } from 'react-icons/md';
 
 type AcProps = {
   readonly title?: string;
@@ -27,21 +27,25 @@ export default function Accardion({ title, childs }: AcProps) {
       <p className="text-lite-gray text-sm pt-4">{title}</p>
       {childs.map((el) => (
         <Accordion
-          className={expanded === el.id ? "shadow-base my-5 rounded-xl" : "my-5"}
+          className={
+            expanded === el.id ? 'shadow-base my-5 rounded-xl' : 'my-5'
+          }
           expanded={expanded === el.id}
           onChange={handleChange(el.id)}
           id={el.id}
           key={el.id}
           disableGutters
           sx={{
-            boxShadow: "none",
-            "&:before": {
-              display: "none",
+            boxShadow: 'none',
+            '&:before': {
+              display: 'none',
             },
           }}
         >
           <AccordionSummary
-            expandIcon={<MdExpandMore color="#37474F" size={25} fill="#37474F" />}
+            expandIcon={
+              <MdExpandMore color="#37474F" size={25} fill="#37474F" />
+            }
             aria-controls={`${el.id}-content`}
             id={el.id}
           >

@@ -1,11 +1,11 @@
-import React, { FC, RefObject, useState } from "react";
-import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
+import React, { FC, RefObject, useState } from 'react';
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker, {
   DayRange,
-} from "@hassanmojab/react-modern-calendar-datepicker";
-import { FiCalendar } from "react-icons/fi";
-import clsx from "clsx";
-import moment from "moment";
+} from '@hassanmojab/react-modern-calendar-datepicker';
+import { FiCalendar } from 'react-icons/fi';
+import clsx from 'clsx';
+import moment from 'moment';
 
 interface IProps {
   placeholder?: string;
@@ -23,11 +23,15 @@ const CustomDatePicker: FC<IProps> = ({
     to: null,
   });
 
-  const renderCustomInput = ({ ref }: { ref: RefObject<HTMLInputElement> | any }) => (
+  const renderCustomInput = ({
+    ref,
+  }: {
+    ref: RefObject<HTMLInputElement> | any;
+  }) => (
     <div
       onClick={onClick}
       className={clsx(
-        "flex flex-row bg-gray-background text-center py-2.5 md:py-2 px-3 text-sm rounded-md cursor-pointer",
+        'flex flex-row bg-gray-background text-center py-2.5 md:py-2 px-3 text-sm rounded-md cursor-pointer',
         className
       )}
     >
@@ -37,10 +41,16 @@ const CustomDatePicker: FC<IProps> = ({
         readOnly
         value={
           dayRange.from
-            ? ` ${moment(dayRange.from?.month).format("MMM")} ${moment(
-              dayRange.from?.day
-            ).format("DD")} - ${dayRange.to?.month ? moment(dayRange.to?.month).format("MMM") : ''} ${dayRange.to?.day ? dayRange.to?.day : ''}  ${dayRange.to?.year ? dayRange.to?.year : ''}`
-            : ""
+            ? ` ${moment(dayRange.from?.month).format('MMM')} ${moment(
+                dayRange.from?.day
+              ).format('DD')} - ${
+                dayRange.to?.month
+                  ? moment(dayRange.to?.month).format('MMM')
+                  : ''
+              } ${dayRange.to?.day ? dayRange.to?.day : ''}  ${
+                dayRange.to?.year ? dayRange.to?.year : ''
+              }`
+            : ''
         }
         placeholder={placeholder}
         className="bg-transparent outline-none"
@@ -61,7 +71,7 @@ const CustomDatePicker: FC<IProps> = ({
 };
 
 CustomDatePicker.defaultProps = {
-  placeholder: "Specific date",
+  placeholder: 'Specific date',
 };
 
 export default CustomDatePicker;

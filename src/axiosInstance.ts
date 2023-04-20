@@ -92,7 +92,6 @@ axiosInstance.interceptors.response.use(
                   draggable: true,
                   progress: 0,
                 });
-                console.error(error);
               } finally {
                 isRefreshing = false;
               }

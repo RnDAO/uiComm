@@ -36,6 +36,7 @@ const colors = {
     300: '#F06885',
     400: '#D3546F',
     500: '#FB3E56',
+    600:'#EB3E56'
   },
   warning: {
     DEFAULT: '#BB6842',
