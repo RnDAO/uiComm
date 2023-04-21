@@ -14,6 +14,7 @@ import InputBase from '@mui/material/InputBase';
 import { roleLists, userHandlers } from '@/utils/mock';
 import DiscordRoleCard from '@/components/global/DiscordRoleCard';
 import UserHandleCard from '@/components/global/UserHandleCard';
+import QuickSearchToolbar from '@/components/global/QuickSearch';
 interface ByHandleProps {
   title: string;
   id: string;
@@ -42,6 +43,12 @@ export default function ByHandle({
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const [open, setOpen] = React.useState(false);
   const [openRole, setOpenRole] = React.useState(false);
+  const [searchText, setSearchText] = React.useState('');
+
+  function escapeRegExp(value: string): string {
+    return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  }
+
   const handleOpen = (isRole: boolean) => {
     isRole ? setOpenRole(true) : setOpen(true);
   };
@@ -54,7 +61,16 @@ export default function ByHandle({
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-
+  const requestSearch = (searchValue: string) => {
+    setSearchText(searchValue);
+    const searchRegex = new RegExp(escapeRegExp(searchValue), 'i');
+    // const filteredUrlList = urlList.filter((val: any) => {
+    //   return Object.keys(val).some((field:any) => {
+    //     return searchRegex.test(val[field].toString())
+    //   })
+    // })
+    // setData(filteredUrlList)
+  };
   return (
     <Accordion
       className={
@@ -94,9 +110,16 @@ export default function ByHandle({
       <AccordionDetails className="px-4">
         <div className="bg-[#F5F5F5] rounded-sm w-[520px] p-3 flex flex-row gap-3 flex-wrap">
           {userHandlers.map(({ avatar, name, isOwner }, index) => {
-            return <>
-              <UserHandleCard avatar={avatar} name={name} isOwner={isOwner} length={userHandlers.length} />
-            </>;
+            return (
+              <div key={index}>
+                <UserHandleCard
+                  avatar={avatar}
+                  name={name}
+                  isOwner={isOwner}
+                  length={userHandlers.length}
+                />
+              </div>
+            );
           })}
         </div>
       </AccordionDetails>
@@ -117,28 +140,10 @@ export default function ByHandle({
             </IconButton>
           </div>
           <div className="flex flex-col border border-solid rounded-sm border-[#C6C6C6] w-[450px] px-3 py-5 h-96 overflow-y-auto overflow-x-hidden">
-            <Paper
-              component="form"
-              sx={{
-                boxShadow: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                width: 425,
-                background: '#F5F5F5',
-              }}
-            >
-              <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                <VscSearch />
-              </IconButton>
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search member"
-                inputProps={{ 'aria-label': 'search google maps' }}
-                onChange={(e: any) => {
-                  console.log('Miracle', e.target.value);
-                }}
-              />
-            </Paper>
+            <QuickSearchToolbar
+              value={searchText}
+              onChange={(event: any) => requestSearch(event.target.value)}
+            />
             <div className="flex flex-row gap-2 pt-5 ml-5">
               <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center rounded-md">
                 <IconButton>
@@ -193,28 +198,10 @@ export default function ByHandle({
           <Typography>
             Search for members by their Discord name or handle.
           </Typography>
-          <Paper
-            component="form"
-            sx={{
-              boxShadow: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              width: 425,
-              background: '#F5F5F5',
-            }}
-          >
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-              <VscSearch />
-            </IconButton>
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Search member"
-              inputProps={{ 'aria-label': 'search google maps' }}
-              onChange={(e: any) => {
-                console.log('Miracle', e.target.value);
-              }}
-            />
-          </Paper>
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event: any) => requestSearch(event.target.value)}
+          />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Selected&nbsp;{isAdmin ? 'admins' : 'viewers'}
           </Typography>
