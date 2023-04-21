@@ -11,8 +11,9 @@ import { VscSearch } from 'react-icons/vsc';
 import { MdClose } from 'react-icons/md';
 import { FiCheck } from 'react-icons/fi';
 import InputBase from '@mui/material/InputBase';
-import { roleLists } from '@/utils/mock';
+import { roleLists, userHandlers } from '@/utils/mock';
 import DiscordRoleCard from '@/components/global/DiscordRoleCard';
+import UserHandleCard from '@/components/global/UserHandleCard';
 interface ByHandleProps {
   title: string;
   id: string;
@@ -58,8 +59,8 @@ export default function ByHandle({
     <Accordion
       className={
         expanded === id
-          ? 'shadow-base rounded-xl mx-1 border-solid border border-gray-200 my-0'
-          : 'mx-0'
+          ? 'shadow-base rounded-xl mx-1 border-solid border border-gray-200 m-0'
+          : 'm-0'
       }
       expanded={expanded === id}
       onChange={handleChange(id)}
@@ -91,9 +92,12 @@ export default function ByHandle({
         </div>
       </AccordionSummary>
       <AccordionDetails className="px-4">
-        <div className="bg-[#F5F5F5] rounded-sm w-fit p-3">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+        <div className="bg-[#F5F5F5] rounded-sm w-[520px] p-3 flex flex-row gap-3 flex-wrap">
+          {userHandlers.map(({ avatar, name, isOwner }, index) => {
+            return <>
+              <UserHandleCard avatar={avatar} name={name} isOwner={isOwner} length={userHandlers.length} />
+            </>;
+          })}
         </div>
       </AccordionDetails>
       <Modal
@@ -136,11 +140,11 @@ export default function ByHandle({
               />
             </Paper>
             <div className="flex flex-row gap-2 pt-5 ml-5">
-            <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center rounded-md">
-                    <IconButton>
-                      <FiCheck className="text-white" />
-                    </IconButton>
-                  </div>
+              <div className="flex bg-[#804EE1] w-6 h-6 items-center justify-center rounded-md">
+                <IconButton>
+                  <FiCheck className="text-white" />
+                </IconButton>
+              </div>
               All roles
             </div>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>

@@ -8,22 +8,22 @@ export const userHandlers: IUserHandler[] = [
   },
   {
     avatar: '/avatars/avatar2.png',
-    name: 'Jocelyn Eksttrom Bothman',
+    name: 'Jane T',
     isOwner: false,
   },
   {
     avatar: '/avatars/avatar1.png',
-    name: 'Jane Cooper',
+    name: 'Bloomberg',
     isOwner: false,
   },
   {
     avatar: '/avatars/avatar1.png',
-    name: 'Jane Cooper',
+    name: 'Celeste',
     isOwner: false,
   },
   {
     avatar: '/avatars/avatar2.png',
-    name: 'Jocelyn Eksttrom Bothman',
+    name: 'Jocelyn',
     isOwner: false,
   },
 
