@@ -315,7 +315,10 @@ export default function TryNow() {
       ...channels.map((channel: any) => {
         return channel.subChannels
           .filter((subChannel: any) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (
+              activeChannel.includes(subChannel.id) &&
+              subChannel.canReadMessageHistoryAndViewChannel
+            ) {
               return subChannel;
             }
           })
@@ -745,7 +748,7 @@ export default function TryNow() {
                   </div>
                 )}
               </div>
-              <Accordion disableGutters elevation={0}>
+              <Accordion disableGutters defaultExpanded={true} elevation={0}>
                 <AccordionSummary
                   expandIcon={
                     <MdExpandMore color="#37474F" size={25} fill="#37474F" />

@@ -119,7 +119,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     setChannels((preChannels) => {
       return preChannels.map((preChannel) => {
         if (selectedGuild === preChannel.id) {
-          Object.keys(preChannel.selected).forEach((key: any) => {
+          Object.keys(preChannel.selected).forEach((key: string) => {
             preChannel.selected[key] = status;
           });
         }
@@ -149,7 +149,10 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       ...channels.map((channel: any) => {
         return channel.subChannels
           .filter((subChannel: any) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (
+              activeChannel.includes(subChannel.id) &&
+              subChannel.canReadMessageHistoryAndViewChannel
+            ) {
               return subChannel;
             }
           })
@@ -270,7 +273,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
               </div>
             )}
           </div>
-          <Accordion disableGutters elevation={0}>
+          <Accordion disableGutters defaultExpanded={true} elevation={0}>
             <AccordionSummary
               expandIcon={
                 <MdExpandMore color="#37474F" size={25} fill="#37474F" />
