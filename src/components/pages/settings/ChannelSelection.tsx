@@ -14,7 +14,6 @@ import { BiError } from 'react-icons/bi';
 import CustomButton from '../../global/CustomButton';
 import { FiRefreshCcw } from 'react-icons/fi';
 import Loading from '../../global/Loading';
-import { title } from 'process';
 import { MdExpandMore } from 'react-icons/md';
 
 type IProps = {
@@ -249,7 +248,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
                   <CustomButton
                     classes={''}
                     label={'Refresh List'}
-                    className="text-black border-black float-right rounded-md -top-1 font-semibold"
+                    className="text-black border-black bg-white float-right rounded-md -top-1 font-semibold"
                     startIcon={<FiRefreshCcw />}
                     size="large"
                     variant="outlined"
@@ -322,7 +321,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
               </div>
             </AccordionDetails>
           </Accordion>
-          <div className="flex justify-center mt-5">
+          <div className="flex justify-center mt-1">
             <CustomButton
               onClick={submitChannels}
               label={'Save channels'}

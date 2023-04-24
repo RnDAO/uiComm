@@ -724,7 +724,7 @@ export default function TryNow() {
                       <CustomButton
                         classes={''}
                         label={'Refresh List'}
-                        className="text-black border-black float-right rounded-md -top-1 font-semibold"
+                        className="text-black border-black bg-white float-right rounded-md -top-1 font-semibold"
                         startIcon={<FiRefreshCcw />}
                         size="large"
                         variant="outlined"
@@ -798,7 +798,7 @@ export default function TryNow() {
                   </div>
                 </AccordionDetails>
               </Accordion>
-              <div className="flex justify-center mt-5">
+              <div className="flex justify-center mt-1">
                 <CustomButton
                   classes="bg-secondary text-white py-3 px-16 text-base"
                   onClick={submitChannels}
