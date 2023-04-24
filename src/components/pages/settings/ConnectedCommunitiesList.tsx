@@ -74,7 +74,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
             Are you sure you want to disconnect{' '}
             <br className="hidden md:flex" /> your community?
           </h3>
-          <div className="flex flex-row justify-between space-x-8">
+          <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-8">
             <Paper
               sx={{
                 padding: '2rem 1rem',

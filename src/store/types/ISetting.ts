@@ -1,3 +1,5 @@
+import { IGuildChannels } from '../../utils/types';
+
 export type IGuildInfo = {
   id?: string;
   guildId?: string;
@@ -16,10 +18,12 @@ export default interface IGuildList extends IGuildInfo {
 }
 export default interface ISetting {
   isLoading: boolean;
+  isRefetchLoading: boolean;
   guildInfo?: IGuildInfo | {};
   userInfo: {};
   guildInfoByDiscord: {};
   guilds: IGuildList[];
+  guildChannels: IGuildChannels[];
   getUserGuildInfo: (guildId: string) => void;
   getUserInfo: () => any;
   getGuildInfoByDiscord: (guildId: string) => void;
@@ -38,4 +42,5 @@ export default interface ISetting {
     guildId: string,
     disconnectType: DISCONNECT_TYPE
   ) => void;
+  refetchGuildChannels: (guild_id: string) => void;
 }
