@@ -41,7 +41,7 @@ const communityActiveDates = [
     value: 5,
   },
 ];
-const WEEK_DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+const WEEK_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 const HOURE_DAYS = [
   '12',
