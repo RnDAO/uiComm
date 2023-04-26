@@ -7,6 +7,7 @@ import { IGuild, ISubChannels, IUser } from '../../utils/types';
 import CustomButton from './CustomButton';
 import { IGuildChannels } from '../../utils/types';
 import useAppStore from '../../store/useStore';
+import { BiError } from 'react-icons/bi';
 
 type IProps = {
   guildChannels: IGuildChannels[];
@@ -148,6 +149,14 @@ const FilterByChannels = ({
 
     setChannels(updatedChannels);
   };
+  const checkSelectedProperties = (channels: IGuildChannels[]) => {
+    return channels.every((channel) => {
+      const selectedValues = channel.selected
+        ? Object.values(channel.selected)
+        : [];
+      return selectedValues.every((selected) => !selected);
+    });
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -222,7 +231,7 @@ const FilterByChannels = ({
           horizontal: 'center',
         }}
         PaperProps={{
-          style: { width: '26rem' },
+          style: { width: '32rem' },
         }}
       >
         <div className="w-full px-8 py-4">
@@ -244,6 +253,10 @@ const FilterByChannels = ({
                 })
               : ''}
           </div>
+          <div className="flex items-center text-sm text-orange pt-4">
+            <BiError size={18} className="mr-0.5" />
+            At least one channel needs to be selected. Please select channel.
+          </div>
           <div className="mx-auto pt-4 text-center">
             <CustomButton
               label={'Save channels'}
@@ -251,6 +264,7 @@ const FilterByChannels = ({
               onClick={() => {
                 handleSelectedChannels(returnSelectedChannelsId(channels));
               }}
+              disabled={checkSelectedProperties(channels) ?? true}
             />
           </div>
         </div>
