@@ -1,5 +1,5 @@
-import Chart from '../../global/Chart';
 import ActiveMemberComposition from './ActiveMemberComposition';
+import HeatmapChart from './HeatmapChart';
 
 const MainSection = () => {
   return (
@@ -9,7 +9,7 @@ const MainSection = () => {
       </h3>
       <div className="space-y-4">
         <ActiveMemberComposition />
-        <Chart />
+        <HeatmapChart />
       </div>
     </div>
   );

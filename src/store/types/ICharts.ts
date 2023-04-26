@@ -5,11 +5,13 @@ export default interface IHeatmap {
   activeMembers: {};
   disengagedMembers: {};
   inactiveMembers: {};
+  selectedChannelsList: any[];
   fetchHeatmapData: (
     guild_id: string,
     startDate: string,
     endDate: string,
-    timeZone: string
+    timeZone: string,
+    channelIds: string[]
   ) => any;
   fetchInteractions: (
     guild_id: string,
@@ -35,4 +37,5 @@ export default interface IHeatmap {
     endDate: string,
     timeZone: string
   ) => any;
+  getSelectedChannelsList: (guild_id: string) => any;
 }

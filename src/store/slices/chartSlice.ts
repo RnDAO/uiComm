@@ -9,11 +9,13 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   activeMembers: {},
   disengagedMembers: {},
   inactiveMembers: {},
+  selectedChannelsList: [],
   fetchHeatmapData: async (
     guild_id: string,
     startDate: string,
     endDate: string,
-    timeZone: string
+    timeZone: string,
+    channelIds: string[]
   ) => {
     try {
       set(() => ({ isLoading: true }));
@@ -23,7 +25,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
           startDate,
           endDate,
           timeZone,
-          channelIds: [],
+          channelIds: channelIds,
         }
       );
       set({ heatmapRecords: [...data], isLoading: false });
@@ -104,6 +106,17 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
         }
       );
       set({ inactiveMembers: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  getSelectedChannelsList: async (guild_id: string) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.get(
+        `/guilds/${guild_id}/selected-channels`
+      );
+      set({ selectedChannelsList: data, isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }

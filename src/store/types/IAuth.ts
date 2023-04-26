@@ -9,6 +9,13 @@ export type IUser = {
   readonly refreshToken: string;
 };
 
+export type ISubChannels = {
+  readonly id: string;
+  readonly name: string;
+  readonly canReadMessageHistoryAndViewChannel: boolean;
+  readonly parent_id: string;
+};
+
 export default interface IAuth {
   user: IUser | {};
   isLoading: boolean;

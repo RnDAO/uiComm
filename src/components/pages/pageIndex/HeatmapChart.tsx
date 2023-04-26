@@ -5,15 +5,17 @@ import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
 
 import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from './RangeSelect';
-import ZonePicker from './ZonePicker';
-import useAppStore from '../../store/useStore';
+import RangeSelect from '../../global/RangeSelect';
+import ZonePicker from '../../global/ZonePicker';
+import FilterByChannels from '../../global/FilterByChannels';
+import useAppStore from '../../../store/useStore';
 import moment from 'moment';
 import 'moment-timezone';
 import momentTZ from 'moment-timezone';
-import SimpleBackdrop from './LoadingBackdrop';
-import { StorageService } from '../../services/StorageService';
-import { IUser } from '../../utils/types';
+import SimpleBackdrop from '../../global/LoadingBackdrop';
+import { StorageService } from '../../../services/StorageService';
+import { IUser } from '../../../utils/types';
+import NumberOfMessages from './NumberOfMessages';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -41,7 +43,7 @@ const communityActiveDates = [
     value: 5,
   },
 ];
-const WEEK_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const WEEK_DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
 const HOURE_DAYS = [
   '12',
@@ -72,16 +74,26 @@ const HOURE_DAYS = [
 
 const Chart = () => {
   const [heatmapChart, setHeatmapChart] = useState({});
-  const { isLoading, fetchHeatmapData } = useAppStore();
+  const {
+    isLoading,
+    fetchHeatmapData,
+    getUserGuildInfo,
+    fetchGuildChannels,
+    getSelectedChannelsList,
+    selectedChannelsList,
+  } = useAppStore();
   const [user, setUser] = useState<IUser>();
   const [active, setActive] = useState(1);
   const [dateRange, setDateRange] = useState<any>([null, null]);
   let [selectedZone, setSelectedZone] = useState(momentTZ.tz.guess());
+  const [channels, setChannels] = useState<string[]>([]);
 
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
     setUser(user);
     if (user) {
+      getUserGuildInfo(user?.guild?.guildId);
+      fetchGuildChannels(user?.guild?.guildId);
       const { guildId } = user.guild;
       setDateRange([
         moment().subtract(7, 'days'),
@@ -91,8 +103,10 @@ const Chart = () => {
         guildId,
         moment().subtract(7, 'days'),
         moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        selectedZone
+        selectedZone,
+        []
       );
+      getSelectedChannelsList(guildId);
     }
   }, []);
 
@@ -100,10 +114,11 @@ const Chart = () => {
     guildId: string,
     startDate: any,
     endDate: any,
-    timezone: string
+    timezone: string,
+    channelIds: string[]
   ) => {
     if (guildId) {
-      fetchHeatmapData(guildId, startDate, endDate, timezone).then(
+      fetchHeatmapData(guildId, startDate, endDate, timezone, channelIds).then(
         (_res: any) => {
           setHeatmapChart({
             chart: {
@@ -114,19 +129,7 @@ const Chart = () => {
               text: null,
             },
             legend: {
-              title: {
-                text: 'Number of messages',
-                style: {
-                  fontStyle: 'bold',
-                },
-              },
-              align: 'right',
-              layout: 'horizental',
-              margin: 0,
-              verticalAlign: 'top',
-              y: 0,
-              x: 25,
-              symbolHeight: 25,
+              enabled: false,
             },
             xAxis: {
               categories: HOURE_DAYS,
@@ -300,9 +303,24 @@ const Chart = () => {
     setSelectedZone(zone);
     if (user) {
       const { guildId } = user.guild;
-      fetchHeatmap(guildId, dateRange[0], dateRange[1], zone);
+      fetchHeatmap(guildId, dateRange[0], dateRange[1], zone, channels);
     }
   };
+
+  const handleSelectedChannels = (selectedChannels: string[]) => {
+    setChannels(selectedChannels);
+    if (user) {
+      const { guildId } = user.guild;
+      fetchHeatmap(
+        guildId,
+        dateRange[0],
+        dateRange[1],
+        selectedZone,
+        selectedChannels
+      );
+    }
+  };
+
   const handleDateRange = (dateRangeType: string | number) => {
     let dateTime: string[] = [];
     switch (dateRangeType) {
@@ -347,7 +365,7 @@ const Chart = () => {
     setDateRange([...dateTime]);
     if (user) {
       const { guildId } = user.guild;
-      fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone);
+      fetchHeatmap(guildId, dateTime[0], dateTime[1], selectedZone, channels);
     }
   };
 
@@ -365,10 +383,6 @@ const Chart = () => {
           </p>
         </div>
         <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-          <ZonePicker
-            selectedZone={selectedZone}
-            handleSelectedZone={handleSelectedZone}
-          />
           <RangeSelect
             options={communityActiveDates}
             icon={<FiCalendar size={18} />}
@@ -377,11 +391,30 @@ const Chart = () => {
           />
         </div>
       </div>
+      <div className="flex flex-col md:flex-row justify-start md:justify-between items-center md:py-2 px-3">
+        <div className="flex flex-col md:flex-row md:space-x-3 md:mt-3 w-full">
+          <ZonePicker
+            selectedZone={selectedZone}
+            handleSelectedZone={handleSelectedZone}
+          />
+          <FilterByChannels
+            guildChannels={selectedChannelsList}
+            filteredChannels={channels}
+            handleSelectedChannels={handleSelectedChannels}
+          />
+        </div>
+        <div className="hidden md:block">
+          <NumberOfMessages numberOfMessages={0} />
+        </div>
+      </div>
       <HighchartsReact
         highcharts={Highcharts}
         options={heatmapChart}
         allowChartUpdate
       />
+      <div className="block ml-3 md:hidden">
+        <NumberOfMessages numberOfMessages={0} />
+      </div>
     </div>
   );
 };

@@ -64,10 +64,18 @@ const colors = {
   'lite-gray': '#515151',
   'gray-custom': '#222222',
   'border-gray': '#B4B4B4',
+  'border-gray-darken': '#C6C6C6',
   aqua: '#35B9B7',
   success: '#56C054',
-  'gray-hover':'#F7F7F7',
-  'purple-light':'#8474C0'
+  'gray-hover': '#F7F7F7',
+  'purple-light': '#8474C0',
+  'gray-white': '#F3F3F3',
+  'gray-light': '#E3E9FF',
+  'blue-light': '#C5D2FF',
+  'blue-dark': '#9CB1FF',
+  'purple-light': '#9971E7',
+  'purple-dark': '#673FB5',
+  'purple-darker': '#35205E',
 };
 
 const backgroundImage = {
