@@ -427,7 +427,12 @@ export default function TryNow() {
           </div>
           {tryNowState === 'active' ? (
             <div className="p-3 md:p-0">
-              <div className="shadow-xl md:w-[650px] md:min-h-auto mx-auto rounded-xl overflow-hidden mt-4 mb-2 md:mt-6 md:mb-3">
+              <div
+                className={clsx(
+                  'shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 mb-2 md:mt-6 md:mb-3',
+                  activeStep < 1 ? 'md:h-[570px]' : 'md:h-auto'
+                )}
+              >
                 {activeStep === 0 || activeStep === -1 ? (
                   <>
                     <div className="bg-secondary text-white text-center py-8">
@@ -442,7 +447,11 @@ export default function TryNow() {
                 ) : (
                   ''
                 )}
-                <div className="py-8">
+                <div
+                  className={clsx(
+                    activeStep === 0 || activeStep === -1 ? 'py-10' : 'py-3'
+                  )}
+                >
                   <div className="py-3 px-8 text-center mx-auto">
                     <Stepper
                       className={clsx(
@@ -643,7 +652,7 @@ export default function TryNow() {
                   </div>
                 </div>
               </div>
-              {activeStep == -1 || activeStep == 0 ? (
+              {tryNowState === 'active' ? (
                 <div className="bg-white flex flex-row justify-center p-4 shadow-xl items-center text-center md:w-[650px] mx-auto rounded-xl overflow-hidden">
                   <FaDiscord size={30} className="mr-1" />
                   Already connected?{' '}

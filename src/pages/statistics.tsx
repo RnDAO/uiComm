@@ -64,7 +64,6 @@ const Statistics = () => {
   const getDateRange = (dateRangeType: number): string[] => {
     const now = moment().format('YYYY-MM-DDTHH:mm:ss[Z]');
     let startDate: moment.Moment;
-    console.log({ dateRangeType });
 
     switch (dateRangeType) {
       case 2:
