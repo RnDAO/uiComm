@@ -14,7 +14,7 @@ import 'moment-timezone';
 import momentTZ from 'moment-timezone';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { StorageService } from '../../../services/StorageService';
-import { IUser } from '../../../utils/types';
+import { IGuildChannels, ISubChannels, IUser } from '../../../utils/types';
 import NumberOfMessages from './NumberOfMessages';
 
 if (typeof Highcharts === 'object') {
@@ -89,25 +89,57 @@ const Chart = () => {
   const [channels, setChannels] = useState<string[]>([]);
 
   useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
-    setUser(user);
-    if (user) {
-      getUserGuildInfo(user?.guild?.guildId);
-      fetchGuildChannels(user?.guild?.guildId);
-      const { guildId } = user.guild;
-      setDateRange([
-        moment().subtract(7, 'days'),
-        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      ]);
-      fetchHeatmap(
-        guildId,
-        moment().subtract(7, 'days'),
-        moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        selectedZone,
-        []
-      );
-      getSelectedChannelsList(guildId);
-    }
+    const fetchData = async () => {
+      const user = StorageService.readLocalStorage<IUser>('user');
+      if (!user) {
+        return; // Exit early if there is no user
+      }
+
+      setUser(user);
+
+      try {
+        const guildId = user.guild.guildId;
+        getUserGuildInfo(guildId);
+        fetchGuildChannels(guildId);
+        const channelsList: IGuildChannels[] | [] =
+          await getSelectedChannelsList(guildId);
+
+        if (!Array.isArray(channelsList) || !channelsList.length) {
+          return; // Exit early if there are no selected channels
+        }
+
+        setDateRange([
+          moment().subtract(7, 'days'),
+          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        ]);
+
+        const channelIds = channelsList
+          .flatMap((channel) => channel.subChannels) // Flatten the subChannels arrays
+          .filter((subChannel) => Boolean(subChannel)) // Filter out falsy subChannels
+          .map((subChannel) => subChannel.id);
+
+        setChannels(channelIds);
+
+        if (!channelIds.length) {
+          return; // Exit early if there are no valid subChannels
+        }
+
+        await Promise.all([
+          fetchHeatmap(
+            guildId,
+            moment().subtract(7, 'days'),
+            moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            selectedZone,
+            channelIds
+          ),
+        ]);
+      } catch (error) {
+        console.error(error);
+        // Handle any errors that occur
+      }
+    };
+
+    fetchData();
   }, []);
 
   const fetchHeatmap = (
@@ -301,6 +333,7 @@ const Chart = () => {
 
   const handleSelectedZone = (zone: string) => {
     setSelectedZone(zone);
+
     if (user) {
       const { guildId } = user.guild;
       fetchHeatmap(guildId, dateRange[0], dateRange[1], zone, channels);
@@ -309,6 +342,7 @@ const Chart = () => {
 
   const handleSelectedChannels = (selectedChannels: string[]) => {
     setChannels(selectedChannels);
+
     if (user) {
       const { guildId } = user.guild;
       fetchHeatmap(

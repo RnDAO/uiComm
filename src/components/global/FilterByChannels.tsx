@@ -180,6 +180,7 @@ const FilterByChannels = ({
         }
       }
     }
+
     const result = ([] as { channelId: string; channelName: string }[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels

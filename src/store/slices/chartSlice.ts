@@ -117,6 +117,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
         `/guilds/${guild_id}/selected-channels`
       );
       set({ selectedChannelsList: data, isLoading: false });
+      return data;
     } catch (error) {
       set(() => ({ isLoading: false }));
     }
