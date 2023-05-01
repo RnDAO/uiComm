@@ -83,7 +83,10 @@ const Statistics = () => {
         break;
     }
 
-    return [startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'), yesterday];
+    return [
+      startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      moment(yesterday).format('YYYY-MM-DDTHH:mm:ss[Z]'),
+    ];
   };
 
   const handleActiveMembersDateRange = (dateRangeType: number) => {
