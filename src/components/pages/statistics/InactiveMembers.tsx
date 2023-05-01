@@ -4,7 +4,7 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   chart: {
@@ -18,11 +18,16 @@ const defaultOptions = {
   },
   xAxis: {
     categories: [],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
   series: [],
   legend: {
@@ -74,15 +79,27 @@ export default function InactiveMembers({
     // Copy options on each changes
     const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    const newSeries = inactiveMembers?.series?.map((inactiveMember: any) => {
-      if (inactiveMember.name === 'returned') {
-        return {
-          ...inactiveMember,
-          color: '#FBD13E',
-        };
+    if (inactiveMembers && inactiveMembers.series) {
+      const maxDataValue = Math.max(
+        ...inactiveMembers.series.map((s: SeriesData) => Math.max(...s.data))
+      );
+
+      if (maxDataValue > 0) {
+        newOptions.yAxis.max = null;
       }
-      return inactiveMember;
-    });
+    }
+
+    const newSeries = inactiveMembers?.series?.map(
+      (inactiveMember: SeriesData) => {
+        if (inactiveMember.name === 'returned') {
+          return {
+            ...inactiveMember,
+            color: '#FBD13E',
+          };
+        }
+        return inactiveMember;
+      }
+    );
 
     newOptions.series = newSeries;
     newOptions.xAxis.categories = inactiveMembers.categories;
