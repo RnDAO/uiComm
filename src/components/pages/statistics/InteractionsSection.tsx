@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   chart: {
@@ -16,11 +16,16 @@ const defaultOptions = {
   },
   xAxis: {
     categories: [],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
   series: [],
   legend: {
@@ -46,7 +51,17 @@ export default function InteractionsSection() {
     // Copy options on each changes
     const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    const newSeries = interactions?.series?.map((interaction: any) => {
+    if (interactions && interactions.series) {
+      const maxDataValue = Math.max(
+        ...interactions.series.map((s: SeriesData) => Math.max(...s.data))
+      );
+
+      if (maxDataValue > 0) {
+        newOptions.yAxis.max = null;
+      }
+    }
+
+    const newSeries = interactions?.series?.map((interaction: SeriesData) => {
       if (interaction.name === 'messages') {
         return {
           ...interaction,

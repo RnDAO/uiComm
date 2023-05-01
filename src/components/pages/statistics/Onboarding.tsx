@@ -10,11 +10,16 @@ const defaultOptions = {
   },
   xAxis: {
     categories: ['03 May', '04 May', '05 May', '06 May'],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
   series: [
     {

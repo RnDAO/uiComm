@@ -62,28 +62,31 @@ const Statistics = () => {
   }, [activeMemberDate, disengagedMemberDate, activeTab]);
 
   const getDateRange = (dateRangeType: number): string[] => {
-    const now = moment().format('YYYY-MM-DDTHH:mm:ss[Z]');
+    const yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
     let startDate: moment.Moment;
 
     switch (dateRangeType) {
       case 2:
-        startDate = moment().subtract('1', 'months');
+        startDate = moment().subtract(1, 'day').subtract('1', 'months');
         break;
       case 3:
-        startDate = moment().subtract('3', 'months');
+        startDate = moment().subtract(1, 'day').subtract('3', 'months');
         break;
       case 4:
-        startDate = moment().subtract('6', 'months');
+        startDate = moment().subtract(1, 'day').subtract('6', 'months');
         break;
       case 5:
-        startDate = moment().subtract('1', 'year');
+        startDate = moment().subtract(1, 'day').subtract('1', 'year');
         break;
       default:
-        startDate = moment().subtract('7', 'days');
+        startDate = moment(yesterday).subtract('7', 'days');
         break;
     }
 
-    return [startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'), now];
+    return [
+      startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      moment(yesterday).format('YYYY-MM-DDTHH:mm:ss[Z]'),
+    ];
   };
 
   const handleActiveMembersDateRange = (dateRangeType: number) => {
