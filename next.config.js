@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-import { conf } from './src/configs';
 
 const nextConfig = {
   reactStrictMode: false,
@@ -16,6 +15,7 @@ module.exports = nextConfig
 // Inected Content via Sentry Wizard Below
 
 const { withSentryConfig } = require("@sentry/nextjs");
+const { conf } = require('./src/configs');
 
 module.exports = withSentryConfig(
   module.exports,
