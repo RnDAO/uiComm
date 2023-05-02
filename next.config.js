@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+import { conf } from './src/configs';
+
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
@@ -11,7 +13,7 @@ const nextConfig = {
 
 module.exports = nextConfig
 
-
+console.log(conf.SENTRY_TOKEN);
 // Inected Content via Sentry Wizard Below
 
 const { withSentryConfig } = require("@sentry/nextjs");
@@ -25,8 +27,10 @@ module.exports = withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
 
-    org: "togethercrew",
-    project: "tc-uicomms",
+    url:conf.BASE_URL,
+    authToken:conf.SENTRY_TOKEN,
+    org: conf.ORG_NAME,
+    project: conf.PROJECT_NAME,
   },
   {
     // For all available options, see:
