@@ -13,7 +13,6 @@ const nextConfig = {
 
 module.exports = nextConfig
 
-console.log(conf.SENTRY_TOKEN);
 // Inected Content via Sentry Wizard Below
 
 const { withSentryConfig } = require("@sentry/nextjs");
