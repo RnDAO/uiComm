@@ -15,7 +15,6 @@ module.exports = nextConfig
 // Inected Content via Sentry Wizard Below
 
 const { withSentryConfig } = require("@sentry/nextjs");
-const { conf } = require('./src/configs');
 
 module.exports = withSentryConfig(
   module.exports,
@@ -26,10 +25,10 @@ module.exports = withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
 
-    url:conf.BASE_URL,
-    authToken:conf.SENTRY_TOKEN,
-    org: conf.ORG_NAME,
-    project: conf.PROJECT_NAME,
+    url: process.env.NEXT_PUBLIC_SENTRY_URL,
+    authToken: process.env.SENTRY_TOKEN,
+    org: process.env.NEXT_PUBLIC_ORG_NAME,
+    project: process.env.NEXT_PUBLIC_PROJECT_NAME,
   },
   {
     // For all available options, see:

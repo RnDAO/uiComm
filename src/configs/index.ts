@@ -9,5 +9,5 @@ export const conf = {
   WEIGHT_ID: process.env.NEXT_PUBLIC_TAWK_WEIGHT_ID,
   SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   SENTRY_ENV: process.env.NEXT_PUBLIC_SENTRY_ENV,
-  SENTRY_TOKEN: process.env.NEXT_PUBLIC_SENTRY_TOKEN,
+  SENTRY_TOKEN: process.env.SENTRY_TOKEN,
 };
