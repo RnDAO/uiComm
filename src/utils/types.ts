@@ -8,7 +8,6 @@ export type IToken = {
 export type IGuild = {
   readonly guildId: string;
   readonly guildName: string;
-  readonly _id?: string;
 };
 
 export interface callbackUrlParams extends IGuild, IToken {
