@@ -8,6 +8,7 @@ export type IToken = {
 export type IGuild = {
   readonly guildId: string;
   readonly guildName: string;
+  readonly _id?: string;
 };
 
 export interface callbackUrlParams extends IGuild, IToken {
@@ -32,3 +33,11 @@ export type ISubChannels = {
   readonly canReadMessageHistoryAndViewChannel: boolean;
   readonly parent_id: string;
 };
+
+export type IChannel = {
+  channelId: string;
+  channelName: string;
+  _id: string;
+};
+
+export type IChannelWithoutId = Omit<IChannel, '_id'>;
