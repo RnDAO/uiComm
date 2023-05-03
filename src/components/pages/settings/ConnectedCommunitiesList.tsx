@@ -18,7 +18,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
     setOpen(e);
   };
   const notify = () => {
-    toast('The integration has been disconnected succesfully.', {
+    toast('Account has been unlinked.', {
       position: 'top-center',
       autoClose: 3000,
       hideProgressBar: true,
