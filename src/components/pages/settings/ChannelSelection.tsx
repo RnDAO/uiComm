@@ -22,6 +22,7 @@ import { FiRefreshCcw } from 'react-icons/fi';
 import Loading from '../../global/Loading';
 import { MdExpandMore } from 'react-icons/md';
 import ConfirmStartProcessing from './ConfirmStartProcessing';
+import clsx from 'clsx';
 
 type IProps = {
   emitable?: boolean;
@@ -55,6 +56,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     if (user) {
       setGuild(user.guild);
     }
+    console.log({ guildInfo });
 
     const activeChannles =
       guildInfo && guildInfo.selectedChannels
@@ -230,14 +232,33 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
   return (
     <div>
       <p className="text-base">
-        Selected channels: <b>{selectedChannels.length}</b>{' '}
+        Selected channels:{' '}
+        <b>
+          {guildInfo && guildInfo.isDisconnected ? 0 : selectedChannels.length}
+        </b>{' '}
         <span
-          className="pl-4 text-secondary underline cursor-pointer font-bold"
+          className={clsx(
+            'pl-4 text-secondary font-semibold underline cursor-pointer font-bold"',
+            guildInfo && guildInfo.isInProgress
+              ? 'pointer-events-none text-opacity-50'
+              : ' text-opacity-100'
+          )}
           onClick={() => setOpen(true)}
         >
           Show Channels
         </span>
       </p>
+      {guildInfo && guildInfo.isInProgress ? (
+        <div className="flex items-center text-base text-orange pt-4">
+          <BiError size={24} className="mr-2" />
+          <p className="m-0">
+            We are processing data from selected channels. It might take up to 6
+            hours to complete.
+          </p>
+        </div>
+      ) : (
+        ''
+      )}
       <Dialog
         fullWidth={fullWidth}
         open={open}
