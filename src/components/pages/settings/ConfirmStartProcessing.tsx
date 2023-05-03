@@ -4,7 +4,13 @@ import { BsClockHistory } from 'react-icons/bs';
 import CustomButton from '../../global/CustomButton';
 import { IoClose } from 'react-icons/io5';
 
-function ConfirmStartProcessing(props: any) {
+interface ConfirmStartProcessingProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmitProcess: () => void;
+}
+
+function ConfirmStartProcessing(props: ConfirmStartProcessingProps) {
   const { open, onClose, onSubmitProcess } = props;
   return (
     <Dialog
@@ -27,7 +33,7 @@ function ConfirmStartProcessing(props: any) {
         <IoClose
           size={40}
           onClick={onClose}
-          test-id="close-modal-icon"
+          data-testid="close-modal-icon"
           className="cursor-pointer"
         />
       </DialogTitle>

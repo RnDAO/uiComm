@@ -35,7 +35,7 @@ describe('ConfirmStartProcessing', () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByText(/Cancel/i)).toBeInTheDocument();
-    expect(screen.getByText(/Start data processing/i)).toBeInTheDocument();
+    expect(screen.getByText('Start data processing')).toBeInTheDocument();
   });
 
   it('calls onClose when cancel button is clicked', () => {
@@ -62,7 +62,7 @@ describe('ConfirmStartProcessing', () => {
       />
     );
 
-    const startButton = screen.getByText(/Start data processing/i);
+    const startButton = screen.getByText('Start data processing');
     fireEvent.click(startButton);
 
     expect(onSubmitProcess).toHaveBeenCalledTimes(1);
