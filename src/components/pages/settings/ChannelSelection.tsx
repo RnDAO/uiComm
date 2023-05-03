@@ -236,7 +236,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
         <span
           className={clsx(
             'pl-4 text-secondary font-semibold underline cursor-pointer font-bold"',
-            guildInfo && guildInfo.isInProgress
+            guildInfo && guildInfo.isInProgress && !emitable
               ? 'pointer-events-none text-opacity-50'
               : ' text-opacity-100'
           )}
