@@ -94,7 +94,7 @@ const FilterByChannels = ({
       }
     }
 
-    const result = ([] as { channelId: string; channelName: string }[]).concat(
+    const result = ([] as IChannelWithoutId[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
@@ -136,7 +136,7 @@ const FilterByChannels = ({
     const selectedGuild = channels.find((channel) => channel.id === guild.id);
     if (!selectedGuild) return;
 
-    const updatedChannels = channels.map((channel) => {
+    const updatedChannels = channels.map((channel: IGuildChannels) => {
       if (channel === selectedGuild) {
         const selected = { ...channel.selected };
         Object.keys(selected).forEach((key) => (selected[key] = status));
@@ -179,7 +179,7 @@ const FilterByChannels = ({
       }
     }
 
-    const result = ([] as { channelId: string; channelName: string }[]).concat(
+    const result = ([] as IChannelWithoutId[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {

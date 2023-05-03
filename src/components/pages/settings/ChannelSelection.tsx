@@ -26,9 +26,7 @@ import clsx from 'clsx';
 
 type IProps = {
   emitable?: boolean;
-  submit?: (
-    selectedChannels: { channelId: string; channelName: string }[]
-  ) => unknown;
+  submit?: (selectedChannels: IChannelWithoutId[]) => unknown;
 };
 export default function ChannelSelection({ emitable, submit }: IProps) {
   const [open, setOpen] = useState(false);
@@ -56,7 +54,6 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     if (user) {
       setGuild(user.guild);
     }
-    console.log({ guildInfo });
 
     const activeChannles =
       guildInfo && guildInfo.selectedChannels
@@ -99,7 +96,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       }
     }
 
-    const result = ([] as { channelId: string; channelName: string }[]).concat(
+    const result = ([] as IChannelWithoutId[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
@@ -136,7 +133,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     const selectedGuild = channels.find((channel) => channel.id === guild.id);
     if (!selectedGuild) return;
 
-    const updatedChannels = channels.map((channel) => {
+    const updatedChannels = channels.map((channel: IGuildChannels) => {
       if (channel === selectedGuild) {
         const selected = { ...channel.selected };
         Object.keys(selected).forEach((key) => (selected[key] = status));
@@ -165,7 +162,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       }
     }
 
-    const result = ([] as { channelId: string; channelName: string }[]).concat(
+    const result = ([] as IChannelWithoutId[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {

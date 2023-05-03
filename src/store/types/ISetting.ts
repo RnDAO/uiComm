@@ -1,4 +1,4 @@
-import { IGuildChannels } from '../../utils/types';
+import { IChannelWithoutId, IGuildChannels } from '../../utils/types';
 
 export type IGuildInfo = {
   id?: string;
@@ -6,7 +6,7 @@ export type IGuildInfo = {
   ownerId?: string;
   name?: boolean;
   period?: string;
-  selectedChannels?: { channelId: string; channelName: string }[];
+  selectedChannels?: IChannelWithoutId[];
 };
 
 export type DISCONNECT_TYPE = 'soft' | 'hard';
@@ -29,12 +29,12 @@ export default interface ISetting {
   getGuildInfoByDiscord: (guildId: string) => void;
   updateSelectedChannels: (
     guildId: string,
-    selectedChannels: { channelId: string; channelName: string }[]
+    selectedChannels: IChannelWithoutId[]
   ) => void;
   patchGuildById: (
     guildId: string,
     period: string,
-    selectedChannels: { channelId: string; channelName: string }[]
+    selectedChannels: IChannelWithoutId[]
   ) => any;
   updateAnalysisDatePeriod: (guildId: string, period: string) => void;
   getGuilds: () => void;
