@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx",
     "test": "jest",
+    "coverage": "jest --coverage",
     "export": "next export"
   },
   "dependencies": {
