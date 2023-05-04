@@ -1,18 +1,6 @@
 name: build
 
-on:
-  push:
-    branches:
-      - master
-    tags:
-      - '!*'
-    paths:
-      - src/*
-      - '*.json'
-      - package-lock.json
-  pull_request:
-    paths:
-      - '!*.MD'
+on: [push, pull_request]
 
 jobs:
   test:
