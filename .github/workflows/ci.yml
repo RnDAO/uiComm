@@ -1,4 +1,4 @@
-name: build
+name: tc-build
 
 on: [push, pull_request]
 
