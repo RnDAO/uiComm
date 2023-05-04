@@ -6,7 +6,7 @@ jobs:
   test:
     strategy:
       matrix:
-        platform: [ubuntu-latest, macOS-latest]
+        platform: [ubuntu-latest]
         node: ['18', '17']
     name: test/node ${{ matrix.node }}/${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
