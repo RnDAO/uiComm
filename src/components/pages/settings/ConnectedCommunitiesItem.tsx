@@ -79,16 +79,12 @@ export default function ConnectedCommunitiesItem({ guild, onClick }: IProps) {
             </p>
           </div>
         </div>
-        {!guild.isInProgress ? (
-          <div
-            className="border-t text-secondary font-bold pt-2  cursor-pointer"
-            onClick={() => onClick(guild.guildId)}
-          >
-            Disconnect
-          </div>
-        ) : (
-          <div className="min-h-[30px]" />
-        )}
+        <div
+          className="border-t text-secondary pt-2 font-semibold cursor-pointer"
+          onClick={() => onClick(guild.guildId)}
+        >
+          Disconnect
+        </div>
       </Paper>
     </div>
   );

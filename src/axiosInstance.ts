@@ -2,6 +2,7 @@ import axios from 'axios';
 import { conf } from './configs/index';
 import { StorageService } from './services/StorageService';
 import router from 'next/router';
+import * as Sentry from '@sentry/nextjs';
 
 import { toast } from 'react-toastify';
 import { IUser } from './utils/types';
@@ -92,7 +93,6 @@ axiosInstance.interceptors.response.use(
                   draggable: true,
                   progress: 0,
                 });
-                console.error(error);
               } finally {
                 isRefreshing = false;
               }
@@ -128,6 +128,11 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
+        Sentry.captureException(
+          new Error(
+            `API responded with status code ${error.response.status}: ${error.response.data.message}`
+          )
+        );
         break;
       case 590:
         toast.error(`${error.response.data.message}`, {
@@ -139,6 +144,11 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
+        Sentry.captureException(
+          new Error(
+            `API responded with status code ${error.response.status}: ${error.response.data.message}`
+          )
+        );
         break;
 
       default:

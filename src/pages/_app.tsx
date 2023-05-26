@@ -20,11 +20,15 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from '../utils/privateRoute';
 import { conf } from '../configs';
+import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
+import Script from 'next/script';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   useEffect(() => {
+    // Get Hotjar ID from configuration
     const HOTJAR_ID: string | undefined = conf.HOTJAR_ID;
 
+    // Initialize Hotjar tracking in production environment
     if (process.env.NODE_ENV === 'production' && HOTJAR_ID) {
       const hotjarIdAsNumber = parseInt(HOTJAR_ID, 10);
       hotjar.initialize(hotjarIdAsNumber, 6);
@@ -33,6 +37,20 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
 
   return (
     <>
+      <AmplitudeAnalytics />
+      <Script id="tawk" strategy="lazyOnload">
+        {`
+          var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+          (function(){
+          var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+          s1.async=true;
+          s1.src='https://embed.tawk.to/${conf.PROPERTY_ID}/${conf.WEIGHT_ID}';
+          s1.charset='UTF-8';
+          s1.setAttribute('crossorigin','*');
+          s0.parentNode.insertBefore(s1,s0);
+          })();
+        `}
+      </Script>
       <ThemeProvider theme={theme}>
         {Component.pageLayout ? (
           <PrivateRoute>

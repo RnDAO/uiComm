@@ -1,17 +1,21 @@
 import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
-import IHeatmap from '../types/IHeatmap';
+import ICharts from '../types/ICharts';
 
-const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
+const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   isLoading: false,
   heatmapRecords: [],
   interactions: {},
   activeMembers: {},
+  disengagedMembers: {},
+  inactiveMembers: {},
+  selectedChannelsList: [],
   fetchHeatmapData: async (
     guild_id: string,
     startDate: string,
     endDate: string,
-    timeZone: string
+    timeZone: string,
+    channelIds: string[]
   ) => {
     try {
       set(() => ({ isLoading: true }));
@@ -21,7 +25,7 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
           startDate,
           endDate,
           timeZone,
-          channelIds: [],
+          channelIds: channelIds,
         }
       );
       set({ heatmapRecords: [...data], isLoading: false });
@@ -64,6 +68,56 @@ const createHeatmapSlice: StateCreator<IHeatmap> = (set, get) => ({
         }
       );
       set({ activeMembers: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  fetchDisengagedMembers: async (
+    guild_id: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.post(
+        `/member-activity/${guild_id}/disengaged-members-composition-line-graph`,
+        {
+          startDate,
+          endDate,
+        }
+      );
+      set({ disengagedMembers: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  fetchInactiveMembers: async (
+    guild_id: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.post(
+        `/member-activity/${guild_id}/inactive-members-line-graph `,
+        {
+          startDate,
+          endDate,
+        }
+      );
+      set({ inactiveMembers: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  getSelectedChannelsList: async (guild_id: string) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.get(
+        `/guilds/${guild_id}/selected-channels`
+      );
+      set({ selectedChannelsList: data, isLoading: false });
+      return data;
     } catch (error) {
       set(() => ({ isLoading: false }));
     }

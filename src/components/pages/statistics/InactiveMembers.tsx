@@ -4,29 +4,43 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
+  chart: {
+    zoomType: 'x',
+  },
+  rangeSelector: {
+    enabled: true,
+  },
   title: {
     text: '',
   },
   xAxis: {
-    categories: ['03 May', '04 May', '05 May', '06 May'],
+    categories: [],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
-  series: [
-    {
-      name: 'Still active',
-      data: [2, 4, 56, 233],
-      color: '#FBD13E',
-    },
-  ],
+  series: [],
   legend: {
-    enabled: false,
+    enabled: true,
+  },
+  plotOptions: {
+    series: {
+      turboThreshold: 10000,
+      dataGrouping: {
+        enabled: true,
+        groupPixelWidth: 20,
+      },
+    },
   },
 };
 
@@ -57,45 +71,54 @@ export default function InactiveMembers({
   activePeriod,
   handleDateRange,
 }: any) {
-  const { interactions } = useAppStore();
+  const { inactiveMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
     // Copy options on each changes
-    // const newOptions = JSON.parse(JSON.stringify(defaultOptions));
+    const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    // const newSeries = interactions?.series?.map((interaction: any) => {
-    //   if (interaction.name === 'messages') {
-    //     return {
-    //       ...interaction,
-    //       color: '#804EE1',
-    //     };
-    //   } else if (interaction.name === 'emojis') {
-    //     return {
-    //       ...interaction,
-    //       color: '#FF9022',
-    //     };
-    //   }
-    //   return interaction;
-    // });
+    if (inactiveMembers && inactiveMembers.series) {
+      const maxDataValue = Math.max(
+        ...inactiveMembers.series.map((s: SeriesData) => Math.max(...s.data))
+      );
 
-    // newOptions.series = newSeries;
-    // newOptions.xAxis.categories = interactions.categories;
+      if (maxDataValue > 0) {
+        newOptions.yAxis.max = null;
+      }
+    }
 
-    // setOptions(newOptions);
+    const newSeries = inactiveMembers?.series?.map(
+      (inactiveMember: SeriesData) => {
+        if (inactiveMember.name === 'returned') {
+          return {
+            ...inactiveMember,
+            color: '#FBD13E',
+          };
+        }
+        return inactiveMember;
+      }
+    );
+
+    newOptions.series = newSeries;
+    newOptions.xAxis.categories = inactiveMembers.categories;
+
+    setOptions(newOptions);
 
     setStatistics([
       {
-        label: 'Still active',
+        label: 'Returned',
         description: 'Were disengaged and became active again',
-        percentageChange: 0,
-        value: 0,
+        percentageChange: inactiveMembers.returnedPercentageChange
+          ? inactiveMembers.returnedPercentageChange
+          : 0,
+        value: inactiveMembers.returned,
         colorBadge: 'bg-yellow',
         hasTooltip: false,
       },
     ]);
-  }, [interactions]);
+  }, [inactiveMembers]);
 
   return (
     <>
@@ -103,14 +126,10 @@ export default function InactiveMembers({
         <h3 className="text-lg font-medium text-lite-black">
           Inactive members
         </h3>
-        <RangeSelect
-          options={communityActiveDates}
-          icon={<FiCalendar size={18} />}
-          active={activePeriod}
-          onClick={handleDateRange}
-        />
       </div>
-      <StatisticalData statistics={[...statistics]} />
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+        <StatisticalData statistics={[...statistics]} />
+      </div>
       <LineGraph options={options} />
     </>
   );

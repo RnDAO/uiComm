@@ -14,7 +14,7 @@ type IProps = {
   handleSelectedZone: (zone: string) => void;
 };
 
-const ZonePicker = ({ selectedZone,handleSelectedZone }: IProps) => {
+const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -46,12 +46,12 @@ const ZonePicker = ({ selectedZone,handleSelectedZone }: IProps) => {
   };
 
   return (
-    <div className="flex flex-row w-1/2 md:w-auto bg-gray-background px-3 py-1 mt-2 md:mt-0 items-center rounded-md">
+    <div className="flex flex-row min-w-1/2 md:w-auto bg-gray-background px-3 mt-2 md:mt-0 items-center rounded-md py-1 md:py-2">
       <GoGlobe size={20} className="mr-3 text-lite-gray" />
       <button
         aria-describedby={id}
         onClick={handleClick}
-        className="hover:bg-lite active:bg-white px-1 rounded-md"
+        className="hover:bg-lite active:bg-white px-2 rounded-md"
       >
         {selectedZone}
       </button>

@@ -7,3 +7,8 @@ export interface StatisticsProps {
   hasTooltip: boolean;
   tooltipText?: React.ReactNode;
 }
+
+export interface SeriesData {
+  name: string;
+  data: number[];
+}

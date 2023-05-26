@@ -1,4 +1,9 @@
-import { Button, Checkbox, Dialog, FormControlLabel } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Dialog,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import useAppStore from '../../../store/useStore';
@@ -6,6 +11,10 @@ import ChannelList from '../login/ChannelList';
 import { StorageService } from '../../../services/StorageService';
 import { IGuild, IUser } from '../../../utils/types';
 import { BiError } from 'react-icons/bi';
+import CustomButton from '../../global/CustomButton';
+import { FiRefreshCcw } from 'react-icons/fi';
+import Loading from '../../global/Loading';
+import { MdExpandMore } from 'react-icons/md';
 
 type IProps = {
   emitable?: boolean;
@@ -24,6 +33,8 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     updateSelectedChannels,
     getUserGuildInfo,
     guilds,
+    isRefetchLoading,
+    refetchGuildChannels,
   } = useAppStore();
 
   useEffect(() => {
@@ -107,13 +118,17 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     setChannels((preChannels) => {
       return preChannels.map((preChannel) => {
         if (selectedGuild === preChannel.id) {
-          Object.keys(preChannel.selected).forEach((key: any) => {
+          Object.keys(preChannel.selected).forEach((key: string) => {
             preChannel.selected[key] = status;
           });
         }
         return preChannel;
       });
     });
+  };
+
+  const refetchChannels = () => {
+    refetchGuildChannels(guild?.guildId);
   };
 
   const submitChannels = () => {
@@ -133,7 +148,10 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       ...channels.map((channel: any) => {
         return channel.subChannels
           .filter((subChannel: any) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (
+              activeChannel.includes(subChannel.id) &&
+              subChannel.canReadMessageHistoryAndViewChannel
+            ) {
               return subChannel;
             }
           })
@@ -214,37 +232,101 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
               </h3>
               <IoClose size={30} onClick={handleClose} />
             </div>
-            <p className="py-4 text-base">
+            <p className="py-4 text-sm">
               Select channels to import activity in this workspace. Please give
               Together Crew access to all selected private channels by updating
               the channels permissions in Discord. Discord permission will
               affect the channels the bot can see.
             </p>
           </div>
-          <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-y-scroll text-base">
-            <div>
-              {channels && channels.length > 0
-                ? channels.map((guild: any, index: any) => {
-                    return (
-                      <div className="my-2" key={index}>
-                        <ChannelList
-                          guild={guild}
-                          onChange={onChange}
-                          handleCheckAll={handleCheckAll}
-                        />
-                      </div>
-                    );
-                  })
-                : ''}
-            </div>
+          <div className="border border-1 border-gray-300 px-2 md:px-4 py-4 rounded-lg max-h-[410px] overflow-y-scroll text-base">
+            {isRefetchLoading ? (
+              <Loading height="365px" />
+            ) : (
+              <div className="flex flex-col">
+                <div className="block md:absolute right-12">
+                  <CustomButton
+                    classes={''}
+                    label={'Refresh List'}
+                    className="text-black border-black bg-white float-right rounded-md -top-1 font-semibold"
+                    startIcon={<FiRefreshCcw />}
+                    size="large"
+                    variant="outlined"
+                    onClick={refetchChannels}
+                  />
+                </div>
+                {channels && channels.length > 0
+                  ? channels.map((guild: any, index: any) => {
+                      return (
+                        <div className="my-2" key={index}>
+                          <ChannelList
+                            guild={guild}
+                            showFlag={true}
+                            onChange={onChange}
+                            handleCheckAll={handleCheckAll}
+                          />
+                        </div>
+                      );
+                    })
+                  : ''}
+              </div>
+            )}
           </div>
-          <div className="flex justify-center mt-5">
-            <Button
-              className="bg-secondary text-white py-3 px-16 text-base"
-              onClick={submitChannels}
+          <Accordion disableGutters defaultExpanded={true} elevation={0}>
+            <AccordionSummary
+              expandIcon={
+                <MdExpandMore color="#37474F" size={25} fill="#37474F" />
+              }
             >
-              Save channels
-            </Button>
+              <p className="font-semibold text-md">
+                How to give access to the channel you want to import?
+              </p>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className="pl-1 pr-4 text-left">
+                <ol className="list-decimal text-sm pl-4">
+                  <li>
+                    Navigate to the channel you want to import on{' '}
+                    <a
+                      href="https://discord.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-secondary font-semibold cursor-pointer"
+                    >
+                      Discord
+                    </a>
+                  </li>
+                  <li>
+                    Go to the settings for that specific channel (select the
+                    wheel on the right of the channel name)
+                  </li>
+                  <li>
+                    Select <b>Permissions</b> (left sidebar), and then in the
+                    middle of the screen check <b>Advanced permissions</b>
+                  </li>
+                  <li>
+                    With the <b>TogetherCrew Bot</b> selected, under Advanced
+                    Permissions, make sure that [View channel] and [Read message
+                    history] are marked as [✓]
+                  </li>
+                  <li>
+                    Select the plus sign to the right of Roles/Members and under
+                    members select <b>TogetherCrew bot</b>
+                  </li>
+                  <li>
+                    Click on the <b>Refresh List</b> button on this window and
+                    select the new channels
+                  </li>
+                </ol>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+          <div className="flex justify-center mt-1">
+            <CustomButton
+              onClick={submitChannels}
+              label={'Save channels'}
+              classes={'bg-secondary text-white py-3 px-16 text-base'}
+            />
           </div>
         </div>
       </Dialog>

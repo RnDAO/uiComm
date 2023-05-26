@@ -1,105 +1,131 @@
 import { useEffect, useState } from 'react';
-import CustomTab from '../components/global/CustomTab';
-import { defaultLayout } from '../layouts/defaultLayout';
-import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
-// import Onboarding from '../components/pages/statistics/Onboarding';
-import InteractionsSection from '../components/pages/statistics/InteractionsSection';
-// import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
-import InactiveMembers from '../components/pages/statistics/InactiveMembers';
-import { StorageService } from '../services/StorageService';
-import { IUser } from '../utils/types';
-import useAppStore from '../store/useStore';
 import moment from 'moment';
+
+import CustomTab from '../components/global/CustomTab';
+import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
+import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
+import InteractionsSection from '../components/pages/statistics/InteractionsSection';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { defaultLayout } from '../layouts/defaultLayout';
+import { IUser } from '../utils/types';
+import { StorageService } from '../services/StorageService';
+import useAppStore from '../store/useStore';
+import SEO from '../components/global/SEO';
 
 const Statistics = () => {
-  const [active, setActive] = useState(1);
-  const { fetchInteractions, fetchActiveMembers, isLoading } = useAppStore();
+  const [activeMemberDate, setActiveMemberDate] = useState(1);
+  const [disengagedMemberDate, setDisengagedMemberDate] = useState(1);
+  const {
+    fetchInteractions,
+    fetchActiveMembers,
+    fetchDisengagedMembers,
+    fetchInactiveMembers,
+    isLoading,
+  } = useAppStore();
+
+  const [activeTab, setActiveTab] = useState('1');
+
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    newValue: string
+  ): void => {
+    setActiveTab(newValue);
+  };
+
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      const { guild } = user;
-      fetchInteractions(
+
+    if (!user) {
+      return;
+    }
+
+    const { guild } = user;
+
+    if (activeTab === '1') {
+      const activeDateRange = getDateRange(activeMemberDate);
+      fetchInteractions(guild.guildId, activeDateRange[0], activeDateRange[1]);
+      fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
+    } else {
+      const disengagedDateRange = getDateRange(disengagedMemberDate);
+      fetchDisengagedMembers(
         guild.guildId,
-        moment().subtract(7, 'days'),
-        moment().format('YYYY-MM-DDTHH:mm:ss[Z]')
+        disengagedDateRange[0],
+        disengagedDateRange[1]
       );
-      fetchActiveMembers(
+      fetchInactiveMembers(
         guild.guildId,
-        moment().subtract(7, 'days'),
-        moment().format('YYYY-MM-DDTHH:mm:ss[Z]')
+        disengagedDateRange[0],
+        disengagedDateRange[1]
       );
     }
-  }, []);
+  }, [activeMemberDate, disengagedMemberDate, activeTab]);
 
-  const handleDateRange = (dateRangeType: string | number) => {
-    let dateTime: string[] = [];
+  const getDateRange = (dateRangeType: number): string[] => {
+    const yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+    let startDate: moment.Moment;
+
     switch (dateRangeType) {
-      case 1:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('7', 'days').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
-        break;
       case 2:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('1', 'months').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
+        startDate = moment().subtract(1, 'day').subtract('1', 'months');
         break;
       case 3:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('3', 'months').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
+        startDate = moment().subtract(1, 'day').subtract('3', 'months');
         break;
       case 4:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('6', 'months').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
+        startDate = moment().subtract(1, 'day').subtract('6', 'months');
         break;
       case 5:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('1', 'year').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
+        startDate = moment().subtract(1, 'day').subtract('1', 'year');
         break;
       default:
+        startDate = moment(yesterday).subtract('7', 'days');
         break;
     }
-    const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      const { guild } = user;
-      fetchInteractions(guild.guildId, dateTime[0], dateTime[1]);
-      fetchActiveMembers(guild.guildId, dateTime[0], dateTime[1]);
-    }
+
+    return [
+      startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      moment(yesterday).format('YYYY-MM-DDTHH:mm:ss[Z]'),
+    ];
+  };
+
+  const handleActiveMembersDateRange = (dateRangeType: number) => {
+    setActiveMemberDate(dateRangeType);
+  };
+
+  const handleDisengagedMemberDateRange = (dateRangeType: number) => {
+    setDisengagedMemberDate(dateRangeType);
   };
 
   if (isLoading) {
     return <SimpleBackdrop />;
   }
+
   return (
     <>
+      <SEO
+        titleTemplate={
+          activeTab === '1' ? 'Active Members' : 'Disengaged Members'
+        }
+      />
       <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
         <CustomTab
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
           labels={['Active members', 'Disengaged members']}
           content={[
             <div className="flex flex-col space-y-8">
               <ActiveMembersComposition
-                activePeriod={active}
-                handleDateRange={handleDateRange}
+                activePeriod={activeMemberDate}
+                handleDateRange={handleActiveMembersDateRange}
               />
-              {/* <Onboarding /> */}
               <InteractionsSection />
             </div>,
             <div className="flex flex-col space-y-8">
-              {/* <DisengagedMembersComposition /> */}
+              <DisengagedMembersComposition
+                activePeriod={disengagedMemberDate}
+                handleDateRange={handleDisengagedMemberDateRange}
+              />
               <InactiveMembers />
             </div>,
           ]}

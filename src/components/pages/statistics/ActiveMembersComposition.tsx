@@ -4,11 +4,11 @@ import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
-export interface DisengagedMembersComposition {
+export interface ActiveMembersComposition {
   activePeriod: number;
-  handleDateRange: (range: string | number) => void;
+  handleDateRange: (range: number) => void;
 }
 
 const defaultOptions = {
@@ -23,15 +23,20 @@ const defaultOptions = {
   },
   xAxis: {
     categories: [],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
   series: [],
   legend: {
-    enabled: false,
+    enabled: true,
   },
   plotOptions: {
     series: {
@@ -70,7 +75,7 @@ const communityActiveDates = [
 export default function ActiveMembersComposition({
   activePeriod,
   handleDateRange,
-}: DisengagedMembersComposition) {
+}: ActiveMembersComposition) {
   const { activeMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
@@ -79,7 +84,17 @@ export default function ActiveMembersComposition({
     // Copy options on each changes
     const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    const newSeries = activeMembers?.series?.map((activeMember: any) => {
+    if (activeMembers && activeMembers.series) {
+      const maxDataValue = Math.max(
+        ...activeMembers.series.map((s: SeriesData) => Math.max(...s.data))
+      );
+
+      if (maxDataValue > 0) {
+        newOptions.yAxis.max = null;
+      }
+    }
+
+    const newSeries = activeMembers?.series?.map((activeMember: SeriesData) => {
       if (activeMember.name === 'totActiveMembers') {
         return {
           ...activeMember,
@@ -119,7 +134,9 @@ export default function ActiveMembersComposition({
       {
         label: 'Tot active members',
         description: 'Interacted at least once in the last 7 days',
-        percentageChange: activeMembers.totActiveMembersPercentageChange,
+        percentageChange: activeMembers.totActiveMembersPercentageChange
+          ? activeMembers.totActiveMembersPercentageChange
+          : 0,
         value: activeMembers.totActiveMembers,
         colorBadge: 'bg-green',
         hasTooltip: true,
@@ -140,7 +157,9 @@ export default function ActiveMembersComposition({
         label: 'Newly active',
         description:
           'Started interacting for the first time in the last 7 days',
-        percentageChange: activeMembers.newlyActivePercentageChange,
+        percentageChange: activeMembers.newlyActivePercentageChange
+          ? activeMembers.newlyActivePercentageChange
+          : 0,
         value: activeMembers.newlyActive,
         colorBadge: 'bg-warning-500',
         hasTooltip: false,
@@ -148,7 +167,9 @@ export default function ActiveMembersComposition({
       {
         label: 'Consistently active',
         description: 'Interacted weekly for at least 3 out of 4 weeks',
-        percentageChange: activeMembers.consistentlyActivePercentageChange,
+        percentageChange: activeMembers.consistentlyActivePercentageChange
+          ? activeMembers.consistentlyActivePercentageChange
+          : 0,
         value: activeMembers.consistentlyActive,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
@@ -156,7 +177,9 @@ export default function ActiveMembersComposition({
       {
         label: 'Vital members',
         description: 'Are consistently active and very connected',
-        percentageChange: activeMembers.vitalMembersPercentageChange,
+        percentageChange: activeMembers.vitalMembersPercentageChange
+          ? activeMembers.vitalMembersPercentageChange
+          : 0,
         value: activeMembers.vitalMembers,
         colorBadge: 'bg-info-600',
         hasTooltip: true,
@@ -171,7 +194,9 @@ export default function ActiveMembersComposition({
       {
         label: 'Became disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
-        percentageChange: activeMembers.becameDisengagedPercentageChange,
+        percentageChange: activeMembers.becameDisengagedPercentageChange
+          ? activeMembers.becameDisengagedPercentageChange
+          : 0,
         value: activeMembers.becameDisengaged,
         colorBadge: 'bg-error-500',
         hasTooltip: false,

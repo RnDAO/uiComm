@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-
 type Props = {
   className?: string;
   options: optionItem[];
   icon: JSX.Element;
   active: number | string;
-  onClick: (value: number | string) => void;
+  onClick: (value: number) => void;
 };
 
 type optionItem = {
@@ -14,7 +12,6 @@ type optionItem = {
 };
 
 const RangeSelect = ({ options, icon, onClick, active }: Props) => {
-
   return (
     <>
       <div className="bg-gray-background px-3 rounded-md">

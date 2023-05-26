@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 const defaultOptions = {
   chart: {
@@ -16,15 +16,20 @@ const defaultOptions = {
   },
   xAxis: {
     categories: [],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
   series: [],
   legend: {
-    enabled: false,
+    enabled: true,
   },
   plotOptions: {
     series: {
@@ -46,7 +51,17 @@ export default function InteractionsSection() {
     // Copy options on each changes
     const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    const newSeries = interactions?.series?.map((interaction: any) => {
+    if (interactions && interactions.series) {
+      const maxDataValue = Math.max(
+        ...interactions.series.map((s: SeriesData) => Math.max(...s.data))
+      );
+
+      if (maxDataValue > 0) {
+        newOptions.yAxis.max = null;
+      }
+    }
+
+    const newSeries = interactions?.series?.map((interaction: SeriesData) => {
       if (interaction.name === 'messages') {
         return {
           ...interaction,
@@ -69,14 +84,18 @@ export default function InteractionsSection() {
     setStatistics([
       {
         label: 'Messages',
-        percentageChange: interactions.msgPercentageChange,
+        percentageChange: interactions.msgPercentageChange
+          ? interactions.msgPercentageChange
+          : 0,
         value: interactions.messages,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
       },
       {
         label: 'Emojies',
-        percentageChange: interactions.emojiPercentageChange,
+        percentageChange: interactions.emojiPercentageChange
+          ? interactions.emojiPercentageChange
+          : 0,
         value: interactions.emojis,
         colorBadge: 'bg-warning-500',
         hasTooltip: false,

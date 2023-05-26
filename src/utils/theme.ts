@@ -60,7 +60,12 @@ export const theme = createTheme({
           top: '0',
           zIndex: '999',
         },
-        filledWarning: { background: '#FF8022' },
+        filledWarning: {
+          background: '#FF8022',
+          '@media (max-width: 600px)': {
+            padding: '6px 2rem 6px 2rem',
+          },
+        },
       },
     },
     MuiTabs: {
