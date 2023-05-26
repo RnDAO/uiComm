@@ -49,23 +49,23 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({ statistics }) => {
             <div
               className={clsx('rounded-full w-3.5 h-3.5 mr-2', stat.colorBadge)}
             />
-            <span className="text-base">{stat.label}</span>
+            <span className="text-base flex items-center">
+              {stat.label}
+              {stat.hasTooltip && (
+                <Tooltip title={stat.tooltipText} arrow placement="bottom">
+                  <span>
+                    <AiOutlineExclamationCircle
+                      size={'18px'}
+                      className="mx-auto ml-1"
+                    />
+                  </span>
+                </Tooltip>
+              )}
+            </span>
           </div>
           {stat.description && (
             <span className="text-sm text-center text-gray-custom px-5 pt-2">
               {stat.description}
-              <div className="text-center mx-auto">
-                {stat.hasTooltip && (
-                  <Tooltip title={stat.tooltipText} arrow placement="bottom">
-                    <span>
-                      <AiOutlineExclamationCircle
-                        size={'18px'}
-                        className="mx-auto"
-                      />
-                    </span>
-                  </Tooltip>
-                )}
-              </div>
             </span>
           )}
         </div>
