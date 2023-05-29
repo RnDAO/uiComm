@@ -1,4 +1,4 @@
-import { IGuildChannels } from '../../utils/types';
+import { IChannelWithoutId, IGuildChannels } from '../../utils/types';
 
 export type IUser = {
   readonly accessToken: string;
@@ -28,7 +28,7 @@ export default interface IAuth {
   updateGuildById: (
     guildId: string,
     period: string,
-    selectedChannels: { channelId: string; channelName: string }[]
+    selectedChannels: IChannelWithoutId[]
   ) => any;
   changeEmail: (email: string) => any;
 }

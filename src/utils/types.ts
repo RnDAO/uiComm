@@ -32,3 +32,11 @@ export type ISubChannels = {
   readonly canReadMessageHistoryAndViewChannel: boolean;
   readonly parent_id: string;
 };
+
+export type IChannel = {
+  channelId: string;
+  channelName: string;
+  _id: string;
+};
+
+export type IChannelWithoutId = Omit<IChannel, '_id'>;

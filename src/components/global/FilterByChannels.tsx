@@ -3,7 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { FaHashtag } from 'react-icons/fa';
 import ChannelList from '../pages/login/ChannelList';
 import { StorageService } from '../../services/StorageService';
-import { IGuild, ISubChannels, IUser } from '../../utils/types';
+import {
+  IChannel,
+  IChannelWithoutId,
+  IGuild,
+  ISubChannels,
+  IUser,
+} from '../../utils/types';
 import CustomButton from './CustomButton';
 import { IGuildChannels } from '../../utils/types';
 import useAppStore from '../../store/useStore';
@@ -15,14 +21,6 @@ type IProps = {
   handleSelectedChannels: (selectedChannels: string[]) => void;
 };
 
-type IChannel = {
-  channelId: string;
-  channelName: string;
-  _id: string;
-};
-
-type IChannelWithoutId = Omit<IChannel, '_id'>;
-
 const FilterByChannels = ({
   guildChannels,
   filteredChannels,
@@ -32,7 +30,7 @@ const FilterByChannels = ({
   const [guild, setGuild] = useState<IGuild>();
   const [channels, setChannels] = useState<Array<IGuildChannels>>([]);
   const [selectedChannels, setSelectedChannels] = useState<
-    { channelId: string; channelName: string }[]
+    Array<IChannelWithoutId>
   >([]);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -96,7 +94,7 @@ const FilterByChannels = ({
       }
     }
 
-    const result = ([] as { channelId: string; channelName: string }[]).concat(
+    const result = ([] as IChannelWithoutId[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
@@ -138,7 +136,7 @@ const FilterByChannels = ({
     const selectedGuild = channels.find((channel) => channel.id === guild.id);
     if (!selectedGuild) return;
 
-    const updatedChannels = channels.map((channel) => {
+    const updatedChannels = channels.map((channel: IGuildChannels) => {
       if (channel === selectedGuild) {
         const selected = { ...channel.selected };
         Object.keys(selected).forEach((key) => (selected[key] = status));
@@ -181,7 +179,7 @@ const FilterByChannels = ({
       }
     }
 
-    const result = ([] as { channelId: string; channelName: string }[]).concat(
+    const result = ([] as IChannelWithoutId[]).concat(
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
