@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  redis:
+    image: "redis:alpine"
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+  mongo:
+    image: "mongo"
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+  neo4j:
+    image: "neo4j"
+    restart: unless-stopped
+    ports:
+      - 7687:7687
+      - 7474:7474
+    environment:
+      - NEO4J_AUTH=neo4j/pass
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=pass
+  api:
+    build: https://github.com/RnDAO/tc-serverComm.git#fix-db-lib
+    restart: unless-stopped
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mongo
+      - DB_USER=root
+      - DB_PASSWORD=pass
+      - DB_NAME=RnDAO
+      - DB_PORT=27017
+      - DISCORD_CONNECT_GUILD_CALLBACK_URI=http://localhost:3000/api/v1/guilds/connect/callback
+      - DISCORD_TRY_NOW_CALLBACK_URI=http://localhost:3000/api/v1/auth/try-now/callback
+      - DISCORD_LOGIN_CALLBACK_URI=http://localhost:3000/api/v1/auth/login/callback
+      - DISCROD_CLIENT_ID=
+      - DISCORD_CLIENT_SECRET=
+      - DISCORD_BOT_TOKEN=
+      - JWT_SECRET=
+      - JWT_ACCESS_EXPIRATION_MINUTES=15
+      - JWT_REFRESH_EXPIRATION_DAYS=30
+      - JWT_DISCORD_REFRESH_EXPIRATION_DAYS=30
+      - FRONTEND_URL=http://localhost:3001
+      - NOTION_API_KEY=
+      - NOTION_DATABASE_ID=
+      - RABBIT_HOST=rabbitmq
+      - RABBIT_PORT=5672
+      - RABBIT_USER=root
+      - RABBIT_PASSWORD=pass
+      - SENTRY_DSN=
+      - SENTRY_ENV=development
+    depends_on:
+      - mongo
+      - rabbitmq
