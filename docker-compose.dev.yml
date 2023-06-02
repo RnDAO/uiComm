@@ -29,10 +29,8 @@ services:
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=pass
   api:
-    build: https://github.com/RnDAO/tc-serverComm.git#fix-db-lib
+    build: https://github.com/RnDAO/tc-serverComm.git#temp/dockerize/nima
     restart: unless-stopped
-    expose:
-      - 3000
     ports:
       - 3000:3000
     environment:
