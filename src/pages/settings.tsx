@@ -114,7 +114,7 @@ function Settings(): JSX.Element {
             variant="filled"
             autoComplete="off"
             value={emailAddress}
-            InputProps={{ disableUnderline: true }}
+            InputProps={{ disableUnderline: true, sx: { borderRadius: '4px' } }}
             className="w-full md:w-[240px]"
             onChange={(e) => setEmailAddress(e.target.value)}
           />
