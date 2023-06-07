@@ -1,11 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-interface Props {
-  numberOfMessages: number;
-}
-
-const NumberOfMessages: React.FC<Props> = ({ numberOfMessages }) => {
+function NumberOfMessages() {
   const squareTexts = ['0+', '10+', '20+', '30+', '50+', '70+', '100+'];
   const squareColors = [
     'bg-gray-white',
@@ -37,6 +33,6 @@ const NumberOfMessages: React.FC<Props> = ({ numberOfMessages }) => {
       </div>
     </div>
   );
-};
+}
 
 export default NumberOfMessages;
