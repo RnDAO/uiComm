@@ -190,7 +190,11 @@ const defaultHeatmapChartOptions = {
                 },
               },
               pointPadding: 0.8,
-              data: [],
+              data: Array.from({ length: 24 * 7 }, (_, i) => [
+                i % 24,
+                Math.floor(i / 24),
+                0,
+              ]),
               colsize: 0.9,
               rowsize: 0.9,
             },
@@ -213,7 +217,6 @@ const HeatmapChart = () => {
     null,
   ]);
   const [selectedZone, setSelectedZone] = useState(moment.tz.guess());
-  const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const [channels, setChannels] = useState<string[]>([]);
 
   const {
@@ -262,6 +265,7 @@ const HeatmapChart = () => {
         if (channelIds.length === 0) {
           return; // Exit early if there are no valid subChannels
         }
+        console.log({ channelIds });
 
         await fetchHeatmapData(
           guildId,
@@ -287,14 +291,8 @@ const HeatmapChart = () => {
     }
 
     const { guildId } = user.guild;
-    fetchHeatmap(
-      guildId,
-      dateRange[0],
-      dateRange[1],
-      selectedZone,
-      selectedChannels
-    );
-  }, [user, dateRange, selectedZone, selectedChannels]);
+    fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone, channels);
+  }, [dateRange, selectedZone, channels]);
 
   const fetchHeatmap = async (
     guildId: string,
@@ -325,6 +323,80 @@ const HeatmapChart = () => {
             data: res?.map((item: any[]) => [item[1], item[0], item[2] || 0]),
           },
         ],
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 600,
+              },
+              // Make the labels less space demanding on mobile
+              chartOptions: {
+                chart: {
+                  scrollablePlotArea: {
+                    minWidth: 1080,
+                  },
+                },
+                legend: {
+                  title: {
+                    text: 'Number of interactions',
+                    style: {
+                      fontStyle: 'bold',
+                      fontSize: '10px',
+                      fontFamily: 'Inter',
+                    },
+                  },
+                  align: 'left',
+                  layout: 'horizontal',
+                  margin: 0,
+                  verticalAlign: 'bottom',
+                  y: 0,
+                  x: 25,
+                  symbolHeight: 20,
+                },
+                xAxis: {
+                  width: 1000,
+                  labels: {
+                    step: 1,
+                    style: {
+                      fontSize: '10px',
+                      fontFamily: 'Inter',
+                    },
+                  },
+                },
+                yAxis: {
+                  labels: {
+                    style: {
+                      fontSize: '10px',
+                      fontFamily: 'Inter',
+                    },
+                  },
+                },
+                series: [
+                  {
+                    name: 'Revenue',
+                    borderWidth: 0.5,
+                    borderColor: 'white',
+                    dataLabels: {
+                      enabled: true,
+                      style: {
+                        fontSize: '10px',
+                        fontFamily: 'Inter',
+                      },
+                    },
+                    pointPadding: 0.8,
+                    data: res?.map((item: any[]) => [
+                      item[1],
+                      item[0],
+                      item[2] || 0,
+                    ]),
+                    colsize: 0.9,
+                    rowsize: 0.9,
+                  },
+                ],
+              },
+            },
+          ],
+        },
       }));
     } catch (error) {
       console.error(error);
@@ -350,7 +422,6 @@ const HeatmapChart = () => {
         selectedChannels
       );
     }
-    console.log(selectedChannels);
   };
 
   const handleDateRange = (dateRangeType: string | number) => {
