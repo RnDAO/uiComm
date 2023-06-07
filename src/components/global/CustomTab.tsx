@@ -46,6 +46,7 @@ function CustomTab({
                 height: '40px',
                 '@media (max-width: 600px)': {
                   width: '50%',
+                  padding: '0',
                 },
               }}
             />

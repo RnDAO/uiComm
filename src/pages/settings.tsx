@@ -67,15 +67,13 @@ function Settings(): JSX.Element {
     const user = StorageService.readLocalStorage<IUser>('user');
 
     if (user) {
-      const { guildId } = user.guild;      
+      const { guildId } = user.guild;
       if (guildId) {
         fetchGuildChannels(guildId);
         getUserGuildInfo(guildId);
       }
     }
   }, []);
-
-
 
   const updateEmailAddress = () => {
     changeEmail(emailAddress).then((res: any) => {
