@@ -168,7 +168,7 @@ export default function ConnectCommunities() {
           <p className="text-base whitespace-nowrap font-semibold pt-2">
             Connect your communities
           </p>
-          {guilds.length === 1 ? (
+          {guilds.length >= 1 ? (
             <Tooltip
               title={
                 <Typography fontSize={14}>
