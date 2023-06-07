@@ -45,7 +45,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
   return (
     <>
       {guilds && guilds.length > 0 ? (
-        <div className="bg-gray-background rounded-lg px-4 md:h-[268px]">
+        <div className="bg-gray-background overflow-auto rounded-lg px-4 md:h-[268px]">
           <p className="text-base font-semibold pt-2">Connected communities</p>
           <div className="flex flex-row">
             {guilds && guilds.length > 0
