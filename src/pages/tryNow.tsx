@@ -601,7 +601,10 @@ export default function TryNow() {
                               variant="filled"
                               autoComplete="off"
                               value={emailAddress}
-                              InputProps={{ disableUnderline: true }}
+                              InputProps={{
+                                disableUnderline: true,
+                                sx: { borderRadius: '4px' },
+                              }}
                               className="w-full md:w-2/5"
                               onChange={(e) => setEmailAddress(e.target.value)}
                             />

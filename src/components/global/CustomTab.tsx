@@ -19,7 +19,7 @@ function CustomTab({
   tabWidth,
 }: ICustomTab) {
   return (
-    <Box sx={{ typography: 'body5' }}>
+    <>
       <TabContext value={activeTab}>
         <TabList
           onChange={onTabChange}
@@ -46,6 +46,7 @@ function CustomTab({
                 height: '40px',
                 '@media (max-width: 600px)': {
                   width: '50%',
+                  padding: '0',
                 },
               }}
             />
@@ -53,15 +54,15 @@ function CustomTab({
         </TabList>
         {content.map((con: ReactElement, index: number) => (
           <TabPanel
+            sx={{ marginTop: 0, padding: 0 }}
             key={index}
             value={`${index + 1}`}
-            className="shadow-lg rounded-md"
           >
             {con}
           </TabPanel>
         ))}
       </TabContext>
-    </Box>
+    </>
   );
 }
 

@@ -67,15 +67,13 @@ function Settings(): JSX.Element {
     const user = StorageService.readLocalStorage<IUser>('user');
 
     if (user) {
-      const { guildId } = user.guild;      
+      const { guildId } = user.guild;
       if (guildId) {
         fetchGuildChannels(guildId);
         getUserGuildInfo(guildId);
       }
     }
   }, []);
-
-
 
   const updateEmailAddress = () => {
     changeEmail(emailAddress).then((res: any) => {
@@ -116,7 +114,7 @@ function Settings(): JSX.Element {
             variant="filled"
             autoComplete="off"
             value={emailAddress}
-            InputProps={{ disableUnderline: true }}
+            InputProps={{ disableUnderline: true, sx: { borderRadius: '4px' } }}
             className="w-full md:w-[240px]"
             onChange={(e) => setEmailAddress(e.target.value)}
           />
