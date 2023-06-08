@@ -76,6 +76,7 @@ const colors = {
   'purple-light': '#9971E7',
   'purple-dark': '#673FB5',
   'purple-darker': '#35205E',
+  'gray-subtitle':'#767676',
   orange:'#FF8022'
 };
 

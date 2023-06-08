@@ -13,6 +13,8 @@ import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
 import SEO from '../components/global/SEO';
 import { Box } from '@mui/material';
+import Link from '../components/global/Link';
+import { AiOutlineLeft } from 'react-icons/ai';
 
 const Statistics = () => {
   const [activeMemberDate, setActiveMemberDate] = useState(1);
@@ -131,7 +133,13 @@ const Statistics = () => {
           activeTab === '1' ? 'Active Members' : 'Disengaged Members'
         }
       />
-      <div className="flex flex-col container justify-between px-4 md:px-12 py-4">
+      <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
+        <Link to="/" className="mb-3">
+          <div className="flex items-center text-gray-subtitle text-base hover:text-black">
+            <AiOutlineLeft />
+            <span className="pl-1">Community Insights</span>
+          </div>
+        </Link>{' '}
         <CustomTab
           activeTab={activeTab}
           onTabChange={handleTabChange}
