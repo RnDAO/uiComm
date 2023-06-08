@@ -5,6 +5,12 @@ import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+
+export interface InactiveMembersProps {
+  activePeriod: number;
+  handleDateRange: (range: number) => void;
+}
 
 const defaultOptions = {
   chart: {
@@ -32,6 +38,10 @@ const defaultOptions = {
   series: [],
   legend: {
     enabled: true,
+    align: 'left',
+    verticalAlign: 'bottom',
+    x: 10,
+    y: -10,
   },
   plotOptions: {
     series: {
@@ -44,33 +54,10 @@ const defaultOptions = {
   },
 };
 
-const communityActiveDates = [
-  {
-    title: 'Last 7 days',
-    value: 1,
-  },
-  {
-    title: '1M',
-    value: 2,
-  },
-  {
-    title: '3M',
-    value: 3,
-  },
-  {
-    title: '6M',
-    value: 4,
-  },
-  {
-    title: '1Y',
-    value: 5,
-  },
-];
-
 export default function InactiveMembers({
   activePeriod,
   handleDateRange,
-}: any) {
+}: InactiveMembersProps) {
   const { inactiveMembers } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
@@ -94,6 +81,7 @@ export default function InactiveMembers({
         if (inactiveMember.name === 'returned') {
           return {
             ...inactiveMember,
+            name: 'Returned',
             color: '#FBD13E',
           };
         }
@@ -123,12 +111,25 @@ export default function InactiveMembers({
   return (
     <>
       <div className="flex flex-row justify-between">
-        <h3 className="text-lg font-medium text-lite-black">
+        <h3 className="text-xl font-medium text-lite-black">
           Inactive members
         </h3>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
+      </div>
+      <div className="w-full">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
+          <h3 className="text-xl font-medium text-lite-black">
+            Members activity over time
+          </h3>
+          <RangeSelect
+            options={communityActiveDates}
+            icon={<FiCalendar size={18} />}
+            active={activePeriod}
+            onClick={handleDateRange}
+          />
+        </div>
       </div>
       <LineGraph options={options} />
     </>

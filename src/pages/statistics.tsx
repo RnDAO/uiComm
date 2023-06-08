@@ -12,10 +12,13 @@ import { IUser } from '../utils/types';
 import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
 import SEO from '../components/global/SEO';
+import { Box } from '@mui/material';
 
 const Statistics = () => {
   const [activeMemberDate, setActiveMemberDate] = useState(1);
+  const [activeInteractionDate, setActiveInteractionDate] = useState(1);
   const [disengagedMemberDate, setDisengagedMemberDate] = useState(1);
+  const [inactiveMembersDate, setInactiveMembersDate] = useState(1);
   const {
     fetchInteractions,
     fetchActiveMembers,
@@ -44,10 +47,17 @@ const Statistics = () => {
 
     if (activeTab === '1') {
       const activeDateRange = getDateRange(activeMemberDate);
-      fetchInteractions(guild.guildId, activeDateRange[0], activeDateRange[1]);
+      const activeIntegrationDateRange = getDateRange(activeInteractionDate);
+
       fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
+      fetchInteractions(
+        guild.guildId,
+        activeIntegrationDateRange[0],
+        activeIntegrationDateRange[1]
+      );
     } else {
       const disengagedDateRange = getDateRange(disengagedMemberDate);
+      const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
       fetchDisengagedMembers(
         guild.guildId,
         disengagedDateRange[0],
@@ -55,11 +65,17 @@ const Statistics = () => {
       );
       fetchInactiveMembers(
         guild.guildId,
-        disengagedDateRange[0],
-        disengagedDateRange[1]
+        inactiveMemberDateRange[0],
+        inactiveMemberDateRange[1]
       );
     }
-  }, [activeMemberDate, disengagedMemberDate, activeTab]);
+  }, [
+    activeMemberDate,
+    activeInteractionDate,
+    disengagedMemberDate,
+    activeTab,
+    inactiveMembersDate,
+  ]);
 
   const getDateRange = (dateRangeType: number): string[] => {
     const yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
@@ -92,9 +108,16 @@ const Statistics = () => {
   const handleActiveMembersDateRange = (dateRangeType: number) => {
     setActiveMemberDate(dateRangeType);
   };
+  const handleActiveInteractionDate = (dateRangeType: number) => {
+    setActiveInteractionDate(dateRangeType);
+  };
 
   const handleDisengagedMemberDateRange = (dateRangeType: number) => {
     setDisengagedMemberDate(dateRangeType);
+  };
+
+  const handleInactiveMemberDateRange = (dateRangeType: number) => {
+    setInactiveMembersDate(dateRangeType);
   };
 
   if (isLoading) {
@@ -108,25 +131,63 @@ const Statistics = () => {
           activeTab === '1' ? 'Active Members' : 'Disengaged Members'
         }
       />
-      <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
+      <div className="flex flex-col container justify-between px-4 md:px-12 py-4">
         <CustomTab
           activeTab={activeTab}
           onTabChange={handleTabChange}
           labels={['Active members', 'Disengaged members']}
           content={[
-            <div className="flex flex-col space-y-8">
-              <ActiveMembersComposition
-                activePeriod={activeMemberDate}
-                handleDateRange={handleActiveMembersDateRange}
-              />
-              <InteractionsSection />
+            <div className="flex flex-col space-y-4">
+              <Box
+                sx={{
+                  typography: 'body5',
+                  borderRadius: '0px 14px 14px 14px;',
+                }}
+                className="shadow-lg rounded-md p-6"
+              >
+                <ActiveMembersComposition
+                  activePeriod={activeMemberDate}
+                  handleDateRange={handleActiveMembersDateRange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  typography: 'body5',
+                  borderRadius: '0px 14px 14px 14px;',
+                }}
+                className="shadow-lg rounded-md p-6"
+              >
+                <InteractionsSection
+                  activePeriod={activeInteractionDate}
+                  handleDateRange={handleActiveInteractionDate}
+                />
+              </Box>
             </div>,
-            <div className="flex flex-col space-y-8">
-              <DisengagedMembersComposition
-                activePeriod={disengagedMemberDate}
-                handleDateRange={handleDisengagedMemberDateRange}
-              />
-              <InactiveMembers />
+            <div className="flex flex-col space-y-4">
+              <Box
+                sx={{
+                  typography: 'body5',
+                  borderRadius: '0px 14px 14px 14px;',
+                }}
+                className="shadow-lg rounded-md p-6"
+              >
+                <DisengagedMembersComposition
+                  activePeriod={disengagedMemberDate}
+                  handleDateRange={handleDisengagedMemberDateRange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  typography: 'body5',
+                  borderRadius: '0px 14px 14px 14px;',
+                }}
+                className="shadow-lg p-6 mb-4"
+              >
+                <InactiveMembers
+                  activePeriod={inactiveMembersDate}
+                  handleDateRange={handleInactiveMemberDateRange}
+                />
+              </Box>
             </div>,
           ]}
         />

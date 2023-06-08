@@ -13,18 +13,12 @@ import ZonePicker from '../../global/ZonePicker';
 import FilterByChannels from '../../global/FilterByChannels';
 import useAppStore from '../../../store/useStore';
 import { FiCalendar } from 'react-icons/fi';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import * as Sentry from '@sentry/nextjs';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
 }
-
-const communityActiveDates = [
-  { title: 'Last 7 days', value: 1 },
-  { title: '1M', value: 2 },
-  { title: '3M', value: 3 },
-  { title: '6M', value: 4 },
-  { title: '1Y', value: 5 },
-];
 
 const WEEK_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
@@ -265,7 +259,6 @@ const HeatmapChart = () => {
         if (channelIds.length === 0) {
           return; // Exit early if there are no valid subChannels
         }
-        console.log({ channelIds });
 
         await fetchHeatmapData(
           guildId,
@@ -274,9 +267,12 @@ const HeatmapChart = () => {
           selectedZone,
           channelIds
         );
-      } catch (error) {
-        console.error(error);
-        // Handle any errors that occur
+      } catch (error: unknown) {
+        Sentry.captureException(
+          new Error(
+            `API responded with status code ${error?.response.status}: ${error.response.data.message}`
+          )
+        ); // Handle any errors that occur
       } finally {
         setIsLoading(false);
       }
@@ -399,8 +395,7 @@ const HeatmapChart = () => {
         },
       }));
     } catch (error) {
-      console.error(error);
-      // Handle any errors that occur
+      Sentry.captureException(error); // Capture and send the error to Sentry
     } finally {
       setIsLoading(false);
     }
@@ -490,15 +485,19 @@ const HeatmapChart = () => {
       </div>
       <div className="flex flex-col md:flex-row justify-start md:justify-between items-center md:py-2 px-3">
         <div className="flex flex-col md:flex-row md:space-x-3 md:mt-3 w-full">
-          <ZonePicker
-            selectedZone={selectedZone}
-            handleSelectedZone={handleSelectedZone}
-          />
-          <FilterByChannels
-            guildChannels={selectedChannelsList}
-            filteredChannels={channels}
-            handleSelectedChannels={handleSelectedChannels}
-          />
+          <div className="flex flex-wrap">
+            <ZonePicker
+              selectedZone={selectedZone}
+              handleSelectedZone={handleSelectedZone}
+            />
+          </div>
+          <div className="flex flex-wrap">
+            <FilterByChannels
+              guildChannels={selectedChannelsList}
+              filteredChannels={channels}
+              handleSelectedChannels={handleSelectedChannels}
+            />
+          </div>
         </div>
         <div className="hidden md:block">
           <NumberOfMessages />

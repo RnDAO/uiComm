@@ -5,6 +5,7 @@ import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -37,6 +38,10 @@ const defaultOptions = {
   series: [],
   legend: {
     enabled: true,
+    align: 'left',
+    verticalAlign: 'bottom',
+    x: 10,
+    y: -10,
   },
   plotOptions: {
     series: {
@@ -48,29 +53,6 @@ const defaultOptions = {
     },
   },
 };
-
-const communityActiveDates = [
-  {
-    title: 'Last 7 days',
-    value: 1,
-  },
-  {
-    title: '1M',
-    value: 2,
-  },
-  {
-    title: '3M',
-    value: 3,
-  },
-  {
-    title: '6M',
-    value: 4,
-  },
-  {
-    title: '1Y',
-    value: 5,
-  },
-];
 
 export default function ActiveMembersComposition({
   activePeriod,
@@ -98,26 +80,31 @@ export default function ActiveMembersComposition({
       if (activeMember.name === 'totActiveMembers') {
         return {
           ...activeMember,
+          name: 'Total Active Members',
           color: '#3AAE2B',
         };
       } else if (activeMember.name === 'newlyActive') {
         return {
           ...activeMember,
+          name: 'Newly Active',
           color: '#FF9022',
         };
       } else if (activeMember.name === 'consistentlyActive') {
         return {
           ...activeMember,
+          name: 'Consistently Active',
           color: '#804EE1',
         };
       } else if (activeMember.name === 'vitalMembers') {
         return {
           ...activeMember,
+          name: 'Vital members',
           color: '#313671',
         };
       } else if (activeMember.name === 'becameDisengaged') {
         return {
           ...activeMember,
+          name: 'Became Disengaged',
           color: '#FB3E56',
         };
       }
@@ -140,6 +127,7 @@ export default function ActiveMembersComposition({
         value: activeMembers.totActiveMembers,
         colorBadge: 'bg-green',
         hasTooltip: true,
+        customBackground: true,
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
@@ -208,21 +196,30 @@ export default function ActiveMembersComposition({
     <>
       <div className="flex flex-row justify-between">
         <div className="w-full">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
-            <h3 className="text-lg font-medium text-lite-black">
-              Active members composition
+          <div className="px-3">
+            <h3 className="text-xl font-medium text-lite-black">
+              Members overview
             </h3>
-            <RangeSelect
-              options={communityActiveDates}
-              icon={<FiCalendar size={18} />}
-              active={activePeriod}
-              onClick={handleDateRange}
-            />
+            <p className="py-2">Today's statistics</p>
           </div>
         </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
+      </div>
+
+      <div className="w-full">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
+          <h3 className="text-xl font-medium text-lite-black">
+            Members activity over time
+          </h3>
+          <RangeSelect
+            options={communityActiveDates}
+            icon={<FiCalendar size={18} />}
+            active={activePeriod}
+            onClick={handleDateRange}
+          />
+        </div>
       </div>
       <LineGraph options={options} />
     </>
