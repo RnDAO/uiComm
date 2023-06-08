@@ -134,6 +134,25 @@ axiosInstance.interceptors.response.use(
           )
         );
         break;
+      case 440:
+        StorageService.removeLocalStorage('user');
+        StorageService.removeLocalStorage('analysis_state');
+        toast.error(`${error.response.data.message}`, {
+          position: 'bottom-left',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 0,
+        });
+        Sentry.captureException(
+          new Error(
+            `API responded with status code ${error.response.status}: ${error.response.data.message}`
+          )
+        );
+        router.push('/');
+        break;
       case 590:
         toast.error(`${error.response.data.message}`, {
           position: 'bottom-left',
