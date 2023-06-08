@@ -268,11 +268,7 @@ const HeatmapChart = () => {
           channelIds
         );
       } catch (error: unknown) {
-        Sentry.captureException(
-          new Error(
-            `API responded with status code ${error?.response.status}: ${error.response.data.message}`
-          )
-        ); // Handle any errors that occur
+        Sentry.captureException(error); // Handle any errors that occur
       } finally {
         setIsLoading(false);
       }
