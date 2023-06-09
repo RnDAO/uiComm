@@ -47,7 +47,9 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
                 ''
               )}{' '}
               <span className="pt-0.5">
-                {stat?.percentageChange?.toFixed(0)} %
+                {typeof stat?.percentageChange === 'number'
+                  ? stat?.percentageChange.toFixed(0) + '%'
+                  : stat?.percentageChange}
               </span>
             </span>
             <span className="text-4xl font-bold pb-1">{stat.value ?? 0}</span>
