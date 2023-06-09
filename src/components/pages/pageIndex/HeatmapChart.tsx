@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import 'moment-timezone';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { StorageService } from '../../../services/StorageService';
@@ -209,10 +209,9 @@ const HeatmapChart = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<IUser | null>(null);
   const [activeDateRange, setActiveDateRange] = useState(1);
-  const [dateRange, setDateRange] = useState<[string | null, string | null]>([
-    null,
-    null,
-  ]);
+  const [dateRange, setDateRange] = useState<
+    [moment.Moment | null, moment.Moment | null]
+  >([null, null]);
   const [selectedZone, setSelectedZone] = useState(moment.tz.guess());
   const [channels, setChannels] = useState<string[]>([]);
 
@@ -245,12 +244,10 @@ const HeatmapChart = () => {
           return; // Exit early if there are no selected channels
         }
 
-        const defaultStartDate = moment().subtract(7, 'days');
-        const defaultEndDate = moment().format('YYYY-MM-DDTHH:mm:ss[Z]');
-        setDateRange([
-          defaultStartDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          defaultEndDate,
-        ]);
+        const defaultEndDate = moment().subtract(1, 'day');
+        const defaultStartDate = moment(defaultEndDate).subtract(7, 'days');
+
+        setDateRange([defaultStartDate, defaultEndDate]);
 
         const channelIds = channelsList
           .flatMap((channel) => channel.subChannels || []) // Flatten the subChannels arrays
@@ -291,8 +288,8 @@ const HeatmapChart = () => {
 
   const fetchHeatmap = async (
     guildId: string,
-    startDate: string | null,
-    endDate: string | null,
+    startDate: moment.Moment | null,
+    endDate: moment.Moment | null,
     timezone: string,
     channelIds: string[]
   ) => {
@@ -418,45 +415,42 @@ const HeatmapChart = () => {
     }
   };
 
-  const handleDateRange = (dateRangeType: string | number) => {
-    let startDate: moment.Moment | null = null;
-    let endDate: moment.Moment | null = null;
+  const handleDateRange = (dateRangeType: number): void => {
+    let endDate: moment.Moment = moment().subtract(1, 'day');
+    let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     switch (dateRangeType) {
       case 1:
         setActiveDateRange(dateRangeType);
-        startDate = moment().subtract(7, 'days');
-        endDate = moment();
+        startDate = moment(endDate).subtract(7, 'days');
+        endDate = moment().subtract(1, 'day');
         break;
       case 2:
         setActiveDateRange(dateRangeType);
-        startDate = moment().subtract(1, 'months');
-        endDate = moment();
+        startDate = moment(endDate).subtract(1, 'months');
+        endDate = moment().subtract(1, 'day');
         break;
       case 3:
         setActiveDateRange(dateRangeType);
-        startDate = moment().subtract(3, 'months');
-        endDate = moment();
+        startDate = moment(endDate).subtract(3, 'months');
+        endDate = moment().subtract(1, 'day');
         break;
       case 4:
         setActiveDateRange(dateRangeType);
-        startDate = moment().subtract(6, 'months');
-        endDate = moment();
+        startDate = moment(endDate).subtract(6, 'months');
+        endDate = moment().subtract(1, 'day');
         break;
       case 5:
         setActiveDateRange(dateRangeType);
-        startDate = moment().subtract(1, 'year');
-        endDate = moment();
+        startDate = moment(endDate).subtract(1, 'year');
+        endDate = moment().subtract(1, 'day');
         break;
       default:
         break;
     }
 
     if (startDate && endDate) {
-      setDateRange([
-        startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        endDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      ]);
+      setDateRange([startDate, endDate]);
     }
   };
 
