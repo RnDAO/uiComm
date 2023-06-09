@@ -655,7 +655,8 @@ export default function TryNow() {
                   </div>
                 </div>
               </div>
-              {tryNowState === 'active' ? (
+              {tryNowState === 'active' &&
+              (activeStep === -1 || activeStep === 0) ? (
                 <div className="bg-white flex flex-row justify-center p-4 shadow-xl items-center text-center md:w-[650px] mx-auto rounded-xl overflow-hidden">
                   <FaDiscord size={30} className="mr-1" />
                   Already connected?{' '}
