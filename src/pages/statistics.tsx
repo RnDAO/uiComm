@@ -49,10 +49,7 @@ const Statistics = () => {
 
     if (activeTab === '1') {
       const activeDateRange = getDateRange(activeMemberDate);
-      console.log({ activeDateRange });
-
       const activeIntegrationDateRange = getDateRange(activeInteractionDate);
-
       fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
       fetchInteractions(
         guild.guildId,
@@ -73,7 +70,6 @@ const Statistics = () => {
         inactiveMemberDateRange[1]
       );
     }
-    console.log({ activeMemberDate });
   }, [
     activeMemberDate,
     activeInteractionDate,
