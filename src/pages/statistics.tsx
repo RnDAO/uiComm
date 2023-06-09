@@ -49,6 +49,8 @@ const Statistics = () => {
 
     if (activeTab === '1') {
       const activeDateRange = getDateRange(activeMemberDate);
+      console.log({ activeDateRange });
+
       const activeIntegrationDateRange = getDateRange(activeInteractionDate);
 
       fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
@@ -80,7 +82,7 @@ const Statistics = () => {
   ]);
 
   const getDateRange = (dateRangeType: number): string[] => {
-    const yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+    const today = moment().format('YYYY-MM-DD');
     let startDate: moment.Moment;
 
     switch (dateRangeType) {
@@ -97,13 +99,13 @@ const Statistics = () => {
         startDate = moment().subtract(1, 'day').subtract('1', 'year');
         break;
       default:
-        startDate = moment(yesterday).subtract('7', 'days');
+        startDate = moment(today).subtract('7', 'days');
         break;
     }
 
     return [
       startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      moment(yesterday).format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      moment(today).format('YYYY-MM-DDTHH:mm:ss[Z]'),
     ];
   };
 
