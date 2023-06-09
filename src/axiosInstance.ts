@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { conf } from './configs/index';
 import { StorageService } from './services/StorageService';
 import router from 'next/router';
@@ -6,9 +6,9 @@ import * as Sentry from '@sentry/nextjs';
 
 import { toast } from 'react-toastify';
 import { IUser } from './utils/types';
+import { tokenRefreshEventEmitter } from './services/EventEmitter';
 
 let isRefreshing = false;
-let refreshQueue: Array<Function> = [];
 
 export const axiosInstance = axios.create({
   baseURL: conf.API_BASE_URL,
@@ -55,69 +55,94 @@ axiosInstance.interceptors.response.use(
         const user: IUser | undefined =
           StorageService.readLocalStorage<IUser>('user');
 
-        if (user) {
+        if (
+          error.response?.status === 401 &&
+          error.config.url?.endsWith('/auth/refresh-tokens')
+        ) {
+          StorageService.removeLocalStorage('user');
+          StorageService.removeLocalStorage('analysis_state');
+          toast.error('Session expired. Please log in again.', {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: 0,
+          });
+          if (typeof window !== 'undefined') {
+            // Use window object here
+            window.location.href = '/';
+          }
+        } else if (
+          !error.config.url?.endsWith('/auth/refresh-tokens') &&
+          user
+        ) {
           const { token } = user;
-          if (token.refreshToken) {
-            if (!isRefreshing) {
-              isRefreshing = true;
 
-              try {
-                const response = await axiosInstance.post(
-                  '/auth/refresh-tokens',
-                  {
-                    refreshToken: token.refreshToken,
-                  }
-                );
+          if (token.refreshToken && !isRefreshing) {
+            isRefreshing = true;
 
-                StorageService.writeLocalStorage('user', {
-                  guild: user.guild,
-                  token: {
-                    accessToken: response.data.access.token,
-                    refreshToken: response.data.refresh.token,
-                  },
-                });
+            try {
+              const response = await axiosInstance.post(
+                '/auth/refresh-tokens',
+                {
+                  refreshToken: token.refreshToken,
+                }
+              );
 
-                axiosInstance.defaults.headers['Authorization'] =
-                  'Bearer ' + response.data.access.token;
+              StorageService.writeLocalStorage('user', {
+                guild: user.guild,
+                token: {
+                  accessToken: response.data.access.token,
+                  refreshToken: response.data.refresh.token,
+                },
+              });
 
-                refreshQueue.forEach((cb) => cb(response.data.access.token));
-                refreshQueue = [];
-                return axiosInstance(error.config);
-              } catch (error) {
-                toast.error('Token expired...', {
-                  position: 'bottom-left',
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: 0,
-                });
-              } finally {
-                isRefreshing = false;
-              }
+              axiosInstance.defaults.headers['Authorization'] =
+                'Bearer ' + response.data.access.token;
+
+              // When the refresh is successful, notify listeners
+              tokenRefreshEventEmitter.emit(
+                'tokenRefresh',
+                response.data.access.token
+              );
+
+              return axiosInstance(error.config);
+            } catch (error) {
+              // Handle refresh failure
+              StorageService.removeLocalStorage('user');
+              StorageService.removeLocalStorage('analysis_state');
+
+              window.location.href = '/';
+            } finally {
+              isRefreshing = false;
             }
-            return new Promise((resolve) => {
-              refreshQueue.push((newToken: string) => {
+          } else if (token.refreshToken && isRefreshing) {
+            // If a refresh is already in progress, listen for the completion event
+            return new Promise((resolve, reject) => {
+              tokenRefreshEventEmitter.subscribe('tokenRefresh', (newToken) => {
                 error.config.headers['Authorization'] = `Bearer ${newToken}`;
                 resolve(axiosInstance(error.config));
               });
             });
           }
+        } else {
+          // Handle no user case
+          StorageService.removeLocalStorage('user');
+          StorageService.removeLocalStorage('analysis_state');
+          toast.error('Token expired...', {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: 0,
+          });
+          window.location.href = '/';
         }
-        StorageService.removeLocalStorage('user');
-        StorageService.removeLocalStorage('analysis_state');
-        toast.error('Token expired...', {
-          position: 'bottom-left',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: 0,
-        });
-        router.push('/');
-        return Promise.reject(error);
+        break;
       case 404:
         toast.error(`${error.response.data.message}`, {
           position: 'bottom-left',
@@ -146,12 +171,13 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
+        window.location.href = '/';
+
         Sentry.captureException(
           new Error(
             `API responded with status code ${error.response.status}: ${error.response.data.message}`
           )
         );
-        router.push('/');
         break;
       case 590:
         toast.error(`${error.response.data.message}`, {

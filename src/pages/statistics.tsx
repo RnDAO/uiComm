@@ -79,29 +79,29 @@ const Statistics = () => {
   ]);
 
   const getDateRange = (dateRangeType: number): string[] => {
-    let startDate: moment.Moment = moment().subtract(7, 'days');
-    let endDate: moment.Moment = moment();
+    let endDate: moment.Moment = moment().subtract(1, 'day');
+    let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     switch (dateRangeType) {
       case 1:
-        startDate = moment().subtract(7, 'days');
-        endDate = moment();
+        startDate = moment(endDate).subtract(7, 'days');
+        endDate = moment().subtract(1, 'day');
         break;
       case 2:
-        startDate = moment().subtract(1, 'months');
-        endDate = moment();
+        startDate = moment(endDate).subtract(1, 'months');
+        endDate = moment().subtract(1, 'day');
         break;
       case 3:
-        startDate = moment().subtract(3, 'months');
-        endDate = moment();
+        startDate = moment(endDate).subtract(3, 'months');
+        endDate = moment().subtract(1, 'day');
         break;
       case 4:
-        startDate = moment().subtract(6, 'months');
-        endDate = moment();
+        startDate = moment(endDate).subtract(6, 'months');
+        endDate = moment().subtract(1, 'day');
         break;
       case 5:
-        startDate = moment().subtract(1, 'year');
-        endDate = moment();
+        startDate = moment(endDate).subtract(1, 'year');
+        endDate = moment().subtract(1, 'day');
         break;
       default:
         break;
