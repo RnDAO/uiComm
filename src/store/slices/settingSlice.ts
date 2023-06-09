@@ -74,15 +74,11 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   },
   getGuilds: async () => {
     try {
-      set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(`/guilds?isDisconnected=false`);
       set({
         guilds: [...data.results],
-        isLoading: false,
       });
-    } catch (error) {
-      set(() => ({ isLoading: false }));
-    }
+    } catch (error) {}
   },
   disconnecGuildById: async (guildId, disconnectType) => {
     try {

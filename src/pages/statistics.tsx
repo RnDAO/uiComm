@@ -50,7 +50,6 @@ const Statistics = () => {
     if (activeTab === '1') {
       const activeDateRange = getDateRange(activeMemberDate);
       const activeIntegrationDateRange = getDateRange(activeInteractionDate);
-
       fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
       fetchInteractions(
         guild.guildId,
@@ -80,30 +79,37 @@ const Statistics = () => {
   ]);
 
   const getDateRange = (dateRangeType: number): string[] => {
-    const yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
-    let startDate: moment.Moment;
+    let startDate: moment.Moment = moment().subtract(7, 'days');
+    let endDate: moment.Moment = moment();
 
     switch (dateRangeType) {
+      case 1:
+        startDate = moment().subtract(7, 'days');
+        endDate = moment();
+        break;
       case 2:
-        startDate = moment().subtract(1, 'day').subtract('1', 'months');
+        startDate = moment().subtract(1, 'months');
+        endDate = moment();
         break;
       case 3:
-        startDate = moment().subtract(1, 'day').subtract('3', 'months');
+        startDate = moment().subtract(3, 'months');
+        endDate = moment();
         break;
       case 4:
-        startDate = moment().subtract(1, 'day').subtract('6', 'months');
+        startDate = moment().subtract(6, 'months');
+        endDate = moment();
         break;
       case 5:
-        startDate = moment().subtract(1, 'day').subtract('1', 'year');
+        startDate = moment().subtract(1, 'year');
+        endDate = moment();
         break;
       default:
-        startDate = moment(yesterday).subtract('7', 'days');
         break;
     }
 
     return [
       startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      moment(yesterday).format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      endDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
     ];
   };
 
