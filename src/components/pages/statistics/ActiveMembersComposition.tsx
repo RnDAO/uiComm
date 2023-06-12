@@ -119,7 +119,7 @@ export default function ActiveMembersComposition({
 
     setStatistics([
       {
-        label: 'Tot active members',
+        label: 'Active members',
         description: 'Interacted at least once in the last 7 days',
         percentageChange: activeMembers.totActiveMembersPercentageChange
           ? activeMembers.totActiveMembersPercentageChange
