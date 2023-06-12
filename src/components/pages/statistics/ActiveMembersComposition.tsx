@@ -80,7 +80,7 @@ export default function ActiveMembersComposition({
       if (activeMember.name === 'totActiveMembers') {
         return {
           ...activeMember,
-          name: 'Total Active Members',
+          name: 'Active members',
           color: '#3AAE2B',
         };
       } else if (activeMember.name === 'newlyActive') {
