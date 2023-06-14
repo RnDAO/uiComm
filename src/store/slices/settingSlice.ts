@@ -7,10 +7,12 @@ const BASE_URL = conf.API_BASE_URL;
 
 const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   isLoading: false,
+  isRefetchLoading: false,
   guildInfo: {},
   userInfo: {},
   guildInfoByDiscord: {},
   guilds: [],
+  guildChannels: [],
   getUserGuildInfo: async (guildId: string) => {
     try {
       set(() => ({ isLoading: true }));
@@ -34,9 +36,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   getGuildInfoByDiscord: async (guildId) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.get(
-        `/guilds/${guildId}`
-      );
+      const { data } = await axiosInstance.get(`/guilds/${guildId}`);
       set({ guildInfoByDiscord: data, isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
@@ -74,17 +74,11 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   },
   getGuilds: async () => {
     try {
-      set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.get(
-        `/guilds?isDisconnected=false`
-      );
+      const { data } = await axiosInstance.get(`/guilds?isDisconnected=false`);
       set({
         guilds: [...data.results],
-        isLoading: false,
       });
-    } catch (error) {
-      set(() => ({ isLoading: false }));
-    }
+    } catch (error) {}
   },
   disconnecGuildById: async (guildId, disconnectType) => {
     try {
@@ -101,6 +95,16 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
     try {
       location.replace(`${BASE_URL}/guilds/connect`);
     } catch (error) {}
+  },
+
+  refetchGuildChannels: async (guild_id: string) => {
+    try {
+      set(() => ({ isRefetchLoading: true }));
+      const { data } = await axiosInstance.get(`/guilds/${guild_id}/channels`);
+      set({ guildChannels: [...data], isRefetchLoading: false });
+    } catch (error) {
+      set(() => ({ isRefetchLoading: false }));
+    }
   },
 });
 

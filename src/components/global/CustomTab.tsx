@@ -4,44 +4,65 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box } from '@mui/material';
 
 interface ICustomTab {
+  activeTab: string;
+  onTabChange: (event: React.SyntheticEvent, newValue: string) => void;
   labels: string[];
   content: ReactElement[];
+  tabWidth?: string;
 }
 
-function CustomTab({ labels, content }: ICustomTab) {
-  const [activeTab, setActiveTab] = useState('1');
-
-  const handleChange = (
-    event: SyntheticEvent<Element, globalThis.Event>,
-    newValue: string
-  ) => {
-    setActiveTab(newValue);
-  };
-
+function CustomTab({
+  activeTab,
+  onTabChange,
+  labels,
+  content,
+  tabWidth,
+}: ICustomTab) {
   return (
-    <Box sx={{ typography: 'body5' }}>
+    <>
       <TabContext value={activeTab}>
-        <TabList onChange={handleChange} aria-label="custom tabs">
+        <TabList
+          onChange={onTabChange}
+          aria-label="custom tabs"
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '16px',
+            '@media (max-width: 600px)': {
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+            },
+          }}
+        >
           {labels.map((label: string, index: number) => (
             <Tab
               key={index}
               label={label}
               value={`${index + 1}`}
-              disabled={`${index + 1}` ? true : false}
+              sx={{
+                width: tabWidth ? tabWidth : '214px',
+                height: '40px',
+                '@media (max-width: 600px)': {
+                  width: '50%',
+                  padding: '0',
+                },
+              }}
             />
           ))}
         </TabList>
         {content.map((con: ReactElement, index: number) => (
           <TabPanel
+            sx={{ marginTop: 0, padding: 0 }}
             key={index}
             value={`${index + 1}`}
-            className="shadow-lg rounded-md"
           >
             {con}
           </TabPanel>
         ))}
       </TabContext>
-    </Box>
+    </>
   );
 }
 

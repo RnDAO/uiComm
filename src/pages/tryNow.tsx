@@ -10,9 +10,12 @@ import { StepIconProps } from '@mui/material/StepIcon';
 import { IoClose } from 'react-icons/io5';
 import { BiError } from 'react-icons/bi';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Dialog,
   Button,
   Checkbox,
-  Dialog,
   FormControlLabel,
   TextField,
 } from '@mui/material';
@@ -30,6 +33,9 @@ import tclogo from '../assets/svg/tc-logo.svg';
 import Image from 'next/image';
 import { StorageService } from '../services/StorageService';
 import { FaDiscord } from 'react-icons/fa';
+import { FiRefreshCcw } from 'react-icons/fi';
+import Loading from '../components/global/Loading';
+import { MdExpandMore } from 'react-icons/md';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -181,13 +187,19 @@ export default function TryNow() {
     guildChannels,
     changeEmail,
     updateGuildById,
+    isRefetchLoading,
+    refetchGuildChannels,
   } = useAppStore();
 
   useEffect(() => {
     const channels = guildChannels.map((guild: any, index: any) => {
       const selected: Record<any, any> = {};
       guild.subChannels.forEach((subChannel: any) => {
-        selected[subChannel.id] = true;
+        if (subChannel.canReadMessageHistoryAndViewChannel) {
+          selected[subChannel.id] = true;
+        } else {
+          selected[subChannel.id] = false;
+        }
       });
 
       return { ...guild, selected: selected };
@@ -303,7 +315,10 @@ export default function TryNow() {
       ...channels.map((channel: any) => {
         return channel.subChannels
           .filter((subChannel: any) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (
+              activeChannel.includes(subChannel.id) &&
+              subChannel.canReadMessageHistoryAndViewChannel
+            ) {
               return subChannel;
             }
           })
@@ -318,6 +333,10 @@ export default function TryNow() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const refetchChannels = () => {
+    refetchGuildChannels(router.query.guildId);
   };
 
   const updateGuild = () => {
@@ -408,7 +427,12 @@ export default function TryNow() {
           </div>
           {tryNowState === 'active' ? (
             <div className="p-3 md:p-0">
-              <div className="shadow-xl md:w-[650px] md:h-[570px] mx-auto rounded-xl overflow-hidden mt-4 mb-2 md:mt-6 md:mb-3">
+              <div
+                className={clsx(
+                  'shadow-xl md:w-[650px] mx-auto rounded-xl overflow-hidden mt-4 mb-2 md:mt-6 md:mb-3',
+                  activeStep < 1 ? 'md:h-[570px]' : 'md:h-auto'
+                )}
+              >
                 {activeStep === 0 || activeStep === -1 ? (
                   <>
                     <div className="bg-secondary text-white text-center py-8">
@@ -423,7 +447,11 @@ export default function TryNow() {
                 ) : (
                   ''
                 )}
-                <div className="py-12">
+                <div
+                  className={clsx(
+                    activeStep === 0 || activeStep === -1 ? 'py-10' : 'py-3'
+                  )}
+                >
                   <div className="py-3 px-8 text-center mx-auto">
                     <Stepper
                       className={clsx(
@@ -514,7 +542,7 @@ export default function TryNow() {
                       </>
                     ) : activeStep === 1 ? (
                       <>
-                        <div className="flex flex-col space-y-8 text-left mt-8 p-1 md:p-6">
+                        <div className="flex flex-col space-y-8 last:space-y-8 text-left mt-8 p-1 md:p-6">
                           <div>
                             <h3 className="font-bold text-base">
                               Choose date period for data analysis
@@ -573,12 +601,15 @@ export default function TryNow() {
                               variant="filled"
                               autoComplete="off"
                               value={emailAddress}
-                              InputProps={{ disableUnderline: true }}
+                              InputProps={{
+                                disableUnderline: true,
+                                sx: { borderRadius: '4px' },
+                              }}
                               className="w-full md:w-2/5"
                               onChange={(e) => setEmailAddress(e.target.value)}
                             />
                           </div>
-                          <div className="flex justify-center mt-4">
+                          <div className="flex justify-center">
                             <CustomButton
                               classes="text-white bg-secondary"
                               onClick={() => updateGuild()}
@@ -624,16 +655,21 @@ export default function TryNow() {
                   </div>
                 </div>
               </div>
-              <div className="bg-white flex flex-row justify-center p-4 shadow-xl items-center text-center md:w-[650px] mx-auto rounded-xl overflow-hidden">
-                <FaDiscord size={30} className="mr-1" />
-                Already connected?{' '}
-                <span
-                  onClick={login}
-                  className="text-secondary font-bold pl-1 cursor-pointer"
-                >
-                  Log in
-                </span>
-              </div>
+              {tryNowState === 'active' &&
+              (activeStep === -1 || activeStep === 0) ? (
+                <div className="bg-white flex flex-row justify-center p-4 shadow-xl items-center text-center md:w-[650px] mx-auto rounded-xl overflow-hidden">
+                  <FaDiscord size={30} className="mr-1" />
+                  Already connected?{' '}
+                  <span
+                    onClick={login}
+                    className="text-secondary font-bold pl-1 cursor-pointer"
+                  >
+                    Log in
+                  </span>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           ) : (
             <div className="p-3 md:p-0">
@@ -677,7 +713,7 @@ export default function TryNow() {
             }}
             onClose={handleClose}
           >
-            <div className="p-4">
+            <div className="py-4 px-6">
               <div>
                 <div className="flex flex-row justify-between md:items-center cursor-pointer">
                   <h3 className="font-bold text-xl">
@@ -692,30 +728,95 @@ export default function TryNow() {
                   permission will affect the channels the bot can see.
                 </p>
               </div>
-              <div className="border border-1 border-gray-300 px-4 py-4 rounded-lg max-h-[410px] overflow-y-scroll text-base">
-                <div>
-                  {channels && channels.length > 0
-                    ? channels.map((guild: any, index: any) => {
-                        return (
-                          <div key={index} className="my-2">
-                            <ChannelList
-                              guild={guild}
-                              onChange={onChange}
-                              handleCheckAll={handleCheckAll}
-                            />
-                          </div>
-                        );
-                      })
-                    : ''}
-                </div>
+              <div className="border border-1 border-gray-300 px-2 md:px-4 py-4 rounded-lg max-h-[410px] overflow-y-scroll text-base">
+                {isRefetchLoading ? (
+                  <Loading height="365px" />
+                ) : (
+                  <div className="flex flex-col">
+                    <div className="block md:absolute right-12">
+                      <CustomButton
+                        classes={''}
+                        label={'Refresh List'}
+                        className="text-black border-black bg-white float-right rounded-md -top-1 font-semibold"
+                        startIcon={<FiRefreshCcw />}
+                        size="large"
+                        variant="outlined"
+                        onClick={refetchChannels}
+                      />
+                    </div>
+                    {channels && channels.length > 0
+                      ? channels.map((guild: any, index: any) => {
+                          return (
+                            <div className="my-2" key={index}>
+                              <ChannelList
+                                guild={guild}
+                                showFlag={true}
+                                onChange={onChange}
+                                handleCheckAll={handleCheckAll}
+                              />
+                            </div>
+                          );
+                        })
+                      : ''}
+                  </div>
+                )}
               </div>
-              <div className="flex justify-center mt-5">
-                <Button
-                  className="bg-secondary text-white py-3 px-16 text-base"
-                  onClick={submitChannels}
+              <Accordion disableGutters defaultExpanded={true} elevation={0}>
+                <AccordionSummary
+                  expandIcon={
+                    <MdExpandMore color="#37474F" size={25} fill="#37474F" />
+                  }
                 >
-                  Save channels
-                </Button>
+                  <p className="font-semibold text-md">
+                    How to give access to the channel you want to import?
+                  </p>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <div className="pl-1 pr-4 text-left">
+                    <ol className="list-decimal text-sm pl-4">
+                      <li>
+                        Navigate to the channel you want to import on{' '}
+                        <a
+                          href="https://discord.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-secondary font-semibold cursor-pointer"
+                        >
+                          Discord
+                        </a>
+                      </li>
+                      <li>
+                        Go to the settings for that specific channel (select the
+                        wheel on the right of the channel name)
+                      </li>
+                      <li>
+                        Select <b>Permissions</b> (left sidebar), and then in
+                        the middle of the screen check{' '}
+                        <b>Advanced permissions</b>
+                      </li>
+                      <li>
+                        With the <b>TogetherCrew Bot</b> selected, under
+                        Advanced Permissions, make sure that [View channel] and
+                        [Read message history] are marked as [✓]
+                      </li>
+                      <li>
+                        Select the plus sign to the right of Roles/Members and
+                        under members select <b>TogetherCrew bot</b>
+                      </li>
+                      <li>
+                        Click on the <b>Refresh List</b> button on this window
+                        and select the new channels
+                      </li>
+                    </ol>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+              <div className="flex justify-center mt-1">
+                <CustomButton
+                  classes="bg-secondary text-white py-3 px-16 text-base"
+                  onClick={submitChannels}
+                  label={'Save channels'}
+                />{' '}
               </div>
             </div>
           </Dialog>

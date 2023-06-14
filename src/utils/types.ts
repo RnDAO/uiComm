@@ -18,3 +18,25 @@ export type IUser = {
   token: IToken;
   guild: IGuild;
 };
+
+export type IGuildChannels = {
+  id: string;
+  title: string;
+  selected?: { [key: string]: boolean };
+  subChannels: ISubChannels[];
+};
+
+export type ISubChannels = {
+  readonly id: string;
+  readonly name: string;
+  readonly canReadMessageHistoryAndViewChannel: boolean;
+  readonly parent_id: string;
+};
+
+export type IChannel = {
+  channelId: string;
+  channelName: string;
+  _id: string;
+};
+
+export type IChannelWithoutId = Omit<IChannel, '_id'>;

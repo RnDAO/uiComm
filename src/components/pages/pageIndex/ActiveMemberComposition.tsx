@@ -6,8 +6,6 @@ import { useRouter } from 'next/router';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 import moment from 'moment';
-import RangeSelect from '../../global/RangeSelect';
-import { FiCalendar } from 'react-icons/fi';
 import { StatisticsProps } from '../../../utils/interfaces';
 
 const ActiveMemberComposition = () => {
@@ -28,39 +26,19 @@ const ActiveMemberComposition = () => {
     }
   }, []);
 
-  const communityActiveDates = [
-    {
-      title: 'Last 7 days',
-      value: 1,
-    },
-    {
-      title: '1M',
-      value: 2,
-    },
-    {
-      title: '3M',
-      value: 3,
-    },
-    {
-      title: '6M',
-      value: 4,
-    },
-    {
-      title: '1Y',
-      value: 5,
-    },
-  ];
-
   useEffect(() => {
     // Copy options on each changes
     setStatistics([
       {
-        label: 'Tot active members',
+        label: 'Active members',
         description: 'Interacted at least once in the last 7 days',
-        percentageChange: activeMembers.totActiveMembersPercentageChange,
+        percentageChange: activeMembers.totActiveMembersPercentageChange
+          ? activeMembers.totActiveMembersPercentageChange
+          : 0,
         value: activeMembers.totActiveMembers,
         colorBadge: 'bg-green',
         hasTooltip: true,
+        customBackground: true,
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
@@ -78,7 +56,9 @@ const ActiveMemberComposition = () => {
         label: 'Newly active',
         description:
           'Started interacting for the first time in the last 7 days',
-        percentageChange: activeMembers.newlyActivePercentageChange,
+        percentageChange: activeMembers.newlyActivePercentageChange
+          ? activeMembers.newlyActivePercentageChange
+          : 0,
         value: activeMembers.newlyActive,
         colorBadge: 'bg-warning-500',
         hasTooltip: false,
@@ -86,7 +66,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Consistently active',
         description: 'Interacted weekly for at least 3 out of 4 weeks',
-        percentageChange: activeMembers.consistentlyActivePercentageChange,
+        percentageChange: activeMembers.consistentlyActivePercentageChange
+          ? activeMembers.consistentlyActivePercentageChange
+          : 0,
         value: activeMembers.consistentlyActive,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
@@ -94,7 +76,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Vital members',
         description: 'Are consistently active and very connected',
-        percentageChange: activeMembers.vitalMembersPercentageChange,
+        percentageChange: activeMembers.vitalMembersPercentageChange
+          ? activeMembers.vitalMembersPercentageChange
+          : 0,
         value: activeMembers.vitalMembers,
         colorBadge: 'bg-info-600',
         hasTooltip: true,
@@ -109,7 +93,9 @@ const ActiveMemberComposition = () => {
       {
         label: 'Became disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
-        percentageChange: activeMembers.becameDisengagedPercentageChange,
+        percentageChange: activeMembers.becameDisengagedPercentageChange
+          ? activeMembers.becameDisengagedPercentageChange
+          : 0,
         value: activeMembers.becameDisengaged,
         colorBadge: 'bg-error-500',
         hasTooltip: false,
@@ -117,70 +103,19 @@ const ActiveMemberComposition = () => {
     ]);
   }, [activeMembers]);
 
-  const handleDateRange = (dateRangeType: string | number) => {
-    let dateTime: string[] = [];
-    switch (dateRangeType) {
-      case 1:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('7', 'days').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
-        break;
-      case 2:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('1', 'months').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
-        break;
-      case 3:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('3', 'months').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
-        break;
-      case 4:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('6', 'months').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
-        break;
-      case 5:
-        setActive(dateRangeType);
-        dateTime = [
-          moment().subtract('1', 'year').format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          moment().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-        ];
-        break;
-      default:
-        break;
-    }
-    const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      const { guild } = user;
-      fetchActiveMembers(guild.guildId, dateTime[0], dateTime[1]);
-    }
-  };
-
   return (
     <div className="bg-white shadow-box rounded-lg py-8 px-5">
       <div className="px-3">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
-          <h3 className="text-lg font-medium text-lite-black">
-            Active members composition
+          <h3 className="font-bold text-xl md:text-2xl pb-3">
+            Members overview
           </h3>
-          <RangeSelect
-            options={communityActiveDates}
-            icon={<FiCalendar size={18} />}
-            active={active}
-            onClick={handleDateRange}
-          />
         </div>
         <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
-          <StatisticalData statistics={[...statistics]} />
+          <StatisticalData
+            statistics={[...statistics]}
+            hideInformationText={true}
+          />
         </div>
         <div className="text-center mb-3">
           <CustomButton

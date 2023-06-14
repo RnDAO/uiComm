@@ -1,10 +1,12 @@
+import { IChannelWithoutId, IGuildChannels } from '../../utils/types';
+
 export type IGuildInfo = {
   id?: string;
   guildId?: string;
   ownerId?: string;
   name?: boolean;
   period?: string;
-  selectedChannels?: { channelId: string; channelName: string }[];
+  selectedChannels?: IChannelWithoutId[];
 };
 
 export type DISCONNECT_TYPE = 'soft' | 'hard';
@@ -16,21 +18,23 @@ export default interface IGuildList extends IGuildInfo {
 }
 export default interface ISetting {
   isLoading: boolean;
+  isRefetchLoading: boolean;
   guildInfo?: IGuildInfo | {};
   userInfo: {};
   guildInfoByDiscord: {};
   guilds: IGuildList[];
+  guildChannels: IGuildChannels[];
   getUserGuildInfo: (guildId: string) => void;
   getUserInfo: () => any;
   getGuildInfoByDiscord: (guildId: string) => void;
   updateSelectedChannels: (
     guildId: string,
-    selectedChannels: { channelId: string; channelName: string }[]
+    selectedChannels: IChannelWithoutId[]
   ) => void;
   patchGuildById: (
     guildId: string,
     period: string,
-    selectedChannels: { channelId: string; channelName: string }[]
+    selectedChannels: IChannelWithoutId[]
   ) => any;
   updateAnalysisDatePeriod: (guildId: string, period: string) => void;
   getGuilds: () => void;
@@ -38,4 +42,5 @@ export default interface ISetting {
     guildId: string,
     disconnectType: DISCONNECT_TYPE
   ) => void;
+  refetchGuildChannels: (guild_id: string) => void;
 }

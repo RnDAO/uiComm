@@ -1,10 +1,26 @@
-import { CircularProgress } from '@mui/material'
-import React from 'react'
+import { Box, CircularProgress } from '@mui/material';
 
-function Loading() {
-  return (
-    <div><CircularProgress /></div>
-  )
+interface LoadingProps {
+  height: string;
 }
 
-export default Loading
+function Loading({ height }: LoadingProps) {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height,
+      }}
+    >
+      <CircularProgress color="secondary" />
+    </Box>
+  );
+}
+
+Loading.defaultProps = {
+  height: '10rem',
+};
+
+export default Loading;

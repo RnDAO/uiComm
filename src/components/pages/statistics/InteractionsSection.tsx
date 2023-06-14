@@ -2,7 +2,15 @@ import { useEffect, useState } from 'react';
 import useAppStore from '../../../store/useStore';
 import LineGraph from '../../global/LineGraph';
 import StatisticalData from './StatisticalData';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
+import { FiCalendar } from 'react-icons/fi';
+import RangeSelect from '../../global/RangeSelect';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+
+export interface IntractionsProps {
+  activePeriod: number;
+  handleDateRange: (range: number) => void;
+}
 
 const defaultOptions = {
   chart: {
@@ -16,15 +24,24 @@ const defaultOptions = {
   },
   xAxis: {
     categories: [],
+    gridLineWidth: 1.5,
+    tickmarkPlacement: 'on',
+    gridLineDashStyle: 'Dash', // set to 'Dash' for a dashed line
   },
   yAxis: {
     title: {
       text: '',
     },
+    min: 0,
+    max: 250,
   },
   series: [],
   legend: {
-    enabled: false,
+    enabled: true,
+    align: 'left',
+    verticalAlign: 'bottom',
+    x: 10,
+    y: -10,
   },
   plotOptions: {
     series: {
@@ -37,7 +54,10 @@ const defaultOptions = {
   },
 };
 
-export default function InteractionsSection() {
+export default function InteractionsSection({
+  activePeriod,
+  handleDateRange,
+}: IntractionsProps) {
   const { interactions } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
@@ -46,15 +66,27 @@ export default function InteractionsSection() {
     // Copy options on each changes
     const newOptions = JSON.parse(JSON.stringify(defaultOptions));
 
-    const newSeries = interactions?.series?.map((interaction: any) => {
+    if (interactions && interactions.series) {
+      const maxDataValue = Math.max(
+        ...interactions.series.map((s: SeriesData) => Math.max(...s.data))
+      );
+
+      if (maxDataValue > 0) {
+        newOptions.yAxis.max = null;
+      }
+    }
+
+    const newSeries = interactions?.series?.map((interaction: SeriesData) => {
       if (interaction.name === 'messages') {
         return {
           ...interaction,
+          name: 'Messages',
           color: '#804EE1',
         };
       } else if (interaction.name === 'emojis') {
         return {
           ...interaction,
+          name: 'Emojis',
           color: '#FF9022',
         };
       }
@@ -69,14 +101,18 @@ export default function InteractionsSection() {
     setStatistics([
       {
         label: 'Messages',
-        percentageChange: interactions.msgPercentageChange,
+        percentageChange: interactions.msgPercentageChange
+          ? interactions.msgPercentageChange
+          : 0,
         value: interactions.messages,
         colorBadge: 'bg-secondary',
         hasTooltip: false,
       },
       {
         label: 'Emojies',
-        percentageChange: interactions.emojiPercentageChange,
+        percentageChange: interactions.emojiPercentageChange
+          ? interactions.emojiPercentageChange
+          : 0,
         value: interactions.emojis,
         colorBadge: 'bg-warning-500',
         hasTooltip: false,
@@ -86,13 +122,30 @@ export default function InteractionsSection() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between">
-        <h3 className="text-lg font-medium text-lite-black">
-          Type of interaction
-        </h3>
+      <div className="flex flex-row justify-between">
+        <div className="w-full">
+          <div>
+            <h3 className="text-xl font-medium text-lite-black">
+              Type of interaction
+            </h3>
+          </div>
+        </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
+      </div>
+      <div className="w-full">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
+          <h3 className="text-xl font-medium text-lite-black">
+            Members activity over time
+          </h3>
+          <RangeSelect
+            options={communityActiveDates}
+            icon={<FiCalendar size={18} />}
+            active={activePeriod}
+            onClick={handleDateRange}
+          />
+        </div>
       </div>
       <LineGraph options={options} />
     </>

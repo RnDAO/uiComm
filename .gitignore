@@ -36,3 +36,9 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+<<<<<<< HEAD
+
+# Sentry Auth Token
+.sentryclirc
+=======
+>>>>>>> 381b455 (remove .sentryclirc from .gitignore)

@@ -6,4 +6,10 @@ export interface StatisticsProps {
   colorBadge: string;
   hasTooltip: boolean;
   tooltipText?: React.ReactNode;
+  customBackground?: boolean;
+}
+
+export interface SeriesData {
+  name: string;
+  data: number[];
 }

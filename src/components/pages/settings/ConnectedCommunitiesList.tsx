@@ -18,7 +18,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
     setOpen(e);
   };
   const notify = () => {
-    toast('Account has been unlinked.', {
+    toast('The integration has been disconnected succesfully.', {
       position: 'top-center',
       autoClose: 3000,
       hideProgressBar: true,
@@ -45,7 +45,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
   return (
     <>
       {guilds && guilds.length > 0 ? (
-        <div className="bg-gray-background rounded-lg px-4 md:h-[268px]">
+        <div className="bg-gray-background overflow-auto rounded-lg px-4 md:h-[268px]">
           <p className="text-base font-semibold pt-2">Connected communities</p>
           <div className="flex flex-row">
             {guilds && guilds.length > 0
@@ -74,7 +74,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
             Are you sure you want to disconnect{' '}
             <br className="hidden md:flex" /> your community?
           </h3>
-          <div className="flex flex-row justify-between space-x-8">
+          <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-8">
             <Paper
               sx={{
                 padding: '2rem 1rem',
