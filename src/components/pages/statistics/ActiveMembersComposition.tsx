@@ -196,7 +196,7 @@ export default function ActiveMembersComposition({
     <>
       <div className="flex flex-row justify-between">
         <div className="w-full">
-          <div className="px-3">
+          <div>
             <h3 className="text-xl font-medium text-lite-black">
               Members overview
             </h3>

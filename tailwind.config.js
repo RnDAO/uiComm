@@ -12,6 +12,7 @@ const colors = {
   secondary: {
     DEFAULT: '#804EE1',
     50: '#F6FDFF',
+    75:'#CCB8F3',
     100: '#E3F8FF',
     200: '#BCEEFF',
     300: '#8CD3EA',

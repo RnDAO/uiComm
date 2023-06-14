@@ -15,9 +15,11 @@ import SEO from '../components/global/SEO';
 import { Box } from '@mui/material';
 import Link from '../components/global/Link';
 import { AiOutlineLeft } from 'react-icons/ai';
+import Onboarding from '../components/pages/statistics/Onboarding';
 
 const Statistics = () => {
   const [activeMemberDate, setActiveMemberDate] = useState(1);
+  const [onBoardingMemberDate, setOnBoardingMemberDate] = useState(1);
   const [activeInteractionDate, setActiveInteractionDate] = useState(1);
   const [disengagedMemberDate, setDisengagedMemberDate] = useState(1);
   const [inactiveMembersDate, setInactiveMembersDate] = useState(1);
@@ -26,6 +28,7 @@ const Statistics = () => {
     fetchActiveMembers,
     fetchDisengagedMembers,
     fetchInactiveMembers,
+    fetchOnboardingMembers,
     isLoading,
   } = useAppStore();
 
@@ -49,12 +52,18 @@ const Statistics = () => {
 
     if (activeTab === '1') {
       const activeDateRange = getDateRange(activeMemberDate);
+      const onBoardingMemberDateRange = getDateRange(onBoardingMemberDate);
       const activeIntegrationDateRange = getDateRange(activeInteractionDate);
       fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
       fetchInteractions(
         guild.guildId,
         activeIntegrationDateRange[0],
         activeIntegrationDateRange[1]
+      );
+      fetchOnboardingMembers(
+        guild.guildId,
+        onBoardingMemberDateRange[0],
+        onBoardingMemberDateRange[1]
       );
     } else {
       const disengagedDateRange = getDateRange(disengagedMemberDate);
@@ -74,6 +83,7 @@ const Statistics = () => {
     activeMemberDate,
     activeInteractionDate,
     disengagedMemberDate,
+    onBoardingMemberDate,
     activeTab,
     inactiveMembersDate,
   ]);
@@ -116,6 +126,11 @@ const Statistics = () => {
   const handleActiveMembersDateRange = (dateRangeType: number) => {
     setActiveMemberDate(dateRangeType);
   };
+
+  const handleOnboardingMembersDate = (dateRangeType: number) => {
+    setOnBoardingMemberDate(dateRangeType);
+  };
+
   const handleActiveInteractionDate = (dateRangeType: number) => {
     setActiveInteractionDate(dateRangeType);
   };
@@ -162,6 +177,18 @@ const Statistics = () => {
                 <ActiveMembersComposition
                   activePeriod={activeMemberDate}
                   handleDateRange={handleActiveMembersDateRange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  typography: 'body5',
+                  borderRadius: '0px 14px 14px 14px;',
+                }}
+                className="shadow-lg rounded-md p-6"
+              >
+                <Onboarding
+                  activePeriod={onBoardingMemberDate}
+                  handleDateRange={handleOnboardingMembersDate}
                 />
               </Box>
               <Box
