@@ -9,6 +9,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   activeMembers: {},
   disengagedMembers: {},
   inactiveMembers: {},
+  onboardingMembers: {},
   selectedChannelsList: [],
   fetchHeatmapData: async (
     guild_id: string,
@@ -106,6 +107,25 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
         }
       );
       set({ inactiveMembers: data, isLoading: false });
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  fetchOnboardingMembers: async (
+    guild_id: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.post(
+        `/member-activity/${guild_id}/active-members-onboarding-line-graph `,
+        {
+          startDate,
+          endDate,
+        }
+      );
+      set({ onboardingMembers: data, isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
     }
