@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
-import { AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 import Link from '../components/global/Link';
-import { Paper } from '@mui/material';
+import { Paper, Tooltip, Typography } from '@mui/material';
 import FilterByChannels from '../components/global/FilterByChannels';
 import useAppStore from '../store/useStore';
 import * as Sentry from '@sentry/nextjs';
@@ -162,7 +162,7 @@ export default function membersInteraction() {
           <h3 className="text-xl font-medium text-lite-black">
             Member interactions graph{' '}
           </h3>{' '}
-          <div className="flex flex-row">
+          <div className="flex flex-col md:flex-row">
             <div className="flex-1">
               <div className="flex flex-wrap">
                 <FilterByChannels
@@ -173,7 +173,7 @@ export default function membersInteraction() {
               </div>
               <NetworkGraph options={mockData} />
             </div>
-            <div className="w-1/5">
+            <div className="hidden md:flex w-1/5">
               <HintBox />
             </div>
           </div>
