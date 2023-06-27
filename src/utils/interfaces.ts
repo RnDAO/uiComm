@@ -13,3 +13,12 @@ export interface SeriesData {
   name: string;
   data: number[];
 }
+
+export interface Column {
+  id: string;
+  label: string;
+}
+
+export interface Row {
+  [key: string]: any;
+}

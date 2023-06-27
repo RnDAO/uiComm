@@ -7,8 +7,7 @@ type items = {
   icon: any;
 };
 
-import polygon from '../../assets/svg/polygon.svg';
-
+import { conf } from '../../configs/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // import the icons you need
@@ -122,7 +121,7 @@ const Sidebar = () => {
               <div className="w-10 h-10 mb-2 mx-auto">
                 {guildId && guildInfoByDiscord.icon ? (
                   <Image
-                    src={`https://cdn.discordapp.com/icons/${guildId}/${guildInfoByDiscord.icon}`}
+                    src={`${conf.DISCORD_CDN}icons/${guildId}/${guildInfoByDiscord.icon}`}
                     width="100"
                     height="100"
                     alt={guildInfoByDiscord.name ? guildInfoByDiscord.name : ''}
