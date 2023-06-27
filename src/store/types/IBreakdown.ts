@@ -7,7 +7,7 @@ export default interface IHeatmap {
     activityComposition: string[],
     roles: string[],
     username?: string,
-    sortBy: string,
+    sortBy?: string,
     page?: number // Add page as an optional parameter
   ) => any;
   getRoles: (guild_id: string) => any;
