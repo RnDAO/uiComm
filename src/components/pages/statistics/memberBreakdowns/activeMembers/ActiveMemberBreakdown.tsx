@@ -28,8 +28,8 @@ export default function ActiveMemberBreakdown() {
     limit?: string | number;
     page?: string | number;
     results: any[];
-    totalPages: string | number;
-    totalResults: string | number;
+    totalPages: number;
+    totalResults: number;
   }>({
     results: [],
     totalResults: 0,
