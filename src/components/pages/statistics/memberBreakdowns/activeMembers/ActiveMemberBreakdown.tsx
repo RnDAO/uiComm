@@ -23,7 +23,7 @@ export default function ActiveMemberBreakdown() {
   const [roles, setRoles] = useState<string[]>([]);
   const [activityComposition, setActivityComposition] = useState<string[]>([]);
   const [username, setUsername] = useState('');
-  const [sortBy, setSortBy] = useState('joinedAt:desc');
+  const [sortBy, setSortBy] = useState('desc');
   const [fetchedData, setFetchedData] = useState<{
     limit?: string | number;
     page?: string | number;
@@ -99,7 +99,7 @@ export default function ActiveMemberBreakdown() {
           )}
           <div className={clsx(!isExpanded ? 'pointer-events-none' : '')}>
             <CustomTable
-              data={fetchedData.results}
+              data={fetchedData?.results ? fetchedData.results : []}
               columns={columns}
               handleRoleSelectionChange={handleRoleSelectionChange}
               handleActivityOptionSelectionChange={
@@ -109,7 +109,7 @@ export default function ActiveMemberBreakdown() {
               handleUsernameChange={handleUsernameChange}
               isLoading={isActiveMembersBreakdownLoading}
             />
-            {fetchedData.totalResults > 0 && (
+            {fetchedData?.totalResults > 0 && (
               <div className="flex justify-end">
                 <CustomPagination
                   totalItems={fetchedData.totalResults}
@@ -129,7 +129,7 @@ export default function ActiveMemberBreakdown() {
           label={isExpanded ? 'Show less' : 'Show member breakdown'}
           classes={'text-black'}
           variant="outlined"
-          disabled={fetchedData.totalResults === 0}
+          disabled={fetchedData?.totalResults === 0}
           onClick={() => toggleExpanded(!isExpanded)}
         />
       </div>

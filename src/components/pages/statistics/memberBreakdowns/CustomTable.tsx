@@ -474,14 +474,19 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         : 'border-1 border-solid border-gray-700'
                     }`}
                   >
-                    {columns.map((column) => (
+                    {columns.map((column, columnIndex) => (
                       <TableCell
                         key={column.id}
                         style={{
                           width: `${100 / columns.length}%`,
-                          border: 'none',
+                          border:
+                            index % 2 === 0 ? 'none' : '1px solid #F5F5F5', // Apply border style conditionally for even rows
                         }}
-                        className="px-4 py-4 rounded-md"
+                        className={`px-4 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0 ${
+                          columnIndex === 1 || columnIndex === 2
+                            ? 'border-l-0 border-r-0'
+                            : '' // Add top and bottom border to even rows
+                        }`}
                       >
                         {column.id === 'username' ? (
                           <div className="flex items-center space-x-4">
@@ -572,7 +577,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             row.activityComposition.length > 0 ? (
                               <>
                                 {row.activityComposition
-                                  .slice(0, 1)
+                                  .slice(0, 4)
                                   .map((composition: string) => {
                                     const matchedOption = options.find(
                                       (option) => option.value === composition
@@ -641,7 +646,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                       flexShrink: 0,
                                     }}
                                   />
-                                  other{' '}
+                                  other
                                 </span>
                               </div>
                             )}
