@@ -22,7 +22,7 @@ import {
 } from 'react-icons/md';
 import moment from 'moment';
 
-import { Column, Row } from '../../../../utils/interfaces';
+import { Column, IRoles, Row } from '../../../../utils/interfaces';
 import { IUser } from '../../../../utils/types';
 import { conf } from '../../../../configs';
 import Loading from '../../../global/Loading';
@@ -77,7 +77,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
     useState<HTMLButtonElement | null>(null);
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   useEffect(() => {
-    setSelectedRoles(roles.map((role: { id: any }) => role.id));
+    setSelectedRoles(roles.map((role: IRoles) => role.id));
   }, [roles]);
   const [selectAllRoles, setSelectAllRoles] = useState(true);
   const [selectedActivityOptions, setSelectedActivityOptions] = useState<
@@ -107,7 +107,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   const handleSelectAllRoles = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const allRoleNames = roles.map((role: any) => role.id);
+      const allRoleNames = roles.map((role: IRoles) => role.id);
       setSelectedRoles(allRoleNames);
     } else {
       setSelectedRoles([]);
@@ -262,7 +262,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           label={'All Roles'}
                         />
                         <p className="px-4 py-2">Show members with tags:</p>
-                        {roles.map((role: any) => (
+                        {roles.map((role: IRoles) => (
                           <ListItem key={role.name}>
                             <FormControlLabel
                               control={
@@ -338,34 +338,42 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           }
                           label={<div className="text-base">All</div>}
                         />
-                        {options.map((option: any) => (
-                          <ListItem key={option.name}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  color="secondary"
-                                  checked={selectedActivityOptions.includes(
-                                    option.value
-                                  )}
-                                  onChange={handleSelectActivityOption}
-                                  value={option.value}
-                                />
-                              }
-                              label={
-                                <div className="flex items-center">
-                                  <span
-                                    className="w-4 h-4 rounded-full mr-1"
-                                    style={{
-                                      backgroundColor: option.color,
-                                      flexShrink: 0,
-                                    }}
+                        {options.map(
+                          (option: {
+                            name: string;
+                            value: string;
+                            color: string;
+                          }) => (
+                            <ListItem key={option.name}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    color="secondary"
+                                    checked={selectedActivityOptions.includes(
+                                      option.value
+                                    )}
+                                    onChange={handleSelectActivityOption}
+                                    value={option.value}
                                   />
-                                  <div className="text-base">{option.name}</div>
-                                </div>
-                              }
-                            />
-                          </ListItem>
-                        ))}
+                                }
+                                label={
+                                  <div className="flex items-center">
+                                    <span
+                                      className="w-4 h-4 rounded-full mr-1"
+                                      style={{
+                                        backgroundColor: option.color,
+                                        flexShrink: 0,
+                                      }}
+                                    />
+                                    <div className="text-base">
+                                      {option.name}
+                                    </div>
+                                  </div>
+                                }
+                              />
+                            </ListItem>
+                          )
+                        )}
                       </div>
                     </Popover>
                   </>
@@ -489,7 +497,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           <div className="flex flex-row flex-wrap space-x-1">
                             {row.roles.length > 0 ? (
                               <>
-                                {row.roles.slice(0, 4).map((role: any) => (
+                                {row.roles.slice(0, 4).map((role: IRoles) => (
                                   <div
                                     key={role.id}
                                     className="flex flex-row flex-wrap"
@@ -565,7 +573,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               <>
                                 {row.activityComposition
                                   .slice(0, 1)
-                                  .map((composition: any) => {
+                                  .map((composition: string) => {
                                     const matchedOption = options.find(
                                       (option) => option.value === composition
                                     );

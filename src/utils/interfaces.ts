@@ -22,3 +22,9 @@ export interface Column {
 export interface Row {
   [key: string]: any;
 }
+
+export interface IRoles {
+  id: string;
+  color: number | string;
+  name: string;
+}

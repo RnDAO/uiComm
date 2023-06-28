@@ -24,7 +24,13 @@ export default function ActiveMemberBreakdown() {
   const [activityComposition, setActivityComposition] = useState<string[]>([]);
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('joinedAt:desc');
-  const [fetchedData, setFetchedData] = useState<any>({
+  const [fetchedData, setFetchedData] = useState<{
+    limit?: string | number;
+    page?: string | number;
+    results: any[];
+    totalPages: string | number;
+    totalResults: string | number;
+  }>({
     results: [],
     totalResults: 0,
     totalPages: 0,
