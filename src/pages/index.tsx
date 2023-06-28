@@ -84,7 +84,7 @@ function Dashboard(): JSX.Element {
             onClose={toggleAnalysisState}
             severity="warning"
           >
-            Data import is in progress. It might take up to 12 hours to finish
+            Data import is in progress. It might take up to 6 hours to finish
             the data import. Once it is done we will send you a message on
             Discord.
           </Alert>

@@ -100,8 +100,8 @@ export default function DataAnalysis() {
     return (
       <div className="flex flex-col space-y-4">
         <p className="text-sm text-black">
-          It might take up to 12 hours to finish new data import. Once it is
-          done we will <br /> send you a message on Discord.
+          It might take up to 6 hours to finish new data import. Once it is done
+          we will <br /> send you a message on Discord.
         </p>
         <p className="flex flex-row items-stretch text-sm text-warning-500">
           <BiError size={24} />
@@ -131,7 +131,7 @@ export default function DataAnalysis() {
   return (
     <div className="flex flex-col space-y-4">
       <p className="text-sm text-black">
-        It might take up to 12 hours to finish new data import. Once it is done
+        It might take up to 6 hours to finish new data import. Once it is done
         we will <br /> send you a message on Discord.
       </p>
       <p className="flex flex-row items-center text-sm">
@@ -163,7 +163,7 @@ export default function DataAnalysis() {
             We are changing date period for data analysis now
           </h3>
           <p className="text-sm">
-            It might take up to 12 hours to finish new data import.{' '}
+            It might take up to 6 hours to finish new data import.{' '}
             <br className="hidden md:flex" /> Once it is done we will send you a
             message on Discord.
           </p>
