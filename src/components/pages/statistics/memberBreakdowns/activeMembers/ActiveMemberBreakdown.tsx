@@ -84,7 +84,7 @@ export default function ActiveMemberBreakdown() {
 
   return (
     <>
-      <div className="relative overflow-x-scroll md:overflow-hidden">
+      <div className="relative overflow-x-scroll md:overflow-hidden mb-8">
         <h3 className="text-xl font-medium text-lite-black md:mb-4">
           Members breakdown
         </h3>
@@ -124,15 +124,17 @@ export default function ActiveMemberBreakdown() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center mt-2 mb-12">
-        <CustomButton
-          label={isExpanded ? 'Show less' : 'Show member breakdown'}
-          classes={'text-black'}
-          variant="outlined"
-          disabled={fetchedData?.totalResults === 0}
-          onClick={() => toggleExpanded(!isExpanded)}
-        />
-      </div>
+      {fetchedData?.results.length > 0 ?? (
+        <div className="flex justify-center mt-2 mb-12">
+          <CustomButton
+            label={isExpanded ? 'Show less' : 'Show member breakdown'}
+            classes={'text-black'}
+            variant="outlined"
+            disabled={fetchedData?.totalResults === 0}
+            onClick={() => toggleExpanded(!isExpanded)}
+          />
+        </div>
+      )}
     </>
   );
 }
