@@ -85,7 +85,7 @@ export default function ActiveMemberBreakdown() {
   return (
     <>
       <div className="relative overflow-x-scroll md:overflow-hidden">
-        <h3 className="text-xl font-medium text-lite-black">
+        <h3 className="text-xl font-medium text-lite-black md:mb-4">
           Members breakdown
         </h3>
         <div
