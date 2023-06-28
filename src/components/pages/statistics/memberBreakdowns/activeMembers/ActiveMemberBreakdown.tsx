@@ -89,12 +89,15 @@ export default function ActiveMemberBreakdown() {
           Members breakdown
         </h3>
         <div
-          className={clsx(isExpanded ? 'max-h-[17.8rem]' : 'max-h-max', 'mb-4')}
+          className={clsx(
+            !isExpanded ? 'max-h-[17.8rem]' : 'max-h-max',
+            'mb-4'
+          )}
         >
-          {isExpanded && (
+          {!isExpanded && (
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-20 pointer-events-none"></div>
           )}
-          <div className={clsx(isExpanded ? 'pointer-events-none' : '')}>
+          <div className={clsx(!isExpanded ? 'pointer-events-none' : '')}>
             <CustomTable
               data={fetchedData.results}
               columns={columns}
@@ -123,7 +126,7 @@ export default function ActiveMemberBreakdown() {
       </div>
       <div className="flex justify-center mt-2 mb-12">
         <CustomButton
-          label={!isExpanded ? 'Show less' : 'Show member breakdown'}
+          label={isExpanded ? 'Show less' : 'Show member breakdown'}
           classes={'text-black'}
           variant="outlined"
           disabled={fetchedData.totalResults === 0}
