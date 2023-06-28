@@ -668,6 +668,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     style={{
                       border: 'none',
                     }}
+                    className="bg-gray-100 py-8 rounded-md font-semibold"
                   >
                     No data available
                   </TableCell>
