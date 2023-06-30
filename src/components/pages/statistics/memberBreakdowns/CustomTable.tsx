@@ -26,7 +26,7 @@ import {
   Column,
   IRoles,
   Row,
-  activityCompositionOptions,
+  IActivityCompositionOptions,
 } from '../../../../utils/interfaces';
 import { IUser } from '../../../../utils/types';
 import { conf } from '../../../../configs';
@@ -39,7 +39,7 @@ interface CustomTableProps {
   data: Row[];
   columns: Column[];
   isLoading: boolean;
-  activityCompositionOptions: activityCompositionOptions[];
+  activityCompositionOptions: IActivityCompositionOptions[];
   handleRoleSelectionChange: (selectedRoles: string[]) => void;
   handleActivityOptionSelectionChange: (selectedRoles: string[]) => void;
   handleJoinedAtChange: (joinedAt: string) => void;
@@ -339,7 +339,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           label={<div className="text-base">All</div>}
                         />
                         {activityCompositionOptions.map(
-                          (option: activityCompositionOptions) => (
+                          (option: IActivityCompositionOptions) => (
                             <ListItem key={option.name}>
                               <FormControlLabel
                                 control={

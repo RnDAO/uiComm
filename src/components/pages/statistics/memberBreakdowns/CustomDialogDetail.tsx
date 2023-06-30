@@ -3,23 +3,12 @@ import { Dialog, DialogProps } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import { conf } from '../../../../configs';
 import { Avatar } from '@mui/material';
-import {
-  IRoles,
-  activityCompositionOptions,
-} from '../../../../utils/interfaces';
-
-interface RowDetail {
-  discordId: string;
-  avatar: string;
-  username: string;
-  roles: IRoles[];
-  activityComposition: string[];
-}
+import { IActivityCompositionOptions } from '../../../../utils/interfaces';
 
 interface CustomDialogDetailProps extends DialogProps {
   open: boolean;
-  rowDetail: RowDetail | undefined;
-  options: activityCompositionOptions[];
+  rowDetail: any;
+  options: IActivityCompositionOptions[];
   onClose: () => void;
 }
 

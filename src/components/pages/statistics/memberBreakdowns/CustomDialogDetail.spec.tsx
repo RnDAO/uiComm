@@ -1,20 +1,23 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import CustomDialogDetail from './CustomDialogDetail';
-import { activityCompositionOptions } from '../../../../utils/interfaces';
+import {
+  IActivityCompositionOptions,
+  IRowDetail,
+} from '../../../../utils/interfaces';
 
-const mockRowDetail = {
+const mockRowDetail: IRowDetail = {
   discordId: '123',
   avatar: 'avatar.png',
   username: 'John Doe',
   roles: [
-    { id: 1, name: 'Role 1', color: '#ff0000' },
-    { id: 2, name: 'Role 2', color: '#00ff00' },
+    { roleId: '1', name: 'Role 1', color: '#ff0000' },
+    { roleId: '2', name: 'Role 2', color: '#00ff00' },
   ],
   activityComposition: ['Composition 1', 'Composition 2'],
 };
 
-const mockOptions: activityCompositionOptions[] = [
+const mockOptions: IActivityCompositionOptions[] = [
   { name: 'Option 1', value: 'option1', color: '#0000ff' },
   { name: 'Option 2', value: 'option2', color: '#ffff00' },
 ];

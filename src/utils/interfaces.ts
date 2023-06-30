@@ -29,8 +29,16 @@ export interface IRoles {
   name: string;
 }
 
-export interface activityCompositionOptions {
+export interface IActivityCompositionOptions {
   name: string;
   value: string;
   color: string;
+}
+
+export interface IRowDetail {
+  discordId: string;
+  avatar: string;
+  username: string;
+  roles: IRoles[];
+  activityComposition: string[];
 }

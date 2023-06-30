@@ -5,7 +5,7 @@ import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
 import {
   Column,
-  activityCompositionOptions,
+  IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
@@ -18,7 +18,7 @@ const columns: Column[] = [
   { id: 'joinedAt', label: 'DAO member since' },
 ];
 
-const options: activityCompositionOptions[] = [
+const options: IActivityCompositionOptions[] = [
   { name: 'Active members', value: 'all_active', color: '#3AAE2B' },
   { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
   { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
