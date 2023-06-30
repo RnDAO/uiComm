@@ -27,7 +27,7 @@ const options: IActivityCompositionOptions[] = [
   },
   {
     name: 'Were consistently active',
-    value: 'all_disengaged_were_consistenly_active',
+    value: 'all_disengaged_were_consistently_active',
     color: '#804EE1',
   },
   {
