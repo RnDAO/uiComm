@@ -131,7 +131,7 @@ export default function ActiveMemberBreakdown() {
           </div>
         </div>
       </div>
-      <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end')}>
+      <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
         <CustomPagination
           totalItems={fetchedData.totalResults}
           itemsPerPage={Math.ceil(
