@@ -19,18 +19,29 @@ const columns: Column[] = [
 ];
 
 const options: activityCompositionOptions[] = [
-  { name: 'All active', value: 'all_active', color: '#3AAE2B' },
-  { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
-  { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
-  { name: 'Vital member', value: 'all_vital', color: '#313671' },
-  { name: 'Became disengaged', value: 'all_new_disengaged', color: '#EB3E56' },
+  { name: 'Became disengaged', value: 'all_new_disengaged', color: '#FB3E56' },
+  {
+    name: 'Were newly active',
+    value: 'all_disengaged_were_newly_active',
+    color: '#FF9022',
+  },
+  {
+    name: 'Were consistently active',
+    value: 'all_disengaged_were_consistenly_active',
+    color: '#804EE1',
+  },
+  {
+    name: 'Were vital members',
+    value: 'all_disengaged_were_vital',
+    color: '#313671',
+  },
   { name: 'Others', value: 'others', color: '#AAAAAA' },
 ];
 
-export default function ActiveMemberBreakdown() {
+export default function DisengagedMembersCompositionBreakdown() {
   const {
-    getActiveMemberCompositionTable,
-    isOnboardingMembersBreakdownLoading,
+    getDisengagedMembersCompositionTable,
+    isDisengagedMembersCompositionBreakdownLoading,
   } = useAppStore();
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
@@ -62,7 +73,7 @@ export default function ActiveMemberBreakdown() {
     }
 
     const fetchData = async () => {
-      const res = await getActiveMemberCompositionTable(
+      const res = await getDisengagedMembersCompositionTable(
         guild.guildId,
         activityComposition,
         roles,
@@ -70,6 +81,7 @@ export default function ActiveMemberBreakdown() {
         sortBy,
         page
       );
+
       setFetchedData(res);
     };
 
@@ -127,7 +139,7 @@ export default function ActiveMemberBreakdown() {
               }
               handleJoinedAtChange={handleJoinedAtChange}
               handleUsernameChange={handleUsernameChange}
-              isLoading={isOnboardingMembersBreakdownLoading}
+              isLoading={isDisengagedMembersCompositionBreakdownLoading}
               activityCompositionOptions={options}
             />
           </div>

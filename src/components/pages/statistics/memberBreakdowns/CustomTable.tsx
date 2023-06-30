@@ -502,7 +502,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap md:space-x-1">
                             {row.roles.length > 0 ? (
                               <>
-                                {row.roles.slice(0, 2).map((role: IRoles) => (
+                                {row.roles.slice(0, 1).map((role: IRoles) => (
                                   <div
                                     key={role.roleId}
                                     className="flex flex-row flex-wrap"
@@ -537,7 +537,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     </span>
                                   </div>
                                 ))}
-                                {row.roles.length > 4 && (
+                                {row.roles.length > 1 && (
                                   <div
                                     className="flex flex-row flex-wrap"
                                     onClick={() => handleShowDetails(row)}
@@ -550,7 +550,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                         backgroundColor: '#AAAAAA',
                                       }}
                                     >
-                                      +{row.roles.length - 2}
+                                      +{row.roles.length - 1}
                                     </span>
                                   </div>
                                 )}
@@ -577,7 +577,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             row.activityComposition.length > 0 ? (
                               <>
                                 {row.activityComposition
-                                  .slice(0, 2)
+                                  .slice(0, 1)
                                   .map((composition: string) => {
                                     const matchedOption =
                                       activityCompositionOptions.find(
@@ -612,7 +612,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                       </div>
                                     );
                                   })}
-                                {row.activityComposition.length > 4 && (
+                                {row.activityComposition.length > 1 && (
                                   <div
                                     className="flex flex-row flex-wrap"
                                     onClick={() => handleShowDetails(row)}
@@ -625,7 +625,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                         alignItems: 'center',
                                       }}
                                     >
-                                      +{row.activityComposition.length - 2}
+                                      +{row.activityComposition.length - 1}
                                     </span>
                                   </div>
                                 )}

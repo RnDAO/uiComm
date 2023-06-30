@@ -6,6 +6,7 @@ import { FiCalendar } from 'react-icons/fi';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import RangeSelect from '../../global/RangeSelect';
+import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
 
 export interface OnboardingProps {
   activePeriod: number;
@@ -172,6 +173,8 @@ export default function Onboarding({
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
       </div>
+
+      <OnboardingMembersBreakdown />
 
       <div className="w-full">
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
