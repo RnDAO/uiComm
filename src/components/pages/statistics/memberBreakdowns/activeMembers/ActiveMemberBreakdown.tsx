@@ -84,7 +84,7 @@ export default function ActiveMemberBreakdown() {
 
   return (
     <>
-      <div className="relative overflow-x-scroll md:overflow-hidden mb-8">
+      <div className="relative overflow-x-scroll md:overflow-hidden mb-1 md:mb-1">
         <h3 className="text-xl font-medium text-lite-black md:mb-4">
           Members breakdown
         </h3>
@@ -115,19 +115,18 @@ export default function ActiveMemberBreakdown() {
               handleUsernameChange={handleUsernameChange}
               isLoading={isActiveMembersBreakdownLoading}
             />
-
-            <div className="flex justify-end">
-              <CustomPagination
-                totalItems={fetchedData.totalResults}
-                itemsPerPage={Math.ceil(
-                  fetchedData.totalResults / fetchedData.totalPages
-                )}
-                currentPage={page}
-                onChangePage={handlePageChange}
-              />
-            </div>
           </div>
         </div>
+      </div>
+      <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end')}>
+        <CustomPagination
+          totalItems={fetchedData.totalResults}
+          itemsPerPage={Math.ceil(
+            fetchedData.totalResults / fetchedData.totalPages
+          )}
+          currentPage={page}
+          onChangePage={handlePageChange}
+        />
       </div>
       {fetchedData && fetchedData?.totalResults > 10 ? (
         <div className="flex justify-center mt-2 mb-12">

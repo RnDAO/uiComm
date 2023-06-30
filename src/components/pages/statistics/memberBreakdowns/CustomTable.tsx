@@ -503,7 +503,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             </span>
                           </div>
                         ) : column.id === 'roles' ? (
-                          <div className="flex flex-row flex-wrap space-x-1">
+                          <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap md:space-x-1">
                             {row.roles.length > 0 ? (
                               <>
                                 {row.roles.slice(0, 2).map((role: IRoles) => (
@@ -593,10 +593,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     return (
                                       <div
                                         key={composition}
-                                        className="flex flex-row flex-wrap items-center mr-1"
+                                        className="flex flex-row flex-wrap items-center mr-1 mb:2 md:mb-0 whitespace-nowrap"
                                       >
                                         <span
-                                          className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
+                                          className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs mb-1 md:mb-0 flex items-center"
                                           style={{
                                             backgroundColor: backgroundColor,
                                             display: 'flex',
