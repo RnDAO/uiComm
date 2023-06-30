@@ -6,6 +6,7 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
@@ -195,6 +196,9 @@ export default function DisengagedMembersComposition({
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
       </div>
+
+      <DisengagedMembersCompositionBreakdown />
+
       <div className="w-full">
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
           <h3 className="text-xl font-medium text-lite-black">

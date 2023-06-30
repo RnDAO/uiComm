@@ -19,17 +19,16 @@ const columns: Column[] = [
 ];
 
 const options: activityCompositionOptions[] = [
-  { name: 'All active', value: 'all_active', color: '#3AAE2B' },
+  { name: 'Joined', value: 'all_joined', color: '#4368F1' },
   { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
-  { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
-  { name: 'Vital member', value: 'all_vital', color: '#313671' },
-  { name: 'Became disengaged', value: 'all_new_disengaged', color: '#EB3E56' },
+  { name: 'Still active', value: 'all_still_active', color: '#CCB8F3' },
+  { name: 'Dropped', value: 'all_dropped', color: '#FB3E56' },
   { name: 'Others', value: 'others', color: '#AAAAAA' },
 ];
 
-export default function ActiveMemberBreakdown() {
+export default function OnboardingMembersBreakdown() {
   const {
-    getActiveMemberCompositionTable,
+    getOnboardingMemberCompositionTable,
     isOnboardingMembersBreakdownLoading,
   } = useAppStore();
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
@@ -62,7 +61,7 @@ export default function ActiveMemberBreakdown() {
     }
 
     const fetchData = async () => {
-      const res = await getActiveMemberCompositionTable(
+      const res = await getOnboardingMemberCompositionTable(
         guild.guildId,
         activityComposition,
         roles,
@@ -70,6 +69,7 @@ export default function ActiveMemberBreakdown() {
         sortBy,
         page
       );
+
       setFetchedData(res);
     };
 
