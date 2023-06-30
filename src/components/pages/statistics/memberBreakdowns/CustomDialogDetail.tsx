@@ -49,7 +49,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
           </div>
           <div>
             <p className="text-xs pb-2 font-semibold">Roles:</p>
-            <div className="flex flex-row space-x-2 flex-wrap">
+            <div className="flex flex-row flex-wrap items-center first:ml-0 ml-1">
               {rowDetail?.roles.map((role: any) => (
                 <div
                   key={role.id}
@@ -85,11 +85,11 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
           </div>
           <div>
             <p className="text-xs pb-2 font-semibold">Activity composition:</p>
-            <div className="flex flex-row space-x-2 flex-wrap">
+            <div className="flex flex-row flex-wrap">
               {rowDetail && rowDetail?.activityComposition.length > 0 ? (
                 rowDetail?.activityComposition.map((composition: any) => {
                   const matchedOption = options.find(
-                    (option) => option.value === composition
+                    (option) => option.name === composition
                   );
                   const backgroundColor = matchedOption
                     ? matchedOption.color
@@ -98,10 +98,10 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
                   return (
                     <div
                       key={composition}
-                      className="flex flex-row flex-wrap items-center"
+                      className="flex flex-row flex-wrap items-center first:ml-0 ml-1"
                     >
                       <span
-                        className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
+                        className="bg-white p-1 px-2 mb-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
                         style={{
                           backgroundColor: backgroundColor,
                           display: 'flex',

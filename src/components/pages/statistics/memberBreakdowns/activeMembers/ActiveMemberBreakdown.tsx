@@ -115,22 +115,21 @@ export default function ActiveMemberBreakdown() {
               handleUsernameChange={handleUsernameChange}
               isLoading={isActiveMembersBreakdownLoading}
             />
-            {fetchedData?.totalResults > 0 && (
-              <div className="flex justify-end">
-                <CustomPagination
-                  totalItems={fetchedData.totalResults}
-                  itemsPerPage={Math.ceil(
-                    fetchedData.totalResults / fetchedData.totalPages
-                  )}
-                  currentPage={page}
-                  onChangePage={handlePageChange}
-                />
-              </div>
-            )}
+
+            <div className="flex justify-end">
+              <CustomPagination
+                totalItems={fetchedData.totalResults}
+                itemsPerPage={Math.ceil(
+                  fetchedData.totalResults / fetchedData.totalPages
+                )}
+                currentPage={page}
+                onChangePage={handlePageChange}
+              />
+            </div>
           </div>
         </div>
       </div>
-      {fetchedData?.results.length > 0 ?? (
+      {fetchedData && fetchedData?.totalResults > 10 ? (
         <div className="flex justify-center mt-2 mb-12">
           <CustomButton
             label={isExpanded ? 'Show less' : 'Show member breakdown'}
@@ -140,6 +139,8 @@ export default function ActiveMemberBreakdown() {
             onClick={() => toggleExpanded(!isExpanded)}
           />
         </div>
+      ) : (
+        ''
       )}
     </>
   );

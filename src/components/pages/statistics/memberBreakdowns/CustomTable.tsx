@@ -77,7 +77,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
     useState<HTMLButtonElement | null>(null);
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   useEffect(() => {
-    setSelectedRoles(roles.map((role: IRoles) => role.id));
+    setSelectedRoles(roles.map((role: IRoles) => role.roleId));
   }, [roles]);
   const [selectAllRoles, setSelectAllRoles] = useState(true);
   const [selectedActivityOptions, setSelectedActivityOptions] = useState<
@@ -107,7 +107,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   const handleSelectAllRoles = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const allRoleNames = roles.map((role: IRoles) => role.id);
+      const allRoleNames = roles.map((role: IRoles) => role.roleId);
       setSelectedRoles(allRoleNames);
     } else {
       setSelectedRoles([]);
@@ -268,9 +268,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               control={
                                 <Checkbox
                                   color="secondary"
-                                  checked={selectedRoles.includes(role.id)}
+                                  checked={selectedRoles.includes(role.roleId)}
                                   onChange={handleSelectRole}
-                                  value={role.id}
+                                  value={role.roleId}
                                 />
                               }
                               label={
@@ -434,7 +434,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       InputProps={{
                         disableUnderline: true,
                         startAdornment: <MdSearch color="disabled" size={25} />,
-                        sx: { backgroundColor: '#F5F5F5', padding: '0 0.4rem' },
+                        sx: {
+                          backgroundColor: '#F5F5F5',
+                          padding: '0 0.4rem',
+                          borderRadius: '4px',
+                        },
                       }}
                       value={searchText}
                       onChange={handleSearchChange}
@@ -482,7 +486,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           border:
                             index % 2 === 0 ? 'none' : '1px solid #F5F5F5', // Apply border style conditionally for even rows
                         }}
-                        className={`px-4 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0 ${
+                        className={`px-1 first:px-3 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0 ${
                           columnIndex === 1 || columnIndex === 2
                             ? 'border-l-0 border-r-0'
                             : '' // Add top and bottom border to even rows
@@ -502,9 +506,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           <div className="flex flex-row flex-wrap space-x-1">
                             {row.roles.length > 0 ? (
                               <>
-                                {row.roles.slice(0, 4).map((role: IRoles) => (
+                                {row.roles.slice(0, 2).map((role: IRoles) => (
                                   <div
-                                    key={role.id}
+                                    key={role.roleId}
                                     className="flex flex-row flex-wrap"
                                     style={{ whiteSpace: 'nowrap' }}
                                   >
@@ -550,7 +554,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                         backgroundColor: '#AAAAAA',
                                       }}
                                     >
-                                      +{row.roles.length - 4}
+                                      +{row.roles.length - 2}
                                     </span>
                                   </div>
                                 )}
@@ -572,15 +576,15 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             )}
                           </div>
                         ) : column.id === 'activityComposition' ? (
-                          <div className="flex flex-row flex-wrap space-x-1">
+                          <div className="flex flex-row flex-wrap">
                             {row.activityComposition &&
                             row.activityComposition.length > 0 ? (
                               <>
                                 {row.activityComposition
-                                  .slice(0, 4)
+                                  .slice(0, 2)
                                   .map((composition: string) => {
                                     const matchedOption = options.find(
-                                      (option) => option.value === composition
+                                      (option) => option.name === composition
                                     );
                                     const backgroundColor = matchedOption
                                       ? matchedOption.color
@@ -589,7 +593,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     return (
                                       <div
                                         key={composition}
-                                        className="flex flex-row flex-wrap items-center"
+                                        className="flex flex-row flex-wrap items-center mr-1"
                                       >
                                         <span
                                           className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
@@ -617,14 +621,14 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     onClick={() => handleShowDetails(row)}
                                   >
                                     <span
-                                      className="bg-white p-1 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center cursor-pointer"
+                                      className="bg-white px-1 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center cursor-pointer"
                                       style={{
                                         backgroundColor: '#96A5A6',
                                         display: 'flex',
                                         alignItems: 'center',
                                       }}
                                     >
-                                      +{row.activityComposition.length - 4}
+                                      +{row.activityComposition.length - 2}
                                     </span>
                                   </div>
                                 )}

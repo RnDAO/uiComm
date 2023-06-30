@@ -45,7 +45,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const url = `/member-activity/${guild_id}/active-members-composition-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.post(url);
+      const { data } = await axiosInstance.get(url);
 
       set(() => ({ isActiveMembersBreakdownLoading: false }));
       return data;
@@ -58,15 +58,12 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     try {
       set(() => ({ isRolesLoading: true }));
 
-      const { data } = await axiosInstance.get(
-        `/guilds/discord-api/${guild_id}/roles`
-      );
+      const { data } = await axiosInstance.get(`/guilds/${guild_id}/roles`);
 
       set(() => ({ roles: data, isRolesLoading: false }));
       return data;
     } catch (error) {
       set(() => ({ isRolesLoading: false }));
-      // Handle the error
     }
   },
 });

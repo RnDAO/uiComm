@@ -24,7 +24,7 @@ export interface Row {
 }
 
 export interface IRoles {
-  id: string;
+  roleId: string;
   color: number | string;
   name: string;
 }
