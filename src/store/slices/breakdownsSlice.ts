@@ -54,6 +54,54 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       // Handle the error
     }
   },
+  getOnboardingMemberCompositionTable: async (
+    guild_id: string,
+    activityComposition: string[],
+    roles: string[],
+    username?: string,
+    sortBy?: string,
+    page?: number
+  ) => {
+    try {
+      set(() => ({ isActiveMembersBreakdownLoading: true }));
+
+      const requestData = {
+        activityComposition: activityComposition || [],
+        roles: roles || [],
+        username: username || undefined,
+      };
+
+      const params = new URLSearchParams();
+      if (page) {
+        params.append('page', page.toString());
+      }
+      if (sortBy) {
+        params.append('sortBy', `joinedAt:${sortBy}`);
+      }
+
+      requestData.activityComposition.forEach((value) => {
+        params.append('activityComposition', value);
+      });
+
+      requestData.roles.forEach((value) => {
+        params.append('roles', value);
+      });
+
+      if (username) {
+        params.append('username', username);
+      }
+
+      const url = `/member-activity/${guild_id}/active-members-onboarding-table?${params.toString()}`;
+
+      const { data } = await axiosInstance.get(url);
+
+      set(() => ({ isActiveMembersBreakdownLoading: false }));
+      return data;
+    } catch (error) {
+      set(() => ({ isActiveMembersBreakdownLoading: false }));
+      // Handle the error
+    }
+  },
   getRoles: async (guild_id: string) => {
     try {
       set(() => ({ isRolesLoading: true }));
