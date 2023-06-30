@@ -453,6 +453,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
           {isLoading ? (
             <TableRow>
               <TableCell
+                key={columns.length}
                 colSpan={columns.length}
                 align="center"
                 sx={{ border: 'none' }}
@@ -480,18 +481,18 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         style={{
                           width: `${100 / columns.length}%`,
                           border:
-                            index % 2 === 0 ? 'none' : '1px solid #F5F5F5', // Apply border style conditionally for even rows
+                            index % 2 === 0 ? 'none' : '1px solid #F5F5F5',
                         }}
                         className={`px-1 first:px-3 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0 ${
                           columnIndex === 1 || columnIndex === 2
                             ? 'border-l-0 border-r-0'
-                            : '' // Add top and bottom border to even rows
+                            : ''
                         }`}
                       >
                         {column.id === 'username' ? (
                           <div className="flex items-center space-x-4">
                             <Avatar
-                              src={`${conf.DISCORD_CDN}avatars/${row.discordId}/${row.avatar}.png`}
+                              src={`${conf.DISCORD_CDN}avatars/${row.discordId}/${row?.avatar}.png`}
                               alt="User Avatar"
                             />
                             <span className="ml-2 font-semibold text-base">
@@ -664,6 +665,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
               ) : (
                 <TableRow>
                   <TableCell
+                    key={columns.length}
                     colSpan={columns.length}
                     align="center"
                     style={{

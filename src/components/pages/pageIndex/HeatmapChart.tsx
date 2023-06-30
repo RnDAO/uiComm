@@ -241,7 +241,7 @@ const HeatmapChart = () => {
           await getSelectedChannelsList(guildId);
 
         if (!Array.isArray(channelsList) || channelsList.length === 0) {
-          return; // Exit early if there are no selected channels
+          return;
         }
 
         const defaultEndDate = moment().subtract(1, 'day');
@@ -257,6 +257,8 @@ const HeatmapChart = () => {
         if (channelIds.length === 0) {
           return; // Exit early if there are no valid subChannels
         }
+
+        setChannels(channelIds);
 
         await fetchHeatmapData(
           guildId,
