@@ -18,7 +18,7 @@ interface RowDetail {
 
 interface CustomDialogDetailProps extends DialogProps {
   open: boolean;
-  rowDetail: RowDetail;
+  rowDetail: RowDetail | undefined;
   options: activityCompositionOptions[];
   onClose: () => void;
 }
