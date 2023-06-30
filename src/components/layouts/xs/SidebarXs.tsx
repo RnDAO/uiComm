@@ -25,6 +25,7 @@ import { MdKeyboardBackspace } from 'react-icons/md';
 import useAppStore from '../../../store/useStore';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
+import { conf } from '../../../configs';
 
 const Sidebar = () => {
   const { guildInfoByDiscord } = useAppStore();
@@ -112,7 +113,7 @@ const Sidebar = () => {
               <div className="w-10 h-10 mx-auto">
                 {guildId && guildInfoByDiscord.icon ? (
                   <Image
-                    src={`https://cdn.discordapp.com/icons/${guildId}/${guildInfoByDiscord.icon}`}
+                    src={`${conf.DISCORD_CDN}icons/${guildId}/${guildInfoByDiscord.icon}`}
                     width="100"
                     height="100"
                     alt={guildInfoByDiscord.name ? guildInfoByDiscord.name : ''}

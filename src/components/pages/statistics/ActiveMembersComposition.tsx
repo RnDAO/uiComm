@@ -6,6 +6,7 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -59,6 +60,7 @@ export default function ActiveMembersComposition({
   handleDateRange,
 }: ActiveMembersComposition) {
   const { activeMembers } = useAppStore();
+
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -207,6 +209,8 @@ export default function ActiveMembersComposition({
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
       </div>
+
+      <ActiveMemberBreakdown />
 
       <div className="w-full">
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">

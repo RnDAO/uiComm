@@ -10,4 +10,5 @@ export const conf = {
   SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   SENTRY_ENV: process.env.NEXT_PUBLIC_SENTRY_ENV,
   SENTRY_TOKEN: process.env.SENTRY_TOKEN,
+  DISCORD_CDN: process.env.NEXT_PUBLIC_DISCORD_CDN,
 };
