@@ -71,10 +71,10 @@ const FilterByChannels = ({
         const selected: Record<string, boolean> = {};
 
         guild.subChannels.forEach((subChannel: ISubChannels) => {
-          if (activeChannles.includes(subChannel.id)) {
-            selected[subChannel.id] = true;
+          if (activeChannles.includes(subChannel.channelId)) {
+            selected[subChannel.channelId] = true;
           } else {
-            selected[subChannel.id] = false;
+            selected[subChannel.channelId] = false;
           }
         });
 
@@ -98,13 +98,13 @@ const FilterByChannels = ({
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (activeChannel.includes(subChannel.channelId)) {
               return subChannel;
             }
           })
           .map((filterdItem: ISubChannels) => {
             return {
-              channelId: filterdItem.id,
+              channelId: filterdItem.channelId,
               channelName: filterdItem.name,
             };
           });
@@ -123,9 +123,10 @@ const FilterByChannels = ({
   ) => {
     setChannels((preChannels) => {
       return preChannels.map((preChannel) => {
-        if (preChannel.id !== channelId) return preChannel;
+        if (preChannel.channelId !== channelId) return preChannel;
 
         const selected = preChannel.selected ?? {};
+
         selected[subChannelId] = status;
 
         return { ...preChannel, selected };
@@ -133,7 +134,9 @@ const FilterByChannels = ({
     });
   };
   const handleCheckAll = (guild: IGuildChannels, status: boolean) => {
-    const selectedGuild = channels.find((channel) => channel.id === guild.id);
+    const selectedGuild = channels.find(
+      (channel) => channel.channelId === guild.channelId
+    );
     if (!selectedGuild) return;
 
     const updatedChannels = channels.map((channel: IGuildChannels) => {
@@ -183,13 +186,13 @@ const FilterByChannels = ({
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (activeChannel.includes(subChannel.channelId)) {
               return subChannel;
             }
           })
           .map((filterdItem: ISubChannels) => {
             return {
-              channelId: filterdItem.id,
+              channelId: filterdItem.channelId,
               channelName: filterdItem.name,
             };
           });

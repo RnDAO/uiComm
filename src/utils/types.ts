@@ -20,14 +20,15 @@ export type IUser = {
 };
 
 export type IGuildChannels = {
-  id: string;
+  channelId: string;
   title: string;
   selected?: { [key: string]: boolean };
   subChannels: ISubChannels[];
 };
 
 export type ISubChannels = {
-  readonly id: string;
+  readonly id?: string;
+  readonly channelId: string;
   readonly name: string;
   readonly canReadMessageHistoryAndViewChannel: boolean;
   readonly parent_id: string;

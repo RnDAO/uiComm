@@ -252,9 +252,7 @@ const HeatmapChart = () => {
         const channelIds = channelsList
           .flatMap((channel) => channel.subChannels || []) // Flatten the subChannels arrays
           .filter(Boolean) // Filter out falsy subChannels
-          .map((subChannel) => subChannel.id);
-
-        setChannels(channelIds);
+          .map((subChannel) => subChannel.channelId);
 
         if (channelIds.length === 0) {
           return; // Exit early if there are no valid subChannels

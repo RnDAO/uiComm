@@ -41,7 +41,9 @@ const createAuthSlice: StateCreator<IAuth> = (set, get) => ({
   fetchGuildChannels: async (guild_id: string) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.get(`/guilds/${guild_id}/channels`);
+      const { data } = await axiosInstance.get(
+        `/guilds/discord-api/${guild_id}/channels`
+      );
       set({ guildChannels: [...data], isLoading: false });
     } catch (error) {
       set(() => ({ isLoading: false }));
