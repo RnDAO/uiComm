@@ -3,12 +3,12 @@ import { Dialog, DialogProps } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import { conf } from '../../../../configs';
 import { Avatar } from '@mui/material';
-import { activityCompositionOptions } from '../../../../utils/interfaces';
+import { IActivityCompositionOptions } from '../../../../utils/interfaces';
 
 interface CustomDialogDetailProps extends DialogProps {
   open: boolean;
   rowDetail: any;
-  options: activityCompositionOptions[];
+  options: IActivityCompositionOptions[];
   onClose: () => void;
 }
 
@@ -32,7 +32,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
           onClick={handleClose}
           className="cursor-pointer float-right"
         />
-        <div className="py-6 px-8 space-y-6">
+        <div className="py-2 px-8 space-y-6">
           <div className="flex flex-row items-center">
             <Avatar
               src={`${conf.DISCORD_CDN}avatars/${rowDetail?.discordId}/${rowDetail?.avatar}.png`}
@@ -43,17 +43,17 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
             </span>
           </div>
           <div>
-            <p className="text-xs pb-2 font-semibold">Roles:</p>
-            <div className="flex flex-row flex-wrap items-center first:ml-0 ml-1">
+            <p className="text-base pb-2 font-semibold">Roles:</p>
+            <div className="flex flex-row flex-wrap">
               {rowDetail?.roles.map((role: any) => (
                 <div
                   key={role.id}
-                  className="flex flex-row flex-wrap"
+                  className="flex flex-row flex-wrap items-center first:ml-0 ml-1"
                   style={{ whiteSpace: 'nowrap' }}
                   data-testid="role"
                 >
                   <span
-                    className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs"
+                    className="bg-white p-1 px-2 mb-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -64,7 +64,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
                     }}
                   >
                     <span
-                      className="w-2 h-2 rounded-full mr-1"
+                      className="w-2 h-2 rounded-full mr-2"
                       style={{
                         backgroundColor:
                           role.color !== 0
@@ -80,7 +80,9 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
             </div>
           </div>
           <div>
-            <p className="text-xs pb-2 font-semibold">Activity composition:</p>
+            <p className="text-base pb-2 font-semibold">
+              Activity composition:
+            </p>
             <div className="flex flex-row flex-wrap">
               {rowDetail && rowDetail?.activityComposition.length > 0 ? (
                 rowDetail?.activityComposition.map((composition: any) => {

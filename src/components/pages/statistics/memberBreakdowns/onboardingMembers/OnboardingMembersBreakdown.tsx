@@ -5,7 +5,7 @@ import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
 import {
   Column,
-  activityCompositionOptions,
+  IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
@@ -18,7 +18,7 @@ const columns: Column[] = [
   { id: 'joinedAt', label: 'DAO member since' },
 ];
 
-const options: activityCompositionOptions[] = [
+const options: IActivityCompositionOptions[] = [
   { name: 'Joined', value: 'all_joined', color: '#4368F1' },
   { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
   { name: 'Still active', value: 'all_still_active', color: '#CCB8F3' },
@@ -134,14 +134,16 @@ export default function OnboardingMembersBreakdown() {
         </div>
       </div>
       <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
-        <CustomPagination
-          totalItems={fetchedData.totalResults}
-          itemsPerPage={Math.ceil(
-            fetchedData.totalResults / fetchedData.totalPages
-          )}
-          currentPage={page}
-          onChangePage={handlePageChange}
-        />
+        {fetchedData.totalResults > 0 && (
+          <CustomPagination
+            totalItems={fetchedData.totalResults}
+            itemsPerPage={Math.ceil(
+              fetchedData.totalResults / fetchedData.totalPages
+            )}
+            currentPage={page}
+            onChangePage={handlePageChange}
+          />
+        )}
       </div>
       {fetchedData && fetchedData?.totalResults > 10 ? (
         <div className="flex justify-center mt-2 mb-12">

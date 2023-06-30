@@ -5,7 +5,7 @@ import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
 import {
   Column,
-  activityCompositionOptions,
+  IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
@@ -18,8 +18,8 @@ const columns: Column[] = [
   { id: 'joinedAt', label: 'DAO member since' },
 ];
 
-const options: activityCompositionOptions[] = [
-  { name: 'All active', value: 'all_active', color: '#3AAE2B' },
+const options: IActivityCompositionOptions[] = [
+  { name: 'Active members', value: 'all_active', color: '#3AAE2B' },
   { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
   { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
   { name: 'Vital member', value: 'all_vital', color: '#313671' },
@@ -28,10 +28,8 @@ const options: activityCompositionOptions[] = [
 ];
 
 export default function ActiveMemberBreakdown() {
-  const {
-    getActiveMemberCompositionTable,
-    isOnboardingMembersBreakdownLoading,
-  } = useAppStore();
+  const { getActiveMemberCompositionTable, isActiveMembersBreakdownLoading } =
+    useAppStore();
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<string[]>([]);
@@ -127,21 +125,23 @@ export default function ActiveMemberBreakdown() {
               }
               handleJoinedAtChange={handleJoinedAtChange}
               handleUsernameChange={handleUsernameChange}
-              isLoading={isOnboardingMembersBreakdownLoading}
+              isLoading={isActiveMembersBreakdownLoading}
               activityCompositionOptions={options}
             />
           </div>
         </div>
       </div>
       <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
-        <CustomPagination
-          totalItems={fetchedData.totalResults}
-          itemsPerPage={Math.ceil(
-            fetchedData.totalResults / fetchedData.totalPages
-          )}
-          currentPage={page}
-          onChangePage={handlePageChange}
-        />
+        {fetchedData.totalResults > 0 && (
+          <CustomPagination
+            totalItems={fetchedData.totalResults}
+            itemsPerPage={Math.ceil(
+              fetchedData.totalResults / fetchedData.totalPages
+            )}
+            currentPage={page}
+            onChangePage={handlePageChange}
+          />
+        )}
       </div>
       {fetchedData && fetchedData?.totalResults > 10 ? (
         <div className="flex justify-center mt-2 mb-12">
