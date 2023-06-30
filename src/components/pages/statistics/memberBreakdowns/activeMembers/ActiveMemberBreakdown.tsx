@@ -3,7 +3,10 @@ import { StorageService } from '../../../../../services/StorageService';
 import useAppStore from '../../../../../store/useStore';
 import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
-import { Column } from '../../../../../utils/interfaces';
+import {
+  Column,
+  activityCompositionOptions,
+} from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
 import clsx from 'clsx';
@@ -13,6 +16,15 @@ const columns: Column[] = [
   { id: 'roles', label: 'Roles' },
   { id: 'activityComposition', label: 'Activity composition' },
   { id: 'joinedAt', label: 'DAO member since' },
+];
+
+const options: activityCompositionOptions[] = [
+  { name: 'All active', value: 'all_active', color: '#3AAE2B' },
+  { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
+  { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
+  { name: 'Vital member', value: 'all_vital', color: '#313671' },
+  { name: 'Became disengaged', value: 'all_new_disengaged', color: '#EB3E56' },
+  { name: 'Others', value: 'others', color: '#AAAAAA' },
 ];
 
 export default function ActiveMemberBreakdown() {
@@ -114,6 +126,7 @@ export default function ActiveMemberBreakdown() {
               handleJoinedAtChange={handleJoinedAtChange}
               handleUsernameChange={handleUsernameChange}
               isLoading={isActiveMembersBreakdownLoading}
+              activityCompositionOptions={options}
             />
           </div>
         </div>

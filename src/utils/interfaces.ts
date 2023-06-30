@@ -28,3 +28,9 @@ export interface IRoles {
   color: number | string;
   name: string;
 }
+
+export interface activityCompositionOptions {
+  name: string;
+  value: string;
+  color: string;
+}

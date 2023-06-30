@@ -22,7 +22,12 @@ import {
 } from 'react-icons/md';
 import moment from 'moment';
 
-import { Column, IRoles, Row } from '../../../../utils/interfaces';
+import {
+  Column,
+  IRoles,
+  Row,
+  activityCompositionOptions,
+} from '../../../../utils/interfaces';
 import { IUser } from '../../../../utils/types';
 import { conf } from '../../../../configs';
 import Loading from '../../../global/Loading';
@@ -34,20 +39,12 @@ interface CustomTableProps {
   data: Row[];
   columns: Column[];
   isLoading: boolean;
+  activityCompositionOptions: activityCompositionOptions[];
   handleRoleSelectionChange: (selectedRoles: string[]) => void;
   handleActivityOptionSelectionChange: (selectedRoles: string[]) => void;
   handleJoinedAtChange: (joinedAt: string) => void;
   handleUsernameChange: (userName: string) => void;
 }
-
-const options = [
-  { name: 'All active', value: 'all_active', color: '#3AAE2B' },
-  { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
-  { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
-  { name: 'Vital member', value: 'all_vital', color: '#313671' },
-  { name: 'Became disengaged', value: 'all_new_disengaged', color: '#EB3E56' },
-  { name: 'Others', value: 'others', color: '#AAAAAA' },
-];
 
 const CustomTable: React.FC<CustomTableProps> = ({
   data,
@@ -57,6 +54,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   handleActivityOptionSelectionChange,
   handleJoinedAtChange,
   handleUsernameChange,
+  activityCompositionOptions,
 }) => {
   const { getRoles, roles } = useAppStore();
   useEffect(() => {
@@ -82,7 +80,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const [selectAllRoles, setSelectAllRoles] = useState(true);
   const [selectedActivityOptions, setSelectedActivityOptions] = useState<
     string[]
-  >(options.map((option) => option.value));
+  >(activityCompositionOptions.map((option) => option.value));
   const [selectAllActivityOptions, setSelectAllActivityOptions] =
     useState(true);
 
@@ -137,7 +135,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.checked) {
-      setSelectedActivityOptions(options.map((option) => option.value));
+      setSelectedActivityOptions(
+        activityCompositionOptions.map((option) => option.value)
+      );
     } else {
       setSelectedActivityOptions([]);
     }
@@ -154,7 +154,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
     setSelectedActivityOptions(updatedSelectedOptions);
     setSelectAllActivityOptions(
-      updatedSelectedOptions.length === options.length
+      updatedSelectedOptions.length === activityCompositionOptions.length
     );
   };
 
@@ -338,12 +338,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           }
                           label={<div className="text-base">All</div>}
                         />
-                        {options.map(
-                          (option: {
-                            name: string;
-                            value: string;
-                            color: string;
-                          }) => (
+                        {activityCompositionOptions.map(
+                          (option: activityCompositionOptions) => (
                             <ListItem key={option.name}>
                               <FormControlLabel
                                 control={
@@ -583,9 +579,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                 {row.activityComposition
                                   .slice(0, 2)
                                   .map((composition: string) => {
-                                    const matchedOption = options.find(
-                                      (option) => option.name === composition
-                                    );
+                                    const matchedOption =
+                                      activityCompositionOptions.find(
+                                        (option) => option.name === composition
+                                      );
                                     const backgroundColor = matchedOption
                                       ? matchedOption.color
                                       : '#96A5A6';
@@ -696,6 +693,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
         open={open}
         onClose={handleClose}
         rowDetail={rowDetail}
+        options={activityCompositionOptions}
       />
     </>
   );

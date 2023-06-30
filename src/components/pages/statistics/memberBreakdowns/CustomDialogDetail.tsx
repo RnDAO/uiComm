@@ -3,26 +3,20 @@ import { Dialog, DialogProps } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import { conf } from '../../../../configs';
 import { Avatar } from '@mui/material';
+import { activityCompositionOptions } from '../../../../utils/interfaces';
 
 interface CustomDialogDetailProps extends DialogProps {
   open: boolean;
   rowDetail: any;
+  options: activityCompositionOptions[];
   onClose: () => void;
 }
-
-const options = [
-  { name: 'All active', value: 'all_active', color: '#3AAE2B' },
-  { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
-  { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
-  { name: 'Vital member', value: 'all_vital', color: '#313671' },
-  { name: 'Became disengaged', value: 'all_new_disengaged', color: '#EB3E56' },
-  { name: 'Others', value: 'others', color: '#AAAAAA' },
-];
 
 const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
   open,
   rowDetail,
   onClose,
+  options,
   ...props
 }) => {
   const handleClose = () => {
@@ -33,6 +27,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
     <Dialog open={open} onClose={onClose} {...props}>
       <div className="pb-8 pt-6 px-5 space-y-6">
         <IoClose
+          data-testid="close-modal-icon"
           size={40}
           onClick={handleClose}
           className="cursor-pointer float-right"
@@ -55,6 +50,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
                   key={role.id}
                   className="flex flex-row flex-wrap"
                   style={{ whiteSpace: 'nowrap' }}
+                  data-testid="role"
                 >
                   <span
                     className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs"
@@ -99,6 +95,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
                     <div
                       key={composition}
                       className="flex flex-row flex-wrap items-center first:ml-0 ml-1"
+                      data-testid="activity-composition"
                     >
                       <span
                         className="bg-white p-1 px-2 mb-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
