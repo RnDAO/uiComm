@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function HintBox() {
   return (
-    <div className="bg-gray-hover p-5 rounded-xl space-y-6 overflow-hidden">
+    <div className="bg-gray-hover py-5 px-7 rounded-xl space-y-6 overflow-hidden">
       <p className="font-semibold">Number of interactions</p>
       <div className="flex flex-row justify-around items-baseline">
         <div className="text-center text-sm">
