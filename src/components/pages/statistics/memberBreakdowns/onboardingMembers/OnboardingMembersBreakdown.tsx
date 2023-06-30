@@ -134,14 +134,16 @@ export default function OnboardingMembersBreakdown() {
         </div>
       </div>
       <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
-        <CustomPagination
-          totalItems={fetchedData.totalResults}
-          itemsPerPage={Math.ceil(
-            fetchedData.totalResults / fetchedData.totalPages
-          )}
-          currentPage={page}
-          onChangePage={handlePageChange}
-        />
+        {fetchedData.totalResults > 0 && (
+          <CustomPagination
+            totalItems={fetchedData.totalResults}
+            itemsPerPage={Math.ceil(
+              fetchedData.totalResults / fetchedData.totalPages
+            )}
+            currentPage={page}
+            onChangePage={handlePageChange}
+          />
+        )}
       </div>
       {fetchedData && fetchedData?.totalResults > 10 ? (
         <div className="flex justify-center mt-2 mb-12">
