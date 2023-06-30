@@ -1,5 +1,6 @@
 import { FormControlLabel, Checkbox } from '@mui/material';
 import { FiAlertTriangle } from 'react-icons/fi';
+import { ISubChannels } from '../../../utils/types';
 
 type IChannelListProps = {
   guild: any;
@@ -17,19 +18,19 @@ export default function ChannelList({
   const subChannelsList = (
     <>
       <p className="text-sm my-1">Channels</p>
-      {guild.subChannels.map((channel: any, index: any) => (
+      {guild.subChannels.map((channel: ISubChannels, index: any) => (
         <div className="flex flex-col space-y-3 mb-1" key={index}>
           <div className="flex flex-col md:flex-row justify-between">
             <FormControlLabel
               control={
                 <Checkbox
                   name={channel.name}
-                  value={channel.id}
+                  value={channel.channelId}
                   color="secondary"
                   checked={
-                    channel.canReadMessageHistoryAndViewChannel
-                      ? guild.selected[channel.id]
-                      : false
+                    channel.canReadMessageHistoryAndViewChannel !== undefined
+                      ? guild.selected[channel.channelId]
+                      : guild.selected[channel.channelId] ?? false
                   }
                   disabled={
                     showFlag
@@ -37,7 +38,11 @@ export default function ChannelList({
                       : false
                   }
                   onChange={(e) =>
-                    onChange(guild.id, channel.id, e.target.checked)
+                    onChange(
+                      guild.channelId,
+                      channel.channelId,
+                      e.target.checked
+                    )
                   }
                 />
               }

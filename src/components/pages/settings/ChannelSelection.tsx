@@ -73,10 +73,10 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
         const selected: Record<string, boolean> = {};
 
         guild.subChannels.forEach((subChannel: ISubChannels) => {
-          if (activeChannles.includes(subChannel.id)) {
-            selected[subChannel.id] = true;
+          if (activeChannles.includes(subChannel.channelId)) {
+            selected[subChannel.channelId] = true;
           } else {
-            selected[subChannel.id] = false;
+            selected[subChannel.channelId] = false;
           }
         });
 
@@ -100,12 +100,15 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       ...channels.map((channel: IGuildChannels) => {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.id)) {
+            if (activeChannel.includes(subChannel.channelId)) {
               return subChannel;
             }
           })
           .map((filterdItem: ISubChannels) => {
-            return { channelId: filterdItem.id, channelName: filterdItem.name };
+            return {
+              channelId: filterdItem.channelId,
+              channelName: filterdItem.name,
+            };
           });
       })
     );
@@ -120,7 +123,7 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
   ) => {
     setChannels((preChannels) => {
       return preChannels.map((preChannel) => {
-        if (preChannel.id !== channelId) return preChannel;
+        if (preChannel.channelId !== channelId) return preChannel;
 
         const selected = preChannel.selected ?? {};
         selected[subChannelId] = status;
@@ -130,7 +133,9 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     });
   };
   const handleCheckAll = (guild: IGuildChannels, status: boolean) => {
-    const selectedGuild = channels.find((channel) => channel.id === guild.id);
+    const selectedGuild = channels.find(
+      (channel) => channel.channelId === guild.channelId
+    );
     if (!selectedGuild) return;
 
     const updatedChannels = channels.map((channel: IGuildChannels) => {
@@ -167,14 +172,17 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
         return channel.subChannels
           .filter((subChannel: ISubChannels) => {
             if (
-              activeChannel.includes(subChannel.id) &&
+              activeChannel.includes(subChannel.channelId) &&
               subChannel.canReadMessageHistoryAndViewChannel
             ) {
               return subChannel;
             }
           })
           .map((filterdItem: ISubChannels) => {
-            return { channelId: filterdItem.id, channelName: filterdItem.name };
+            return {
+              channelId: filterdItem.channelId,
+              channelName: filterdItem.name,
+            };
           });
       })
     );
