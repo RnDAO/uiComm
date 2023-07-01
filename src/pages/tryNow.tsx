@@ -633,7 +633,7 @@ export default function TryNow() {
                             {"Perfect, you're all set!"}
                           </h3>
                           <p className="py-8 text-base">
-                            Data import just started. It might take up to 12
+                            Data import just started. It might take up to 6
                             hours to finish. Once it is done we will send you a{' '}
                             <b>message on Discord.</b>
                           </p>
