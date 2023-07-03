@@ -111,7 +111,7 @@ export default function OnboardingMembersBreakdown() {
           )}
         >
           {!isExpanded && (
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-20 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-50 pointer-events-none"></div>
           )}
 
           <CustomTable
