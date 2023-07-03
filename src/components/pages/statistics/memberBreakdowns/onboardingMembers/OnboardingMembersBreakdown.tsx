@@ -113,26 +113,19 @@ export default function OnboardingMembersBreakdown() {
           {!isExpanded && (
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-20 pointer-events-none"></div>
           )}
-          <div
-            className={clsx(
-              !isExpanded && fetchedData?.results.length > 0
-                ? 'pointer-events-none'
-                : ''
-            )}
-          >
-            <CustomTable
-              data={fetchedData?.results ? fetchedData.results : []}
-              columns={columns}
-              handleRoleSelectionChange={handleRoleSelectionChange}
-              handleActivityOptionSelectionChange={
-                handleActivityOptionSelectionChange
-              }
-              handleJoinedAtChange={handleJoinedAtChange}
-              handleUsernameChange={handleUsernameChange}
-              isLoading={isOnboardingMembersBreakdownLoading}
-              activityCompositionOptions={options}
-            />
-          </div>
+
+          <CustomTable
+            data={fetchedData?.results ? fetchedData.results : []}
+            columns={columns}
+            handleRoleSelectionChange={handleRoleSelectionChange}
+            handleActivityOptionSelectionChange={
+              handleActivityOptionSelectionChange
+            }
+            handleJoinedAtChange={handleJoinedAtChange}
+            handleUsernameChange={handleUsernameChange}
+            isLoading={isOnboardingMembersBreakdownLoading}
+            activityCompositionOptions={options}
+          />
         </div>
       </div>
       <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
