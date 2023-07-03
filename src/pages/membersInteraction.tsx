@@ -76,13 +76,13 @@ export default function membersInteraction() {
       series: [
         {
           type: 'networkgraph',
-          data: apiResponse.map((item: any) => ({
+          data: apiResponse?.map((item: any) => ({
             from: item.from.id,
             to: item.to.id,
             width: calculateWidth(item.width),
             name: `${item.from.username} to ${item.to.username}`,
           })),
-          nodes: apiResponse.reduce((nodes: any[], item: any) => {
+          nodes: apiResponse?.reduce((nodes: any[], item: any) => {
             const fromNode = {
               id: item.from.id,
               marker: { radius: calculateRadius(item.from.radius) },
@@ -141,9 +141,9 @@ export default function membersInteraction() {
   };
 
   const calculateWidth = (value: number) => {
-    if (value >= 1 && value <= 3) {
+    if (value >= 1 && value <= 10) {
       return 1;
-    } else if (value >= 4 && value <= 5) {
+    } else if (value >= 11 && value <= 50) {
       return 2;
     } else {
       return 4;

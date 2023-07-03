@@ -8,7 +8,7 @@ const createHeatmapSlice: StateCreator<IMemberInteraction> = (set, get) => ({
   getMemberInteraction: async (guild_id: string) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.get(
+      const { data } = await axiosInstance.post(
         `/member-activity/${guild_id}/members-interactions-network-graph`
       );
       set({ memberInteractionRecords: [...data], isLoading: false });
