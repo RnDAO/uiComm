@@ -127,7 +127,7 @@ export default function ActiveMemberBreakdown() {
         </div>
       </div>
       <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
-        {fetchedData.totalResults > 0 && (
+        {fetchedData?.totalResults > 10 && (
           <CustomPagination
             totalItems={fetchedData.totalResults}
             itemsPerPage={Math.ceil(
@@ -138,7 +138,7 @@ export default function ActiveMemberBreakdown() {
           />
         )}
       </div>
-      {fetchedData && fetchedData?.totalResults > 10 ? (
+      {fetchedData && fetchedData?.totalResults > 3 ? (
         <div className="flex justify-center mt-2 mb-12">
           <CustomButton
             label={isExpanded ? 'Show less' : 'Show member breakdown'}
