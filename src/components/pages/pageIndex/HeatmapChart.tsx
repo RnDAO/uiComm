@@ -6,7 +6,7 @@ import moment, { Moment } from 'moment';
 import 'moment-timezone';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { StorageService } from '../../../services/StorageService';
-import { IGuildChannels, ISubChannels, IUser } from '../../../utils/types';
+import { IGuildChannels, IUser } from '../../../utils/types';
 import NumberOfMessages from './NumberOfMessages';
 import RangeSelect from '../../global/RangeSelect';
 import ZonePicker from '../../global/ZonePicker';
