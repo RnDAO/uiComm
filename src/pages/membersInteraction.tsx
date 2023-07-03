@@ -9,22 +9,7 @@ import { StorageService } from '../services/StorageService';
 import HintBox from '../components/pages/memberInteraction/HintBox';
 import NetworkGraph from '../components/global/NetworkGraph';
 import { IUser } from '../utils/types';
-
-interface NetworkGraphSeries extends Highcharts.SeriesOptions {
-  type: 'networkgraph';
-  layoutAlgorithm?: {
-    enableSimulation?: boolean;
-    integration?: 'verlet' | 'euler';
-    linkLength?: number;
-    gravitationalConstant?: number;
-  };
-  data: {
-    from: any;
-    to: any;
-    width: any;
-  }[];
-  nodes: any[];
-}
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 export default function membersInteraction() {
   const [networkGrapData, setNetworkGrapData] = useState<unknown>({
@@ -55,7 +40,7 @@ export default function membersInteraction() {
 
   const [user, setUser] = useState<IUser | undefined>();
 
-  const { getMemberInteraction } = useAppStore();
+  const { getMemberInteraction, isLoading } = useAppStore();
 
   useEffect(() => {
     const storedUser = StorageService.readLocalStorage<IUser>('user');
@@ -79,7 +64,7 @@ export default function membersInteraction() {
           data: apiResponse?.map((item: any) => ({
             from: item.from.id,
             to: item.to.id,
-            width: calculateWidth(item.width),
+            width: 1,
             name: `${item.from.username} to ${item.to.username}`,
           })),
           nodes: apiResponse?.reduce((nodes: any[], item: any) => {
@@ -140,15 +125,9 @@ export default function membersInteraction() {
     }
   };
 
-  const calculateWidth = (value: number) => {
-    if (value >= 1 && value <= 10) {
-      return 1;
-    } else if (value >= 11 && value <= 15) {
-      return 2;
-    } else {
-      return 4;
-    }
-  };
+  if (isLoading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <>
