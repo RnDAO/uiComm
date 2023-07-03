@@ -33,7 +33,9 @@ export default function ActiveMemberBreakdown() {
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<string[]>([]);
-  const [activityComposition, setActivityComposition] = useState<string[]>([]);
+  const [activityComposition, setActivityComposition] = useState<string[]>(
+    options.map((option) => option.value)
+  );
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('desc');
   const [fetchedData, setFetchedData] = useState<{

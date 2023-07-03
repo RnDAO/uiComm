@@ -34,7 +34,9 @@ export default function OnboardingMembersBreakdown() {
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<string[]>([]);
-  const [activityComposition, setActivityComposition] = useState<string[]>([]);
+  const [onboardingComposition, setOnboardingComposition] = useState<string[]>(
+    options.map((option) => option.value)
+  );
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('desc');
   const [fetchedData, setFetchedData] = useState<{
@@ -63,7 +65,7 @@ export default function OnboardingMembersBreakdown() {
     const fetchData = async () => {
       const res = await getOnboardingMemberCompositionTable(
         guild.guildId,
-        activityComposition,
+        onboardingComposition,
         roles,
         username,
         sortBy,
@@ -74,18 +76,18 @@ export default function OnboardingMembersBreakdown() {
     };
 
     fetchData();
-  }, [page, roles, activityComposition, username, sortBy]);
+  }, [page, roles, onboardingComposition, username, sortBy]);
 
   useEffect(() => {
     setPage(1);
-  }, [activityComposition, roles, username, sortBy]);
+  }, [onboardingComposition, roles, username, sortBy]);
 
   const handleRoleSelectionChange = (selectedRoles: string[]) => {
     setRoles(selectedRoles);
   };
 
   const handleActivityOptionSelectionChange = (selectedOptions: string[]) => {
-    setActivityComposition(selectedOptions);
+    setOnboardingComposition(selectedOptions);
   };
 
   const handleJoinedAtChange = (joinedAt: string) => {

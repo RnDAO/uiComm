@@ -46,7 +46,9 @@ export default function DisengagedMembersCompositionBreakdown() {
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<string[]>([]);
-  const [activityComposition, setActivityComposition] = useState<string[]>([]);
+  const [disengagedComposition, setDisengagedComposition] = useState<string[]>(
+    options.map((option) => option.value)
+  );
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('desc');
   const [fetchedData, setFetchedData] = useState<{
@@ -75,7 +77,7 @@ export default function DisengagedMembersCompositionBreakdown() {
     const fetchData = async () => {
       const res = await getDisengagedMembersCompositionTable(
         guild.guildId,
-        activityComposition,
+        disengagedComposition,
         roles,
         username,
         sortBy,
@@ -86,18 +88,18 @@ export default function DisengagedMembersCompositionBreakdown() {
     };
 
     fetchData();
-  }, [page, roles, activityComposition, username, sortBy]);
+  }, [page, roles, disengagedComposition, username, sortBy]);
 
   useEffect(() => {
     setPage(1);
-  }, [activityComposition, roles, username, sortBy]);
+  }, [disengagedComposition, roles, username, sortBy]);
 
   const handleRoleSelectionChange = (selectedRoles: string[]) => {
     setRoles(selectedRoles);
   };
 
   const handleActivityOptionSelectionChange = (selectedOptions: string[]) => {
-    setActivityComposition(selectedOptions);
+    setDisengagedComposition(selectedOptions);
   };
 
   const handleJoinedAtChange = (joinedAt: string) => {
