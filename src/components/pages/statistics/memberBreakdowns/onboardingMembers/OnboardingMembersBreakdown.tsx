@@ -140,7 +140,7 @@ export default function OnboardingMembersBreakdown() {
           />
         )}
       </div>
-      {fetchedData && fetchedData?.totalResults > 10 ? (
+      {fetchedData && fetchedData?.totalResults > 3 ? (
         <div className="flex justify-center mt-2 mb-12">
           <CustomButton
             label={isExpanded ? 'Show less' : 'Show member breakdown'}
