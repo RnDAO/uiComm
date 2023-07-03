@@ -33,7 +33,9 @@ export default function ActiveMemberBreakdown() {
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<string[]>([]);
-  const [activityComposition, setActivityComposition] = useState<string[]>([]);
+  const [activityComposition, setActivityComposition] = useState<string[]>(
+    options.map((option) => option.value)
+  );
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('desc');
   const [fetchedData, setFetchedData] = useState<{
@@ -107,28 +109,21 @@ export default function ActiveMemberBreakdown() {
           )}
         >
           {!isExpanded && (
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-20 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-50 pointer-events-none"></div>
           )}
-          <div
-            className={clsx(
-              !isExpanded && fetchedData?.results.length > 0
-                ? 'pointer-events-none'
-                : ''
-            )}
-          >
-            <CustomTable
-              data={fetchedData?.results ? fetchedData.results : []}
-              columns={columns}
-              handleRoleSelectionChange={handleRoleSelectionChange}
-              handleActivityOptionSelectionChange={
-                handleActivityOptionSelectionChange
-              }
-              handleJoinedAtChange={handleJoinedAtChange}
-              handleUsernameChange={handleUsernameChange}
-              isLoading={isActiveMembersBreakdownLoading}
-              activityCompositionOptions={options}
-            />
-          </div>
+
+          <CustomTable
+            data={fetchedData?.results ? fetchedData.results : []}
+            columns={columns}
+            handleRoleSelectionChange={handleRoleSelectionChange}
+            handleActivityOptionSelectionChange={
+              handleActivityOptionSelectionChange
+            }
+            handleJoinedAtChange={handleJoinedAtChange}
+            handleUsernameChange={handleUsernameChange}
+            isLoading={isActiveMembersBreakdownLoading}
+            activityCompositionOptions={options}
+          />
         </div>
       </div>
       <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
