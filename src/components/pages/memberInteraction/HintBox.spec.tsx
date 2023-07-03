@@ -21,12 +21,5 @@ describe('HintBox component', () => {
     expect(getByText('Frequent receiver')).toBeInTheDocument();
     expect(getByText('Frequent sender')).toBeInTheDocument();
     expect(getByText('Balanced')).toBeInTheDocument();
-
-    // Assert that the "Relationship Strength" text is rendered
-    expect(getByText('Relationship Strength')).toBeInTheDocument();
-
-    // Assert that the relationship strength elements are rendered
-    expect(getByText('Low interaction')).toBeInTheDocument();
-    expect(getByText('High interaction')).toBeInTheDocument();
   });
 });

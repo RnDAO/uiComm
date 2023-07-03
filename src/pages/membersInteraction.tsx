@@ -165,7 +165,7 @@ export default function membersInteraction() {
             Member interactions graph
           </h3>
           <p>Data from the last 7 days</p>
-          <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:flex-row md:items-start">
             <div className="flex-1">
               <NetworkGraph options={networkGrapData} />
             </div>
