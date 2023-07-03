@@ -143,7 +143,7 @@ export default function membersInteraction() {
   const calculateWidth = (value: number) => {
     if (value >= 1 && value <= 10) {
       return 1;
-    } else if (value >= 11 && value <= 50) {
+    } else if (value >= 11 && value <= 15) {
       return 2;
     } else {
       return 4;
