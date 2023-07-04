@@ -25,9 +25,9 @@ describe('Onboarding component', () => {
 
   it('renders the statistical data with the correct labels', () => {
     const joinedLabelElement = screen.getByText('Joined');
-    const stillActiveLabelElement = screen.getByText('Still active');
+    const stillActiveLabelElement = screen.getByText('Still Active');
     const droppedLabelElement = screen.getByText('Dropped');
-    const newlyActiveLabelElement = screen.getByText('Newly active');
+    const newlyActiveLabelElement = screen.getByText('Newly Active');
 
     expect(joinedLabelElement).toBeInTheDocument();
     expect(newlyActiveLabelElement).toBeInTheDocument();

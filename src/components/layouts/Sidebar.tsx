@@ -79,7 +79,7 @@ const Sidebar = () => {
       {el.path === '/community-health' ? (
         <>
           <Tooltip
-            title={<Typography fontSize={14}>Comming soon</Typography>}
+            title={<Typography fontSize={14}>Coming soon</Typography>}
             arrow
             placement="right"
           >

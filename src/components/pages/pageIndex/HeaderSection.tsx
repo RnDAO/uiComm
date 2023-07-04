@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { ImArrowDown } from "react-icons/im";
+import { ImArrowDown } from 'react-icons/im';
 
 export const HeaderSection = (): JSX.Element => {
   return (

@@ -109,7 +109,7 @@ export default function InteractionsSection({
         hasTooltip: false,
       },
       {
-        label: 'Emojies',
+        label: 'Emojis',
         percentageChange: interactions.emojiPercentageChange
           ? interactions.emojiPercentageChange
           : 0,

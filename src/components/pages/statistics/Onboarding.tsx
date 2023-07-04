@@ -99,7 +99,7 @@ export default function Onboarding({
         } else if (onboardingMembers.name === 'vitalMembers') {
           return {
             ...onboardingMembers,
-            name: 'Vital members',
+            name: 'Vital Members',
             color: '#313671',
           };
         } else if (onboardingMembers.name === 'dropped') {
@@ -129,7 +129,7 @@ export default function Onboarding({
         customBackground: true,
       },
       {
-        label: 'Newly active',
+        label: 'Newly Active',
         description:
           'Started interacting for the first time in the last 7 days',
         percentageChange: onboardingMembers.newlyActivePercentageChange,
@@ -138,7 +138,7 @@ export default function Onboarding({
         hasTooltip: false,
       },
       {
-        label: 'Still active',
+        label: 'Still Active',
         description:
           'New members that remain interacting 2 weeks after their first interaction',
         percentageChange: onboardingMembers.stillActivePercentageChange,
