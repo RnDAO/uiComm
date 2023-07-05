@@ -6,6 +6,7 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
@@ -81,25 +82,25 @@ export default function DisengagedMembersComposition({
         if (disengagedMember.name === 'becameDisengaged') {
           return {
             ...disengagedMember,
-            name: 'Became disengaged',
+            name: 'Became Disengaged',
             color: '#FB3E56',
           };
         } else if (disengagedMember.name === 'wereNewlyActive') {
           return {
             ...disengagedMember,
-            name: 'Were newly active',
+            name: 'Were Newly Active',
             color: '#FF9022',
           };
         } else if (disengagedMember.name === 'wereConsistentlyActive') {
           return {
             ...disengagedMember,
-            name: 'Were consistently active',
+            name: 'Were Consistently Active',
             color: '#804EE1',
           };
         } else if (disengagedMember.name === 'wereVitalMembers') {
           return {
             ...disengagedMember,
-            name: 'Were vital members',
+            name: 'Were Vital Members',
             color: '#313671',
           };
         }
@@ -115,7 +116,7 @@ export default function DisengagedMembersComposition({
 
     setStatistics([
       {
-        label: 'Became disengaged',
+        label: 'Became Disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
         percentageChange: disengagedMembers.becameDisengagedPercentageChange
           ? disengagedMembers.becameDisengagedPercentageChange
@@ -126,7 +127,7 @@ export default function DisengagedMembersComposition({
         customBackground: true,
       },
       {
-        label: 'Were newly active',
+        label: 'Were Newly Active',
         description:
           'Started interacting for the first time in the last 7 days',
         percentageChange: disengagedMembers.wereNewlyActivePercentageChange
@@ -149,7 +150,7 @@ export default function DisengagedMembersComposition({
         ),
       },
       {
-        label: 'Were consistently active',
+        label: 'Were Consistently Active',
         description:
           'Were interacting every week for at least 3 out of the last 4 weeks',
         percentageChange:
@@ -161,7 +162,7 @@ export default function DisengagedMembersComposition({
         hasTooltip: false,
       },
       {
-        label: 'Were vital members',
+        label: 'Were Vital Members',
         description: 'Were consistently active and very connected',
         percentageChange: disengagedMembers.wereVitalMembersPercentageChange
           ? disengagedMembers.wereVitalMembersPercentageChange
@@ -195,6 +196,9 @@ export default function DisengagedMembersComposition({
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
       </div>
+
+      <DisengagedMembersCompositionBreakdown />
+
       <div className="w-full">
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
           <h3 className="text-xl font-medium text-lite-black">

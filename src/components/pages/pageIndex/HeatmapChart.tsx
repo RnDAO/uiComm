@@ -6,7 +6,7 @@ import moment, { Moment } from 'moment';
 import 'moment-timezone';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { StorageService } from '../../../services/StorageService';
-import { IGuildChannels, ISubChannels, IUser } from '../../../utils/types';
+import { IGuildChannels, IUser } from '../../../utils/types';
 import NumberOfMessages from './NumberOfMessages';
 import RangeSelect from '../../global/RangeSelect';
 import ZonePicker from '../../global/ZonePicker';
@@ -241,7 +241,7 @@ const HeatmapChart = () => {
           await getSelectedChannelsList(guildId);
 
         if (!Array.isArray(channelsList) || channelsList.length === 0) {
-          return; // Exit early if there are no selected channels
+          return;
         }
 
         const defaultEndDate = moment().subtract(1, 'day');
@@ -252,13 +252,13 @@ const HeatmapChart = () => {
         const channelIds = channelsList
           .flatMap((channel) => channel.subChannels || []) // Flatten the subChannels arrays
           .filter(Boolean) // Filter out falsy subChannels
-          .map((subChannel) => subChannel.id);
-
-        setChannels(channelIds);
+          .map((subChannel) => subChannel.channelId);
 
         if (channelIds.length === 0) {
           return; // Exit early if there are no valid subChannels
         }
+
+        setChannels(channelIds);
 
         await fetchHeatmapData(
           guildId,

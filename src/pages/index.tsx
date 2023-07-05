@@ -1,4 +1,3 @@
-import { HeaderSection } from '../components/pages/pageIndex/HeaderSection';
 import { FooterSection } from '../components/pages/pageIndex/FooterSection';
 import MainSection from '../components/pages/pageIndex/MainSection';
 
@@ -84,7 +83,7 @@ function Dashboard(): JSX.Element {
             onClose={toggleAnalysisState}
             severity="warning"
           >
-            Data import is in progress. It might take up to 12 hours to finish
+            Data import is in progress. It might take up to 6 hours to finish
             the data import. Once it is done we will send you a message on
             Discord.
           </Alert>
@@ -94,7 +93,6 @@ function Dashboard(): JSX.Element {
       </Collapse>
 
       <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
-        <HeaderSection />
         <MainSection />
         <FooterSection />
       </div>

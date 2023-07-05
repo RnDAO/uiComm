@@ -118,7 +118,7 @@ export default function ConnectCommunities() {
           />
           <h3 className="text-xl font-bold">{"Perfect, you're all set!"}</h3>
           <p className="text-sm">
-            Data import just started. It might take up to 12 hours to finish.
+            Data import just started. It might take up to 6 hours to finish.
             Once it is done we will send you a message on Discord.
           </p>
           <CustomButton

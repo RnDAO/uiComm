@@ -30,7 +30,7 @@ const ActiveMemberComposition = () => {
     // Copy options on each changes
     setStatistics([
       {
-        label: 'Active members',
+        label: 'Active Members',
         description: 'Interacted at least once in the last 7 days',
         percentageChange: activeMembers.totActiveMembersPercentageChange
           ? activeMembers.totActiveMembersPercentageChange
@@ -53,7 +53,7 @@ const ActiveMemberComposition = () => {
         ),
       },
       {
-        label: 'Newly active',
+        label: 'Newly Active',
         description:
           'Started interacting for the first time in the last 7 days',
         percentageChange: activeMembers.newlyActivePercentageChange
@@ -64,7 +64,7 @@ const ActiveMemberComposition = () => {
         hasTooltip: false,
       },
       {
-        label: 'Consistently active',
+        label: 'Consistently Active',
         description: 'Interacted weekly for at least 3 out of 4 weeks',
         percentageChange: activeMembers.consistentlyActivePercentageChange
           ? activeMembers.consistentlyActivePercentageChange
@@ -74,7 +74,7 @@ const ActiveMemberComposition = () => {
         hasTooltip: false,
       },
       {
-        label: 'Vital members',
+        label: 'Vital Members',
         description: 'Are consistently active and very connected',
         percentageChange: activeMembers.vitalMembersPercentageChange
           ? activeMembers.vitalMembersPercentageChange
@@ -91,7 +91,7 @@ const ActiveMemberComposition = () => {
         ),
       },
       {
-        label: 'Became disengaged',
+        label: 'Became Disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
         percentageChange: activeMembers.becameDisengagedPercentageChange
           ? activeMembers.becameDisengagedPercentageChange

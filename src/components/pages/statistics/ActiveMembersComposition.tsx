@@ -6,6 +6,7 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -59,6 +60,7 @@ export default function ActiveMembersComposition({
   handleDateRange,
 }: ActiveMembersComposition) {
   const { activeMembers } = useAppStore();
+
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -80,7 +82,7 @@ export default function ActiveMembersComposition({
       if (activeMember.name === 'totActiveMembers') {
         return {
           ...activeMember,
-          name: 'Active members',
+          name: 'Active Members',
           color: '#3AAE2B',
         };
       } else if (activeMember.name === 'newlyActive') {
@@ -98,7 +100,7 @@ export default function ActiveMembersComposition({
       } else if (activeMember.name === 'vitalMembers') {
         return {
           ...activeMember,
-          name: 'Vital members',
+          name: 'Vital Members',
           color: '#313671',
         };
       } else if (activeMember.name === 'becameDisengaged') {
@@ -119,7 +121,7 @@ export default function ActiveMembersComposition({
 
     setStatistics([
       {
-        label: 'Active members',
+        label: 'Active Members',
         description: 'Interacted at least once in the last 7 days',
         percentageChange: activeMembers.totActiveMembersPercentageChange
           ? activeMembers.totActiveMembersPercentageChange
@@ -142,7 +144,7 @@ export default function ActiveMembersComposition({
         ),
       },
       {
-        label: 'Newly active',
+        label: 'Newly Active',
         description:
           'Started interacting for the first time in the last 7 days',
         percentageChange: activeMembers.newlyActivePercentageChange
@@ -153,7 +155,7 @@ export default function ActiveMembersComposition({
         hasTooltip: false,
       },
       {
-        label: 'Consistently active',
+        label: 'Consistently Active',
         description: 'Interacted weekly for at least 3 out of 4 weeks',
         percentageChange: activeMembers.consistentlyActivePercentageChange
           ? activeMembers.consistentlyActivePercentageChange
@@ -163,7 +165,7 @@ export default function ActiveMembersComposition({
         hasTooltip: false,
       },
       {
-        label: 'Vital members',
+        label: 'Vital Members',
         description: 'Are consistently active and very connected',
         percentageChange: activeMembers.vitalMembersPercentageChange
           ? activeMembers.vitalMembersPercentageChange
@@ -180,7 +182,7 @@ export default function ActiveMembersComposition({
         ),
       },
       {
-        label: 'Became disengaged',
+        label: 'Became Disengaged',
         description: "Were active, but didn't interact in the last 2 weeks",
         percentageChange: activeMembers.becameDisengagedPercentageChange
           ? activeMembers.becameDisengagedPercentageChange
@@ -196,7 +198,7 @@ export default function ActiveMembersComposition({
     <>
       <div className="flex flex-row justify-between">
         <div className="w-full">
-          <div className="px-3">
+          <div>
             <h3 className="text-xl font-medium text-lite-black">
               Members overview
             </h3>
@@ -207,6 +209,8 @@ export default function ActiveMembersComposition({
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData statistics={[...statistics]} />
       </div>
+
+      <ActiveMemberBreakdown />
 
       <div className="w-full">
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">

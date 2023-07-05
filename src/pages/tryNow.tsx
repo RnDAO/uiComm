@@ -36,6 +36,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { FiRefreshCcw } from 'react-icons/fi';
 import Loading from '../components/global/Loading';
 import { MdExpandMore } from 'react-icons/md';
+import { IGuildChannels, ISubChannels } from '../utils/types';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -196,9 +197,9 @@ export default function TryNow() {
       const selected: Record<any, any> = {};
       guild.subChannels.forEach((subChannel: any) => {
         if (subChannel.canReadMessageHistoryAndViewChannel) {
-          selected[subChannel.id] = true;
+          selected[subChannel.channelId] = true;
         } else {
-          selected[subChannel.id] = false;
+          selected[subChannel.channelId] = false;
         }
       });
 
@@ -220,13 +221,16 @@ export default function TryNow() {
     const result = [].concat(
       ...channels.map((channel: any) => {
         return channel.subChannels
-          .filter((subChannel: any) => {
-            if (activeChannel.includes(subChannel.id)) {
+          .filter((subChannel: ISubChannels) => {
+            if (activeChannel.includes(subChannel.channelId)) {
               return subChannel;
             }
           })
           .map((filterdItem: any) => {
-            return { channelId: filterdItem.id, channelName: filterdItem.name };
+            return {
+              channelId: filterdItem.channelId,
+              channelName: filterdItem.name,
+            };
           });
       })
     );
@@ -242,7 +246,7 @@ export default function TryNow() {
   ) => {
     setChannels((preChannels) => {
       return preChannels.map((preChannel) => {
-        if (preChannel.id !== channelId) return preChannel;
+        if (preChannel.channelId !== channelId) return preChannel;
 
         const selected = preChannel.selected;
         selected[subChannelId] = status;
@@ -251,14 +255,14 @@ export default function TryNow() {
       });
     });
   };
-  const handleCheckAll = (guild: any, status: boolean) => {
-    const selectedGuild: any = channels.filter(
-      (channel: any) => channel.id === guild.id
-    )[0].id;
+  const handleCheckAll = (guild: IGuildChannels, status: boolean) => {
+    const selectedGuild = channels.filter(
+      (channel: any) => channel.channelId === guild.channelId
+    )[0].channelId;
 
     setChannels((preChannels) => {
       return preChannels.map((preChannel) => {
-        if (selectedGuild === preChannel.id) {
+        if (selectedGuild === preChannel.channelId) {
           Object.keys(preChannel.selected).forEach((key: any) => {
             preChannel.selected[key] = status;
           });
@@ -316,14 +320,17 @@ export default function TryNow() {
         return channel.subChannels
           .filter((subChannel: any) => {
             if (
-              activeChannel.includes(subChannel.id) &&
+              activeChannel.includes(subChannel.channelId) &&
               subChannel.canReadMessageHistoryAndViewChannel
             ) {
               return subChannel;
             }
           })
           .map((filterdItem: any) => {
-            return { channelId: filterdItem.id, channelName: filterdItem.name };
+            return {
+              channelId: filterdItem.channelId,
+              channelName: filterdItem.name,
+            };
           });
       })
     );
@@ -626,7 +633,7 @@ export default function TryNow() {
                             {"Perfect, you're all set!"}
                           </h3>
                           <p className="py-8 text-base">
-                            Data import just started. It might take up to 12
+                            Data import just started. It might take up to 6
                             hours to finish. Once it is done we will send you a{' '}
                             <b>message on Discord.</b>
                           </p>
@@ -745,7 +752,7 @@ export default function TryNow() {
                       />
                     </div>
                     {channels && channels.length > 0
-                      ? channels.map((guild: any, index: any) => {
+                      ? channels.map((guild: IGuildChannels, index: any) => {
                           return (
                             <div className="my-2" key={index}>
                               <ChannelList
