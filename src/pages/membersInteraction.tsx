@@ -82,30 +82,24 @@ export default function membersInteraction() {
             name: `${item.from.username} to ${item.to.username}`,
           })),
           nodes: apiResponse?.reduce((nodes: any[], item: any) => {
-            if (
-              toNodeIds.includes(item.from.id) &&
-              fromNodeIds.includes(item.from.id)
-            ) {
-              nodes.push({
-                id: item.from.id,
-                marker: { radius: calculateRadius(item.from.radius) },
-                color: '#804EE1',
-                name: item.from.username,
-              });
-            } else if (!toNodeIds.includes(item.from.id)) {
-              nodes.push({
-                id: item.from.id,
-                marker: { radius: calculateRadius(item.from.radius) },
-                color: '#3AAE2B',
-                name: item.from.username,
-              });
-            } else {
-              nodes.push({
-                id: item.from.id,
-                marker: { radius: calculateRadius(item.from.radius) },
-                color: '#FFCB33',
-                name: item.from.username,
-              });
+            const fromNode = {
+              id: item.from.id,
+              marker: { radius: calculateRadius(item.from.radius) },
+              color: '#FFCB33',
+              name: item.from.username,
+            };
+            const toNode = {
+              id: item.to.id,
+              marker: { radius: calculateRadius(item.to.radius) },
+              color: '#804EE1',
+              name: item.to.username,
+            };
+
+            if (!nodes.find((node: any) => node.id === fromNode.id)) {
+              nodes.push(fromNode);
+            }
+            if (!nodes.find((node: any) => node.id === toNode.id)) {
+              nodes.push(toNode);
             }
             return nodes;
           }, []),
