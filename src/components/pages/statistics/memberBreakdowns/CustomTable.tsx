@@ -182,10 +182,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   const [searchText, setSearchText] = useState('');
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUsernameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
-    handleUsernameChange(value);
+
+    if (value.length >= 3) {
+      handleUsernameChange(value);
+    }
   };
 
   const [open, setOpen] = useState(false);
