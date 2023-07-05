@@ -18,6 +18,7 @@ export default function membersInteraction() {
         layoutAlgorithm: {
           enableSimulation: true,
           integration: 'euler',
+          linkLength: 30,
           gravitationalConstant: 0.2,
         },
         type: 'networkgraph',
@@ -59,22 +60,10 @@ export default function membersInteraction() {
   }, []);
 
   const transformApiResponse = (apiResponse: any[]) => {
-    const fromNodeIds = Array.from(
-      new Set(apiResponse.map((item) => item.from.id))
-    );
-    const toNodeIds = Array.from(
-      new Set(apiResponse.map((item) => item.to.id))
-    );
-
-    const linkLength = Math.max(fromNodeIds.length, toNodeIds.length) * 20;
-
     const transformedData = {
       series: [
         {
           type: 'networkgraph',
-          layoutAlgorithm: {
-            linkLength: linkLength,
-          },
           data: apiResponse?.map((item: any) => ({
             from: item.from.id,
             to: item.to.id,
