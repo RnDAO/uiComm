@@ -68,15 +68,15 @@ export default function DataAnalysis() {
     const start = moment(guildInfo.period, 'YYYY-MM-DD');
     const end = moment();
 
-    const datePeriod = moment.duration(end.diff(start)).asMonths();
+    const datePeriod = Math.round(moment.duration(end.diff(start)).asMonths());
 
-    if (datePeriod < 0.5) {
+    if (datePeriod < 1) {
       setActivePeriod(1);
-    } else if (datePeriod < 1) {
-      setActivePeriod(2);
     } else if (datePeriod < 3) {
+      setActivePeriod(2);
+    } else if (datePeriod >= 3 && datePeriod < 6) {
       setActivePeriod(3);
-    } else if (datePeriod < 6) {
+    } else if (datePeriod < 12) {
       setActivePeriod(4);
     } else {
       setActivePeriod(5);
