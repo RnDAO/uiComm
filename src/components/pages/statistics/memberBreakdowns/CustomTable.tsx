@@ -185,11 +185,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
-  };
-
-  const handleUsernameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSearchText(value);
     handleUsernameChange(value);
   };
 
@@ -438,7 +433,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       }}
                       value={searchText}
                       onChange={handleSearchChange}
-                      onBlur={handleUsernameBlur}
                       sx={{ marginLeft: '8px' }}
                     />
                   </div>
