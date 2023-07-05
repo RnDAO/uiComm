@@ -12,16 +12,15 @@ import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 export default function membersInteraction() {
-  const [networkGrapData, setNetworkGrapData] = useState<unknown>({
+  const [networkGraphData, setNetworkGraphData] = useState<unknown>({
     series: [
       {
-        type: 'networkgraph',
         layoutAlgorithm: {
           enableSimulation: true,
           integration: 'euler',
-          linkLength: 150,
           gravitationalConstant: 0.2,
         },
+        type: 'networkgraph',
         data: [],
         nodes: [],
       },
@@ -50,17 +49,29 @@ export default function membersInteraction() {
       getMemberInteraction(storedUser.guild.guildId).then(
         (apiResponse: any[]) => {
           const transformedData = transformApiResponse(apiResponse);
-          setNetworkGrapData(transformedData);
+          setNetworkGraphData(transformedData);
         }
       );
     }
   }, []);
 
   const transformApiResponse = (apiResponse: any[]) => {
+    const fromNodeIds = Array.from(
+      new Set(apiResponse.map((item) => item.from.id))
+    );
+    const toNodeIds = Array.from(
+      new Set(apiResponse.map((item) => item.to.id))
+    );
+
+    const linkLength = Math.max(fromNodeIds.length, toNodeIds.length) * 20;
+
     const transformedData = {
       series: [
         {
           type: 'networkgraph',
+          layoutAlgorithm: {
+            linkLength: linkLength,
+          },
           data: apiResponse?.map((item: any) => ({
             from: item.from.id,
             to: item.to.id,
@@ -68,24 +79,30 @@ export default function membersInteraction() {
             name: `${item.from.username} to ${item.to.username}`,
           })),
           nodes: apiResponse?.reduce((nodes: any[], item: any) => {
-            const fromNode = {
-              id: item.from.id,
-              marker: { radius: calculateRadius(item.from.radius) },
-              color: '#FFCB33',
-              name: item.from.username,
-            };
-            const toNode = {
-              id: item.to.id,
-              marker: { radius: calculateRadius(item.to.radius) },
-              color: '#804EE1',
-              name: item.to.username,
-            };
-
-            if (!nodes.find((node: any) => node.id === fromNode.id)) {
-              nodes.push(fromNode);
-            }
-            if (!nodes.find((node: any) => node.id === toNode.id)) {
-              nodes.push(toNode);
+            if (
+              toNodeIds.includes(item.from.id) &&
+              fromNodeIds.includes(item.from.id)
+            ) {
+              nodes.push({
+                id: item.from.id,
+                marker: { radius: calculateRadius(item.from.radius) },
+                color: '#804EE1',
+                name: item.from.username,
+              });
+            } else if (!toNodeIds.includes(item.from.id)) {
+              nodes.push({
+                id: item.from.id,
+                marker: { radius: calculateRadius(item.from.radius) },
+                color: '#3AAE2B',
+                name: item.from.username,
+              });
+            } else {
+              nodes.push({
+                id: item.from.id,
+                marker: { radius: calculateRadius(item.from.radius) },
+                color: '#FFCB33',
+                name: item.from.username,
+              });
             }
             return nodes;
           }, []),
@@ -139,14 +156,14 @@ export default function membersInteraction() {
             <span className="pl-1">Community Insights</span>
           </div>
         </Link>
-        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4">
+        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4 overflow-hidden">
           <h3 className="text-xl font-medium text-lite-black">
             Member interactions graph
           </h3>
           <p>Data from the last 7 days</p>
           <div className="flex flex-col md:flex-row md:items-start">
             <div className="flex-1">
-              <NetworkGraph options={networkGrapData} />
+              <NetworkGraph options={networkGraphData} />
             </div>
             <div className="hidden md:flex w-1/5">
               <HintBox />
