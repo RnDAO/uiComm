@@ -72,11 +72,11 @@ export default function DataAnalysis() {
 
     if (datePeriod < 1) {
       setActivePeriod(1);
-    } else if (datePeriod < 3) {
+    } else if (datePeriod <= 3) {
       setActivePeriod(2);
-    } else if (datePeriod >= 3 && datePeriod < 6) {
+    } else if (datePeriod >= 5 && datePeriod < 7) {
       setActivePeriod(3);
-    } else if (datePeriod < 12) {
+    } else if (datePeriod <= 12) {
       setActivePeriod(4);
     } else {
       setActivePeriod(5);
