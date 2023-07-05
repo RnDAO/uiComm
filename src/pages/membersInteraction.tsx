@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
-import { AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 import Link from '../components/global/Link';
-import { Paper } from '@mui/material';
+import { Paper, Popover } from '@mui/material';
 import useAppStore from '../store/useStore';
 import { StorageService } from '../services/StorageService';
 import HintBox from '../components/pages/memberInteraction/HintBox';
@@ -12,16 +12,15 @@ import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 
 export default function membersInteraction() {
-  const [networkGrapData, setNetworkGrapData] = useState<unknown>({
+  const [networkGraphData, setNetworkGraphData] = useState<unknown>({
     series: [
       {
-        type: 'networkgraph',
         layoutAlgorithm: {
           enableSimulation: true,
           integration: 'euler',
-          linkLength: 150,
           gravitationalConstant: 0.2,
         },
+        type: 'networkgraph',
         data: [],
         nodes: [],
       },
@@ -39,6 +38,9 @@ export default function membersInteraction() {
   });
 
   const [user, setUser] = useState<IUser | undefined>();
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
 
   const { getMemberInteraction, isLoading } = useAppStore();
 
@@ -50,17 +52,29 @@ export default function membersInteraction() {
       getMemberInteraction(storedUser.guild.guildId).then(
         (apiResponse: any[]) => {
           const transformedData = transformApiResponse(apiResponse);
-          setNetworkGrapData(transformedData);
+          setNetworkGraphData(transformedData);
         }
       );
     }
   }, []);
 
   const transformApiResponse = (apiResponse: any[]) => {
+    const fromNodeIds = Array.from(
+      new Set(apiResponse.map((item) => item.from.id))
+    );
+    const toNodeIds = Array.from(
+      new Set(apiResponse.map((item) => item.to.id))
+    );
+
+    const linkLength = Math.max(fromNodeIds.length, toNodeIds.length) * 20;
+
     const transformedData = {
       series: [
         {
           type: 'networkgraph',
+          layoutAlgorithm: {
+            linkLength: linkLength,
+          },
           data: apiResponse?.map((item: any) => ({
             from: item.from.id,
             to: item.to.id,
@@ -125,6 +139,17 @@ export default function membersInteraction() {
     }
   };
 
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setPopoverAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setPopoverAnchorEl(null);
+  };
+
+  const open = Boolean(popoverAnchorEl);
+  const popoverId = open ? 'hint-popover' : undefined;
+
   if (isLoading) {
     return <SimpleBackdrop />;
   }
@@ -139,18 +164,44 @@ export default function membersInteraction() {
             <span className="pl-1">Community Insights</span>
           </div>
         </Link>
-        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4">
+        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4 overflow-hidden">
           <h3 className="text-xl font-medium text-lite-black">
             Member interactions graph
           </h3>
           <p>Data from the last 7 days</p>
           <div className="flex flex-col md:flex-row md:items-start">
             <div className="flex-1">
-              <NetworkGraph options={networkGrapData} />
+              <NetworkGraph options={networkGraphData} />
             </div>
             <div className="hidden md:flex w-1/5">
               <HintBox />
             </div>
+          </div>
+          <div className="md:hidden float-left">
+            <button onClick={handlePopoverOpen}>
+              <AiOutlineExclamationCircle size={30} />
+            </button>
+            <Popover
+              id={popoverId}
+              open={open}
+              anchorEl={popoverAnchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              PaperProps={{
+                style: { background: 'none', boxShadow: 'none' },
+              }}
+            >
+              <div className="p-4">
+                <HintBox />
+              </div>
+            </Popover>
           </div>
         </Paper>
       </div>
