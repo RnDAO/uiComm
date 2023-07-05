@@ -182,7 +182,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   const [searchText, setSearchText] = useState('');
 
-  const handleUsernameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
 
