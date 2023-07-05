@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
-import { AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 import Link from '../components/global/Link';
-import { Paper } from '@mui/material';
+import { Paper, Popover } from '@mui/material';
 import useAppStore from '../store/useStore';
 import { StorageService } from '../services/StorageService';
 import HintBox from '../components/pages/memberInteraction/HintBox';
@@ -38,6 +38,9 @@ export default function membersInteraction() {
   });
 
   const [user, setUser] = useState<IUser | undefined>();
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
 
   const { getMemberInteraction, isLoading } = useAppStore();
 
@@ -142,6 +145,17 @@ export default function membersInteraction() {
     }
   };
 
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setPopoverAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setPopoverAnchorEl(null);
+  };
+
+  const open = Boolean(popoverAnchorEl);
+  const popoverId = open ? 'hint-popover' : undefined;
+
   if (isLoading) {
     return <SimpleBackdrop />;
   }
@@ -168,6 +182,32 @@ export default function membersInteraction() {
             <div className="hidden md:flex w-1/5">
               <HintBox />
             </div>
+          </div>
+          <div className="md:hidden float-left">
+            <button onClick={handlePopoverOpen}>
+              <AiOutlineExclamationCircle size={30} />
+            </button>
+            <Popover
+              id={popoverId}
+              open={open}
+              anchorEl={popoverAnchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              PaperProps={{
+                style: { background: 'none', boxShadow: 'none' },
+              }}
+            >
+              <div className="p-4">
+                <HintBox />
+              </div>
+            </Popover>
           </div>
         </Paper>
       </div>
