@@ -142,7 +142,7 @@ export default function membersInteraction() {
 
   return (
     <>
-      <SEO titleTemplate="Member interactions" />
+      <SEO titleTemplate="Member Interactions" />
       <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
         <Link to="/" className="mb-3">
           <div className="flex items-center text-gray-subtitle text-base hover:text-black">

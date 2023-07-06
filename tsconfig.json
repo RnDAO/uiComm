@@ -20,7 +20,9 @@
     "**/*.ts",
     "**/*.tsx",
     "jest.config.js",
-    "jest.setup.js"
+    "jest.setup.js",
+    "src/components",
+    "custom.d.ts"
   ],
   "exclude": ["node_modules", "./src/components/global/CustomDatePicker.tsx"]
 }

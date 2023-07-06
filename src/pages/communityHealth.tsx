@@ -5,7 +5,7 @@ import SEO from '../components/global/SEO';
 function communityHealth() {
   return (
     <>
-      <SEO titleTemplate="Member interactions" />
+      <SEO titleTemplate="Community Health" />
       <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
         communityHealth
       </div>
