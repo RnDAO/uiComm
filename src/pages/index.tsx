@@ -3,7 +3,7 @@ import MainSection from '../components/pages/pageIndex/MainSection';
 
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
 import { useRouter } from 'next/router';
