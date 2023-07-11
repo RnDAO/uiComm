@@ -202,7 +202,7 @@ export default function DisengagedMembersComposition({
       <div className="w-full">
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
           <h3 className="text-xl font-medium text-lite-black">
-            Members activity over time
+            Disengaged members over time
           </h3>
           <RangeSelect
             options={communityActiveDates}
