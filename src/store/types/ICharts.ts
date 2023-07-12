@@ -1,4 +1,4 @@
-export default interface IHeatmap {
+export default interface ICharts {
   isLoading: boolean;
   heatmapRecords: any[];
   interactions: {};
