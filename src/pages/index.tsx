@@ -12,6 +12,7 @@ import Image from 'next/image';
 import emptyState from '../assets/svg/empty-state.svg';
 import useAppStore from '../store/useStore';
 import { Alert, Collapse } from '@mui/material';
+import React from 'react';
 
 function Dashboard(): JSX.Element {
   const [alertStateOpen, setAlertStateOpen] = useState(false);
