@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GaugeChart from '../../global/GaugeChart';
-
 import Highcharts from 'highcharts/highcharts.js';
 import highchartsMore from 'highcharts/highcharts-more.js';
 import solidGauge from 'highcharts/modules/solid-gauge.js';
@@ -9,6 +8,7 @@ import enmeshed from '../../../assets/svg/enmeshed.svg';
 import fragmented from '../../../assets/svg/fragmented.svg';
 import { Paper } from '@mui/material';
 import CommunityStatusShower from './communityStatusShower';
+import { IFragmentationScoreResponse } from '../../../utils/interfaces';
 
 // Initialize the Highcharts networkgraph module
 if (typeof Highcharts === 'object') {
@@ -16,8 +16,12 @@ if (typeof Highcharts === 'object') {
   solidGauge(Highcharts);
 }
 
-function Fragmentation() {
-  const options = {
+interface FragmentationProps {
+  scoreData: IFragmentationScoreResponse | null;
+}
+
+function Fragmentation({ scoreData }: FragmentationProps) {
+  const [options, setOptions] = useState({
     chart: {
       type: 'gauge',
       backgroundColor: 'transparent',
@@ -35,7 +39,7 @@ function Fragmentation() {
           linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
           stops: [
             [0, '#55BF3B'], // Green color at 100% position
-            [0.7, '#DDDF0D'], // Yellow color at 50% position
+            [0.5, '#DDDF0D'], // Yellow color at 50% position
             [1, '#DF5353'], // Red color at 0% position
           ],
         },
@@ -48,6 +52,8 @@ function Fragmentation() {
       enabled: false,
     },
     yAxis: {
+      min: 0, // Set the minimum value
+      max: 200, // Set the maximum value
       stops: [
         [0, '#DF5353'], // Red color at 0% position
         [0.5, '#DDDF0D'], // Yellow color at 50% position
@@ -75,19 +81,39 @@ function Fragmentation() {
     },
     series: [
       {
-        name: 'Speed',
-        data: [80],
+        data: [0],
       },
     ],
-  };
+  });
+
+  useEffect(() => {
+    if (scoreData) {
+      // Update series data
+      const updatedOptions = {
+        ...options,
+        yAxis: {
+          ...options.yAxis,
+          min: scoreData?.fragmentationScoreRange.minimumFragmentationScore,
+          max: scoreData?.fragmentationScoreRange.maximumFragmentationScore,
+        },
+        series: [
+          {
+            data: [scoreData.fragmentationScore || 0],
+          },
+        ],
+      };
+      setOptions(updatedOptions);
+    }
+  }, [scoreData]);
 
   return (
     <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4">
       <h3 className="text-lg font-medium text-lite-black">Fragmentation</h3>
       <div className="flex flex-col md:flex-row md:justify-start space-y-8 md:space-x-12">
         <div className="bg-gray-hover md:w-1/3 rounded-xl overflow-hidden md:mr-12">
-          <GaugeChart options={options} />{' '}
-          <CommunityStatusShower scoreStatus={-1} />
+          <p className="text-sm px-4 p-2">Your community</p>
+          <GaugeChart options={options} />
+          <CommunityStatusShower scoreStatus={scoreData?.scoreStatus} />
         </div>
         <div className="md:w-1/2 space-y-12">
           <p className="text-sm">

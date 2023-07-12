@@ -42,3 +42,23 @@ export interface IRowDetail {
   roles: IRoles[];
   activityComposition: string[];
 }
+
+export interface IDecentralisationScoreResponse {
+  decentralisationScore: number;
+  decentralisationScoreDate: number;
+  decentralisationScoreRange: {
+    minimumDecentralisationScore: number;
+    maximumDecentralisationScore: number;
+  };
+  scoreStatus: number;
+}
+
+export interface IFragmentationScoreResponse {
+  fragmentationScore: number;
+  fragmentationScoreDate: number;
+  scoreStatus: number;
+  fragmentationScoreRange: {
+    minimumFragmentationScore: number;
+    maximumFragmentationScore: number;
+  };
+}

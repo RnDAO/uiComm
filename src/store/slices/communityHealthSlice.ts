@@ -7,14 +7,23 @@ const createCommunityHealthSlice: StateCreator<ICommunityHealth> = (
   get
 ) => ({
   isLoading: false,
-  fragmentation: [],
   getFragmentation: async (guild_id: string) => {
     try {
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.post(
+      const { data } = await axiosInstance.get(
         `/member-activity/${guild_id}/fragmentation-score`
       );
-      set({ fragmentation: [...data], isLoading: false });
+      return data;
+    } catch (error) {
+      set(() => ({ isLoading: false }));
+    }
+  },
+  getDecentralisation: async (guild_id: string) => {
+    try {
+      set(() => ({ isLoading: true }));
+      const { data } = await axiosInstance.get(
+        `/member-activity/${guild_id}/decentralisation-score`
+      );
       return data;
     } catch (error) {
       set(() => ({ isLoading: false }));

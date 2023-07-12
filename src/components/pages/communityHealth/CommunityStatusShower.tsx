@@ -9,7 +9,7 @@ function CommunityStatusShower({ scoreStatus }: ICommunityStatusShowerProps) {
   return (
     <div>
       {scoreStatus === -2 || scoreStatus === -1 ? (
-        <div className="bg-gray-background hover:bg-[#e6e6e6] p-2 flex items-center justify-center space-x-2">
+        <div className="bg-gray-background hover:bg-[#e6e6e6] p-2 flex items-center justify-center space-x-2 cursor-pointer">
           <div className="rounded-full bg-secondary w-fit p-1">
             <AiOutlineBulb size={30} color="white" />
           </div>
@@ -25,7 +25,7 @@ function CommunityStatusShower({ scoreStatus }: ICommunityStatusShowerProps) {
           <span className="text-sm">Your community is doing great!</span>
         </div>
       ) : scoreStatus === 1 || scoreStatus === 2 ? (
-        <div className="bg-gray-background hover:bg-[#e6e6e6] p-2 flex items-center justify-center space-x-2">
+        <div className="bg-gray-background hover:bg-[#e6e6e6] p-2 flex items-center justify-center space-x-2 cursor-pointer">
           <div className="rounded-full bg-secondary w-fit p-1">
             <AiOutlineBulb size={30} color="white" />
           </div>
