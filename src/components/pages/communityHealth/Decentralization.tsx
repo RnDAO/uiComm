@@ -165,7 +165,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
                 <CommunityStatusShower
                   scoreStatus={scoreData?.scoreStatus}
                   toggleTipDialog={() => openTipModal()}
-                  isFragmentation={true}
+                  isFragmentation={false}
                 />
               </>
             )}
