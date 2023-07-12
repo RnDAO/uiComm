@@ -19,6 +19,7 @@ import {
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Tooltip, Typography } from '@mui/material';
 import useAppStore from '../../store/useStore';
 import { StorageService } from '../../services/StorageService';
 import { IUser } from '../../utils/types';
@@ -53,7 +54,7 @@ const Sidebar = () => {
     },
     {
       name: 'Community Health',
-      path: '/communityHealth',
+      path: '/community-health',
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}

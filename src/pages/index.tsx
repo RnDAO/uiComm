@@ -3,13 +3,13 @@ import MainSection from '../components/pages/pageIndex/MainSection';
 
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
 import { useRouter } from 'next/router';
 import EmptyState from '../components/global/EmptyState';
 import Image from 'next/image';
-import emptyState from '../assets/svg/emptyState.svg';
+import emptyState from '../assets/svg/empty-state.svg';
 import useAppStore from '../store/useStore';
 import { Alert, Collapse } from '@mui/material';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextPageContext, NextComponentType } from 'next';
 import Image from 'next/image';
 import notFounded from '../assets/svg/404.svg';
