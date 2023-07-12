@@ -13,6 +13,7 @@ const createCommunityHealthSlice: StateCreator<ICommunityHealth> = (
       const { data } = await axiosInstance.get(
         `/member-activity/${guild_id}/fragmentation-score`
       );
+      set({ isLoading: false });
       return data;
     } catch (error) {
       set(() => ({ isLoading: false }));
@@ -24,6 +25,7 @@ const createCommunityHealthSlice: StateCreator<ICommunityHealth> = (
       const { data } = await axiosInstance.get(
         `/member-activity/${guild_id}/decentralisation-score`
       );
+      set({ isLoading: false });
       return data;
     } catch (error) {
       set(() => ({ isLoading: false }));
