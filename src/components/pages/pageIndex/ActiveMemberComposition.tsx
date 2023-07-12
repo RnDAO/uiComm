@@ -16,13 +16,11 @@ const ActiveMemberComposition = () => {
 
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
+    let endDate: moment.Moment = moment().subtract(1, 'day');
+    let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
     if (user) {
       const { guild } = user;
-      fetchActiveMembers(
-        guild.guildId,
-        moment().subtract(7, 'days'),
-        moment().format('YYYY-MM-DDTHH:mm:ss[Z]')
-      );
+      fetchActiveMembers(guild.guildId, startDate, endDate);
     }
   }, []);
 
