@@ -7,7 +7,7 @@ import Image from 'next/image';
 import enmeshed from '../../../assets/svg/enmeshed.svg';
 import fragmented from '../../../assets/svg/fragmented.svg';
 import { Paper } from '@mui/material';
-import CommunityStatusShower from './communityStatusShower';
+import CommunityStatusShower from './CommunityStatusShower';
 import { IFragmentationScoreResponse } from '../../../utils/interfaces';
 import TipsDialog from './TipsDialog';
 import { HiOutlineArrowRight } from 'react-icons/hi';
@@ -29,6 +29,7 @@ function Fragmentation({ scoreData }: FragmentationProps) {
     chart: {
       type: 'gauge',
       backgroundColor: 'transparent',
+      height: '300px',
     },
     title: {
       text: '',
@@ -131,13 +132,13 @@ function Fragmentation({ scoreData }: FragmentationProps) {
   return (
     <>
       <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4">
-        <h3 className="text-lg font-medium text-lite-black">Fragmentation</h3>
+        <h3 className="text-lg font-semibold text-lite-black">Fragmentation</h3>
         <div className="flex flex-col md:flex-row md:justify-start space-y-8 md:space-x-12">
           <div className="bg-gray-hover md:w-1/3 rounded-xl overflow-hidden md:mr-12">
             <p className="text-sm px-4 p-2">Your community</p>
             {!scoreData?.fragmentationScore ? (
-              <div className="flex flex-col text-center space-y-7 min-h-[300px] px-4 md:px-2">
-                <div className="mt-12">
+              <div className="flex flex-col text-center space-y-7 min-h-[320px] px-4 md:px-2">
+                <div className="mt-16">
                   <FiAlertTriangle
                     className="text-error-600 mx-auto"
                     size={25}
