@@ -74,13 +74,23 @@ export default function membersInteraction() {
             const fromNode = {
               id: item.from.id,
               marker: { radius: calculateRadius(item.from.radius) },
-              color: '#FFCB33',
+              color:
+                item.from.stats === 'BALANCED'
+                  ? '#804EE1'
+                  : item.from.stats === 'RECEIVER'
+                  ? '#FFCB33'
+                  : '#3AAE2B',
               name: item.from.username,
             };
             const toNode = {
               id: item.to.id,
               marker: { radius: calculateRadius(item.to.radius) },
-              color: '#804EE1',
+              color:
+                item.from.stats === 'BALANCED'
+                  ? '#804EE1'
+                  : item.from.stats === 'RECEIVER'
+                  ? '#FFCB33'
+                  : '#3AAE2B',
               name: item.to.username,
             };
 
