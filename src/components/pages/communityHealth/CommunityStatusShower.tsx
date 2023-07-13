@@ -20,7 +20,7 @@ function CommunityStatusShower({
           onClick={toggleTipDialog}
         >
           <div className="rounded-full bg-secondary w-fit p-1">
-            <AiOutlineBulb size={30} color="white" />
+            <AiOutlineBulb size={30} color="white" data-testid="bulb-icon" />
           </div>
           <span className="text-sm">
             {isFragmentation
@@ -31,7 +31,7 @@ function CommunityStatusShower({
       ) : scoreStatus === 0 ? (
         <div className="bg-green-100 p-2 flex items-center justify-center space-x-2">
           <div className="rounded-full bg-green-600 w-fit p-1">
-            <AiOutlineBulb size={30} color="white" />
+            <AiOutlineBulb size={30} color="white" data-testid="bulb-icon" />
           </div>
           <span className="text-sm">Your community is doing great!</span>
         </div>
@@ -41,7 +41,7 @@ function CommunityStatusShower({
           onClick={toggleTipDialog}
         >
           <div className="rounded-full bg-secondary w-fit p-1">
-            <AiOutlineBulb size={30} color="white" />
+            <AiOutlineBulb size={30} color="white" data-testid="bulb-icon" />
           </div>
           <span className="text-sm">
             {isFragmentation

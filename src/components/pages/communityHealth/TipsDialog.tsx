@@ -39,7 +39,12 @@ function TipsDialog({
     >
       <DialogTitle className="flex justify-between items-center text-center bg-secondary text-white">
         <h4 className="text-base">{headerText}</h4>
-        <IoClose size={30} onClick={handleClose} className="cursor-pointer" />
+        <IoClose
+          size={30}
+          onClick={handleClose}
+          className="cursor-pointer"
+          data-testid="close-icon"
+        />
       </DialogTitle>
       <DialogContent>
         <div className="text-center pb-4">{children}</div>

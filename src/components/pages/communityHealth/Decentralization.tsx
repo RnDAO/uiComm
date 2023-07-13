@@ -163,7 +163,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
               <>
                 <GaugeChart options={options} />
                 <CommunityStatusShower
-                  scoreStatus={scoreData?.scoreStatus}
+                  scoreStatus={-1}
                   toggleTipDialog={() => openTipModal()}
                   isFragmentation={false}
                 />
@@ -206,9 +206,9 @@ function Decentralization({ scoreData }: DecentralizationProps) {
       </Paper>
       <TipsDialog
         headerText={
-          scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2
-            ? 'Tips for decentralizing'
-            : 'Tips for centralizing'
+          scoreData?.scoreStatus === -1 || scoreData?.scoreStatus === -2
+            ? 'Tips for centralizing'
+            : 'Tips for decentralizing'
         }
         isOpen={tipDialogOpen}
         onClose={() => closeTipModal()}
@@ -222,7 +222,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
           {scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2 ? (
             <>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
-                {centralizedTips.map((tip, index) => (
+                {decentralizedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
                     {tip}
                   </li>
@@ -232,7 +232,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
           ) : (
             <>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
-                {decentralizedTips.map((tip, index) => (
+                {centralizedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
                     {tip}
                   </li>
