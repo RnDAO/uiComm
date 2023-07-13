@@ -14,7 +14,7 @@ test('renders the component with correct content', () => {
 
   // Assert the presence of the tips message
   const tipsMessage = screen.getByText(
-    'Tips for making your community less enmeshed'
+    'Tips for making your community less fragmented'
   );
   expect(tipsMessage).toBeInTheDocument();
 
@@ -46,7 +46,7 @@ test('renders the component with correct content', () => {
 
   // Assert the presence of the tips message
   const tipsMessage2 = screen.getByText(
-    'Tips for making your community less fragmented'
+    'Tips for making your community less enmeshed'
   );
   expect(tipsMessage2).toBeInTheDocument();
 });
