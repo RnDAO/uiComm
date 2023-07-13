@@ -82,24 +82,11 @@ export default function membersInteraction() {
                   : '#3AAE2B',
               name: item.from.username,
             };
-            const toNode = {
-              id: item.to.id,
-              marker: { radius: calculateRadius(item.to.radius) },
-              color:
-                item.from.stats === 'BALANCED'
-                  ? '#804EE1'
-                  : item.from.stats === 'RECEIVER'
-                  ? '#FFCB33'
-                  : '#3AAE2B',
-              name: item.to.username,
-            };
 
             if (!nodes.find((node: any) => node.id === fromNode.id)) {
               nodes.push(fromNode);
             }
-            if (!nodes.find((node: any) => node.id === toNode.id)) {
-              nodes.push(toNode);
-            }
+
             return nodes;
           }, []),
         },
