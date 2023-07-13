@@ -225,13 +225,13 @@ function Decentralization({ scoreData }: DecentralizationProps) {
         onClose={() => closeTipModal()}
       >
         <>
-          <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
-            <Image src={centralized} alt="centralized" />
-            <HiOutlineArrowRight size={24} />
-            <Image src={decentralized} alt="decentralized" />
-          </div>
           {scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2 ? (
             <>
+              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
+                <Image src={decentralized} alt="decentralized" />
+                <HiOutlineArrowRight size={24} />
+                <Image src={centralized} alt="centralized" />
+              </div>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
                 {decentralizedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
@@ -242,6 +242,11 @@ function Decentralization({ scoreData }: DecentralizationProps) {
             </>
           ) : (
             <>
+              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
+                <Image src={centralized} alt="centralized" />
+                <HiOutlineArrowRight size={24} />
+                <Image src={decentralized} alt="decentralized" />
+              </div>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
                 {centralizedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">

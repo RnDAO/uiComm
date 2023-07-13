@@ -216,13 +216,13 @@ function Fragmentation({ scoreData }: FragmentationProps) {
         onClose={() => closeTipModal()}
       >
         <>
-          <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
-            <Image src={enmeshed} alt="enmeshed" />
-            <HiOutlineArrowRight size={24} />
-            <Image src={fragmented} alt="fragmented" />
-          </div>
           {scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2 ? (
             <>
+              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
+                <Image src={fragmented} alt="fragmented" />
+                <HiOutlineArrowRight size={24} />
+                <Image src={enmeshed} alt="enmeshed" />
+              </div>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
                 {fragmentedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
@@ -233,6 +233,11 @@ function Fragmentation({ scoreData }: FragmentationProps) {
             </>
           ) : (
             <>
+              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
+                <Image src={enmeshed} alt="enmeshed" />
+                <HiOutlineArrowRight size={24} />
+                <Image src={fragmented} alt="fragmented" />
+              </div>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
                 {enmeshedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
