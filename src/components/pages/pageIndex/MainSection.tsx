@@ -1,3 +1,4 @@
+import React from 'react';
 import ActiveMemberComposition from './ActiveMemberComposition';
 import HeatmapChart from './HeatmapChart';
 import MemberInteractionGraph from './MemberInteractionGraph';

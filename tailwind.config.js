@@ -58,6 +58,8 @@ const colors = {
   },
   green: {
     DEFAULT: '#3AAE2B',
+    100:'#DBF6D7',
+    600:'#3A9E2B'
   },
   lite: '#F8F8F8',
   'lite-black': '#3E3E3E',

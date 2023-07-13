@@ -47,7 +47,7 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
             <div className="flex flex-row flex-wrap">
               {rowDetail?.roles.map((role: any) => (
                 <div
-                  key={role.id}
+                  key={role.roleId}
                   className="flex flex-row flex-wrap items-center first:ml-0 ml-1"
                   style={{ whiteSpace: 'nowrap' }}
                   data-testid="role"
