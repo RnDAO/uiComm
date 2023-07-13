@@ -24,7 +24,7 @@ function CommunityStatusShower({
           </div>
           <span className="text-sm">
             {isFragmentation
-              ? 'Tips for making your community less enmeshed'
+              ? 'Tips for making your community less fragmented'
               : 'Tips for decentralizing'}
           </span>
         </div>
@@ -45,7 +45,7 @@ function CommunityStatusShower({
           </div>
           <span className="text-sm">
             {isFragmentation
-              ? 'Tips for making your community less fragmented'
+              ? 'Tips for making your community less enmeshed'
               : 'Tips for centralizing'}
           </span>
         </div>

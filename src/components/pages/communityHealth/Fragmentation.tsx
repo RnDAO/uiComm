@@ -68,11 +68,22 @@ function Fragmentation({ scoreData }: FragmentationProps) {
       minorTickInterval: null,
       tickAmount: 2,
       title: {
-        y: -70,
-        text: null,
+        y: -80,
+        text: 'Balanced',
       },
       labels: {
-        y: 16,
+        enabled: true,
+        y: 20,
+        formatter: function (
+          this: Highcharts.AxisLabelsFormatterContextObject
+        ): string {
+          if (this.isFirst) {
+            return 'Too enmeshed';
+          } else if (this.isLast) {
+            return 'Too fragmented';
+          }
+          return this.value.toString();
+        },
       },
     },
     plotOptions: {
@@ -198,8 +209,8 @@ function Fragmentation({ scoreData }: FragmentationProps) {
       <TipsDialog
         headerText={
           scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2
-            ? 'Tips for making your community less enmeshed'
-            : 'Tips for making your community less fragmented'
+            ? 'Tips for making your community less fragmented'
+            : 'Tips for making your community less enmeshed'
         }
         isOpen={tipDialogOpen}
         onClose={() => closeTipModal()}
@@ -213,7 +224,7 @@ function Fragmentation({ scoreData }: FragmentationProps) {
           {scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2 ? (
             <>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
-                {enmeshedTips.map((tip, index) => (
+                {fragmentedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
                     {tip}
                   </li>
@@ -223,7 +234,7 @@ function Fragmentation({ scoreData }: FragmentationProps) {
           ) : (
             <>
               <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
-                {fragmentedTips.map((tip, index) => (
+                {enmeshedTips.map((tip, index) => (
                   <li key={index} className="list-disc ml-4">
                     {tip}
                   </li>

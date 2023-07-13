@@ -68,11 +68,22 @@ function Decentralization({ scoreData }: DecentralizationProps) {
       minorTickInterval: null,
       tickAmount: 2,
       title: {
-        y: -70,
-        text: null,
+        y: -80,
+        text: 'Balanced',
       },
       labels: {
-        y: 16,
+        enabled: true,
+        y: 20,
+        formatter: function (
+          this: Highcharts.AxisLabelsFormatterContextObject
+        ): string {
+          if (this.isFirst) {
+            return 'Too centralized';
+          } else if (this.isLast) {
+            return 'Too decentralized';
+          }
+          return this.value.toString();
+        },
       },
     },
     plotOptions: {
@@ -163,7 +174,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
               <>
                 <GaugeChart options={options} />
                 <CommunityStatusShower
-                  scoreStatus={-1}
+                  scoreStatus={scoreData?.scoreStatus}
                   toggleTipDialog={() => openTipModal()}
                   isFragmentation={false}
                 />
