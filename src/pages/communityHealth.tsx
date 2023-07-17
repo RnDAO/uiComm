@@ -48,7 +48,6 @@ function CommunityHealth() {
         </h3>
         <Fragmentation scoreData={fragmentationScoreData} />
         <Decentralization scoreData={decentralisationScoreData} />
-        Add text for test
       </div>
     </>
   );
