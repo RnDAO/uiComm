@@ -100,9 +100,7 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   refetchGuildChannels: async (guild_id: string) => {
     try {
       set(() => ({ isRefetchLoading: true }));
-      const { data } = await axiosInstance.get(
-        `/guilds/discord-api/${guild_id}/channels`
-      );
+      const { data } = await axiosInstance.get(`/guilds/${guild_id}/channels`);
       set({ guildChannels: [...data], isRefetchLoading: false });
     } catch (error) {
       set(() => ({ isRefetchLoading: false }));
