@@ -36,7 +36,7 @@ export default function ConnectCommunities() {
         setGuildId(guildId);
         toggleModal(true);
         setDatePeriod(
-          moment().subtract('7', 'days').format('YYYY-MM-DDTHH:mm:ss[Z]')
+          moment().subtract('35', 'days').format('YYYY-MM-DDTHH:mm:ss[Z]')
         );
       }
     }, [router]);
@@ -52,28 +52,22 @@ export default function ConnectCommunities() {
       case 1:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('7', 'days')
+          .subtract('35', 'days')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 2:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('1', 'months')
+          .subtract('3', 'months')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 3:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('3', 'months')
-          .format('YYYY-MM-DDTHH:mm:ss[Z]');
-        break;
-      case 4:
-        setActivePeriod(dateRangeType);
-        dateTime = moment()
           .subtract('6', 'months')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
-      case 5:
+      case 4:
         setActivePeriod(dateRangeType);
         dateTime = moment()
           .subtract('1', 'year')
