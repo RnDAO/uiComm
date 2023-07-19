@@ -1,5 +1,10 @@
 export default interface ICharts {
   isLoading: boolean;
+  interactionsLoading: boolean;
+  activeMembersLoading: boolean;
+  disengagedMembersLoading: boolean;
+  inactiveMembersLoading: boolean;
+  onboardingMembersLoading: boolean;
   heatmapRecords: any[];
   interactions: {};
   activeMembers: {};

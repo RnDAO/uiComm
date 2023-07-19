@@ -6,6 +6,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import Loading from '../../global/Loading';
 
 export interface IntractionsProps {
   activePeriod: number;
@@ -58,7 +59,7 @@ export default function InteractionsSection({
   activePeriod,
   handleDateRange,
 }: IntractionsProps) {
-  const { interactions } = useAppStore();
+  const { interactions, interactionsLoading } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -147,7 +148,11 @@ export default function InteractionsSection({
           />
         </div>
       </div>
-      <LineGraph options={options} />
+      {interactionsLoading ? (
+        <Loading height="400px" />
+      ) : (
+        <LineGraph options={options} />
+      )}
     </>
   );
 }

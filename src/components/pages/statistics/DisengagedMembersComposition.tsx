@@ -7,6 +7,7 @@ import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
+import Loading from '../../global/Loading';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
@@ -59,7 +60,7 @@ export default function DisengagedMembersComposition({
   activePeriod,
   handleDateRange,
 }: DisengagedMembersComposition) {
-  const { disengagedMembers } = useAppStore();
+  const { disengagedMembers, disengagedMembersLoading } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -212,7 +213,11 @@ export default function DisengagedMembersComposition({
           />
         </div>
       </div>
-      <LineGraph options={options} />
+      {disengagedMembersLoading ? (
+        <Loading height="400px" />
+      ) : (
+        <LineGraph options={options} />
+      )}
     </>
   );
 }

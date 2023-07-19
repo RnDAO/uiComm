@@ -6,6 +6,7 @@ import { FiCalendar } from 'react-icons/fi';
 import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import Loading from '../../global/Loading';
 
 export interface InactiveMembersProps {
   activePeriod: number;
@@ -58,7 +59,7 @@ export default function InactiveMembers({
   activePeriod,
   handleDateRange,
 }: InactiveMembersProps) {
-  const { inactiveMembers } = useAppStore();
+  const { inactiveMembers, inactiveMembersLoading } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -131,7 +132,11 @@ export default function InactiveMembers({
           />
         </div>
       </div>
-      <LineGraph options={options} />
+      {inactiveMembersLoading ? (
+        <Loading height="400px" />
+      ) : (
+        <LineGraph options={options} />
+      )}
     </>
   );
 }

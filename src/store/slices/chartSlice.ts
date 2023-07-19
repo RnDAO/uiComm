@@ -11,6 +11,11 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   inactiveMembers: {},
   onboardingMembers: {},
   selectedChannelsList: [],
+  interactionsLoading: false,
+  activeMembersLoading: false,
+  disengagedMembersLoading: false,
+  inactiveMembersLoading: false,
+  onboardingMembersLoading: false,
   fetchHeatmapData: async (
     guild_id: string,
     startDate: string,
@@ -41,7 +46,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     endDate: string
   ) => {
     try {
-      set(() => ({ isLoading: true }));
+      set(() => ({ interactionsLoading: true }));
       const { data } = await axiosInstance.post(
         `/heatmaps/${guild_id}/line-graph`,
         {
@@ -49,9 +54,9 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
           endDate,
         }
       );
-      set({ interactions: data, isLoading: false });
+      set({ interactions: data, interactionsLoading: false });
     } catch (error) {
-      set(() => ({ isLoading: false }));
+      set(() => ({ interactionsLoading: false }));
     }
   },
   fetchActiveMembers: async (
@@ -60,7 +65,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     endDate: string
   ) => {
     try {
-      set(() => ({ isLoading: true }));
+      set(() => ({ activeMembersLoading: true }));
       const { data } = await axiosInstance.post(
         `/member-activity/${guild_id}/active-members-composition-line-graph`,
         {
@@ -68,9 +73,9 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
           endDate,
         }
       );
-      set({ activeMembers: data, isLoading: false });
+      set({ activeMembers: data, activeMembersLoading: false });
     } catch (error) {
-      set(() => ({ isLoading: false }));
+      set(() => ({ activeMembersLoading: false }));
     }
   },
   fetchDisengagedMembers: async (
@@ -79,7 +84,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     endDate: string
   ) => {
     try {
-      set(() => ({ isLoading: true }));
+      set(() => ({ disengagedMembersLoading: true }));
       const { data } = await axiosInstance.post(
         `/member-activity/${guild_id}/disengaged-members-composition-line-graph`,
         {
@@ -87,9 +92,9 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
           endDate,
         }
       );
-      set({ disengagedMembers: data, isLoading: false });
+      set({ disengagedMembers: data, disengagedMembersLoading: false });
     } catch (error) {
-      set(() => ({ isLoading: false }));
+      set(() => ({ disengagedMembersLoading: false }));
     }
   },
   fetchInactiveMembers: async (
@@ -98,7 +103,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     endDate: string
   ) => {
     try {
-      set(() => ({ isLoading: true }));
+      set(() => ({ inactiveMembersLoading: true }));
       const { data } = await axiosInstance.post(
         `/member-activity/${guild_id}/inactive-members-line-graph `,
         {
@@ -106,9 +111,9 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
           endDate,
         }
       );
-      set({ inactiveMembers: data, isLoading: false });
+      set({ inactiveMembers: data, inactiveMembersLoading: false });
     } catch (error) {
-      set(() => ({ isLoading: false }));
+      set(() => ({ inactiveMembersLoading: false }));
     }
   },
   fetchOnboardingMembers: async (
@@ -117,7 +122,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     endDate: string
   ) => {
     try {
-      set(() => ({ isLoading: true }));
+      set(() => ({ onboardingMembersLoading: true }));
       const { data } = await axiosInstance.post(
         `/member-activity/${guild_id}/active-members-onboarding-line-graph `,
         {
@@ -125,9 +130,9 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
           endDate,
         }
       );
-      set({ onboardingMembers: data, isLoading: false });
+      set({ onboardingMembers: data, onboardingMembersLoading: false });
     } catch (error) {
-      set(() => ({ isLoading: false }));
+      set(() => ({ onboardingMembersLoading: false }));
     }
   },
   getSelectedChannelsList: async (guild_id: string) => {
