@@ -7,6 +7,8 @@ import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
+import SimpleBackdrop from '../../global/LoadingBackdrop';
+import Loading from '../../global/Loading';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -59,7 +61,7 @@ export default function ActiveMembersComposition({
   activePeriod,
   handleDateRange,
 }: ActiveMembersComposition) {
-  const { activeMembers } = useAppStore();
+  const { activeMembers, activeMembersLoading } = useAppStore();
 
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
@@ -225,7 +227,11 @@ export default function ActiveMembersComposition({
           />
         </div>
       </div>
-      <LineGraph options={options} />
+      {activeMembersLoading ? (
+        <Loading height="400px" />
+      ) : (
+        <LineGraph options={options} />
+      )}
     </>
   );
 }
