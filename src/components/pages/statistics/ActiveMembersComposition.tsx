@@ -7,7 +7,6 @@ import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
-import SimpleBackdrop from '../../global/LoadingBackdrop';
 import Loading from '../../global/Loading';
 
 export interface ActiveMembersComposition {
