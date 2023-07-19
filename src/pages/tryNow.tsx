@@ -143,24 +143,20 @@ type dateItems = {
 };
 const datePeriod: dateItems[] = [
   {
-    title: 'Last 7 days',
+    title: 'Last 35 days',
     value: 1,
   },
   {
-    title: '1M',
+    title: '3M',
     value: 2,
   },
   {
-    title: '3M',
+    title: '6M',
     value: 3,
   },
   {
-    title: '6M',
-    value: 4,
-  },
-  {
     title: '1Y',
-    value: 5,
+    value: 4,
   },
 ];
 
@@ -385,28 +381,22 @@ export default function TryNow() {
       case 1:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('7', 'days')
+          .subtract('35', 'days')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 2:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('1', 'months')
+          .subtract('3', 'months')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 3:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('3', 'months')
-          .format('YYYY-MM-DDTHH:mm:ss[Z]');
-        break;
-      case 4:
-        setActivePeriod(dateRangeType);
-        dateTime = moment()
           .subtract('6', 'months')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
-      case 5:
+      case 4:
         setActivePeriod(dateRangeType);
         dateTime = moment()
           .subtract('1', 'year')
