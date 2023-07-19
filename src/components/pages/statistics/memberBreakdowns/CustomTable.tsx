@@ -188,6 +188,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
     if (value.length >= 3) {
       handleUsernameChange(value);
+    } else if (value.length === 0) {
+      handleUsernameChange('');
     }
   };
 
