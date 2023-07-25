@@ -114,14 +114,14 @@ function Fragmentation({ scoreData }: FragmentationProps) {
         },
         series: [
           {
-            data: [parseFloat(scoreData.fragmentationScore.toFixed(1)) || 0],
+            data: [parseFloat(scoreData.fragmentationScore.toFixed(0)) || 0],
             dataLabels: {
               enabled: true,
               formatter: function (
                 this: Highcharts.AxisLabelsFormatterContextObject
               ): string {
                 return `${parseFloat(
-                  scoreData.fragmentationScore.toFixed(1)
+                  scoreData.fragmentationScore.toFixed(0)
                 )} / ${
                   scoreData.fragmentationScoreRange.maximumFragmentationScore
                 }`;
