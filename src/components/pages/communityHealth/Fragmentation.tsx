@@ -116,7 +116,16 @@ function Fragmentation({ scoreData }: FragmentationProps) {
           {
             data: [parseFloat(scoreData.fragmentationScore.toFixed(1)) || 0],
             dataLabels: {
-              enabled: false,
+              enabled: true,
+              formatter: function (
+                this: Highcharts.AxisLabelsFormatterContextObject
+              ): string {
+                return `${parseFloat(
+                  scoreData.fragmentationScore.toFixed(1)
+                )} / ${
+                  scoreData.fragmentationScoreRange.maximumFragmentationScore
+                }`;
+              },
             },
           },
         ],
