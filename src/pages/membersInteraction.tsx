@@ -87,6 +87,20 @@ export default function membersInteraction() {
               nodes.push(fromNode);
             }
 
+            if (!nodes.find((node) => node.id === item.to.id)) {
+              nodes.push({
+                id: item.to.id,
+                marker: { radius: calculateRadius(item.to.radius) },
+                color:
+                  item.to.stats === 'BALANCED'
+                    ? '#804EE1'
+                    : item.to.stats === 'RECEIVER'
+                    ? '#FFCB33'
+                    : '#3AAE2B',
+                name: item.to.username,
+              });
+            }
+
             return nodes;
           }, []),
         },
