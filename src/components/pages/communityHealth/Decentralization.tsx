@@ -118,7 +118,17 @@ function Decentralization({ scoreData }: DecentralizationProps) {
           {
             data: [parseFloat(scoreData.decentralisationScore.toFixed(1)) || 0],
             dataLabels: {
-              enabled: false,
+              enabled: true,
+              formatter: function (
+                this: Highcharts.AxisLabelsFormatterContextObject
+              ): string {
+                return `${parseFloat(
+                  scoreData.decentralisationScore.toFixed(1)
+                )} / ${
+                  scoreData.decentralisationScoreRange
+                    .maximumDecentralisationScore
+                }`;
+              },
             },
           },
         ],
