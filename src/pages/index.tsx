@@ -1,6 +1,4 @@
-import { FooterSection } from '../components/pages/pageIndex/FooterSection';
 import MainSection from '../components/pages/pageIndex/MainSection';
-
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
 import { useEffect, useState } from 'react';
@@ -95,7 +93,6 @@ function Dashboard(): JSX.Element {
 
       <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
         <MainSection />
-        <FooterSection />
       </div>
     </>
   );
