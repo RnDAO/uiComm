@@ -36,7 +36,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
     },
     pane: {
       center: ['50%', '75%'],
-      size: '95%',
+      size: '100%',
       startAngle: -90,
       endAngle: 90,
       background: {
@@ -116,7 +116,10 @@ function Decentralization({ scoreData }: DecentralizationProps) {
         },
         series: [
           {
-            data: [scoreData.decentralisationScore || 0],
+            data: [parseFloat(scoreData.decentralisationScore.toFixed(1)) || 0],
+            dataLabels: {
+              enabled: false,
+            },
           },
         ],
       };
@@ -218,8 +221,8 @@ function Decentralization({ scoreData }: DecentralizationProps) {
       <TipsDialog
         headerText={
           scoreData?.scoreStatus === -1 || scoreData?.scoreStatus === -2
-            ? 'Tips for centralizing'
-            : 'Tips for decentralizing'
+            ? 'Tips for decentralizing'
+            : 'Tips for centralizing'
         }
         isOpen={tipDialogOpen}
         onClose={() => closeTipModal()}

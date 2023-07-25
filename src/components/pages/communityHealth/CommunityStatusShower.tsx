@@ -25,7 +25,7 @@ function CommunityStatusShower({
           <span className="text-sm">
             {isFragmentation
               ? 'Tips for making your community less fragmented'
-              : 'Tips for decentralizing'}
+              : 'Tips for centralizing'}
           </span>
         </div>
       ) : scoreStatus === 0 ? (
@@ -46,7 +46,7 @@ function CommunityStatusShower({
           <span className="text-sm">
             {isFragmentation
               ? 'Tips for making your community less enmeshed'
-              : 'Tips for centralizing'}
+              : 'Tips for decentralizing'}
           </span>
         </div>
       ) : null}
