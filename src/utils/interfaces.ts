@@ -45,7 +45,6 @@ export interface IRowDetail {
 
 export interface IDecentralisationScoreResponse {
   decentralisationScore: number;
-  decentralisationScoreDate: number;
   decentralisationScoreRange: {
     minimumDecentralisationScore: number;
     maximumDecentralisationScore: number;
@@ -55,7 +54,6 @@ export interface IDecentralisationScoreResponse {
 
 export interface IFragmentationScoreResponse {
   fragmentationScore: number;
-  fragmentationScoreDate: number;
   scoreStatus: number;
   fragmentationScoreRange: {
     minimumFragmentationScore: number;

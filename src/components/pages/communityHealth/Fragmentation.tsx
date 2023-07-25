@@ -36,7 +36,7 @@ function Fragmentation({ scoreData }: FragmentationProps) {
     },
     pane: {
       center: ['50%', '75%'],
-      size: '95%',
+      size: '100%',
       startAngle: -90,
       endAngle: 90,
       background: {
@@ -114,7 +114,10 @@ function Fragmentation({ scoreData }: FragmentationProps) {
         },
         series: [
           {
-            data: [scoreData.fragmentationScore || 0],
+            data: [parseFloat(scoreData.fragmentationScore.toFixed(1)) || 0],
+            dataLabels: {
+              enabled: false,
+            },
           },
         ],
       };
