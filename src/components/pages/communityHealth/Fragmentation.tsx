@@ -103,7 +103,7 @@ function Fragmentation({ scoreData }: FragmentationProps) {
   });
 
   useEffect(() => {
-    if (scoreData) {
+    if (scoreData && scoreData.fragmentationScore !== null) {
       // Update series data
       const updatedOptions = {
         ...options,
