@@ -103,7 +103,7 @@ function Decentralization({ scoreData }: DecentralizationProps) {
   });
 
   useEffect(() => {
-    if (scoreData) {
+    if (scoreData && scoreData.decentralisationScore !== null) {
       // Update series data
       const updatedOptions = {
         ...options,
