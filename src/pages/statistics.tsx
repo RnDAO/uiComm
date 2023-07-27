@@ -18,6 +18,9 @@ import { AiOutlineLeft } from 'react-icons/ai';
 import Onboarding from '../components/pages/statistics/Onboarding';
 
 const Statistics = () => {
+  const user = StorageService.readLocalStorage<IUser>('user');
+
+  const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);
   const [onBoardingMemberDate, setOnBoardingMemberDate] = useState(1);
   const [activeInteractionDate, setActiveInteractionDate] = useState(1);
@@ -29,7 +32,6 @@ const Statistics = () => {
     fetchDisengagedMembers,
     fetchInactiveMembers,
     fetchOnboardingMembers,
-    isLoading,
   } = useAppStore();
 
   const [activeTab, setActiveTab] = useState('1');
@@ -42,51 +44,134 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
+    const fetchData = async () => {
+      try {
+        if (!user) {
+          return;
+        }
 
+        const { guild } = user;
+
+        setLoading(true);
+
+        if (activeTab === '1') {
+          const activeDateRange = getDateRange(activeMemberDate);
+          const onBoardingMemberDateRange = getDateRange(onBoardingMemberDate);
+          const activeIntegrationDateRange = getDateRange(
+            activeInteractionDate
+          );
+
+          await fetchActiveMembers(
+            guild.guildId,
+            activeDateRange[0],
+            activeDateRange[1]
+          );
+          await fetchInteractions(
+            guild.guildId,
+            activeIntegrationDateRange[0],
+            activeIntegrationDateRange[1]
+          );
+          await fetchOnboardingMembers(
+            guild.guildId,
+            onBoardingMemberDateRange[0],
+            onBoardingMemberDateRange[1]
+          );
+        } else {
+          const disengagedDateRange = getDateRange(disengagedMemberDate);
+          const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
+
+          await fetchDisengagedMembers(
+            guild.guildId,
+            disengagedDateRange[0],
+            disengagedDateRange[1]
+          );
+          await fetchInactiveMembers(
+            guild.guildId,
+            inactiveMemberDateRange[0],
+            inactiveMemberDateRange[1]
+          );
+        }
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const { guild } = user;
+    const activeDateRange = getDateRange(activeMemberDate);
+    fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
+  }, [activeMemberDate]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const { guild } = user;
+    const onBoardingMemberDateRange = getDateRange(onBoardingMemberDate);
+
+    fetchOnboardingMembers(
+      guild.guildId,
+      onBoardingMemberDateRange[0],
+      onBoardingMemberDateRange[1]
+    );
+  }, [onBoardingMemberDate]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const { guild } = user;
+    const activeIntegrationDateRange = getDateRange(activeInteractionDate);
+
+    fetchInteractions(
+      guild.guildId,
+      activeIntegrationDateRange[0],
+      activeIntegrationDateRange[1]
+    );
+  }, [activeInteractionDate]);
+
+  useEffect(() => {
     if (!user) {
       return;
     }
 
     const { guild } = user;
 
-    if (activeTab === '1') {
-      const activeDateRange = getDateRange(activeMemberDate);
-      const onBoardingMemberDateRange = getDateRange(onBoardingMemberDate);
-      const activeIntegrationDateRange = getDateRange(activeInteractionDate);
-      fetchActiveMembers(guild.guildId, activeDateRange[0], activeDateRange[1]);
-      fetchInteractions(
-        guild.guildId,
-        activeIntegrationDateRange[0],
-        activeIntegrationDateRange[1]
-      );
-      fetchOnboardingMembers(
-        guild.guildId,
-        onBoardingMemberDateRange[0],
-        onBoardingMemberDateRange[1]
-      );
-    } else {
-      const disengagedDateRange = getDateRange(disengagedMemberDate);
-      const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
-      fetchDisengagedMembers(
-        guild.guildId,
-        disengagedDateRange[0],
-        disengagedDateRange[1]
-      );
-      fetchInactiveMembers(
-        guild.guildId,
-        inactiveMemberDateRange[0],
-        inactiveMemberDateRange[1]
-      );
+    const disengagedDateRange = getDateRange(disengagedMemberDate);
+
+    fetchDisengagedMembers(
+      guild.guildId,
+      disengagedDateRange[0],
+      disengagedDateRange[1]
+    );
+  }, [disengagedMemberDate]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
     }
-  }, [
-    activeMemberDate,
-    activeInteractionDate,
-    disengagedMemberDate,
-    onBoardingMemberDate,
-    activeTab,
-    inactiveMembersDate,
-  ]);
+
+    const { guild } = user;
+
+    const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
+
+    fetchInactiveMembers(
+      guild.guildId,
+      inactiveMemberDateRange[0],
+      inactiveMemberDateRange[1]
+    );
+  }, [inactiveMembersDate]);
 
   const getDateRange = (dateRangeType: number): string[] => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
@@ -143,7 +228,7 @@ const Statistics = () => {
     setInactiveMembersDate(dateRangeType);
   };
 
-  if (isLoading) {
+  if (loading) {
     return <SimpleBackdrop />;
   }
 

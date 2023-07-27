@@ -1,4 +1,4 @@
-export default interface IHeatmap {
+export default interface IBreakdown {
   isActiveMembersBreakdownLoading: boolean;
   isOnboardingMembersBreakdownLoading: boolean;
   isDisengagedMembersCompositionBreakdownLoading: boolean;

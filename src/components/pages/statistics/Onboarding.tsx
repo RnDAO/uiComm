@@ -7,6 +7,7 @@ import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import RangeSelect from '../../global/RangeSelect';
 import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
+import Loading from '../../global/Loading';
 
 export interface OnboardingProps {
   activePeriod: number;
@@ -59,7 +60,7 @@ export default function Onboarding({
   activePeriod,
   handleDateRange,
 }: OnboardingProps) {
-  const { onboardingMembers } = useAppStore();
+  const { onboardingMembers, onboardingMembersLoading } = useAppStore();
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -189,7 +190,11 @@ export default function Onboarding({
           />
         </div>
       </div>
-      <LineGraph options={options} />
+      {onboardingMembersLoading ? (
+        <Loading height="400px" />
+      ) : (
+        <LineGraph options={options} />
+      )}
     </>
   );
 }

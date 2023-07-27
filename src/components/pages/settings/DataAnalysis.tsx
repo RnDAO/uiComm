@@ -26,28 +26,22 @@ export default function DataAnalysis() {
       case 1:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('7', 'days')
+          .subtract('35', 'days')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 2:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('1', 'months')
+          .subtract('3', 'months')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
       case 3:
         setActivePeriod(dateRangeType);
         dateTime = moment()
-          .subtract('3', 'months')
-          .format('YYYY-MM-DDTHH:mm:ss[Z]');
-        break;
-      case 4:
-        setActivePeriod(dateRangeType);
-        dateTime = moment()
           .subtract('6', 'months')
           .format('YYYY-MM-DDTHH:mm:ss[Z]');
         break;
-      case 5:
+      case 4:
         setActivePeriod(dateRangeType);
         dateTime = moment()
           .subtract('1', 'year')
@@ -70,16 +64,14 @@ export default function DataAnalysis() {
 
     const datePeriod = Math.round(moment.duration(end.diff(start)).asMonths());
 
-    if (datePeriod < 1) {
+    if (datePeriod <= 1) {
       setActivePeriod(1);
-    } else if (datePeriod < 3) {
+    } else if (datePeriod <= 3) {
       setActivePeriod(2);
-    } else if (datePeriod >= 3 && datePeriod < 4) {
+    } else if (datePeriod > 3 && datePeriod <= 6) {
       setActivePeriod(3);
-    } else if (datePeriod >= 5 && datePeriod <= 6) {
-      setActivePeriod(4);
     } else {
-      setActivePeriod(5);
+      setActivePeriod(4);
     }
 
     setAnalysisStartDate(guildInfo.period);

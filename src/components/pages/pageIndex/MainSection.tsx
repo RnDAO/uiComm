@@ -1,5 +1,7 @@
+import React from 'react';
 import ActiveMemberComposition from './ActiveMemberComposition';
 import HeatmapChart from './HeatmapChart';
+import MemberInteractionGraph from './MemberInteractionGraph';
 
 const MainSection = () => {
   return (
@@ -10,6 +12,7 @@ const MainSection = () => {
       <div className="space-y-4">
         <ActiveMemberComposition />
         <HeatmapChart />
+        <MemberInteractionGraph />
       </div>
     </div>
   );
