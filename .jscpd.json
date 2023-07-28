@@ -1,0 +1,12 @@
+{
+  "threshold": 0.2,
+  "reporters": ["html", "markdown"],
+  "ignore": [
+    "**/node_modules/**",
+    "**/*.svg",
+    "**/__snapshots__/**",
+    "**/*.spec.tsx"
+  ],
+  "gitignore": true,
+  "absolute": true
+}
