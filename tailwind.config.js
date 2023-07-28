@@ -7,17 +7,17 @@ const colors = {
     100: '#E4DCFF',
     200: '#BBA9FF',
     300: '#8D7CD0',
-    400: '#7564B3',
+    400: '#7564B3'
   },
   secondary: {
     DEFAULT: '#804EE1',
     50: '#F6FDFF',
-    75:'#CCB8F3',
+    75: '#CCB8F3',
     100: '#E3F8FF',
     200: '#BCEEFF',
     300: '#8CD3EA',
     400: '#4E90A6',
-    500: '#225262',
+    500: '#225262'
   },
   info: {
     DEFAULT: '#4368F1',
@@ -27,7 +27,7 @@ const colors = {
     300: '#92DAD6',
     400: '#7DC0BD',
     500: '#39C2C0',
-    600: '#313671',
+    600: '#313671'
   },
   error: {
     DEFAULT: '#B6435B',
@@ -37,7 +37,7 @@ const colors = {
     300: '#F06885',
     400: '#D3546F',
     500: '#FB3E56',
-    600:'#EB3E56'
+    600: '#EB3E56'
   },
   warning: {
     DEFAULT: '#BB6842',
@@ -46,7 +46,7 @@ const colors = {
     200: '#FFB897',
     300: '#F59467',
     400: '#D87D53',
-    500: '#FF9022',
+    500: '#FF9022'
   },
   yellow: {
     DEFAULT: '#FBD13E',
@@ -54,12 +54,12 @@ const colors = {
     100: '#FFEEBD',
     200: '#FFE28F',
     300: '#FFD761',
-    400: '#FFCB33',
+    400: '#FFCB33'
   },
   green: {
     DEFAULT: '#3AAE2B',
-    100:'#DBF6D7',
-    600:'#3A9E2B'
+    100: '#DBF6D7',
+    600: '#3A9E2B'
   },
   lite: '#F8F8F8',
   'lite-black': '#3E3E3E',
@@ -71,7 +71,6 @@ const colors = {
   aqua: '#35B9B7',
   success: '#56C054',
   'gray-hover': '#F7F7F7',
-  'purple-light': '#8474C0',
   'gray-white': '#F3F3F3',
   'gray-light': '#E3E9FF',
   'blue-light': '#C5D2FF',
@@ -79,19 +78,19 @@ const colors = {
   'purple-light': '#9971E7',
   'purple-dark': '#673FB5',
   'purple-darker': '#35205E',
-  'gray-subtitle':'#767676',
-  orange:'#FF8022'
-};
+  'gray-subtitle': '#767676',
+  orange: '#FF8022'
+}
 
 const backgroundImage = {
   'gradient-mantle':
-    'linear-gradient(90.64deg, #FFFFFF 69.92%, #D1D0DA 99.54%)',
-};
+    'linear-gradient(90.64deg, #FFFFFF 69.92%, #D1D0DA 99.54%)'
+}
 
 const boxShadow = {
   base: '0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px rgba(138, 138, 138, 0.16)',
-  box: '0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 10px rgba(138, 138, 138, 0.1)',
-};
+  box: '0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 10px rgba(138, 138, 138, 0.1)'
+}
 
 const screens = {
   sm: '760px',
@@ -103,37 +102,37 @@ const screens = {
   lg: '1200px',
   // => @media (min-width: 992px) { ... }
 
-  xl: '1600px',
+  xl: '1600px'
   // => @media (min-width: 1200px) { ... }
-};
+}
 
 module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
-    './src/layouts/**.{js,ts,jsx,tsx}',
+    './src/layouts/**.{js,ts,jsx,tsx}'
   ],
   important: true,
   theme: {
     extend: {
       screens: {
-        ...screens,
+        ...screens
       },
       colors: {
-        ...colors,
+        ...colors
       },
       backgroundImage: {
-        ...backgroundImage,
+        ...backgroundImage
       },
       boxShadow: {
-        ...boxShadow,
+        ...boxShadow
       },
       height: {
         128: '36rem',
         130: '38rem',
         140: '40rem',
-        150: '50rem',
+        150: '50rem'
       },
       container: {
         center: true,
@@ -141,10 +140,10 @@ module.exports = {
           sm: '760px',
           md: '1023px',
           lg: '1200px',
-          xl: '1400px',
-        },
-      },
-    },
+          xl: '1400px'
+        }
+      }
+    }
   },
-  plugins: [],
-};
+  plugins: []
+}

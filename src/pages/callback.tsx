@@ -9,6 +9,28 @@ import { BiError } from 'react-icons/bi';
 export default function callback() {
   const router = useRouter();
   const [loading, toggleLoading] = useState<boolean>(true);
+
+  const setUserDataAndRedirect = (
+    params: callbackUrlParams,
+    redirectUrl: string
+  ) => {
+    const userData = {
+      guild: {
+        guildId: params.guildId,
+        guildName: params.guildName,
+      },
+      token: {
+        accessToken: params.accessToken,
+        accessExp: params.accessExp,
+        refreshToken: params.refreshToken,
+        refreshExp: params.refreshExp,
+      },
+    };
+
+    StorageService.writeLocalStorage('user', userData);
+    router.push(redirectUrl);
+  };
+
   if (typeof window !== 'undefined') {
     useEffect(() => {
       if (
@@ -45,30 +67,12 @@ export default function callback() {
     let user = StorageService.readLocalStorage<IUser>('user');
     switch (statusCode) {
       case '490':
-        notify();
-        router.push('/tryNow');
-        break;
-
       case '491':
         notify();
-        router.push('/settings');
+        router.push(statusCode === '490' ? '/tryNow' : '/settings');
         break;
 
       case '501':
-        router.push({
-          pathname: '/tryNow',
-          query: {
-            statusCode: params.statusCode,
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshExp: params.refreshExp,
-            refreshToken: params.refreshToken,
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-        });
-        break;
-
       case '502':
         router.push({
           pathname: '/tryNow',
@@ -85,55 +89,10 @@ export default function callback() {
         break;
 
       case '503':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push({
-          pathname: '/',
-        });
-        break;
-
       case '504':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push({
-          pathname: '/',
-        });
-        break;
-
       case '601':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push('/');
+      case '603':
+        setUserDataAndRedirect(params, '/');
         break;
 
       case '602':
@@ -141,42 +100,7 @@ export default function callback() {
         router.push('/tryNow');
         break;
 
-      case '603':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push('/');
-        break;
-
       case '701':
-        if (user) {
-          StorageService.writeLocalStorage('user', {
-            guild: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-            },
-            token: user.token,
-          });
-          router.push({
-            pathname: '/settings',
-            query: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-              isSuccessful: true,
-            },
-          });
-        }
-        break;
-
       case '702':
         if (user) {
           StorageService.writeLocalStorage('user', {

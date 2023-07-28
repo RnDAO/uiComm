@@ -38,10 +38,7 @@ import Loading from '../components/global/Loading';
 import { MdExpandMore } from 'react-icons/md';
 import { IGuildChannels, ISubChannels } from '../utils/types';
 
-const ColorlibConnector = styled(StepConnector)(() => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 22,
-  },
+const stepConnectorStyles = {
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
       backgroundColor: '#804EE1',
@@ -58,19 +55,17 @@ const ColorlibConnector = styled(StepConnector)(() => ({
     backgroundColor: '#F5F5F5',
     borderRadius: 1,
   },
+};
+
+const ColorlibConnector = styled(StepConnector)(() => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 22,
+  },
+  ...stepConnectorStyles,
 }));
 
 const VerticalColorlibConnector = styled(StepConnector)(() => ({
-  [`&.${stepConnectorClasses.active}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#804EE1',
-    },
-  },
-  [`&.${stepConnectorClasses.completed}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#804EE1',
-    },
-  },
+  ...stepConnectorStyles,
   [`& .${stepConnectorClasses.line}`]: {
     marginTop: '-8px',
     marginBottom: '-8px',
@@ -188,6 +183,36 @@ export default function TryNow() {
     refetchGuildChannels,
   } = useAppStore();
 
+  function filterSelectedChannels(
+    channels: any[],
+    selectedChannelsStatus: any
+  ) {
+    const activeChannel: string[] = [];
+    for (const key in selectedChannelsStatus) {
+      if (selectedChannelsStatus[key]) {
+        activeChannel.push(key);
+      }
+    }
+
+    return [].concat(
+      ...channels.map((channel: any) => {
+        return channel.subChannels
+          .filter((subChannel: any) => {
+            return (
+              activeChannel.includes(subChannel.channelId) &&
+              subChannel.canReadMessageHistoryAndViewChannel
+            );
+          })
+          .map((filterdItem: any) => {
+            return {
+              channelId: filterdItem.channelId,
+              channelName: filterdItem.name,
+            };
+          });
+      })
+    );
+  }
+
   useEffect(() => {
     const channels = guildChannels.map((guild: any, index: any) => {
       const selected: Record<any, any> = {};
@@ -207,30 +232,9 @@ export default function TryNow() {
     });
 
     const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    for (const key in selectedChannelsStatus) {
-      if (selectedChannelsStatus[key]) {
-        activeChannel.push(key);
-      }
-    }
-
-    const result = [].concat(
-      ...channels.map((channel: any) => {
-        return channel.subChannels
-          .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.channelId)) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: any) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
+    setSelectedChannels(
+      filterSelectedChannels(channels, selectedChannelsStatus)
     );
-    setSelectedChannels(result);
 
     setChannels(channels);
   }, [guildChannels]);
@@ -304,33 +308,10 @@ export default function TryNow() {
     });
 
     const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    for (const key in selectedChannelsStatus) {
-      if (selectedChannelsStatus[key]) {
-        activeChannel.push(key);
-      }
-    }
 
-    const result = [].concat(
-      ...channels.map((channel: any) => {
-        return channel.subChannels
-          .filter((subChannel: any) => {
-            if (
-              activeChannel.includes(subChannel.channelId) &&
-              subChannel.canReadMessageHistoryAndViewChannel
-            ) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: any) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
+    setSelectedChannels(
+      filterSelectedChannels(channels, selectedChannelsStatus)
     );
-    setSelectedChannels(result);
     setOpen(false);
   };
 

@@ -123,49 +123,74 @@ export default function DataAnalysis() {
   return (
     <div className="flex flex-col space-y-4">
       <p className="text-sm text-black">
-        It might take up to 6 hours to finish new data import. Once it is done
+        It might take up to 6 hours to finish new data import. Once it is done,
         we will <br /> send you a message on Discord.
       </p>
-      <p className="flex flex-row items-center text-sm">
-        <FiInfo size={24} />
-        <span className="pl-1">
-          Data analysis runs from:{' '}
-          <b>{moment(analysisStateDate).format('DD MMMM yyyy')}</b>
-        </span>
-      </p>
-      <DatePeriodRange
-        activePeriod={activePeriod}
-        onChangeActivePeriod={handleActivePeriod}
-      />
-      <div>
-        <CustomButton
-          classes="bg-secondary text-white mt-2"
-          label={'Confirm selection'}
-          disabled={isDisabled}
-          onClick={() => toggleModal(true)}
-        />
-      </div>
-      <CustomModal isOpen={open} toggleModal={toggleModal} hasClose={true}>
-        <div className="mx-auto text-center md:w-2/3 space-y-6 pb-8">
-          <BsClockHistory
-            size={60}
-            className="mx-auto bg-gray-100 rounded-full p-3"
-          />
-          <h3 className="text-xl font-bold">
-            We are changing date period for data analysis now
-          </h3>
-          <p className="text-sm">
-            It might take up to 6 hours to finish new data import.{' '}
-            <br className="hidden md:flex" /> Once it is done we will send you a
-            message on Discord.
+      {guilds.length === 0 ? (
+        <>
+          <p className="flex flex-row items-stretch text-sm text-warning-500">
+            <BiError size={24} />
+            <span className="pl-1 text-sm">
+              There is no community connected at the moment. To be able to
+              select the date period, please connect your community first.
+            </span>
           </p>
-          <CustomButton
-            classes="bg-secondary text-white"
-            label={'I understand'}
-            onClick={submitNewDatePeriod}
+          <div className="pointer-events-none opacity-50">
+            <DatePeriodRange
+              activePeriod={1}
+              onChangeActivePeriod={handleActivePeriod}
+            />
+            <CustomButton
+              classes="bg-secondary text-white mt-5"
+              label={'Confirm selection'}
+              disabled={isDisabled}
+              onClick={() => toggleModal(true)}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="flex flex-row items-center text-sm">
+            <FiInfo size={24} />
+            <span className="pl-1">
+              Data analysis runs from:{' '}
+              <b>{moment(analysisStateDate).format('DD MMMM yyyy')}</b>
+            </span>
+          </p>
+          <DatePeriodRange
+            activePeriod={activePeriod}
+            onChangeActivePeriod={handleActivePeriod}
           />
-        </div>
-      </CustomModal>
+          <div>
+            <CustomButton
+              classes="bg-secondary text-white mt-2"
+              label={'Confirm selection'}
+              disabled={isDisabled}
+              onClick={() => toggleModal(true)}
+            />
+          </div>
+          <CustomModal isOpen={open} toggleModal={toggleModal} hasClose={true}>
+            <div className="mx-auto text-center md:w-2/3 space-y-6 pb-8">
+              <BsClockHistory
+                size={60}
+                className="mx-auto bg-gray-100 rounded-full p-3"
+              />
+              <h3 className="text-xl font-bold">
+                We are changing date period for data analysis now
+              </h3>
+              <p className="text-sm">
+                It might take up to 6 hours to finish new data import. Once it
+                is done, we will <br /> send you a message on Discord.
+              </p>
+              <CustomButton
+                classes="bg-secondary text-white"
+                label={'I understand'}
+                onClick={submitNewDatePeriod}
+              />
+            </div>
+          </CustomModal>
+        </>
+      )}
     </div>
   );
 }

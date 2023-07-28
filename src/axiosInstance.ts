@@ -1,12 +1,11 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { conf } from './configs/index';
 import { StorageService } from './services/StorageService';
-import router from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 
-import { toast } from 'react-toastify';
 import { IUser } from './utils/types';
 import { tokenRefreshEventEmitter } from './services/EventEmitter';
+import toastHelper from './helper/toastHelper';
 
 let isRefreshing = false;
 
@@ -41,15 +40,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     switch (error.response.status) {
       case 400:
-        toast.error(`${error.response.data.message}`, {
-          position: 'bottom-left',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: 0,
-        });
+        toastHelper(error.response.data.message, 'error');
         break;
       case 401:
         const user: IUser | undefined =
@@ -61,15 +52,7 @@ axiosInstance.interceptors.response.use(
         ) {
           StorageService.removeLocalStorage('user');
           StorageService.removeLocalStorage('analysis_state');
-          toast.error('Session expired. Please log in again.', {
-            position: 'bottom-left',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: 0,
-          });
+          toastHelper('Session expired. Please log in again.', 'error');
           if (typeof window !== 'undefined') {
             // Use window object here
             window.location.href = '/';
@@ -131,28 +114,12 @@ axiosInstance.interceptors.response.use(
           // Handle no user case
           StorageService.removeLocalStorage('user');
           StorageService.removeLocalStorage('analysis_state');
-          toast.error('Token expired...', {
-            position: 'bottom-left',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: 0,
-          });
+          toastHelper('Token expired...', 'error');
           window.location.href = '/';
         }
         break;
       case 404:
-        toast.error(`${error.response.data.message}`, {
-          position: 'bottom-left',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: 0,
-        });
+        toastHelper(error.response.data.message, 'error');
         Sentry.captureException(
           new Error(
             `API responded with status code ${error.response.status}: ${error.response.data.message}`
@@ -162,15 +129,7 @@ axiosInstance.interceptors.response.use(
       case 440:
         StorageService.removeLocalStorage('user');
         StorageService.removeLocalStorage('analysis_state');
-        toast.error(`${error.response.data.message}`, {
-          position: 'bottom-left',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: 0,
-        });
+        toastHelper(error.response.data.message, 'error');
         window.location.href = '/';
 
         Sentry.captureException(
@@ -180,15 +139,7 @@ axiosInstance.interceptors.response.use(
         );
         break;
       case 590:
-        toast.error(`${error.response.data.message}`, {
-          position: 'bottom-left',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: 0,
-        });
+        toastHelper(error.response.data.message, 'error');
         Sentry.captureException(
           new Error(
             `API responded with status code ${error.response.status}: ${error.response.data.message}`

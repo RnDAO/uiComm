@@ -15,6 +15,7 @@ import useAppStore from '../../../store/useStore';
 import { FiCalendar } from 'react-icons/fi';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import * as Sentry from '@sentry/nextjs';
+import { commonResponsiveSettings } from '../../../lib/data/heatmap';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -132,71 +133,7 @@ const defaultHeatmapChartOptions = {
         condition: {
           maxWidth: 600,
         },
-        // Make the labels less space demanding on mobile
-        chartOptions: {
-          chart: {
-            scrollablePlotArea: {
-              minWidth: 1080,
-            },
-          },
-          legend: {
-            title: {
-              text: 'Number of interactions',
-              style: {
-                fontStyle: 'bold',
-                fontSize: '10px',
-                fontFamily: 'Inter',
-              },
-            },
-            align: 'left',
-            layout: 'horizental',
-            margin: 0,
-            verticalAlign: 'bottom',
-            y: 0,
-            x: 25,
-            symbolHeight: 20,
-          },
-          xAxis: {
-            width: 1000,
-            labels: {
-              step: 1,
-              style: {
-                fontSize: '10px',
-                fontFamily: 'Inter',
-              },
-            },
-          },
-          yAxis: {
-            labels: {
-              style: {
-                fontSize: '10px',
-                fontFamily: 'Inter',
-              },
-            },
-          },
-          series: [
-            {
-              name: 'Revenue',
-              borderWidth: 0.5,
-              borderColor: 'white',
-              dataLabels: {
-                enabled: true,
-                style: {
-                  fontSize: '10px',
-                  fontFamily: 'Inter',
-                },
-              },
-              pointPadding: 0.8,
-              data: Array.from({ length: 24 * 7 }, (_, i) => [
-                i % 24,
-                Math.floor(i / 24),
-                0,
-              ]),
-              colsize: 0.9,
-              rowsize: 0.9,
-            },
-          ],
-        },
+        chartOptions: commonResponsiveSettings,
       },
     ],
   },

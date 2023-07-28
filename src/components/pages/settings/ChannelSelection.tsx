@@ -49,6 +49,42 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
     refetchGuildChannels,
   } = useAppStore();
 
+  const getSelectedChannels = (
+    channels: IGuildChannels[],
+    selectedChannelsStatus: Record<string, boolean>
+  ): IChannelWithoutId[] => {
+    const activeChannel: string[] = Object.keys(selectedChannelsStatus).filter(
+      (key) => selectedChannelsStatus[key]
+    );
+
+    const result: IChannelWithoutId[] = ([] as IChannelWithoutId[]).concat(
+      ...channels.map((channel: IGuildChannels) => {
+        return channel.subChannels
+          .filter(
+            (subChannel: ISubChannels) =>
+              activeChannel.includes(subChannel.channelId) &&
+              subChannel.canReadMessageHistoryAndViewChannel
+          )
+          .map((filteredItem: ISubChannels) => {
+            return {
+              channelId: filteredItem.channelId,
+              channelName: filteredItem.name,
+            };
+          });
+      })
+    );
+
+    return result;
+  };
+
+  function mergeSelectedChannelsStatus(
+    channels: IGuildChannels[]
+  ): Record<string, boolean> {
+    return channels.reduce((result, channel) => {
+      return { ...result, ...channel.selected };
+    }, {});
+  }
+
   useEffect(() => {
     const user = StorageService.readLocalStorage<IUser>('user');
     if (user) {
@@ -84,34 +120,8 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
       }
     );
 
-    const subChannelsStatus = channels.map((channel: IGuildChannels) => {
-      return channel.selected;
-    });
-
-    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    for (const key in selectedChannelsStatus) {
-      if (selectedChannelsStatus[key]) {
-        activeChannel.push(key);
-      }
-    }
-
-    const result = ([] as IChannelWithoutId[]).concat(
-      ...channels.map((channel: IGuildChannels) => {
-        return channel.subChannels
-          .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.channelId)) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: ISubChannels) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
-    );
+    const selectedChannelsStatus = mergeSelectedChannelsStatus(channels);
+    const result = getSelectedChannels(channels, selectedChannelsStatus);
     setSelectedChannels(result);
     setChannels(channels);
   }, [guildChannels]);
@@ -155,37 +165,8 @@ export default function ChannelSelection({ emitable, submit }: IProps) {
   };
 
   const submitChannels = () => {
-    const subChannelsStatus = channels.map((channel: IGuildChannels) => {
-      return channel.selected;
-    });
-
-    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    for (const key in selectedChannelsStatus) {
-      if (selectedChannelsStatus[key]) {
-        activeChannel.push(key);
-      }
-    }
-
-    const result = ([] as IChannelWithoutId[]).concat(
-      ...channels.map((channel: IGuildChannels) => {
-        return channel.subChannels
-          .filter((subChannel: ISubChannels) => {
-            if (
-              activeChannel.includes(subChannel.channelId) &&
-              subChannel.canReadMessageHistoryAndViewChannel
-            ) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: ISubChannels) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
-    );
+    const selectedChannelsStatus = mergeSelectedChannelsStatus(channels);
+    const result = getSelectedChannels(channels, selectedChannelsStatus);
 
     setSelectedChannels(result);
     if (emitable) {

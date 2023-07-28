@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Popover,
   Table,
@@ -34,6 +35,7 @@ import Loading from '../../../global/Loading';
 import useAppStore from '../../../../store/useStore';
 import { StorageService } from '../../../../services/StorageService';
 import CustomDialogDetail from './CustomDialogDetail';
+import CustomPopover from './CustomPopover';
 
 interface CustomTableProps {
   data: Row[];
@@ -236,7 +238,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     >
                       Roles
                     </Button>
-                    <Popover
+                    <CustomPopover
                       open={isRolesPopupOpen}
                       anchorEl={anchorElRoles}
                       onClose={handleClosePopup}
@@ -248,53 +250,56 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         vertical: 'top',
                         horizontal: 'left',
                       }}
-                    >
-                      <div className="px-1 py-3">
-                        <FormControlLabel
-                          className="px-4 py-1"
-                          control={
-                            <Checkbox
-                              color="secondary"
-                              checked={selectAllRoles}
-                              onChange={handleSelectAllRoles}
-                            />
-                          }
-                          label={'All Roles'}
-                        />
-                        <p className="px-4 py-2">Show members with tags:</p>
-                        {roles.map((role: IRoles) => (
-                          <ListItem key={role.name}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  color="secondary"
-                                  checked={selectedRoles.includes(role.roleId)}
-                                  onChange={handleSelectRole}
-                                  value={role.roleId}
-                                />
-                              }
-                              label={
-                                <div className="flex items-center border border-[#D1D1D1] rounded-md px-3">
-                                  <span
-                                    className={'w-2 h-2 rounded-full mr-2'}
-                                    style={{
-                                      backgroundColor:
-                                        role.color !== 0
-                                          ? `#${role.color
-                                              .toString(16)
-                                              .padStart(6, '0')}`
-                                          : '#96A5A6',
-                                      flexShrink: 0,
-                                    }}
+                      children={
+                        <div className="px-1 py-3">
+                          <FormControlLabel
+                            className="px-4 py-1"
+                            control={
+                              <Checkbox
+                                color="secondary"
+                                checked={selectAllRoles}
+                                onChange={handleSelectAllRoles}
+                              />
+                            }
+                            label={'All Roles'}
+                          />
+                          <p className="px-4 py-2">Show members with tags:</p>
+                          {roles.map((role: IRoles) => (
+                            <ListItem key={role.name}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    color="secondary"
+                                    checked={selectedRoles.includes(
+                                      role.roleId
+                                    )}
+                                    onChange={handleSelectRole}
+                                    value={role.roleId}
                                   />
-                                  <div className="text-sm">{role.name}</div>
-                                </div>
-                              }
-                            />
-                          </ListItem>
-                        ))}
-                      </div>
-                    </Popover>
+                                }
+                                label={
+                                  <div className="flex items-center border border-[#D1D1D1] rounded-md px-3">
+                                    <span
+                                      className={'w-2 h-2 rounded-full mr-2'}
+                                      style={{
+                                        backgroundColor:
+                                          role.color !== 0
+                                            ? `#${role.color
+                                                .toString(16)
+                                                .padStart(6, '0')}`
+                                            : '#96A5A6',
+                                        flexShrink: 0,
+                                      }}
+                                    />
+                                    <div className="text-sm">{role.name}</div>
+                                  </div>
+                                }
+                              />
+                            </ListItem>
+                          ))}
+                        </div>
+                      }
+                    />
                   </>
                 ) : column.id === 'activityComposition' ? (
                   <>
@@ -313,65 +318,58 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     >
                       Activity composition
                     </Button>
-                    <Popover
+                    <CustomPopover
                       open={isActivityPopupOpen}
                       anchorEl={anchorElActivity}
                       onClose={handleClosePopup}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                      }}
-                    >
-                      <div className="px-1 py-3">
-                        <FormControlLabel
-                          className="px-4 py-1"
-                          control={
-                            <Checkbox
-                              color="secondary"
-                              checked={selectAllActivityOptions}
-                              onChange={handleSelectAllActivityOptions}
-                            />
-                          }
-                          label={<div className="text-base">All</div>}
-                        />
-                        {activityCompositionOptions.map(
-                          (option: IActivityCompositionOptions) => (
-                            <ListItem key={option.name}>
-                              <FormControlLabel
-                                control={
-                                  <Checkbox
-                                    color="secondary"
-                                    checked={selectedActivityOptions.includes(
-                                      option.value
-                                    )}
-                                    onChange={handleSelectActivityOption}
-                                    value={option.value}
-                                  />
-                                }
-                                label={
-                                  <div className="flex items-center">
-                                    <span
-                                      className="w-4 h-4 rounded-full mr-1"
-                                      style={{
-                                        backgroundColor: option.color,
-                                        flexShrink: 0,
-                                      }}
-                                    />
-                                    <div className="text-base">
-                                      {option.name}
-                                    </div>
-                                  </div>
-                                }
+                      children={
+                        <div className="px-1 py-3">
+                          <FormControlLabel
+                            className="px-4 py-1"
+                            control={
+                              <Checkbox
+                                color="secondary"
+                                checked={selectAllActivityOptions}
+                                onChange={handleSelectAllActivityOptions}
                               />
-                            </ListItem>
-                          )
-                        )}
-                      </div>
-                    </Popover>
+                            }
+                            label={<div className="text-base">All</div>}
+                          />
+                          {activityCompositionOptions.map(
+                            (option: IActivityCompositionOptions) => (
+                              <ListItem key={option.name}>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      color="secondary"
+                                      checked={selectedActivityOptions.includes(
+                                        option.value
+                                      )}
+                                      onChange={handleSelectActivityOption}
+                                      value={option.value}
+                                    />
+                                  }
+                                  label={
+                                    <div className="flex items-center">
+                                      <span
+                                        className="w-4 h-4 rounded-full mr-1"
+                                        style={{
+                                          backgroundColor: option.color,
+                                          flexShrink: 0,
+                                        }}
+                                      />
+                                      <div className="text-base">
+                                        {option.name}
+                                      </div>
+                                    </div>
+                                  }
+                                />
+                              </ListItem>
+                            )
+                          )}
+                        </div>
+                      }
+                    />
                   </>
                 ) : column.id === 'joinedAt' ? (
                   <>
@@ -390,36 +388,27 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     >
                       {column.label}
                     </Button>
-                    <Popover
+                    <CustomPopover
                       open={isJoinedAtPopupOpen}
                       anchorEl={anchorElJoinedAt}
                       onClose={handleClosePopup}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                      }}
-                    >
-                      <List>
-                        <ListItem
-                          button
-                          onClick={() => handleSortOptionClick('desc')}
-                          selected={selectedSortOption === 'desc'}
-                        >
-                          <ListItemText primary="Newest members" />
-                        </ListItem>
-                        <ListItem
-                          button
-                          onClick={() => handleSortOptionClick('asc')}
-                          selected={selectedSortOption === 'asc'}
-                        >
-                          <ListItemText primary="Oldest members" />
-                        </ListItem>
-                      </List>
-                    </Popover>
+                      children={
+                        <List>
+                          <ListItemButton
+                            onClick={() => handleSortOptionClick('desc')}
+                            selected={selectedSortOption === 'desc'}
+                          >
+                            <ListItemText primary="Newest members" />
+                          </ListItemButton>
+                          <ListItemButton
+                            onClick={() => handleSortOptionClick('asc')}
+                            selected={selectedSortOption === 'asc'}
+                          >
+                            <ListItemText primary="Oldest members" />
+                          </ListItemButton>
+                        </List>
+                      }
+                    />
                   </>
                 ) : column.id === 'username' ? (
                   <div className="flex flex-row items-center">

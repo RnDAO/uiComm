@@ -41,10 +41,10 @@ const FilterByChannels = ({
     if (user) {
       setGuild(user.guild);
     }
-    let activeChannles: string[] = [];
+    let activeChannels: string[] = [];
 
     if (filteredChannels.length > 0) {
-      activeChannles =
+      activeChannels =
         guildInfo && guildInfo.selectedChannels
           ? guildInfo.selectedChannels
               .filter((channel: IChannel) => {
@@ -58,7 +58,7 @@ const FilterByChannels = ({
               })
           : [];
     } else {
-      activeChannles =
+      activeChannels =
         guildInfo && guildInfo.selectedChannels
           ? guildInfo.selectedChannels.map((channel: IChannel) => {
               return channel.channelId;
@@ -66,54 +66,26 @@ const FilterByChannels = ({
           : [];
     }
 
-    const channels = guildChannels.map(
+    const updatedChannels = guildChannels.map(
       (guild: IGuildChannels, _index: number) => {
         const selected: Record<string, boolean> = {};
 
         guild.subChannels.forEach((subChannel: ISubChannels) => {
-          if (activeChannles.includes(subChannel.channelId)) {
+          if (activeChannels.includes(subChannel.channelId)) {
             selected[subChannel.channelId] = true;
           } else {
             selected[subChannel.channelId] = false;
           }
         });
 
-        return { ...guild, selected: selected ?? {} };
+        return { ...guild, selected };
       }
     );
 
-    const subChannelsStatus = channels.map((channel: IGuildChannels) => {
-      return channel.selected;
-    });
+    setChannels(updatedChannels);
 
-    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    for (const key in selectedChannelsStatus) {
-      if (selectedChannelsStatus[key]) {
-        activeChannel.push(key);
-      }
-    }
-
-    const result = ([] as IChannelWithoutId[]).concat(
-      ...channels.map((channel: IGuildChannels) => {
-        return channel.subChannels
-          .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.channelId)) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: ISubChannels) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
-    );
-
+    const result = calculateSelectedChannels(updatedChannels);
     setSelectedChannels(result);
-
-    setChannels(channels);
   }, [guildChannels]);
 
   const onChange = (
@@ -133,6 +105,7 @@ const FilterByChannels = ({
       });
     });
   };
+
   const handleCheckAll = (guild: IGuildChannels, status: boolean) => {
     const selectedGuild = channels.find(
       (channel) => channel.channelId === guild.channelId
@@ -150,6 +123,7 @@ const FilterByChannels = ({
 
     setChannels(updatedChannels);
   };
+
   const checkSelectedProperties = (channels: IGuildChannels[]) => {
     return channels.every((channel) => {
       const selectedValues = channel.selected
@@ -167,7 +141,7 @@ const FilterByChannels = ({
     setAnchorEl(null);
   };
 
-  const returnSelectedChannelsId = (channels: IGuildChannels[]) => {
+  const calculateSelectedChannels = (channels: IGuildChannels[]) => {
     const subChannelsStatus = channels.map((channel: IGuildChannels) => {
       return channel.selected;
     });
@@ -199,11 +173,7 @@ const FilterByChannels = ({
       })
     );
 
-    setSelectedChannels(result);
-
-    return result.map((channel: IChannelWithoutId) => {
-      return channel.channelId;
-    });
+    return result;
   };
 
   const open = Boolean(anchorEl);
@@ -264,7 +234,11 @@ const FilterByChannels = ({
               label={'Save channels'}
               classes="bg-secondary text-white mx-auto"
               onClick={() => {
-                handleSelectedChannels(returnSelectedChannelsId(channels));
+                handleSelectedChannels(
+                  calculateSelectedChannels(channels).map(
+                    (channel) => channel.channelId
+                  )
+                );
               }}
               disabled={checkSelectedProperties(channels) ?? true}
             />

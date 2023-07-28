@@ -13,6 +13,13 @@ import moment from 'moment';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 
+interface ConnectButtonProps {
+  label: string;
+  iconSize: number;
+  buttonText: string;
+  onClick?: () => void;
+}
+
 export default function ConnectCommunities() {
   const router = useRouter();
 
@@ -98,6 +105,23 @@ export default function ConnectCommunities() {
       pathname: '/settings',
     });
   };
+
+  const ConnectButton = ({
+    label,
+    iconSize,
+    buttonText,
+    onClick,
+  }: ConnectButtonProps) => (
+    <>
+      <p className="font-sm">{label}</p>
+      <FaDiscord size={iconSize} className="mx-auto mt-2 mb-2" />
+      <div className="text-secondary text-base flex items-center justify-center">
+        <GoPlus size={20} className="mr-1" />
+        <p className="font-semibold">{buttonText}</p>
+      </div>
+    </>
+  );
+
   return (
     <>
       <CustomModal
@@ -173,12 +197,11 @@ export default function ConnectCommunities() {
               placement="right"
             >
               <Paper className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer opacity-60">
-                <p className="font-sm">Discord</p>
-                <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
-                <div className="text-secondary text-base flex items-center justify-center">
-                  <GoPlus size={20} className="mr-1" />
-                  <p className="font-semibold">Connect</p>
-                </div>
+                <ConnectButton
+                  label="Discord"
+                  iconSize={60}
+                  buttonText="Connect"
+                />
               </Paper>
             </Tooltip>
           ) : (
@@ -186,12 +209,12 @@ export default function ConnectCommunities() {
               className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
               onClick={() => connectNewGuild()}
             >
-              <p className="font-sm">Discord</p>
-              <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
-              <div className="text-secondary text-base flex items-center justify-center">
-                <GoPlus size={20} className="mr-1" />
-                <p className="font-semibold">Connect</p>
-              </div>
+              <ConnectButton
+                label="Discord"
+                iconSize={60}
+                buttonText="Connect"
+                onClick={connectNewGuild}
+              />
             </Paper>
           )}
         </div>

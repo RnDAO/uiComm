@@ -1,20 +1,19 @@
 /** @type {import('next').NextConfig} */
 
-
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   trailingSlash: true,
   images: {
     unoptimized: true
-  },
+  }
 }
 
 module.exports = nextConfig
 
 // Inected Content via Sentry Wizard Below
 
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require('@sentry/nextjs')
 
 module.exports = withSentryConfig(
   module.exports,
@@ -28,7 +27,7 @@ module.exports = withSentryConfig(
     url: process.env.NEXT_PUBLIC_SENTRY_URL,
     authToken: process.env.SENTRY_TOKEN,
     org: process.env.NEXT_PUBLIC_ORG_NAME,
-    project: process.env.NEXT_PUBLIC_PROJECT_NAME,
+    project: process.env.NEXT_PUBLIC_PROJECT_NAME
   },
   {
     // For all available options, see:
@@ -41,12 +40,12 @@ module.exports = withSentryConfig(
     transpileClientSDK: true,
 
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-    tunnelRoute: "/monitoring",
+    tunnelRoute: '/monitoring',
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,
 
     // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
+    disableLogger: true
   }
-);
+)
