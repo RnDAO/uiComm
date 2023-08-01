@@ -173,7 +173,7 @@ export default function membersInteraction() {
             <div className="flex-1">
               <NetworkGraph options={networkGraphData} />
             </div>
-            <div className="hidden md:flex w-1/5">
+            <div className="hidden md:flex md:w-1/2 lg:w-1/3 justify-end">
               <HintBox />
             </div>
           </div>
