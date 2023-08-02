@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { StorageService } from '../../../../../services/StorageService';
 import useAppStore from '../../../../../store/useStore';
 import { IUser } from '../../../../../utils/types';
@@ -30,6 +30,9 @@ const options: IActivityCompositionOptions[] = [
 export default function ActiveMemberBreakdown() {
   const { getActiveMemberCompositionTable, isActiveMembersBreakdownLoading } =
     useAppStore();
+
+  const tableTopRef = useRef<HTMLDivElement>(null);
+
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<string[]>([]);
@@ -54,6 +57,9 @@ export default function ActiveMemberBreakdown() {
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
+    if (tableTopRef.current && isExpanded) {
+      tableTopRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
@@ -96,10 +102,20 @@ export default function ActiveMemberBreakdown() {
     setUsername(value);
   };
 
+  const handleButtonClick = () => {
+    if (tableTopRef.current && isExpanded) {
+      tableTopRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    toggleExpanded(!isExpanded);
+  };
+
   return (
     <>
       <div className="relative overflow-x-scroll md:overflow-hidden mb-1 md:mb-1">
-        <h3 className="text-xl font-medium text-lite-black md:mb-4">
+        <h3
+          className="text-xl font-medium text-lite-black md:mb-4"
+          ref={tableTopRef}
+        >
           Members breakdown
         </h3>
         <div
@@ -145,7 +161,7 @@ export default function ActiveMemberBreakdown() {
             classes={'text-black'}
             variant="outlined"
             disabled={fetchedData?.totalResults === 0}
-            onClick={() => toggleExpanded(!isExpanded)}
+            onClick={handleButtonClick}
           />
         </div>
       ) : (
