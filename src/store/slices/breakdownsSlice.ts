@@ -42,7 +42,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       });
 
       if (username) {
-        params.append('username', username);
+        params.append('ngu', username);
       }
 
       const url = `/member-activity/${guild_id}/active-members-composition-table?${params.toString()}`;
@@ -90,7 +90,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       });
 
       if (username) {
-        params.append('username', username);
+        params.append('ngu', username);
       }
 
       const url = `/member-activity/${guild_id}/active-members-onboarding-table?${params.toString()}`;
@@ -138,7 +138,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       });
 
       if (username) {
-        params.append('username', username);
+        params.append('ngu', username);
       }
 
       const url = `/member-activity/${guild_id}/disengaged-members-composition-table?${params.toString()}`;
