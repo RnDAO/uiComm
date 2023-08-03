@@ -209,11 +209,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
       <Table className="border-separate border-spacing-y-2">
         <TableHead>
           <TableRow>
-            {columns.map((column) => (
+            {columns.map((column, columnIndex) => (
               <TableCell
                 key={column.id}
                 style={{
-                  width: `${100 / columns.length}%`,
+                  width:
+                    columnIndex === 0 ? '40%' : `${60 / (columns.length - 1)}%`,
                   borderBottom: 'none',
                   padding: '0 0',
                   whiteSpace: 'nowrap',
@@ -478,7 +479,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       <TableCell
                         key={column.id}
                         style={{
-                          width: `${100 / columns.length}%`,
+                          width:
+                            columnIndex === 0
+                              ? '40%'
+                              : `${60 / (columns.length - 1)}%`,
                           border:
                             index % 2 === 0 ? 'none' : '1px solid #F5F5F5',
                         }}
@@ -499,7 +503,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             </span>
                           </div>
                         ) : column.id === 'roles' ? (
-                          <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap md:space-x-1">
+                          <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap">
                             {row.roles.length > 0 ? (
                               <>
                                 {row.roles.slice(0, 1).map((role: IRoles) => (
@@ -509,7 +513,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     style={{ whiteSpace: 'nowrap' }}
                                   >
                                     <span
-                                      className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs"
+                                      className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs mb-1 mr-1"
                                       style={{
                                         display: 'flex',
                                         alignItems: 'center',
@@ -543,7 +547,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     onClick={() => handleShowDetails(row)}
                                   >
                                     <span
-                                      className="bg-white p-1 rounded-[4px] border border-[#D1D1D1] text-xs cursor-pointer"
+                                      className="bg-white p-1 rounded-[4px] border border-[#D1D1D1] text-xs cursor-pointer mb-1 mr-1"
                                       style={{
                                         display: 'flex',
                                         alignItems: 'center',
