@@ -13,6 +13,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
@@ -498,9 +499,24 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               src={`${conf.DISCORD_CDN}avatars/${row.discordId}/${row?.avatar}.png`}
                               alt="User Avatar"
                             />
-                            <span className="ml-2 font-semibold text-base">
-                              {row[column.id]}
-                            </span>
+                            <p className="flex flex-row space-x-1.5 whitespace-nowrap">
+                              <span className="font-semibold text-base">
+                                {row.ngu}
+                              </span>
+                              {row[column.id].length > 10 ? (
+                                <Tooltip title={row[column.id]} placement="top">
+                                  <span className="text-gray-subtitle text-base cursor-pointer">
+                                    {`${row[column.id].slice(0, 3)}...${row[
+                                      column.id
+                                    ].slice(-4)}`}
+                                  </span>
+                                </Tooltip>
+                              ) : (
+                                <span className="text-gray-subtitle text-base">
+                                  {row[column.id]}
+                                </span>
+                              )}
+                            </p>
                           </div>
                         ) : column.id === 'roles' ? (
                           <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap">
