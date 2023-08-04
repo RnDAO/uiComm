@@ -3,7 +3,7 @@ import React from 'react';
 export default function HintBox() {
   return (
     <div className="bg-gray-hover py-7 md:px-5 lg:px-7 rounded-xl space-y-6 overflow-hidden">
-      <p className="font-semibold">Number of interactions</p>
+      <p className="font-semibold whitespace-nowrap">Number of interactions</p>
       <div className="flex flex-row justify-around items-baseline">
         <div className="text-center text-sm">
           <div className="rounded-full w-3.5 h-3.5 bg-secondary mx-auto" />
