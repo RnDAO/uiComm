@@ -56,7 +56,8 @@ const ForceGraphComponent = ({
         nodeLabel="name"
         nodeVal={(node: CustomNode) => node.size / 1.5}
         nodeAutoColorBy="id"
-        height={Number(numberOfnodes) > 300 ? 800 : 400} // Here's the corrected line        graphView={graphView}
+        height={Number(numberOfnodes) > 300 ? 800 : 400} // Here's the corrected line
+        graphView={graphView}
         minZoom={0.5}
         {...restProps}
       />
