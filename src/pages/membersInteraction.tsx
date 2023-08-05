@@ -7,36 +7,74 @@ import { Paper, Popover } from '@mui/material';
 import useAppStore from '../store/useStore';
 import { StorageService } from '../services/StorageService';
 import HintBox from '../components/pages/memberInteraction/HintBox';
-import NetworkGraph from '../components/global/NetworkGraph';
 import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import dynamic from 'next/dynamic';
+
+const ForceGraphComponent = dynamic(
+  () => import('../components/global/ForceGraphComponent').then((cmp) => cmp),
+  { ssr: false }
+);
+
+const getNodeSize = (radius: number) => {
+  if (radius >= 0 && radius <= 10) {
+    return 1;
+  } else if (radius >= 11 && radius <= 50) {
+    return 5;
+  } else {
+    return 8;
+  }
+};
+
+const transformApiResponseToMockData = (apiResponse: any[]) => {
+  const nodes: any[] = [];
+  const links: any[] = [];
+
+  apiResponse.forEach(({ from, to, width }) => {
+    const sourceNode = {
+      id: from.id,
+      name: from.username,
+      color:
+        from.stats === 'SENDER'
+          ? '#3AAE2B'
+          : from.stats === 'RECEIVER'
+          ? '#FFCB33'
+          : '#804EE1',
+      size: getNodeSize(from.radius),
+    };
+    const targetNode = {
+      id: to.id,
+      name: to.username,
+      color:
+        to.stats === 'SENDER'
+          ? '#3AAE2B'
+          : to.stats === 'RECEIVER'
+          ? '#FFCB33'
+          : '#804EE1',
+      size: getNodeSize(to.radius),
+    };
+    const link = { source: from.id, target: to.id, width };
+
+    // Add nodes to the nodes array only if they don't exist already
+    if (!nodes.find((node) => node.id === sourceNode.id)) {
+      nodes.push(sourceNode);
+    }
+
+    if (!nodes.find((node) => node.id === targetNode.id)) {
+      nodes.push(targetNode);
+    }
+
+    // Add the link to the links array
+    links.push(link);
+  });
+
+  return { nodes, links };
+};
 
 export default function membersInteraction() {
-  const [networkGraphData, setNetworkGraphData] = useState<unknown>({
-    series: [
-      {
-        layoutAlgorithm: {
-          enableSimulation: true,
-          integration: 'euler',
-          linkLength: 30,
-          gravitationalConstant: 0.2,
-        },
-        type: 'networkgraph',
-        data: [],
-        nodes: [],
-      },
-    ],
-    plotOptions: {
-      networkgraph: {
-        node: {
-          color: 'gray',
-        },
-      },
-    },
-    title: {
-      text: '',
-    },
-  });
+  const [nodes, setNodes] = useState<any[]>([]);
+  const [links, setLinks] = useState<any[]>([]);
+  const [nodeSizes, setNodeSizes] = useState<number[]>([]);
 
   const [user, setUser] = useState<IUser | undefined>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<null | HTMLElement>(
@@ -52,92 +90,15 @@ export default function membersInteraction() {
     if (storedUser && storedUser.guild) {
       getMemberInteraction(storedUser.guild.guildId).then(
         (apiResponse: any[]) => {
-          const transformedData = transformApiResponse(apiResponse);
-          setNetworkGraphData(transformedData);
+          const { nodes, links } = transformApiResponseToMockData(apiResponse);
+          const nodeSizes = nodes.map((node) => node.size);
+          setNodes(nodes);
+          setLinks(links);
+          setNodeSizes(nodeSizes);
         }
       );
     }
   }, []);
-
-  const transformApiResponse = (apiResponse: any[]) => {
-    const transformedData = {
-      series: [
-        {
-          type: 'networkgraph',
-          data: apiResponse?.map((item: any) => ({
-            from: item.from.id,
-            to: item.to.id,
-            width: 1,
-            name: `${item.from.username} to ${item.to.username}`,
-          })),
-          nodes: apiResponse?.reduce((nodes: any[], item: any) => {
-            const fromNode = {
-              id: item.from.id,
-              marker: { radius: calculateRadius(item.from.radius) },
-              color:
-                item.from.stats === 'BALANCED'
-                  ? '#804EE1'
-                  : item.from.stats === 'RECEIVER'
-                  ? '#FFCB33'
-                  : '#3AAE2B',
-              name: item.from.username,
-            };
-
-            if (!nodes.find((node: any) => node.id === fromNode.id)) {
-              nodes.push(fromNode);
-            }
-
-            if (!nodes.find((node) => node.id === item.to.id)) {
-              nodes.push({
-                id: item.to.id,
-                marker: { radius: calculateRadius(item.to.radius) },
-                color:
-                  item.to.stats === 'BALANCED'
-                    ? '#804EE1'
-                    : item.to.stats === 'RECEIVER'
-                    ? '#FFCB33'
-                    : '#3AAE2B',
-                name: item.to.username,
-              });
-            }
-
-            return nodes;
-          }, []),
-        },
-      ],
-      plotOptions: {
-        networkgraph: {
-          node: {
-            color: 'gray',
-          },
-          layout: 'force',
-          initialPositions: 'random',
-          animation: false,
-        },
-      },
-      tooltip: {
-        enabled: true,
-        formatter(this: Highcharts.TooltipFormatterContextObject): string {
-          return `<div>Username: ${this.point.name}</div>`;
-        },
-      },
-      title: {
-        text: '',
-      },
-    };
-
-    return transformedData;
-  };
-
-  const calculateRadius = (radius: number) => {
-    if (radius >= 0 && radius <= 10) {
-      return 7;
-    } else if (radius >= 11 && radius <= 50) {
-      return 10;
-    } else {
-      return 17;
-    }
-  };
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setPopoverAnchorEl(event.currentTarget);
@@ -170,10 +131,15 @@ export default function membersInteraction() {
           </h3>
           <p>Data from the last 7 days</p>
           <div className="flex flex-col md:flex-row md:items-start">
-            <div className="flex-1">
-              <NetworkGraph options={networkGraphData} />
+            <div className="lg:w-3/4 overflow-hidden justify-center items-center">
+              <ForceGraphComponent
+                nodes={nodes}
+                links={links}
+                nodeRelSize={nodeSizes}
+                numberOfnodes={nodes.length}
+              />
             </div>
-            <div className="hidden md:flex md:w-1/2 lg:w-1/3 justify-end">
+            <div className="hidden md:flex md:w-1/2 lg:flex-1  justify-end">
               <HintBox />
             </div>
           </div>
