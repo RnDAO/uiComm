@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { Avatar, Popover, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 
 interface CustomNode {
@@ -9,12 +10,14 @@ interface CustomNode {
   id?: string;
 }
 
-const ForceGraphComponent = ({
-  nodes,
-  links,
-  numberOfnodes,
-  restProps,
-}: any) => {
+const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
+  const [popOverOpen, setpopOverOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [user, setUser] = useState<{ id: string; name: string } | null>(null);
+  const [position, setPosition] = useState<{ x: number; y: number } | null>(
+    null
+  );
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       console.log('This component is being rendered on the client-side.');
@@ -49,6 +52,16 @@ const ForceGraphComponent = ({
     center: { x: centerX, y: centerY },
   };
 
+  const handleSelectedNode = (node: any, event: MouseEvent) => {
+    setpopOverOpen(true);
+    setAnchorEl(event.currentTarget as HTMLElement);
+    setUser({ id: node.id, name: node.name });
+    setPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+  };
+
   return (
     <div className="flex justify-center items-center h-full">
       <ForceGraph2D
@@ -56,11 +69,39 @@ const ForceGraphComponent = ({
         nodeLabel="name"
         nodeVal={(node: CustomNode) => node.size / 1.5}
         nodeAutoColorBy="id"
-        height={Number(numberOfnodes) > 300 ? 800 : 400} // Here's the corrected line
-        graphView={graphView}
+        height={Number(numberOfnodes) > 300 ? 800 : 400}
+        {...graphView}
         minZoom={0.5}
-        {...restProps}
+        onNodeClick={(node: any, event: MouseEvent) => {
+          handleSelectedNode(node, event);
+        }}
+        onBackgroundClick={() => setpopOverOpen(false)}
       />
+      <Popover
+        open={popOverOpen}
+        onClose={() => setpopOverOpen(false)}
+        anchorEl={anchorEl} // Use the anchorEl state here
+        sx={{
+          position: 'absolute',
+          top: `${position?.y}px`,
+          left: `${position?.x}px`,
+        }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <div className="px-4 py-3 flex items-center flex-row space-x-3">
+          <Avatar />
+          <Typography variant="body1" color="initial">
+            {user ? user?.name : ''}
+          </Typography>
+        </div>
+      </Popover>
     </div>
   );
 };
