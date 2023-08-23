@@ -12,7 +12,10 @@ import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import dynamic from 'next/dynamic';
 
 const ForceGraphComponent = dynamic(
-  () => import('../components/global/ForceGraphComponent').then((cmp) => cmp),
+  () =>
+    import('../components/pages/memberInteraction/ForceGraphComponent').then(
+      (cmp) => cmp
+    ),
   { ssr: false }
 );
 
@@ -33,7 +36,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
   apiResponse.forEach(({ from, to, width }) => {
     const sourceNode = {
       id: from.id,
-      name: from.username,
+      username: from.username,
       color:
         from.stats === 'SENDER'
           ? '#3AAE2B'
@@ -41,10 +44,14 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
           ? '#FFCB33'
           : '#804EE1',
       size: getNodeSize(from.radius),
+      stats: from.stats,
+      ngu: from.ngu,
+      roles: from.roles,
+      radius: from.radius,
     };
     const targetNode = {
       id: to.id,
-      name: to.username,
+      username: to.username,
       color:
         to.stats === 'SENDER'
           ? '#3AAE2B'
@@ -52,6 +59,10 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
           ? '#FFCB33'
           : '#804EE1',
       size: getNodeSize(to.radius),
+      stats: to.stats,
+      ngu: to.ngu,
+      roles: to.roles,
+      radius: to.radius,
     };
     const link = { source: from.id, target: to.id, width };
 
@@ -74,6 +85,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
 export default function membersInteraction() {
   const [nodes, setNodes] = useState<any[]>([]);
   const [links, setLinks] = useState<any[]>([]);
+
   const [nodeSizes, setNodeSizes] = useState<number[]>([]);
 
   const [user, setUser] = useState<IUser | undefined>();
