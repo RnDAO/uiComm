@@ -69,7 +69,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     });
   };
 
-  const ZOOM_DURATION = 300;
+  const ZOOM_DURATION = 200;
 
   const zoomTo = (targetZoom: number) => {
     const startZoom = graphRef.current?.zoom() || 1;
@@ -94,14 +94,14 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
   const zoomIn = () => {
     if (graphRef.current) {
       const currentZoom = graphRef.current.zoom();
-      zoomTo(currentZoom + 0.5);
+      zoomTo(currentZoom + 3);
     }
   };
 
   const zoomOut = () => {
     if (graphRef.current) {
       const currentZoom = graphRef.current.zoom();
-      zoomTo(currentZoom - 0.5);
+      zoomTo(currentZoom - 3);
     }
   };
 
