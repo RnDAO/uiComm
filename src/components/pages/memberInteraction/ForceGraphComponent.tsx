@@ -69,17 +69,39 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     });
   };
 
+  const ZOOM_DURATION = 300;
+
+  const zoomTo = (targetZoom: number) => {
+    const startZoom = graphRef.current?.zoom() || 1;
+    const startTime = Date.now();
+
+    const animateZoom = () => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const fraction = Math.min(1, elapsed / ZOOM_DURATION);
+
+      const currentZoom = startZoom + (targetZoom - startZoom) * fraction;
+      graphRef.current?.zoom(currentZoom);
+
+      if (fraction < 1) {
+        requestAnimationFrame(animateZoom);
+      }
+    };
+
+    requestAnimationFrame(animateZoom);
+  };
+
   const zoomIn = () => {
     if (graphRef.current) {
       const currentZoom = graphRef.current.zoom();
-      graphRef.current.zoom(currentZoom + 1);
+      zoomTo(currentZoom + 0.5);
     }
   };
 
   const zoomOut = () => {
     if (graphRef.current) {
       const currentZoom = graphRef.current.zoom();
-      graphRef.current.zoom(currentZoom - 1);
+      zoomTo(currentZoom - 0.5);
     }
   };
 
@@ -99,7 +121,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
         }}
         onBackgroundClick={() => setpopOverOpen(false)}
       />
-      <div className="absolute bottom-4 right-4 flex p-1 flex-row items-center bg-gray-background rounded-md">
+      <div className="absolute bottom-4 right-4 flex p-1 py-2 flex-row items-center bg-gray-background rounded-md">
         <button
           className="px-2 pl-1  border-r border-[#AAAAAA]"
           onClick={zoomOut}
