@@ -143,7 +143,7 @@ export default function membersInteraction() {
           </h3>
           <p>Data from the last 7 days</p>
           <div className="flex flex-col md:flex-row md:items-start">
-            <div className="lg:w-3/4 overflow-hidden justify-center items-center">
+            <div className="lg:w-11/12 overflow-hidden justify-center items-center">
               <ForceGraphComponent
                 nodes={nodes}
                 links={links}

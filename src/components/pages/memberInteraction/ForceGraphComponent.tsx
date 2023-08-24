@@ -1,9 +1,13 @@
 import { Avatar, Popover, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import ForceGraph2D from 'react-force-graph-2d';
+import React, { useRef, useState } from 'react';
+import ForceGraph2D, {
+  ForceGraphMethods,
+  NodeObject,
+} from 'react-force-graph-2d';
 import { conf } from '../../../configs';
 import { IRoles, IUserProfile } from '../../../utils/interfaces';
 import clsx from 'clsx';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
 interface CustomNode {
   x?: number;
@@ -20,6 +24,10 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
     null
   );
+  const graphRef = useRef<
+    | ForceGraphMethods<NodeObject<CustomNode>, { [others: string]: any }>
+    | undefined
+  >(undefined);
 
   const nodeBoundingBox = (nodes: CustomNode[]) => {
     let minX = Infinity;
@@ -61,21 +69,47 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     });
   };
 
+  const zoomIn = () => {
+    if (graphRef.current) {
+      const currentZoom = graphRef.current.zoom();
+      graphRef.current.zoom(currentZoom + 1);
+    }
+  };
+
+  const zoomOut = () => {
+    if (graphRef.current) {
+      const currentZoom = graphRef.current.zoom();
+      graphRef.current.zoom(currentZoom - 1);
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center h-full">
+    <div className="flex justify-center items-center h-full relative">
       <ForceGraph2D
         graphData={{ nodes, links }}
         nodeLabel="username"
         nodeVal={(node: CustomNode) => node.size / 1.5}
         nodeAutoColorBy="id"
-        height={Number(numberOfnodes) > 300 ? 800 : 400}
+        height={Number(numberOfnodes) > 300 ? 800 : 350}
         {...graphView}
         minZoom={0.5}
+        ref={graphRef}
         onNodeClick={(node: any, event: MouseEvent) => {
           handleSelectedNode(node, event);
         }}
         onBackgroundClick={() => setpopOverOpen(false)}
       />
+      <div className="absolute bottom-4 right-4 flex p-1 flex-row items-center bg-gray-background rounded-md">
+        <button
+          className="px-2 pl-1  border-r border-[#AAAAAA]"
+          onClick={zoomOut}
+        >
+          <AiOutlineMinus size={20} />
+        </button>
+        <button className="px-2 pr-1" onClick={zoomIn}>
+          <AiOutlinePlus size={20} />
+        </button>
+      </div>
       <Popover
         open={popOverOpen}
         onClose={() => setpopOverOpen(false)}
@@ -186,7 +220,16 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
           </div>
           <div className="flex flex-row w-2/3 justify-center mx-auto space-x-8">
             <div className="text-center text-sm">
-              <div className="rounded-full w-3.5 h-3.5 bg-secondary mx-auto" />
+              <div
+                className={clsx(
+                  'rounded-full w-3.5 h-3.5 bg-secondary mx-auto',
+                  user && user?.radius <= 10
+                    ? 'w-3.5 h-3.5'
+                    : user && user?.radius > 10 && user?.radius <= 50
+                    ? 'w-5 h-5'
+                    : 'w-8 h-8'
+                )}
+              />
               <span>
                 +
                 {user && user?.radius <= 10
@@ -199,17 +242,12 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
             <div className="text-center text-sm">
               <div
                 className={clsx(
-                  'rounded-full mx-auto',
+                  'rounded-full mx-auto w-5 h-5',
                   user?.stats === 'BALANCED'
                     ? 'bg-secondary'
                     : user?.stats === 'SENDER'
                     ? 'bg-green'
-                    : 'bg-yellow-400',
-                  user && user?.radius <= 10
-                    ? 'w-3.5 h-3.5'
-                    : user && user?.radius > 10 && user?.radius <= 50
-                    ? 'w-5 h-5'
-                    : 'w-8 h-8'
+                    : 'bg-yellow-400'
                 )}
               />
               <span>
