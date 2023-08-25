@@ -61,6 +61,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     setpopOverOpen(true);
     setAnchorEl(event.currentTarget as HTMLElement);
     const selectedUser = nodes.find((node: any) => node.id === selectedNode.id);
+
     setUser(selectedUser);
 
     setPosition({
@@ -240,7 +241,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
               </div>
             )}
           </div>
-          <div className="flex flex-row w-2/3 justify-center mx-auto space-x-8">
+          <div className="flex flex-row w-2/3 justify-center mx-auto items-baseline space-x-8">
             <div className="text-center text-sm">
               <div
                 className={clsx(

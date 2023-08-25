@@ -48,6 +48,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
       ngu: from.ngu,
       roles: from.roles,
       radius: from.radius,
+      discordId: from.discordId,
+      avatar: from.avatar,
     };
     const targetNode = {
       id: to.id,
@@ -63,6 +65,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
       ngu: to.ngu,
       roles: to.roles,
       radius: to.radius,
+      discordId: to.discordId,
+      avatar: to.avatar,
     };
     const link = { source: from.id, target: to.id, width };
 
