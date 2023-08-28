@@ -59,7 +59,12 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
 
   const handleSelectedNode = (selectedNode: any, event: MouseEvent) => {
     setpopOverOpen(true);
+
+    selectedNode.fx = selectedNode.x;
+    selectedNode.fy = selectedNode.y;
+
     setAnchorEl(event.currentTarget as HTMLElement);
+
     const selectedUser = nodes.find((node: any) => node.id === selectedNode.id);
 
     setUser(selectedUser);
