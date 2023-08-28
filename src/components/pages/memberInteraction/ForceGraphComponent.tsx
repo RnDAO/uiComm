@@ -115,7 +115,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     <div className="flex justify-center items-center h-full relative">
       <ForceGraph2D
         graphData={{ nodes, links }}
-        nodeLabel="username"
+        nodeLabel="ngu"
         nodeVal={(node: CustomNode) => node.size / 1.5}
         nodeAutoColorBy="id"
         height={Number(numberOfnodes) > 300 ? 800 : 350}
@@ -173,11 +173,15 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
               alt="User Avatar"
             />{' '}
             <div className="flex flex-col items-baseline">
-              <Typography variant="body2" color="initial">
-                {user ? user.username : ''}
+              <Typography
+                variant="body2"
+                color="initial"
+                className="font-semibold"
+              >
+                {user ? user.ngu : ''}
               </Typography>
               <Typography variant="body2" className="text-gray-subtitle">
-                {user ? user.ngu : ''}
+                {user ? user.username : ''}
               </Typography>
             </div>
           </div>
