@@ -117,11 +117,9 @@ export default function ConnectCommunities() {
       eventProperties: {
         guild: user?.guild,
       },
-      callback: (result) => {
-        getUserGuildInfo(guildId);
-        setConfirmModalOpen(false);
-      },
     });
+    getUserGuildInfo(guildId);
+    setConfirmModalOpen(false);
   };
   return (
     <>
