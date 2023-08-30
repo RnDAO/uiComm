@@ -41,6 +41,7 @@
     "eslint-plugin-react": "^7.32.0",
     "highcharts": "^10.3.1",
     "highcharts-react-official": "^3.1.0",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.38",
     "next": "13.0.2",

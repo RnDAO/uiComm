@@ -10,6 +10,11 @@ import { DISCONNECT_TYPE } from '../../../store/types/ISetting';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 
+import {
+  setAmplitudeUserIdFromToken,
+  trackAmplitudeEvent,
+} from '../../../helpers/amplitudeHelper';
+
 export default function ConnectedCommunitiesList({ guilds }: any) {
   const { disconnecGuildById, getGuilds } = useAppStore();
   const [open, setOpen] = useState<boolean>(false);
@@ -36,9 +41,23 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
     disconnecGuildById(guildId, discconectType).then((_res: any) => {
       notify();
       getGuilds();
-      let user: any = StorageService.readLocalStorage<IUser>('user');
-      user = { token: user.token, guild: { guildId: '', guildName: '' } };
-      StorageService.writeLocalStorage('user', user);
+
+      let user: IUser | undefined =
+        StorageService.readLocalStorage<IUser>('user');
+
+      setAmplitudeUserIdFromToken();
+
+      trackAmplitudeEvent({
+        eventType: 'disconnect_guild_on_setting',
+        eventProperties: {
+          guild: user?.guild,
+        },
+      });
+
+      if (user) {
+        user = { token: user.token, guild: { guildId: '', guildName: '' } };
+        StorageService.writeLocalStorage('user', user);
+      }
     });
   };
 
@@ -56,7 +75,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
                   >
                     <ConnectedCommunitiesItem
                       guild={guild}
-                      onClick={(guildId: any) => {
+                      onClick={(guildId: string) => {
                         setGuildId(guildId), setOpen(true);
                       }}
                     />

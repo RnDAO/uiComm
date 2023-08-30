@@ -36,7 +36,12 @@ import { FaDiscord } from 'react-icons/fa';
 import { FiRefreshCcw } from 'react-icons/fi';
 import Loading from '../components/global/Loading';
 import { MdExpandMore } from 'react-icons/md';
-import { IGuildChannels, ISubChannels } from '../utils/types';
+import { IGuildChannels, ISubChannels, IUser } from '../utils/types';
+import * as amplitude from '@amplitude/analytics-browser';
+import {
+  setAmplitudeUserIdFromToken,
+  trackAmplitudeEvent,
+} from '../helpers/amplitudeHelper';
 
 const ColorlibConnector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -410,6 +415,24 @@ export default function TryNow() {
     setActivePeriod(dateRangeType);
   };
 
+  const handleRedirectToApp = () => {
+    const user: IUser | undefined =
+      StorageService.readLocalStorage<IUser>('user');
+
+    setAmplitudeUserIdFromToken();
+
+    trackAmplitudeEvent({
+      eventType: 'onboarding_successful_integration',
+      eventProperties: {
+        guild: user?.guild,
+        mail: emailAddress ? emailAddress : 'not exist',
+      },
+      callback: (result) => {
+        router.push('/');
+      },
+    });
+  };
+
   return (
     <>
       {isLoading ? (
@@ -629,7 +652,7 @@ export default function TryNow() {
                           </p>
                           <CustomButton
                             classes="text-white bg-secondary"
-                            onClick={() => router.push('/')}
+                            onClick={() => handleRedirectToApp()}
                             label="I Understand"
                             disabled={!activeStep}
                           />
