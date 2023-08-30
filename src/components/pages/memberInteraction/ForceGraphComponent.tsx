@@ -8,6 +8,12 @@ import { conf } from '../../../configs';
 import { IRoles, IUserProfile } from '../../../utils/interfaces';
 import clsx from 'clsx';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import {
+  setAmplitudeUserIdFromToken,
+  trackAmplitudeEvent,
+} from '../../../helpers/amplitudeHelper';
+import { StorageService } from '../../../services/StorageService';
+import { IUser } from '../../../utils/types';
 
 interface CustomNode {
   x?: number;
@@ -101,6 +107,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     if (graphRef.current) {
       const currentZoom = graphRef.current.zoom();
       zoomTo(currentZoom + 3);
+      trackZoomEvents('zoom-in');
     }
   };
 
@@ -108,7 +115,23 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
     if (graphRef.current) {
       const currentZoom = graphRef.current.zoom();
       zoomTo(currentZoom - 3);
+      trackZoomEvents('zoom-out');
     }
+  };
+
+  const trackZoomEvents = (zoomType: 'zoom-in' | 'zoom-out') => {
+    const user: IUser | undefined =
+      StorageService.readLocalStorage<IUser>('user');
+
+    setAmplitudeUserIdFromToken();
+
+    trackAmplitudeEvent({
+      eventType: 'Trigger Zoom buttons on Network graph',
+      eventProperties: {
+        guild: user?.guild,
+        zoomType: zoomType,
+      },
+    });
   };
 
   return (

@@ -12,6 +12,13 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
+import * as amplitude from '@amplitude/analytics-browser';
+import { IDecodedToken } from '../../../utils/interfaces';
+import jwt_decode from 'jwt-decode';
+import {
+  setAmplitudeUserIdFromToken,
+  trackAmplitudeEvent,
+} from '../../../helpers/amplitudeHelper';
 
 export default function ConnectCommunities() {
   const router = useRouter();
@@ -98,6 +105,24 @@ export default function ConnectCommunities() {
       pathname: '/settings',
     });
   };
+
+  const handleConnectedGuild = () => {
+    const user: IUser | undefined =
+      StorageService.readLocalStorage<IUser>('user');
+
+    setAmplitudeUserIdFromToken();
+
+    trackAmplitudeEvent({
+      eventType: 'update_connected_guild_on_settings',
+      eventProperties: {
+        guild: user?.guild,
+      },
+      callback: (result) => {
+        getUserGuildInfo(guildId);
+        setConfirmModalOpen(false);
+      },
+    });
+  };
   return (
     <>
       <CustomModal
@@ -119,7 +144,7 @@ export default function ConnectCommunities() {
             classes="bg-secondary text-white"
             label={'I understand'}
             onClick={() => {
-              getUserGuildInfo(guildId), setConfirmModalOpen(false);
+              handleConnectedGuild();
             }}
           />
         </div>
