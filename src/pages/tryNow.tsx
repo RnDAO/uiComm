@@ -427,10 +427,8 @@ export default function TryNow() {
         guild: user?.guild,
         mail: emailAddress ? emailAddress : 'not exist',
       },
-      callback: (result) => {
-        router.push('/');
-      },
     });
+    router.push('/');
   };
 
   return (
