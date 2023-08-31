@@ -6,7 +6,9 @@ describe('TcTitle component', () => {
   test('Render component correctly', () => {
     const defaultText = 'Title Test';
     //arrange
-    const { getByText } = render(<TcTitle title={defaultText} />);
+    const { getByText } = render(
+      <TcTitle title={defaultText} variant={'h3'} />
+    );
     //act
 
     //assert
