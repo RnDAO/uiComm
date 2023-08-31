@@ -7,6 +7,12 @@ export const theme = createTheme({
     },
   },
   typography: {
+    h3: {
+      fontSize: '2.5rem',
+    },
+    h4: {
+      fontSize: '1.75rem',
+    },
     button: {
       textTransform: 'none',
     },
