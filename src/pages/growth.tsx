@@ -3,7 +3,8 @@ import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
 import TcText from '../components/twitter/shared/TcText';
 import TcBoxContainer from '../components/twitter/shared/TcBox/TcBoxContainer';
-import TcAccountActivity from '../components/twitter/accountActivity/TcAccountActivity';
+import TcAccountActivity from '../components/twitter/growth/accountActivity/TcAccountActivity';
+import TcYourAccountActivity from '../components/twitter/growth/yourAccountActivity/TcYourAccountActivity';
 
 function growth() {
   return (
@@ -23,6 +24,7 @@ function growth() {
           contentContainerChildren={
             <div className="px-6 py-4">
               <TcAccountActivity />
+              <TcYourAccountActivity />
             </div>
           }
         />

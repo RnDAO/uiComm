@@ -1,30 +1,45 @@
 import React from 'react';
-import TcCard from '../shared/TcCard';
-import TcText from '../shared/TcText';
-import TcIconWithTooltip from '../shared/TcIconWithTooltip';
-
-const accountActivityMockList = [
+import TcCard from '../../shared/TcCard';
+import TcIconWithTooltip from '../../shared/TcIconWithTooltip';
+import TcText from '../../shared/TcText';
+const yourAccountActivityMockList = [
   {
-    description: 'Accounts that engage with you',
+    description: 'Number of posts',
     value: 0,
-    hasTooltipInfo: true,
+    hasTooltipInfo: false,
   },
   {
-    description: 'Your followers',
+    description: 'Replies',
+    value: 0,
+    hasTooltipInfo: false,
+  },
+  {
+    description: 'Retweets',
+    value: 0,
+    hasTooltipInfo: false,
+  },
+  {
+    description: 'Likes',
+    value: 0,
+    hasTooltipInfo: false,
+  },
+  {
+    description: 'Mentions',
     value: 0,
     hasTooltipInfo: false,
   },
 ];
 
-function TcAccountActivityContent() {
+function TcYourAccountActivityContent() {
   return (
     <div className="flex flex-row space-x-4">
-      {accountActivityMockList &&
-        accountActivityMockList.map((el, index) => (
+      {yourAccountActivityMockList &&
+        yourAccountActivityMockList.map((el, index) => (
           <TcCard
             key={index}
             elevation={0}
-            className="py-4 px-6 bg-gray-hover min-w-[250px]"
+            variant="outlined"
+            className="py-4 px-6 bg-transparent flex-1"
             children={
               <div className="text-center flex flex-col space-y-1">
                 <TcText text={el.value} variant={'h4'} fontWeight="bold" />
@@ -48,4 +63,4 @@ function TcAccountActivityContent() {
   );
 }
 
-export default TcAccountActivityContent;
+export default TcYourAccountActivityContent;
