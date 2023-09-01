@@ -50,13 +50,13 @@ type AcceptedVariants =
   | 'button'
   | 'caption';
 
-interface ITcTitleProps extends Omit<TypographyProps, 'variant'> {
-  title: string;
+interface ITcTextProps extends Omit<TypographyProps, 'variant'> {
+  text: string | number;
   variant: AcceptedVariants;
 }
 
-function TcTitle({ title, ...rest }: ITcTitleProps) {
-  return <Typography {...rest}>{title}</Typography>;
+function TcText({ text, ...rest }: ITcTextProps) {
+  return <Typography {...rest}>{text}</Typography>;
 }
 
-export default TcTitle;
+export default TcText;

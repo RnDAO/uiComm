@@ -7,6 +7,8 @@ export const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: 'inherit',
+    fontWeightBold: '500',
     h3: {
       fontSize: '2.5rem',
     },

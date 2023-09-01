@@ -1,15 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import TcTitle from './TcTitle';
+import TcLink from './TcLink';
 
-describe('TcTitle component', () => {
+describe('TcLink component', () => {
   test('Render component correctly', () => {
     const defaultText = 'Title Test';
+
     //arrange
-    const { getByText } = render(
-      <TcTitle title={defaultText} variant={'h3'} />
-    );
-    //act
+    const { getByText } = render(<TcLink to={'/'}>{defaultText}</TcLink>);
 
     //assert
     expect(getByText(defaultText)).toBeInTheDocument();
