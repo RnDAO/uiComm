@@ -5,6 +5,7 @@ import TcText from '../components/twitter/shared/TcText';
 import TcBoxContainer from '../components/twitter/shared/TcBox/TcBoxContainer';
 import TcAccountActivity from '../components/twitter/growth/accountActivity/TcAccountActivity';
 import TcYourAccountActivity from '../components/twitter/growth/yourAccountActivity/TcYourAccountActivity';
+import TcAudienceResponse from '../components/twitter/growth/audienceResponse/TcAudienceResponse';
 
 function growth() {
   return (
@@ -25,6 +26,7 @@ function growth() {
             <div className="px-6 py-4">
               <TcAccountActivity />
               <TcYourAccountActivity />
+              <TcAudienceResponse />
             </div>
           }
         />
