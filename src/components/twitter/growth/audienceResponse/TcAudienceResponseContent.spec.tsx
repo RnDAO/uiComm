@@ -19,26 +19,3 @@ describe('<TcAudienceResponseContent />', () => {
     expect(screen.queryByText(tooltipText)).not.toBeInTheDocument();
   });
 });
-
-const yourAccountActivityMockList = [
-  {
-    description: 'Replies',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Retweets',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Likes',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Mentions',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-];
