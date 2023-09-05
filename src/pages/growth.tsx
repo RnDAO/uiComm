@@ -7,6 +7,7 @@ import TcAccountActivity from '../components/twitter/growth/accountActivity/TcAc
 import TcYourAccountActivity from '../components/twitter/growth/yourAccountActivity/TcYourAccountActivity';
 import TcAudienceResponse from '../components/twitter/growth/audienceResponse/TcAudienceResponse';
 import TcEngagementAccounts from '../components/twitter/growth/engagementAccounts/TcEngagementAccounts';
+import TcvoteFeature from '../components/twitter/growth/voteFeature/TcvoteFeature';
 
 function growth() {
   return (
@@ -29,6 +30,7 @@ function growth() {
               <TcYourAccountActivity />
               <TcAudienceResponse />
               <TcEngagementAccounts />
+              <TcvoteFeature />
             </div>
           }
         />

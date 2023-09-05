@@ -23,10 +23,27 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '4px',
+          borderRadius: '8px',
           color: '#804EE1',
+          minWidth: '15rem',
           '&.Mui-disabled': {
             opacity: 0.7,
+          },
+        },
+        contained: {
+          background: '#804EE1 !important',
+          color: 'white',
+          '&.Mui-disabled': {
+            color: 'white',
+          },
+        },
+        outlined: {
+          background: 'transparent',
+          border: '1px solid #222222',
+          color: '#222222',
+          '&:hover': {
+            background: '#F5F5F5',
+            border: '1px solid #222222',
           },
         },
       },
