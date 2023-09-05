@@ -16,6 +16,7 @@ import { Box } from '@mui/material';
 import Link from '../components/global/Link';
 import { AiOutlineLeft } from 'react-icons/ai';
 import Onboarding from '../components/pages/statistics/Onboarding';
+import { transformToMidnightUTC } from '../helpers/momentHelper';
 
 const Statistics = () => {
   const user = StorageService.readLocalStorage<IUser>('user');
@@ -203,8 +204,8 @@ const Statistics = () => {
     }
 
     return [
-      startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-      endDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      transformToMidnightUTC(startDate).toString(),
+      transformToMidnightUTC(endDate).toString(),
     ];
   };
 
