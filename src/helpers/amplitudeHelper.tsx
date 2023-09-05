@@ -4,7 +4,6 @@ import { StorageService } from '../services/StorageService';
 import { IDecodedToken, ITrackEventParams } from '../utils/interfaces';
 import { IUser } from '../utils/types';
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
 
 export const setAmplitudeUserIdFromToken = () => {
