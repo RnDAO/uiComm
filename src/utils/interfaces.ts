@@ -72,3 +72,16 @@ export interface IFragmentationScoreResponse {
     maximumFragmentationScore: number;
   };
 }
+
+export interface IDecodedToken {
+  exp: number;
+  iat: number;
+  sub: string;
+  type: string;
+}
+
+export interface ITrackEventParams {
+  eventType: string;
+  eventProperties?: Record<string, any>;
+  callback?: (result: { event: any; code: any; message: any }) => void;
+}

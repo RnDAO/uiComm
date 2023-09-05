@@ -22,8 +22,11 @@ import PrivateRoute from '../utils/privateRoute';
 import { conf } from '../configs';
 import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
 import Script from 'next/script';
+import { usePageViewTracking } from '../helpers/amplitudeHelper';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
+  usePageViewTracking();
+
   useEffect(() => {
     // Get Hotjar ID from configuration
     const HOTJAR_ID: string | undefined = conf.HOTJAR_ID;
