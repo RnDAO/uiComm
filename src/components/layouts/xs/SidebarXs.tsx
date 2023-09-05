@@ -26,6 +26,7 @@ import useAppStore from '../../../store/useStore';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 import { conf } from '../../../configs';
+import { BsBarChartFill } from 'react-icons/bs';
 
 const Sidebar = () => {
   const { guildInfoByDiscord } = useAppStore();
@@ -62,6 +63,15 @@ const Sidebar = () => {
         <FontAwesomeIcon
           icon={faHeartPulse}
           style={{ fontSize: 30, color: 'black' }}
+        />
+      ),
+    },
+    {
+      name: 'Growth',
+      path: '/growth',
+      icon: (
+        <BsBarChartFill
+          style={{ fontSize: 30, color: 'black', margin: '0 auto' }}
         />
       ),
     },
