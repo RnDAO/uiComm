@@ -33,7 +33,7 @@ function TcAccountActivityContent() {
                   variant={'body2'}
                   className="text-gray-subtitle"
                 />
-                <div className="flex justify-center">
+                <div className="flex justify-center cursor-pointer">
                   {el.hasTooltipInfo ? (
                     <TcIconWithTooltip tooltipText="Followers and non-followers" />
                   ) : (
