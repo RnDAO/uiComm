@@ -81,6 +81,7 @@ function Dashboard(): JSX.Element {
             variant="filled"
             onClose={toggleAnalysisState}
             severity="warning"
+            sx={{ padding: '6px 9rem 6px 14rem' }}
           >
             Data import is in progress. It might take up to 6 hours to finish
             the data import. Once it is done we will send you a message on

@@ -16,7 +16,7 @@ function growth() {
       <div className="flex flex-col container px-4 md:px-12 py-4">
         <TcBoxContainer
           titleContainerChildren={
-            <div className="bg-info text-white px-8 py-3">
+            <div className="bg-info text-white px-10 py-3">
               <TcText
                 text={'Twitter analysis'}
                 variant={'h4'}
@@ -25,7 +25,7 @@ function growth() {
             </div>
           }
           contentContainerChildren={
-            <div className="px-6 pt-4 pb-[4rem] space-y-8">
+            <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-8">
               <TcAccountActivity />
               <TcYourAccountActivity />
               <TcAudienceResponse />

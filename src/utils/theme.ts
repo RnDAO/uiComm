@@ -27,6 +27,7 @@ export const theme = createTheme({
           borderRadius: '8px',
           color: '#804EE1',
           minWidth: '15rem',
+          padding: '0.5rem',
           '&.Mui-disabled': {
             opacity: 0.7,
           },
@@ -83,7 +84,6 @@ export const theme = createTheme({
     MuiAlert: {
       styleOverrides: {
         root: {
-          padding: '6px 9rem 6px 14rem',
           borderRadius: '0px',
           position: 'sticky',
           top: '0',

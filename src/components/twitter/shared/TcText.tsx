@@ -51,7 +51,7 @@ type AcceptedVariants =
   | 'caption';
 
 interface ITcTextProps extends Omit<TypographyProps, 'variant'> {
-  text: string | number;
+  text: string | number | React.ReactNode | JSX.Element;
   variant: AcceptedVariants;
 }
 
