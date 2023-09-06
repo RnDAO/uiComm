@@ -4,7 +4,7 @@ import TcYourAccountActivityContent from './TcYourAccountActivityContent';
 
 function TcYourAccountActivity() {
   return (
-    <div>
+    <div className="space-y-3">
       <TcYourAccountActivityHeader />
       <TcYourAccountActivityContent />
     </div>

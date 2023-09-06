@@ -18,13 +18,13 @@ const accountActivityMockList = [
 
 function TcAccountActivityContent() {
   return (
-    <div className="flex flex-row space-x-4">
+    <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
       {accountActivityMockList &&
         accountActivityMockList.map((el, index) => (
           <TcCard
             key={index}
             elevation={0}
-            className="py-4 px-6 bg-gray-hover min-w-[250px]"
+            className="py-4 px-6 bg-gray-hover min-w-[250px] min-h-[6rem] md:min-h-auto"
             children={
               <div className="text-center flex flex-col space-y-1">
                 <TcText text={el.value} variant={'h4'} fontWeight="bold" />

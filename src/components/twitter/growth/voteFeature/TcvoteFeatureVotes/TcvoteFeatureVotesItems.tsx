@@ -18,7 +18,7 @@ function TcvoteFeatureVotesItems({
   ...rest
 }: ITcvoteFeatureVotesItemsProps) {
   return (
-    <div className="mx-auto w-2/3 border border-gray-border-box rounded-lg p-4">
+    <div className="mx-auto md:w-2/3 border border-gray-border-box rounded-lg p-4">
       <FormControlLabel
         {...rest}
         label={<TcText text={label} variant={'subtitle1'} fontWeight="bold" />}

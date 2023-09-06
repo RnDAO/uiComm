@@ -25,7 +25,7 @@ function growth() {
             </div>
           }
           contentContainerChildren={
-            <div className="px-6 py-4 space-y-8">
+            <div className="px-6 pt-4 pb-[4rem] space-y-8">
               <TcAccountActivity />
               <TcYourAccountActivity />
               <TcAudienceResponse />

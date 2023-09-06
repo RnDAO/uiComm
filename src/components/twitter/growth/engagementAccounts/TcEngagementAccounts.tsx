@@ -4,10 +4,10 @@ import TcEngagementAccountsContent from './TcEngagementAccountsContent';
 
 function TcEngagementAccounts() {
   return (
-    <>
+    <div className="space-y-3">
       <TcEngagementAccountsHeader />
       <TcEngagementAccountsContent />
-    </>
+    </div>
   );
 }
 

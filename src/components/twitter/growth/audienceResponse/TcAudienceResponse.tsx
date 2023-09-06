@@ -4,7 +4,7 @@ import TcAudienceResponseContent from './TcAudienceResponseContent';
 
 function TcAudienceResponse() {
   return (
-    <div>
+    <div className="space-y-3">
       <TcAudienceResponseHeader />
       <TcAudienceResponseContent />
     </div>

@@ -5,8 +5,8 @@ import TcLink from '../../shared/TcLink';
 
 export default function TcAccountActivityHeader() {
   return (
-    <div className="flex justify-between items-center">
-      <div>
+    <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-center">
+      <div className="md:space-y-3">
         <TcText text="Account activity" variant="h6" fontWeight="bold" />
         <div className="flex items-center space-x-1">
           <BiTimeFive size="18px" data-testid="bi-time-five-icon" />
@@ -17,12 +17,8 @@ export default function TcAccountActivityHeader() {
           />
         </div>
       </div>
-      <div className="flex items-center">
-        <TcText
-          text="Analyzed account:"
-          variant="subtitle1"
-          fontWeight="medium"
-        />
+      <div className="flex items-center pb-4 md:pb-0">
+        <TcText text="Analyzed account:" variant="subtitle1" color="#767676" />
         <TcLink to={'/'} color="secondary" fontWeight="bold">
           @daoxyz
         </TcLink>

@@ -9,6 +9,7 @@ export const theme = createTheme({
   typography: {
     fontFamily: 'inherit',
     fontWeightBold: '500',
+    fontWeightExtraBold: '700',
     h3: {
       fontSize: '2.5rem',
     },
@@ -28,6 +29,9 @@ export const theme = createTheme({
           minWidth: '15rem',
           '&.Mui-disabled': {
             opacity: 0.7,
+          },
+          '@media (max-width:1023px)': {
+            minWidth: '100%',
           },
         },
         contained: {
@@ -132,7 +136,15 @@ export const theme = createTheme({
     },
   },
 });
+declare module '@mui/material/styles/createTypography' {
+  interface TypographyOptions {
+    fontWeightExtraBold?: string;
+  }
 
+  interface Typography {
+    fontWeightExtraBold: string;
+  }
+}
 declare module '@mui/material/styles' {
   interface Palette {
     neutral: Palette['primary'];
