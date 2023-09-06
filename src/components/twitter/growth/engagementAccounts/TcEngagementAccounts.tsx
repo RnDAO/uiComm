@@ -1,10 +1,12 @@
 import React from 'react';
-import TcAudienceResponseHeader from './TcEngagementAccountsHeader';
+import TcEngagementAccountsHeader from './TcEngagementAccountsHeader';
+import TcEngagementAccountsContent from './TcEngagementAccountsContent';
 
 function TcEngagementAccounts() {
   return (
     <>
-      <TcAudienceResponseHeader />
+      <TcEngagementAccountsHeader />
+      <TcEngagementAccountsContent />
     </>
   );
 }

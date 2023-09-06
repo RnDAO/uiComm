@@ -1,7 +1,7 @@
 import React from 'react';
 import TcText from '../../shared/TcText';
 
-function TcAudienceResponseHeader() {
+function TcEngagementAccountsHeader() {
   return (
     <>
       <TcText text="Engagement by accounts" variant="h6" fontWeight="bold" />
@@ -9,4 +9,4 @@ function TcAudienceResponseHeader() {
   );
 }
 
-export default TcAudienceResponseHeader;
+export default TcEngagementAccountsHeader;

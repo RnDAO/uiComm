@@ -16,7 +16,7 @@ function TcvoteFeature() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-9">
       <TcvoteFeatureHeader />
       <TcvoteFeatureVotes handleSelectedFeatures={handleSelectedFeatures} />
       <div className="flex justify-center">
