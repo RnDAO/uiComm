@@ -41,6 +41,7 @@ export default function ActiveMemberBreakdown() {
 
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const [roles, setRoles] = useState<string[]>([]);
   const [activityComposition, setActivityComposition] = useState<string[]>(
     options.map((option) => option.value)
@@ -72,7 +73,7 @@ export default function ActiveMemberBreakdown() {
     if (!guild) {
       return;
     }
-
+    setLoading(true);
     const fetchData = async () => {
       const res = await getActiveMemberCompositionTable(
         guild.guildId,
@@ -82,6 +83,7 @@ export default function ActiveMemberBreakdown() {
         sortBy,
         page
       );
+      setLoading(false);
       setFetchedData(res);
     };
 
@@ -184,7 +186,7 @@ export default function ActiveMemberBreakdown() {
             }
             handleJoinedAtChange={handleJoinedAtChange}
             handleUsernameChange={handleUsernameChange}
-            isLoading={isActiveMembersBreakdownLoading}
+            isLoading={loading}
             activityCompositionOptions={options}
           />
         </div>

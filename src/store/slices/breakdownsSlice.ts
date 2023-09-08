@@ -18,8 +18,6 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     limit?: number
   ) => {
     try {
-      set(() => ({ isActiveMembersBreakdownLoading: true }));
-
       const requestData = {
         activityComposition: activityComposition || [],
         roles: roles || [],
@@ -53,12 +51,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const { data } = await axiosInstance.get(url);
 
-      set(() => ({ isActiveMembersBreakdownLoading: false }));
       return data;
-    } catch (error) {
-      set(() => ({ isActiveMembersBreakdownLoading: false }));
-      // Handle the error
-    }
+    } catch (error) {}
   },
   getOnboardingMemberCompositionTable: async (
     guild_id: string,
@@ -70,8 +64,6 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     limit?: number
   ) => {
     try {
-      set(() => ({ isOnboardingMembersBreakdownLoading: true }));
-
       const requestData = {
         activityComposition: activityComposition || [],
         roles: roles || [],
@@ -105,12 +97,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const { data } = await axiosInstance.get(url);
 
-      set(() => ({ isOnboardingMembersBreakdownLoading: false }));
       return data;
-    } catch (error) {
-      set(() => ({ isOnboardingMembersBreakdownLoading: false }));
-      // Handle the error
-    }
+    } catch (error) {}
   },
   getDisengagedMembersCompositionTable: async (
     guild_id: string,
@@ -122,8 +110,6 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     limit?: number
   ) => {
     try {
-      set(() => ({ isDisengagedMembersCompositionBreakdownLoading: true }));
-
       const requestData = {
         activityComposition: activityComposition || [],
         roles: roles || [],
@@ -157,12 +143,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const { data } = await axiosInstance.get(url);
 
-      set(() => ({ isDisengagedMembersCompositionBreakdownLoading: false }));
       return data;
-    } catch (error) {
-      set(() => ({ isDisengagedMembersCompositionBreakdownLoading: false }));
-      // Handle the error
-    }
+    } catch (error) {}
   },
   getRoles: async (guild_id: string) => {
     try {

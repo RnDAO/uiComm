@@ -42,6 +42,7 @@ export default function OnboardingMembersBreakdown() {
 
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const [roles, setRoles] = useState<string[]>([]);
   const [onboardingComposition, setOnboardingComposition] = useState<string[]>(
     options.map((option) => option.value)
@@ -73,7 +74,7 @@ export default function OnboardingMembersBreakdown() {
     if (!guild) {
       return;
     }
-
+    setLoading(true);
     const fetchData = async () => {
       const res = await getOnboardingMemberCompositionTable(
         guild.guildId,
@@ -83,7 +84,7 @@ export default function OnboardingMembersBreakdown() {
         sortBy,
         page
       );
-
+      setLoading(false);
       setFetchedData(res);
     };
 
@@ -186,7 +187,7 @@ export default function OnboardingMembersBreakdown() {
             }
             handleJoinedAtChange={handleJoinedAtChange}
             handleUsernameChange={handleUsernameChange}
-            isLoading={isOnboardingMembersBreakdownLoading}
+            isLoading={loading}
             activityCompositionOptions={options}
           />
         </div>

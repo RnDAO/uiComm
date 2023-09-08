@@ -54,6 +54,7 @@ export default function DisengagedMembersCompositionBreakdown() {
 
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const [roles, setRoles] = useState<string[]>([]);
   const [disengagedComposition, setDisengagedComposition] = useState<string[]>(
     options.map((option) => option.value)
@@ -85,7 +86,7 @@ export default function DisengagedMembersCompositionBreakdown() {
     if (!guild) {
       return;
     }
-
+    setLoading(true);
     const fetchData = async () => {
       const res = await getDisengagedMembersCompositionTable(
         guild.guildId,
@@ -95,7 +96,7 @@ export default function DisengagedMembersCompositionBreakdown() {
         sortBy,
         page
       );
-
+      setLoading(false);
       setFetchedData(res);
     };
 
@@ -198,7 +199,7 @@ export default function DisengagedMembersCompositionBreakdown() {
             }
             handleJoinedAtChange={handleJoinedAtChange}
             handleUsernameChange={handleUsernameChange}
-            isLoading={isDisengagedMembersCompositionBreakdownLoading}
+            isLoading={loading}
             activityCompositionOptions={options}
           />
         </div>
