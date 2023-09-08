@@ -10,6 +10,12 @@ import {
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
 import clsx from 'clsx';
+import { Button } from '@mui/material';
+import { FaFileCsv } from 'react-icons/fa';
+import {
+  convertToCSV,
+  downloadCSVFile,
+} from '../../../../../helpers/csvHelper';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -48,6 +54,7 @@ export default function DisengagedMembersCompositionBreakdown() {
 
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const [roles, setRoles] = useState<string[]>([]);
   const [disengagedComposition, setDisengagedComposition] = useState<string[]>(
     options.map((option) => option.value)
@@ -79,7 +86,7 @@ export default function DisengagedMembersCompositionBreakdown() {
     if (!guild) {
       return;
     }
-
+    setLoading(true);
     const fetchData = async () => {
       const res = await getDisengagedMembersCompositionTable(
         guild.guildId,
@@ -89,7 +96,7 @@ export default function DisengagedMembersCompositionBreakdown() {
         sortBy,
         page
       );
-
+      setLoading(false);
       setFetchedData(res);
     };
 
@@ -123,15 +130,56 @@ export default function DisengagedMembersCompositionBreakdown() {
     toggleExpanded(!isExpanded);
   };
 
+  const handleDownloadCSV = async () => {
+    if (!guild) {
+      return;
+    }
+
+    try {
+      const limit = fetchedData.totalResults;
+
+      const { results } = await getDisengagedMembersCompositionTable(
+        guild.guildId,
+        disengagedComposition,
+        roles,
+        username,
+        sortBy,
+        page,
+        limit
+      );
+
+      if (results && Array.isArray(results)) {
+        const csv = convertToCSV(results);
+        downloadCSVFile(csv, 'disengagedMemberComposition.csv');
+      } else {
+        console.error('Received data is not valid for CSV conversion.');
+      }
+    } catch (error) {
+      console.error('Error while fetching data and downloading CSV:', error);
+    }
+  };
+
   return (
     <>
       <div className="relative overflow-x-scroll md:overflow-hidden mb-1 md:mb-1">
-        <h3
-          className="text-xl font-medium text-lite-black md:mb-4"
-          ref={tableTopRef}
-        >
-          Members breakdown
-        </h3>
+        <div className="flex justify-between items-center">
+          <h3
+            className="text-xl font-medium text-lite-black md:mb-4"
+            ref={tableTopRef}
+          >
+            Members breakdown
+          </h3>
+          <Button
+            startIcon={<FaFileCsv />}
+            size="small"
+            variant="contained"
+            className="bg-secondary text-white"
+            disableElevation
+            onClick={handleDownloadCSV}
+          >
+            Export CSV
+          </Button>
+        </div>
         <div
           className={clsx(
             !isExpanded ? 'max-h-[17.8rem]' : 'max-h-max',
@@ -151,7 +199,7 @@ export default function DisengagedMembersCompositionBreakdown() {
             }
             handleJoinedAtChange={handleJoinedAtChange}
             handleUsernameChange={handleUsernameChange}
-            isLoading={isDisengagedMembersCompositionBreakdownLoading}
+            isLoading={loading}
             activityCompositionOptions={options}
           />
         </div>
