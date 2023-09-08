@@ -11,7 +11,7 @@ import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
 import clsx from 'clsx';
 import { Button } from '@mui/material';
-import { FaFileCsv } from 'react-icons/fa';
+import { BsFiletypeCsv } from 'react-icons/bs';
 import {
   convertToCSV,
   downloadCSVFile,
@@ -158,10 +158,10 @@ export default function OnboardingMembersBreakdown() {
             Members breakdown
           </h3>
           <Button
-            startIcon={<FaFileCsv />}
+            startIcon={<BsFiletypeCsv />}
             size="small"
-            variant="contained"
-            className="bg-secondary text-white"
+            variant="outlined"
+            className="border-black text-black"
             disableElevation
             onClick={handleDownloadCSV}
           >
