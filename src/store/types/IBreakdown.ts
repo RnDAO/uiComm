@@ -10,7 +10,8 @@ export default interface IBreakdown {
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => any;
   getOnboardingMemberCompositionTable: (
     guild_id: string,
@@ -18,7 +19,8 @@ export default interface IBreakdown {
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => any;
   getDisengagedMembersCompositionTable: (
     guild_id: string,
@@ -26,7 +28,8 @@ export default interface IBreakdown {
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => any;
   getRoles: (guild_id: string) => any;
 }

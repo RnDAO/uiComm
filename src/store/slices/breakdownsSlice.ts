@@ -14,7 +14,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => {
     try {
       set(() => ({ isActiveMembersBreakdownLoading: true }));
@@ -28,6 +29,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const params = new URLSearchParams();
       if (page) {
         params.append('page', page.toString());
+      }
+      if (limit) {
+        params.append('limit', limit.toString());
       }
       if (sortBy) {
         params.append('sortBy', `joinedAt:${sortBy}`);
@@ -62,7 +66,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => {
     try {
       set(() => ({ isOnboardingMembersBreakdownLoading: true }));
@@ -76,6 +81,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const params = new URLSearchParams();
       if (page) {
         params.append('page', page.toString());
+      }
+      if (limit) {
+        params.append('limit', limit.toString());
       }
       if (sortBy) {
         params.append('sortBy', `joinedAt:${sortBy}`);
@@ -110,7 +118,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => {
     try {
       set(() => ({ isDisengagedMembersCompositionBreakdownLoading: true }));
@@ -124,6 +133,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const params = new URLSearchParams();
       if (page) {
         params.append('page', page.toString());
+      }
+      if (limit) {
+        params.append('limit', limit.toString());
       }
       if (sortBy) {
         params.append('sortBy', `joinedAt:${sortBy}`);
