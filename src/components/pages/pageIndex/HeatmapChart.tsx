@@ -15,6 +15,7 @@ import useAppStore from '../../../store/useStore';
 import { FiCalendar } from 'react-icons/fi';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import * as Sentry from '@sentry/nextjs';
+import { transformToMidnightUTC } from '../../../helpers/momentHelper';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -210,7 +211,7 @@ const HeatmapChart = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const [activeDateRange, setActiveDateRange] = useState(1);
   const [dateRange, setDateRange] = useState<
-    [moment.Moment | null, moment.Moment | null]
+    [string | moment.Moment | null, string | moment.Moment | null]
   >([null, null]);
   const [selectedZone, setSelectedZone] = useState(moment.tz.guess());
   const [channels, setChannels] = useState<string[]>([]);
@@ -247,7 +248,10 @@ const HeatmapChart = () => {
         const defaultEndDate = moment().subtract(1, 'day');
         const defaultStartDate = moment(defaultEndDate).subtract(7, 'days');
 
-        setDateRange([defaultStartDate, defaultEndDate]);
+        setDateRange([
+          transformToMidnightUTC(defaultStartDate).toString(),
+          transformToMidnightUTC(defaultEndDate).toString(),
+        ]);
 
         const channelIds = channelsList
           .flatMap((channel) => channel.subChannels || []) // Flatten the subChannels arrays
@@ -288,8 +292,8 @@ const HeatmapChart = () => {
 
   const fetchHeatmap = async (
     guildId: string,
-    startDate: moment.Moment | null,
-    endDate: moment.Moment | null,
+    startDate: moment.Moment | string | null,
+    endDate: moment.Moment | string | null,
     timezone: string,
     channelIds: string[]
   ) => {
@@ -450,7 +454,10 @@ const HeatmapChart = () => {
     }
 
     if (startDate && endDate) {
-      setDateRange([startDate, endDate]);
+      setDateRange([
+        transformToMidnightUTC(startDate).toString(),
+        transformToMidnightUTC(endDate).toString(),
+      ]);
     }
   };
 

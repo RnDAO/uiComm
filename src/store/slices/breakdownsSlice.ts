@@ -14,11 +14,10 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => {
     try {
-      set(() => ({ isActiveMembersBreakdownLoading: true }));
-
       const requestData = {
         activityComposition: activityComposition || [],
         roles: roles || [],
@@ -28,6 +27,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const params = new URLSearchParams();
       if (page) {
         params.append('page', page.toString());
+      }
+      if (limit) {
+        params.append('limit', limit.toString());
       }
       if (sortBy) {
         params.append('sortBy', `joinedAt:${sortBy}`);
@@ -49,12 +51,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const { data } = await axiosInstance.get(url);
 
-      set(() => ({ isActiveMembersBreakdownLoading: false }));
       return data;
-    } catch (error) {
-      set(() => ({ isActiveMembersBreakdownLoading: false }));
-      // Handle the error
-    }
+    } catch (error) {}
   },
   getOnboardingMemberCompositionTable: async (
     guild_id: string,
@@ -62,11 +60,10 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => {
     try {
-      set(() => ({ isOnboardingMembersBreakdownLoading: true }));
-
       const requestData = {
         activityComposition: activityComposition || [],
         roles: roles || [],
@@ -76,6 +73,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const params = new URLSearchParams();
       if (page) {
         params.append('page', page.toString());
+      }
+      if (limit) {
+        params.append('limit', limit.toString());
       }
       if (sortBy) {
         params.append('sortBy', `joinedAt:${sortBy}`);
@@ -97,12 +97,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const { data } = await axiosInstance.get(url);
 
-      set(() => ({ isOnboardingMembersBreakdownLoading: false }));
       return data;
-    } catch (error) {
-      set(() => ({ isOnboardingMembersBreakdownLoading: false }));
-      // Handle the error
-    }
+    } catch (error) {}
   },
   getDisengagedMembersCompositionTable: async (
     guild_id: string,
@@ -110,11 +106,10 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
     roles: string[],
     username?: string,
     sortBy?: string,
-    page?: number
+    page?: number,
+    limit?: number
   ) => {
     try {
-      set(() => ({ isDisengagedMembersCompositionBreakdownLoading: true }));
-
       const requestData = {
         activityComposition: activityComposition || [],
         roles: roles || [],
@@ -124,6 +119,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const params = new URLSearchParams();
       if (page) {
         params.append('page', page.toString());
+      }
+      if (limit) {
+        params.append('limit', limit.toString());
       }
       if (sortBy) {
         params.append('sortBy', `joinedAt:${sortBy}`);
@@ -145,12 +143,8 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const { data } = await axiosInstance.get(url);
 
-      set(() => ({ isDisengagedMembersCompositionBreakdownLoading: false }));
       return data;
-    } catch (error) {
-      set(() => ({ isDisengagedMembersCompositionBreakdownLoading: false }));
-      // Handle the error
-    }
+    } catch (error) {}
   },
   getRoles: async (guild_id: string) => {
     try {

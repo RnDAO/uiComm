@@ -3,7 +3,6 @@ import Sidebar from '../components/layouts/Sidebar';
 import SidebarXs from '../components/layouts/xs/SidebarXs';
 import useAppStore from '../store/useStore';
 import { StorageService } from '../services/StorageService';
-import { useRouter } from 'next/router';
 import { IUser } from '../utils/types';
 
 type Props = {

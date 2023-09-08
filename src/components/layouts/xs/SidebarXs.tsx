@@ -20,7 +20,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Drawer } from '@mui/material';
 
-import { GoThreeBars } from 'react-icons/go';
+import { FaBars } from 'react-icons/fa';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import useAppStore from '../../../store/useStore';
 import { StorageService } from '../../../services/StorageService';
@@ -127,7 +127,7 @@ const Sidebar = () => {
             <p className="text-md font-bold">{guildInfoByDiscord.name}</p>
           </div>
         </div>
-        <GoThreeBars size={30} onClick={handleDrawerOpen} />
+        <FaBars size={30} onClick={handleDrawerOpen} />
       </div>
       <Drawer
         variant="persistent"
