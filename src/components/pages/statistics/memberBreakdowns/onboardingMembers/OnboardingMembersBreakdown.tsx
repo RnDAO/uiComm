@@ -150,7 +150,7 @@ export default function OnboardingMembersBreakdown() {
   return (
     <>
       <div className="relative overflow-x-scroll md:overflow-hidden mb-1 md:mb-1">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-start">
           <h3
             className="text-xl font-medium text-lite-black md:mb-4"
             ref={tableTopRef}
