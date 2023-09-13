@@ -8,6 +8,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
 import Loading from '../../global/Loading';
+import router from 'next/router';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
@@ -125,7 +126,7 @@ export default function DisengagedMembersComposition({
         value: disengagedMembers.becameDisengaged,
         colorBadge: 'bg-error-500',
         hasTooltip: false,
-        customBackground: true,
+        customBackground: false,
       },
       {
         label: 'Were Newly Active',
@@ -182,6 +183,22 @@ export default function DisengagedMembersComposition({
     ]);
   }, [disengagedMembers]);
 
+  const handleSelectedOption = (label: string) => {
+    const currentPath = router.pathname;
+
+    router.replace(
+      {
+        pathname: currentPath,
+        query: {
+          overview: 'disengagedMemberComposition',
+          filterType: label,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between">
@@ -195,7 +212,11 @@ export default function DisengagedMembersComposition({
         </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
-        <StatisticalData statistics={[...statistics]} />
+        <StatisticalData
+          overviewType="disengagedMemberComposition"
+          statistics={[...statistics]}
+          handleSelectedOption={handleSelectedOption}
+        />
       </div>
 
       <DisengagedMembersCompositionBreakdown />

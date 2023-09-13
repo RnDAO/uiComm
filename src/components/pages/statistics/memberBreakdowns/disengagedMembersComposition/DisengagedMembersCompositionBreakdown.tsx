@@ -16,6 +16,7 @@ import {
   convertToCSV,
   downloadCSVFile,
 } from '../../../../../helpers/csvHelper';
+import router from 'next/router';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -106,6 +107,20 @@ export default function DisengagedMembersCompositionBreakdown() {
   useEffect(() => {
     setPage(1);
   }, [disengagedComposition, roles, username, sortBy]);
+
+  useEffect(() => {
+    const filterType = router.query.filterType as string;
+
+    if (filterType) {
+      const matchedOptions = options.filter(
+        (option) => option.name.toLowerCase() === filterType.toLowerCase()
+      );
+      if (matchedOptions.length) {
+        const v = matchedOptions[0].value;
+        handleActivityOptionSelectionChange([v]);
+      }
+    }
+  }, [router.query]);
 
   const handleRoleSelectionChange = (selectedRoles: string[]) => {
     setRoles(selectedRoles);
@@ -201,6 +216,7 @@ export default function DisengagedMembersCompositionBreakdown() {
             handleUsernameChange={handleUsernameChange}
             isLoading={loading}
             activityCompositionOptions={options}
+            breakdownName="disengagedMemberComposition"
           />
         </div>
       </div>

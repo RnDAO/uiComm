@@ -8,6 +8,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
 import Loading from '../../global/Loading';
+import { useRouter } from 'next/router';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -60,6 +61,8 @@ export default function ActiveMembersComposition({
   activePeriod,
   handleDateRange,
 }: ActiveMembersComposition) {
+  const router = useRouter();
+
   const { activeMembers, activeMembersLoading } = useAppStore();
 
   const [options, setOptions] = useState(defaultOptions);
@@ -130,7 +133,7 @@ export default function ActiveMembersComposition({
         value: activeMembers.totActiveMembers,
         colorBadge: 'bg-green',
         hasTooltip: true,
-        customBackground: true,
+        customBackground: false,
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
@@ -195,6 +198,22 @@ export default function ActiveMembersComposition({
     ]);
   }, [activeMembers]);
 
+  const handleSelectedOption = (label: string) => {
+    const currentPath = router.pathname;
+
+    router.replace(
+      {
+        pathname: currentPath,
+        query: {
+          overview: 'activeMemberComposition',
+          filterType: label,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between">
@@ -208,7 +227,11 @@ export default function ActiveMembersComposition({
         </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
-        <StatisticalData statistics={[...statistics]} />
+        <StatisticalData
+          overviewType="activeMemberComposition"
+          statistics={[...statistics]}
+          handleSelectedOption={handleSelectedOption}
+        />
       </div>
 
       <ActiveMemberBreakdown />

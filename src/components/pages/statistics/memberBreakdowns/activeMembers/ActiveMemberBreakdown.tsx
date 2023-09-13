@@ -16,6 +16,7 @@ import {
   convertToCSV,
   downloadCSVFile,
 } from '../../../../../helpers/csvHelper';
+import router from 'next/router';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -28,14 +29,13 @@ const options: IActivityCompositionOptions[] = [
   { name: 'Active members', value: 'all_active', color: '#3AAE2B' },
   { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
   { name: 'Consistently active', value: 'all_consistent', color: '#804EE1' },
-  { name: 'Vital member', value: 'all_vital', color: '#313671' },
+  { name: 'Vital members', value: 'all_vital', color: '#313671' },
   { name: 'Became disengaged', value: 'all_new_disengaged', color: '#EB3E56' },
   { name: 'Others', value: 'others', color: '#AAAAAA' },
 ];
 
 export default function ActiveMemberBreakdown() {
-  const { getActiveMemberCompositionTable, isActiveMembersBreakdownLoading } =
-    useAppStore();
+  const { getActiveMemberCompositionTable } = useAppStore();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -93,6 +93,20 @@ export default function ActiveMemberBreakdown() {
   useEffect(() => {
     setPage(1);
   }, [activityComposition, roles, username, sortBy]);
+
+  useEffect(() => {
+    const filterType = router.query.filterType as string;
+
+    if (filterType) {
+      const matchedOptions = options.filter(
+        (option) => option.name.toLowerCase() === filterType.toLowerCase()
+      );
+      if (matchedOptions.length) {
+        const v = matchedOptions[0].value;
+        handleActivityOptionSelectionChange([v]);
+      }
+    }
+  }, [router.query]);
 
   const handleRoleSelectionChange = (selectedRoles: string[]) => {
     setRoles(selectedRoles);
@@ -188,6 +202,7 @@ export default function ActiveMemberBreakdown() {
             handleUsernameChange={handleUsernameChange}
             isLoading={loading}
             activityCompositionOptions={options}
+            breakdownName="activeMemberComposition"
           />
         </div>
       </div>

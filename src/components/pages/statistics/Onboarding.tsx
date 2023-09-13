@@ -8,6 +8,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import RangeSelect from '../../global/RangeSelect';
 import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
 import Loading from '../../global/Loading';
+import router from 'next/router';
 
 export interface OnboardingProps {
   activePeriod: number;
@@ -127,7 +128,7 @@ export default function Onboarding({
         value: onboardingMembers.joined,
         colorBadge: 'bg-info',
         hasTooltip: false,
-        customBackground: true,
+        customBackground: false,
       },
       {
         label: 'Newly Active',
@@ -159,6 +160,22 @@ export default function Onboarding({
     ]);
   }, [onboardingMembers]);
 
+  const handleSelectedOption = (label: string) => {
+    const currentPath = router.pathname;
+
+    router.replace(
+      {
+        pathname: currentPath,
+        query: {
+          overview: 'onboardingMemberComposition',
+          filterType: label,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between">
@@ -172,7 +189,11 @@ export default function Onboarding({
         </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
-        <StatisticalData statistics={[...statistics]} />
+        <StatisticalData
+          overviewType="onboardingMemberComposition"
+          statistics={[...statistics]}
+          handleSelectedOption={handleSelectedOption}
+        />
       </div>
 
       <OnboardingMembersBreakdown />

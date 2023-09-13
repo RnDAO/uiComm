@@ -35,11 +35,13 @@ import Loading from '../../../global/Loading';
 import useAppStore from '../../../../store/useStore';
 import { StorageService } from '../../../../services/StorageService';
 import CustomDialogDetail from './CustomDialogDetail';
+import router from 'next/router';
 
 interface CustomTableProps {
   data: Row[];
   columns: Column[];
   isLoading: boolean;
+  breakdownName?: string;
   activityCompositionOptions: IActivityCompositionOptions[];
   handleRoleSelectionChange: (selectedRoles: string[]) => void;
   handleActivityOptionSelectionChange: (selectedRoles: string[]) => void;
@@ -51,6 +53,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   data,
   columns,
   isLoading,
+  breakdownName,
   handleRoleSelectionChange,
   handleActivityOptionSelectionChange,
   handleJoinedAtChange,
@@ -126,11 +129,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   useEffect(() => {
     handleRoleSelectionChange(selectedRoles);
-  }, [selectedRoles, handleRoleSelectionChange]);
+  }, [selectedRoles]);
 
   useEffect(() => {
     handleActivityOptionSelectionChange(selectedActivityOptions);
-  }, [selectedActivityOptions, handleActivityOptionSelectionChange]);
+  }, [selectedActivityOptions]);
 
   const handleSelectAllActivityOptions = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -143,6 +146,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       setSelectedActivityOptions([]);
     }
     setSelectAllActivityOptions(event.target.checked);
+    router.replace(router.pathname, undefined, { shallow: true });
   };
 
   const handleSelectActivityOption = (
@@ -157,6 +161,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setSelectAllActivityOptions(
       updatedSelectedOptions.length === activityCompositionOptions.length
     );
+    router.replace(router.pathname, undefined, { shallow: true });
   };
 
   const formatDate = (date: string) => {
@@ -204,6 +209,21 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const filterType = router.query.filterType as string;
+    const overview = router.query.overview as string;
+    if (overview && breakdownName === overview) {
+      const matchedOptions = activityCompositionOptions.filter(
+        (option) => option.name.toLowerCase() === filterType.toLowerCase()
+      );
+      if (matchedOptions.length) {
+        const v = matchedOptions[0].value;
+        setSelectedActivityOptions([v]);
+      }
+      setSelectAllActivityOptions(false);
+    }
+  }, [router.query]);
 
   return (
     <>
