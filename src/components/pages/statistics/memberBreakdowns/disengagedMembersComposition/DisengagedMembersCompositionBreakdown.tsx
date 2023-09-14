@@ -46,10 +46,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 export default function DisengagedMembersCompositionBreakdown() {
-  const {
-    getDisengagedMembersCompositionTable,
-    isDisengagedMembersCompositionBreakdownLoading,
-  } = useAppStore();
+  const { getDisengagedMembersCompositionTable } = useAppStore();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -130,6 +127,10 @@ export default function DisengagedMembersCompositionBreakdown() {
             const matchedValue = matchedOption.value;
             handleActivityOptionSelectionChange([matchedValue]);
           }
+        } else {
+          handleActivityOptionSelectionChange(
+            options.map((option) => option.value)
+          );
         }
       }
     }

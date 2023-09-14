@@ -34,10 +34,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 export default function OnboardingMembersBreakdown() {
-  const {
-    getOnboardingMemberCompositionTable,
-    isOnboardingMembersBreakdownLoading,
-  } = useAppStore();
+  const { getOnboardingMemberCompositionTable } = useAppStore();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -118,6 +115,10 @@ export default function OnboardingMembersBreakdown() {
             const matchedValue = matchedOption.value;
             handleActivityOptionSelectionChange([matchedValue]);
           }
+        } else {
+          handleActivityOptionSelectionChange(
+            options.map((option) => option.value)
+          );
         }
       }
     }
