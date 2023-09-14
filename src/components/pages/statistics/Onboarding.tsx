@@ -220,6 +220,7 @@ export default function Onboarding({
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData
+          ableToFilter={true}
           overviewType="onboardingMemberComposition"
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}

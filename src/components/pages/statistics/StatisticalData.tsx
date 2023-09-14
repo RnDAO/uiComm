@@ -8,6 +8,7 @@ import router from 'next/router';
 
 type StatisticalDataProps = {
   statistics: StatisticsProps[];
+  ableToFilter?: boolean;
   overviewType?:
     | 'activeMemberComposition'
     | 'onboardingMemberComposition'
@@ -18,6 +19,7 @@ type StatisticalDataProps = {
 
 const StatisticalData: React.FC<StatisticalDataProps> = ({
   statistics,
+  ableToFilter,
   overviewType,
   hideInformationText,
   handleSelectedOption,
@@ -64,12 +66,15 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
         {statistics.map((stat, index) => (
           <div
             className={clsx(
-              'flex flex-col flex-1 text-center justify-center relative rounded-2xl hover:bg-gray-background ease-in delay-75 cursor-pointer',
+              'flex flex-col flex-1 text-center justify-center relative rounded-2xl',
               stat.description
                 ? 'min-w-full h-[200px] md:min-w-[100px] xl:min-w-[220px] md:max-w-[280px] md:h-[200px]'
                 : 'min-w-full h-[170px] md:min-w-[100px] xl:min-w-[280px] md:max-w-[280px] md:h-[180px]',
               stat.customBackground || stat.label === activeState
                 ? 'bg-gray-hover'
+                : '',
+              ableToFilter
+                ? 'hover:bg-gray-background ease-in delay-75 cursor-pointer'
                 : ''
             )}
             onClick={() => {
@@ -157,6 +162,7 @@ StatisticalData.defaultProps = {
       tooltipText: '',
     },
   ],
+  ableToFilter: false,
   hideInformationText: false,
 };
 

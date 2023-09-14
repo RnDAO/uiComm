@@ -242,6 +242,7 @@ export default function DisengagedMembersComposition({
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData
+          ableToFilter={true}
           overviewType="disengagedMemberComposition"
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}
