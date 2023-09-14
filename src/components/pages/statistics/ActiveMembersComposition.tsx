@@ -258,6 +258,7 @@ export default function ActiveMembersComposition({
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData
+          ableToFilter={true}
           overviewType="activeMemberComposition"
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}
