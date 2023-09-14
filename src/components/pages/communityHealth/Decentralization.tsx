@@ -196,8 +196,8 @@ function Decentralization({ scoreData }: DecentralizationProps) {
           </div>
           <div className="md:w-1/2 space-y-12">
             <p className="text-sm">
-              Shows how much members are divided into informal cliques ranging
-              from:
+              Shows how much conversations depend on one (or very few) key
+              members. Influence exists in a continuum between:
             </p>
             <div className="flex items-start md:items-center space-x-3 md:space-x-6">
               <Image src={centralized} alt="centralized" />
