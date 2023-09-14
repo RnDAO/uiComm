@@ -116,6 +116,10 @@ export default function ActiveMemberBreakdown() {
             const matchedValue = matchedOption.value;
             handleActivityOptionSelectionChange([matchedValue]);
           }
+        } else {
+          handleActivityOptionSelectionChange(
+            options.map((option) => option.value)
+          );
         }
       }
     }

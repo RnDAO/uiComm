@@ -210,7 +210,11 @@ export default function DisengagedMembersComposition({
 
     if (existingFilterIndex !== -1) {
       // If it exists, replace the existing filter's label with the new label
-      existingFilters[existingFilterIndex].label = label;
+      if (existingFilters[existingFilterIndex].label !== label) {
+        existingFilters[existingFilterIndex].label = label;
+      } else {
+        existingFilters = [];
+      }
     } else {
       // If it doesn't exist, add the new filter to the array
       existingFilters.push(newFilter);
