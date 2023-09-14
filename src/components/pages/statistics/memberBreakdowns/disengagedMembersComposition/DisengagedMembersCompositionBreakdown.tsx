@@ -109,15 +109,28 @@ export default function DisengagedMembersCompositionBreakdown() {
   }, [disengagedComposition, roles, username, sortBy]);
 
   useEffect(() => {
-    const filterType = router.query.filterType as string;
+    const queries = router.query;
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filter = JSON.parse(queries?.filter);
+      if (filter) {
+        // Search for the first element that matches the 'filterType'
+        const matchedFilter = filter.find(
+          (el: any) => el.filterType === 'disengagedMemberComposition'
+        );
 
-    if (filterType) {
-      const matchedOptions = options.filter(
-        (option) => option.name.toLowerCase() === filterType.toLowerCase()
-      );
-      if (matchedOptions.length) {
-        const v = matchedOptions[0].value;
-        handleActivityOptionSelectionChange([v]);
+        if (matchedFilter) {
+          const matchedLabel = matchedFilter.label.toLowerCase();
+
+          // Search for the first 'option' that matches the 'label' in 'matchedFilter'
+          const matchedOption = options.find(
+            (option) => option.name.toLowerCase() === matchedLabel
+          );
+
+          if (matchedOption) {
+            const matchedValue = matchedOption.value;
+            handleActivityOptionSelectionChange([matchedValue]);
+          }
+        }
       }
     }
   }, [router.query]);

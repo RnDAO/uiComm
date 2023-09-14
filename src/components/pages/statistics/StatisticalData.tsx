@@ -25,14 +25,34 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
   const [activeState, setActiveState] = useState<string | string[]>();
 
   useEffect(() => {
-    console.log(router.query);
-    if (overviewType === router.query.overview) {
-      setActiveState(router.query.filterType);
-    } else if (Object.keys(router.query).length === 0) {
-      setActiveState('');
+    const queries = router.query;
+
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filter = JSON.parse(queries?.filter);
+
+      if (filter) {
+        // Search for the first element that matches the 'filterType'
+        const matchedFilter = filter.find(
+          (el: any) => el.filterType === overviewType
+        );
+
+        // Check if matchedFilter exists
+        if (matchedFilter) {
+          // Check if matchedFilter has keys
+          if (Object.keys(matchedFilter).length > 0) {
+            setActiveState(matchedFilter.label);
+          } else {
+            setActiveState('');
+          }
+        } else {
+          setActiveState('');
+        }
+      } else {
+        setActiveState('');
+      }
     }
-    console.log({ activeState });
   }, [router.query]);
+
   return (
     <>
       <div

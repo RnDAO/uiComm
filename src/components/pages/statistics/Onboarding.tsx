@@ -162,13 +162,43 @@ export default function Onboarding({
 
   const handleSelectedOption = (label: string) => {
     const currentPath = router.pathname;
+    const currentQuery = router.query;
+
+    let existingFilters: any[] = [];
+
+    // Check if we already have some filters
+    if (currentQuery.filter && typeof currentQuery.filter === 'string') {
+      try {
+        existingFilters = JSON.parse(currentQuery.filter);
+      } catch (e) {
+        console.error('Error parsing filters:', e);
+      }
+    }
+
+    // Check if the filterType already exists in the array
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.filterType === 'onboardingMemberComposition'
+    );
+
+    const newFilter = {
+      filterType: 'onboardingMemberComposition',
+      label: label,
+    };
+
+    if (existingFilterIndex !== -1) {
+      // If it exists, replace the existing filter's label with the new label
+      existingFilters[existingFilterIndex].label = label;
+    } else {
+      // If it doesn't exist, add the new filter to the array
+      existingFilters.push(newFilter);
+    }
 
     router.replace(
       {
         pathname: currentPath,
         query: {
-          overview: 'onboardingMemberComposition',
-          filterType: label,
+          ...currentQuery,
+          filter: JSON.stringify(existingFilters),
         },
       },
       undefined,

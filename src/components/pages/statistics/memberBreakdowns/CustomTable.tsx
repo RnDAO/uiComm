@@ -146,7 +146,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       setSelectedActivityOptions([]);
     }
     setSelectAllActivityOptions(event.target.checked);
-    router.replace(router.pathname, undefined, { shallow: true });
+    handleUpdateRouterQueries();
   };
 
   const handleSelectActivityOption = (
@@ -161,7 +161,31 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setSelectAllActivityOptions(
       updatedSelectedOptions.length === activityCompositionOptions.length
     );
-    router.replace(router.pathname, undefined, { shallow: true });
+    handleUpdateRouterQueries();
+  };
+
+  const handleUpdateRouterQueries = () => {
+    const queries = router.query;
+
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filters = JSON.parse(queries?.filter);
+      const updatedFilters = filters.filter(
+        (el: any) => el.filterType !== breakdownName
+      );
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            filter: JSON.stringify(updatedFilters),
+          },
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      );
+    }
   };
 
   const formatDate = (date: string) => {
@@ -211,17 +235,32 @@ const CustomTable: React.FC<CustomTableProps> = ({
   };
 
   useEffect(() => {
-    const filterType = router.query.filterType as string;
-    const overview = router.query.overview as string;
-    if (overview && breakdownName === overview) {
-      const matchedOptions = activityCompositionOptions.filter(
-        (option) => option.name.toLowerCase() === filterType.toLowerCase()
-      );
-      if (matchedOptions.length) {
-        const v = matchedOptions[0].value;
-        setSelectedActivityOptions([v]);
+    const queries = router.query;
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filter = JSON.parse(queries?.filter);
+      if (filter) {
+        // Search for the first element that matches the 'filterType'
+        const matchedFilter = filter.find(
+          (el: any) => el.filterType === breakdownName
+        );
+
+        if (matchedFilter) {
+          const matchedLabel = matchedFilter.label.toLowerCase();
+
+          // Search for the first 'option' that matches the 'label' in 'matchedFilter'
+          const matchedOption = activityCompositionOptions.find(
+            (activityCompositionOption) =>
+              activityCompositionOption.name.toLowerCase() === matchedLabel
+          );
+
+          if (matchedOption) {
+            const matchedValue = matchedOption.value;
+
+            setSelectedActivityOptions([matchedValue]);
+          }
+          setSelectAllActivityOptions(false);
+        }
       }
-      setSelectAllActivityOptions(false);
     }
   }, [router.query]);
 
