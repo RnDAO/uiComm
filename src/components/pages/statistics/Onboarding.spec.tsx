@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Onboarding from './Onboarding';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+jest.mock('next/router', () => require('next-router-mock'));
 
 describe('Onboarding component', () => {
   const mockActivePeriod = 1;

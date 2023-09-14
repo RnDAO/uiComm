@@ -35,11 +35,13 @@ import Loading from '../../../global/Loading';
 import useAppStore from '../../../../store/useStore';
 import { StorageService } from '../../../../services/StorageService';
 import CustomDialogDetail from './CustomDialogDetail';
+import router from 'next/router';
 
 interface CustomTableProps {
   data: Row[];
   columns: Column[];
   isLoading: boolean;
+  breakdownName?: string;
   activityCompositionOptions: IActivityCompositionOptions[];
   handleRoleSelectionChange: (selectedRoles: string[]) => void;
   handleActivityOptionSelectionChange: (selectedRoles: string[]) => void;
@@ -51,6 +53,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   data,
   columns,
   isLoading,
+  breakdownName,
   handleRoleSelectionChange,
   handleActivityOptionSelectionChange,
   handleJoinedAtChange,
@@ -126,11 +129,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   useEffect(() => {
     handleRoleSelectionChange(selectedRoles);
-  }, [selectedRoles, handleRoleSelectionChange]);
+  }, [selectedRoles]);
 
   useEffect(() => {
     handleActivityOptionSelectionChange(selectedActivityOptions);
-  }, [selectedActivityOptions, handleActivityOptionSelectionChange]);
+  }, [selectedActivityOptions]);
 
   const handleSelectAllActivityOptions = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -143,6 +146,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       setSelectedActivityOptions([]);
     }
     setSelectAllActivityOptions(event.target.checked);
+    handleUpdateRouterQueries();
   };
 
   const handleSelectActivityOption = (
@@ -157,6 +161,31 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setSelectAllActivityOptions(
       updatedSelectedOptions.length === activityCompositionOptions.length
     );
+    handleUpdateRouterQueries();
+  };
+
+  const handleUpdateRouterQueries = () => {
+    const queries = router.query;
+
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filters = JSON.parse(queries?.filter);
+      const updatedFilters = filters.filter(
+        (el: any) => el.filterType !== breakdownName
+      );
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            filter: JSON.stringify(updatedFilters),
+          },
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      );
+    }
   };
 
   const formatDate = (date: string) => {
@@ -204,6 +233,36 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const queries = router.query;
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filter = JSON.parse(queries?.filter);
+      if (filter) {
+        // Search for the first element that matches the 'filterType'
+        const matchedFilter = filter.find(
+          (el: any) => el.filterType === breakdownName
+        );
+
+        if (matchedFilter) {
+          const matchedLabel = matchedFilter.label.toLowerCase();
+
+          // Search for the first 'option' that matches the 'label' in 'matchedFilter'
+          const matchedOption = activityCompositionOptions.find(
+            (activityCompositionOption) =>
+              activityCompositionOption.name.toLowerCase() === matchedLabel
+          );
+
+          if (matchedOption) {
+            const matchedValue = matchedOption.value;
+
+            setSelectedActivityOptions([matchedValue]);
+          }
+          setSelectAllActivityOptions(false);
+        }
+      }
+    }
+  }, [router.query]);
 
   return (
     <>

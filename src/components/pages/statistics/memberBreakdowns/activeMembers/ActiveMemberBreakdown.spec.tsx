@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ActiveMemberBreakdown from './ActiveMemberBreakdown';
+jest.mock('next/router', () => require('next-router-mock'));
 
 describe('ActiveMemberBreakdown', () => {
   it('renders the component', () => {
