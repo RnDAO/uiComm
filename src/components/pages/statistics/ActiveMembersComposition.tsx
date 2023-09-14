@@ -228,7 +228,7 @@ export default function ActiveMembersComposition({
       if (existingFilters[existingFilterIndex].label !== label) {
         existingFilters[existingFilterIndex].label = label;
       } else {
-        existingFilters = [];
+        existingFilters.splice(existingFilterIndex, 1); // remove the item
       }
     } else {
       // If it doesn't exist, add the new filter to the array
