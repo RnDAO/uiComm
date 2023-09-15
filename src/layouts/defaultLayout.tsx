@@ -4,13 +4,13 @@ import SidebarXs from '../components/layouts/xs/SidebarXs';
 import useAppStore from '../store/useStore';
 import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
-import TcAlert from '../components/twitter/shared/TcAlert';
-import TcButton from '../components/twitter/shared/TcButton';
-import TcCollapse from '../components/twitter/shared/TcCollapse';
-import TcText from '../components/twitter/shared/TcText';
-import TcDialog from '../components/twitter/shared/TcDialog';
+import TcAlert from '../components/shared/TcAlert';
+import TcButton from '../components/shared/TcButton';
+import TcCollapse from '../components/shared/TcCollapse';
+import TcText from '../components/shared/TcText';
+import TcDialog from '../components/shared/TcDialog';
 import { IoCloseSharp } from 'react-icons/io5';
-import TcLink from '../components/twitter/shared/TcLink';
+import TcLink from '../components/shared/TcLink';
 import { useRouter } from 'next/router';
 
 type IDefaultLayoutProps = {

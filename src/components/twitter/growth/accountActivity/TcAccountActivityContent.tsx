@@ -1,7 +1,7 @@
 import React from 'react';
-import TcCard from '../../shared/TcCard';
-import TcText from '../../shared/TcText';
-import TcIconWithTooltip from '../../shared/TcIconWithTooltip';
+import TcCard from '../../../shared/TcCard';
+import TcText from '../../../shared/TcText';
+import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 
 const accountActivityMockList = [
   {

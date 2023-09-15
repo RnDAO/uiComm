@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiTimeFive } from 'react-icons/bi';
-import TcText from '../../shared/TcText';
-import TcLink from '../../shared/TcLink';
+import TcText from '../../../shared/TcText';
+import TcLink from '../../../shared/TcLink';
 
 export default function TcAccountActivityHeader() {
   return (

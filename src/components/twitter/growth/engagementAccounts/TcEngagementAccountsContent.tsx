@@ -1,5 +1,5 @@
 import React from 'react';
-import TcText from '../../shared/TcText';
+import TcText from '../../../shared/TcText';
 import TcEngagementAccountContentItems from './TcEngagementAccountContentItems';
 
 interface IContentItem {

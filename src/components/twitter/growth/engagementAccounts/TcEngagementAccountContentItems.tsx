@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
-import TcText from '../../shared/TcText';
-import TcIconWithTooltip from '../../shared/TcIconWithTooltip';
+import TcText from '../../../shared/TcText';
+import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import { MdOutlineInfo } from 'react-icons/md';
 
 interface ITcEngagementAccountContentItemsProps {

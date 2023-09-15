@@ -1,7 +1,7 @@
 import React from 'react';
-import TcCheckbox from '../../../shared/TcCheckbox';
+import TcCheckbox from '../../../../shared/TcCheckbox';
 import { FormControlLabel } from '@mui/material';
-import TcText from '../../../shared/TcText';
+import TcText from '../../../../shared/TcText';
 
 interface ITcvoteFeatureVotesItemsProps {
   label: string;

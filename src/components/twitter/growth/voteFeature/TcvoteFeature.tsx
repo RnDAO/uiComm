@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TcvoteFeatureHeader from './TcvoteFeatureHeader';
 import TcvoteFeatureVotes from './TcvoteFeatureVotes/TcvoteFeatureVotes';
-import TcButton from '../../shared/TcButton';
+import TcButton from '../../../shared/TcButton';
 
 function TcvoteFeature() {
   const [nextFeature, setNextFeature] = useState<Array<boolean>>([

@@ -1,7 +1,7 @@
 import React from 'react';
-import TcCard from '../../shared/TcCard';
-import TcIconWithTooltip from '../../shared/TcIconWithTooltip';
-import TcText from '../../shared/TcText';
+import TcCard from '../../../shared/TcCard';
+import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
+import TcText from '../../../shared/TcText';
 const yourAccountActivityMockList = [
   {
     description: 'Replies',
