@@ -15,6 +15,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          textTransform: 'none',
           borderRadius: '4px',
           color: '#804EE1',
           minWidth: '15rem',
