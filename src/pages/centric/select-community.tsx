@@ -7,6 +7,7 @@ function SelectCommunity() {
   return (
     <>
       <TcBoxContainer
+        data-testid="tcbox-container"
         bgcolor="white"
         className="rounded p-12 min-h-[43.75rem]"
         contentContainerChildren={<TcSelectCommunity />}

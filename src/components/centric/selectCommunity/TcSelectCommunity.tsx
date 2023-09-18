@@ -5,10 +5,11 @@ import TcInput from '../../shared/TcInput';
 import TcCommunityList from './TcCommunityList';
 import TcButton from '../../shared/TcButton';
 import { BsPlus } from 'react-icons/bs';
+import router from 'next/router';
 
 function TcSelectCommunity() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="tcselect-community">
       <TcText text="Select your community" variant="h4" />
       <TcText
         text="You will be able to switch between the communities later"
@@ -32,7 +33,12 @@ function TcSelectCommunity() {
       <TcButton text="Continue" className="secondary" variant="contained" />
       <hr className="w-6/12 mx-auto" />
       <TcText text="Create a new community account" variant="h6" />
-      <TcButton startIcon={<BsPlus />} text="Create" variant="outlined" />
+      <TcButton
+        startIcon={<BsPlus />}
+        text="Create"
+        variant="outlined"
+        onClick={() => router.push('/centric/create-new-community')}
+      />
     </div>
   );
 }
