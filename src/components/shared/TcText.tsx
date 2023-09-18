@@ -55,8 +55,8 @@ interface ITcTextProps extends Omit<TypographyProps, 'variant'> {
   variant: AcceptedVariants;
 }
 
-function TcText({ text, ...rest }: ITcTextProps) {
-  return <Typography {...rest}>{text}</Typography>;
+function TcText({ text, ...props }: ITcTextProps) {
+  return <Typography {...props}>{text}</Typography>;
 }
 
 export default TcText;

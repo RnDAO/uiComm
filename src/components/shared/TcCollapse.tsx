@@ -22,8 +22,8 @@ interface ITcCollapseProps extends CollapseProps {
   children: React.ReactElement | JSX.Element;
 }
 
-function TcCollapse({ children, ...rest }: ITcCollapseProps) {
-  return <Collapse {...rest}>{children}</Collapse>;
+function TcCollapse({ children, ...props }: ITcCollapseProps) {
+  return <Collapse {...props}>{children}</Collapse>;
 }
 
 export default TcCollapse;

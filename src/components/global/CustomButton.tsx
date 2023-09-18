@@ -8,7 +8,7 @@ interface IButtonProps extends ButtonProps {
 export default function CustomButton({
   classes,
   label,
-  ...rest
+  ...props
 }: IButtonProps) {
   return (
     <>
@@ -17,7 +17,7 @@ export default function CustomButton({
           'py-3 w-full md:w-[240px] rounded-md text-base border-1 border-black',
           classes
         )}
-        {...rest}
+        {...props}
       >
         {label}
       </Button>

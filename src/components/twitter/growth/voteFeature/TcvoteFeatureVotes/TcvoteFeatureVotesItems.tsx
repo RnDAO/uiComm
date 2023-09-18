@@ -15,12 +15,12 @@ function TcvoteFeatureVotesItems({
   color,
   isChecked,
   handleToggleCheckbox,
-  ...rest
+  ...props
 }: ITcvoteFeatureVotesItemsProps) {
   return (
     <div className="mx-auto md:w-2/3 border border-gray-border-box rounded-lg p-4">
       <FormControlLabel
-        {...rest}
+        {...props}
         label={<TcText text={label} variant={'subtitle1'} fontWeight="bold" />}
         control={
           <TcCheckbox
