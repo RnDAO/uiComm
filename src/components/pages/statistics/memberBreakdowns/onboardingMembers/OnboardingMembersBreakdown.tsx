@@ -16,6 +16,7 @@ import {
   convertToCSV,
   downloadCSVFile,
 } from '../../../../../helpers/csvHelper';
+import router from 'next/router';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -33,10 +34,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 export default function OnboardingMembersBreakdown() {
-  const {
-    getOnboardingMemberCompositionTable,
-    isOnboardingMembersBreakdownLoading,
-  } = useAppStore();
+  const { getOnboardingMemberCompositionTable } = useAppStore();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -95,6 +93,36 @@ export default function OnboardingMembersBreakdown() {
     setPage(1);
   }, [onboardingComposition, roles, username, sortBy]);
 
+  useEffect(() => {
+    const queries = router.query;
+    if (queries.filter && typeof queries.filter === 'string') {
+      const filter = JSON.parse(queries?.filter);
+      if (filter) {
+        // Search for the first element that matches the 'filterType'
+        const matchedFilter = filter.find(
+          (el: any) => el.filterType === 'onboardingMemberComposition'
+        );
+
+        if (matchedFilter) {
+          const matchedLabel = matchedFilter.label.toLowerCase();
+
+          // Search for the first 'option' that matches the 'label' in 'matchedFilter'
+          const matchedOption = options.find(
+            (option) => option.name.toLowerCase() === matchedLabel
+          );
+
+          if (matchedOption) {
+            const matchedValue = matchedOption.value;
+            handleActivityOptionSelectionChange([matchedValue]);
+          }
+        } else {
+          handleActivityOptionSelectionChange(
+            options.map((option) => option.value)
+          );
+        }
+      }
+    }
+  }, [router.query]);
   const handleRoleSelectionChange = (selectedRoles: string[]) => {
     setRoles(selectedRoles);
   };
@@ -189,6 +217,7 @@ export default function OnboardingMembersBreakdown() {
             handleUsernameChange={handleUsernameChange}
             isLoading={loading}
             activityCompositionOptions={options}
+            breakdownName="onboardingMemberComposition"
           />
         </div>
       </div>

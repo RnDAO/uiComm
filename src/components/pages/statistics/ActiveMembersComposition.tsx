@@ -8,6 +8,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
 import Loading from '../../global/Loading';
+import { useRouter } from 'next/router';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -60,6 +61,8 @@ export default function ActiveMembersComposition({
   activePeriod,
   handleDateRange,
 }: ActiveMembersComposition) {
+  const router = useRouter();
+
   const { activeMembers, activeMembersLoading } = useAppStore();
 
   const [options, setOptions] = useState(defaultOptions);
@@ -130,7 +133,7 @@ export default function ActiveMembersComposition({
         value: activeMembers.totActiveMembers,
         colorBadge: 'bg-green',
         hasTooltip: true,
-        customBackground: true,
+        customBackground: false,
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
@@ -195,6 +198,56 @@ export default function ActiveMembersComposition({
     ]);
   }, [activeMembers]);
 
+  const handleSelectedOption = (label: string) => {
+    const currentPath = router.pathname;
+    const currentQuery = router.query;
+
+    let existingFilters: any[] = [];
+
+    // Check if we already have some filters
+    if (currentQuery.filter && typeof currentQuery.filter === 'string') {
+      try {
+        existingFilters = JSON.parse(currentQuery.filter);
+      } catch (e) {
+        console.error('Error parsing filters:', e);
+      }
+    }
+
+    // Check if the filterType already exists in the array
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.filterType === 'activeMemberComposition'
+    );
+
+    const newFilter = {
+      filterType: 'activeMemberComposition',
+      label: label,
+    };
+
+    if (existingFilterIndex !== -1) {
+      // If it exists, replace the existing filter's label with the new label
+      if (existingFilters[existingFilterIndex].label !== label) {
+        existingFilters[existingFilterIndex].label = label;
+      } else {
+        existingFilters.splice(existingFilterIndex, 1); // remove the item
+      }
+    } else {
+      // If it doesn't exist, add the new filter to the array
+      existingFilters.push(newFilter);
+    }
+
+    router.replace(
+      {
+        pathname: currentPath,
+        query: {
+          ...currentQuery,
+          filter: JSON.stringify(existingFilters),
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between">
@@ -208,7 +261,12 @@ export default function ActiveMembersComposition({
         </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
-        <StatisticalData statistics={[...statistics]} />
+        <StatisticalData
+          ableToFilter={true}
+          overviewType="activeMemberComposition"
+          statistics={[...statistics]}
+          handleSelectedOption={handleSelectedOption}
+        />
       </div>
 
       <ActiveMemberBreakdown />

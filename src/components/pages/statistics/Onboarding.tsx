@@ -8,6 +8,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import RangeSelect from '../../global/RangeSelect';
 import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
 import Loading from '../../global/Loading';
+import router from 'next/router';
 
 export interface OnboardingProps {
   activePeriod: number;
@@ -127,7 +128,7 @@ export default function Onboarding({
         value: onboardingMembers.joined,
         colorBadge: 'bg-info',
         hasTooltip: false,
-        customBackground: true,
+        customBackground: false,
       },
       {
         label: 'Newly Active',
@@ -159,6 +160,56 @@ export default function Onboarding({
     ]);
   }, [onboardingMembers]);
 
+  const handleSelectedOption = (label: string) => {
+    const currentPath = router.pathname;
+    const currentQuery = router.query;
+
+    let existingFilters: any[] = [];
+
+    // Check if we already have some filters
+    if (currentQuery.filter && typeof currentQuery.filter === 'string') {
+      try {
+        existingFilters = JSON.parse(currentQuery.filter);
+      } catch (e) {
+        console.error('Error parsing filters:', e);
+      }
+    }
+
+    // Check if the filterType already exists in the array
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.filterType === 'onboardingMemberComposition'
+    );
+
+    const newFilter = {
+      filterType: 'onboardingMemberComposition',
+      label: label,
+    };
+
+    if (existingFilterIndex !== -1) {
+      // If it exists, replace the existing filter's label with the new label
+      if (existingFilters[existingFilterIndex].label !== label) {
+        existingFilters[existingFilterIndex].label = label;
+      } else {
+        existingFilters.splice(existingFilterIndex, 1); // remove the item
+      }
+    } else {
+      // If it doesn't exist, add the new filter to the array
+      existingFilters.push(newFilter);
+    }
+
+    router.replace(
+      {
+        pathname: currentPath,
+        query: {
+          ...currentQuery,
+          filter: JSON.stringify(existingFilters),
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between">
@@ -172,7 +223,12 @@ export default function Onboarding({
         </div>
       </div>
       <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
-        <StatisticalData statistics={[...statistics]} />
+        <StatisticalData
+          ableToFilter={true}
+          overviewType="onboardingMemberComposition"
+          statistics={[...statistics]}
+          handleSelectedOption={handleSelectedOption}
+        />
       </div>
 
       <OnboardingMembersBreakdown />

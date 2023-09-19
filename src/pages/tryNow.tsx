@@ -540,8 +540,8 @@ export default function TryNow() {
                               I understand and agree to the{' '}
                               <b className="text-secondary">
                                 <a
-                                  href="https://togethercrew.com/privacy"
-                                  target="blank"
+                                  href="https://www.togethercrew.com/privacy-and-terms"
+                                  target="_blank"
                                 >
                                   Privacy Policy and Terms of Service.
                                 </a>
