@@ -23,6 +23,7 @@ import { conf } from '../configs';
 import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
 import Script from 'next/script';
 import { usePageViewTracking } from '../helpers/amplitudeHelper';
+import SafaryClubScript from '../components/global/SafaryClubScript';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   usePageViewTracking();
@@ -41,6 +42,7 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
       <AmplitudeAnalytics />
+      <SafaryClubScript />
       <Script id="tawk" strategy="lazyOnload">
         {`
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
