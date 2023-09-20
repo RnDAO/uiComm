@@ -7,6 +7,7 @@ import TcCheckbox from '../../components/shared/TcCheckbox';
 import { FormControlLabel } from '@mui/material';
 import TcLink from '../../components/shared/TcLink';
 import TcButton from '../../components/shared/TcButton';
+import router from 'next/router';
 
 function CreateNewCommunity() {
   return (
@@ -61,6 +62,7 @@ function CreateNewCommunity() {
               text="Create community"
               variant="contained"
               color="secondary"
+              onClick={() => router.push('/?connectedCommunity=false')}
             />
           </div>
         </div>
