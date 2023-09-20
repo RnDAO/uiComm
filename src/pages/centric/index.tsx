@@ -10,11 +10,11 @@ function Index() {
     <div>
       <TcBoxContainer
         bgcolor="white"
-        className="rounded p-12 min-h-[37.5rem]"
+        className="rounded py-12 px-4 md:p-12 md:min-h-[37.5rem]"
         contentContainerChildren={
           <div className="space-y-8 py-12">
             <TcText
-              variant="h4"
+              sx={{ typography: { xs: 'h5', md: 'h4' } }}
               color="initial"
               fontWeight="bold"
               text="Connect your Discord"

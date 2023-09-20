@@ -13,12 +13,17 @@ function Tac() {
     <div>
       <TcBoxContainer
         bgcolor="white"
-        className="rounded p-12 min-h-[37.5rem]"
+        className="rounded py-12 px-4 md:p-12 md:min-h-[37.5rem]"
         contentContainerChildren={
           <div className="space-y-6 py-12">
-            <TcText variant="h3" color="initial" text="One more thing..." />
+            <TcText
+              sx={{ typography: { xs: 'h5', md: 'h3' } }}
+              color="initial"
+              text="One more thing..."
+            />
             <TcText
               variant="body1"
+              className="text-left md:text-center"
               color="initial"
               text={
                 <>
@@ -30,6 +35,7 @@ function Tac() {
             <FormControlLabel
               label={
                 <TcText
+                  className="text-left md:text-center"
                   text={
                     <>
                       {'I understand and agree to the '}

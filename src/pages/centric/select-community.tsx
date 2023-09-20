@@ -9,7 +9,7 @@ function SelectCommunity() {
       <TcBoxContainer
         data-testid="tcbox-container"
         bgcolor="white"
-        className="rounded p-12 min-h-[43.75rem]"
+        className="rounded p-4 py-6 md:p-12 md:min-h-[43.75rem]"
         contentContainerChildren={<TcSelectCommunity />}
       />
     </>

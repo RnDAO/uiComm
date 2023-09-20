@@ -13,15 +13,16 @@ function CreateNewCommunity() {
   return (
     <TcBoxContainer
       bgcolor="white"
-      className="rounded p-16 min-h-[37.5rem]"
+      className="rounded p-4 md:p-16 min-h-[37.5rem]"
       contentContainerChildren={
         <div className="space-y-8 pt-10">
           <TcText text="Create a new community account" variant={'h4'} />
           <div className="space-y-2">
             <TcText
+              className="text-left md:text-center"
               text="What is the name of the community or organization?"
               fontWeight="bold"
-              variant={'body1'}
+              sx={{ typography: { xs: 'body2', md: 'body1' } }}
             />
             <TcInput
               label="Community name"
@@ -32,6 +33,7 @@ function CreateNewCommunity() {
           <FormControlLabel
             label={
               <TcText
+                className="text-left md:text-center"
                 text={
                   <>
                     {'I understand and agree to the '}

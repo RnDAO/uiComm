@@ -10,7 +10,10 @@ import router from 'next/router';
 function TcSelectCommunity() {
   return (
     <div className="space-y-4" data-testid="tcselect-community">
-      <TcText text="Select your community" variant="h4" />
+      <TcText
+        text="Select your community"
+        sx={{ typography: { xs: 'h5', md: 'h4' } }}
+      />
       <TcText
         text="You will be able to switch between the communities later"
         variant="body1"
@@ -28,11 +31,14 @@ function TcSelectCommunity() {
             <TcCommunityList />
           </div>
         }
-        className="w-3/5 mx-auto border border-custom-gray min-h-[20rem] max-h-[25rem] overflow-y-scroll rounded-lg"
+        className="md:w-3/5 mx-auto border border-custom-gray min-h-[20rem] max-h-[25rem] overflow-y-scroll rounded-lg"
       />
       <TcButton text="Continue" className="secondary" variant="contained" />
       <hr className="w-6/12 mx-auto" />
-      <TcText text="Create a new community account" variant="h6" />
+      <TcText
+        text="Create a new community account"
+        sx={{ typography: { xs: 'body1', md: 'h6' } }}
+      />
       <TcButton
         startIcon={<BsPlus />}
         text="Create"

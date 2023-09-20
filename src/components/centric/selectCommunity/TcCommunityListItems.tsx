@@ -27,7 +27,7 @@ function TcCommunityListItems({ communities }: ITcCommunityListItemsProps) {
     <div className="flex justify-between flex-wrap mt-8">
       {communities.map((community) => (
         <div
-          className="w-1/4 flex-grow rounded text-center px-8 py-4 cursor-pointer space-y-2 hover:bg-gray-100 transition-all delay-75 ease-in"
+          className="w-1/2 md:w-1/4 flex-grow rounded text-center px-8 py-4 cursor-pointer space-y-2 hover:bg-gray-100 transition-all delay-75 ease-in"
           key={community.label}
         >
           <TcAvatar className="mx-auto" src={community.avatar} />
