@@ -107,7 +107,7 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
                       'To see the data, connect your community’s Twitter account'
                     }
                     color={'white'}
-                    variant={'button'}
+                    variant={'subtitle1'}
                   />
                   <TcButton
                     text={'Connect Twitter account'}
