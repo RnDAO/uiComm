@@ -18,7 +18,7 @@ export const theme = createTheme({
           textTransform: 'none',
           borderRadius: '4px',
           color: '#804EE1',
-          minWidth: '15rem',
+          width: '15rem',
           padding: '0.5rem',
           '&.Mui-disabled': {
             opacity: 0.7,

@@ -10,17 +10,6 @@ import React from 'react';
  *
  * Props:
  * - `title`: (Required) A string that represents the text content to be rendered.
- * - `variant`: (Required) A string that determines the typography variant
- *    to use for styling the text content. The allowed variants are:
- *    - h3
- *    - h4
- *    - h6
- *    - subtitle1
- *    - subtitle2
- *    - body1
- *    - body2
- *    - button
- *    - caption
  *
  * All other props available to MUI's `Typography` component can also be
  * passed to `TcTitle` except for the `variant` prop which is strictly typed
@@ -39,20 +28,8 @@ import React from 'react';
  *
  */
 
-type AcceptedVariants =
-  | 'h3'
-  | 'h4'
-  | 'h6'
-  | 'subtitle1'
-  | 'subtitle2'
-  | 'body1'
-  | 'body2'
-  | 'button'
-  | 'caption';
-
-interface ITcTextProps extends Omit<TypographyProps, 'variant'> {
+interface ITcTextProps extends TypographyProps {
   text: string | number | React.ReactNode | JSX.Element;
-  variant: AcceptedVariants;
 }
 
 function TcText({ text, ...props }: ITcTextProps) {

@@ -27,6 +27,7 @@ import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 import { conf } from '../../../configs';
 import { BsBarChartFill } from 'react-icons/bs';
+import { FiSettings } from 'react-icons/fi';
 
 const Sidebar = () => {
   const { guildInfoByDiscord } = useAppStore();
@@ -72,6 +73,15 @@ const Sidebar = () => {
       icon: (
         <BsBarChartFill
           style={{ fontSize: 30, color: 'black', margin: '0 auto' }}
+        />
+      ),
+    },
+    {
+      name: 'Community Settings',
+      path: '/community-settings',
+      icon: (
+        <FiSettings
+          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
         />
       ),
     },
