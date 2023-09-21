@@ -64,7 +64,7 @@ function CreateNewCommunity() {
               text="Create community"
               variant="contained"
               color="secondary"
-              onClick={() => router.push('/?connectedCommunity=false')}
+              onClick={() => router.push('/')}
             />
           </div>
         </div>

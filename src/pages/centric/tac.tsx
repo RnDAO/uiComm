@@ -59,7 +59,7 @@ function Tac() {
                 variant="contained"
                 onClick={() => router.push('/centric/select-community')}
               />
-            </div>{' '}
+            </div>
           </div>
         }
       />
