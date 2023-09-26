@@ -21,11 +21,12 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
   const router = useRouter();
   const currentRoute = router.pathname;
 
-  const { getGuilds, getGuildInfoByDiscord } = useAppStore();
+  const { getGuilds, getGuildInfoByDiscord, authorizeTwitter } = useAppStore();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
+  const user = StorageService.readLocalStorage<IUser>('user');
+
   useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
     if (user) {
       const { guildId } = user.guild;
       getGuilds();
@@ -154,6 +155,7 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
                 <TcButton
                   text={'Connect Twitter account'}
                   variant="contained"
+                  onClick={() => authorizeTwitter(user?.token.accessToken)}
                 />
               </div>{' '}
             </div>
