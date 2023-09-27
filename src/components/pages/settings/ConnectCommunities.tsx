@@ -12,9 +12,7 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
-import * as amplitude from '@amplitude/analytics-browser';
-import { IDecodedToken } from '../../../utils/interfaces';
-import jwt_decode from 'jwt-decode';
+
 import {
   setAmplitudeUserIdFromToken,
   trackAmplitudeEvent,

@@ -36,6 +36,7 @@ function ConnectedTwitter({ twitter }: IConnectedTwitter) {
         <div>
           <div className="font-sm flex justify-center items-center text-center">
             <p className="pr-1">Twitter</p>
+            <span className="md:h-3 md:w-3 rounded-full bg-success" />
           </div>
           <BsTwitter size={30} className="mx-auto mt-2 mb-3" />
         </div>
