@@ -2,40 +2,23 @@ import React from 'react';
 import TcCard from '../../../shared/TcCard';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import TcText from '../../../shared/TcText';
-const yourAccountActivityMockList = [
-  {
-    description: 'Number of posts',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Replies',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Retweets',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Likes',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Mentions',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-];
 
-function TcYourAccountActivityContent() {
+interface IYourAccountActivityContentProps {
+  data: {
+    description: string;
+    value: number;
+    hasTooltipInfo: boolean;
+  }[];
+}
+
+function TcYourAccountActivityContent({
+  data,
+}: IYourAccountActivityContentProps) {
   return (
     <div className="overflow-x-scroll scrollbar-hide md:overflow-x-hidden">
       <div className="flex flex-row space-x-4 space-y-0 md:space-y-0">
-        {yourAccountActivityMockList &&
-          yourAccountActivityMockList.map((el, index) => (
+        {data &&
+          data.map((el, index) => (
             <TcCard
               key={index}
               elevation={0}
@@ -52,9 +35,7 @@ function TcYourAccountActivityContent() {
                   <div className="flex justify-center">
                     {el.hasTooltipInfo ? (
                       <TcIconWithTooltip tooltipText="Followers and non-followers" />
-                    ) : (
-                      ''
-                    )}
+                    ) : null}
                   </div>
                 </div>
               }

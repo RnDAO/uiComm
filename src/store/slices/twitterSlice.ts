@@ -1,14 +1,14 @@
 import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
 import ITwitter from '../types/ITwitter';
+import { conf } from '../../configs';
+
+const BASE_URL = conf.API_BASE_URL;
 
 const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
-  authorizeTwitter: async (token: string) => {
+  authorizeTwitter: async (discordId: string) => {
     try {
-      const { data } = await axiosInstance.post(`/auth/twitter/login`, {
-        accessToken: token,
-      });
-      location.replace(data);
+      location.replace(`${BASE_URL}/auth/twitter/login/user/${discordId}`);
     } catch (error) {
       console.error('Error in intermediary auth step:', error);
       // Handle the error more gracefully, e.g., show a message to the user, etc.
@@ -16,7 +16,7 @@ const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
   },
   disconnectTwitter: async () => {
     try {
-      await axiosInstance.post(`/twitter/disconnct`);
+      await axiosInstance.post(`twitter/disconnect`);
     } catch (error) {}
   },
   refreshTwitterMetrics: async (username) => {

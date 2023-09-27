@@ -1,5 +1,5 @@
 export default interface ITwitter {
-  authorizeTwitter: (token: string) => void;
+  authorizeTwitter: (discordId: string) => void;
   disconnectTwitter: () => void;
   refreshTwitterMetrics: (username: string) => void;
   twitterActivityAccount: (twitterId: string) => void;

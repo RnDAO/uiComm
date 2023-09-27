@@ -12,6 +12,8 @@ import TcDialog from '../components/shared/TcDialog';
 import { IoCloseSharp } from 'react-icons/io5';
 import TcLink from '../components/shared/TcLink';
 import { useRouter } from 'next/router';
+import jwt_decode from 'jwt-decode';
+import { IDecodedToken } from '../utils/interfaces';
 
 type IDefaultLayoutProps = {
   children: React.ReactNode;
@@ -21,7 +23,8 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
   const router = useRouter();
   const currentRoute = router.pathname;
 
-  const { getGuilds, getGuildInfoByDiscord, authorizeTwitter } = useAppStore();
+  const { getGuilds, getGuildInfoByDiscord, authorizeTwitter, getUserInfo } =
+    useAppStore();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const user = StorageService.readLocalStorage<IUser>('user');
@@ -33,12 +36,41 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
       if (guildId) {
         getGuildInfoByDiscord(guildId);
       }
+      const fetchUserInfo = async () => {
+        const {
+          twitterConnectedAt,
+          twitterId,
+          twitterProfileImageUrl,
+          twitterUsername,
+        } = await getUserInfo();
+
+        StorageService.updateLocalStorageWithObject('user', 'twitter', {
+          twitterConnectedAt,
+          twitterId,
+          twitterProfileImageUrl,
+          twitterUsername,
+        });
+      };
+      fetchUserInfo();
     }
   }, []);
 
+  const handleAuthorizeTwitter = () => {
+    const decodedToken = user?.token?.accessToken
+      ? jwt_decode<IDecodedToken>(user.token.accessToken)
+      : null;
+
+    authorizeTwitter(decodedToken?.sub);
+  };
+
+  const isAllTwitterPropertiesNull =
+    user &&
+    user.twitter &&
+    Object.values(user.twitter).every((value) => value == null);
+
   return (
     <>
-      {currentRoute === '/growth' && (
+      {currentRoute === '/growth' && isAllTwitterPropertiesNull && (
         <>
           <TcCollapse
             in={true}
@@ -155,9 +187,9 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
                 <TcButton
                   text={'Connect Twitter account'}
                   variant="contained"
-                  onClick={() => authorizeTwitter(user?.token.accessToken)}
+                  onClick={() => handleAuthorizeTwitter()}
                 />
-              </div>{' '}
+              </div>
             </div>
           </TcDialog>
         </>

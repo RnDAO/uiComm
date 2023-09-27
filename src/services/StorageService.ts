@@ -33,4 +33,25 @@ export class StorageService {
   public static removeLocalStorage(key: string): void {
     localStorage.removeItem(STORAGE_PREFIX + key);
   }
+  public static updateLocalStorageWithObject<T extends object>(
+    key: string,
+    newObjectKey: string,
+    newObject: Record<string, any>
+  ): void {
+    const currentObj = this.readLocalStorage<T>(key);
+
+    if (!currentObj || typeof currentObj !== 'object') {
+      console.error('Current value is not an object, or it does not exist');
+      return;
+    }
+
+    if (typeof newObject !== 'object' || Array.isArray(newObject)) {
+      console.error('newObject should be an object and not an array.');
+      return;
+    }
+
+    (currentObj as any)[newObjectKey] = newObject;
+
+    this.writeLocalStorage(key, currentObj);
+  }
 }

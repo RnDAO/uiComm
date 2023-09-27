@@ -9,7 +9,7 @@ import useAppStore from '../store/useStore';
 
 export default function callback() {
   const router = useRouter();
-  const { getUserInfo } = useAppStore();
+  const { getUserInfo, refreshTwitterMetrics } = useAppStore();
   const [loading, toggleLoading] = useState<boolean>(true);
   if (typeof window !== 'undefined') {
     useEffect(() => {
@@ -199,23 +199,34 @@ export default function callback() {
         }
         break;
 
-      case '890':
+      case '801':
         if (user) {
           const fetchUserInfo = async () => {
-            await getUserInfo();
+            const {
+              twitterConnectedAt,
+              twitterId,
+              twitterProfileImageUrl,
+              twitterUsername,
+            } = await getUserInfo();
+
+            StorageService.updateLocalStorageWithObject('user', 'twitter', {
+              twitterConnectedAt,
+              twitterId,
+              twitterProfileImageUrl,
+              twitterUsername,
+            });
+            refreshTwitterMetrics(twitterUsername);
           };
-          StorageService.writeLocalStorage('user', {
-            guild: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-            },
-            token: user.token,
-          });
           fetchUserInfo();
           router.push({
             pathname: '/growth',
           });
         }
+        break;
+      case '890':
+        router.push({
+          pathname: '/growth',
+        });
         break;
 
       default:

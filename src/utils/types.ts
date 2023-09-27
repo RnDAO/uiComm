@@ -14,9 +14,17 @@ export interface callbackUrlParams extends IGuild, IToken {
   statusCode: number | string;
 }
 
+export interface ITwitter {
+  twitterConnectedAt: string;
+  twitterId: string;
+  twitterProfileImageUrl: string;
+  twitterUsername: string;
+}
+
 export type IUser = {
   token: IToken;
   guild: IGuild;
+  twitter?: ITwitter;
 };
 
 export type IGuildChannels = {
