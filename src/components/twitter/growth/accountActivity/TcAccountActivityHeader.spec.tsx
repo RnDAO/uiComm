@@ -1,34 +1,42 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { StorageService } from '../../../../services/StorageService';
 import TcAccountActivityHeader from './TcAccountActivityHeader';
 
+jest.mock('../../../../services/StorageService');
+
 describe('<TcAccountActivityHeader />', () => {
-  // Test 1: Check if the component renders correctly
-  it('renders without crashing', () => {
+  beforeEach(() => {
+    // Mocking the `readLocalStorage` method
+    const mockedReadLocalStorage =
+      StorageService.readLocalStorage as jest.MockedFunction<
+        typeof StorageService.readLocalStorage
+      >;
+
+    mockedReadLocalStorage.mockReturnValue({
+      twitter: {
+        twitterUsername: 'testUser',
+      },
+    });
+
     render(<TcAccountActivityHeader />);
   });
 
-  // Test 2: Check if the expected texts are displayed
-  it('displays the expected texts', () => {
-    render(<TcAccountActivityHeader />);
-
-    expect(screen.getByText('Account activity')).toBeInTheDocument();
-    expect(screen.getByText('Data over the last 7 days')).toBeInTheDocument();
-    expect(screen.getByText('Analyzed account:')).toBeInTheDocument();
-    expect(screen.getByText('@daoxyz')).toBeInTheDocument();
+  it('renders the main header text', () => {
+    const headerText = screen.getByText('Account activity');
+    expect(headerText).toBeInTheDocument();
   });
 
-  // Test 3: Check if the BiTimeFive icon (SVG) is rendered using data-testid
-  it('renders the BiTimeFive icon (SVG)', () => {
-    render(<TcAccountActivityHeader />);
-    const svgIcon = screen.getByTestId('bi-time-five-icon');
-    expect(svgIcon).toBeInTheDocument();
+  it('renders the time information with an icon', () => {
+    const timeInfoText = screen.getByText('Data over the last 7 days');
+    const timeIcon = screen.getByTestId('bi-time-five-icon');
+    expect(timeInfoText).toBeInTheDocument();
+    expect(timeIcon).toBeInTheDocument();
   });
 
-  // Test 4: Check if TcLink with the to prop as '/' is rendered
-  it('renders TcLink with to prop as "/"', () => {
-    render(<TcAccountActivityHeader />);
-    const link = screen.getByRole('link', { name: /@daoxyz/i });
-    expect(link).toHaveAttribute('href', '/');
+  it('renders the analyzed account username when provided', () => {
+    const usernameLink = screen.getByText('@testUser');
+    expect(usernameLink).toBeInTheDocument();
+    expect(usernameLink).toHaveAttribute('href', '/settings');
   });
 });

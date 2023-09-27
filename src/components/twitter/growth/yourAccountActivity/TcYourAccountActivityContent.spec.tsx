@@ -2,51 +2,32 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TcYourAccountActivityContent from './TcYourAccountActivityContent';
 
-const yourAccountActivityMockList = [
-  {
-    description: 'Number of posts',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Replies',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Retweets',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Likes',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-  {
-    description: 'Mentions',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-];
-
 describe('<TcYourAccountActivityContent />', () => {
+  const mockData = [
+    { description: 'Desc 1', value: 123, hasTooltipInfo: true },
+    { description: 'Desc 2', value: 456, hasTooltipInfo: false },
+    { description: 'Desc 3', value: 789, hasTooltipInfo: true },
+  ];
+
   beforeEach(() => {
-    render(<TcYourAccountActivityContent />);
+    render(<TcYourAccountActivityContent data={mockData} />);
   });
 
-  // Test 1: Check if each description from mock list is rendered
-  it('renders each description from the mock list', () => {
-    yourAccountActivityMockList.forEach((item) => {
+  it('renders the correct values and descriptions', () => {
+    mockData.forEach((item) => {
+      expect(screen.getByText(item.value.toString())).toBeInTheDocument();
       expect(screen.getByText(item.description)).toBeInTheDocument();
     });
   });
 
-  // Test 2: Check if the correct number of cards are rendered
-  it('renders the correct number of cards', () => {
-    const cards = yourAccountActivityMockList.map((item) =>
-      screen.getByText(item.description)
-    );
-    expect(cards.length).toBe(yourAccountActivityMockList.length);
+  it('does not render the TcIconWithTooltip when hasTooltipInfo is false', () => {
+    // Filtering mockData for items with hasTooltipInfo as false
+    const itemsWithoutTooltip = mockData.filter((item) => !item.hasTooltipInfo);
+
+    itemsWithoutTooltip.forEach((item) => {
+      expect(
+        screen.getByText(item.description).closest('div')
+      ).not.toHaveTextContent('Followers and non-followers');
+    });
   });
 });

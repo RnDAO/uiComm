@@ -1,24 +1,49 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import TcEngagementAccounts from './TcEngagementAccounts';
+import TcEngagementAccountsHeader from './TcEngagementAccountsHeader';
 
-// Mock the child components to simplify the test
-jest.mock('./TcEngagementAccountsHeader', () => () => (
-  <div data-testid="header-mock">Header</div>
-));
-jest.mock('./TcEngagementAccountsContent', () => () => (
-  <div data-testid="content-mock">Content</div>
-));
+describe('<TcEngagementAccounts />', () => {
+  const mockEngagement = {
+    hqla: 10,
+    hqhe: 20,
+    lqla: 15,
+    lqhe: 25,
+  };
 
-describe('TcEngagementAccounts', () => {
-  it('renders the component and checks presence of child components', () => {
-    render(<TcEngagementAccounts />);
+  beforeEach(() => {
+    render(<TcEngagementAccounts engagement={mockEngagement} />);
+  });
 
-    // Check if the mocked header component is rendered
-    expect(screen.getByTestId('header-mock')).toBeInTheDocument();
+  // Test 1: Check if the TcEngagementAccountsHeader component is rendered.
+  it('renders the header component', () => {
+    render(<TcEngagementAccountsHeader />);
+  });
 
-    // Check if the mocked content component is rendered
-    expect(screen.getByTestId('content-mock')).toBeInTheDocument();
+  // Test 2: Check if the data is rendered correctly in the TcEngagementAccountsContent component.
+  it('renders the correct engagement values and descriptions', () => {
+    const descriptions = [
+      'Only engaged a bit but deeper interactions',
+      'Frequently engaged and deep interactions',
+      'Only engaged a bit and shallow interactions',
+      'Frequently engaged but shallow interactions',
+    ];
+
+    descriptions.forEach((description) => {
+      expect(screen.getByText(description)).toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByText(mockEngagement.hqla.toString())
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(mockEngagement.hqhe.toString())
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(mockEngagement.lqla.toString())
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(mockEngagement.lqhe.toString())
+    ).toBeInTheDocument();
   });
 });
