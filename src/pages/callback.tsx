@@ -5,9 +5,11 @@ import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
 import { toast } from 'react-toastify';
 import { BiError } from 'react-icons/bi';
+import useAppStore from '../store/useStore';
 
 export default function callback() {
   const router = useRouter();
+  const { getUserInfo } = useAppStore();
   const [loading, toggleLoading] = useState<boolean>(true);
   if (typeof window !== 'undefined') {
     useEffect(() => {
@@ -193,6 +195,25 @@ export default function callback() {
               guildName: params.guildName,
               isSuccessful: true,
             },
+          });
+        }
+        break;
+
+      case '890':
+        if (user) {
+          const fetchUserInfo = async () => {
+            await getUserInfo();
+          };
+          StorageService.writeLocalStorage('user', {
+            guild: {
+              guildId: params.guildId,
+              guildName: params.guildName,
+            },
+            token: user.token,
+          });
+          fetchUserInfo();
+          router.push({
+            pathname: '/growth',
           });
         }
         break;

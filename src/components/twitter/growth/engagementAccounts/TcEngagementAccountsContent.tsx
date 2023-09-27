@@ -79,7 +79,7 @@ function TcEngagementAccountsContent() {
         {['High', 'Low'].map((label, index) => (
           <div
             key={label}
-            className="flex min-h-[8rem] flex-row items-center space-x-3 flex-1  overflow-scroll"
+            className="flex min-h-[8rem] flex-row items-center space-x-3 flex-1  overflow-scroll md:overflow-auto"
           >
             <TcText text={label} variant={'subtitle1'} color={'#767676'} />
             <div className="flex flex-row w-full space-x-6">

@@ -5,13 +5,13 @@ import ITwitter from '../types/ITwitter';
 const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
   authorizeTwitter: async (token: string) => {
     try {
-      await axiosInstance.get(`/auth/twitter/login`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const { data } = await axiosInstance.post(`/auth/twitter/login`, {
+        accessToken: token,
       });
+      location.replace(data);
     } catch (error) {
       console.error('Error in intermediary auth step:', error);
+      // Handle the error more gracefully, e.g., show a message to the user, etc.
     }
   },
   disconnectTwitter: async () => {
