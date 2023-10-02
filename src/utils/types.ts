@@ -20,6 +20,7 @@ export interface ITwitter {
   twitterProfileImageUrl: string;
   twitterUsername: string;
   lastUpdatedMetrics: string;
+  twitterIsInProgress: boolean;
 }
 
 export type IUser = {

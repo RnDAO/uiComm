@@ -25,13 +25,10 @@ const createSettingSlice: StateCreator<ISetting> = (set, get) => ({
   },
   getUserInfo: async () => {
     try {
-      set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get('/users/@me');
-      set({ userInfo: data, isLoading: false });
+      set({ userInfo: data });
       return data;
-    } catch (error) {
-      set(() => ({ isLoading: false }));
-    }
+    } catch (error) {}
   },
   getGuildInfoByDiscord: async (guildId) => {
     try {

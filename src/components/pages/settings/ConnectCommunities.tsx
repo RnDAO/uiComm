@@ -135,7 +135,6 @@ export default function ConnectCommunities() {
     user &&
     user.twitter &&
     Object.values(user.twitter).every((value) => value == null);
-  console.log({ isAllTwitterPropertiesNull });
 
   return (
     <>

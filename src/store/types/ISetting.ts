@@ -20,6 +20,7 @@ export interface IUserInfo {
   twitterId: string;
   twitterProfileImageUrl: string;
   twitterUsername: string;
+  twitterIsInProgress: boolean;
   id: string;
 }
 

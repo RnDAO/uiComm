@@ -5,6 +5,7 @@ import useAppStore from '../../../store/useStore';
 import { BsTwitter } from 'react-icons/bs';
 import moment from 'moment';
 import { StorageService } from '../../../services/StorageService';
+import clsx from 'clsx';
 
 interface IConnectedTwitter {
   twitter?: ITwitter;
@@ -37,7 +38,12 @@ function ConnectedTwitter({ twitter }: IConnectedTwitter) {
         <div>
           <div className="font-sm flex justify-center items-center text-center">
             <p className="pr-1">Twitter</p>
-            <span className="md:h-3 md:w-3 rounded-full bg-success" />
+            <span
+              className={clsx(
+                'md:h-3 md:w-3 rounded-full',
+                twitter?.twitterIsInProgress ? 'bg-success' : 'bg-warning-500'
+              )}
+            />
           </div>
           <BsTwitter size={30} className="mx-auto mt-2 mb-3" />
         </div>
