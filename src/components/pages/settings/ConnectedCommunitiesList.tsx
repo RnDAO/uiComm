@@ -8,12 +8,13 @@ import { Paper } from '@mui/material';
 import useAppStore from '../../../store/useStore';
 import { DISCONNECT_TYPE } from '../../../store/types/ISetting';
 import { StorageService } from '../../../services/StorageService';
-import { IUser } from '../../../utils/types';
+import { ITwitter, IUser } from '../../../utils/types';
 
 import {
   setAmplitudeUserIdFromToken,
   trackAmplitudeEvent,
 } from '../../../helpers/amplitudeHelper';
+import ConnectedTwitter from './ConnectedTwitter';
 
 export default function ConnectedCommunitiesList({ guilds }: any) {
   const { disconnecGuildById, getGuilds } = useAppStore();
@@ -22,6 +23,7 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
   const toggleModal = (e: boolean) => {
     setOpen(e);
   };
+  let user: IUser | undefined = StorageService.readLocalStorage<IUser>('user');
   const notify = () => {
     toast('The integration has been disconnected succesfully.', {
       position: 'top-center',
@@ -42,9 +44,6 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
       notify();
       getGuilds();
 
-      let user: IUser | undefined =
-        StorageService.readLocalStorage<IUser>('user');
-
       setAmplitudeUserIdFromToken();
 
       trackAmplitudeEvent({
@@ -60,6 +59,15 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
       }
     });
   };
+
+  function isAllTwitterPropertiesNull(twitter: ITwitter): boolean {
+    return (
+      twitter.twitterConnectedAt === null &&
+      twitter.twitterId === null &&
+      twitter.twitterProfileImageUrl === null &&
+      twitter.twitterUsername === null
+    );
+  }
 
   return (
     <>
@@ -82,6 +90,13 @@ export default function ConnectedCommunitiesList({ guilds }: any) {
                   </div>
                 ))
               : ''}
+            {user?.twitter && !isAllTwitterPropertiesNull(user.twitter) ? (
+              <div className="p-4">
+                <ConnectedTwitter twitter={user.twitter} />
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       ) : (

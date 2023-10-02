@@ -85,3 +85,37 @@ export interface ITrackEventParams {
   eventProperties?: Record<string, any>;
   callback?: (result: { event: any; code: any; message: any }) => void;
 }
+
+export interface IActivity {
+  posts: number;
+  replies: number;
+  retweets: number;
+  likes: number;
+  mentions: number;
+}
+
+export interface IAudience {
+  replies: number;
+  retweets: number;
+  likes: number;
+  mentions: number;
+}
+
+export interface IEngagement {
+  hqla: number;
+  hqhe: number;
+  lqla: number;
+  lqhe: number;
+}
+
+export interface IAccount {
+  follower: number;
+  engagement: number;
+}
+
+export interface IDataTwitter {
+  activity: IActivity;
+  audience: IAudience;
+  engagement: IEngagement;
+  account: IAccount;
+}

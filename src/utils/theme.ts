@@ -7,6 +7,15 @@ export const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: 'inherit',
+    fontWeightBold: '500',
+    fontWeightExtraBold: '700',
+    h3: {
+      fontSize: '2.5rem',
+    },
+    h4: {
+      fontSize: '1.75rem',
+    },
     button: {
       textTransform: 'none',
     },
@@ -15,10 +24,31 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '4px',
+          borderRadius: '8px',
           color: '#804EE1',
+          minWidth: '15rem',
+          padding: '0.5rem',
           '&.Mui-disabled': {
             opacity: 0.7,
+          },
+          '@media (max-width:1023px)': {
+            minWidth: '100%',
+          },
+        },
+        contained: {
+          background: '#804EE1 !important',
+          color: 'white',
+          '&.Mui-disabled': {
+            color: 'white',
+          },
+        },
+        outlined: {
+          background: 'transparent',
+          border: '1px solid #222222',
+          color: '#222222',
+          '&:hover': {
+            background: '#F5F5F5',
+            border: '1px solid #222222',
           },
         },
       },
@@ -54,7 +84,6 @@ export const theme = createTheme({
     MuiAlert: {
       styleOverrides: {
         root: {
-          padding: '6px 9rem 6px 14rem',
           borderRadius: '0px',
           position: 'sticky',
           top: '0',
@@ -107,7 +136,15 @@ export const theme = createTheme({
     },
   },
 });
+declare module '@mui/material/styles/createTypography' {
+  interface TypographyOptions {
+    fontWeightExtraBold?: string;
+  }
 
+  interface Typography {
+    fontWeightExtraBold: string;
+  }
+}
 declare module '@mui/material/styles' {
   interface Palette {
     neutral: Palette['primary'];
