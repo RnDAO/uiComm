@@ -28,6 +28,7 @@ function ConnectedTwitter({ twitter }: IConnectedTwitter) {
       twitterProfileImageUrl,
       twitterUsername,
     });
+    StorageService.removeLocalStorage('lastTwitterMetricsRefreshDate');
   };
 
   return (

@@ -3,24 +3,21 @@ import TcCard from '../../../shared/TcCard';
 import TcText from '../../../shared/TcText';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 
-const accountActivityMockList = [
-  {
-    description: 'Accounts that engage with you',
-    value: 0,
-    hasTooltipInfo: true,
-  },
-  {
-    description: 'Your followers',
-    value: 0,
-    hasTooltipInfo: false,
-  },
-];
+interface ITcAccountActivityContentProps {
+  activityList: {
+    description: string;
+    value: number;
+    hasTooltipInfo: boolean;
+  }[];
+}
 
-function TcAccountActivityContent() {
+function TcAccountActivityContent({
+  activityList,
+}: ITcAccountActivityContentProps) {
   return (
     <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
-      {accountActivityMockList &&
-        accountActivityMockList.map((el, index) => (
+      {activityList &&
+        activityList.map((el, index) => (
           <TcCard
             key={index}
             elevation={0}

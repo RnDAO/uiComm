@@ -27,10 +27,31 @@ export default function callback() {
     }, [router]);
   }
 
-  const notify = () => {
-    toast('Discord authentication faild.please try again.', {
-      position: 'bottom-left',
-      autoClose: 3000,
+  interface NotifyOptions {
+    message: string;
+    position?:
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-right'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'top-right';
+    autoClose?: number | false;
+    iconColor?: string;
+    iconSize?: number;
+  }
+
+  const notify = ({
+    message,
+    position = 'bottom-left',
+    autoClose = 3000,
+    iconColor = '#FB3E56',
+    iconSize = 40,
+  }: NotifyOptions) => {
+    toast(message, {
+      position,
+      autoClose,
       hideProgressBar: true,
       closeOnClick: false,
       pauseOnHover: true,
@@ -38,7 +59,7 @@ export default function callback() {
       progress: undefined,
       closeButton: false,
       theme: 'light',
-      icon: <BiError color="#FB3E56" size={40} />,
+      icon: <BiError color={iconColor} size={iconSize} />,
     });
   };
 
@@ -47,12 +68,12 @@ export default function callback() {
     let user = StorageService.readLocalStorage<IUser>('user');
     switch (statusCode) {
       case '490':
-        notify();
+        notify({ message: 'Discord authentication failed. Please try again.' });
         router.push('/tryNow');
         break;
 
       case '491':
-        notify();
+        notify({ message: 'Discord authentication failed. Please try again.' });
         router.push('/settings');
         break;
 
@@ -215,7 +236,13 @@ export default function callback() {
               twitterProfileImageUrl,
               twitterUsername,
             });
-            refreshTwitterMetrics(twitterUsername);
+
+            StorageService.writeLocalStorage(
+              'lastTwitterMetricsRefreshDate',
+              new Date().toISOString()
+            );
+
+            refreshTwitterMetrics();
           };
           fetchUserInfo();
           router.push({
@@ -224,6 +251,7 @@ export default function callback() {
         }
         break;
       case '890':
+        notify({ message: 'Twitter authorization failed. Please try again.' });
         router.push({
           pathname: '/growth',
         });

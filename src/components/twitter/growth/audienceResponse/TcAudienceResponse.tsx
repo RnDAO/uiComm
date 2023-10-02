@@ -19,15 +19,17 @@ function TcAudienceResponse({ audience }: ITcAudienceResponseProps) {
   >([]);
 
   useEffect(() => {
-    const newState = Object.keys(audience).map((key) => {
-      const audienceKey = key as keyof IAudience;
-      return {
-        description: capitalizeFirstChar(audienceKey),
-        value: audience[audienceKey],
-        hasTooltipInfo: false,
-      };
-    });
-    setAudienceResponseList(newState);
+    if (audience) {
+      const newState = Object.keys(audience).map((key) => {
+        const audienceKey = key as keyof IAudience;
+        return {
+          description: capitalizeFirstChar(audienceKey),
+          value: audience[audienceKey],
+          hasTooltipInfo: false,
+        };
+      });
+      setAudienceResponseList(newState);
+    }
   }, [audience]);
 
   return (

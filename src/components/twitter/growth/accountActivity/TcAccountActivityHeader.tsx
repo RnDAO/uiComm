@@ -9,7 +9,7 @@ export default function TcAccountActivityHeader() {
   const user = StorageService.readLocalStorage<IUser>('user');
   return (
     <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-center">
-      <div className="md:space-y-3">
+      <div>
         <TcText text="Account activity" variant="h6" fontWeight="bold" />
         <div className="flex items-center space-x-1">
           <BiTimeFive size="18px" data-testid="bi-time-five-icon" />

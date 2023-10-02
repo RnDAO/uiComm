@@ -19,6 +19,7 @@ export interface ITwitter {
   twitterId: string;
   twitterProfileImageUrl: string;
   twitterUsername: string;
+  lastUpdatedMetrics: string;
 }
 
 export type IUser = {

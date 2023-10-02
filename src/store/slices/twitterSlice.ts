@@ -11,7 +11,6 @@ const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
       location.replace(`${BASE_URL}/auth/twitter/login/user/${discordId}`);
     } catch (error) {
       console.error('Error in intermediary auth step:', error);
-      // Handle the error more gracefully, e.g., show a message to the user, etc.
     }
   },
   disconnectTwitter: async () => {
@@ -19,26 +18,33 @@ const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
       await axiosInstance.post(`twitter/disconnect`);
     } catch (error) {}
   },
-  refreshTwitterMetrics: async (username) => {
+  refreshTwitterMetrics: async () => {
     try {
-      await axiosInstance.post(`/twitter/metrics/refresh`, {
-        twitter_username: username,
-      });
+      await axiosInstance.post(`/twitter/metrics/refresh`);
     } catch (error) {}
   },
-  twitterActivityAccount: (twitterId) => {
+  twitterActivityAccount: async () => {
     try {
-      axiosInstance.get(`/twitter/${twitterId}/metrics/activity`);
+      const { data } = await axiosInstance.get(`/twitter/metrics/activity`);
+      return data;
     } catch (error) {}
   },
-  twitterAudienceAccount: (twitterId) => {
+  twitterAudienceAccount: async () => {
     try {
-      axiosInstance.get(`/twitter/${twitterId}/metrics/audience`);
+      const { data } = await axiosInstance.get(`/twitter/metrics/audience`);
+      return data;
     } catch (error) {}
   },
-  twitterEngagementAccount: (twitterId) => {
+  twitterEngagementAccount: async () => {
     try {
-      axiosInstance.get(`/twitter/${twitterId}/metrics/engagement`);
+      const { data } = await axiosInstance.get(`/twitter/metrics/engagement`);
+      return data;
+    } catch (error) {}
+  },
+  twitterAccount: async () => {
+    try {
+      const { data } = await axiosInstance.get(`/twitter/metrics/account`);
+      return data;
     } catch (error) {}
   },
 });

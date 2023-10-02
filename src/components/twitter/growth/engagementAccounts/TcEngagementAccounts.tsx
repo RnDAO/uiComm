@@ -43,14 +43,16 @@ function TcEngagementAccounts({ engagement }: ITcEngagementAccountsProps) {
   ]);
 
   useEffect(() => {
-    const updatedContentItems = [...contentItems];
+    if (engagement) {
+      const updatedContentItems = [...contentItems];
 
-    updatedContentItems[0].value = engagement.hqla;
-    updatedContentItems[1].value = engagement.hqhe;
-    updatedContentItems[2].value = engagement.lqla;
-    updatedContentItems[3].value = engagement.lqhe;
+      updatedContentItems[0].value = engagement.hqla;
+      updatedContentItems[1].value = engagement.hqhe;
+      updatedContentItems[2].value = engagement.lqla;
+      updatedContentItems[3].value = engagement.lqhe;
 
-    setContentItems(updatedContentItems);
+      setContentItems(updatedContentItems);
+    }
   }, [engagement]);
 
   return (

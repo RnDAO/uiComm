@@ -14,6 +14,7 @@ import TcLink from '../components/shared/TcLink';
 import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from '../utils/interfaces';
+import { decodeUserTokenDiscordId } from '../helpers/helper';
 
 type IDefaultLayoutProps = {
   children: React.ReactNode;
@@ -56,11 +57,7 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
   }, []);
 
   const handleAuthorizeTwitter = () => {
-    const decodedToken = user?.token?.accessToken
-      ? jwt_decode<IDecodedToken>(user.token.accessToken)
-      : null;
-
-    authorizeTwitter(decodedToken?.sub);
+    authorizeTwitter(decodeUserTokenDiscordId(user));
   };
 
   const isAllTwitterPropertiesNull =

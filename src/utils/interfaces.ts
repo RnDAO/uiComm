@@ -108,8 +108,14 @@ export interface IEngagement {
   lqhe: number;
 }
 
+export interface IAccount {
+  follower: number;
+  engagement: number;
+}
+
 export interface IDataTwitter {
   activity: IActivity;
   audience: IAudience;
   engagement: IEngagement;
+  account: IAccount;
 }

@@ -20,18 +20,22 @@ function TcYourAccountActivity({ activity }: ITcYourAccountActivityProps) {
   >([]);
 
   useEffect(() => {
-    const newState = Object.keys(activity).map((key) => {
-      const activityKey = key as keyof IActivity;
-      return {
-        description:
-          activityKey === 'posts'
-            ? 'Number of posts'
-            : capitalizeFirstChar(activityKey),
-        value: activity[activityKey],
-        hasTooltipInfo: false,
-      };
-    });
-    setYourAccountActivityList(newState);
+    if (activity) {
+      const newState = Object.keys(activity).map((key) => {
+        const activityKey = key as keyof IActivity;
+
+        return {
+          description:
+            activityKey === 'posts'
+              ? 'Number of posts'
+              : capitalizeFirstChar(activityKey),
+          value: activity[activityKey],
+          hasTooltipInfo: false,
+        };
+      });
+
+      setYourAccountActivityList(newState);
+    }
   }, [activity]);
 
   return (

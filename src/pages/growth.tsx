@@ -11,6 +11,7 @@ import { StorageService } from '../services/StorageService';
 import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { IDataTwitter } from '../utils/interfaces';
+import TcAccountActivity from '../components/twitter/growth/accountActivity/TcAccountActivity';
 
 function growth() {
   const user = StorageService.readLocalStorage<IUser>('user');
@@ -35,6 +36,10 @@ function growth() {
       lqla: 0,
       lqhe: 0,
     },
+    account: {
+      follower: 0,
+      engagement: 0,
+    },
   });
 
   const [loading, setLoading] = useState(false);
@@ -43,29 +48,70 @@ function growth() {
     twitterActivityAccount,
     twitterAudienceAccount,
     twitterEngagementAccount,
+    twitterAccount,
+    refreshTwitterMetrics,
   } = useAppStore();
+
+  const updateTwitterMetrics = () => {
+    const lastTwitterMetricsDateStr = StorageService.readLocalStorage<string>(
+      'lastTwitterMetricsRefreshDate',
+      'string'
+    );
+
+    if (!lastTwitterMetricsDateStr) {
+      return;
+    }
+
+    const lastTwitterMetricsDate = new Date(lastTwitterMetricsDateStr);
+
+    const now = new Date();
+    const lastRefresh = new Date(lastTwitterMetricsDate);
+
+    const differenceInMillis = now.getTime() - lastRefresh.getTime();
+
+    if (differenceInMillis >= 24 * 60 * 60 * 1000) {
+      refreshTwitterMetrics();
+      StorageService.writeLocalStorage(
+        'lastTwitterMetricsRefreshDate',
+        new Date().toISOString()
+      );
+    }
+  };
 
   useEffect(() => {
     const twitterId = user?.twitter?.twitterId;
+
+    updateTwitterMetrics();
+
+    setLoading(true);
     if (twitterId) {
-      setLoading(true);
       Promise.all([
-        twitterActivityAccount(twitterId),
-        twitterAudienceAccount(twitterId),
-        twitterEngagementAccount(twitterId),
+        twitterActivityAccount(),
+        twitterAudienceAccount(),
+        twitterEngagementAccount(),
+        twitterAccount(),
       ])
-        .then(([activityResponse, audienceResponse, engagementResponse]) => {
-          setData({
-            activity: activityResponse.data,
-            audience: audienceResponse.data,
-            engagement: engagementResponse.data,
-          });
-          setLoading(false);
-        })
+        .then(
+          ([
+            activityResponse,
+            audienceResponse,
+            engagementResponse,
+            accountResponse,
+          ]) => {
+            setData({
+              activity: activityResponse,
+              audience: audienceResponse,
+              engagement: engagementResponse,
+              account: accountResponse,
+            });
+            setLoading(false);
+          }
+        )
         .catch((err) => {
           setLoading(false);
         });
     }
+    setLoading(false);
   }, []);
 
   if (loading) {
@@ -88,6 +134,7 @@ function growth() {
           }
           contentContainerChildren={
             <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-8">
+              <TcAccountActivity account={data.account} />
               <TcYourAccountActivity activity={data.activity} />
               <TcAudienceResponse audience={data.audience} />
               <TcEngagementAccounts engagement={data.engagement} />
