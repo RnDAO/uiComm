@@ -6,6 +6,7 @@ import { conf } from '../../configs';
 const BASE_URL = conf.API_BASE_URL;
 
 const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
+  isLoading: false,
   authorizeTwitter: async (discordId: string) => {
     try {
       location.replace(`${BASE_URL}/auth/twitter/login/user/${discordId}`);
@@ -15,7 +16,9 @@ const createTwitterSlice: StateCreator<ITwitter> = (set, get) => ({
   },
   disconnectTwitter: async () => {
     try {
+      set(() => ({ isLoading: true }));
       await axiosInstance.post(`twitter/disconnect`);
+      set(() => ({ isLoading: false }));
     } catch (error) {}
   },
   refreshTwitterMetrics: async () => {

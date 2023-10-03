@@ -15,21 +15,28 @@ function ConnectedTwitter({ twitter }: IConnectedTwitter) {
   const { disconnectTwitter, getUserInfo } = useAppStore();
 
   const handleDisconnect = async () => {
-    await disconnectTwitter();
-    const {
-      twitterConnectedAt,
-      twitterId,
-      twitterProfileImageUrl,
-      twitterUsername,
-    } = await getUserInfo();
+    try {
+      await disconnectTwitter();
 
-    StorageService.updateLocalStorageWithObject('user', 'twitter', {
-      twitterConnectedAt,
-      twitterId,
-      twitterProfileImageUrl,
-      twitterUsername,
-    });
-    StorageService.removeLocalStorage('lastTwitterMetricsRefreshDate');
+      const userInfo = await getUserInfo();
+      const {
+        twitterConnectedAt,
+        twitterId,
+        twitterProfileImageUrl,
+        twitterUsername,
+      } = userInfo;
+
+      StorageService.updateLocalStorageWithObject('user', 'twitter', {
+        twitterConnectedAt,
+        twitterId,
+        twitterProfileImageUrl,
+        twitterUsername,
+      });
+
+      StorageService.removeLocalStorage('lastTwitterMetricsRefreshDate');
+    } catch (error) {
+      console.error('Error handling disconnect:', error);
+    }
   };
 
   return (
