@@ -48,7 +48,6 @@ function Settings(): JSX.Element {
     fetchEmail();
     const intervalId = setInterval(() => {
       getGuilds();
-      getUserInfo();
     }, 5000);
 
     // Clean up the interval when the component unmounts

@@ -37,6 +37,7 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
       if (guildId) {
         getGuildInfoByDiscord(guildId);
       }
+
       const fetchUserInfo = async () => {
         const {
           twitterConnectedAt,
@@ -52,7 +53,15 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
           twitterUsername,
         });
       };
+
+      // Immediately call fetchUserInfo once
       fetchUserInfo();
+
+      // Set up the interval to call fetchUserInfo every 5 seconds
+      const intervalId = setInterval(fetchUserInfo, 5000);
+
+      // Return a cleanup function to clear the interval when the component unmounts
+      return () => clearInterval(intervalId);
     }
   }, []);
 
