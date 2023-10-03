@@ -32,7 +32,7 @@ export const theme = createTheme({
             opacity: 0.7,
           },
           '@media (max-width:1023px)': {
-            minWidth: '100%',
+            width: '100%',
           },
         },
         contained: {

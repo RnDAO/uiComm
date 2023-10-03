@@ -284,9 +284,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <>
                     <Button
                       onClick={handleOpenRolesPopup}
-                      size="small"
                       variant="text"
-                      sx={{ color: 'black' }}
+                      sx={{ color: 'black', minWidth: '64px' }}
                       endIcon={
                         isRolesPopupOpen ? (
                           <MdOutlineKeyboardArrowUp />
@@ -363,7 +362,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       onClick={handleOpenActivityPopup}
                       size="small"
                       variant="text"
-                      sx={{ color: 'black' }}
+                      sx={{ color: 'black', minWidth: '64px' }}
                       endIcon={
                         isActivityPopupOpen ? (
                           <MdOutlineKeyboardArrowUp />
@@ -440,7 +439,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       onClick={handleOpenJoinedAtPopup}
                       size="small"
                       variant="text"
-                      sx={{ color: 'black' }}
+                      sx={{ color: 'black', minWidth: '64px' }}
                       endIcon={
                         isJoinedAtPopupOpen ? (
                           <MdOutlineKeyboardArrowUp />
