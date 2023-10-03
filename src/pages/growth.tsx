@@ -42,7 +42,7 @@ function growth() {
     },
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const {
     twitterActivityAccount,
@@ -76,42 +76,48 @@ function growth() {
         new Date().toISOString()
       );
     }
+    return;
   };
 
   useEffect(() => {
-    const twitterId = user?.twitter?.twitterId;
+    const fetchTwitterMetrics = async () => {
+      const twitterId = user?.twitter?.twitterId;
+
+      if (!twitterId) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const [
+          activityResponse,
+          audienceResponse,
+          engagementResponse,
+          accountResponse,
+        ] = await Promise.all([
+          twitterActivityAccount(),
+          twitterAudienceAccount(),
+          twitterEngagementAccount(),
+          twitterAccount(),
+        ]);
+
+        setData({
+          activity: activityResponse,
+          audience: audienceResponse,
+          engagement: engagementResponse,
+          account: accountResponse,
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     updateTwitterMetrics();
-
-    setLoading(true);
-    if (twitterId) {
-      Promise.all([
-        twitterActivityAccount(),
-        twitterAudienceAccount(),
-        twitterEngagementAccount(),
-        twitterAccount(),
-      ])
-        .then(
-          ([
-            activityResponse,
-            audienceResponse,
-            engagementResponse,
-            accountResponse,
-          ]) => {
-            setData({
-              activity: activityResponse,
-              audience: audienceResponse,
-              engagement: engagementResponse,
-              account: accountResponse,
-            });
-            setLoading(false);
-          }
-        )
-        .catch((err) => {
-          setLoading(false);
-        });
-    }
-    setLoading(false);
+    fetchTwitterMetrics();
   }, []);
 
   if (loading) {
