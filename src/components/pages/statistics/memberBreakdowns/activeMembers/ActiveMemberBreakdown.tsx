@@ -191,6 +191,7 @@ export default function ActiveMemberBreakdown() {
             startIcon={<BsFiletypeCsv />}
             size="small"
             variant="outlined"
+            sx={{ minWidth: '64px', padding: '0.4rem 1rem' }}
             className="border-black text-black"
             disableElevation
             onClick={handleDownloadCSV}
