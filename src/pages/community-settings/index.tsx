@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { defaultLayout } from '../layouts/defaultLayout';
-import SEO from '../components/global/SEO';
-import TcBoxContainer from '../components/shared/TcBox/TcBoxContainer';
-import TcText from '../components/shared/TcText';
-import TcCommunityIntegrations from '../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
-import TcIntegrationDialog from './communitySettings/TcIntegrationDialog';
+import { defaultLayout } from '../../layouts/defaultLayout';
+import SEO from '../../components/global/SEO';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import TcText from '../../components/shared/TcText';
+import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
+import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
 import { useRouter } from 'next/router';
-import TcLink from '../components/shared/TcLink';
+import TcLink from '../../components/shared/TcLink';
 
-function communitySettings() {
+function index() {
   const router = useRouter();
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [dialogContent, setDialogContent] = useState({
@@ -105,6 +105,6 @@ function communitySettings() {
   );
 }
 
-communitySettings.pageLayout = defaultLayout;
+index.pageLayout = defaultLayout;
 
-export default communitySettings;
+export default index;

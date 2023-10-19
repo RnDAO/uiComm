@@ -31,9 +31,9 @@
 
 import React from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
-import TcButton from '../../components/shared/TcButton';
-import TcText from '../../components/shared/TcText';
-import TcDialog from '../../components/shared/TcDialog';
+import TcButton from '../../shared/TcButton';
+import TcText from '../../shared/TcText';
+import TcDialog from '../../shared/TcDialog';
 
 interface IntegrationDialogProps {
   title: string;
