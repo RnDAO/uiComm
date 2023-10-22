@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import centricLayout from '../../layouts/centricLayout';
 import TcText from '../../components/shared/TcText';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
@@ -8,8 +8,26 @@ import { FormControlLabel } from '@mui/material';
 import TcLink from '../../components/shared/TcLink';
 import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
+import useAppStore from '../../store/useStore';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 function CreateNewCommunity() {
+  const { createNewCommunitie } = useAppStore();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [communityName, setCommunityName] = useState<string>('');
+
+  const handleCreateNewCommunitie = async () => {
+    setLoading(true);
+    await createNewCommunitie({ name: communityName });
+    router.push('/');
+  };
+  if (loading) {
+    return (
+      <>
+        <SimpleBackdrop />
+      </>
+    );
+  }
   return (
     <TcBoxContainer
       bgcolor="white"
@@ -28,6 +46,7 @@ function CreateNewCommunity() {
               label="Community name"
               variant="filled"
               placeholder="Write community name Placeholder"
+              onChange={(e) => setCommunityName(e.target.value)}
             />
           </div>
           <FormControlLabel
@@ -64,7 +83,7 @@ function CreateNewCommunity() {
               text="Create community"
               variant="contained"
               color="secondary"
-              onClick={() => router.push('/')}
+              onClick={() => handleCreateNewCommunitie()}
             />
           </div>
         </div>

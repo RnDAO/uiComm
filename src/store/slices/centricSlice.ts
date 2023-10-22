@@ -1,5 +1,8 @@
 import { StateCreator } from 'zustand';
-import ICentric, { IRetrieveCommunitiesProps } from '../types/ICentric';
+import ICentric, {
+  ICreateCommunitieProps,
+  IRetrieveCommunitiesProps,
+} from '../types/ICentric';
 import { conf } from '../../configs';
 import { axiosInstance } from '../../axiosInstance';
 
@@ -16,19 +19,26 @@ const createAuthSlice: StateCreator<ICentric> = (set, get) => ({
     name,
   }: IRetrieveCommunitiesProps) => {
     try {
-      const { data } = await axiosInstance.get(`/communities/`, {
-        params: {
-          page,
-          limit,
-          sortBy,
-          name,
-        },
-      });
+      const params = {
+        page,
+        limit,
+        sortBy,
+        ...(name ? { name } : {}),
+      };
 
+      const { data } = await axiosInstance.get(`/communities/`, { params });
       return data;
     } catch (error) {
       console.error('Failed to retrieve communities:', error);
     }
+  },
+  createNewCommunitie: async ({ name, avatarURL }: ICreateCommunitieProps) => {
+    try {
+      const { data } = await axiosInstance.post('communities', {
+        name,
+        avatarURL,
+      });
+    } catch (error) {}
   },
 });
 

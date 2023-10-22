@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TcText from '../../shared/TcText';
 import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
 import TcInput from '../../shared/TcInput';
@@ -6,8 +6,44 @@ import TcCommunityList from './TcCommunityList';
 import TcButton from '../../shared/TcButton';
 import { BsPlus } from 'react-icons/bs';
 import router from 'next/router';
+import useAppStore from '../../../store/useStore';
+import Loading from '../../global/Loading';
+import { debounce } from '../../../helpers/helper';
+
+interface CommunityData {
+  limit: number;
+  page: number;
+  results: any[];
+  totalPages: number;
+  totalResults: number;
+}
 
 function TcSelectCommunity() {
+  const { retrieveCommunities } = useAppStore();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [fetchedCommunities, setFetchedCommunities] = useState<CommunityData>({
+    limit: 10,
+    page: 1,
+    results: [],
+    totalPages: 0,
+    totalResults: 0,
+  });
+
+  const fetchCommunities = async (params: any) => {
+    setLoading(true);
+    const communities = await retrieveCommunities(params);
+    setFetchedCommunities(communities);
+    setLoading(false);
+  };
+
+  const debouncedFetchCommunities = debounce((value: string) => {
+    fetchCommunities({ page: 1, limit: 10, name: value });
+  }, 300);
+
+  useEffect(() => {
+    fetchCommunities({ page: 1, limit: 10 });
+  }, []);
+
   return (
     <div className="space-y-4" data-testid="tcselect-community">
       <TcText
@@ -18,23 +54,32 @@ function TcSelectCommunity() {
         text="You will be able to switch between the communities later"
         variant="body1"
       />
+
       <TcBoxContainer
         contentContainerChildren={
-          <div className="py-8">
+          <>
             <div className="sticky top-0 z-10 bg-white py-2">
               <TcInput
                 label="Community"
                 variant="filled"
                 placeholder="Write community name"
+                onChange={(e) => debouncedFetchCommunities(e.target.value)}
               />
             </div>
-            <TcCommunityList />
-          </div>
+            {loading ? (
+              <Loading />
+            ) : (
+              <TcCommunityList fetchedCommunities={fetchedCommunities} />
+            )}
+          </>
         }
         className="md:w-3/5 mx-auto border border-custom-gray min-h-[20rem] max-h-[25rem] overflow-y-scroll rounded-lg"
       />
+
       <TcButton text="Continue" className="secondary" variant="contained" />
+
       <hr className="w-6/12 mx-auto" />
+
       <TcText
         text="Create a new community account"
         sx={{ typography: { xs: 'body1', md: 'h6' } }}

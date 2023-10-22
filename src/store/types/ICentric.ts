@@ -4,6 +4,10 @@ export interface IRetrieveCommunitiesProps {
   sortBy?: string;
   name?: string;
 }
+export interface ICreateCommunitieProps {
+  name: string;
+  avatarURL?: string;
+}
 
 export default interface ICentric {
   discordAuthorization: () => void;
@@ -13,4 +17,5 @@ export default interface ICentric {
     sortBy,
     name,
   }: IRetrieveCommunitiesProps) => void;
+  createNewCommunitie: ({ name, avatarURL }: ICreateCommunitieProps) => void;
 }
