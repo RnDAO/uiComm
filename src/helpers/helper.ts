@@ -13,3 +13,15 @@ export function decodeUserTokenDiscordId(user?: IUser): string | null {
   }
   return null;
 }
+
+export function extractUrlParams(path: string): { [key: string]: string } {
+  const urlObj = new URL(path, window.location.origin);
+  const params = Array.from(urlObj.searchParams.entries());
+  const queryParams: { [key: string]: string } = {};
+
+  params.forEach(([key, value]) => {
+    queryParams[key] = value;
+  });
+
+  return queryParams;
+}

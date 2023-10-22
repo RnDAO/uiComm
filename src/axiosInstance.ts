@@ -1,11 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { conf } from './configs/index';
 import { StorageService } from './services/StorageService';
-import router from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 
 import { toast } from 'react-toastify';
-import { IUser } from './utils/types';
+import { IToken } from './utils/types';
 import { tokenRefreshEventEmitter } from './services/EventEmitter';
 
 let isRefreshing = false;
@@ -16,14 +15,14 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config: any) => {
-    const user: IUser | undefined =
-      StorageService.readLocalStorage<IUser>('user');
+    const user: IToken | undefined =
+      StorageService.readLocalStorage<IToken>('user');
 
     if (user) {
-      const { token } = user;
+      const { accessToken } = user;
 
-      if (token.accessToken) {
-        config.headers!['Authorization'] = `Bearer ${token.accessToken}`;
+      if (accessToken) {
+        config.headers!['Authorization'] = `Bearer ${accessToken}`;
       }
     }
 
@@ -52,8 +51,8 @@ axiosInstance.interceptors.response.use(
         });
         break;
       case 401:
-        const user: IUser | undefined =
-          StorageService.readLocalStorage<IUser>('user');
+        const user: IToken | undefined =
+          StorageService.readLocalStorage<IToken>('user');
 
         if (
           error.response?.status === 401 &&
@@ -78,25 +77,22 @@ axiosInstance.interceptors.response.use(
           !error.config.url?.endsWith('/auth/refresh-tokens') &&
           user
         ) {
-          const { token } = user;
+          const { accessToken, refreshToken } = user;
 
-          if (token.refreshToken && !isRefreshing) {
+          if (refreshToken && !isRefreshing) {
             isRefreshing = true;
 
             try {
               const response = await axiosInstance.post(
                 '/auth/refresh-tokens',
                 {
-                  refreshToken: token.refreshToken,
+                  refreshToken: refreshToken,
                 }
               );
 
               StorageService.writeLocalStorage('user', {
-                guild: user.guild,
-                token: {
-                  accessToken: response.data.access.token,
-                  refreshToken: response.data.refresh.token,
-                },
+                accessToken: response.data.access.token,
+                refreshToken: response.data.refresh.token,
               });
 
               axiosInstance.defaults.headers['Authorization'] =
@@ -118,7 +114,7 @@ axiosInstance.interceptors.response.use(
             } finally {
               isRefreshing = false;
             }
-          } else if (token.refreshToken && isRefreshing) {
+          } else if (refreshToken && isRefreshing) {
             // If a refresh is already in progress, listen for the completion event
             return new Promise((resolve, reject) => {
               tokenRefreshEventEmitter.subscribe('tokenRefresh', (newToken) => {
