@@ -9,6 +9,9 @@ import router from 'next/router';
 import useAppStore from '../../../store/useStore';
 import Loading from '../../global/Loading';
 import { debounce } from '../../../helpers/helper';
+import { ICommunity } from '../../../utils/interfaces';
+import { StorageService } from '../../../services/StorageService';
+import SimpleBackdrop from '../../global/LoadingBackdrop';
 
 interface CommunityData {
   limit: number;
@@ -21,6 +24,8 @@ interface CommunityData {
 function TcSelectCommunity() {
   const { retrieveCommunities } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
+  const [communityLoading, setCommunityLoading] = useState<boolean>(false);
+  const [activeCommunity, setActiveCommunity] = useState<ICommunity>();
   const [fetchedCommunities, setFetchedCommunities] = useState<CommunityData>({
     limit: 10,
     page: 1,
@@ -43,6 +48,16 @@ function TcSelectCommunity() {
   useEffect(() => {
     fetchCommunities({ page: 1, limit: 10 });
   }, []);
+
+  const handleSelectedCommunity = () => {
+    setCommunityLoading(true);
+    StorageService.writeLocalStorage('community', activeCommunity);
+    router.push('/');
+  };
+
+  if (communityLoading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <div className="space-y-4" data-testid="tcselect-community">
@@ -69,14 +84,24 @@ function TcSelectCommunity() {
             {loading ? (
               <Loading />
             ) : (
-              <TcCommunityList fetchedCommunities={fetchedCommunities} />
+              <TcCommunityList
+                fetchedCommunities={fetchedCommunities}
+                handleActiveCommunity={(community: ICommunity) =>
+                  setActiveCommunity(community)
+                }
+              />
             )}
           </>
         }
         className="md:w-3/5 mx-auto border border-custom-gray min-h-[20rem] max-h-[25rem] overflow-y-scroll rounded-lg"
       />
 
-      <TcButton text="Continue" className="secondary" variant="contained" />
+      <TcButton
+        text="Continue"
+        className="secondary"
+        variant="contained"
+        onClick={handleSelectedCommunity}
+      />
 
       <hr className="w-6/12 mx-auto" />
 

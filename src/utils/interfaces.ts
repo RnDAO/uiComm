@@ -119,3 +119,11 @@ export interface IDataTwitter {
   engagement: IEngagement;
   account: IAccount;
 }
+
+export interface ICommunity {
+  id: string;
+  name: string;
+  platforms: string[];
+  users: string[];
+  avatarURL: string;
+}
