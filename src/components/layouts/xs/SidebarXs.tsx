@@ -35,16 +35,16 @@ const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
 
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
+  // useEffect(() => {
+  //   const user = StorageService.readLocalStorage<IUser>('user');
 
-    if (user) {
-      const { guildId } = user.guild;
-      if (guildId) {
-        setGuildId(guildId);
-      }
-    }
-  }, []);
+  //   if (user) {
+  //     const { guildId } = user.guild;
+  //     if (guildId) {
+  //       setGuildId(guildId);
+  //     }
+  //   }
+  // }, []);
 
   const menuItems: items[] = [
     {
