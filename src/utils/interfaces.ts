@@ -127,3 +127,21 @@ export interface ICommunity {
   users: string[];
   avatarURL: string;
 }
+
+export interface FetchedData {
+  limit: number;
+  page: number;
+  results: any[];
+  totalPages: number;
+  totalResults: number;
+}
+
+export interface IPlatformProps {
+  name: string;
+  community: string;
+  metadata: metaData;
+}
+
+export interface metaData {
+  [key: string]: any;
+}

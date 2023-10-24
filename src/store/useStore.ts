@@ -7,6 +7,7 @@ import createMemberInteractionSlice from './slices/memberInteractionSlice';
 import communityHealthSlice from './slices/communityHealthSlice';
 import twitterSlice from './slices/twitterSlice';
 import centricSlice from './slices/centricSlice';
+import platformSlice from './slices/platformSlice';
 
 const useAppStore = create<any>()((...a) => ({
   ...createAuthSlice(...a),
@@ -17,6 +18,7 @@ const useAppStore = create<any>()((...a) => ({
   ...communityHealthSlice(...a),
   ...twitterSlice(...a),
   ...centricSlice(...a),
+  ...platformSlice(...a),
 }));
 
 export default useAppStore;

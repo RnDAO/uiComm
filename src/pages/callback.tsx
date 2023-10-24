@@ -6,7 +6,15 @@ import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
 import { IRetrieveCommunitiesProps } from '../store/types/ICentric';
 import useAppStore from '../store/useStore';
+import { ICommunity, metaData } from '../utils/interfaces';
 
+export type CommunityWithoutAvatar = Omit<ICommunity, 'avatarURL'>;
+interface Params {
+  platform: string;
+  id: string;
+  username?: string;
+  profileImageUrl?: string;
+}
 /**
  * Callback Component.
  *
@@ -22,7 +30,7 @@ function Callback() {
   const router = useRouter();
 
   // Method to retrieve communities from the store.
-  const { retrieveCommunities } = useAppStore();
+  const { retrieveCommunities, createNewPlatform } = useAppStore();
 
   /**
    * Asynchronously fetches communities.
@@ -41,6 +49,40 @@ function Callback() {
       }
     } catch (error) {
       console.error('Failed to retrieve communities:', error);
+    }
+  };
+
+  const handleCreateNewPlatform = async (params: Params) => {
+    console.log({ params });
+
+    const community =
+      StorageService.readLocalStorage<CommunityWithoutAvatar>('community');
+
+    if (!community) {
+      console.error('Community not found in local storage.');
+      return;
+    }
+
+    let metadata: metaData = {
+      id: params.id,
+    };
+
+    if (params.platform === 'twitter') {
+      metadata.username = params.username;
+      metadata.profileImageUrl = params.profileImageUrl;
+    }
+
+    const payload = {
+      name: params.platform,
+      community: community.id,
+      metadata: metadata,
+    };
+
+    try {
+      await createNewPlatform(payload);
+      router.push('/community-settings');
+    } catch (error) {
+      console.error('Failed to create new platform:', error);
     }
   };
 
@@ -66,10 +108,16 @@ function Callback() {
 
       case StatusCode.DISCORD_AUTHORIZATION_FAILURE:
         setMessage('Authorization failed. Please try again.');
+        handleCreateNewPlatform(params);
         break;
 
       case StatusCode.DISCORD_AUTHORIZATION_FROM_SETTINGS:
         setMessage('Authorizion complete from settings page.');
+        handleCreateNewPlatform(params);
+
+      case StatusCode.TWITTER_AUTHORIZATION_FAILURE:
+        setMessage('Twitter Authorization failed.');
+        router.push('/community-settings');
 
       default:
         console.error('Unexpected status code received:', code);

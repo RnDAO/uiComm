@@ -5,6 +5,7 @@ import { BsPlus } from 'react-icons/bs';
 import TcText from '../../shared/TcText';
 import TcIntegrationIcon from './TcIntegrationIcon';
 import { IntegrationPlatform } from '../../../utils/enums';
+import useAppStore from '../../../store/useStore';
 
 interface ITcAvailableIntegrationsItemProps {
   integrationPlatform: IntegrationPlatform;
@@ -15,6 +16,12 @@ function TcAvailableIntegrationsItem({
   integrationPlatform,
   disabled = false,
 }: ITcAvailableIntegrationsItemProps) {
+  const { connectNewPlatform } = useAppStore();
+
+  const integratePlatform = () => {
+    connectNewPlatform(integrationPlatform.toLocaleLowerCase());
+  };
+
   return (
     <div
       data-testid="integration-item"
@@ -36,6 +43,7 @@ function TcAvailableIntegrationsItem({
             startIcon={<BsPlus />}
             className="max-w-full"
             size="small"
+            onClick={() => integratePlatform()}
           />
         </div>
       </TcIntegrationCard>

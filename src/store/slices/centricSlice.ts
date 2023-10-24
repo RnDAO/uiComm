@@ -8,7 +8,7 @@ import { axiosInstance } from '../../axiosInstance';
 
 const BASE_URL = conf.API_BASE_URL;
 
-const createAuthSlice: StateCreator<ICentric> = (set, get) => ({
+const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
   discordAuthorization: () => {
     location.replace(`${BASE_URL}/auth/discord/authorize`);
   },
@@ -34,7 +34,7 @@ const createAuthSlice: StateCreator<ICentric> = (set, get) => ({
   },
   createNewCommunitie: async ({ name, avatarURL }: ICreateCommunitieProps) => {
     try {
-      const { data } = await axiosInstance.post('communities', {
+      await axiosInstance.post('communities', {
         name,
         avatarURL,
       });
@@ -42,4 +42,4 @@ const createAuthSlice: StateCreator<ICentric> = (set, get) => ({
   },
 });
 
-export default createAuthSlice;
+export default createCentricSlice;
