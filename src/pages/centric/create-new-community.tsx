@@ -15,6 +15,8 @@ function CreateNewCommunity() {
   const { createNewCommunitie } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [communityName, setCommunityName] = useState<string>('');
+  const [readTermsAndCondition, setReadTermsAndCondition] =
+    useState<boolean>(false);
 
   const handleCreateNewCommunitie = async () => {
     setLoading(true);
@@ -76,13 +78,19 @@ function CreateNewCommunity() {
                 variant={'subtitle2'}
               />
             }
-            control={<TcCheckbox color="secondary" />}
+            control={
+              <TcCheckbox
+                color="secondary"
+                onChange={(e) => setReadTermsAndCondition(e.target.checked)}
+              />
+            }
           />
           <div>
             <TcButton
               text="Create community"
               variant="contained"
               color="secondary"
+              disabled={!readTermsAndCondition}
               onClick={() => handleCreateNewCommunitie()}
             />
           </div>

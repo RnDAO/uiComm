@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import centricLayout from '../../layouts/centricLayout';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
@@ -9,6 +9,8 @@ import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
 
 function Tac() {
+  const [acceptPrivacyAndPolicy, setAcceptPrivacyAndPolicy] =
+    useState<boolean>(false);
   return (
     <div>
       <TcBoxContainer
@@ -17,7 +19,7 @@ function Tac() {
         contentContainerChildren={
           <div className="space-y-6 py-12">
             <TcText
-              sx={{ typography: { xs: 'h5', md: 'h3' } }}
+              sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 'bold' }}
               color="initial"
               text="One more thing..."
             />
@@ -51,12 +53,18 @@ function Tac() {
                   variant={'subtitle2'}
                 />
               }
-              control={<TcCheckbox color="secondary" />}
+              control={
+                <TcCheckbox
+                  color="secondary"
+                  onChange={(e) => setAcceptPrivacyAndPolicy(e.target.checked)}
+                />
+              }
             />
             <div className="block py-5">
               <TcButton
                 text={'Continue'}
                 variant="contained"
+                disabled={!acceptPrivacyAndPolicy}
                 onClick={() => router.push('/centric/select-community')}
               />
             </div>
