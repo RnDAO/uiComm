@@ -20,7 +20,10 @@ function CreateNewCommunity() {
 
   const handleCreateNewCommunitie = async () => {
     setLoading(true);
-    await createNewCommunitie({ name: communityName });
+    await createNewCommunitie({
+      name: communityName,
+      tcaAt: new Date().toISOString(),
+    });
     router.push('/');
   };
   if (loading) {

@@ -32,11 +32,16 @@ const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
       console.error('Failed to retrieve communities:', error);
     }
   },
-  createNewCommunitie: async ({ name, avatarURL }: ICreateCommunitieProps) => {
+  createNewCommunitie: async ({
+    name,
+    avatarURL,
+    tcaAt,
+  }: ICreateCommunitieProps) => {
     try {
       await axiosInstance.post('communities', {
         name,
         avatarURL,
+        tcaAt,
       });
     } catch (error) {}
   },

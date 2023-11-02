@@ -46,12 +46,12 @@ function TcCommunityListItems({
   }
 
   return (
-    <div className="flex justify-between flex-wrap mt-8">
+    <div className="flex justify-start flex-wrap mt-8">
       {communities.map((community, index) => (
         <div
           className={clsx(
             selectedCommunity?.id === community.id ? 'bg-gray-100' : '',
-            'w-1/2 md:w-1/4 flex-grow rounded text-center px-8 py-4 cursor-pointer space-y-2 hover:bg-gray-100 transition-all delay-75 ease-in'
+            'flex-shrink-0 w-1/2 md:w-1/4 min-h-[150px] rounded text-center px-8 py-4 cursor-pointer space-y-2 hover:bg-gray-100 transition-all delay-75 ease-in'
           )}
           key={community.name + index}
           onClick={() => setSelectedCommunity(community)}

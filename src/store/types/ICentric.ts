@@ -7,6 +7,7 @@ export interface IRetrieveCommunitiesProps {
 export interface ICreateCommunitieProps {
   name: string;
   avatarURL?: string;
+  tcaAt: string;
 }
 
 export default interface ICentric {
@@ -17,5 +18,9 @@ export default interface ICentric {
     sortBy,
     name,
   }: IRetrieveCommunitiesProps) => void;
-  createNewCommunitie: ({ name, avatarURL }: ICreateCommunitieProps) => void;
+  createNewCommunitie: ({
+    name,
+    avatarURL,
+    tcaAt,
+  }: ICreateCommunitieProps) => void;
 }

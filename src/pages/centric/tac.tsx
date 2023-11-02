@@ -7,10 +7,34 @@ import { FormControlLabel } from '@mui/material';
 import TcLink from '../../components/shared/TcLink';
 import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
+import useAppStore from '../../store/useStore';
+import { StorageService } from '../../services/StorageService';
 
 function Tac() {
+  const { patchUser } = useAppStore();
   const [acceptPrivacyAndPolicy, setAcceptPrivacyAndPolicy] =
     useState<boolean>(false);
+
+  const handleAcceptTerms = async () => {
+    const payload = {
+      tcaAt: new Date().toISOString(),
+    };
+
+    try {
+      await patchUser(payload);
+
+      StorageService.updateLocalStorageWithObject(
+        'user',
+        'tcaAt',
+        payload.tcaAt
+      );
+
+      router.push('/centric/select-community');
+    } catch (error) {
+      console.error('Failed to accept terms:', error);
+    }
+  };
+
   return (
     <div>
       <TcBoxContainer
@@ -65,7 +89,7 @@ function Tac() {
                 text={'Continue'}
                 variant="contained"
                 disabled={!acceptPrivacyAndPolicy}
-                onClick={() => router.push('/centric/select-community')}
+                onClick={() => handleAcceptTerms()}
               />
             </div>
           </div>

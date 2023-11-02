@@ -93,6 +93,13 @@ function Callback() {
    */
   const handleStatusCode = (code: StatusCode, params: any) => {
     switch (code) {
+      case StatusCode.DISCORD_AUTHORIZATION_SUCCESSFUL_FIRST_TIME:
+        setMessage('Welcome! Authorization for sign-in was successful.');
+        StorageService.writeLocalStorage('user', params);
+        fetchCommunities();
+
+        break;
+
       case StatusCode.REPEATED_DISCORD_AUTHORIZATION_ATTEMPT:
         setMessage(
           'You have authorized before and are trying to authorize again.'
@@ -100,10 +107,6 @@ function Callback() {
         StorageService.writeLocalStorage('user', params);
         fetchCommunities();
 
-        break;
-
-      case StatusCode.DISCORD_AUTHORIZATION_SUCCESSFUL_FIRST_TIME:
-        setMessage('Welcome! Authorization for sign-in was successful.');
         break;
 
       case StatusCode.DISCORD_AUTHORIZATION_FAILURE:
