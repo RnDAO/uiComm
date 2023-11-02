@@ -3,7 +3,14 @@ import { IUser } from '../utils/types';
 import jwt_decode from 'jwt-decode';
 
 export function capitalizeFirstChar(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str?.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function truncateCenter(text: string, maxLength: number = 10): string {
+  if (text.length <= maxLength) return text;
+
+  const sideLength = Math.floor((maxLength - 3) / 2); // Subtract 3 for "..."
+  return text.slice(0, sideLength) + '...' + text.slice(-sideLength);
 }
 
 export function decodeUserTokenDiscordId(user?: IUser): string | null {

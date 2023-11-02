@@ -10,10 +10,12 @@ import { ICommunity, metaData } from '../utils/interfaces';
 
 export type CommunityWithoutAvatar = Omit<ICommunity, 'avatarURL'>;
 interface Params {
+  name: string;
   platform: string;
   id: string;
   username?: string;
   profileImageUrl?: string;
+  icon?: string;
 }
 /**
  * Callback Component.
@@ -53,8 +55,6 @@ function Callback() {
   };
 
   const handleCreateNewPlatform = async (params: Params) => {
-    console.log({ params });
-
     const community =
       StorageService.readLocalStorage<CommunityWithoutAvatar>('community');
 
@@ -70,6 +70,9 @@ function Callback() {
     if (params.platform === 'twitter') {
       metadata.username = params.username;
       metadata.profileImageUrl = params.profileImageUrl;
+    } else if (params.platform === 'discord') {
+      metadata.icon = params.icon;
+      metadata.name = params.name;
     }
 
     const payload = {
@@ -117,6 +120,12 @@ function Callback() {
       case StatusCode.DISCORD_AUTHORIZATION_FROM_SETTINGS:
         setMessage('Authorizion complete from settings page.');
         handleCreateNewPlatform(params);
+        break;
+
+      case StatusCode.TWITTER_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Authorizion complete from settings page.');
+        handleCreateNewPlatform(params);
+        break;
 
       case StatusCode.TWITTER_AUTHORIZATION_FAILURE:
         setMessage('Twitter Authorization failed.');

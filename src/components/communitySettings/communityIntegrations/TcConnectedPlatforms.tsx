@@ -1,21 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TcConnectedPlatformsItem from './TcConnectedPlatformsItem';
-import { BsDiscord } from 'react-icons/bs';
-import { PlatformStatus } from '../../../utils/enums';
 import { FetchedData, IPlatformProps } from '../../../utils/interfaces';
 import useAppStore from '../../../store/useStore';
-
-const mockData = [
-  {
-    icon: <BsDiscord size={34} />,
-    platformTitle: 'Discord',
-    status: PlatformStatus.InProgress,
-    community: {
-      logo: '',
-      name: 'Togethercrew',
-    },
-  },
-];
 
 function TcConnectedPlatforms() {
   const { retrievePlatforms, connectedPlatforms } = useAppStore();
@@ -35,13 +21,7 @@ function TcConnectedPlatforms() {
   return (
     <div className="flex flex-row space-x-5">
       {connectedPlatforms.map((platform: IPlatformProps, index: number) => (
-        <TcConnectedPlatformsItem
-          key={index}
-          icon={platform.icon}
-          platformTitle={platform.platformTitle}
-          status={platform.status}
-          community={platform.community}
-        />
+        <TcConnectedPlatformsItem key={index} platform={platform} />
       ))}
     </div>
   );

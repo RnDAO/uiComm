@@ -139,6 +139,9 @@ export interface FetchedData {
 export interface IPlatformProps {
   name: string;
   community: string;
+  isInProgress: boolean;
+  id: string;
+  disconnectedAt: string;
   metadata: metaData;
 }
 
