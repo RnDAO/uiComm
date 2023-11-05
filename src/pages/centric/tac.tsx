@@ -9,13 +9,16 @@ import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
 import useAppStore from '../../store/useStore';
 import { StorageService } from '../../services/StorageService';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 function Tac() {
   const { patchUser } = useAppStore();
+  const [loading, setLoading] = useState<boolean>(false);
   const [acceptPrivacyAndPolicy, setAcceptPrivacyAndPolicy] =
     useState<boolean>(false);
 
   const handleAcceptTerms = async () => {
+    setLoading(true);
     const payload = {
       tcaAt: new Date().toISOString(),
     };
@@ -33,7 +36,12 @@ function Tac() {
     } catch (error) {
       console.error('Failed to accept terms:', error);
     }
+    setLoading(false);
   };
+
+  if (loading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <div>

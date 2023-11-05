@@ -19,11 +19,11 @@ function Index() {
               sx={{ typography: { xs: 'h5', md: 'h4' } }}
               color="initial"
               fontWeight="bold"
-              text="Connect your Discord"
+              text="Log in"
             />
             <div className="block">
               <TcButton
-                text={'Connect your Discord'}
+                text={'Log in with Discord'}
                 variant="contained"
                 onClick={() => discordAuthorization()}
               />
