@@ -17,7 +17,7 @@ import {
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import Link from 'next/link';
 import { Tooltip, Typography } from '@mui/material';
 import useAppStore from '../../store/useStore';
@@ -116,7 +116,12 @@ const Sidebar = () => {
         <div>
           <div className="flex flex-col mx-auto justify-center text-center my-4">
             <div className="w-full mx-auto">
-              <div className="w-10 h-10 mb-2 mx-auto">
+              <div
+                className="w-10 h-10 mb-2 mx-auto cursor-pointer"
+                onClick={() =>
+                  router.push('/community-settings/switch-community')
+                }
+              >
                 {guildId && guildInfoByDiscord.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${guildId}/${guildInfoByDiscord.icon}`}

@@ -3,6 +3,7 @@ import TcAvatar from '../../shared/TcAvatar';
 import TcText from '../../shared/TcText';
 import { ICommunity } from '../../../utils/interfaces';
 import clsx from 'clsx';
+import { StorageService } from '../../../services/StorageService';
 
 /**
  * Props for the TcCommunityListItems component.
@@ -32,6 +33,11 @@ function TcCommunityListItems({
   const [selectedCommunity, setSelectedCommunity] = useState<ICommunity>();
 
   useEffect(() => {
+    const community = StorageService.readLocalStorage<ICommunity>('community');
+    setSelectedCommunity(community);
+  }, []);
+
+  useEffect(() => {
     if (selectedCommunity) {
       onSelectCommunity(selectedCommunity);
     }
@@ -46,7 +52,7 @@ function TcCommunityListItems({
   }
 
   return (
-    <div className="flex justify-start flex-wrap mt-8">
+    <div className="flex justify-start flex-wrap mt-8 mx-2">
       {communities.map((community, index) => (
         <div
           className={clsx(

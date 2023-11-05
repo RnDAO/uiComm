@@ -13,7 +13,7 @@ import { ICommunity } from '../../../utils/interfaces';
 import { StorageService } from '../../../services/StorageService';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 
-interface CommunityData {
+export interface CommunityData {
   limit: number;
   page: number;
   results: any[];

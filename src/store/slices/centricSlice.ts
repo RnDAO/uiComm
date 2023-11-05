@@ -38,11 +38,27 @@ const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
     tcaAt,
   }: ICreateCommunitieProps) => {
     try {
-      await axiosInstance.post('communities', {
+      const { data } = await axiosInstance.post('communities', {
         name,
         avatarURL,
         tcaAt,
       });
+
+      return data;
+    } catch (error) {}
+  },
+  retrieveCommunityById: async (communityId: string) => {
+    try {
+      const { data } = await axiosInstance.get(`/communities/${communityId}`);
+      return data;
+    } catch (error) {}
+  },
+  deleteCommunityById: async (communityId: string) => {
+    try {
+      const { data } = await axiosInstance.delete(
+        `/communities/${communityId}`
+      );
+      return data;
     } catch (error) {}
   },
 });

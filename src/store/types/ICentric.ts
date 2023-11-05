@@ -23,4 +23,6 @@ export default interface ICentric {
     avatarURL,
     tcaAt,
   }: ICreateCommunitieProps) => void;
+  retrieveCommunityById: (communityId: string) => void;
+  deleteCommunityById: (communityId: string) => void;
 }
