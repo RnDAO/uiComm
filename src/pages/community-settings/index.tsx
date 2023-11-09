@@ -8,9 +8,11 @@ import TcIntegrationDialog from '../../components/pages/communitySettings/TcInte
 import { useRouter } from 'next/router';
 import TcLink from '../../components/shared/TcLink';
 import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 function index() {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [dialogContent, setDialogContent] = useState({
     title: '',
@@ -19,6 +21,7 @@ function index() {
   });
 
   useEffect(() => {
+    setLoading(true);
     if (router.query.platform) {
       setShowDialog(true);
       if (router.query.platform === 'Twitter') {
@@ -73,12 +76,17 @@ function index() {
     } else {
       setShowDialog(false);
     }
+    setLoading(false);
   }, [router.query]);
 
   const handleClose = () => {
     setShowDialog(false);
     router.push(router.pathname);
   };
+
+  if (loading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <>

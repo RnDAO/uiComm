@@ -43,7 +43,6 @@ function Callback() {
     const params: IRetrieveCommunitiesProps = { page: 1, limit: 10 };
     try {
       const communities = await retrieveCommunities(params);
-      console.log(communities);
       if (communities.results.length === 0) {
         router.push('/centric/tac');
       } else {

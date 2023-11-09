@@ -5,6 +5,7 @@ export interface IRetrievePlatformsProps {
   limit: number;
   sortBy?: string;
   name?: string;
+  community: string;
 }
 
 export default interface IPlatfrom {
@@ -15,6 +16,7 @@ export default interface IPlatfrom {
     limit,
     sortBy,
     name,
+    community,
   }: IRetrievePlatformsProps) => void;
   createNewPlatform: ({ name, community, metadata }: IPlatformProps) => void;
 }

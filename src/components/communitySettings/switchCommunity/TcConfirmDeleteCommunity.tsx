@@ -15,9 +15,13 @@ import { StorageService } from '../../../services/StorageService';
 
 interface CommunityComponentProps {
   community: ICommunity | null;
+  handleUpdatePlatforms: () => void;
 }
 
-function TcConfirmDeleteCommunity({ community }: CommunityComponentProps) {
+function TcConfirmDeleteCommunity({
+  community,
+  handleUpdatePlatforms,
+}: CommunityComponentProps) {
   const { deleteCommunityById } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<1 | 2>(1);
@@ -38,6 +42,10 @@ function TcConfirmDeleteCommunity({ community }: CommunityComponentProps) {
         StorageService.removeLocalStorage('community');
       });
       setLoading(false);
+      setActiveStep(1);
+      setOpenDialog(false);
+      setCommunityNameInput('');
+      handleUpdatePlatforms();
     }
   };
 

@@ -50,10 +50,6 @@ interface TcConnectedPlatformsItemProps {
 }
 
 function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
-  console.log(
-    `${conf.DISCORD_CDN}avatars/${platform.metadata.id}/${platform?.metadata.icon}.png`
-  );
-
   return (
     <TcIntegrationCard>
       <>

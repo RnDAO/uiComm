@@ -19,6 +19,7 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
     limit,
     sortBy,
     name,
+    community,
   }: IRetrievePlatformsProps) => {
     try {
       const params = {
@@ -26,6 +27,7 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
         limit,
         sortBy,
         ...(name ? { name } : {}),
+        ...(community ? { community } : {}),
       };
 
       const { data } = await axiosInstance.get(`/platforms/`, { params });
