@@ -31,9 +31,14 @@ function TcSelect({ options, ...props }: TcSelectProps) {
   };
 
   return (
-    <Select value={value} onChange={handleChange} {...props}>
+    <Select
+      value={value}
+      onChange={handleChange}
+      {...props}
+      className="bg-gray-100"
+    >
       {options.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
+        <MenuItem key={option.value} value={option.value} className="px-2 py-1">
           {option.label}
         </MenuItem>
       ))}

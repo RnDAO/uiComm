@@ -19,8 +19,8 @@
  */
 
 import React from 'react';
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import TcInput from '../TcInput';
 
 interface TcAutocompleteProps {
   options: Array<{
@@ -44,7 +44,7 @@ const TcAutocomplete: React.FC<TcAutocompleteProps> = ({
       onChange={(event, newValue) => onChange(newValue)}
       getOptionLabel={(option) => option.label}
       renderInput={(params) => (
-        <TextField {...params} label={label} variant="outlined" />
+        <TcInput {...params} label={label} size="small" variant="filled" />
       )}
       {...props}
     />
