@@ -23,6 +23,7 @@ import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
 import Script from 'next/script';
 import { usePageViewTracking } from '../helpers/amplitudeHelper';
 import SafaryClubScript from '../components/global/SafaryClubScript';
+import { TokenProvider } from '../context/TokenContext';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   usePageViewTracking();
@@ -56,15 +57,17 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
         `}
       </Script>
       <ThemeProvider theme={theme}>
-        {Component.pageLayout ? (
-          // <PrivateRoute>
-          <Component.pageLayout>
+        <TokenProvider>
+          {Component.pageLayout ? (
+            <PrivateRoute>
+              <Component.pageLayout>
+                <Component {...pageProps} />
+              </Component.pageLayout>
+            </PrivateRoute>
+          ) : (
             <Component {...pageProps} />
-          </Component.pageLayout>
-        ) : (
-          // </PrivateRoute>
-          <Component {...pageProps} />
-        )}
+          )}
+        </TokenProvider>
       </ThemeProvider>
       <ToastContainer />
     </>

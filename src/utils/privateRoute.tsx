@@ -1,26 +1,32 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { StorageService } from '../services/StorageService';
-import { IUser } from './types';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { StorageService } from '../services/StorageService';
+import { IToken } from './types';
 
-export default function privateRoute({ children }: any) {
-  const [user, setUser] = useState<IUser | null>(null);
+export default function PrivateRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [token, setToken] = useState<IToken | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      setUser(user);
-      const { token } = user;
-      if (!token.accessToken) {
-        router.replace('/tryNow');
-      }
-    } else {
-      router.replace('/tryNow');
-    }
-  }, []);
+  const isCentricRoute = useMemo(
+    () => router.pathname.startsWith('/centric'),
+    [router.pathname]
+  );
 
-  return <>{!user ? <SimpleBackdrop /> : children}</>;
+  useEffect(() => {
+    if (!isCentricRoute) {
+      const storedToken = StorageService.readLocalStorage<IToken>('user');
+      if (storedToken && storedToken.accessToken) {
+        setToken(storedToken);
+      } else {
+        router.replace('/centric');
+      }
+    }
+  }, [isCentricRoute, router]);
+
+  return <>{!token && !isCentricRoute ? <SimpleBackdrop /> : children}</>;
 }

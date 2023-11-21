@@ -18,36 +18,6 @@ function Dashboard(): JSX.Element {
   const { guilds } = useAppStore();
   const router = useRouter();
 
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      const { token } = user;
-      if (!token.accessToken) {
-        router.replace('/tryNow');
-      }
-    } else {
-      router.replace('/tryNow');
-    }
-  }, []);
-
-  if (typeof window !== 'undefined') {
-    useEffect(() => {
-      const show_analysis_state: { isRead: boolean; visible: boolean } =
-        StorageService.readLocalStorage('analysis_state') || {
-          isRead: false,
-          visible: true,
-        };
-
-      if (show_analysis_state && !show_analysis_state.isRead) {
-        StorageService.writeLocalStorage('analysis_state', {
-          isRead: false,
-          visible: guilds[0]?.isInProgress,
-        });
-        setAlertStateOpen(guilds[0]?.isInProgress);
-      }
-    }, [guilds]);
-  }
-
   const toggleAnalysisState = () => {
     StorageService.writeLocalStorage('analysis_state', {
       isRead: true,
