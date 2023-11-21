@@ -8,10 +8,13 @@ import React, {
 } from 'react';
 import { StorageService } from '../services/StorageService';
 import { IToken } from '../utils/types';
+import { ICommunity } from '../utils/interfaces';
 
 type TokenContextType = {
   token: IToken | null;
+  community: ICommunity | null;
   updateToken: (newToken: IToken) => void;
+  updateCommunity: (newCommunity: ICommunity) => void;
   clearToken: () => void;
 };
 
@@ -23,11 +26,17 @@ type TokenProviderProps = {
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   const [token, setToken] = useState<IToken | null>(null);
+  const [community, setCommunity] = useState<ICommunity | null>(null);
 
   useEffect(() => {
     const storedToken = StorageService.readLocalStorage<IToken>('user');
+    const storedCommunity =
+      StorageService.readLocalStorage<ICommunity>('community');
     if (storedToken) {
       setToken(storedToken);
+    }
+    if (storedCommunity) {
+      setCommunity(storedCommunity);
     }
   }, []);
 
@@ -36,13 +45,20 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     setToken(newToken);
   };
 
+  const updateCommunity = (newCommunity: ICommunity) => {
+    StorageService.writeLocalStorage<ICommunity>('community', newCommunity);
+    setCommunity(newCommunity);
+  };
+
   const clearToken = () => {
     StorageService.removeLocalStorage('user');
     setToken(null);
   };
 
   return (
-    <TokenContext.Provider value={{ token, updateToken, clearToken }}>
+    <TokenContext.Provider
+      value={{ token, community, updateToken, updateCommunity, clearToken }}
+    >
       {children}
     </TokenContext.Provider>
   );

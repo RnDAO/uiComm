@@ -3,29 +3,27 @@ import StatisticalData from '../statistics/StatisticalData';
 import useAppStore from '../../../store/useStore';
 import CustomButton from '../../global/CustomButton';
 import { useRouter } from 'next/router';
-import { StorageService } from '../../../services/StorageService';
-import { IUser } from '../../../utils/types';
 import moment from 'moment';
 import { StatisticsProps } from '../../../utils/interfaces';
+import { useToken } from '../../../context/TokenContext';
 
 const ActiveMemberComposition = () => {
   const router = useRouter();
-  const [active, setActive] = useState(1);
   const { fetchActiveMembers, activeMembers } = useAppStore();
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
+  const { community } = useToken();
 
   useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
     let endDate: moment.Moment = moment().subtract(1, 'day');
     let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
-    if (user) {
-      const { guild } = user;
-      fetchActiveMembers(guild.guildId, startDate, endDate);
+    const platformId = community?.platforms[0];
+
+    if (platformId) {
+      fetchActiveMembers(platformId, startDate, endDate);
     }
   }, []);
 
   useEffect(() => {
-    // Copy options on each changes
     setStatistics([
       {
         label: 'Active Members',

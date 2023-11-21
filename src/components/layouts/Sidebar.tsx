@@ -64,30 +64,11 @@ const Sidebar = () => {
       ),
     },
     {
-      name: 'Growth',
-      path: '/growth',
-      icon: (
-        <BsBarChartFill
-          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
-        />
-      ),
-    },
-    {
       name: 'Community Settings',
       path: '/community-settings',
       icon: (
         <FiSettings
           style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
-        />
-      ),
-    },
-    {
-      name: 'Settings',
-      path: '/settings',
-      icon: (
-        <FontAwesomeIcon
-          icon={faGear}
-          style={{ fontSize: 20, color: 'black' }}
         />
       ),
     },

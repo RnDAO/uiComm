@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import 'moment-timezone';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { StorageService } from '../../../services/StorageService';
@@ -16,6 +16,7 @@ import { FiCalendar } from 'react-icons/fi';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import * as Sentry from '@sentry/nextjs';
 import { transformToMidnightUTC } from '../../../helpers/momentHelper';
+import { useToken } from '../../../context/TokenContext';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -133,7 +134,6 @@ const defaultHeatmapChartOptions = {
         condition: {
           maxWidth: 600,
         },
-        // Make the labels less space demanding on mobile
         chartOptions: {
           chart: {
             scrollablePlotArea: {
@@ -215,6 +215,9 @@ const HeatmapChart = () => {
   >([null, null]);
   const [selectedZone, setSelectedZone] = useState(moment.tz.guess());
   const [channels, setChannels] = useState<string[]>([]);
+  const { community } = useToken();
+
+  const platformId = community?.platforms[0];
 
   const {
     fetchHeatmapData,
@@ -226,20 +229,16 @@ const HeatmapChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedUser = StorageService.readLocalStorage<IUser>('user');
-      if (!storedUser) {
-        return; // Exit early if there is no stored user
+      if (!platformId) {
+        return;
       }
 
-      setUser(storedUser);
-
       try {
-        const guildId = storedUser.guild.guildId;
-        getUserGuildInfo(guildId);
-        fetchGuildChannels(guildId);
+        getUserGuildInfo(platformId);
+        fetchGuildChannels(platformId);
 
         const channelsList: IGuildChannels[] | [] =
-          await getSelectedChannelsList(guildId);
+          await getSelectedChannelsList(platformId);
 
         if (!Array.isArray(channelsList) || channelsList.length === 0) {
           return;
@@ -254,25 +253,25 @@ const HeatmapChart = () => {
         ]);
 
         const channelIds = channelsList
-          .flatMap((channel) => channel.subChannels || []) // Flatten the subChannels arrays
-          .filter(Boolean) // Filter out falsy subChannels
+          .flatMap((channel) => channel.subChannels || [])
+          .filter(Boolean)
           .map((subChannel) => subChannel.channelId);
 
         if (channelIds.length === 0) {
-          return; // Exit early if there are no valid subChannels
+          return;
         }
 
         setChannels(channelIds);
 
         await fetchHeatmapData(
-          guildId,
+          platformId,
           defaultStartDate,
           defaultEndDate,
           selectedZone,
           channelIds
         );
       } catch (error: unknown) {
-        Sentry.captureException(error); // Handle any errors that occur
+        Sentry.captureException(error);
       } finally {
         setIsLoading(false);
       }
@@ -282,22 +281,26 @@ const HeatmapChart = () => {
   }, []);
 
   useEffect(() => {
-    if (!user) {
+    if (!platformId) {
       return;
     }
-
-    const { guildId } = user.guild;
-    fetchHeatmap(guildId, dateRange[0], dateRange[1], selectedZone, channels);
+    fetchHeatmap(
+      platformId,
+      dateRange[0],
+      dateRange[1],
+      selectedZone,
+      channels
+    );
   }, [dateRange, selectedZone, channels]);
 
   const fetchHeatmap = async (
-    guildId: string,
+    platformId: string,
     startDate: moment.Moment | string | null,
     endDate: moment.Moment | string | null,
     timezone: string,
     channelIds: string[]
   ) => {
-    if (!guildId || !startDate || !endDate) {
+    if (!platformId || !startDate || !endDate) {
       return;
     }
 
@@ -305,7 +308,7 @@ const HeatmapChart = () => {
 
     try {
       const res = await fetchHeatmapData(
-        guildId,
+        platformId,
         startDate,
         endDate,
         timezone,
@@ -325,7 +328,6 @@ const HeatmapChart = () => {
               condition: {
                 maxWidth: 600,
               },
-              // Make the labels less space demanding on mobile
               chartOptions: {
                 chart: {
                   scrollablePlotArea: {
@@ -407,10 +409,9 @@ const HeatmapChart = () => {
 
   const handleSelectedChannels = (selectedChannels: string[]) => {
     setChannels(selectedChannels);
-    if (user) {
-      const { guildId } = user.guild;
+    if (platformId) {
       fetchHeatmap(
-        guildId,
+        platformId,
         dateRange[0],
         dateRange[1],
         selectedZone,

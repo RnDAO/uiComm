@@ -1,4 +1,3 @@
-import MainSection from '../components/pages/pageIndex/MainSection';
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
 import { useEffect, useState } from 'react';
@@ -11,6 +10,9 @@ import emptyState from '../assets/svg/empty-state.svg';
 import useAppStore from '../store/useStore';
 import { Alert, Collapse } from '@mui/material';
 import React from 'react';
+import ActiveMemberComposition from '../components/pages/pageIndex/ActiveMemberComposition';
+import HeatmapChart from '../components/pages/pageIndex/HeatmapChart';
+import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteractionGraph';
 
 function Dashboard(): JSX.Element {
   const [alertStateOpen, setAlertStateOpen] = useState(false);
@@ -26,19 +28,19 @@ function Dashboard(): JSX.Element {
     setAlertStateOpen(false);
   };
 
-  if (guilds && guilds.length === 0) {
-    return (
-      <>
-        <SEO />
-        <EmptyState image={<Image alt="Image Alt" src={emptyState} />} />
-      </>
-    );
-  }
+  // if (guilds && guilds.length === 0) {
+  //   return (
+  //     <>
+  //       <SEO />
+  //       <EmptyState image={<Image alt="Image Alt" src={emptyState} />} />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
       <SEO />
-      <Collapse
+      {/* <Collapse
         in={alertStateOpen}
         sx={{
           position: 'sticky',
@@ -60,10 +62,19 @@ function Dashboard(): JSX.Element {
         ) : (
           ''
         )}
-      </Collapse>
+      </Collapse> */}
 
       <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
-        <MainSection />
+        <div className="block">
+          <h3 className="pb-6 text-lg font-medium text-lite-black">
+            Community Insights
+          </h3>
+          <div className="space-y-4">
+            <ActiveMemberComposition />
+            <HeatmapChart />
+            <MemberInteractionGraph />
+          </div>
+        </div>
       </div>
     </>
   );
