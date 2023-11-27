@@ -58,7 +58,7 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
             className="cursor-pointer text-gray-400"
             onClick={() =>
               router.push(
-                `/community-settings/platform/${platform.metadata.id}/`
+                `/community-settings/platform/${platform.id}/?platformId=${platform.id}&property=channel`
               )
             }
           />

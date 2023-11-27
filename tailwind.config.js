@@ -75,7 +75,7 @@ const colors = {
   'purple-darker': '#35205E',
   'gray-subtitle':'#767676',
   orange:'#FF8022',
-  'gray-border-box':'#AAAAAA'
+  'gray-border-box':'#AAAAAA',
 };
 
 const backgroundImage = {

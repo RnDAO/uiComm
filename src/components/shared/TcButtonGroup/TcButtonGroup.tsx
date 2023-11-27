@@ -1,8 +1,8 @@
 import { ButtonGroup, ButtonGroupProps } from '@mui/material';
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 interface TcButtonGroup extends ButtonGroupProps {
-  children: React.ReactElement | JSX.Element;
+  children: ReactNode;
 }
 
 function TcButtonGroup({ children, ...props }: TcButtonGroup) {

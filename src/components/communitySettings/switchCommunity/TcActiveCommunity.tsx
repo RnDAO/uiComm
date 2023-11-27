@@ -21,7 +21,6 @@ function TcActiveCommunity() {
       setLoading(true);
       const storedCommunityId =
         StorageService.readLocalStorage<ICommunity>('community')?.id;
-      console.log({ storedCommunityId });
 
       if (storedCommunityId) {
         const fullCommunityData = await retrieveCommunityById(

@@ -14,7 +14,6 @@
  * <TcAutocomplete
  *   options={[{ label: 'Option 1' }, { label: 'Option 2' }]}
  *   label="Select an Option"
- *   onChange={(newValue) => console.log(newValue)}
  * />
  */
 

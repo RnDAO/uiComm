@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
 import ICentric, {
   ICreateCommunitieProps,
+  IPatchCommunityProps,
   IRetrieveCommunitiesProps,
 } from '../types/ICentric';
 import { conf } from '../../configs';
@@ -57,6 +58,18 @@ const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
     try {
       const { data } = await axiosInstance.delete(
         `/communities/${communityId}`
+      );
+      return data;
+    } catch (error) {}
+  },
+  patchCommunityById: async ({
+    communityId,
+    ...updateData
+  }: IPatchCommunityProps) => {
+    try {
+      const { data } = await axiosInstance.patch(
+        `/communities/${communityId}`,
+        updateData
       );
       return data;
     } catch (error) {}

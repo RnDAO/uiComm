@@ -6,6 +6,7 @@ import useAppStore from '../../../store/useStore';
 import { FetchedData, ICommunity } from '../../../utils/interfaces';
 import { StorageService } from '../../../services/StorageService';
 import Loading from '../../global/Loading';
+import TcCommunityIntegrationsDialog from './TcCommunityIntegrationsDialog';
 
 function TcCommunityIntegrations() {
   const { retrievePlatforms } = useAppStore();
@@ -73,6 +74,7 @@ function TcCommunityIntegrations() {
           <TcAvailableIntegrations />
         </div>
       </div>
+      <TcCommunityIntegrationsDialog />
     </>
   );
 }

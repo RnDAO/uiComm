@@ -10,6 +10,13 @@ export interface ICreateCommunitieProps {
   tcaAt: string;
 }
 
+export interface IPatchCommunityProps {
+  communityId: string;
+  name?: string;
+  avatarURL?: string;
+  tcaAt?: string;
+}
+
 export default interface ICentric {
   discordAuthorization: () => void;
   retrieveCommunities: ({
@@ -25,4 +32,10 @@ export default interface ICentric {
   }: ICreateCommunitieProps) => void;
   retrieveCommunityById: (communityId: string) => void;
   deleteCommunityById: (communityId: string) => void;
+  patchCommunityById: ({
+    communityId,
+    name,
+    avatarURL,
+    tcaAt,
+  }: IPatchCommunityProps) => void;
 }

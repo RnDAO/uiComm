@@ -1,30 +1,148 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
 import TcText from '../../shared/TcText';
 import TcButton from '../../shared/TcButton';
+import TcPlatformPeriod from './TcPlatformPeriod';
+import TcPlatformChannels from './TcPlatformChannels';
+import { useRouter } from 'next/router';
+import useAppStore from '../../../store/useStore';
+import TcDisconnectPlatform from './TcDisconnectPlatform';
+import TcCommunityName from './TcCommunityName';
+import { StorageService } from '../../../services/StorageService';
+import { ICommunity } from '../../../utils/interfaces';
+import { ChannelContext } from '../../../context/ChannelContext';
+import updateTrueIDs from '../../../helpers/PlatformHelper';
+import SimpleBackdrop from '../../global/LoadingBackdrop';
 
 interface TcPlatformProps {
   platformName?: string;
 }
 
 function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
+  const channelContext = useContext(ChannelContext);
+  const { retrievePlatformById, patchCommunityById, patchPlatformById } =
+    useAppStore();
+  const [fetchedPlatform, setFetchedPlatform] = useState(null);
+  const router = useRouter();
+
+  // State for current values
+  const [platfromAnalyzerDate, setPlatfromAnalyzerDate] = useState<string>('');
+  const [currentTrueIDs, setCurrentTrueIDs] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const community = StorageService.readLocalStorage<ICommunity>('community');
+
+  // State for initial values
+  const [initialCommunityName, setInitialCommunityName] = useState<string>(
+    community?.name || ''
+  );
+  const [communityName, setCommunityName] = useState<string>(
+    community?.name || ''
+  );
+
+  const [initialPlatformAnalyzerDate, setInitialPlatformAnalyzerDate] =
+    useState<string>('');
+  const [initialTrueIDs, setInitialTrueIDs] = useState<string[]>([]);
+
+  const { selectedSubChannels } = channelContext;
+  const { id } = router.query;
+
+  useEffect(() => {
+    const fetchPlatform = async () => {
+      if (id) {
+        try {
+          const data = await retrievePlatformById(id);
+          setFetchedPlatform(data);
+        } catch (error) {
+          console.error('Error fetching platform data:', error);
+        }
+      }
+    };
+
+    fetchPlatform();
+  }, [id, retrievePlatformById]);
+
+  const handlePatchCommunity = async () => {
+    setLoading(true);
+    const communityId = community?.id;
+
+    if (communityId && communityName) {
+      try {
+        await patchCommunityById({ communityId, name: communityName });
+        StorageService.updateLocalStorageWithObject<ICommunity>(
+          'community',
+          'name',
+          communityName
+        );
+        await patchPlatformById({
+          id,
+          metadata: {
+            selectedChannels: currentTrueIDs,
+            period: platfromAnalyzerDate,
+            analyzerStartedAt: new Date().toISOString(),
+          },
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error updating community:', error);
+        setLoading(false);
+      }
+    }
+  };
+
+  const handlePlatformNameChange = (newName: string) => {
+    setCommunityName(newName);
+  };
+
+  const handleDateChange = (date: string) => {
+    if (initialPlatformAnalyzerDate === '')
+      setInitialPlatformAnalyzerDate(date);
+    setPlatfromAnalyzerDate(date);
+  };
+
+  useEffect(() => {
+    const updatedIDs = updateTrueIDs(selectedSubChannels);
+    if (initialTrueIDs.length === 0 && updatedIDs.length > 0) {
+      setInitialTrueIDs(updatedIDs);
+    }
+    setCurrentTrueIDs(updatedIDs);
+  }, [selectedSubChannels]);
+
+  const isButtonDisabled =
+    communityName === initialCommunityName &&
+    platfromAnalyzerDate === initialPlatformAnalyzerDate &&
+    currentTrueIDs.length === initialTrueIDs.length &&
+    currentTrueIDs.every((id, index) => id === initialTrueIDs[index]);
+
+  if (loading) {
+    return <SimpleBackdrop />;
+  }
+
   return (
     <TcBoxContainer
-      titleContainerChildren={
-        <div className="p-4 md:p-10 flex justify-between items-center">
-          <div>
-            <TcText text={platformName} variant={'h6'} />
-            <TcText text="Community:" variant={'body2'} color={'gray.100'} />
-          </div>
-          <TcButton
-            text={'Disconnect'}
-            variant="outlined"
-            sx={{ width: '7.5rem', padding: '0.5rem' }}
-          />
-        </div>
-      }
       contentContainerChildren={
-        <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-4">s </div>
+        <div className="p-4 md:p-10 space-y-4">
+          <div className="flex justify-between items-center">
+            <div className="space-y-5">
+              <TcText text={platformName} variant={'h6'} />
+              <div>
+                <TcText text="Server:" variant={'body2'} color={'gray.100'} />
+                <TcCommunityName onNameChange={handlePlatformNameChange} />
+              </div>
+            </div>
+            <TcDisconnectPlatform platform={fetchedPlatform} />
+          </div>
+          <TcPlatformPeriod onDateChange={handleDateChange} />
+          <TcPlatformChannels />
+          <div className="flex justify-center pt-8 pb-6">
+            <TcButton
+              text="Confirm Changes"
+              variant="contained"
+              disabled={isButtonDisabled}
+              onClick={handlePatchCommunity}
+            />
+          </div>
+        </div>
       }
     />
   );
