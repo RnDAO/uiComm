@@ -140,8 +140,9 @@ export interface IPlatformProps {
   name: string;
   community: string;
   isInProgress: boolean;
+  connectedAt: string;
   id: string;
-  disconnectedAt: string;
+  disconnectedAt: string | null;
   metadata: metaData;
 }
 

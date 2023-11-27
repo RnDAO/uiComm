@@ -9,7 +9,7 @@ import useAppStore from '../../../store/useStore';
 import TcDisconnectPlatform from './TcDisconnectPlatform';
 import TcCommunityName from './TcCommunityName';
 import { StorageService } from '../../../services/StorageService';
-import { ICommunity } from '../../../utils/interfaces';
+import { ICommunity, IPlatformProps } from '../../../utils/interfaces';
 import { ChannelContext } from '../../../context/ChannelContext';
 import updateTrueIDs from '../../../helpers/PlatformHelper';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
@@ -22,7 +22,9 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const channelContext = useContext(ChannelContext);
   const { retrievePlatformById, patchCommunityById, patchPlatformById } =
     useAppStore();
-  const [fetchedPlatform, setFetchedPlatform] = useState(null);
+  const [fetchedPlatform, setFetchedPlatform] = useState<IPlatformProps | null>(
+    null
+  );
   const router = useRouter();
 
   // State for current values
@@ -47,18 +49,18 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const { selectedSubChannels } = channelContext;
   const { id } = router.query;
 
-  useEffect(() => {
-    const fetchPlatform = async () => {
-      if (id) {
-        try {
-          const data = await retrievePlatformById(id);
-          setFetchedPlatform(data);
-        } catch (error) {
-          console.error('Error fetching platform data:', error);
-        }
+  const fetchPlatform = async () => {
+    if (id) {
+      try {
+        const data = await retrievePlatformById(id);
+        setFetchedPlatform(data);
+      } catch (error) {
+        console.error('Error fetching platform data:', error);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchPlatform();
   }, [id, retrievePlatformById]);
 
@@ -82,6 +84,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
             analyzerStartedAt: new Date().toISOString(),
           },
         });
+        await fetchPlatform();
         setLoading(false);
       } catch (error) {
         console.error('Error updating community:', error);
@@ -127,12 +130,18 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
               <TcText text={platformName} variant={'h6'} />
               <div>
                 <TcText text="Server:" variant={'body2'} color={'gray.100'} />
-                <TcCommunityName onNameChange={handlePlatformNameChange} />
+                <TcCommunityName
+                  connectedAt={fetchedPlatform?.connectedAt || ''}
+                  onNameChange={handlePlatformNameChange}
+                />
               </div>
             </div>
             <TcDisconnectPlatform platform={fetchedPlatform} />
           </div>
-          <TcPlatformPeriod onDateChange={handleDateChange} />
+          <TcPlatformPeriod
+            platform={fetchedPlatform}
+            onDateChange={handleDateChange}
+          />
           <TcPlatformChannels />
           <div className="flex justify-center pt-8 pb-6">
             <TcButton

@@ -7,7 +7,7 @@ function TcAvailableIntegrations() {
     <div className="flex flex-row space-x-5">
       {Object.values(IntegrationPlatform).map((platform, index) => (
         <TcAvailableIntegrationsItem
-          disabled={index >= 2}
+          disabled={platform !== 'Discord'}
           key={platform}
           integrationPlatform={platform}
         />

@@ -5,12 +5,41 @@ import TcButton from '../../shared/TcButton';
 type PeriodValue = 'Last 35 days' | '1M' | '3M' | '6M' | '1Y';
 
 interface ITcPeriodRange {
+  activePeriod: string;
   handleSelectedDate: (date: string) => void;
 }
 
-function TcPeriodRange({ handleSelectedDate }: ITcPeriodRange) {
+function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
   const periods: PeriodValue[] = ['Last 35 days', '1M', '3M', '6M', '1Y'];
-  const [selected, setSelected] = useState<PeriodValue>(periods[0]);
+
+  const calculateDaysDifference = (dateString: string): number => {
+    const date = new Date(dateString);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const diff = (today.getTime() - date.getTime()) / (1000 * 3600 * 24);
+
+    return Math.round(diff);
+  };
+
+  const findDefaultPeriod = (): PeriodValue => {
+    const daysDifference = calculateDaysDifference(activePeriod);
+
+    if (daysDifference > 30 && daysDifference <= 35) {
+      return 'Last 35 days';
+    } else if (daysDifference <= 30) {
+      return '1M';
+    } else if (daysDifference <= 90) {
+      return '3M';
+    } else if (daysDifference <= 180) {
+      return '6M';
+    } else {
+      return '1Y';
+    }
+  };
+
+  const [selected, setSelected] = useState<PeriodValue>(findDefaultPeriod);
 
   useEffect(() => {
     const calculatedDateUTC = calculateDate(selected);

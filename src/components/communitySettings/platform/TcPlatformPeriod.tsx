@@ -4,12 +4,15 @@ import { MdOutlineCalendarToday } from 'react-icons/md';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import TcText from '../../shared/TcText';
 import TcPeriodRange from './TcPeriodRange';
+import { IPlatformProps } from '../../../utils/interfaces';
+import moment from 'moment';
 
 interface ITcPlatformPeriodProps {
+  platform: IPlatformProps | null;
   onDateChange: (date: string) => void;
 }
 
-function TcPlatformPeriod({ onDateChange }: ITcPlatformPeriodProps) {
+function TcPlatformPeriod({ onDateChange, platform }: ITcPlatformPeriodProps) {
   const handleSelectedDate = (date: string) => {
     onDateChange(date);
   };
@@ -35,12 +38,17 @@ function TcPlatformPeriod({ onDateChange }: ITcPlatformPeriodProps) {
           <div className="flex items-center space-x-2">
             <HiOutlineExclamationCircle size={20} />
             <TcText
-              text={'Data analysis runs from: 12 Jan 2022'}
+              text={`Data analysis runs from: ${moment(
+                platform?.metadata.analyzerStartedAt
+              ).format('D MMM YYYY')}`}
               variant="body2"
               fontWeight="bold"
             />
           </div>
-          <TcPeriodRange handleSelectedDate={handleSelectedDate} />
+          <TcPeriodRange
+            handleSelectedDate={handleSelectedDate}
+            activePeriod={platform?.metadata.period || ''}
+          />
         </div>
       </div>
     </div>

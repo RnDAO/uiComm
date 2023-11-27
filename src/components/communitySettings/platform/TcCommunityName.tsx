@@ -3,12 +3,14 @@ import TcText from '../../shared/TcText';
 import TcInput from '../../shared/TcInput';
 import TcAvatar from '../../shared/TcAvatar';
 import { useToken } from '../../../context/TokenContext';
+import moment from 'moment';
 
 interface TccommunityName {
+  connectedAt: string;
   onNameChange: (newName: string) => void;
 }
 
-function TcCommunityName({ onNameChange }: TccommunityName) {
+function TcCommunityName({ onNameChange, connectedAt }: TccommunityName) {
   const [communityName, setCommunityName] = useState('');
   const { community } = useToken();
 
@@ -38,7 +40,10 @@ function TcCommunityName({ onNameChange }: TccommunityName) {
             minWidth: '14rem',
           }}
         />
-        <TcText text={'Connected Since 12 Jun 2022'} variant="body2" />
+        <TcText
+          text={`Connected since ${moment(connectedAt).format('D MMM YYYY')}`}
+          variant="body2"
+        />
       </div>
     </div>
   );
