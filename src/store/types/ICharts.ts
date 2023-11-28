@@ -26,7 +26,7 @@ export default interface ICharts {
     timeZone: string
   ) => any;
   fetchActiveMembers: (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string,
     timeZone: string

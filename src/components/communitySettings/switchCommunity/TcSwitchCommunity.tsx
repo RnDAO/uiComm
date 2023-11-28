@@ -1,8 +1,8 @@
 import React from 'react';
-import TcText from '../../shared/TcText';
 import TcButton from '../../shared/TcButton';
 import TcActiveCommunity from './TcActiveCommunity';
 import router from 'next/router';
+import TcText from '../../shared/TcText';
 
 function TcSwitchCommunity() {
   return (

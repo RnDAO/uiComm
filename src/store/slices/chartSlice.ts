@@ -60,14 +60,14 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchActiveMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ activeMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/active-members-composition-line-graph`,
+        `/member-activity/${platformId}/active-members-composition-line-graph`,
         {
           startDate,
           endDate,

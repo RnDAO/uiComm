@@ -20,8 +20,7 @@ interface TcPlatformProps {
 
 function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const channelContext = useContext(ChannelContext);
-  const { retrievePlatformById, patchCommunityById, patchPlatformById } =
-    useAppStore();
+  const { retrievePlatformById, patchPlatformById } = useAppStore();
   const [fetchedPlatform, setFetchedPlatform] = useState<IPlatformProps | null>(
     null
   );
@@ -70,12 +69,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
 
     if (communityId && communityName) {
       try {
-        await patchCommunityById({ communityId, name: communityName });
-        StorageService.updateLocalStorageWithObject<ICommunity>(
-          'community',
-          'name',
-          communityName
-        );
         await patchPlatformById({
           id,
           metadata: {
@@ -112,7 +105,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   }, [selectedSubChannels]);
 
   const isButtonDisabled =
-    communityName === initialCommunityName &&
     platfromAnalyzerDate === initialPlatformAnalyzerDate &&
     currentTrueIDs.length === initialTrueIDs.length &&
     currentTrueIDs.every((id, index) => id === initialTrueIDs[index]);
@@ -130,10 +122,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
               <TcText text={platformName} variant={'h6'} />
               <div>
                 <TcText text="Server:" variant={'body2'} color={'gray.100'} />
-                <TcCommunityName
-                  connectedAt={fetchedPlatform?.connectedAt || ''}
-                  onNameChange={handlePlatformNameChange}
-                />
+                <TcCommunityName platform={fetchedPlatform} />
               </div>
             </div>
             <TcDisconnectPlatform platform={fetchedPlatform} />
