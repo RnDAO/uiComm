@@ -9,6 +9,7 @@ import React, {
 import { StorageService } from '../services/StorageService';
 import { IToken } from '../utils/types';
 import { ICommunity } from '../utils/interfaces';
+import { SnackbarProvider } from './SnackbarContext';
 
 type TokenContextType = {
   token: IToken | null;
@@ -61,7 +62,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     <TokenContext.Provider
       value={{ token, community, updateToken, updateCommunity, clearToken }}
     >
-      {children}
+      <SnackbarProvider>{children}</SnackbarProvider>
     </TokenContext.Provider>
   );
 };

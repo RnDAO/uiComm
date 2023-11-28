@@ -7,13 +7,23 @@ import TcConfirmDeleteCommunity from './TcConfirmDeleteCommunity';
 import Loading from '../../global/Loading';
 import TcInput from '../../shared/TcInput';
 import { debounce } from '@mui/material';
+import { useSnackbar } from '../../../context/SnackbarContext';
 
 const updateCommunityName = debounce(
-  async (communityId, newName, updateFunc, fetchFunc) => {
-    await updateFunc({ communityId, name: newName });
-    await fetchFunc();
+  async (communityId, newName, updateFunc, fetchFunc, showSnackbar) => {
+    try {
+      await updateFunc({
+        communityId,
+        name: newName.endsWith(' ') ? newName.slice(0, -1) : newName,
+      });
+      await fetchFunc();
+      showSnackbar('Community name updated successfully!', 'success');
+    } catch (error) {
+      console.error('Error updating community name:', error);
+      showSnackbar('Failed to update community name', 'error');
+    }
   },
-  500
+  1000
 );
 
 function TcActiveCommunity() {
@@ -22,6 +32,7 @@ function TcActiveCommunity() {
   const [community, setCommunity] = useState<ICommunity | null>(null);
   const storedCommunityId =
     StorageService.readLocalStorage<ICommunity>('community')?.id;
+  const { showMessage } = useSnackbar();
 
   useEffect(() => {
     async function initFetch() {
@@ -64,7 +75,8 @@ function TcActiveCommunity() {
         community.id,
         newName,
         patchCommunityById,
-        fetchCommunity
+        fetchCommunity,
+        showMessage
       );
     }
   };
