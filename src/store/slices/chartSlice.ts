@@ -41,14 +41,14 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchInteractions: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ interactionsLoading: true }));
       const { data } = await axiosInstance.post(
-        `/heatmaps/${guild_id}/line-graph`,
+        `/heatmaps/${platformId}/line-graph`,
         {
           startDate,
           endDate,
@@ -79,14 +79,14 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchDisengagedMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ disengagedMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/disengaged-members-composition-line-graph`,
+        `/member-activity/${platformId}/disengaged-members-composition-line-graph`,
         {
           startDate,
           endDate,
@@ -98,14 +98,14 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchInactiveMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ inactiveMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/inactive-members-line-graph `,
+        `/member-activity/${platformId}/inactive-members-line-graph `,
         {
           startDate,
           endDate,
@@ -117,14 +117,14 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchOnboardingMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ onboardingMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/active-members-onboarding-line-graph `,
+        `/member-activity/${platformId}/active-members-onboarding-line-graph `,
         {
           startDate,
           endDate,
@@ -135,11 +135,11 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
       set(() => ({ onboardingMembersLoading: false }));
     }
   },
-  getSelectedChannelsList: async (guild_id: string) => {
+  getSelectedChannelsList: async (platformId: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `/guilds/${guild_id}/selected-channels`
+        `/guilds/${platformId}/selected-channels`
       );
       set({ selectedChannelsList: data, isLoading: false });
       return data;

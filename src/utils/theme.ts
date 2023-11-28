@@ -100,6 +100,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderBottom: 'none',
+          textTransform: 'none',
         },
         indicator: {
           backgroundColor: 'transparent',
@@ -110,6 +111,7 @@ export const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
+          textTransform: 'none',
           borderRadius: '10px 10px 0 0',
           padding: '8px 24px',
           width: '214px',
