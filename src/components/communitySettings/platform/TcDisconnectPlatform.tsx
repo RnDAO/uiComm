@@ -6,6 +6,7 @@ import TcText from '../../shared/TcText';
 import { IPlatformProps } from '../../../utils/interfaces';
 import useAppStore from '../../../store/useStore';
 import { useRouter } from 'next/router';
+import { useSnackbar } from '../../../context/SnackbarContext';
 
 interface TcDisconnectPlatformProps {
   platform: IPlatformProps | null;
@@ -13,14 +14,19 @@ interface TcDisconnectPlatformProps {
 
 function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
   const { deletePlatform } = useAppStore();
+  const { showMessage } = useSnackbar();
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
   const { id } = router.query;
 
   const handleDeletePlatform = async (deleteType: 'hard' | 'soft') => {
-    await deletePlatform({ id, deleteType });
-    setOpenDialog(false);
-    router.push('/community-settings');
+    try {
+      await deletePlatform({ id, deleteType });
+      setOpenDialog(false);
+      router.push('/community-settings');
+      showMessage('Platform disconnected successfully.', 'success');
+    } catch (error) {}
   };
 
   return (

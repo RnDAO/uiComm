@@ -13,6 +13,7 @@ import { ICommunity, IPlatformProps } from '../../../utils/interfaces';
 import { ChannelContext } from '../../../context/ChannelContext';
 import updateTrueIDs from '../../../helpers/PlatformHelper';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
+import TcCommunityIntegrationsConfirmDialog from '../communityIntegrations/TcCommunityIntegrationsConfirmDialog';
 
 interface TcPlatformProps {
   platformName?: string;
@@ -20,6 +21,7 @@ interface TcPlatformProps {
 
 function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const channelContext = useContext(ChannelContext);
+
   const { retrievePlatformById, patchPlatformById } = useAppStore();
   const [fetchedPlatform, setFetchedPlatform] = useState<IPlatformProps | null>(
     null
@@ -30,16 +32,9 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const [platfromAnalyzerDate, setPlatfromAnalyzerDate] = useState<string>('');
   const [currentTrueIDs, setCurrentTrueIDs] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
 
   const community = StorageService.readLocalStorage<ICommunity>('community');
-
-  // State for initial values
-  const [initialCommunityName, setInitialCommunityName] = useState<string>(
-    community?.name || ''
-  );
-  const [communityName, setCommunityName] = useState<string>(
-    community?.name || ''
-  );
 
   const [initialPlatformAnalyzerDate, setInitialPlatformAnalyzerDate] =
     useState<string>('');
@@ -49,12 +44,15 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const { id } = router.query;
 
   const fetchPlatform = async () => {
+    setLoading(true);
     if (id) {
       try {
         const data = await retrievePlatformById(id);
         setFetchedPlatform(data);
       } catch (error) {
         console.error('Error fetching platform data:', error);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -64,30 +62,23 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   }, [id, retrievePlatformById]);
 
   const handlePatchCommunity = async () => {
-    setLoading(true);
-    const communityId = community?.id;
-
-    if (communityId && communityName) {
-      try {
-        await patchPlatformById({
-          id,
-          metadata: {
-            selectedChannels: currentTrueIDs,
-            period: platfromAnalyzerDate,
-            analyzerStartedAt: new Date().toISOString(),
-          },
-        });
-        await fetchPlatform();
-        setLoading(false);
-      } catch (error) {
-        console.error('Error updating community:', error);
-        setLoading(false);
-      }
+    try {
+      setLoading(true);
+      await patchPlatformById({
+        id,
+        metadata: {
+          selectedChannels: currentTrueIDs,
+          period: platfromAnalyzerDate,
+          analyzerStartedAt: new Date().toISOString(),
+        },
+      });
+      setOpenConfirmDialog(true);
+      await fetchPlatform();
+      setLoading(false);
+    } catch (error) {
+      console.error('Error updating community:', error);
+      setLoading(false);
     }
-  };
-
-  const handlePlatformNameChange = (newName: string) => {
-    setCommunityName(newName);
   };
 
   const handleDateChange = (date: string) => {
@@ -112,6 +103,12 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   if (loading) {
     return <SimpleBackdrop />;
   }
+
+  const handleConfirmPlatformUpdate = () => {
+    setLoading(true);
+    setOpenConfirmDialog(false);
+    router.push('/community-settings');
+  };
 
   return (
     <TcBoxContainer
@@ -140,6 +137,10 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
               onClick={handlePatchCommunity}
             />
           </div>
+          <TcCommunityIntegrationsConfirmDialog
+            isOpen={openConfirmDialog}
+            toggleDialog={() => handleConfirmPlatformUpdate()}
+          />
         </div>
       }
     />

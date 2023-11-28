@@ -44,6 +44,7 @@ import TcIntegrationIcon from './TcIntegrationIcon';
 import { capitalizeFirstChar, truncateCenter } from '../../../helpers/helper';
 import { IntegrationPlatform } from '../../../utils/enums';
 import { BsThreeDots } from 'react-icons/bs';
+import { Tooltip } from '@mui/material';
 
 interface TcConnectedPlatformsItemProps {
   platform: IPlatformProps;
@@ -71,12 +72,9 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
                 variant="body1"
                 className="text-semibold"
               />
-              <div
-                className={clsx('h-3 w-3 rounded-full', {
-                  'bg-success': platform.isInProgress === false,
-                  'bg-warning-500': platform.isInProgress === true,
-                })}
-              />
+              <Tooltip title={'Connected'} arrow placement="right">
+                <div className={'h-3 w-3 rounded-full bg-success'} />
+              </Tooltip>
             </div>
             <div className="flex justify-center">
               <TcIntegrationIcon
@@ -88,12 +86,7 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
             </div>
           </div>
           {platform && (
-            <div
-              className={clsx(
-                platform?.isInProgress ? 'opacity-50' : '',
-                'flex items-center space-x-2 justify-center'
-              )}
-            >
+            <div className={clsx('flex items-center space-x-2 justify-center')}>
               <TcAvatar
                 src={
                   platform.metadata.profileImageUrl
