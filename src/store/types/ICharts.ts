@@ -13,7 +13,7 @@ export default interface ICharts {
   onboardingMembers: {};
   selectedChannelsList: any[];
   fetchHeatmapData: (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string,
     timeZone: string,

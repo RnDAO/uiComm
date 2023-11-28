@@ -12,8 +12,10 @@ import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
 } from '../utils/interfaces';
+import { useToken } from '../context/TokenContext';
 
 function CommunityHealth() {
+  const { community } = useToken();
   const { getDecentralisation, getFragmentation, isLoading } = useAppStore();
   const [decentralisationScoreData, setDecentralisationScoreData] =
     useState<IDecentralisationScoreResponse | null>(null);
@@ -21,12 +23,12 @@ function CommunityHealth() {
     useState<IFragmentationScoreResponse | null>(null);
 
   useEffect(() => {
-    const storedUser = StorageService.readLocalStorage<IUser>('user');
+    const platformId = community?.platforms[0];
 
-    if (storedUser?.guild.guildId) {
+    if (platformId) {
       Promise.all([
-        getDecentralisation(storedUser.guild.guildId),
-        getFragmentation(storedUser.guild.guildId),
+        getDecentralisation(platformId),
+        getFragmentation(platformId),
       ]).then(([decentralisationRes, fragmentationRes]) => {
         setDecentralisationScoreData(decentralisationRes);
         setFragmentationScoreData(fragmentationRes);

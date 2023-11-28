@@ -17,7 +17,6 @@ import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteract
 function Dashboard(): JSX.Element {
   const [alertStateOpen, setAlertStateOpen] = useState(false);
 
-  const { guilds } = useAppStore();
   const router = useRouter();
 
   const toggleAnalysisState = () => {

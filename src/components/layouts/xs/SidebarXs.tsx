@@ -59,7 +59,7 @@ const Sidebar = () => {
     },
     {
       name: 'Community Health',
-      path: '/communityHealth',
+      path: '/community-health',
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}

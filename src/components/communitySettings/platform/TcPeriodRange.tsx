@@ -5,7 +5,7 @@ import TcButton from '../../shared/TcButton';
 type PeriodValue = 'Last 35 days' | '1M' | '3M' | '6M' | '1Y';
 
 interface ITcPeriodRange {
-  activePeriod: string;
+  activePeriod?: string;
   handleSelectedDate: (date: string) => void;
 }
 

@@ -8,15 +8,16 @@ import { StatisticsProps } from '../../../utils/interfaces';
 import { useToken } from '../../../context/TokenContext';
 
 const ActiveMemberComposition = () => {
+  const { community } = useToken();
+
   const router = useRouter();
   const { fetchActiveMembers, activeMembers } = useAppStore();
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
-  const { community } = useToken();
 
   useEffect(() => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
     let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
-    const platformId = '6564b0d547797c147b5bf9f7';
+    const platformId = community?.platforms[0];
 
     if (platformId) {
       fetchActiveMembers(platformId, startDate, endDate);

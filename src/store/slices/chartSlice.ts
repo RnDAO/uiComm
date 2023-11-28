@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
 import ICharts from '../types/ICharts';
 
-const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
+const chartSlice: StateCreator<ICharts> = (set, get) => ({
   isLoading: false,
   heatmapRecords: [],
   interactions: {},
@@ -17,7 +17,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   inactiveMembersLoading: false,
   onboardingMembersLoading: false,
   fetchHeatmapData: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string,
     timeZone: string,
@@ -26,7 +26,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.post(
-        `/heatmaps/${guild_id}/heatmap-chart`,
+        `/heatmaps/${platformId}/heatmap-chart`,
         {
           startDate,
           endDate,
@@ -149,4 +149,4 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   },
 });
 
-export default createHeatmapSlice;
+export default chartSlice;

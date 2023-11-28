@@ -19,8 +19,6 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
     null
   );
 
-  // let [selectedZone, setSelectedZone] = useState(defaultTimeZone);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };

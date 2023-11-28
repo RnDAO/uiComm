@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TcText from '../../shared/TcText';
 import TcAvatar from '../../shared/TcAvatar';
-import { useToken } from '../../../context/TokenContext';
 import moment from 'moment';
-import { platform } from 'os';
 import { IPlatformProps } from '../../../utils/interfaces';
 
 interface TccommunityName {

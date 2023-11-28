@@ -82,7 +82,12 @@ function Callback() {
 
     try {
       const data = await createNewPlatform(payload);
-      router.push(`/community-settings?platformId=${data.id}&property=channel`);
+      if (!data) {
+        router.push('community-settings');
+      }
+      router.push(
+        `/community-settings/platform/${data.id}?platformId=${data.id}&property=channel`
+      );
     } catch (error) {
       console.error('Failed to create new platform:', error);
     }

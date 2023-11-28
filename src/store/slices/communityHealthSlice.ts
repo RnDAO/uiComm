@@ -7,11 +7,11 @@ const createCommunityHealthSlice: StateCreator<ICommunityHealth> = (
   get
 ) => ({
   isLoading: false,
-  getFragmentation: async (guild_id: string) => {
+  getFragmentation: async (platformId: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `/member-activity/${guild_id}/fragmentation-score`
+        `/member-activity/${platformId}/fragmentation-score`
       );
       set({ isLoading: false });
       return data;
@@ -19,11 +19,11 @@ const createCommunityHealthSlice: StateCreator<ICommunityHealth> = (
       set(() => ({ isLoading: false }));
     }
   },
-  getDecentralisation: async (guild_id: string) => {
+  getDecentralisation: async (platformId: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `/member-activity/${guild_id}/decentralisation-score`
+        `/member-activity/${platformId}/decentralisation-score`
       );
       set({ isLoading: false });
       return data;
