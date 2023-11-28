@@ -8,8 +8,6 @@ import InteractionsSection from '../components/pages/statistics/InteractionsSect
 import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { defaultLayout } from '../layouts/defaultLayout';
-import { IUser } from '../utils/types';
-import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
 import SEO from '../components/global/SEO';
 import { Box } from '@mui/material';
