@@ -14,17 +14,22 @@ function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
 
   const calculateDaysDifference = (dateString: string): number => {
     const date = new Date(dateString);
-
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
 
-    const diff = (today.getTime() - date.getTime()) / (1000 * 3600 * 24);
+    const diff = today.getTime() - date.getTime();
 
-    return Math.round(diff);
+    return Math.round(diff / (1000 * 3600 * 24));
   };
 
   const findDefaultPeriod = (): PeriodValue => {
-    const daysDifference = calculateDaysDifference(activePeriod);
+    const fallbackDate = new Date();
+    fallbackDate.setUTCHours(0, 0, 0, 0);
+    fallbackDate.setUTCDate(fallbackDate.getUTCDate() - 35);
+
+    const daysDifference = calculateDaysDifference(
+      activePeriod ? activePeriod : fallbackDate.toISOString()
+    );
 
     if (daysDifference > 30 && daysDifference <= 35) {
       return 'Last 35 days';
@@ -39,32 +44,32 @@ function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
     }
   };
 
-  const [selected, setSelected] = useState<PeriodValue>(findDefaultPeriod);
+  const [selected, setSelected] = useState<PeriodValue>(findDefaultPeriod());
 
   useEffect(() => {
     const calculatedDateUTC = calculateDate(selected);
-    if (handleSelectedDate) {
-      handleSelectedDate(calculatedDateUTC);
-    }
-  }, []);
+    handleSelectedDate(calculatedDateUTC);
+  }, [selected, handleSelectedDate]);
 
   const calculateDate = (value: PeriodValue): string => {
     const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
+
     switch (value) {
       case 'Last 35 days':
-        currentDate.setDate(currentDate.getDate() - 35);
+        currentDate.setUTCDate(currentDate.getUTCDate() - 35);
         break;
       case '1M':
-        currentDate.setMonth(currentDate.getMonth() - 1);
+        currentDate.setUTCDate(currentDate.getUTCDate() - 30);
         break;
       case '3M':
-        currentDate.setMonth(currentDate.getMonth() - 3);
+        currentDate.setUTCDate(currentDate.getUTCDate() - 90);
         break;
       case '6M':
-        currentDate.setMonth(currentDate.getMonth() - 6);
+        currentDate.setUTCDate(currentDate.getUTCDate() - 180);
         break;
       case '1Y':
-        currentDate.setFullYear(currentDate.getFullYear() - 1);
+        currentDate.setUTCDate(currentDate.getUTCDate() - 365);
         break;
     }
     return currentDate.toISOString();
@@ -73,9 +78,7 @@ function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
   const handleButtonClick = (value: PeriodValue) => {
     setSelected(value);
     const calculatedDateUTC = calculateDate(value);
-    if (handleSelectedDate) {
-      handleSelectedDate(calculatedDateUTC);
-    }
+    handleSelectedDate(calculatedDateUTC);
   };
 
   return (

@@ -43,7 +43,6 @@ interface ChannelProviderProps {
   children: React.ReactNode;
 }
 
-// Initial data for SubChannel
 const initialSubChannel: SubChannel = {
   channelId: '',
   name: '',
@@ -51,22 +50,19 @@ const initialSubChannel: SubChannel = {
   canReadMessageHistoryAndViewChannel: false,
 };
 
-// Initial data for Channel
 const initialChannel: Channel = {
   channelId: '',
   title: '',
-  subChannels: [initialSubChannel], // Array containing initial SubChannel
+  subChannels: [initialSubChannel],
 };
 
-// Initial data for SelectedSubChannels
 const initialSelectedSubChannels: SelectedSubChannels = {};
 
-// Initial data for ChannelContextProps
 const initialChannelContextData: ChannelContextProps = {
-  channels: [initialChannel], // Array containing initial Channel
+  channels: [initialChannel],
   loading: false,
   selectedSubChannels: initialSelectedSubChannels,
-  refreshData: async () => {}, // Empty async function
+  refreshData: async () => {},
   handleSubChannelChange: (channelId: string, subChannelId: string) => {},
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => {},
 };
@@ -138,13 +134,11 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
   useEffect(() => {
     const { platformId, property } = router.query;
     if (platformId && property) {
-      // Handle conversion to string if necessary
       const platformIdString = Array.isArray(platformId)
         ? platformId[0]
         : platformId;
       const propertyString = Array.isArray(property) ? property[0] : property;
 
-      // Set the ref values
       platformIdRef.current = platformIdString;
       propertyRef.current = propertyString;
       refreshData();

@@ -8,8 +8,7 @@ import { useRouter } from 'next/router';
 import useAppStore from '../../../store/useStore';
 import TcDisconnectPlatform from './TcDisconnectPlatform';
 import TcCommunityName from './TcCommunityName';
-import { StorageService } from '../../../services/StorageService';
-import { ICommunity, IPlatformProps } from '../../../utils/interfaces';
+import { IPlatformProps } from '../../../utils/interfaces';
 import { ChannelContext } from '../../../context/ChannelContext';
 import updateTrueIDs from '../../../helpers/PlatformHelper';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
@@ -33,8 +32,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const [currentTrueIDs, setCurrentTrueIDs] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
-
-  const community = StorageService.readLocalStorage<ICommunity>('community');
 
   const [initialPlatformAnalyzerDate, setInitialPlatformAnalyzerDate] =
     useState<string>('');
@@ -95,11 +92,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
     setCurrentTrueIDs(updatedIDs);
   }, [selectedSubChannels]);
 
-  const isButtonDisabled =
-    platfromAnalyzerDate === initialPlatformAnalyzerDate &&
-    currentTrueIDs.length === initialTrueIDs.length &&
-    currentTrueIDs.every((id, index) => id === initialTrueIDs[index]);
-
   if (loading) {
     return <SimpleBackdrop />;
   }
@@ -133,7 +125,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
             <TcButton
               text="Confirm Changes"
               variant="contained"
-              disabled={isButtonDisabled}
               onClick={handlePatchCommunity}
             />
           </div>

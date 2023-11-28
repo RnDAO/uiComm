@@ -37,8 +37,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
       setToken(storedToken);
     }
     if (storedCommunity) {
-      console.log({ storedCommunity });
-
       setCommunity(storedCommunity);
     }
   }, []);
