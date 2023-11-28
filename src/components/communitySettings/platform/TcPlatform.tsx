@@ -27,7 +27,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   );
   const router = useRouter();
 
-  // State for current values
   const [platfromAnalyzerDate, setPlatfromAnalyzerDate] = useState<string>('');
   const [currentTrueIDs, setCurrentTrueIDs] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
