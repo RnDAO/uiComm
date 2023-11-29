@@ -7,7 +7,6 @@ import React, {
   useRef,
 } from 'react';
 import useAppStore from '../store/useStore';
-import { useRouter } from 'next/router';
 
 export interface SubChannel {
   channelId: string;
@@ -34,9 +33,17 @@ interface ChannelContextProps {
   selectedSubChannels: {
     [channelId: string]: { [subChannelId: string]: boolean };
   };
-  refreshData: () => Promise<void>;
+  refreshData: (
+    platformId: string,
+    property?: 'channel' | 'role',
+    selectedChannels?: string[]
+  ) => Promise<void>;
   handleSubChannelChange: (channelId: string, subChannelId: string) => void;
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => void;
+  updateSelectedSubChannels: (
+    allChannels: Channel[],
+    newSelectedSubChannels: string[]
+  ) => void;
 }
 
 interface ChannelProviderProps {
@@ -62,9 +69,17 @@ const initialChannelContextData: ChannelContextProps = {
   channels: [initialChannel],
   loading: false,
   selectedSubChannels: initialSelectedSubChannels,
-  refreshData: async () => {},
+  refreshData: async (
+    platformId: string,
+    property?: 'channel' | 'role',
+    selectedChannels?: string[]
+  ) => {},
   handleSubChannelChange: (channelId: string, subChannelId: string) => {},
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => {},
+  updateSelectedSubChannels: (
+    allChannels: Channel[],
+    newSelectedSubChannels: string[]
+  ) => {},
 };
 
 export const ChannelContext = createContext<ChannelContextProps>(
@@ -72,39 +87,47 @@ export const ChannelContext = createContext<ChannelContextProps>(
 );
 
 export const ChannelProvider = ({ children }: ChannelProviderProps) => {
-  const router = useRouter();
   const { retrievePlatformProperties } = useAppStore();
   const [channels, setChannels] = useState<Channel[]>([]);
-  const [selectedSubChannels, setSelectedSubChannels] = useState<{
-    [channelId: string]: { [subChannelId: string]: boolean };
-  }>({});
+  const [selectedSubChannels, setSelectedSubChannels] =
+    useState<SelectedSubChannels>({});
   const [loading, setLoading] = useState<boolean>(false);
 
-  const platformIdRef = useRef<string>('');
-  const propertyRef = useRef<string>('');
-
-  const refreshData = useCallback(async () => {
-    setLoading(true);
-    const data: Channel[] = await retrievePlatformProperties({
-      property: propertyRef.current,
-      platformId: platformIdRef.current,
-    });
-
-    const newSelectedSubChannels = data.reduce((acc, channel) => {
-      acc[channel.channelId] = channel.subChannels.reduce(
-        (subAcc, subChannel) => {
-          subAcc[subChannel.channelId] = true;
-          return subAcc;
-        },
-        {} as { [subChannelId: string]: boolean }
-      );
-      return acc;
-    }, {} as SelectedSubChannels);
-
-    setChannels(data);
-    setSelectedSubChannels(newSelectedSubChannels);
-    setLoading(false);
-  }, [retrievePlatformProperties]);
+  const refreshData = useCallback(
+    async (
+      platformId: string,
+      property: 'channel' | 'role' = 'channel',
+      selectedChannels?: string[]
+    ) => {
+      setLoading(true);
+      try {
+        const data = await retrievePlatformProperties({ property, platformId });
+        setChannels(data);
+        if (selectedChannels) {
+          updateSelectedSubChannels(data, selectedChannels);
+        } else {
+          const newSelectedSubChannels = data.reduce(
+            (acc: any, channel: any) => {
+              acc[channel.channelId] = channel.subChannels.reduce(
+                (subAcc: any, subChannel: any) => {
+                  subAcc[subChannel.channelId] = true;
+                  return subAcc;
+                },
+                {} as { [subChannelId: string]: boolean }
+              );
+              return acc;
+            },
+            {} as SelectedSubChannels
+          );
+          setSelectedSubChannels(newSelectedSubChannels);
+        }
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   const handleSubChannelChange = (channelId: string, subChannelId: string) => {
     setSelectedSubChannels((prev) => ({
@@ -131,27 +154,38 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
     }));
   };
 
-  useEffect(() => {
-    const { platformId, property } = router.query;
-    if (platformId && property) {
-      const platformIdString = Array.isArray(platformId)
-        ? platformId[0]
-        : platformId;
-      const propertyString = Array.isArray(property) ? property[0] : property;
+  const updateSelectedSubChannels = (
+    allChannels: Channel[],
+    newSelectedSubChannels: string[]
+  ) => {
+    setSelectedSubChannels((prevSelectedSubChannels: SelectedSubChannels) => {
+      const updatedSelectedSubChannels: SelectedSubChannels = {
+        ...prevSelectedSubChannels,
+      };
 
-      platformIdRef.current = platformIdString;
-      propertyRef.current = propertyString;
-      refreshData();
-    }
-  }, [router.query]);
+      allChannels.forEach((channel) => {
+        const channelUpdates: { [subChannelId: string]: boolean } = {};
+
+        channel.subChannels.forEach((subChannel) => {
+          channelUpdates[subChannel.channelId] =
+            newSelectedSubChannels.includes(subChannel.channelId);
+        });
+
+        updatedSelectedSubChannels[channel.channelId] = channelUpdates;
+      });
+
+      return updatedSelectedSubChannels;
+    });
+  };
 
   const value = {
     channels,
     loading,
     selectedSubChannels,
-    refreshData,
     handleSubChannelChange,
     handleSelectAll,
+    refreshData,
+    updateSelectedSubChannels,
   };
 
   return (

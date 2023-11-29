@@ -36,8 +36,12 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
     useState<string>('');
   const [initialTrueIDs, setInitialTrueIDs] = useState<string[]>([]);
 
-  const { selectedSubChannels } = channelContext;
-  const { id } = router.query;
+  const { refreshData, selectedSubChannels, updateSelectedSubChannels } =
+    channelContext;
+
+  const id = Array.isArray(router.query.id)
+    ? router.query.id[0]
+    : router.query.id;
 
   const fetchPlatform = async () => {
     setLoading(true);
@@ -45,8 +49,15 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
       try {
         const data = await retrievePlatformById(id);
         setFetchedPlatform(data);
+        const { metadata } = data;
+        if (metadata) {
+          const { selectedChannels } = metadata;
+
+          await refreshData(id, 'channel', selectedChannels);
+        } else {
+          refreshData(id);
+        }
       } catch (error) {
-        console.error('Error fetching platform data:', error);
       } finally {
         setLoading(false);
       }
@@ -72,7 +83,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
       await fetchPlatform();
       setLoading(false);
     } catch (error) {
-      console.error('Error updating community:', error);
       setLoading(false);
     }
   };

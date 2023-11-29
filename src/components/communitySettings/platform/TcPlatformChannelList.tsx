@@ -6,9 +6,15 @@ import TcButton from '../../shared/TcButton';
 import { TbRefresh } from 'react-icons/tb';
 import Loading from '../../global/Loading';
 import { ChannelContext } from '../../../context/ChannelContext';
+import { useRouter } from 'next/router';
 
 function TcPlatformChannelList() {
   const channelContext = useContext(ChannelContext);
+  const router = useRouter();
+
+  const id = Array.isArray(router.query.id)
+    ? router.query.id[0]
+    : router.query.id;
 
   const {
     channels,
@@ -18,6 +24,12 @@ function TcPlatformChannelList() {
     handleSelectAll,
     loading,
   } = channelContext;
+
+  const handleRefresh = () => {
+    if (id) {
+      refreshData(id);
+    }
+  };
 
   if (loading) {
     return <Loading height="400px" />;
@@ -30,7 +42,7 @@ function TcPlatformChannelList() {
         startIcon={<TbRefresh />}
         sx={{ maxWidth: '10rem' }}
         variant="outlined"
-        onClick={refreshData}
+        onClick={handleRefresh}
         text={'Refresh List'}
       />
       <div className="px-6 py-3">
