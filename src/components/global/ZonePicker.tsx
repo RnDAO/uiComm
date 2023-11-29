@@ -70,12 +70,13 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
           style: { width: '26rem' },
         }}
       >
-        <div className="h-64 overflow-scroll w-full">
+        <div className="h-64 px-2 overflow-scroll w-full">
           <div className="bg-white sticky top-0 p-3">
             <TextField
               id="outlined-basic"
               placeholder="Search"
               size="small"
+              sx={{ minWidth: 'auto' }}
               className="w-full sticky"
               variant="outlined"
               onChange={searchZones}
@@ -95,7 +96,7 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
                 >
                   <div>{el}</div>
                   <div className="flex flex-row">
-                    <div className="text-info pr-3">
+                    <div className="text-secondary pr-3">
                       {moment.tz(moment(), el).format('z,Z')}
                     </div>
                     <div>{moment.tz(moment(), el).format('H a')}</div>

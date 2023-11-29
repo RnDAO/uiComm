@@ -36,8 +36,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
     useState<string>('');
   const [initialTrueIDs, setInitialTrueIDs] = useState<string[]>([]);
 
-  const { refreshData, selectedSubChannels, updateSelectedSubChannels } =
-    channelContext;
+  const { refreshData, selectedSubChannels } = channelContext;
 
   const id = Array.isArray(router.query.id)
     ? router.query.id[0]
@@ -55,7 +54,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
 
           await refreshData(id, 'channel', selectedChannels);
         } else {
-          refreshData(id);
+          await refreshData(id);
         }
       } catch (error) {
       } finally {

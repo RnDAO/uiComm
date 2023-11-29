@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { createContext, useState, useContext, useCallback } from 'react';
 import useAppStore from '../store/useStore';
 
 export interface SubChannel {
@@ -57,16 +50,12 @@ const initialSubChannel: SubChannel = {
   canReadMessageHistoryAndViewChannel: false,
 };
 
-const initialChannel: Channel = {
-  channelId: '',
-  title: '',
-  subChannels: [initialSubChannel],
-};
+const initialChannels: Channel[] = [];
 
 const initialSelectedSubChannels: SelectedSubChannels = {};
 
 const initialChannelContextData: ChannelContextProps = {
-  channels: [initialChannel],
+  channels: initialChannels,
   loading: false,
   selectedSubChannels: initialSelectedSubChannels,
   refreshData: async (
@@ -166,7 +155,7 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
       allChannels.forEach((channel) => {
         const channelUpdates: { [subChannelId: string]: boolean } = {};
 
-        channel.subChannels.forEach((subChannel) => {
+        channel?.subChannels?.forEach((subChannel) => {
           channelUpdates[subChannel.channelId] =
             newSelectedSubChannels.includes(subChannel.channelId);
         });

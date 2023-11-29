@@ -6,30 +6,14 @@ import { AiOutlineClose } from 'react-icons/ai';
 import TcPlatformChannelDialogHeader from './TcPlatformChannelDialogHeader';
 import TcPlatformChannelDialogBody from './TcPlatformChannelDialogBody';
 import TcPlatformChannelDialogFooter from './TcPlatformChannelDialogFooter';
-import {
-  ChannelContext,
-  SelectedSubChannels,
-} from '../../../context/ChannelContext';
+import { ChannelContext } from '../../../context/ChannelContext';
+import { calculateSelectedChannelSize } from '../../../helpers/helper';
 
 function TcPlatformChannelDialog() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const channelContext = useContext(ChannelContext);
 
   const { selectedSubChannels } = channelContext;
-
-  const calculateSelectedChannelSize = (
-    selectedSubChannels: SelectedSubChannels
-  ) => {
-    let count = 0;
-    for (const channelId in selectedSubChannels) {
-      for (const subChannelId in selectedSubChannels[channelId]) {
-        if (selectedSubChannels[channelId][subChannelId]) {
-          count++;
-        }
-      }
-    }
-    return count;
-  };
 
   const selectedCount = calculateSelectedChannelSize(selectedSubChannels);
 

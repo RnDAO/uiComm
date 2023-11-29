@@ -1,3 +1,4 @@
+import { SelectedSubChannels } from '../context/ChannelContext';
 import { IDecodedToken } from '../utils/interfaces';
 import { IUser } from '../utils/types';
 import jwt_decode from 'jwt-decode';
@@ -48,4 +49,34 @@ export function debounce(func: Function, wait: number) {
 
     timeout = setTimeout(later, wait);
   };
+}
+
+export function calculateSelectedChannelSize(
+  selectedSubChannels: SelectedSubChannels
+) {
+  let count = 0;
+  for (const channelId in selectedSubChannels) {
+    for (const subChannelId in selectedSubChannels[channelId]) {
+      if (selectedSubChannels[channelId][subChannelId]) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
+export function extractTrueSubChannelIds(
+  selectedSubChannels: SelectedSubChannels
+) {
+  const trueSubChannelIds: string[] = [];
+
+  Object.entries(selectedSubChannels).forEach(([channelId, subChannels]) => {
+    Object.entries(subChannels).forEach(([subChannelId, isSelected]) => {
+      if (isSelected) {
+        trueSubChannelIds.push(subChannelId);
+      }
+    });
+  });
+
+  return trueSubChannelIds;
 }

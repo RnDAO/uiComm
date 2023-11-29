@@ -498,7 +498,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       }}
                       value={searchText}
                       onChange={handleSearchChange}
-                      sx={{ marginLeft: '8px' }}
+                      sx={{ marginLeft: '8px', minWidth: 'auto' }}
                     />
                   </div>
                 ) : (

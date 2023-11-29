@@ -1,44 +1,39 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import TcAlert from '../../shared/TcAlert';
 import TcButton from '../../shared/TcButton';
 import TcCollapse from '../../shared/TcCollapse';
 import TcText from '../../shared/TcText';
 import { useRouter } from 'next/router';
+import { useToken } from '../../../context/TokenContext';
 
-/**
- * TcPrompt Component
- *
- * This component renders different prompts based on the current route.
- * The main purposes of the prompts are:
- * 1. Instructing the user to connect their community platforms.
- * 2. Asking users to connect their community's Twitter account.
- */
 function TcPrompt() {
   const router = useRouter();
-  const currentRoute = router.pathname;
-  const routesToShow = ['/growth', '/community-settings'];
+  const { community } = useToken();
 
-  let promptData;
+  const shouldShowPrompt = useMemo(() => {
+    const currentRoute = router.pathname;
+    const isExcludedRoute =
+      currentRoute.startsWith('/cetric') ||
+      currentRoute.startsWith('/community-settings');
+    const hasNoPlatforms = community?.platforms.length === 0;
 
-  // Check if the route is one of the routes we want to show a specific prompt for
-  if (!routesToShow.includes(currentRoute)) {
-    promptData = {
-      backgroundColor: 'bg-orange',
-      message: 'To see the data, connect your community platforms.',
-      buttonText: 'Connect Community',
-      redirectRouteParams: '/?platform=Discord',
-    };
-  } else if (currentRoute === '/growth') {
-    promptData = {
-      backgroundColor: 'bg-secondary',
-      message: 'To see the data, connect your community’s Twitter account',
-      buttonText: 'Connect Twitter account',
-      redirectRouteParams: '/?platform=Twitter',
-    };
-  } else {
-    // If the route does not match any of the specified routes, return null to render nothing
+    return !isExcludedRoute && hasNoPlatforms;
+  }, [router.pathname, community?.platforms]);
+
+  useEffect(() => {
+    // Any additional logic that needs to run when the route changes
+  }, [router.pathname]);
+
+  if (!shouldShowPrompt) {
     return null;
   }
+
+  const promptData = {
+    backgroundColor: 'bg-orange',
+    message: 'To see the data, connect your community platforms.',
+    buttonText: 'Connect Community',
+    redirectRouteParams: '/?platform=Discord',
+  };
 
   const { backgroundColor, message, buttonText, redirectRouteParams } =
     promptData;

@@ -13,6 +13,7 @@ import React from 'react';
 import ActiveMemberComposition from '../components/pages/pageIndex/ActiveMemberComposition';
 import HeatmapChart from '../components/pages/pageIndex/HeatmapChart';
 import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteractionGraph';
+import { ChannelProvider } from '../context/ChannelContext';
 
 function Dashboard(): JSX.Element {
   const [alertStateOpen, setAlertStateOpen] = useState(false);
@@ -62,19 +63,20 @@ function Dashboard(): JSX.Element {
           ''
         )}
       </Collapse> */}
-
-      <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
-        <div className="block">
-          <h3 className="pb-6 text-lg font-medium text-lite-black">
-            Community Insights
-          </h3>
-          <div className="space-y-4">
-            <ActiveMemberComposition />
-            <HeatmapChart />
-            <MemberInteractionGraph />
+      <ChannelProvider>
+        <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
+          <div className="block">
+            <h3 className="pb-6 text-lg font-medium text-lite-black">
+              Community Insights
+            </h3>
+            <div className="space-y-4">
+              <ActiveMemberComposition />
+              <HeatmapChart />
+              <MemberInteractionGraph />
+            </div>
           </div>
         </div>
-      </div>
+      </ChannelProvider>
     </>
   );
 }
