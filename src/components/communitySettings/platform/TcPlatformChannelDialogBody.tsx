@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import useAppStore from '../../../store/useStore';
+import React from 'react';
 import TcPlatformChannelList from './TcPlatformChannelList';
 
 function TcPlatformChannelDialogBody() {
   return (
     <div className="border border-gray-300 rounded-md">
-      <TcPlatformChannelList />
+      <TcPlatformChannelList refreshTrigger={true} />
     </div>
   );
 }

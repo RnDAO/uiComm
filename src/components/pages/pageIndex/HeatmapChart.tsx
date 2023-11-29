@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
@@ -121,8 +121,6 @@ const HeatmapChart = () => {
   };
 
   const handleFetchHeatmapByChannels = () => {
-    console.log('dsss');
-
     fetchData();
   };
 

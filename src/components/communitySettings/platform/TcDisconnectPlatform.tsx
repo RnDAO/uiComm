@@ -57,14 +57,14 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
             onClick={() => setOpenDialog(false)}
           />
         </div>
-        <div className="text-center px-8">
-          <div className="w-4/5 text-center mx-auto">
+        <div className="text-center px-4 md:px-8">
+          <div className="md:w-4/5 text-center mx-auto">
             <TcText
               text={`Are you sure you want to disconnect ${platform?.metadata.name}?`}
               variant="h6"
             />
           </div>
-          <div className="flex justify-between space-x-5 py-12">
+          <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-5 pb-8 md:py-12">
             <div className="shadow-xl rounded-md px-4 py-6 space-y-4">
               <TcText text={'Disconnect and delete data'} variant="body1" />
               <TcText

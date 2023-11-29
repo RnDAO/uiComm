@@ -6,8 +6,8 @@ import TcPlatformChannelDialog from './TcPlatformChannelDialog';
 function TcPlatformChannels() {
   return (
     <div>
-      <div className="flex items-stretch space-x-4">
-        <TcAvatar>
+      <div className="flex items-stretch md:space-x-4">
+        <TcAvatar className="hidden md:flex">
           <FaHashtag color="black" />
         </TcAvatar>
         <div className="space-y-4 pt-2">

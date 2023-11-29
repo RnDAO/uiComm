@@ -25,53 +25,11 @@ function index() {
     setLoading(true);
     if (router.query.platform) {
       setShowDialog(true);
-      if (router.query.platform === 'Twitter') {
-        setDialogContent({
-          title: 'How to connect your community’s Twitter account',
-          bodyContent: (
-            <div className="py-2">
-              <ol className="space-y-8">
-                <li>
-                  <TcText
-                    text={
-                      <p>
-                        1 / Go to{' '}
-                        <TcLink
-                          className="text-secondary underline cursor-pointer font-bold"
-                          to={'https://twitter.com/home?lang=en'}
-                          target="_blank"
-                        >
-                          Twitter
-                        </TcLink>
-                        . Ensure you’re connected with your{' '}
-                        <b>community’s Twitter account</b> and leave this window
-                        open.
-                      </p>
-                    }
-                    variant={'body2'}
-                  />
-                </li>
-                <li>
-                  <TcText
-                    text={
-                      <p>
-                        2 / Once you are connected, click on the button below
-                        “Connect Twitter account” and approve the access.
-                      </p>
-                    }
-                    variant={'body2'}
-                  />
-                </li>
-              </ol>
-            </div>
-          ),
-          dialogButtonText: 'Connect Twitter account',
-        });
-      } else if (router.query.platform === 'Discord') {
+      if (router.query.platform === 'Discord') {
         setDialogContent({
           title: 'Welcome to TogetherCrew!',
           bodyContent: <>To see the data, please connect your community</>,
-          dialogButtonText: 'Connect community',
+          dialogButtonText: 'I Understand!',
         });
       }
     } else {

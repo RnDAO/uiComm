@@ -18,7 +18,7 @@ export default function EmptyState({ image, title, description }: IProps) {
         label={'Connect your community'}
         classes="bg-secondary text-white mx-auto"
         onClick={() => {
-          router.push('/settings');
+          router.push('/community-settings');
         }}
       />
     </div>

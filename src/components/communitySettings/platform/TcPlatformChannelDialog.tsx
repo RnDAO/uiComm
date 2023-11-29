@@ -24,8 +24,12 @@ function TcPlatformChannelDialog() {
         variant="body1"
         fontWeight="bold"
       />
-      <div className="flex items-center space-x-3">
-        <TcText text={`Selected channels: ${selectedCount}`} variant="body1" />
+      <div className="flex md:flex-row items-center space-x-3">
+        <TcText
+          text={`Selected channels: ${selectedCount}`}
+          variant="body1"
+          className="whitespace-nowrap"
+        />
         <TcButton
           text={'Show channels'}
           sx={{ width: 'auto', textDecoration: 'underline' }}
@@ -41,6 +45,9 @@ function TcPlatformChannelDialog() {
               width: '100%',
               maxWidth: '640px',
               borderRadius: '10px',
+              '@media (max-width:600px)': {
+                margin: '10px',
+              },
             },
           },
         }}
@@ -58,7 +65,7 @@ function TcPlatformChannelDialog() {
           <TcPlatformChannelDialogBody />
           <TcPlatformChannelDialogFooter />
         </div>
-        <div className="flex justify-center pb-3">
+        <div className="flex justify-center px-6 md:px-0 pb-3">
           <TcButton
             text={'Save Channels'}
             variant="contained"

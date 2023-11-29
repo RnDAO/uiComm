@@ -20,9 +20,7 @@ function TcPrompt() {
     return !isExcludedRoute && hasNoPlatforms;
   }, [router.pathname, community?.platforms]);
 
-  useEffect(() => {
-    // Any additional logic that needs to run when the route changes
-  }, [router.pathname]);
+  useEffect(() => {}, [router.pathname]);
 
   if (!shouldShowPrompt) {
     return null;

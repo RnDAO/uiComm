@@ -43,7 +43,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
     : router.query.id;
 
   const fetchPlatform = async () => {
-    setLoading(true);
     if (id) {
       try {
         const data = await retrievePlatformById(id);
@@ -58,7 +57,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
         }
       } catch (error) {
       } finally {
-        setLoading(false);
       }
     }
   };
@@ -69,7 +67,6 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
 
   const handlePatchCommunity = async () => {
     try {
-      setLoading(true);
       await patchPlatformById({
         id,
         metadata: {
@@ -80,10 +77,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
       });
       setOpenConfirmDialog(true);
       await fetchPlatform();
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
+    } catch (error) {}
   };
 
   const handleDateChange = (date: string) => {
@@ -114,7 +108,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
     <TcBoxContainer
       contentContainerChildren={
         <div className="p-4 md:p-10 space-y-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center">
             <div className="space-y-5">
               <TcText text={platformName} variant={'h6'} />
               <div>

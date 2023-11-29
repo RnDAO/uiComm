@@ -10,6 +10,7 @@ import { StorageService } from '../services/StorageService';
 import { IToken } from '../utils/types';
 import { ICommunity } from '../utils/interfaces';
 import { SnackbarProvider } from './SnackbarContext';
+import useAppStore from '../store/useStore';
 
 type TokenContextType = {
   token: IToken | null;
@@ -26,6 +27,7 @@ type TokenProviderProps = {
 };
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
+  const { retrieveCommunityById } = useAppStore();
   const [token, setToken] = useState<IToken | null>(null);
   const [community, setCommunity] = useState<ICommunity | null>(null);
 
@@ -39,6 +41,23 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     if (storedCommunity) {
       setCommunity(storedCommunity);
     }
+
+    const interval = setInterval(async () => {
+      if (storedCommunity?.id) {
+        const updatedCommunity = await retrieveCommunityById(
+          storedCommunity.id
+        );
+        if (updatedCommunity) {
+          setCommunity(updatedCommunity);
+          StorageService.writeLocalStorage<ICommunity>(
+            'community',
+            updatedCommunity
+          );
+        }
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const updateToken = (newToken: IToken) => {

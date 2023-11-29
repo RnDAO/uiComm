@@ -90,9 +90,13 @@ function TcActiveCommunity() {
   }
 
   return (
-    <div className="flex justify-between items-center border-b border-b-gray-200 py-4 mt-4">
-      <div className="flex items-center space-x-2 px-3">
-        <TcAvatar src={community?.avatarURL} sx={{ width: 40, height: 40 }} />
+    <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-b-gray-200 md:py-4 mt-4">
+      <div className="flex flex-col space-y-3 md:flex-row md:items-center space-x-2 md:px-3">
+        <TcAvatar
+          src={community?.avatarURL}
+          sx={{ width: 40, height: 40 }}
+          className="mx-auto"
+        />
         {loading ? (
           <Loading height="40px" size={30} />
         ) : (

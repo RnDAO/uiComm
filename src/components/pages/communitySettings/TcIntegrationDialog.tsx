@@ -82,7 +82,7 @@ function TcIntegrationDialog({
         />
         {bodyContent}
         <div className="flex justify-center py-4">
-          <TcButton text={buttonText} variant="contained" />
+          <TcButton text={buttonText} variant="contained" onClick={onClose} />
         </div>
       </div>
     </TcDialog>

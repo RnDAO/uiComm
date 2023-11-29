@@ -19,8 +19,8 @@ function TcPlatformPeriod({ onDateChange, platform }: ITcPlatformPeriodProps) {
 
   return (
     <div>
-      <div className="flex items-stretch space-x-4">
-        <TcAvatar>
+      <div className="flex items-stretch md:space-x-4">
+        <TcAvatar className="hidden md:flex">
           <MdOutlineCalendarToday color="black" />
         </TcAvatar>
         <div className="space-y-4 pt-2">
@@ -35,7 +35,7 @@ function TcPlatformPeriod({ onDateChange, platform }: ITcPlatformPeriodProps) {
             }
             variant="body2"
           />
-          <div className="flex items-center space-x-2">
+          <div className="flex md:items-center space-x-2">
             <HiOutlineExclamationCircle size={20} />
             <TcText
               text={`Data analysis runs from: ${moment(

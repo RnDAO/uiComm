@@ -6,8 +6,8 @@ import TcText from '../../shared/TcText';
 
 function TcSwitchCommunity() {
   return (
-    <div className="py-5">
-      <div className="flex justify-between items-center">
+    <div className="md:py-5">
+      <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row text-left md:justify-between md:items-center">
         <TcText text="Your community account" variant={'h6'} />
         <TcButton
           text={'Switch account'}
