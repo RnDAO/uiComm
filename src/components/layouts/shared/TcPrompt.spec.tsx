@@ -1,59 +1,54 @@
-// TcPrompt.test.js
-
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import TcPrompt from './TcPrompt';
+import mockRouter from 'next-router-mock';
+import { StorageService } from '../../../services/StorageService';
 
-const mockedUseRouter = {
-  pathname: '/',
-  route: '/',
-  asPath: '/',
-  query: {},
-  push: jest.fn(),
-  replace: jest.fn(),
-  reload: jest.fn(),
-  back: jest.fn(),
-  prefetch: jest.fn(),
-  beforePopState: jest.fn(),
-  events: {
-    on: jest.fn(),
-    off: jest.fn(),
-    emit: jest.fn(),
-  },
-  isFallback: false,
-};
-
-jest.mock('next/router', () => ({
-  useRouter: () => {
-    return mockedUseRouter;
-  },
-}));
+jest.mock('next/router', () => require('next-router-mock'));
+jest.mock('../../../services/StorageService');
 
 describe('TcPrompt', () => {
-  test('renders without crashing', () => {
-    render(<TcPrompt />);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.spyOn(StorageService, 'readLocalStorage').mockImplementation((key) => {
+      if (key === 'community') {
+        return { platforms: [] }; // Adjust this return value as needed for different test cases
+      }
+      return undefined;
+    });
   });
 
-  test.each([
-    [
-      '/',
-      'To see the data, connect your community platforms.',
-      'Connect Community',
-    ],
-    [
-      '/growth',
-      'To see the data, connect your community’s Twitter account',
-      'Connect Twitter account',
-    ],
-  ])(
-    'renders correct message and buttonText for route: %s',
-    (pathname, expectedMessage, expectedButtonText) => {
-      mockedUseRouter.pathname = pathname;
-      render(<TcPrompt />);
+  test('renders without crashing', () => {
+    mockRouter.setCurrentUrl('/');
+    render(<TcPrompt />);
+    // Additional checks can be added here
+  });
 
-      expect(screen.getByText(expectedMessage)).toBeInTheDocument();
-      expect(screen.getByText(expectedButtonText)).toBeInTheDocument();
-    }
-  );
+  test('renders prompt when no platforms are connected', () => {
+    mockRouter.setCurrentUrl('/');
+    render(<TcPrompt />);
+    expect(
+      screen.getByText('To see the data, connect your community platforms.')
+    ).toBeInTheDocument();
+  });
+
+  test('does not render prompt on excluded routes', () => {
+    mockRouter.setCurrentUrl('/cetric');
+    render(<TcPrompt />);
+    expect(
+      screen.queryByText('To see the data, connect your community platforms.')
+    ).not.toBeInTheDocument();
+  });
+
+  test('does not render prompt when platforms are connected', () => {
+    mockRouter.setCurrentUrl('/');
+    jest
+      .spyOn(StorageService, 'readLocalStorage')
+      .mockReturnValue({ platforms: ['Discord'] });
+    render(<TcPrompt />);
+    expect(
+      screen.queryByText('To see the data, connect your community platforms.')
+    ).not.toBeInTheDocument();
+  });
 });

@@ -8,6 +8,7 @@ import Loading from '../../global/Loading';
 import TcInput from '../../shared/TcInput';
 import { debounce } from '@mui/material';
 import { useSnackbar } from '../../../context/SnackbarContext';
+import { MdGroups } from 'react-icons/md';
 
 const updateCommunityName = debounce(
   async (communityId, newName, updateFunc, fetchFunc, showSnackbar) => {
@@ -98,7 +99,9 @@ function TcActiveCommunity() {
           src={community?.avatarURL}
           sx={{ width: 40, height: 40 }}
           className="mx-auto"
-        />
+        >
+          <MdGroups size={28} />
+        </TcAvatar>
         {loading ? (
           <Loading height="40px" size={30} />
         ) : (

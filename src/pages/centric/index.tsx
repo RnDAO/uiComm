@@ -3,7 +3,6 @@ import centricLayout from '../../layouts/centricLayout';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
 import TcButton from '../../components/shared/TcButton';
-import router from 'next/router';
 import useAppStore from '../../store/useStore';
 
 function Index() {

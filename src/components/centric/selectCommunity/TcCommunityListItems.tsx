@@ -4,6 +4,7 @@ import TcText from '../../shared/TcText';
 import { ICommunity } from '../../../utils/interfaces';
 import clsx from 'clsx';
 import { StorageService } from '../../../services/StorageService';
+import { MdGroups } from 'react-icons/md';
 
 /**
  * Props for the TcCommunityListItems component.
@@ -17,15 +18,26 @@ interface ITcCommunityListItemsProps {
 }
 
 /**
- * Renders a list of community items.
+ * TcCommunityListItems Component
  *
- * Each item in the list displays an avatar and a label.
- * The component ensures that items are displayed with a hover effect and
- * a consistent layout across various screen sizes.
+ * Renders a list of community items, each displaying an avatar and a label.
+ * Features include:
+ * - Reading the currently selected community from local storage on initial render.
+ * - Updating the selected community both internally and via `onSelectCommunity` callback when a community is clicked.
+ * - Responsive layout for different screen sizes.
+ * - Displaying a message when there are no communities.
  *
- * @param communities - An array of community data with avatar and label properties.
- * @returns A JSX element containing the list of community items.
+ * Props:
+ * - communities (ICommunity[]): Array of community objects with `avatarURL` and `name`.
+ * - onSelectCommunity (Function): Callback when a community is selected.
+ *
+ * Usage:
+ * <TcCommunityListItems
+ *   communities={[{ id: 1, name: 'Community 1', avatarURL: 'url1' }]}
+ *   onSelectCommunity={handleSelect}
+ * />
  */
+
 function TcCommunityListItems({
   communities,
   onSelectCommunity,
@@ -62,7 +74,13 @@ function TcCommunityListItems({
           key={community.name + index}
           onClick={() => setSelectedCommunity(community)}
         >
-          <TcAvatar className="mx-auto" src={community.avatarURL} />
+          {community?.avatarURL ? (
+            <TcAvatar className="mx-auto" src={community.avatarURL} />
+          ) : (
+            <TcAvatar className="mx-auto">
+              <MdGroups size={28} />
+            </TcAvatar>
+          )}
           <TcText text={community.name} variant={'body1'} />
         </div>
       ))}

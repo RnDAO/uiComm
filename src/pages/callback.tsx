@@ -133,6 +133,10 @@ function Callback() {
         setMessage('Twitter Authorization failed.');
         router.push('/community-settings');
 
+      case StatusCode.DISCORD_AUTHORIZATION_FAILURE_FROM_SETTINGS:
+        setMessage('Discord Authorization during setup on setting faield.');
+        router.push('/community-settings');
+
       default:
         console.error('Unexpected status code received:', code);
         setMessage('An unexpected error occurred. Please try again later.');
@@ -164,7 +168,7 @@ function Callback() {
     }
   }, [router.isReady]);
 
-  return <SimpleBackdrop />;
+  return <SimpleBackdrop data-testid="loading-backdrop" />;
 }
 
 export default Callback;

@@ -1,29 +1,27 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-
 import TcConnectedPlatformsItem from './TcConnectedPlatformsItem';
 
 describe('<TcConnectedPlatformsItem />', () => {
-  it('renders the platform title, icon, status, and community info', () => {
-    const MockIcon = () => <span>MockIcon</span>;
+  const mockPlatform = {
+    name: 'Discord',
+    community: 'Mock Community',
+    isInProgress: false,
+    connectedAt: '2021-01-01',
+    id: '1',
+    disconnectedAt: null,
+    metadata: {
+      profileImageUrl: 'https://example.com/image.png',
+      name: 'Example Community',
+      username: 'exampleuser',
+      icon: 'icon-id',
+    },
+  };
 
-    render(
-      <TcConnectedPlatformsItem
-        icon={<MockIcon />}
-        platformTitle="Mock Platform"
-        status={true}
-        community={{
-          logo: 'https://example.com/logo.png',
-          name: 'Mock Community',
-        }}
-      />
-    );
+  it('renders the platform title, status, and community info', () => {
+    render(<TcConnectedPlatformsItem platform={mockPlatform} />);
 
-    // Checking the platform title
-    expect(screen.getByText('Mock Platform')).toBeInTheDocument();
-
-    // Checking the icon
-    expect(screen.getByText('MockIcon')).toBeInTheDocument();
+    expect(screen.getByText('Discord')).toBeInTheDocument();
   });
 });

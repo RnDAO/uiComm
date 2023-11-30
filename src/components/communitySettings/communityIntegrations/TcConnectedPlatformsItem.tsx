@@ -1,35 +1,40 @@
 /**
- * TcConnectedPlatformsItem Component.
+ * TcConnectedPlatformsItem Component
  *
- * This component displays information about a connected platform, such as:
- * - Platform's name and its status (in progress, completed, or error).
- * - An icon representing the platform.
- * - Community details: logo and name.
+ * This component displays detailed information about a specific platform connected to a community.
+ * It includes the platform's name, connection status, and related community details.
  *
  * Props:
- * - `icon`: A React element representing the platform's icon.
- *   It can be a JSX element or any component.
+ * - `platform` (IPlatformProps): An object containing the platform's details, including:
+ *    - `name`: The name of the platform.
+ *    - `community`: The name of the associated community.
+ *    - `isInProgress`: Boolean indicating the connection status of the platform.
+ *    - `connectedAt`: Date string representing when the platform was connected.
+ *    - `id`: The unique identifier of the platform.
+ *    - `disconnectedAt`: Date string or null, indicating when the platform was disconnected, if applicable.
+ *    - `metadata`: An object containing additional metadata about the platform.
  *
- * - `platformTitle`: The name or title of the platform, represented as a string.
- *
- * - `status`: Represents the platform's connection status.
- *   It's a boolean value true or false.
- *
- * - `community`: An object detailing the community associated with the platform:
- *    - `logo`: A string URL pointing to the community's logo.
- *    - `name`: The name of the community.
+ * The component visually represents the platform with an icon, the platform's name, and the community's information.
+ * It also provides a menu for additional actions, represented by a 'three dots' icon.
  *
  * @component
  * @example
- * <TcConnectedPlatformsItem
- *   icon={<SomeIcon />}
- *   platformTitle="Some Platform"
- *   status={true or false}
- *   community={{
- *     logo: 'https://example.com/logo.png',
- *     name: 'Example Community'
- *   }}
- * />
+ * const platform = {
+ *   name: 'Discord',
+ *   community: 'Example Community',
+ *   isInProgress: false,
+ *   connectedAt: '2021-01-01',
+ *   id: '1',
+ *   disconnectedAt: null,
+ *   metadata: {
+ *     profileImageUrl: 'https://example.com/image.png',
+ *     name: 'Example Community',
+ *     username: 'exampleuser',
+ *     icon: 'icon-id'
+ *   }
+ * };
+ *
+ * <TcConnectedPlatformsItem platform={platform} />
  */
 
 import React from 'react';

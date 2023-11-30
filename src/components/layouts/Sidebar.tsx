@@ -10,20 +10,11 @@ type items = {
 import { conf } from '../../configs/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// import the icons you need
-import {
-  faUserGroup,
-  faHeartPulse,
-  faGear,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
 
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Tooltip, Typography } from '@mui/material';
 import useAppStore from '../../store/useStore';
-import { StorageService } from '../../services/StorageService';
-import { IUser } from '../../utils/types';
-import { BsBarChartFill } from 'react-icons/bs';
 import { FiSettings } from 'react-icons/fi';
 
 const Sidebar = () => {
@@ -41,6 +32,8 @@ const Sidebar = () => {
     //   }
     // }
   }, []);
+
+  // `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform?.metadata.icon}.png`
 
   const menuItems: items[] = [
     {

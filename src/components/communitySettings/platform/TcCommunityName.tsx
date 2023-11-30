@@ -13,7 +13,7 @@ function TcCommunityName({ platform }: TccommunityName) {
   return (
     <div className="flex justify-start space-x-4 items-center py-3">
       <TcAvatar data-testid="tc-avatar">
-        <MdGroups />
+        <MdGroups size={28} />
       </TcAvatar>
       <div className="flex flex-col">
         <TcText text={platform?.metadata?.name} variant="body1" />
