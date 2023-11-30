@@ -4,7 +4,7 @@ import TcPopover from '../../shared/TcPopover';
 import TcSelect from '../../shared/TcSelect';
 import TcCheckbox from '../../shared/TcCheckbox';
 import { FormControl, FormControlLabel, ListItem } from '@mui/material';
-import TcAutocomplete from '../../shared/TcAutocomplete';
+// import TcAutocomplete from '../../shared/TcAutocomplete';
 
 const mockRoles = [
   { name: 'Admin', id: 1, color: '#20d321' },
@@ -63,12 +63,12 @@ function FilterRolesPopover() {
                 ]}
               />
             </FormControl>
-            <TcAutocomplete
+            {/* <TcAutocomplete
               options={autoCompleteOptions}
               label={'Select a Role'}
               value={autoCompleteValue}
               onChange={handleAutoCompleteChange}
-            />
+            /> */}
             <div className="border border-gray-200 rounded-md p-1">
               {mockRoles.map((role) => (
                 <ListItem key={role.id}>
