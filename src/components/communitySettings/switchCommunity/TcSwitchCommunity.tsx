@@ -13,7 +13,7 @@ function TcSwitchCommunity() {
           text={'Switch account'}
           variant="outlined"
           sx={{ width: '10.5rem', padding: '0.5rem' }}
-          onClick={() => router.push('/community-settings/switch-community')}
+          onClick={() => router.push('/centric/select-community')}
         />
       </div>
       <TcActiveCommunity />

@@ -99,9 +99,7 @@ const Sidebar = () => {
             <div className="w-full mx-auto">
               <div
                 className="w-10 h-10 mb-2 mx-auto cursor-pointer"
-                onClick={() =>
-                  router.push('/community-settings/switch-community')
-                }
+                onClick={() => router.push('/centric/select-community')}
               >
                 {guildId && guildInfoByDiscord.icon ? (
                   <Image
