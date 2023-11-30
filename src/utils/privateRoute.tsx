@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
 import { IToken } from './types';
+import { ICommunity } from './interfaces';
 
 export default function PrivateRoute({
   children,
@@ -17,9 +18,13 @@ export default function PrivateRoute({
     [router.pathname]
   );
 
+  const isObjectNotEmpty = (obj: Record<string, any>): boolean => {
+    return Object.keys(obj).length > 0;
+  };
   useEffect(() => {
     if (!isCentricRoute) {
       const storedToken = StorageService.readLocalStorage<IToken>('user');
+
       if (storedToken && storedToken.accessToken) {
         setToken(storedToken);
       } else {

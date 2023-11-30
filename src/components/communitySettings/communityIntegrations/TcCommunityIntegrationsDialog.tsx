@@ -45,6 +45,7 @@ function TcCommunityIntegrationsDialog() {
 
   const handlePatchPlatform = async () => {
     setLoading(true);
+
     await patchPlatformById({
       id: platformId,
       metadata: {

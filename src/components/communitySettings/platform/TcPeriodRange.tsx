@@ -11,7 +11,6 @@ interface ITcPeriodRange {
 
 function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
   const periods: PeriodValue[] = ['Last 35 days', '1M', '3M', '6M', '1Y'];
-
   const calculateDaysDifference = (dateString: string): number => {
     const date = new Date(dateString);
     const today = new Date();
@@ -43,8 +42,16 @@ function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
       return '1Y';
     }
   };
+  console.log(findDefaultPeriod());
 
-  const [selected, setSelected] = useState<PeriodValue>(findDefaultPeriod());
+  const [selected, setSelected] = useState<PeriodValue>('Last 35 days');
+
+  useEffect(() => {
+    const newDefaultPeriod = findDefaultPeriod();
+    setSelected(newDefaultPeriod);
+    const calculatedDateUTC = calculateDate(newDefaultPeriod);
+    handleSelectedDate(calculatedDateUTC);
+  }, [activePeriod]);
 
   useEffect(() => {
     const calculatedDateUTC = calculateDate(selected);

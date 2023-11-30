@@ -46,6 +46,7 @@ function TcConfirmDeleteCommunity({
       setOpenDialog(false);
       setCommunityNameInput('');
       handleUpdatePlatforms();
+      Router.push('/community-settings/switch-community');
     }
   };
 

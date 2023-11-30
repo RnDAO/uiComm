@@ -5,11 +5,12 @@ import TcCollapse from '../../shared/TcCollapse';
 import TcText from '../../shared/TcText';
 import { useRouter } from 'next/router';
 import { useToken } from '../../../context/TokenContext';
+import { StorageService } from '../../../services/StorageService';
+import { ICommunity } from '../../../utils/interfaces';
 
 function TcPrompt() {
   const router = useRouter();
-  const { community } = useToken();
-
+  const community = StorageService.readLocalStorage<ICommunity>('community');
   const shouldShowPrompt = useMemo(() => {
     const currentRoute = router.pathname;
     const isExcludedRoute =
@@ -20,8 +21,6 @@ function TcPrompt() {
     return !isExcludedRoute && hasNoPlatforms;
   }, [router.pathname, community?.platforms]);
 
-  useEffect(() => {}, [router.pathname]);
-
   if (!shouldShowPrompt) {
     return null;
   }
@@ -29,7 +28,7 @@ function TcPrompt() {
   const promptData = {
     backgroundColor: 'bg-orange',
     message: 'To see the data, connect your community platforms.',
-    buttonText: 'Connect Community',
+    buttonText: 'Connect Platform',
     redirectRouteParams: '/?platform=Discord',
   };
 

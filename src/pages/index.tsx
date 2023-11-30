@@ -24,7 +24,7 @@ function Dashboard(): JSX.Element {
     setAlertStateOpen(false);
   };
 
-  if (!community || community.platforms.length === 0) {
+  if (!community || community?.platforms?.length === 0) {
     return (
       <>
         <SEO />

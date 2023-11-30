@@ -12,6 +12,7 @@ import { debounce } from '../../../helpers/helper';
 import { ICommunity } from '../../../utils/interfaces';
 import { StorageService } from '../../../services/StorageService';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
+import { useToken } from '../../../context/TokenContext';
 
 export interface CommunityData {
   limit: number;
@@ -23,6 +24,9 @@ export interface CommunityData {
 
 function TcSelectCommunity() {
   const { retrieveCommunities } = useAppStore();
+
+  const { updateCommunity } = useToken();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [communityLoading, setCommunityLoading] = useState<boolean>(false);
   const [activeCommunity, setActiveCommunity] = useState<ICommunity>();
@@ -52,6 +56,9 @@ function TcSelectCommunity() {
   const handleSelectedCommunity = () => {
     setCommunityLoading(true);
     StorageService.writeLocalStorage('community', activeCommunity);
+    if (activeCommunity) {
+      updateCommunity(activeCommunity);
+    }
     router.push('/');
   };
 
@@ -100,6 +107,7 @@ function TcSelectCommunity() {
         text="Continue"
         className="secondary"
         variant="contained"
+        disabled={!activeCommunity}
         onClick={handleSelectedCommunity}
       />
 

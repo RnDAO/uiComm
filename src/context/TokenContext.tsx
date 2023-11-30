@@ -31,6 +31,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   const [token, setToken] = useState<IToken | null>(null);
   const [community, setCommunity] = useState<ICommunity | null>(null);
 
+  let intervalId: string | number | NodeJS.Timer | undefined;
+
   useEffect(() => {
     const storedToken = StorageService.readLocalStorage<IToken>('user');
     const storedCommunity =
@@ -42,22 +44,32 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
       setCommunity(storedCommunity);
     }
 
-    const interval = setInterval(async () => {
-      if (storedCommunity?.id) {
-        const updatedCommunity = await retrieveCommunityById(
-          storedCommunity.id
-        );
-        if (updatedCommunity) {
-          setCommunity(updatedCommunity);
-          StorageService.writeLocalStorage<ICommunity>(
-            'community',
-            updatedCommunity
+    const fetchAndUpdateCommunity = async () => {
+      try {
+        if (storedCommunity?.id) {
+          const updatedCommunity = await retrieveCommunityById(
+            storedCommunity.id
           );
+          if (updatedCommunity) {
+            setCommunity(updatedCommunity);
+            StorageService.writeLocalStorage<ICommunity>(
+              'community',
+              updatedCommunity
+            );
+          }
         }
+      } catch (error) {
+        console.error('Error fetching community:', error);
+        StorageService.removeLocalStorage('community');
+        clearInterval(intervalId);
       }
-    }, 5000);
+    };
 
-    return () => clearInterval(interval);
+    intervalId = setInterval(fetchAndUpdateCommunity, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const updateToken = (newToken: IToken) => {

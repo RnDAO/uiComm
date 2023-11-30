@@ -14,9 +14,11 @@ import { debounce } from '@mui/material';
 import { StorageService } from '../../../services/StorageService';
 import useAppStore from '../../../store/useStore';
 import { CommunityData } from '../../../components/centric/selectCommunity/TcSelectCommunity';
-import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
+import { useToken } from '../../../context/TokenContext';
 
 function Index() {
+  const { updateCommunity } = useToken();
+
   const { retrieveCommunities } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [communityLoading, setCommunityLoading] = useState<boolean>(false);
@@ -47,6 +49,9 @@ function Index() {
   const handleSelectedCommunity = () => {
     setCommunityLoading(true);
     StorageService.writeLocalStorage('community', activeCommunity);
+    if (activeCommunity) {
+      updateCommunity(activeCommunity);
+    }
     router.push('/community-settings');
   };
 
@@ -109,6 +114,7 @@ function Index() {
                     text="Save Changes"
                     className="secondary"
                     variant="contained"
+                    disabled={!activeCommunity}
                     onClick={handleSelectedCommunity}
                   />
                 </div>
