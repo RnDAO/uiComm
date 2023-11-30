@@ -21,7 +21,7 @@ function TcPlatformPeriod({ onDateChange, platform }: ITcPlatformPeriodProps) {
     <div>
       <div className="flex items-stretch md:space-x-4">
         <TcAvatar className="hidden md:flex">
-          <MdOutlineCalendarToday color="black" />
+          <MdOutlineCalendarToday color="white" />
         </TcAvatar>
         <div className="space-y-4 pt-2">
           <TcText

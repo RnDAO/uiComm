@@ -24,6 +24,9 @@ if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
 }
 
+type HeatmapDataPoint = [number, number, number | null];
+type HeatmapData = HeatmapDataPoint[];
+
 const HeatmapChart = () => {
   const channelContext = useContext(ChannelContext);
 
@@ -55,18 +58,38 @@ const HeatmapChart = () => {
     setLoading(true);
     try {
       if (platformId) {
-        await fetchHeatmapData(
+        const data = await fetchHeatmapData(
           platformId,
           dateRange[0],
           dateRange[1],
           selectedZone,
           extractTrueSubChannelIds(selectedSubChannels)
         );
+
+        updateHeatmapData(data);
       }
     } catch (error) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateHeatmapData = (responseData: HeatmapData) => {
+    const newOptions = {
+      ...defaultHeatmapChartOptions,
+      series: [
+        {
+          ...defaultHeatmapChartOptions.series[0],
+          data: responseData.map((item: HeatmapDataPoint) => [
+            item[1],
+            item[0],
+            item[2] ?? 0,
+          ]),
+        },
+      ],
+    };
+
+    setHeatmapChartOptions(newOptions);
   };
 
   useEffect(() => {
@@ -151,7 +174,7 @@ const HeatmapChart = () => {
       return;
     }
     fetchData();
-  }, [dateRange, selectedZone]);
+  }, [dateRange, selectedZone, platformId]);
 
   return (
     <div className="bg-white shadow-box rounded-lg p-5 min-h-[400px]">
