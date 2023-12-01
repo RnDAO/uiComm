@@ -12,6 +12,7 @@ import useAppStore from '../../../store/useStore';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import Router from 'next/router';
 import { StorageService } from '../../../services/StorageService';
+import { useToken } from '../../../context/TokenContext';
 
 interface CommunityComponentProps {
   community: ICommunity | null;
@@ -23,6 +24,7 @@ function TcConfirmDeleteCommunity({
   handleUpdatePlatforms,
 }: CommunityComponentProps) {
   const { deleteCommunityById } = useAppStore();
+  const { deleteCommunity } = useToken();
   const [loading, setLoading] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<1 | 2>(1);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -41,6 +43,7 @@ function TcConfirmDeleteCommunity({
       deleteCommunityById(community?.id).then(() => {
         StorageService.removeLocalStorage('community');
       });
+      deleteCommunity();
       setLoading(false);
       setActiveStep(1);
       setOpenDialog(false);

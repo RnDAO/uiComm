@@ -43,6 +43,8 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
     : router.query.id;
 
   const fetchPlatform = async () => {
+    setLoading(true);
+
     if (id) {
       try {
         const data = await retrievePlatformById(id);
@@ -55,6 +57,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
         } else {
           await refreshData(id);
         }
+        setLoading(false);
       } catch (error) {
       } finally {
       }

@@ -75,6 +75,8 @@ export default function ActiveMemberBreakdown() {
     if (!platformId) {
       return;
     }
+    console.log(platformId, 'test log');
+
     setLoading(true);
     const fetchData = async () => {
       const res = await getActiveMemberCompositionTable(

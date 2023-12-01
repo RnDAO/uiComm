@@ -4,7 +4,7 @@ import { IntegrationPlatform } from '../../../utils/enums';
 
 function TcAvailableIntegrations() {
   return (
-    <div className="flex flex-row space-x-5">
+    <div className="flex flex-row space-x-5 overflow-x-scroll py-2">
       {Object.values(IntegrationPlatform).map((platform, index) => (
         <TcAvailableIntegrationsItem
           disabled={platform !== 'Discord'}

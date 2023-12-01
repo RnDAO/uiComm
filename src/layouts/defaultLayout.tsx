@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Sidebar from '../components/layouts/Sidebar';
 import SidebarXs from '../components/layouts/xs/SidebarXs';
-import useAppStore from '../store/useStore';
-import { StorageService } from '../services/StorageService';
-import { IUser } from '../utils/types';
 import TcPrompt from '../components/layouts/shared/TcPrompt';
 
 type IDefaultLayoutProps = {

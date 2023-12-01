@@ -6,7 +6,6 @@ import TcText from '../../components/shared/TcText';
 import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
 import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
 import { useRouter } from 'next/router';
-import TcLink from '../../components/shared/TcLink';
 import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 import { ChannelProvider } from '../../context/ChannelContext';

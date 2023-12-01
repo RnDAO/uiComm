@@ -16,6 +16,9 @@ import { AiOutlineLeft } from 'react-icons/ai';
 import Onboarding from '../components/pages/statistics/Onboarding';
 import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { useToken } from '../context/TokenContext';
+import EmptyState from '../components/global/EmptyState';
+import emptyState from '../assets/svg/empty-state.svg';
+import Image from 'next/image';
 
 const Statistics = () => {
   const { community } = useToken();
@@ -47,7 +50,7 @@ const Statistics = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (platformId) {
+        if (!platformId) {
           return;
         }
 
@@ -221,6 +224,15 @@ const Statistics = () => {
   const handleInactiveMemberDateRange = (dateRangeType: number) => {
     setInactiveMembersDate(dateRangeType);
   };
+
+  if (!community || community?.platforms?.length === 0) {
+    return (
+      <>
+        <SEO />
+        <EmptyState image={<Image alt="Image Alt" src={emptyState} />} />
+      </>
+    );
+  }
 
   if (loading) {
     return <SimpleBackdrop />;

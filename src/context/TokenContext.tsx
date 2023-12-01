@@ -17,6 +17,7 @@ type TokenContextType = {
   community: ICommunity | null;
   updateToken: (newToken: IToken) => void;
   updateCommunity: (newCommunity: ICommunity) => void;
+  deleteCommunity: () => void;
   clearToken: () => void;
 };
 
@@ -115,6 +116,15 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     }, 5000);
   };
 
+  const deleteCommunity = () => {
+    if (intervalIdRef.current) {
+      clearInterval(intervalIdRef.current);
+    }
+
+    StorageService.removeLocalStorage('community');
+    setCommunity(null);
+  };
+
   const clearToken = () => {
     StorageService.removeLocalStorage('user');
     setToken(null);
@@ -122,7 +132,14 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
 
   return (
     <TokenContext.Provider
-      value={{ token, community, updateToken, updateCommunity, clearToken }}
+      value={{
+        token,
+        community,
+        updateToken,
+        updateCommunity,
+        deleteCommunity,
+        clearToken,
+      }}
     >
       <SnackbarProvider>{children}</SnackbarProvider>
     </TokenContext.Provider>
