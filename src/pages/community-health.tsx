@@ -5,8 +5,6 @@ import Fragmentation from '../components/pages/communityHealth/Fragmentation';
 import Decentralization from '../components/pages/communityHealth/Decentralization';
 import HeaderSection from '../components/pages/communityHealth/HeaderSection';
 import useAppStore from '../store/useStore';
-import { StorageService } from '../services/StorageService';
-import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import {
   IDecentralisationScoreResponse,

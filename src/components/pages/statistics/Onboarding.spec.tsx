@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Onboarding from './Onboarding';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import { TokenProvider } from '../../../context/TokenContext';
 jest.mock('next/router', () => require('next-router-mock'));
 
 describe('Onboarding component', () => {
@@ -9,10 +10,12 @@ describe('Onboarding component', () => {
 
   beforeEach(() => {
     render(
-      <Onboarding
-        activePeriod={mockActivePeriod}
-        handleDateRange={mockHandleDateRange}
-      />
+      <TokenProvider>
+        <Onboarding
+          activePeriod={mockActivePeriod}
+          handleDateRange={mockHandleDateRange}
+        />
+      </TokenProvider>
     );
   });
 

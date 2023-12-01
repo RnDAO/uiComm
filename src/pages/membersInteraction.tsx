@@ -5,7 +5,6 @@ import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 import Link from '../components/global/Link';
 import { Paper, Popover } from '@mui/material';
 import useAppStore from '../store/useStore';
-import { StorageService } from '../services/StorageService';
 import HintBox from '../components/pages/memberInteraction/HintBox';
 import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';

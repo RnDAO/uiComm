@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { StorageService } from '../../../../../services/StorageService';
 import useAppStore from '../../../../../store/useStore';
-import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
 import {
   Column,
