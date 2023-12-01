@@ -6,6 +6,7 @@ import CustomTable from '../CustomTable';
 import {
   Column,
   IActivityCompositionOptions,
+  ICommunity,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
@@ -17,6 +18,7 @@ import {
   downloadCSVFile,
 } from '../../../../../helpers/csvHelper';
 import router from 'next/router';
+import { useToken } from '../../../../../context/TokenContext';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -36,6 +38,7 @@ const options: IActivityCompositionOptions[] = [
 
 export default function ActiveMemberBreakdown() {
   const { getActiveMemberCompositionTable } = useAppStore();
+  const { community } = useToken();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -59,8 +62,7 @@ export default function ActiveMemberBreakdown() {
     totalResults: 0,
     totalPages: 0,
   });
-  const user = StorageService.readLocalStorage<IUser>('user');
-  const guild = user?.guild;
+  const platformId = community?.platforms[0];
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
@@ -70,13 +72,13 @@ export default function ActiveMemberBreakdown() {
   };
 
   useEffect(() => {
-    if (!guild) {
+    if (!platformId) {
       return;
     }
     setLoading(true);
     const fetchData = async () => {
       const res = await getActiveMemberCompositionTable(
-        guild.guildId,
+        platformId,
         activityComposition,
         roles,
         username,
@@ -149,7 +151,7 @@ export default function ActiveMemberBreakdown() {
   };
 
   const handleDownloadCSV = async () => {
-    if (!guild) {
+    if (!platformId) {
       return;
     }
 
@@ -157,7 +159,7 @@ export default function ActiveMemberBreakdown() {
       const limit = fetchedData.totalResults;
 
       const { results } = await getActiveMemberCompositionTable(
-        guild.guildId,
+        platformId,
         activityComposition,
         roles,
         username,

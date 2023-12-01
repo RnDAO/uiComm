@@ -42,7 +42,6 @@ function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
       return '1Y';
     }
   };
-  console.log(findDefaultPeriod());
 
   const [selected, setSelected] = useState<PeriodValue>('Last 35 days');
 

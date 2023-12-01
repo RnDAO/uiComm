@@ -9,7 +9,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   isRolesLoading: false,
   roles: [],
   getActiveMemberCompositionTable: async (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
     roles: string[],
     username?: string,
@@ -47,15 +47,15 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('ngu', username);
       }
 
-      const url = `/member-activity/${guild_id}/active-members-composition-table?${params.toString()}`;
+      const url = `/member-activity/${platformId}/active-members-composition-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.get(url);
+      const { data } = await axiosInstance.post(url);
 
       return data;
     } catch (error) {}
   },
   getOnboardingMemberCompositionTable: async (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
     roles: string[],
     username?: string,
@@ -93,15 +93,15 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('ngu', username);
       }
 
-      const url = `/member-activity/${guild_id}/active-members-onboarding-table?${params.toString()}`;
+      const url = `/member-activity/${platformId}/active-members-onboarding-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.get(url);
+      const { data } = await axiosInstance.post(url);
 
       return data;
     } catch (error) {}
   },
   getDisengagedMembersCompositionTable: async (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
     roles: string[],
     username?: string,
@@ -139,24 +139,12 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('ngu', username);
       }
 
-      const url = `/member-activity/${guild_id}/disengaged-members-composition-table?${params.toString()}`;
+      const url = `/member-activity/${platformId}/disengaged-members-composition-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.get(url);
+      const { data } = await axiosInstance.post(url);
 
       return data;
     } catch (error) {}
-  },
-  getRoles: async (guild_id: string) => {
-    try {
-      set(() => ({ isRolesLoading: true }));
-
-      const { data } = await axiosInstance.get(`/guilds/${guild_id}/roles`);
-
-      set(() => ({ roles: data, isRolesLoading: false }));
-      return data;
-    } catch (error) {
-      set(() => ({ isRolesLoading: false }));
-    }
   },
 });
 

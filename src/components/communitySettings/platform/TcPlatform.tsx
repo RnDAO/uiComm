@@ -67,7 +67,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
 
   const handlePatchCommunity = async () => {
     try {
-      await patchPlatformById({
+      const data = await patchPlatformById({
         id,
         metadata: {
           selectedChannels: currentTrueIDs,
@@ -75,7 +75,9 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
           analyzerStartedAt: new Date().toISOString(),
         },
       });
-      setOpenConfirmDialog(true);
+      if (data) {
+        setOpenConfirmDialog(true);
+      }
       await fetchPlatform();
     } catch (error) {}
   };

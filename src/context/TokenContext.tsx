@@ -1,9 +1,9 @@
-'use client';
 import React, {
   useState,
   useContext,
   createContext,
   useEffect,
+  useRef,
   ReactNode,
 } from 'react';
 import { StorageService } from '../services/StorageService';
@@ -31,15 +31,18 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   const [token, setToken] = useState<IToken | null>(null);
   const [community, setCommunity] = useState<ICommunity | null>(null);
 
-  let intervalId: string | number | NodeJS.Timer | undefined;
+  // Use useRef to persist the interval ID across renders
+  const intervalIdRef = useRef<NodeJS.Timer | null>(null);
 
   useEffect(() => {
     const storedToken = StorageService.readLocalStorage<IToken>('user');
     const storedCommunity =
       StorageService.readLocalStorage<ICommunity>('community');
+
     if (storedToken) {
       setToken(storedToken);
     }
+
     if (storedCommunity) {
       setCommunity(storedCommunity);
     }
@@ -61,14 +64,18 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
       } catch (error) {
         console.error('Error fetching community:', error);
         StorageService.removeLocalStorage('community');
-        clearInterval(intervalId);
+        if (intervalIdRef.current) {
+          clearInterval(intervalIdRef.current);
+        }
       }
     };
 
-    intervalId = setInterval(fetchAndUpdateCommunity, 5000);
+    intervalIdRef.current = setInterval(fetchAndUpdateCommunity, 5000);
 
     return () => {
-      clearInterval(intervalId);
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
+      }
     };
   }, []);
 
@@ -77,9 +84,35 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     setToken(newToken);
   };
 
-  const updateCommunity = (newCommunity: ICommunity) => {
-    StorageService.writeLocalStorage<ICommunity>('community', newCommunity);
+  const updateCommunity = async (newCommunity: ICommunity) => {
+    // Clear the existing interval
+    if (intervalIdRef.current) {
+      clearInterval(intervalIdRef.current);
+    }
+
+    // Update the community and reset the interval
     setCommunity(newCommunity);
+    StorageService.writeLocalStorage<ICommunity>('community', newCommunity);
+
+    // Restart the interval
+    intervalIdRef.current = setInterval(async () => {
+      try {
+        const updatedCommunity = await retrieveCommunityById(newCommunity.id);
+        if (updatedCommunity) {
+          setCommunity(updatedCommunity);
+          StorageService.writeLocalStorage<ICommunity>(
+            'community',
+            updatedCommunity
+          );
+        }
+      } catch (error) {
+        console.error('Error fetching community:', error);
+        StorageService.removeLocalStorage('community');
+        if (intervalIdRef.current) {
+          clearInterval(intervalIdRef.current);
+        }
+      }
+    }, 5000);
   };
 
   const clearToken = () => {

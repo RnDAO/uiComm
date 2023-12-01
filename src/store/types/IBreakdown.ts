@@ -5,7 +5,7 @@ export default interface IBreakdown {
   isRolesLoading: boolean;
   roles: any[];
   getActiveMemberCompositionTable: (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
     roles: string[],
     username?: string,
@@ -14,7 +14,7 @@ export default interface IBreakdown {
     limit?: number
   ) => any;
   getOnboardingMemberCompositionTable: (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
     roles: string[],
     username?: string,
@@ -23,7 +23,7 @@ export default interface IBreakdown {
     limit?: number
   ) => any;
   getDisengagedMembersCompositionTable: (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
     roles: string[],
     username?: string,
@@ -31,5 +31,4 @@ export default interface IBreakdown {
     page?: number,
     limit?: number
   ) => any;
-  getRoles: (guild_id: string) => any;
 }

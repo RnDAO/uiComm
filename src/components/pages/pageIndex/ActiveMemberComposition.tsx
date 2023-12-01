@@ -17,6 +17,7 @@ const ActiveMemberComposition = () => {
   useEffect(() => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
     let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
+
     const platformId = community?.platforms[0];
 
     if (platformId) {

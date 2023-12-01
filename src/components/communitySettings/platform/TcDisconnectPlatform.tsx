@@ -66,11 +66,18 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
           </div>
           <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-5 pb-8 md:py-12">
             <div className="shadow-xl rounded-md px-4 py-6 space-y-4">
-              <TcText text={'Disconnect and delete data'} variant="body1" />
+              <TcText
+                text={'Disconnect and delete data'}
+                variant="body1"
+                fontWeight="bold"
+              />
               <TcText
                 className="text-left"
                 text={
-                  'Importing activities and members will be stopped. Historical activities will be deleted.'
+                  <span>
+                    Importing activities and members will be stopped. Historical
+                    activities <b>will be deleted.</b>
+                  </span>
                 }
                 variant="body2"
               />
@@ -81,11 +88,18 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
               />
             </div>
             <div className="shadow-xl rounded-md px-4 py-6 space-y-4">
-              <TcText text={'Disconnect only'} variant="body1" />
+              <TcText
+                text={'Disconnect only'}
+                variant="body1"
+                fontWeight="bold"
+              />
               <TcText
                 className="text-left"
                 text={
-                  'Importing activities and members will be stopped. Historical activities will not be affected.'
+                  <span>
+                    Importing activities and members will be stopped. Historical
+                    activities <b>will not be affected.</b>
+                  </span>
                 }
                 variant="body2"
               />
