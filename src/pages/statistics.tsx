@@ -22,7 +22,7 @@ import Image from 'next/image';
 
 const Statistics = () => {
   const { community } = useToken();
-  const platformId = community?.platforms[0];
+  const platformId = community?.platforms[0].id;
 
   const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);

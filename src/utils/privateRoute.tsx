@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
 import { IToken } from './types';
-import { ICommunity } from './interfaces';
 
 export default function PrivateRoute({
   children,

@@ -6,7 +6,7 @@ import TcAlert from '../../shared/TcAlert';
 import TcButton from '../../shared/TcButton';
 import TcDialog from '../../shared/TcDialog';
 import TcText from '../../shared/TcText';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import TcInput from '../../shared/TcInput';
 import useAppStore from '../../../store/useStore';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
@@ -15,7 +15,7 @@ import { StorageService } from '../../../services/StorageService';
 import { useToken } from '../../../context/TokenContext';
 
 interface CommunityComponentProps {
-  community: ICommunity | null;
+  community: IDiscordModifiedCommunity | null;
   handleUpdatePlatforms: () => void;
 }
 

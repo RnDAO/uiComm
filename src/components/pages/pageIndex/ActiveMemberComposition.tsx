@@ -18,7 +18,7 @@ const ActiveMemberComposition = () => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
     let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
-    const platformId = community?.platforms[0];
+    const platformId = community?.platforms[0].id;
 
     if (platformId) {
       fetchActiveMembers(platformId, startDate, endDate);

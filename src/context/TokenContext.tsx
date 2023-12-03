@@ -8,15 +8,15 @@ import React, {
 } from 'react';
 import { StorageService } from '../services/StorageService';
 import { IToken } from '../utils/types';
-import { ICommunity } from '../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../utils/interfaces';
 import { SnackbarProvider } from './SnackbarContext';
 import useAppStore from '../store/useStore';
 
 type TokenContextType = {
   token: IToken | null;
-  community: ICommunity | null;
+  community: IDiscordModifiedCommunity | null;
   updateToken: (newToken: IToken) => void;
-  updateCommunity: (newCommunity: ICommunity) => void;
+  updateCommunity: (newCommunity: IDiscordModifiedCommunity) => void;
   deleteCommunity: () => void;
   clearToken: () => void;
 };
@@ -30,7 +30,9 @@ type TokenProviderProps = {
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   const { retrieveCommunityById } = useAppStore();
   const [token, setToken] = useState<IToken | null>(null);
-  const [community, setCommunity] = useState<ICommunity | null>(null);
+  const [community, setCommunity] = useState<IDiscordModifiedCommunity | null>(
+    null
+  );
 
   // Use useRef to persist the interval ID across renders
   const intervalIdRef = useRef<NodeJS.Timer | null>(null);
@@ -38,7 +40,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   useEffect(() => {
     const storedToken = StorageService.readLocalStorage<IToken>('user');
     const storedCommunity =
-      StorageService.readLocalStorage<ICommunity>('community');
+      StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
 
     if (storedToken) {
       setToken(storedToken);
@@ -56,7 +58,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
           );
           if (updatedCommunity) {
             setCommunity(updatedCommunity);
-            StorageService.writeLocalStorage<ICommunity>(
+            StorageService.writeLocalStorage<IDiscordModifiedCommunity>(
               'community',
               updatedCommunity
             );
@@ -85,7 +87,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     setToken(newToken);
   };
 
-  const updateCommunity = async (newCommunity: ICommunity) => {
+  const updateCommunity = async (newCommunity: IDiscordModifiedCommunity) => {
     // Clear the existing interval
     if (intervalIdRef.current) {
       clearInterval(intervalIdRef.current);
@@ -93,7 +95,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
 
     // Update the community and reset the interval
     setCommunity(newCommunity);
-    StorageService.writeLocalStorage<ICommunity>('community', newCommunity);
+    StorageService.writeLocalStorage<IDiscordModifiedCommunity>(
+      'community',
+      newCommunity
+    );
 
     // Restart the interval
     intervalIdRef.current = setInterval(async () => {
@@ -101,7 +106,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
         const updatedCommunity = await retrieveCommunityById(newCommunity.id);
         if (updatedCommunity) {
           setCommunity(updatedCommunity);
-          StorageService.writeLocalStorage<ICommunity>(
+          StorageService.writeLocalStorage<IDiscordModifiedCommunity>(
             'community',
             updatedCommunity
           );

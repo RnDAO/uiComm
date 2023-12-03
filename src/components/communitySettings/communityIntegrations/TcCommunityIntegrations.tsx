@@ -3,7 +3,10 @@ import TcConnectedPlatforms from './TcConnectedPlatforms';
 import TcAvailableIntegrations from './TcAvailableIntegrations';
 import TcText from '../../shared/TcText';
 import useAppStore from '../../../store/useStore';
-import { FetchedData, ICommunity } from '../../../utils/interfaces';
+import {
+  FetchedData,
+  IDiscordModifiedCommunity,
+} from '../../../utils/interfaces';
 import { StorageService } from '../../../services/StorageService';
 import Loading from '../../global/Loading';
 
@@ -20,7 +23,9 @@ function TcCommunityIntegrations() {
 
   useEffect(() => {
     const communityId =
-      StorageService.readLocalStorage<ICommunity>('community')?.id;
+      StorageService.readLocalStorage<IDiscordModifiedCommunity>(
+        'community'
+      )?.id;
     const fetchData = async () => {
       try {
         setLoading(true);

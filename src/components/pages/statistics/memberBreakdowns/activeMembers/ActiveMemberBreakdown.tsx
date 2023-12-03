@@ -1,12 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { StorageService } from '../../../../../services/StorageService';
 import useAppStore from '../../../../../store/useStore';
-import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
 import {
   Column,
   IActivityCompositionOptions,
-  ICommunity,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
 import CustomButton from '../../../../global/CustomButton';
@@ -62,7 +59,7 @@ export default function ActiveMemberBreakdown() {
     totalResults: 0,
     totalPages: 0,
   });
-  const platformId = community?.platforms[0];
+  const platformId = community?.platforms[0].id;
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);

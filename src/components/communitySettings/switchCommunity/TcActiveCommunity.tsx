@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StorageService } from '../../../services/StorageService';
 import useAppStore from '../../../store/useStore';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import TcAvatar from '../../shared/TcAvatar';
 import TcConfirmDeleteCommunity from './TcConfirmDeleteCommunity';
 import Loading from '../../global/Loading';
@@ -30,7 +30,9 @@ const updateCommunityName = debounce(
 function TcActiveCommunity() {
   const { retrieveCommunityById, patchCommunityById } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
-  const [community, setCommunity] = useState<ICommunity | null>(null);
+  const [community, setCommunity] = useState<IDiscordModifiedCommunity | null>(
+    null
+  );
 
   const { showMessage } = useSnackbar();
 
@@ -52,7 +54,9 @@ function TcActiveCommunity() {
   async function fetchCommunity() {
     try {
       const storedCommunityId =
-        StorageService.readLocalStorage<ICommunity>('community')?.id;
+        StorageService.readLocalStorage<IDiscordModifiedCommunity>(
+          'community'
+        )?.id;
       if (storedCommunityId) {
         const fullCommunityData = await retrieveCommunityById(
           storedCommunityId

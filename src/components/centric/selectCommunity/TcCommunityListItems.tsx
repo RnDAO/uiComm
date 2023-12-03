@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TcAvatar from '../../shared/TcAvatar';
 import TcText from '../../shared/TcText';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import clsx from 'clsx';
 import { StorageService } from '../../../services/StorageService';
 import { MdGroups } from 'react-icons/md';
@@ -13,8 +13,8 @@ interface ITcCommunityListItemsProps {
   /**
    * Array of community objects with avatar URLs and labels.
    */
-  communities: ICommunity[];
-  onSelectCommunity: (selectedCommunity: ICommunity) => void;
+  communities: IDiscordModifiedCommunity[];
+  onSelectCommunity: (selectedCommunity: IDiscordModifiedCommunity) => void;
 }
 
 /**
@@ -28,7 +28,7 @@ interface ITcCommunityListItemsProps {
  * - Displaying a message when there are no communities.
  *
  * Props:
- * - communities (ICommunity[]): Array of community objects with `avatarURL` and `name`.
+ * - communities (IDiscordModifiedCommunity[]): Array of community objects with `avatarURL` and `name`.
  * - onSelectCommunity (Function): Callback when a community is selected.
  *
  * Usage:
@@ -42,10 +42,12 @@ function TcCommunityListItems({
   communities,
   onSelectCommunity,
 }: ITcCommunityListItemsProps) {
-  const [selectedCommunity, setSelectedCommunity] = useState<ICommunity>();
+  const [selectedCommunity, setSelectedCommunity] =
+    useState<IDiscordModifiedCommunity>();
 
   useEffect(() => {
-    const community = StorageService.readLocalStorage<ICommunity>('community');
+    const community =
+      StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
     setSelectedCommunity(community);
   }, []);
 

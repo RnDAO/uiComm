@@ -17,7 +17,7 @@ import { defaultHeatmapChartOptions } from '../../../lib/data/heatmap';
 import { ChannelContext } from '../../../context/ChannelContext';
 import { extractTrueSubChannelIds } from '../../../helpers/helper';
 import { StorageService } from '../../../services/StorageService';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import Loading from '../../global/Loading';
 
 if (typeof Highcharts === 'object') {
@@ -52,7 +52,7 @@ const HeatmapChart = () => {
 
   const { community } = useToken();
 
-  const platformId = community?.platforms[0];
+  const platformId = community?.platforms[0].id;
 
   const fetchData = async () => {
     setLoading(true);
@@ -150,18 +150,18 @@ const HeatmapChart = () => {
   const fetchPlatformChannels = async () => {
     try {
       const community =
-        StorageService.readLocalStorage<ICommunity>('community');
+        StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
 
-      const id = community?.platforms[0];
+      const platformId = community?.platforms[0].id;
 
-      if (id) {
-        const data = await retrievePlatformById(id);
+      if (platformId) {
+        const data = await retrievePlatformById(platformId);
         const { metadata } = data;
         if (metadata) {
           const { selectedChannels } = metadata;
-          await refreshData(id, 'channel', selectedChannels);
+          await refreshData(platformId, 'channel', selectedChannels);
         } else {
-          await refreshData(id);
+          await refreshData(platformId);
         }
       }
     } catch (error) {

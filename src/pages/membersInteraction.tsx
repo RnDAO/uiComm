@@ -102,7 +102,7 @@ export default function membersInteraction() {
   const { getMemberInteraction, isLoading } = useAppStore();
 
   useEffect(() => {
-    const platformId = community?.platforms[0];
+    const platformId = community?.platforms[0].id;
 
     if (platformId) {
       getMemberInteraction(platformId).then((apiResponse: any[]) => {

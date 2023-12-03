@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TcCommunityListItems from './TcCommunityListItems';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 
 function TcCommunityList({ fetchedCommunities, handleActiveCommunity }: any) {
-  const [activeCommunity, setActiveCommunity] = useState<ICommunity>();
-  const handleSelectedCommunity = (community: ICommunity) => {
+  const [activeCommunity, setActiveCommunity] =
+    useState<IDiscordModifiedCommunity>();
+  const handleSelectedCommunity = (community: IDiscordModifiedCommunity) => {
     setActiveCommunity(community);
   };
 

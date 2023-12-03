@@ -4,13 +4,13 @@ import TcButton from '../../shared/TcButton';
 import TcCollapse from '../../shared/TcCollapse';
 import TcText from '../../shared/TcText';
 import { useRouter } from 'next/router';
-import { useToken } from '../../../context/TokenContext';
 import { StorageService } from '../../../services/StorageService';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 
 function TcPrompt() {
   const router = useRouter();
-  const community = StorageService.readLocalStorage<ICommunity>('community');
+  const community =
+    StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
   const shouldShowPrompt = useMemo(() => {
     const currentRoute = router.pathname;
     const isExcludedRoute =

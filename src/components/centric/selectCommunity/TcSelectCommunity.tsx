@@ -9,7 +9,7 @@ import router from 'next/router';
 import useAppStore from '../../../store/useStore';
 import Loading from '../../global/Loading';
 import { debounce } from '../../../helpers/helper';
-import { ICommunity } from '../../../utils/interfaces';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import { StorageService } from '../../../services/StorageService';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { useToken } from '../../../context/TokenContext';
@@ -29,7 +29,8 @@ function TcSelectCommunity() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [communityLoading, setCommunityLoading] = useState<boolean>(false);
-  const [activeCommunity, setActiveCommunity] = useState<ICommunity>();
+  const [activeCommunity, setActiveCommunity] =
+    useState<IDiscordModifiedCommunity>();
   const [fetchedCommunities, setFetchedCommunities] = useState<CommunityData>({
     limit: 10,
     page: 1,
@@ -55,11 +56,14 @@ function TcSelectCommunity() {
 
   const handleSelectedCommunity = () => {
     setCommunityLoading(true);
-    StorageService.writeLocalStorage('community', activeCommunity);
     if (activeCommunity) {
       updateCommunity(activeCommunity);
+      StorageService.writeLocalStorage<IDiscordModifiedCommunity>(
+        'community',
+        activeCommunity
+      );
+      router.push('/');
     }
-    router.push('/');
   };
 
   if (communityLoading) {
@@ -93,7 +97,7 @@ function TcSelectCommunity() {
             ) : (
               <TcCommunityList
                 fetchedCommunities={fetchedCommunities}
-                handleActiveCommunity={(community: ICommunity) =>
+                handleActiveCommunity={(community: IDiscordModifiedCommunity) =>
                   setActiveCommunity(community)
                 }
               />

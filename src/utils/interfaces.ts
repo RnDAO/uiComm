@@ -146,6 +146,25 @@ export interface IPlatformProps {
   metadata: metaData;
 }
 
+export interface ICommunityDiscordPlatfromProps {
+  id: string;
+  name: string;
+  metadata: {
+    id: string;
+    icon: string;
+    name: string;
+    selectedChannels: string[];
+    period: string;
+    analyzerStartedAt: string;
+  };
+  disconnectedAt: string | null;
+}
+
 export interface metaData {
   [key: string]: any;
+}
+
+export interface IDiscordModifiedCommunity
+  extends Omit<ICommunity, 'platforms'> {
+  platforms: ICommunityDiscordPlatfromProps[];
 }
