@@ -71,7 +71,7 @@ export default function DisengagedMembersCompositionBreakdown() {
     totalPages: 0,
   });
 
-  const platformId = community?.platforms[0].id;
+  const platformId = community?.platforms[0]?.id;
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);

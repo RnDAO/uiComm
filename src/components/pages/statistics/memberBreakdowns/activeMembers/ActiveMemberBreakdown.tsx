@@ -59,7 +59,7 @@ export default function ActiveMemberBreakdown() {
     totalResults: 0,
     totalPages: 0,
   });
-  const platformId = community?.platforms[0].id;
+  const platformId = community?.platforms[0]?.id;
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);

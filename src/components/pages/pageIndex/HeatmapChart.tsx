@@ -52,7 +52,7 @@ const HeatmapChart = () => {
 
   const { community } = useToken();
 
-  const platformId = community?.platforms[0].id;
+  const platformId = community?.platforms[0]?.id;
 
   const fetchData = async () => {
     setLoading(true);
@@ -152,7 +152,7 @@ const HeatmapChart = () => {
       const community =
         StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
 
-      const platformId = community?.platforms[0].id;
+      const platformId = community?.platforms[0]?.id;
 
       if (platformId) {
         const data = await retrievePlatformById(platformId);

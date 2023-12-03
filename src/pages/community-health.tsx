@@ -21,7 +21,7 @@ function CommunityHealth() {
     useState<IFragmentationScoreResponse | null>(null);
 
   useEffect(() => {
-    const platformId = community?.platforms[0].id;
+    const platformId = community?.platforms[0]?.id;
 
     if (platformId) {
       Promise.all([
