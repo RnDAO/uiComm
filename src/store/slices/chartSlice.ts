@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
 import ICharts from '../types/ICharts';
 
-const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
+const chartSlice: StateCreator<ICharts> = (set, get) => ({
   isLoading: false,
   heatmapRecords: [],
   interactions: {},
@@ -17,7 +17,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   inactiveMembersLoading: false,
   onboardingMembersLoading: false,
   fetchHeatmapData: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string,
     timeZone: string,
@@ -26,7 +26,7 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.post(
-        `/heatmaps/${guild_id}/heatmap-chart`,
+        `/heatmaps/${platformId}/heatmap-chart`,
         {
           startDate,
           endDate,
@@ -41,14 +41,14 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchInteractions: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ interactionsLoading: true }));
       const { data } = await axiosInstance.post(
-        `/heatmaps/${guild_id}/line-graph`,
+        `/heatmaps/${platformId}/line-graph`,
         {
           startDate,
           endDate,
@@ -60,14 +60,14 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchActiveMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ activeMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/active-members-composition-line-graph`,
+        `/member-activity/${platformId}/active-members-composition-line-graph`,
         {
           startDate,
           endDate,
@@ -79,14 +79,14 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchDisengagedMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ disengagedMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/disengaged-members-composition-line-graph`,
+        `/member-activity/${platformId}/disengaged-members-composition-line-graph`,
         {
           startDate,
           endDate,
@@ -98,14 +98,14 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchInactiveMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ inactiveMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/inactive-members-line-graph `,
+        `/member-activity/${platformId}/inactive-members-line-graph `,
         {
           startDate,
           endDate,
@@ -117,14 +117,14 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
     }
   },
   fetchOnboardingMembers: async (
-    guild_id: string,
+    platformId: string,
     startDate: string,
     endDate: string
   ) => {
     try {
       set(() => ({ onboardingMembersLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/active-members-onboarding-line-graph `,
+        `/member-activity/${platformId}/active-members-onboarding-line-graph `,
         {
           startDate,
           endDate,
@@ -135,11 +135,11 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
       set(() => ({ onboardingMembersLoading: false }));
     }
   },
-  getSelectedChannelsList: async (guild_id: string) => {
+  getSelectedChannelsList: async (platformId: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.get(
-        `/guilds/${guild_id}/selected-channels`
+        `/guilds/${platformId}/selected-channels`
       );
       set({ selectedChannelsList: data, isLoading: false });
       return data;
@@ -149,4 +149,4 @@ const createHeatmapSlice: StateCreator<ICharts> = (set, get) => ({
   },
 });
 
-export default createHeatmapSlice;
+export default chartSlice;

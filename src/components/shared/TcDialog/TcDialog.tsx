@@ -19,8 +19,8 @@ interface ITcDialogProps extends DialogProps {
   children: React.ReactNode;
 }
 
-function TcDialog({ children, ...rest }: ITcDialogProps) {
-  return <Dialog {...rest}>{children}</Dialog>;
+function TcDialog({ children, ...props }: ITcDialogProps) {
+  return <Dialog {...props}>{children}</Dialog>;
 }
 
 export default TcDialog;

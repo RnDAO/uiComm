@@ -1,7 +1,7 @@
 export type IToken = {
-  readonly accessExp: string;
+  readonly accessExp?: string;
   readonly accessToken: string;
-  readonly refreshExp: string;
+  readonly refreshExp?: string;
   readonly refreshToken: string;
 };
 

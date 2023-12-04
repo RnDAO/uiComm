@@ -21,18 +21,23 @@ import TcBoxTitleContainer from './TcBoxTitleContainer';
 import TcBoxContentContainer from './TcBoxContentContainer';
 
 interface ITcBoxContainer extends Omit<BoxProps, 'children'> {
-  titleContainerChildren: JSX.Element | React.ReactElement;
-  contentContainerChildren: JSX.Element | React.ReactElement;
+  titleContainerChildren?: JSX.Element | React.ReactElement;
+  contentContainerChildren?: JSX.Element | React.ReactElement;
 }
 
 function TcBoxContainer({
   titleContainerChildren,
   contentContainerChildren,
+  ...props
 }: ITcBoxContainer) {
   return (
-    <Box className="shadow-lg rounded-xl overflow-hidden">
-      <TcBoxTitleContainer children={titleContainerChildren} />
-      <TcBoxContentContainer children={contentContainerChildren} />
+    <Box className="shadow-lg rounded-xl overflow-hidden" {...props}>
+      {titleContainerChildren && (
+        <TcBoxTitleContainer children={titleContainerChildren} />
+      )}
+      {contentContainerChildren && (
+        <TcBoxContentContainer children={contentContainerChildren} />
+      )}
     </Box>
   );
 }

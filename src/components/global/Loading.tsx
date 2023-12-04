@@ -1,10 +1,11 @@
 import { Box, CircularProgress } from '@mui/material';
 
 interface LoadingProps {
-  height: string;
+  height?: string;
+  size?: number | string;
 }
 
-function Loading({ height }: LoadingProps) {
+function Loading({ height = '10rem', size = 40 }: LoadingProps) {
   return (
     <Box
       sx={{
@@ -14,13 +15,9 @@ function Loading({ height }: LoadingProps) {
         height,
       }}
     >
-      <CircularProgress color="secondary" />
+      <CircularProgress color="secondary" size={size} />
     </Box>
   );
 }
-
-Loading.defaultProps = {
-  height: '10rem',
-};
 
 export default Loading;

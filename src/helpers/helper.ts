@@ -1,9 +1,17 @@
+import { SelectedSubChannels } from '../context/ChannelContext';
 import { IDecodedToken } from '../utils/interfaces';
 import { IUser } from '../utils/types';
 import jwt_decode from 'jwt-decode';
 
 export function capitalizeFirstChar(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str?.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function truncateCenter(text: string, maxLength: number = 10): string {
+  if (text.length <= maxLength) return text;
+
+  const sideLength = Math.floor((maxLength - 3) / 2); // Subtract 3 for "..."
+  return text.slice(0, sideLength) + '...' + text.slice(-sideLength);
 }
 
 export function decodeUserTokenDiscordId(user?: IUser): string | null {
@@ -12,4 +20,63 @@ export function decodeUserTokenDiscordId(user?: IUser): string | null {
     return decodedToken.sub;
   }
   return null;
+}
+
+export function extractUrlParams(path: string): { [key: string]: string } {
+  const urlObj = new URL(path, window.location.origin);
+  const params = Array.from(urlObj.searchParams.entries());
+  const queryParams: { [key: string]: string } = {};
+
+  params.forEach(([key, value]) => {
+    queryParams[key] = value;
+  });
+
+  return queryParams;
+}
+
+export function debounce(func: Function, wait: number) {
+  let timeout: NodeJS.Timeout | null;
+
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      timeout = null;
+      func(...args);
+    };
+
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(later, wait);
+  };
+}
+
+export function calculateSelectedChannelSize(
+  selectedSubChannels: SelectedSubChannels
+) {
+  let count = 0;
+  for (const channelId in selectedSubChannels) {
+    for (const subChannelId in selectedSubChannels[channelId]) {
+      if (selectedSubChannels[channelId][subChannelId]) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
+export function extractTrueSubChannelIds(
+  selectedSubChannels: SelectedSubChannels
+) {
+  const trueSubChannelIds: string[] = [];
+
+  Object.entries(selectedSubChannels).forEach(([channelId, subChannels]) => {
+    Object.entries(subChannels).forEach(([subChannelId, isSelected]) => {
+      if (isSelected) {
+        trueSubChannelIds.push(subChannelId);
+      }
+    });
+  });
+
+  return trueSubChannelIds;
 }

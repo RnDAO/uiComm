@@ -119,3 +119,52 @@ export interface IDataTwitter {
   engagement: IEngagement;
   account: IAccount;
 }
+
+export interface ICommunity {
+  id: string;
+  name: string;
+  platforms: string[];
+  users: string[];
+  avatarURL: string;
+}
+
+export interface FetchedData {
+  limit: number;
+  page: number;
+  results: any[];
+  totalPages: number;
+  totalResults: number;
+}
+
+export interface IPlatformProps {
+  name: string;
+  community: string;
+  isInProgress: boolean;
+  connectedAt: string;
+  id: string;
+  disconnectedAt: string | null;
+  metadata: metaData;
+}
+
+export interface ICommunityDiscordPlatfromProps {
+  id: string;
+  name: string;
+  metadata: {
+    id: string;
+    icon: string;
+    name: string;
+    selectedChannels: string[];
+    period: string;
+    analyzerStartedAt: string;
+  };
+  disconnectedAt: string | null;
+}
+
+export interface metaData {
+  [key: string]: any;
+}
+
+export interface IDiscordModifiedCommunity
+  extends Omit<ICommunity, 'platforms'> {
+  platforms: ICommunityDiscordPlatfromProps[];
+}

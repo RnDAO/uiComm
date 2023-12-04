@@ -10,20 +10,12 @@ type items = {
 import { conf } from '../../configs/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// import the icons you need
-import {
-  faUserGroup,
-  faHeartPulse,
-  faGear,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Tooltip, Typography } from '@mui/material';
 import useAppStore from '../../store/useStore';
-import { StorageService } from '../../services/StorageService';
-import { IUser } from '../../utils/types';
-import { BsBarChartFill } from 'react-icons/bs';
+import { FiSettings } from 'react-icons/fi';
 
 const Sidebar = () => {
   const { guildInfoByDiscord } = useAppStore();
@@ -32,15 +24,16 @@ const Sidebar = () => {
   const currentRoute = router.pathname;
 
   useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
-
-    if (user) {
-      const { guildId } = user.guild;
-      if (guildId) {
-        setGuildId(guildId);
-      }
-    }
+    // const user = StorageService.readLocalStorage<IUser>('user');
+    // if (user) {
+    //   const { guildId } = user.guild;
+    //   if (guildId) {
+    //     setGuildId(guildId);
+    //   }
+    // }
   }, []);
+
+  // `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform?.metadata.icon}.png`
 
   const menuItems: items[] = [
     {
@@ -55,7 +48,7 @@ const Sidebar = () => {
     },
     {
       name: 'Community Health',
-      path: '/communityHealth',
+      path: '/community-health',
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
@@ -64,21 +57,11 @@ const Sidebar = () => {
       ),
     },
     {
-      name: 'Growth',
-      path: '/growth',
+      name: 'Community Settings',
+      path: '/community-settings',
       icon: (
-        <BsBarChartFill
+        <FiSettings
           style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
-        />
-      ),
-    },
-    {
-      name: 'Settings',
-      path: '/settings',
-      icon: (
-        <FontAwesomeIcon
-          icon={faGear}
-          style={{ fontSize: 20, color: 'black' }}
         />
       ),
     },
@@ -107,7 +90,10 @@ const Sidebar = () => {
         <div>
           <div className="flex flex-col mx-auto justify-center text-center my-4">
             <div className="w-full mx-auto">
-              <div className="w-10 h-10 mb-2 mx-auto">
+              <div
+                className="w-10 h-10 mb-2 mx-auto cursor-pointer"
+                onClick={() => router.push('/centric/select-community')}
+              >
                 {guildId && guildInfoByDiscord.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${guildId}/${guildInfoByDiscord.icon}`}

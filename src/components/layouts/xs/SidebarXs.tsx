@@ -27,6 +27,7 @@ import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
 import { conf } from '../../../configs';
 import { BsBarChartFill } from 'react-icons/bs';
+import { FiSettings } from 'react-icons/fi';
 
 const Sidebar = () => {
   const { guildInfoByDiscord } = useAppStore();
@@ -34,16 +35,16 @@ const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
 
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
+  // useEffect(() => {
+  //   const user = StorageService.readLocalStorage<IUser>('user');
 
-    if (user) {
-      const { guildId } = user.guild;
-      if (guildId) {
-        setGuildId(guildId);
-      }
-    }
-  }, []);
+  //   if (user) {
+  //     const { guildId } = user.guild;
+  //     if (guildId) {
+  //       setGuildId(guildId);
+  //     }
+  //   }
+  // }, []);
 
   const menuItems: items[] = [
     {
@@ -58,7 +59,7 @@ const Sidebar = () => {
     },
     {
       name: 'Community Health',
-      path: '/communityHealth',
+      path: '/community-health',
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
@@ -67,21 +68,11 @@ const Sidebar = () => {
       ),
     },
     {
-      name: 'Growth',
-      path: '/growth',
+      name: 'Community Settings',
+      path: '/community-settings',
       icon: (
-        <BsBarChartFill
-          style={{ fontSize: 30, color: 'black', margin: '0 auto' }}
-        />
-      ),
-    },
-    {
-      name: 'Settings',
-      path: '/settings',
-      icon: (
-        <FontAwesomeIcon
-          icon={faGear}
-          style={{ fontSize: 30, color: 'black' }}
+        <FiSettings
+          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
         />
       ),
     },

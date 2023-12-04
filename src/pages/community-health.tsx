@@ -5,15 +5,15 @@ import Fragmentation from '../components/pages/communityHealth/Fragmentation';
 import Decentralization from '../components/pages/communityHealth/Decentralization';
 import HeaderSection from '../components/pages/communityHealth/HeaderSection';
 import useAppStore from '../store/useStore';
-import { StorageService } from '../services/StorageService';
-import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
 } from '../utils/interfaces';
+import { useToken } from '../context/TokenContext';
 
 function CommunityHealth() {
+  const { community } = useToken();
   const { getDecentralisation, getFragmentation, isLoading } = useAppStore();
   const [decentralisationScoreData, setDecentralisationScoreData] =
     useState<IDecentralisationScoreResponse | null>(null);
@@ -21,12 +21,12 @@ function CommunityHealth() {
     useState<IFragmentationScoreResponse | null>(null);
 
   useEffect(() => {
-    const storedUser = StorageService.readLocalStorage<IUser>('user');
+    const platformId = community?.platforms[0]?.id;
 
-    if (storedUser?.guild.guildId) {
+    if (platformId) {
       Promise.all([
-        getDecentralisation(storedUser.guild.guildId),
-        getFragmentation(storedUser.guild.guildId),
+        getDecentralisation(platformId),
+        getFragmentation(platformId),
       ]).then(([decentralisationRes, fragmentationRes]) => {
         setDecentralisationScoreData(decentralisationRes);
         setFragmentationScoreData(fragmentationRes);

@@ -6,7 +6,7 @@
  *
  * Props:
  * - children: The content to be displayed inside the card. It's a mandatory prop for TcCard.
- * - ...rest: All other properties supported by the MUI Card component. Refer to MUI documentation for a complete list.
+ * - ...props: All other properties supported by the MUI Card component. Refer to MUI documentation for a complete list.
  *
  * Example:
  * ```jsx
@@ -26,8 +26,8 @@ interface ITcCard extends CardProps {
   children: JSX.Element | React.ReactElement;
 }
 
-function TcCard({ children, ...rest }: ITcCard) {
-  return <Card {...rest}>{children}</Card>;
+function TcCard({ children, ...props }: ITcCard) {
+  return <Card {...props}>{children}</Card>;
 }
 
 export default TcCard;

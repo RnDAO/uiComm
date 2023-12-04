@@ -3,31 +3,26 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#35B9B7',
+      main: '#804EE1',
     },
   },
   typography: {
     fontFamily: 'inherit',
     fontWeightBold: '500',
     fontWeightExtraBold: '700',
-    h3: {
-      fontSize: '2.5rem',
-    },
-    h4: {
-      fontSize: '1.75rem',
-    },
-    button: {
-      textTransform: 'none',
-    },
   },
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
-          borderRadius: '8px',
-          color: '#804EE1',
-          minWidth: '15rem',
+        sizeMedium: {
+          width: '15rem',
           padding: '0.5rem',
+        },
+        root: {
+          textTransform: 'none',
+          borderRadius: '4px',
+          color: '#804EE1',
+
           '&.Mui-disabled': {
             opacity: 0.7,
           },
@@ -63,8 +58,12 @@ export const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
+          minWidth: '25rem',
           '& label.Mui-focused': {
             color: '#804EE1',
+          },
+          '@media (max-width:1023px)': {
+            minWidth: '100%',
           },
         },
       },
@@ -101,6 +100,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderBottom: 'none',
+          textTransform: 'none',
         },
         indicator: {
           backgroundColor: 'transparent',
@@ -111,6 +111,7 @@ export const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
+          textTransform: 'none',
           borderRadius: '10px 10px 0 0',
           padding: '8px 24px',
           width: '214px',

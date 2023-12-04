@@ -13,8 +13,8 @@ import React from 'react';
 
 interface ITcAlertProps extends AlertProps {}
 
-function TcAlert({ ...rest }: ITcAlertProps) {
-  return <Alert {...rest} />;
+function TcAlert({ ...props }: ITcAlertProps) {
+  return <Alert {...props} />;
 }
 
 export default TcAlert;

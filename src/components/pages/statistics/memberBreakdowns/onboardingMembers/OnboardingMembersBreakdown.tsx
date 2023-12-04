@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { StorageService } from '../../../../../services/StorageService';
 import useAppStore from '../../../../../store/useStore';
-import { IUser } from '../../../../../utils/types';
 import CustomTable from '../CustomTable';
 import {
   Column,
@@ -17,6 +15,7 @@ import {
   downloadCSVFile,
 } from '../../../../../helpers/csvHelper';
 import router from 'next/router';
+import { useToken } from '../../../../../context/TokenContext';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -35,6 +34,7 @@ const options: IActivityCompositionOptions[] = [
 
 export default function OnboardingMembersBreakdown() {
   const { getOnboardingMemberCompositionTable } = useAppStore();
+  const { community } = useToken();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -58,8 +58,8 @@ export default function OnboardingMembersBreakdown() {
     totalResults: 0,
     totalPages: 0,
   });
-  const user = StorageService.readLocalStorage<IUser>('user');
-  const guild = user?.guild;
+
+  const platformId = community?.platforms[0]?.id;
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
@@ -69,13 +69,13 @@ export default function OnboardingMembersBreakdown() {
   };
 
   useEffect(() => {
-    if (!guild) {
+    if (!platformId) {
       return;
     }
     setLoading(true);
     const fetchData = async () => {
       const res = await getOnboardingMemberCompositionTable(
-        guild.guildId,
+        platformId,
         onboardingComposition,
         roles,
         username,
@@ -147,7 +147,7 @@ export default function OnboardingMembersBreakdown() {
   };
 
   const handleDownloadCSV = async () => {
-    if (!guild) {
+    if (!platformId) {
       return;
     }
 
@@ -155,7 +155,7 @@ export default function OnboardingMembersBreakdown() {
       const limit = fetchedData.totalResults;
 
       const { results } = await getOnboardingMemberCompositionTable(
-        guild.guildId,
+        platformId,
         onboardingComposition,
         roles,
         username,

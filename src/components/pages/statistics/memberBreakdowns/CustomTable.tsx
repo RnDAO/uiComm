@@ -61,16 +61,16 @@ const CustomTable: React.FC<CustomTableProps> = ({
   activityCompositionOptions,
 }) => {
   const { getRoles, roles } = useAppStore();
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
+  // useEffect(() => {
+  //   const user = StorageService.readLocalStorage<IUser>('user');
 
-    if (!user) {
-      return;
-    }
+  //   if (!user) {
+  //     return;
+  //   }
 
-    const { guild } = user;
-    getRoles(guild.guildId);
-  }, []);
+  //   const { guild } = user;
+  //   getRoles(guild.guildId);
+  // }, []);
 
   const [anchorElRoles, setAnchorElRoles] = useState<HTMLButtonElement | null>(
     null
@@ -498,7 +498,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       }}
                       value={searchText}
                       onChange={handleSearchChange}
-                      sx={{ marginLeft: '8px' }}
+                      sx={{ marginLeft: '8px', minWidth: 'auto' }}
                     />
                   </div>
                 ) : (

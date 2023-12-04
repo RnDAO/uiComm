@@ -36,7 +36,7 @@ export class StorageService {
   public static updateLocalStorageWithObject<T extends object>(
     key: string,
     newObjectKey: string,
-    newObject: Record<string, any>
+    newObject: string | Record<string, any>
   ): void {
     const currentObj = this.readLocalStorage<T>(key);
 
@@ -45,12 +45,16 @@ export class StorageService {
       return;
     }
 
-    if (typeof newObject !== 'object' || Array.isArray(newObject)) {
-      console.error('newObject should be an object and not an array.');
+    if (typeof newObject === 'string') {
+      (currentObj as any)[newObjectKey] = newObject;
+    } else if (typeof newObject === 'object' && !Array.isArray(newObject)) {
+      (currentObj as any)[newObjectKey] = newObject;
+    } else {
+      console.error(
+        'newObject should be an object, a string, and not an array.'
+      );
       return;
     }
-
-    (currentObj as any)[newObjectKey] = newObject;
 
     this.writeLocalStorage(key, currentObj);
   }

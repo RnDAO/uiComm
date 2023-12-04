@@ -5,11 +5,11 @@ import IMemberInteraction from '../types/IMemberInteraction';
 const createHeatmapSlice: StateCreator<IMemberInteraction> = (set, get) => ({
   isLoading: false,
   memberInteractionRecords: [],
-  getMemberInteraction: async (guild_id: string) => {
+  getMemberInteraction: async (platformId: string) => {
     try {
       set(() => ({ isLoading: true }));
       const { data } = await axiosInstance.post(
-        `/member-activity/${guild_id}/members-interactions-network-graph`
+        `/member-activity/${platformId}/members-interactions-network-graph`
       );
       set({ memberInteractionRecords: [...data], isLoading: false });
       return data;
