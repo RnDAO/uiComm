@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TcButtonGroup from '../../shared/TcButtonGroup';
 import TcButton from '../../shared/TcButton';
+import clsx from 'clsx';
 
 type PeriodValue = 'Last 35 days' | '1M' | '3M' | '6M' | '1Y';
 
@@ -88,17 +89,20 @@ function TcPeriodRange({ handleSelectedDate, activePeriod }: ITcPeriodRange) {
   };
 
   return (
-    <TcButtonGroup>
+    <TcButtonGroup disableElevation>
       {periods.map((el) => (
         <TcButton
           key={el}
           disableElevation={true}
           text={el}
-          className={
-            el === selected ? 'bg-black text-white' : 'bg-[#EEEEEE] text-black'
-          }
-          variant="contained"
-          sx={{ width: 'auto', padding: '0.4rem 1rem' }}
+          className={clsx(
+            el === selected ? 'bg-black text-white' : 'bg-[#EEEEEE] text-black',
+            'border-0'
+          )}
+          sx={{
+            width: 'auto',
+            padding: '0.4rem 1rem',
+          }}
           onClick={() => handleButtonClick(el)}
         />
       ))}
