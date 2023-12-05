@@ -48,4 +48,12 @@ export default interface IPlatfrom {
     id,
     metadata: { selectedChannels, period, analyzerStartedAt },
   }: IPatchPlatformInput) => void;
+  retrievePlatformProperties: ({
+    platformId,
+    property,
+    name,
+    sortBy,
+    page,
+    limit,
+  }: IRetrivePlatformRolesOrChannels) => void;
 }

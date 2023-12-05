@@ -27,6 +27,8 @@ export interface IRoles {
   roleId: string;
   color: number | string;
   name: string;
+  deletedAt: string;
+  id: number | string;
 }
 
 export interface IUserProfile {

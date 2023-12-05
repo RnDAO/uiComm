@@ -29,13 +29,18 @@ import {
   Row,
   IActivityCompositionOptions,
 } from '../../../../utils/interfaces';
-import { IUser } from '../../../../utils/types';
 import { conf } from '../../../../configs';
 import Loading from '../../../global/Loading';
 import useAppStore from '../../../../store/useStore';
-import { StorageService } from '../../../../services/StorageService';
 import CustomDialogDetail from './CustomDialogDetail';
 import router from 'next/router';
+import FilterRolesPopover from '../../../global/FilterPopover/FilterRolesPopover';
+
+export interface IRolesPayload {
+  allRoles: boolean;
+  exclude?: string[];
+  include?: string[];
+}
 
 interface CustomTableProps {
   data: Row[];
@@ -43,7 +48,7 @@ interface CustomTableProps {
   isLoading: boolean;
   breakdownName?: string;
   activityCompositionOptions: IActivityCompositionOptions[];
-  handleRoleSelectionChange: (selectedRoles: string[]) => void;
+  handleRoleSelectionChange: (rolesPayload: IRolesPayload) => void;
   handleActivityOptionSelectionChange: (selectedRoles: string[]) => void;
   handleJoinedAtChange: (joinedAt: string) => void;
   handleUsernameChange: (userName: string) => void;
@@ -54,43 +59,25 @@ const CustomTable: React.FC<CustomTableProps> = ({
   columns,
   isLoading,
   breakdownName,
-  handleRoleSelectionChange,
   handleActivityOptionSelectionChange,
+  handleRoleSelectionChange,
   handleJoinedAtChange,
   handleUsernameChange,
   activityCompositionOptions,
 }) => {
-  const { getRoles, roles } = useAppStore();
-  // useEffect(() => {
-  //   const user = StorageService.readLocalStorage<IUser>('user');
-
-  //   if (!user) {
-  //     return;
-  //   }
-
-  //   const { guild } = user;
-  //   getRoles(guild.guildId);
-  // }, []);
+  const { roles } = useAppStore();
 
   const [anchorElRoles, setAnchorElRoles] = useState<HTMLButtonElement | null>(
     null
   );
   const [anchorElActivity, setAnchorElActivity] =
     useState<HTMLButtonElement | null>(null);
-  const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
-  useEffect(() => {
-    setSelectedRoles(roles.map((role: IRoles) => role.roleId));
-  }, [roles]);
-  const [selectAllRoles, setSelectAllRoles] = useState(true);
+
   const [selectedActivityOptions, setSelectedActivityOptions] = useState<
     string[]
   >(activityCompositionOptions.map((option) => option.value));
   const [selectAllActivityOptions, setSelectAllActivityOptions] =
     useState(true);
-
-  const handleOpenRolesPopup = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElRoles(event.currentTarget);
-  };
 
   const handleOpenActivityPopup = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -104,32 +91,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setAnchorElJoinedAt(null);
   };
 
-  const isRolesPopupOpen = Boolean(anchorElRoles);
   const isActivityPopupOpen = Boolean(anchorElActivity);
 
-  const handleSelectAllRoles = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const allRoleNames = roles.map((role: IRoles) => role.roleId);
-      setSelectedRoles(allRoleNames);
-    } else {
-      setSelectedRoles([]);
-    }
-    setSelectAllRoles(event.target.checked);
+  const handleSelectedRoles = (payload: IRolesPayload) => {
+    handleRoleSelectionChange(payload);
   };
-
-  const handleSelectRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const roleName = event.target.value;
-    const updatedSelectedRoles = selectedRoles.includes(roleName)
-      ? selectedRoles.filter((role) => role !== roleName)
-      : [...selectedRoles, roleName];
-
-    setSelectedRoles(updatedSelectedRoles);
-    setSelectAllRoles(updatedSelectedRoles.length === roles.length);
-  };
-
-  useEffect(() => {
-    handleRoleSelectionChange(selectedRoles);
-  }, [selectedRoles]);
 
   useEffect(() => {
     handleActivityOptionSelectionChange(selectedActivityOptions);
@@ -282,79 +248,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
               >
                 {column.id === 'roles' ? (
                   <>
-                    <Button
-                      onClick={handleOpenRolesPopup}
-                      variant="text"
-                      sx={{ color: 'black', minWidth: '64px' }}
-                      endIcon={
-                        isRolesPopupOpen ? (
-                          <MdOutlineKeyboardArrowUp />
-                        ) : (
-                          <MdOutlineKeyboardArrowDown />
-                        )
-                      }
-                    >
-                      Roles
-                    </Button>
-                    <Popover
-                      open={isRolesPopupOpen}
-                      anchorEl={anchorElRoles}
-                      onClose={handleClosePopup}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                      }}
-                    >
-                      <div className="px-1 py-3">
-                        <FormControlLabel
-                          className="px-4 py-1"
-                          control={
-                            <Checkbox
-                              color="secondary"
-                              checked={selectAllRoles}
-                              onChange={handleSelectAllRoles}
-                            />
-                          }
-                          label={'All Roles'}
-                        />
-                        <p className="px-4 py-2">Show members with tags:</p>
-                        {roles.map((role: IRoles) => (
-                          <ListItem key={role.name}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  color="secondary"
-                                  checked={selectedRoles.includes(role.roleId)}
-                                  onChange={handleSelectRole}
-                                  value={role.roleId}
-                                />
-                              }
-                              label={
-                                <div className="flex items-center border border-[#D1D1D1] rounded-md px-3">
-                                  <span
-                                    className={'w-2 h-2 rounded-full mr-2'}
-                                    style={{
-                                      backgroundColor:
-                                        role.color !== 0
-                                          ? `#${role.color
-                                              .toString(16)
-                                              .padStart(6, '0')}`
-                                          : '#96A5A6',
-                                      flexShrink: 0,
-                                    }}
-                                  />
-                                  <div className="text-sm">{role.name}</div>
-                                </div>
-                              }
-                            />
-                          </ListItem>
-                        ))}
-                      </div>
-                    </Popover>
+                    <FilterRolesPopover
+                      handleSelectedRoles={handleSelectedRoles}
+                    />
                   </>
                 ) : column.id === 'activityComposition' ? (
                   <>
@@ -554,7 +450,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         {column.id === 'username' ? (
                           <div className="flex items-center space-x-4">
                             <Avatar
-                              src={`${conf.DISCORD_CDN}avatars/${row.discordId}/${row?.avatar}.png`}
+                              src={
+                                row.discordId && row?.avatar
+                                  ? `${conf.DISCORD_CDN}avatars/${row.discordId}/${row?.avatar}.png`
+                                  : ''
+                              }
                               alt="User Avatar"
                             />
                             <p className="flex flex-row space-x-1.5 whitespace-nowrap">

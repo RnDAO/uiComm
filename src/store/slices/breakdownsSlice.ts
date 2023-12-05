@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
 import IBreakdown from '../types/IBreakdown';
+import { IRolesPayload } from '../../components/pages/statistics/memberBreakdowns/CustomTable';
 
 const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   isActiveMembersBreakdownLoading: false,
@@ -11,7 +12,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   getActiveMemberCompositionTable: async (
     platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -37,10 +38,6 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       requestData.activityComposition.forEach((value) => {
         params.append('activityComposition', value);
-      });
-
-      requestData.roles.forEach((value) => {
-        params.append('roles', value);
       });
 
       if (username) {
@@ -49,7 +46,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const url = `/member-activity/${platformId}/active-members-composition-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.post(url);
+      const { data } = await axiosInstance.post(url, roles);
 
       return data;
     } catch (error) {}
@@ -57,7 +54,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   getOnboardingMemberCompositionTable: async (
     platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -83,10 +80,6 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       requestData.activityComposition.forEach((value) => {
         params.append('activityComposition', value);
-      });
-
-      requestData.roles.forEach((value) => {
-        params.append('roles', value);
       });
 
       if (username) {
@@ -95,7 +88,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
 
       const url = `/member-activity/${platformId}/active-members-onboarding-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.post(url);
+      const { data } = await axiosInstance.post(url, roles);
 
       return data;
     } catch (error) {}
@@ -103,7 +96,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   getDisengagedMembersCompositionTable: async (
     platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -131,17 +124,13 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('activityComposition', value);
       });
 
-      requestData.roles.forEach((value) => {
-        params.append('roles', value);
-      });
-
       if (username) {
         params.append('ngu', username);
       }
 
       const url = `/member-activity/${platformId}/disengaged-members-composition-table?${params.toString()}`;
 
-      const { data } = await axiosInstance.post(url);
+      const { data } = await axiosInstance.post(url, roles);
 
       return data;
     } catch (error) {}

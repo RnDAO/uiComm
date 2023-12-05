@@ -1,3 +1,5 @@
+import { IRolesPayload } from '../../components/pages/statistics/memberBreakdowns/CustomTable';
+
 export default interface IBreakdown {
   isActiveMembersBreakdownLoading: boolean;
   isOnboardingMembersBreakdownLoading: boolean;
@@ -7,7 +9,7 @@ export default interface IBreakdown {
   getActiveMemberCompositionTable: (
     platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -16,7 +18,7 @@ export default interface IBreakdown {
   getOnboardingMemberCompositionTable: (
     platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -25,7 +27,7 @@ export default interface IBreakdown {
   getDisengagedMembersCompositionTable: (
     platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,

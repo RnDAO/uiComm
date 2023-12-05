@@ -20,9 +20,9 @@
  */
 
 import React from 'react';
-import { Popover } from '@mui/material';
+import { Popover, PopoverProps } from '@mui/material';
 
-interface TcPopoverProps {
+interface TcPopoverProps extends PopoverProps {
   open: boolean;
   anchorEl: HTMLButtonElement | null;
   content: React.ReactNode;
