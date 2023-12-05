@@ -146,10 +146,6 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
     }
   };
 
-  const handleLoadSpecificRoleByName = (name: any) => {
-    fetchRoles(name);
-  };
-
   const handleSelectedRole = (
     event: React.ChangeEvent<HTMLInputElement>,
     role: IRoles
@@ -187,7 +183,7 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
   }, [platformId]);
 
   const renderRoleItem = (option: IRoles) => (
-    <div className="flex items-center border border-[#D1D1D1] rounded-md px-3">
+    <div className="flex items-center border bg-white border-[#D1D1D1] rounded-md px-3">
       <span
         className="w-2 h-2 rounded-full mr-2"
         style={{
