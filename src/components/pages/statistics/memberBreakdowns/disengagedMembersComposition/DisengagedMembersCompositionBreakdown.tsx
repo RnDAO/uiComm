@@ -54,7 +54,7 @@ export default function DisengagedMembersCompositionBreakdown() {
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [roles, setRoles] = useState<IRolesPayload>(IRolesPayload);
+  const [roles, setRoles] = useState<IRolesPayload>();
   const [disengagedComposition, setDisengagedComposition] = useState<string[]>(
     options.map((option) => option.value)
   );
