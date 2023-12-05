@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import useAppStore from '../../../../../store/useStore';
-import CustomTable from '../CustomTable';
+import CustomTable, { IRolesPayload } from '../CustomTable';
 import {
   Column,
+  FetchedData,
   IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
@@ -53,22 +54,18 @@ export default function DisengagedMembersCompositionBreakdown() {
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [roles, setRoles] = useState<string[]>([]);
+  const [roles, setRoles] = useState<IRolesPayload>();
   const [disengagedComposition, setDisengagedComposition] = useState<string[]>(
     options.map((option) => option.value)
   );
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('desc');
-  const [fetchedData, setFetchedData] = useState<{
-    limit?: string | number;
-    page?: string | number;
-    results: any[];
-    totalPages: number;
-    totalResults: number;
-  }>({
+  const [fetchedData, setFetchedData] = useState<FetchedData>({
+    limit: 10,
+    page: 1,
     results: [],
-    totalResults: 0,
     totalPages: 0,
+    totalResults: 0,
   });
 
   const platformId = community?.platforms[0]?.id;
@@ -136,8 +133,8 @@ export default function DisengagedMembersCompositionBreakdown() {
     }
   }, [router.query]);
 
-  const handleRoleSelectionChange = (selectedRoles: string[]) => {
-    setRoles(selectedRoles);
+  const handleRoleSelectionChange = (rolesPayload: IRolesPayload) => {
+    setRoles(rolesPayload);
   };
 
   const handleActivityOptionSelectionChange = (selectedOptions: string[]) => {
