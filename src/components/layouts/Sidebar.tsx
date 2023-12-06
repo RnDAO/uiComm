@@ -15,22 +15,19 @@ import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FiSettings } from 'react-icons/fi';
-import { StorageService } from '../../services/StorageService';
-import {
-  ICommunityDiscordPlatfromProps,
-  IDiscordModifiedCommunity,
-} from '../../utils/interfaces';
+import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
+import { useToken } from '../../context/TokenContext';
 
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
+  const { community } = useToken();
 
   const [connectedPlatform, setConnectedPlatform] =
     useState<ICommunityDiscordPlatfromProps | null>(null);
 
   useEffect(() => {
-    const storedCommunity =
-      StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
+    const storedCommunity = community;
 
     if (storedCommunity?.platforms) {
       const foundPlatform = storedCommunity.platforms.find(
@@ -39,7 +36,7 @@ const Sidebar = () => {
 
       setConnectedPlatform(foundPlatform ?? null);
     }
-  }, []);
+  }, [community]);
 
   const menuItems: items[] = [
     {
