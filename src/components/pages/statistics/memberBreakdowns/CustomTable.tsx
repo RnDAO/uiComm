@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Checkbox,
+  ClickAwayListener,
   FormControlLabel,
   List,
   ListItem,
@@ -78,6 +79,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   >(activityCompositionOptions.map((option) => option.value));
   const [selectAllActivityOptions, setSelectAllActivityOptions] =
     useState(true);
+  const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
   const handleOpenActivityPopup = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -229,6 +231,14 @@ const CustomTable: React.FC<CustomTableProps> = ({
       }
     }
   }, [router.query]);
+
+  const handleTooltipClose = () => {
+    setTooltipOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
 
   return (
     <>
@@ -462,13 +472,21 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                 {row.ngu}
                               </span>
                               {row[column.id].length > 10 ? (
-                                <Tooltip title={row[column.id]} placement="top">
-                                  <span className="text-gray-subtitle text-base cursor-pointer">
-                                    {`${row[column.id].slice(0, 3)}...${row[
-                                      column.id
-                                    ].slice(-4)}`}
-                                  </span>
-                                </Tooltip>
+                                <ClickAwayListener
+                                  onClickAway={handleTooltipClose}
+                                >
+                                  <Tooltip
+                                    title={row[column.id]}
+                                    placement="top"
+                                    enterTouchDelay={0}
+                                  >
+                                    <span className="text-gray-subtitle text-base cursor-pointer">
+                                      {`${row[column.id].slice(0, 3)}...${row[
+                                        column.id
+                                      ].slice(-4)}`}
+                                    </span>
+                                  </Tooltip>
+                                </ClickAwayListener>
                               ) : (
                                 <span className="text-gray-subtitle text-base">
                                   {row[column.id]}
