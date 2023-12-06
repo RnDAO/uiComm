@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { ClickAwayListener, Tooltip } from '@mui/material';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { RxArrowTopRight, RxArrowBottomRight } from 'react-icons/rx';
@@ -25,6 +25,7 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
   handleSelectedOption,
 }) => {
   const [activeState, setActiveState] = useState<string | string[]>();
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const queries = router.query;
@@ -54,6 +55,14 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
       }
     }
   }, [router.query]);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <>
@@ -114,14 +123,21 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
               <span className="text-base flex items-center">
                 {stat.label}
                 {stat.hasTooltip && (
-                  <Tooltip title={stat.tooltipText} arrow placement="bottom">
-                    <span>
-                      <AiOutlineExclamationCircle
-                        size={'18px'}
-                        className="mx-auto ml-1"
-                      />
-                    </span>
-                  </Tooltip>
+                  <ClickAwayListener onClickAway={handleTooltipClose}>
+                    <Tooltip
+                      title={stat.tooltipText}
+                      arrow
+                      placement="bottom"
+                      enterTouchDelay={0}
+                    >
+                      <span onClick={handleTooltipOpen}>
+                        <AiOutlineExclamationCircle
+                          size={'18px'}
+                          className="mx-auto ml-1"
+                        />
+                      </span>
+                    </Tooltip>
+                  </ClickAwayListener>
                 )}
               </span>
             </div>

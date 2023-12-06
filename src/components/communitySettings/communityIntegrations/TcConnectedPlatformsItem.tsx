@@ -37,7 +37,7 @@
  * <TcConnectedPlatformsItem platform={platform} />
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import TcText from '../../shared/TcText';
 import clsx from 'clsx';
 import TcAvatar from '../../shared/TcAvatar';
@@ -49,13 +49,22 @@ import TcIntegrationIcon from './TcIntegrationIcon';
 import { capitalizeFirstChar, truncateCenter } from '../../../helpers/helper';
 import { IntegrationPlatform } from '../../../utils/enums';
 import { BsThreeDots } from 'react-icons/bs';
-import { Tooltip } from '@mui/material';
+import { ClickAwayListener, Tooltip } from '@mui/material';
 
 interface TcConnectedPlatformsItemProps {
   platform: IPlatformProps;
 }
 
 function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
   return (
     <TcIntegrationCard>
       <>
@@ -75,9 +84,16 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
                 variant="body1"
                 className="text-semibold"
               />
-              <Tooltip title={'Connected'} arrow placement="right">
-                <div className={'h-3 w-3 rounded-full bg-success'} />
-              </Tooltip>
+              <ClickAwayListener onClickAway={handleTooltipClose}>
+                <Tooltip
+                  title={'Connected'}
+                  arrow
+                  placement="right"
+                  enterTouchDelay={0}
+                >
+                  <div className={'h-3 w-3 rounded-full bg-success'} />
+                </Tooltip>
+              </ClickAwayListener>
             </div>
             <div className="flex justify-center">
               <TcIntegrationIcon
