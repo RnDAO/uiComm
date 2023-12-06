@@ -38,9 +38,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
 
   const { refreshData, selectedSubChannels } = channelContext;
 
-  const id = Array.isArray(router.query.id)
-    ? router.query.id[0]
-    : router.query.id;
+  const id = router.query.id as string;
 
   const fetchPlatform = async () => {
     setLoading(true);

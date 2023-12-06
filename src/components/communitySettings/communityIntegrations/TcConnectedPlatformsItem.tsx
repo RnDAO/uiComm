@@ -91,7 +91,10 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
                   placement="right"
                   enterTouchDelay={0}
                 >
-                  <div className={'h-3 w-3 rounded-full bg-success'} />
+                  <div
+                    onClick={handleTooltipOpen}
+                    className={'h-3 w-3 rounded-full bg-success'}
+                  />
                 </Tooltip>
               </ClickAwayListener>
             </div>
