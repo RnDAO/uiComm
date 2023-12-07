@@ -30,7 +30,7 @@ interface ChannelContextProps {
     platformId: string,
     property?: 'channel' | 'role',
     selectedChannels?: string[]
-  ) => Promise<Channel[]>;
+  ) => Promise<Channel[] | void>;
   handleSubChannelChange: (channelId: string, subChannelId: string) => void;
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => void;
   updateSelectedSubChannels: (
