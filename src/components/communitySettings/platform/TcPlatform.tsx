@@ -31,6 +31,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const [currentTrueIDs, setCurrentTrueIDs] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+  const [isChannelsFetched, setIsChannelFetched] = useState<boolean>(true);
 
   const [initialPlatformAnalyzerDate, setInitialPlatformAnalyzerDate] =
     useState<string>('');
@@ -41,21 +42,27 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   const id = router.query.id as string;
 
   const fetchPlatform = async () => {
-    setLoading(true);
-
     if (id) {
       try {
+        setLoading(true);
         const data = await retrievePlatformById(id);
         setFetchedPlatform(data);
+        setLoading(false);
         const { metadata } = data;
         if (metadata) {
           const { selectedChannels } = metadata;
 
-          await refreshData(id, 'channel', selectedChannels);
+          const data = await refreshData(id, 'channel', selectedChannels);
+
+          if (data.length === 0) {
+            setIsChannelFetched(false);
+          }
         } else {
-          await refreshData(id);
+          const data = await refreshData(id, 'channel');
+          if (data.length === 0) {
+            setIsChannelFetched(false);
+          }
         }
-        setLoading(false);
       } catch (error) {
       } finally {
       }
@@ -65,6 +72,33 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   useEffect(() => {
     fetchPlatform();
   }, [id, retrievePlatformById]);
+
+  useEffect(() => {
+    if (isChannelsFetched) return;
+
+    const fetchPlatformData = async () => {
+      if (!id) return;
+
+      try {
+        const data = await retrievePlatformById(id);
+        setFetchedPlatform(data);
+        const { metadata } = data;
+        if (metadata) {
+          const { selectedChannels } = metadata;
+          await refreshData(id, 'channel', selectedChannels);
+        } else {
+          await refreshData(id);
+        }
+        setLoading(false);
+      } catch (error) {}
+    };
+
+    const intervalId = setInterval(() => {
+      fetchPlatformData();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [isChannelsFetched]);
 
   const handlePatchCommunity = async () => {
     try {
