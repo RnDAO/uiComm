@@ -99,7 +99,11 @@ function TcActiveCommunity() {
       );
     }
 
-    if (activeCommunityPlatformIcon && activeCommunityPlatformIcon.metadata) {
+    if (
+      activeCommunityPlatformIcon &&
+      activeCommunityPlatformIcon.metadata &&
+      activeCommunityPlatformIcon.metadata.icon
+    ) {
       return (
         <Image
           src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
