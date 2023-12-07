@@ -306,7 +306,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         />
                         {activityCompositionOptions.map(
                           (option: IActivityCompositionOptions) => (
-                            <ListItem key={option.name}>
+                            <ListItem key={`${option.name}${option.name}`}>
                               <FormControlLabel
                                 control={
                                   <Checkbox
@@ -372,6 +372,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       <List>
                         <ListItem
                           button
+                          key={'desc'}
                           onClick={() => handleSortOptionClick('desc')}
                           selected={selectedSortOption === 'desc'}
                         >
@@ -379,6 +380,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         </ListItem>
                         <ListItem
                           button
+                          key={'asc'}
                           onClick={() => handleSortOptionClick('asc')}
                           selected={selectedSortOption === 'asc'}
                         >
@@ -433,7 +435,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
               {data && data.length > 0 ? (
                 data.map((row, index) => (
                   <TableRow
-                    key={row.id}
+                    key={`${row.id} ${index}`}
                     className={`my-5 ${
                       index % 2 === 0
                         ? 'bg-gray-100'
