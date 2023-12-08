@@ -30,8 +30,13 @@ type TcInputProps = ICustomProps &
  * @returns A JSX element representing a TextField with the provided properties.
  */
 
-const TcInput = ({ ...props }: TcInputProps) => {
-  return <TextField {...props} InputProps={{ sx: { borderRadius: 0 } }} />;
+const TcInput = ({ InputProps, ...props }: TcInputProps) => {
+  const mergedInputProps = {
+    ...InputProps,
+    sx: { ...(InputProps?.sx || {}), borderRadius: 0 },
+  };
+
+  return <TextField {...props} InputProps={mergedInputProps} />;
 };
 
 export default TcInput;

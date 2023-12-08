@@ -80,3 +80,43 @@ export function extractTrueSubChannelIds(
 
   return trueSubChannelIds;
 }
+
+export function isDarkColor(colorValue: string | number): boolean {
+  let hexColor: string;
+
+  if (typeof colorValue === 'number') {
+    hexColor =
+      colorValue !== 0
+        ? `#${colorValue.toString(16).padStart(6, '0')}`
+        : '#96A5A6';
+  } else {
+    hexColor = colorValue;
+  }
+
+  const r = parseInt(hexColor.substring(1, 3), 16);
+  const g = parseInt(hexColor.substring(3, 5), 16);
+  const b = parseInt(hexColor.substring(5, 7), 16);
+
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+  return luminance < 150;
+}
+
+export function hexToRGBA(hex: string, opacity: number): string {
+  let r = 0,
+    g = 0,
+    b = 0;
+
+  // 3 digits
+  if (hex.length === 4) {
+    r = parseInt(hex[1] + hex[1], 16);
+    g = parseInt(hex[2] + hex[2], 16);
+    b = parseInt(hex[3] + hex[3], 16);
+  } else if (hex.length === 7) {
+    // 6 digits
+    r = parseInt(hex.substring(1, 3), 16);
+    g = parseInt(hex.substring(3, 5), 16);
+    b = parseInt(hex.substring(5, 7), 16);
+  }
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
