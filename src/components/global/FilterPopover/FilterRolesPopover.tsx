@@ -381,7 +381,39 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                             onChange={() => toggleRole(role)}
                           />
                         }
-                        label={role ? renderRoleItem(role) : ''}
+                        label={
+                          role ? (
+                            <Chip
+                              variant="outlined"
+                              label={role.name}
+                              size="small"
+                              sx={{
+                                borderRadius: '4px',
+                                borderColor: hexToRGBA(
+                                  role.color !== 0
+                                    ? `#${role.color
+                                        .toString(16)
+                                        .padStart(6, '0')}`
+                                    : '#96A5A6',
+                                  1
+                                ),
+                                backgroundColor: hexToRGBA(
+                                  role.color !== 0
+                                    ? `#${role.color
+                                        .toString(16)
+                                        .padStart(6, '0')}`
+                                    : '#96A5A6',
+                                  0.8
+                                ),
+                                color: isDarkColor(role.color)
+                                  ? 'white'
+                                  : 'black',
+                              }}
+                            />
+                          ) : (
+                            ''
+                          )
+                        }
                         className="w-full flex justify-start"
                       />
                     </ListItem>
