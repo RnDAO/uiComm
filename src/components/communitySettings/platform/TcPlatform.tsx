@@ -54,12 +54,12 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
 
           const data = await refreshData(id, 'channel', selectedChannels);
 
-          if (data.length === 0) {
+          if (data && data.length === 0) {
             setIsChannelFetched(false);
           }
         } else {
           const data = await refreshData(id, 'channel');
-          if (data.length === 0) {
+          if (data && data.length === 0) {
             setIsChannelFetched(false);
           }
         }

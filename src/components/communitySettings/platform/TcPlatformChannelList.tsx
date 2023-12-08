@@ -93,6 +93,10 @@ function TcPlatformChannelList({
                       onChange={() =>
                         handleSelectAll(channel.channelId, channel?.subChannels)
                       }
+                      disabled={channel?.subChannels?.some(
+                        (subChannel) =>
+                          !subChannel.canReadMessageHistoryAndViewChannel
+                      )}
                     />
                   }
                   label="All Channels"
