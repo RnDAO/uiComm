@@ -9,6 +9,8 @@ import TcInput from '../../shared/TcInput';
 import { debounce } from '@mui/material';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { MdGroups } from 'react-icons/md';
+import { conf } from '../../../configs';
+import Image from 'next/image';
 
 const updateCommunityName = debounce(
   async (communityId, newName, updateFunc, fetchFunc, showSnackbar) => {
@@ -88,6 +90,34 @@ function TcActiveCommunity() {
     }
   };
 
+  const renderPlatformAvatar = (community: IDiscordModifiedCommunity) => {
+    let activeCommunityPlatformIcon;
+
+    if (community?.platforms) {
+      activeCommunityPlatformIcon = community.platforms.find(
+        (platform) => platform.disconnectedAt === null
+      );
+    }
+
+    if (
+      activeCommunityPlatformIcon &&
+      activeCommunityPlatformIcon.metadata &&
+      activeCommunityPlatformIcon.metadata.icon
+    ) {
+      return (
+        <Image
+          src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
+          width="100"
+          height="100"
+          alt={activeCommunityPlatformIcon.metadata.name || ''}
+          className="rounded-full"
+        />
+      );
+    }
+
+    return <MdGroups size={28} />;
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center border-b border-b-gray-200 py-4 mt-4">
@@ -99,13 +129,17 @@ function TcActiveCommunity() {
   return (
     <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-b-gray-200 md:py-4 mt-4">
       <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center space-x-2 md:px-3">
-        <TcAvatar
-          src={community?.avatarURL}
-          sx={{ width: 40, height: 40 }}
-          className="mx-auto"
-        >
-          <MdGroups size={28} />
-        </TcAvatar>
+        {community && community.avatarURL ? (
+          <TcAvatar className="mx-auto" src={community.avatarURL} />
+        ) : (
+          <TcAvatar className="mx-auto">
+            {community ? (
+              renderPlatformAvatar(community)
+            ) : (
+              <MdGroups size={28} />
+            )}
+          </TcAvatar>
+        )}
         {loading ? (
           <Loading height="40px" size={30} />
         ) : (

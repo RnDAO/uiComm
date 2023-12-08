@@ -61,7 +61,7 @@ const ErrorPage: NextComponentType<
               label={'Community Insights'}
             />
             <CustomButton
-              onClick={() => router.push('/tryNow')}
+              onClick={() => router.push('/centric')}
               classes={'text-black'}
               variant="outlined"
               label={'Connect your community'}

@@ -1,44 +1,38 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Autocomplete,
-  FormControl,
-  FormControlLabel,
-  ListItem,
-  Radio,
-  RadioGroup,
-  TextField,
-} from '@mui/material';
-import {
-  MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
+  MdOutlineKeyboardArrowDown,
 } from 'react-icons/md';
-import Loading from '../Loading';
-
 import TcButton from '../../shared/TcButton';
 import TcPopover from '../../shared/TcPopover';
-import TcCheckbox from '../../shared/TcCheckbox';
-
+import {
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  ListItem,
+  Chip,
+  Autocomplete,
+} from '@mui/material';
+import TcText from '../../shared/TcText';
+import TcInput from '../../shared/TcInput';
 import useAppStore from '../../../store/useStore';
 import { useToken } from '../../../context/TokenContext';
+import { debounce, hexToRGBA, isDarkColor } from '../../../helpers/helper';
 import { FetchedData, IRoles } from '../../../utils/interfaces';
-import TcText from '../../shared/TcText';
+import TcCheckbox from '../../shared/TcCheckbox';
+import Loading from '../Loading';
 import { IRolesPayload } from '../../pages/statistics/memberBreakdowns/CustomTable';
-
-interface Payload {
-  allRoles: boolean;
-  exclude?: string[];
-  include?: string[];
-}
 
 function createPayload(
   includeExclude: 'include' | 'exclude',
   selectedRoles: string[]
-): Payload {
+): IRolesPayload {
   if (!Array.isArray(selectedRoles)) {
     throw new Error('selectedRoles must be an array of strings');
   }
 
-  const payload: Payload = {
+  const payload: IRolesPayload = {
     allRoles: false,
   };
 
@@ -50,28 +44,25 @@ function createPayload(
 
   return payload;
 }
+
 interface IFilterRolesPopover {
   handleSelectedRoles: (payload: IRolesPayload) => void;
 }
+
 function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
-  const { retrievePlatformProperties } = useAppStore();
-  const { community } = useToken();
-  const platformId = community?.platforms[0]?.id;
+  const [isRolesPopupOpen, setIsRolesPopupOpen] = useState<boolean>(false);
 
-  const scrollableDivRef = useRef<HTMLDivElement | null>(null);
+  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    setIsRolesPopupOpen(true);
+  };
 
-  const [popoverOpen, setPopoverOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [roles, setRoles] = useState<FetchedData>({
-    limit: 8,
-    page: 1,
-    results: [],
-    totalPages: 0,
-    totalResults: 0,
-  });
-  const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClosePopover = () => {
+    setIsRolesPopupOpen(false);
+    setAnchorEl(null);
+  };
 
   const [includeExclude, setIncludeExclude] = useState<'include' | 'exclude'>(
     'include'
@@ -87,51 +78,75 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
     }
   };
 
-  const isRolesPopupOpen = Boolean(anchorEl);
+  const { retrievePlatformProperties } = useAppStore();
+  const { community } = useToken();
+  const platformId = community?.platforms[0]?.id;
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    setPopoverOpen(true);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [fetchedRoles, setFetchedRoles] = useState<FetchedData>({
+    limit: 8,
+    page: 1,
+    results: [],
+    totalPages: 0,
+    totalResults: 0,
+  });
+  const [page, setPage] = useState<number>(1);
+  const [filteredRolesByName, setFilteredRolesByName] = useState<string>('');
+
+  const fetchDiscordRoles = async (
+    platformId: string,
+    page?: number,
+    limit?: number,
+    name?: string
+  ) => {
+    try {
+      setLoading(true);
+      const fetchedRoles = await retrievePlatformProperties({
+        platformId,
+        name: name,
+        property: 'role',
+        page: page,
+        limit: limit,
+      });
+
+      if (name) {
+        setFilteredRolesByName(name);
+        setFetchedRoles(fetchedRoles);
+      } else {
+        setFetchedRoles((prevData) => {
+          const updatedResults = [
+            ...prevData.results,
+            ...fetchedRoles.results,
+          ].filter(
+            (role, index, self) =>
+              index === self.findIndex((r) => r.id === role.id)
+          );
+
+          return {
+            ...prevData,
+            ...fetchedRoles,
+            results: updatedResults,
+          };
+        });
+      }
+      setLoading(false);
+    } catch (error) {}
   };
 
-  const handleClosePopover = () => {
-    setPopoverOpen(false);
-    setAnchorEl(null);
+  const handleClearAll = () => {
+    if (!platformId) return;
+    fetchDiscordRoles(platformId, fetchedRoles.page, fetchedRoles.limit);
   };
 
-  const loadMoreRoles = async () => {
-    setLoading(true);
-    const nextPage = page + 1;
-    setPage(nextPage);
+  const debouncedFetchDiscordRoles = debounce(fetchDiscordRoles, 700);
 
-    const fetchedRoles = await retrievePlatformProperties({
-      platformId,
-      property: 'role',
-      page: nextPage,
-      limit: roles.limit,
-    });
+  useEffect(() => {
+    if (!platformId) return;
+    fetchDiscordRoles(platformId, fetchedRoles.page, fetchedRoles.limit);
+  }, []);
 
-    const newRoles = fetchedRoles.results.filter(
-      (fetchedRole: IRoles) =>
-        !roles.results.some((role) => role.id === fetchedRole.id)
-    );
-
-    setRoles((prevRoles) => ({
-      ...fetchedRoles,
-      results: [...prevRoles.results, ...newRoles],
-    }));
-    setLoading(false);
-  };
-
-  const fetchRoles = async (name?: string) => {
-    const fetchedRoles = await retrievePlatformProperties({
-      platformId,
-      property: 'role',
-      page: roles?.page,
-      limit: roles?.limit,
-    });
-    setRoles(fetchedRoles);
-  };
+  const scrollableDivRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
     const element = scrollableDivRef.current;
@@ -139,37 +154,37 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
 
     const hasReachedBottom =
       element.scrollHeight - element.scrollTop === element.clientHeight;
-    const hasMoreRolesToLoad = roles.page * roles.limit <= roles.totalResults;
+
+    const hasMoreRolesToLoad =
+      fetchedRoles.page * fetchedRoles.limit <= fetchedRoles.totalResults;
+
+    if (!platformId) return;
 
     if (hasReachedBottom && hasMoreRolesToLoad) {
-      loadMoreRoles();
+      const nextPage = fetchedRoles.page + 1;
+      if (filteredRolesByName) {
+        fetchDiscordRoles(
+          platformId,
+          nextPage,
+          fetchedRoles.limit,
+          filteredRolesByName
+        );
+      } else {
+        fetchDiscordRoles(platformId, nextPage, fetchedRoles.limit);
+      }
+      setPage(nextPage);
     }
   };
 
-  const handleSelectedRole = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    role: IRoles
-  ) => {
-    const roleId = role.roleId;
-    setSelectedRoles((prev) =>
-      event.target.checked
-        ? [...prev, roleId]
-        : prev.filter((id) => id !== roleId)
-    );
-  };
-
-  const handleAutocompleteChange = (
-    event: React.ChangeEvent<{}>,
-    newValue: IRoles[]
-  ) => {
-    setSelectedRoles(newValue.map((role) => role.roleId));
-  };
+  const [selectedRoles, setSelectedRoles] = useState<IRoles[]>([]);
 
   useEffect(() => {
     let payload;
 
     if (selectedRoles.length !== 0) {
-      payload = createPayload(includeExclude, selectedRoles);
+      const roleIds = selectedRoles.map((role) => role.roleId.toString());
+
+      payload = createPayload(includeExclude, roleIds);
     } else {
       payload = { allRoles: true };
     }
@@ -177,10 +192,46 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
     handleSelectedRoles(payload);
   }, [selectedRoles, includeExclude]);
 
-  useEffect(() => {
+  const toggleRole = (role: IRoles) => {
+    setSelectedRoles((prevSelectedRoles) => {
+      const isRoleSelected = prevSelectedRoles.some(
+        (selectedRole) => selectedRole.id === role.id
+      );
+
+      if (isRoleSelected) {
+        setFilteredRolesByName('');
+        return prevSelectedRoles.filter(
+          (selectedRole) => selectedRole.id !== role.id
+        );
+      } else {
+        setFilteredRolesByName('');
+        return [...prevSelectedRoles, role];
+      }
+    });
+  };
+
+  const [isAutocompleteOpen, setAutocompleteOpen] = useState<boolean>(false);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+
     if (!platformId) return;
-    fetchRoles();
-  }, [platformId]);
+
+    if (inputValue === '') {
+      setFilteredRolesByName('');
+      setFetchedRoles({
+        limit: 8,
+        page: 1,
+        results: [],
+        totalPages: 0,
+        totalResults: 0,
+      });
+
+      debouncedFetchDiscordRoles(platformId, 1, 8);
+    } else {
+      debouncedFetchDiscordRoles(platformId, 1, 100, inputValue);
+    }
+  };
 
   const renderRoleItem = (option: IRoles) => (
     <div className="flex items-center border bg-white border-[#D1D1D1] rounded-md px-3">
@@ -199,7 +250,7 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
   );
 
   return (
-    <>
+    <div>
       <TcButton
         text={'Roles'}
         className="text-black"
@@ -216,12 +267,12 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
         onClick={handleButtonClick}
       />
       <TcPopover
-        open={popoverOpen}
+        open={isRolesPopupOpen}
         anchorEl={anchorEl}
         sx={{ maxWidth: '340px' }}
         content={
-          <div className="px-4 flex flex-col space-y-2">
-            {selectedRoles.length > 0 ? (
+          <div className="px-4 flex flex-col space-y-2 py-2">
+            {selectedRoles.length > 0 && (
               <FormControl component="fieldset">
                 <RadioGroup
                   row
@@ -243,62 +294,141 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                   />
                 </RadioGroup>
               </FormControl>
-            ) : (
-              <div className="py-2" />
             )}
-            <FormControl className="bg-gray-100">
+            <FormControl>
               <Autocomplete
                 multiple
-                id="tags-outlined"
-                options={roles.results}
+                id="tags-filled"
+                options={fetchedRoles.results}
+                freeSolo
+                open={isAutocompleteOpen}
+                sx={{
+                  minWidth: 'auto',
+                }}
+                value={selectedRoles}
+                onChange={(event, newValue) => {
+                  setSelectedRoles(newValue);
+                  if (newValue.length === 0) {
+                    handleClearAll();
+                  }
+                }}
                 getOptionLabel={(option) => option.name}
-                value={roles.results.filter((role) =>
-                  selectedRoles.includes(role.roleId)
-                )}
-                onChange={handleAutocompleteChange}
-                renderOption={(props, option) => (
-                  <li {...props}>{renderRoleItem(option)}</li>
-                )}
                 renderTags={(value, getTagProps) =>
-                  value.map((option, index) => renderRoleItem(option))
+                  value.map((option, index) => (
+                    <Chip
+                      variant="outlined"
+                      label={option.name}
+                      size="small"
+                      sx={{
+                        borderRadius: '4px',
+                        borderColor: hexToRGBA(
+                          option.color !== 0
+                            ? `#${option.color.toString(16).padStart(6, '0')}`
+                            : '#96A5A6',
+                          1
+                        ),
+                        backgroundColor: hexToRGBA(
+                          option.color !== 0
+                            ? `#${option.color.toString(16).padStart(6, '0')}`
+                            : '#96A5A6',
+                          0.8
+                        ),
+                        color: isDarkColor(option.color) ? 'white' : 'black',
+                      }}
+                      {...getTagProps({ index })}
+                    />
+                  ))
                 }
-                filterSelectedOptions
                 renderInput={(params) => (
-                  <TextField
+                  <TcInput
+                    sx={{
+                      minWidth: 'auto',
+                    }}
                     {...params}
-                    sx={{ minWidth: 'auto' }}
-                    label="Select one or more roles"
+                    variant="filled"
+                    label="Roles"
+                    placeholder="Select one or more roles"
+                    value={filteredRolesByName}
+                    onChange={handleSearchChange}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setAutocompleteOpen(false);
+                    }}
                   />
                 )}
               />
             </FormControl>
             <div
               ref={scrollableDivRef}
-              className="border max-h-[300px] overflow-y-auto border-gray-200 rounded-md p-1"
+              className="border max-h-[300px] min-w-[250px] overflow-y-auto border-gray-200 rounded-md p-1"
               onScroll={handleScroll}
             >
-              <TcText text="Show members with roles:" className="p-1" />
-              {roles?.results?.map((role: IRoles) => (
-                <ListItem key={`${role.id}-${role.name}`}>
-                  <FormControlLabel
-                    control={
-                      <TcCheckbox
-                        color="secondary"
-                        checked={selectedRoles.includes(role.roleId)}
-                        onChange={(e) => handleSelectedRole(e, role)}
+              {fetchedRoles && fetchedRoles.results.length > 0 ? (
+                <>
+                  <TcText text="Show members with roles:" className="p-1" />
+                  {fetchedRoles?.results?.map((role: IRoles) => (
+                    <ListItem
+                      key={`${role.id}-${role.name}`}
+                      className="w-full"
+                    >
+                      <FormControlLabel
+                        control={
+                          <TcCheckbox
+                            color="secondary"
+                            checked={selectedRoles.some(
+                              (selectedRole) => selectedRole.id === role.id
+                            )}
+                            onChange={() => toggleRole(role)}
+                          />
+                        }
+                        label={
+                          role ? (
+                            <Chip
+                              variant="outlined"
+                              label={role.name}
+                              size="small"
+                              sx={{
+                                borderRadius: '4px',
+                                borderColor: hexToRGBA(
+                                  role.color !== 0
+                                    ? `#${role.color
+                                        .toString(16)
+                                        .padStart(6, '0')}`
+                                    : '#96A5A6',
+                                  1
+                                ),
+                                backgroundColor: hexToRGBA(
+                                  role.color !== 0
+                                    ? `#${role.color
+                                        .toString(16)
+                                        .padStart(6, '0')}`
+                                    : '#96A5A6',
+                                  0.8
+                                ),
+                                color: isDarkColor(role.color)
+                                  ? 'white'
+                                  : 'black',
+                              }}
+                            />
+                          ) : (
+                            ''
+                          )
+                        }
+                        className="w-full flex justify-start"
                       />
-                    }
-                    label={renderRoleItem(role)}
-                  />
-                </ListItem>
-              ))}
-              {loading ? <Loading /> : ''}
+                    </ListItem>
+                  ))}
+                </>
+              ) : (
+                <TcText text="Role not found" className="text-center py-5" />
+              )}
+              {loading ? <Loading height="20" size={20} /> : ''}
             </div>
           </div>
         }
         onClose={handleClosePopover}
       />
-    </>
+    </div>
   );
 }
 

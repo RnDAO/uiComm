@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { FormControlLabel, FormGroup } from '@mui/material';
 import TcCheckbox from '../../shared/TcCheckbox';
 import TcText from '../../shared/TcText';
@@ -8,6 +8,7 @@ import Loading from '../../global/Loading';
 import { ChannelContext } from '../../../context/ChannelContext';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
+import { BiError } from 'react-icons/bi';
 
 interface ITcPlatformChannelList {
   refreshTrigger: boolean;
@@ -60,7 +61,7 @@ function TcPlatformChannelList({
     <div className="max-h-[400px] overflow-y-scroll">
       {refreshTrigger ? (
         <TcButton
-          className="sticky top-4 float-right m-4"
+          className="sticky top-4 float-right m-4 bg-white"
           startIcon={<TbRefresh />}
           sx={{ maxWidth: '10rem' }}
           variant="outlined"
@@ -76,8 +77,8 @@ function TcPlatformChannelList({
         )}
       >
         {channels &&
-          channels?.map((channel) => (
-            <div key={channel.channelId}>
+          channels?.map((channel, index) => (
+            <div key={`${channel.channelId} ${index}`}>
               <TcText variant="h6" text={channel.title} />
               <div className="ml-5">
                 <FormControlLabel
@@ -92,32 +93,54 @@ function TcPlatformChannelList({
                       onChange={() =>
                         handleSelectAll(channel.channelId, channel?.subChannels)
                       }
+                      disabled={channel?.subChannels?.some(
+                        (subChannel) =>
+                          !subChannel.canReadMessageHistoryAndViewChannel
+                      )}
                     />
                   }
-                  label="Select All"
+                  label="All Channels"
                 />
                 <TcText text="Channels" />
                 <FormGroup>
-                  {channel.subChannels.map((subChannel) => (
-                    <FormControlLabel
-                      key={subChannel.channelId}
-                      control={
-                        <TcCheckbox
-                          checked={
-                            selectedSubChannels[channel.channelId]?.[
-                              subChannel.channelId
-                            ] || false
-                          }
-                          onChange={() =>
-                            handleSubChannelChange(
-                              channel.channelId,
-                              subChannel.channelId
-                            )
-                          }
-                        />
-                      }
-                      label={subChannel.name}
-                    />
+                  {channel.subChannels.map((subChannel, index) => (
+                    <div
+                      className="flex justify-between"
+                      key={`${subChannel.channelId} ${subChannel.parentId} ${index}`}
+                    >
+                      <FormControlLabel
+                        control={
+                          <TcCheckbox
+                            checked={
+                              selectedSubChannels[channel.channelId]?.[
+                                subChannel.channelId
+                              ] || false
+                            }
+                            disabled={
+                              !subChannel.canReadMessageHistoryAndViewChannel
+                            }
+                            onChange={() =>
+                              handleSubChannelChange(
+                                channel.channelId,
+                                subChannel.channelId
+                              )
+                            }
+                          />
+                        }
+                        label={subChannel.name}
+                      />
+                      {!subChannel.canReadMessageHistoryAndViewChannel ? (
+                        <div className="flex items-center space-x-1">
+                          <BiError className="text-error-500" />
+                          <TcText
+                            className="text-error-500"
+                            text="Bot needs access"
+                          />
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </div>
                   ))}
                 </FormGroup>
               </div>

@@ -5,6 +5,8 @@ import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import clsx from 'clsx';
 import { StorageService } from '../../../services/StorageService';
 import { MdGroups } from 'react-icons/md';
+import { conf } from '../../../configs';
+import Image from 'next/image';
 
 /**
  * Props for the TcCommunityListItems component.
@@ -57,6 +59,34 @@ function TcCommunityListItems({
     }
   }, [selectedCommunity]);
 
+  const renderPlatformAvatar = (community: IDiscordModifiedCommunity) => {
+    let activeCommunityPlatformIcon;
+
+    if (community?.platforms) {
+      activeCommunityPlatformIcon = community.platforms.find(
+        (platform) => platform.disconnectedAt === null
+      );
+    }
+
+    if (
+      activeCommunityPlatformIcon &&
+      activeCommunityPlatformIcon.metadata &&
+      activeCommunityPlatformIcon.metadata.icon
+    ) {
+      return (
+        <Image
+          src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
+          width="100"
+          height="100"
+          alt={activeCommunityPlatformIcon.metadata.name || ''}
+          className="rounded-full"
+        />
+      );
+    }
+
+    return <MdGroups size={28} />;
+  };
+
   if (communities.length === 0) {
     return (
       <div className="py-8">
@@ -80,7 +110,7 @@ function TcCommunityListItems({
             <TcAvatar className="mx-auto" src={community.avatarURL} />
           ) : (
             <TcAvatar className="mx-auto">
-              <MdGroups size={28} />
+              {renderPlatformAvatar(community)}
             </TcAvatar>
           )}
           <TcText text={community.name} variant={'body1'} />

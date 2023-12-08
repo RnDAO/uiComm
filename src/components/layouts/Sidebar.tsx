@@ -14,26 +14,29 @@ import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import useAppStore from '../../store/useStore';
 import { FiSettings } from 'react-icons/fi';
+import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
+import { useToken } from '../../context/TokenContext';
 
 const Sidebar = () => {
-  const { guildInfoByDiscord } = useAppStore();
-  const [guildId, setGuildId] = useState('');
   const router = useRouter();
   const currentRoute = router.pathname;
+  const { community } = useToken();
+
+  const [connectedPlatform, setConnectedPlatform] =
+    useState<ICommunityDiscordPlatfromProps | null>(null);
 
   useEffect(() => {
-    // const user = StorageService.readLocalStorage<IUser>('user');
-    // if (user) {
-    //   const { guildId } = user.guild;
-    //   if (guildId) {
-    //     setGuildId(guildId);
-    //   }
-    // }
-  }, []);
+    const storedCommunity = community;
 
-  // `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform?.metadata.icon}.png`
+    if (storedCommunity?.platforms) {
+      const foundPlatform = storedCommunity.platforms.find(
+        (platform) => platform.disconnectedAt === null
+      );
+
+      setConnectedPlatform(foundPlatform ?? null);
+    }
+  }, [community]);
 
   const menuItems: items[] = [
     {
@@ -94,12 +97,18 @@ const Sidebar = () => {
                 className="w-10 h-10 mb-2 mx-auto cursor-pointer"
                 onClick={() => router.push('/centric/select-community')}
               >
-                {guildId && guildInfoByDiscord.icon ? (
+                {connectedPlatform &&
+                connectedPlatform.metadata &&
+                connectedPlatform.metadata.icon ? (
                   <Image
-                    src={`${conf.DISCORD_CDN}icons/${guildId}/${guildInfoByDiscord.icon}`}
+                    src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width="100"
                     height="100"
-                    alt={guildInfoByDiscord.name ? guildInfoByDiscord.name : ''}
+                    alt={
+                      connectedPlatform.metadata.name
+                        ? connectedPlatform.metadata.name
+                        : ''
+                    }
                     className="rounded-full"
                   />
                 ) : (
@@ -107,9 +116,6 @@ const Sidebar = () => {
                 )}
               </div>
             </div>
-            <p className="text-sm w-9/12 font-bold text-center overflow-hidden mx-auto break-words">
-              {guildInfoByDiscord.name}
-            </p>
           </div>
         </div>
         <hr className="mx-2" />

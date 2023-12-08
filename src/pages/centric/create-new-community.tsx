@@ -10,10 +10,12 @@ import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
 import useAppStore from '../../store/useStore';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
-import { StorageService } from '../../services/StorageService';
+import { useToken } from '../../context/TokenContext';
 
 function CreateNewCommunity() {
   const { createNewCommunitie } = useAppStore();
+  const { updateCommunity } = useToken();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [communityName, setCommunityName] = useState<string>('');
   const [readTermsAndCondition, setReadTermsAndCondition] =
@@ -25,7 +27,8 @@ function CreateNewCommunity() {
       name: communityName,
       tcaAt: new Date().toISOString(),
     });
-    StorageService.writeLocalStorage('community', community);
+
+    updateCommunity(community);
 
     router.push('/');
   };
