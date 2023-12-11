@@ -1,9 +1,13 @@
 'use client';
-import TcPlatform from '../../../components/communitySettings/platform';
+import dynamic from 'next/dynamic';
 import SEO from '../../../components/global/SEO';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
 import { ChannelProvider } from '../../../context/ChannelContext';
 import { defaultLayout } from '../../../layouts/defaultLayout';
+const TcPlatform = dynamic(
+  () => import('../../../components/communitySettings/platform'),
+  { ssr: false }
+);
 
 function PlatformConfigurations() {
   return (
