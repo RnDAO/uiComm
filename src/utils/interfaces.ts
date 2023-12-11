@@ -155,9 +155,10 @@ export interface ICommunityDiscordPlatfromProps {
     id: string;
     icon: string;
     name: string;
-    selectedChannels: string[];
-    period: string;
-    analyzerStartedAt: string;
+    selectedChannels?: string[];
+    period?: string;
+    analyzerStartedAt?: string;
+    isInProgress?: boolean;
   };
   disconnectedAt: string | null;
 }

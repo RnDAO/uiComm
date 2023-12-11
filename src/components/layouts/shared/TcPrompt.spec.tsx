@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import TcPrompt from './TcPrompt';
 import mockRouter from 'next-router-mock';
 import { StorageService } from '../../../services/StorageService';
+import { TokenProvider } from '../../../context/TokenContext';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('../../../services/StorageService');
@@ -13,40 +14,56 @@ describe('TcPrompt', () => {
     jest.clearAllMocks();
     jest.spyOn(StorageService, 'readLocalStorage').mockImplementation((key) => {
       if (key === 'community') {
-        return { platforms: [] }; // Adjust this return value as needed for different test cases
+        return { platforms: [] };
       }
       return undefined;
     });
   });
 
+  const renderComponent = (url = '/') => {
+    mockRouter.setCurrentUrl(url);
+    render(
+      <TokenProvider>
+        <TcPrompt />
+      </TokenProvider>
+    );
+  };
+
   test('renders without crashing', () => {
-    mockRouter.setCurrentUrl('/');
-    render(<TcPrompt />);
-    // Additional checks can be added here
+    renderComponent();
   });
 
   test('renders prompt when no platforms are connected', () => {
-    mockRouter.setCurrentUrl('/');
-    render(<TcPrompt />);
+    renderComponent();
     expect(
       screen.getByText('To see the data, connect your community platforms.')
     ).toBeInTheDocument();
   });
 
   test('does not render prompt on excluded routes', () => {
-    mockRouter.setCurrentUrl('/cetric');
-    render(<TcPrompt />);
+    renderComponent('/cetric');
     expect(
       screen.queryByText('To see the data, connect your community platforms.')
     ).not.toBeInTheDocument();
   });
 
-  test('does not render prompt when platforms are connected', () => {
-    mockRouter.setCurrentUrl('/');
+  test('renders prompt when platform connection is in progress', () => {
     jest
       .spyOn(StorageService, 'readLocalStorage')
-      .mockReturnValue({ platforms: ['Discord'] });
-    render(<TcPrompt />);
+      .mockReturnValue({ platforms: [{ metadata: { isInProgress: true } }] });
+    renderComponent();
+    expect(
+      screen.getByText(
+        'Data import is in progress. It might take up to 6 hours to finish the data import. Once it is done we will send you a message on Discord.'
+      )
+    ).toBeInTheDocument();
+  });
+
+  test('does not render prompt when platforms are connected and not in progress', () => {
+    jest
+      .spyOn(StorageService, 'readLocalStorage')
+      .mockReturnValue({ platforms: [{ metadata: { isInProgress: false } }] });
+    renderComponent();
     expect(
       screen.queryByText('To see the data, connect your community platforms.')
     ).not.toBeInTheDocument();
