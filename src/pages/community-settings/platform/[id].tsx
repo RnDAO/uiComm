@@ -1,8 +1,9 @@
-import SEO from '../../../components/global/SEO';
+'use client';
 import TcPlatform from '../../../components/communitySettings/platform';
-import { defaultLayout } from '../../../layouts/defaultLayout';
-import { ChannelProvider } from '../../../context/ChannelContext';
+import SEO from '../../../components/global/SEO';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
+import { ChannelProvider } from '../../../context/ChannelContext';
+import { defaultLayout } from '../../../layouts/defaultLayout';
 
 function PlatformConfigurations() {
   return (
