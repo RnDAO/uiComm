@@ -3,7 +3,7 @@
 
 ## Overview
 
-Welcome to the `rndao` project! This repository contains a Next.js application with a rich set of features and dependencies geared towards building a robust and scalable web application.
+Welcome to the `Togethercrew` project! This repository contains a Next.js application with a rich set of features and dependencies geared towards building a robust and scalable web application.
 
 ## Getting Started
 
@@ -49,15 +49,15 @@ In the project directory, you can run:
 
 The project uses a variety of dependencies for different purposes:
 
-- React and Next.js: For building the user interface and server-side rendering.
-- TypeScript: For adding type safety to the codebase.
-- ESLint and Prettier: For code formatting and linting.
-- Jest: For running tests.
-- Material-UI and Emotion: For UI components and styling.
-- Highcharts: For data visualization.
-- Axios: For making HTTP requests.
-- Sentry: For error tracking and monitoring.
-- Zustand: For state management.
+- **[React](https://reactjs.org/) and [Next.js](https://nextjs.org/)**: For building the user interface and server-side rendering.
+- **[TypeScript](https://www.typescriptlang.org/)**: For adding type safety to the codebase.
+- **[ESLint](https://eslint.org/) and [Prettier](https://prettier.io/)**: For code formatting and linting.
+- **[Jest](https://jestjs.io/)**: For running tests.
+- **[Material-UI](https://mui.com/) and [Emotion](https://emotion.sh/)**: For UI components and styling.
+- **[Highcharts](https://www.highcharts.com/)**: For data visualization.
+- **[Axios](https://axios-http.com/)**: For making HTTP requests.
+- **[Sentry](https://sentry.io/welcome/)**: For error tracking and monitoring.
+- **[Zustand](https://github.com/pmndrs/zustand)**: For state management.
 
 And many others that enhance the functionality and performance of the application.
 
