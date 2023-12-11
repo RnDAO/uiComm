@@ -1,4 +1,3 @@
-'use client';
 import TcPlatform from '../../../components/communitySettings/platform';
 import SEO from '../../../components/global/SEO';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
