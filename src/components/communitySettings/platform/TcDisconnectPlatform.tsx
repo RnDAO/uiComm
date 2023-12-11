@@ -18,7 +18,8 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
-  const { id } = router.query;
+
+  const id = router.query.platformId as string;
 
   const handleDeletePlatform = async (deleteType: 'hard' | 'soft') => {
     try {
