@@ -22,9 +22,9 @@ function TcPlatformChannelList({
   const channelContext = useContext(ChannelContext);
   const router = useRouter();
 
-  const id = Array.isArray(router.query.id)
-    ? router.query.id[0]
-    : router.query.id;
+  const id = Array.isArray(router.query.platformId)
+    ? router.query.platformId[0]
+    : router.query.platformId;
 
   const {
     channels,
