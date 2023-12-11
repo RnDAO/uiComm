@@ -86,8 +86,6 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
         const data = await retrievePlatformProperties({ property, platformId });
         setChannels(data);
         if (selectedChannels) {
-          console.log('dsd');
-
           updateSelectedSubChannels(data, selectedChannels);
         } else {
           const newSelectedSubChannels = data.reduce(
@@ -171,7 +169,6 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
 
         updatedSelectedSubChannels[channel.channelId] = channelUpdates;
       });
-      console.log({ updatedSelectedSubChannels });
 
       return updatedSelectedSubChannels;
     });

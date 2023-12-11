@@ -72,7 +72,9 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
           <BsThreeDots
             className="cursor-pointer text-gray-400"
             onClick={() =>
-              router.push(`/community-settings/platform/${platform.id}/`)
+              router.push(
+                `/community-settings/platform/?platformId=${platform.id}`
+              )
             }
           />
         </div>

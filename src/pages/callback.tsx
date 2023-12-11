@@ -85,7 +85,7 @@ function Callback() {
       if (!data) {
         router.push('community-settings');
       }
-      router.push(`/community-settings/platform/${data.id}`);
+      router.push(`/community-settings/platform/?platformId=${data.id}`);
     } catch (error) {
       console.error('Failed to create new platform:', error);
     }

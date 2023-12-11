@@ -5,7 +5,7 @@ import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
 import { ChannelProvider } from '../../../context/ChannelContext';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 
-function PlatformConfigurations() {
+function Index() {
   return (
     <>
       <ChannelProvider>
@@ -23,6 +23,6 @@ function PlatformConfigurations() {
   );
 }
 
-PlatformConfigurations.pageLayout = defaultLayout;
+Index.pageLayout = defaultLayout;
 
-export default PlatformConfigurations;
+export default Index;
