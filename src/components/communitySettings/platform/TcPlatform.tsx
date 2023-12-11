@@ -70,6 +70,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   };
 
   useEffect(() => {
+    if (!id) return;
     fetchPlatform();
   }, [id, retrievePlatformById]);
 
