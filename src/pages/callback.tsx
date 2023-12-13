@@ -116,7 +116,7 @@ function Callback() {
 
       case StatusCode.DISCORD_AUTHORIZATION_FAILURE:
         setMessage('Authorization failed. Please try again.');
-        handleCreateNewPlatform(params);
+        router.push('/centric');
         break;
 
       case StatusCode.DISCORD_AUTHORIZATION_FROM_SETTINGS:
