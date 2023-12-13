@@ -67,7 +67,7 @@ Contributions are welcome! Please read our contributing guidelines before submit
 
 ## License
 
-This project is licensed under the [MIT License](https://chat.openai.com/c/LICENSE).
+This project is licensed under the [MIT License](https://github.com/TogetherCrew/frontend?tab=MIT-1-ov-file).
 
 ---
 
