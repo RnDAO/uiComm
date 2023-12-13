@@ -154,6 +154,9 @@ axiosInstance.interceptors.response.use(
             `API responded with status code ${error.response.status}: ${error.response.data.message}`
           )
         );
+
+      case 405:
+        console.log(error.response.data.message);
         break;
       case 440:
         StorageService.removeLocalStorage('user');
