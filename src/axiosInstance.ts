@@ -59,7 +59,7 @@ axiosInstance.interceptors.response.use(
           error.config.url?.endsWith('/auth/refresh-tokens')
         ) {
           StorageService.removeLocalStorage('user');
-          StorageService.removeLocalStorage('analysis_state');
+          StorageService.removeLocalStorage('community');
           toast.error('Session expired. Please log in again.', {
             position: 'bottom-left',
             autoClose: 5000,
