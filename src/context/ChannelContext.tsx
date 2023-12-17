@@ -155,7 +155,7 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
         ...prevSelectedSubChannels,
       };
 
-      allChannels.forEach((channel) => {
+      allChannels?.forEach((channel) => {
         const channelUpdates: { [subChannelId: string]: boolean } = {};
 
         channel?.subChannels?.forEach((subChannel) => {
