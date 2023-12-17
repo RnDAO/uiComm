@@ -199,15 +199,14 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
       );
 
       if (isRoleSelected) {
-        setFilteredRolesByName('');
         return prevSelectedRoles.filter(
           (selectedRole) => selectedRole.id !== role.id
         );
       } else {
-        setFilteredRolesByName('');
         return [...prevSelectedRoles, role];
       }
     });
+    setFilteredRolesByName('');
   };
 
   const [isAutocompleteOpen, setAutocompleteOpen] = useState<boolean>(false);
@@ -312,6 +311,11 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                     handleClearAll();
                   }
                 }}
+                onInputChange={(event, value, reason) => {
+                  if (reason === 'clear') {
+                    handleClearAll();
+                  }
+                }}
                 getOptionLabel={(option) => option.name}
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
@@ -350,10 +354,6 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                     placeholder="Select one or more roles"
                     value={filteredRolesByName}
                     onChange={handleSearchChange}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setAutocompleteOpen(false);
-                    }}
                   />
                 )}
               />

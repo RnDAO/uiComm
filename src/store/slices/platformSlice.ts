@@ -80,9 +80,10 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
 
       params.append('property', property);
 
-      // Only append sortBy if it's not undefined
       if (sortBy !== undefined) {
         params.append('sortBy', sortBy);
+      } else if (property === 'role') {
+        params.append('sortBy', 'name:asc');
       }
 
       if (name) params.append('name', name);
