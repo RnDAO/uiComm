@@ -235,22 +235,6 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
     }
   };
 
-  const renderRoleItem = (option: IRoles) => (
-    <div className="flex items-center border bg-white border-[#D1D1D1] rounded-md px-3">
-      <span
-        className="w-2 h-2 rounded-full mr-2"
-        style={{
-          backgroundColor:
-            option.color !== 0
-              ? `#${option.color.toString(16).padStart(6, '0')}`
-              : '#96A5A6',
-          flexShrink: 0,
-        }}
-      />
-      <div className="text-sm whitespace-nowrap">{option.name}</div>
-    </div>
-  );
-
   return (
     <div>
       <TcButton
@@ -363,7 +347,7 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
             </FormControl>
             <div
               ref={scrollableDivRef}
-              className="border max-h-[300px] min-w-[250px] overflow-y-auto border-gray-200 rounded-md p-1"
+              className="border max-h-[300px] min-w-[250px] overflow-y-auto border-gray-200 rounded-md p-1 overflow-x-hidden"
               onScroll={handleScroll}
             >
               {fetchedRoles && fetchedRoles.results.length > 0 ? (
