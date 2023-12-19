@@ -80,7 +80,10 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
 
   const { retrievePlatformProperties } = useAppStore();
   const { community } = useToken();
-  const platformId = community?.platforms[0]?.id;
+
+  const platformId = community?.platforms.find(
+    (platform) => platform.disconnectedAt === null
+  )?.id;
 
   const [loading, setLoading] = useState<boolean>(false);
 

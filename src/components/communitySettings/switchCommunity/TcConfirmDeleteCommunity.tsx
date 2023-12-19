@@ -138,7 +138,12 @@ function TcConfirmDeleteCommunity({
           <div className="flex flex-col space-y-8 mx-auto text-center justify-center pb-8 px-8">
             <TcText
               variant="h6"
-              text={`To confirm that you want to delete the community, please type ${community?.name} in the field below:`}
+              text={
+                <>
+                  To confirm that you want to delete the community, please type{' '}
+                  <b>{community?.name}</b> in the field below:
+                </>
+              }
             />
             <div className="w-2/3 pb-12 text-center mx-auto">
               <TcInput

@@ -56,7 +56,9 @@ export default function OnboardingMembersBreakdown() {
     totalResults: 0,
   });
 
-  const platformId = community?.platforms[0]?.id;
+  const platformId = community?.platforms.find(
+    (platform) => platform.disconnectedAt === null
+  )?.id;
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
