@@ -28,7 +28,7 @@ interface ChannelContextProps {
   };
   refreshData: (
     platformId: string,
-    property?: 'channel' | 'role',
+    property?: 'channel',
     selectedChannels?: string[]
   ) => Promise<Channel[] | void>;
   handleSubChannelChange: (channelId: string, subChannelId: string) => void;
@@ -53,7 +53,7 @@ const initialChannelContextData: ChannelContextProps = {
   selectedSubChannels: initialSelectedSubChannels,
   refreshData: async (
     platformId: string,
-    property?: 'channel' | 'role',
+    property?: 'channel',
     selectedChannels?: string[]
   ) => {},
   handleSubChannelChange: (channelId: string, subChannelId: string) => {},
@@ -78,7 +78,7 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
   const refreshData = useCallback(
     async (
       platformId: string,
-      property: 'channel' | 'role' = 'channel',
+      property: 'channel' = 'channel',
       selectedChannels?: string[]
     ) => {
       setLoading(true);
