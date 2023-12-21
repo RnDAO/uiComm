@@ -154,7 +154,7 @@ const HeatmapChart = () => {
         const { metadata } = data;
         if (metadata) {
           const { selectedChannels } = metadata;
-          await refreshData(platformId, 'channel', selectedChannels);
+          await refreshData(platformId, 'channel', selectedChannels, true);
         } else {
           await refreshData(platformId);
         }

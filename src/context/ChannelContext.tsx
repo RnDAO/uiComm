@@ -28,14 +28,16 @@ interface ChannelContextProps {
   };
   refreshData: (
     platformId: string,
-    property?: 'channel' | 'role',
-    selectedChannels?: string[]
+    property?: 'channel',
+    selectedChannels?: string[],
+    hideDeactiveSubchannels?: boolean
   ) => Promise<Channel[] | void>;
   handleSubChannelChange: (channelId: string, subChannelId: string) => void;
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => void;
   updateSelectedSubChannels: (
     allChannels: Channel[],
-    newSelectedSubChannels: string[]
+    newSelectedSubChannels: string[],
+    hideDeactiveSubchannels?: boolean
   ) => void;
 }
 
@@ -53,14 +55,16 @@ const initialChannelContextData: ChannelContextProps = {
   selectedSubChannels: initialSelectedSubChannels,
   refreshData: async (
     platformId: string,
-    property?: 'channel' | 'role',
-    selectedChannels?: string[]
+    property?: 'channel',
+    selectedChannels?: string[],
+    hideDeactiveSubchannels?: boolean
   ) => {},
   handleSubChannelChange: (channelId: string, subChannelId: string) => {},
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => {},
   updateSelectedSubChannels: (
     allChannels: Channel[],
-    newSelectedSubChannels: string[]
+    newSelectedSubChannels: string[],
+    hideDeactiveSubchannels?: boolean
   ) => {},
 };
 
@@ -78,15 +82,20 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
   const refreshData = useCallback(
     async (
       platformId: string,
-      property: 'channel' | 'role' = 'channel',
-      selectedChannels?: string[]
+      property: 'channel' = 'channel',
+      selectedChannels?: string[],
+      hideDeactiveSubchannels: boolean = false
     ) => {
       setLoading(true);
       try {
         const data = await retrievePlatformProperties({ property, platformId });
         setChannels(data);
         if (selectedChannels) {
-          updateSelectedSubChannels(data, selectedChannels);
+          updateSelectedSubChannels(
+            data,
+            selectedChannels,
+            hideDeactiveSubchannels
+          );
         } else {
           const newSelectedSubChannels = data.reduce(
             (acc: any, channel: any) => {
@@ -148,30 +157,57 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
 
   const updateSelectedSubChannels = (
     allChannels: Channel[],
-    newSelectedSubChannels: string[]
+    newSelectedSubChannels: string[],
+    hideDeactiveSubchannels: boolean = false
   ) => {
-    setSelectedSubChannels((prevSelectedSubChannels: SelectedSubChannels) => {
-      const updatedSelectedSubChannels: SelectedSubChannels = {
-        ...prevSelectedSubChannels,
-      };
+    if (hideDeactiveSubchannels) {
+      const filteredChannels = allChannels
+        .map((channel) => ({
+          ...channel,
+          subChannels: channel.subChannels.filter((subChannel) =>
+            newSelectedSubChannels.includes(subChannel.channelId)
+          ),
+        }))
+        .filter((channel) => channel.subChannels.length > 0);
 
-      allChannels?.forEach((channel) => {
-        const channelUpdates: { [subChannelId: string]: boolean } = {};
+      setChannels(filteredChannels);
 
-        channel?.subChannels?.forEach((subChannel) => {
-          if (subChannel.canReadMessageHistoryAndViewChannel) {
-            channelUpdates[subChannel.channelId] =
-              newSelectedSubChannels.includes(subChannel.channelId);
-          } else {
-            channelUpdates[subChannel.channelId] = false;
-          }
+      setSelectedSubChannels(
+        filteredChannels.reduce((acc: any, channel: any) => {
+          acc[channel.channelId] = channel.subChannels.reduce(
+            (subAcc: any, subChannel: any) => {
+              subAcc[subChannel.channelId] = true;
+              return subAcc;
+            },
+            {}
+          );
+          return acc;
+        }, {})
+      );
+    } else {
+      setSelectedSubChannels((prevSelectedSubChannels: SelectedSubChannels) => {
+        const updatedSelectedSubChannels: SelectedSubChannels = {
+          ...prevSelectedSubChannels,
+        };
+
+        allChannels?.forEach((channel) => {
+          const channelUpdates: { [subChannelId: string]: boolean } = {};
+
+          channel?.subChannels?.forEach((subChannel) => {
+            if (subChannel.canReadMessageHistoryAndViewChannel) {
+              channelUpdates[subChannel.channelId] =
+                newSelectedSubChannels.includes(subChannel.channelId);
+            } else {
+              channelUpdates[subChannel.channelId] = false;
+            }
+          });
+
+          updatedSelectedSubChannels[channel.channelId] = channelUpdates;
         });
 
-        updatedSelectedSubChannels[channel.channelId] = channelUpdates;
+        return updatedSelectedSubChannels;
       });
-
-      return updatedSelectedSubChannels;
-    });
+    }
   };
 
   const value = {
