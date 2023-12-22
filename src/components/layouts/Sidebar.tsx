@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { FiSettings } from 'react-icons/fi';
 import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
 import { useToken } from '../../context/TokenContext';
+import TcText from '../shared/TcText';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -115,6 +116,11 @@ const Sidebar = () => {
                   <div className="bg-secondary text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs" />
                 )}
               </div>
+              <TcText
+                text={community?.name}
+                variant="body1"
+                fontWeight="bold"
+              />
             </div>
           </div>
         </div>
