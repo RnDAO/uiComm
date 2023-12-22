@@ -21,6 +21,7 @@ import { conf } from '../../../configs';
 import { FiSettings } from 'react-icons/fi';
 import { useToken } from '../../../context/TokenContext';
 import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
+import TcText from '../../shared/TcText';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -106,7 +107,7 @@ const Sidebar = () => {
     <>
       <div className="bg-gray-background sticky top-0 py-4 px-5 flex md:hidden flex-row justify-between items-center z-50">
         <div className="flex flex-row">
-          <div className="flex flex-row text-center items-center">
+          <div className="flex flex-row text-center items-center space-x-3">
             <div className="w-8 h-8 mb-2 mr-3">
               <div className="w-10 h-10 mx-auto">
                 {connectedPlatform &&
@@ -128,6 +129,7 @@ const Sidebar = () => {
                 )}
               </div>
             </div>
+            <TcText text={community?.name} variant="h6" />
           </div>
         </div>
         <FaBars size={30} onClick={handleDrawerOpen} />
