@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { StorageService } from '../../../../../services/StorageService';
 import useAppStore from '../../../../../store/useStore';
-import { IUser } from '../../../../../utils/types';
-import CustomTable from '../CustomTable';
+import CustomTable, { IRolesPayload } from '../CustomTable';
 import {
   Column,
+  FetchedData,
   IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
@@ -17,6 +16,7 @@ import {
   downloadCSVFile,
 } from '../../../../../helpers/csvHelper';
 import router from 'next/router';
+import { useToken } from '../../../../../context/TokenContext';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -35,31 +35,30 @@ const options: IActivityCompositionOptions[] = [
 
 export default function OnboardingMembersBreakdown() {
   const { getOnboardingMemberCompositionTable } = useAppStore();
+  const { community } = useToken();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
   const [isExpanded, toggleExpanded] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [roles, setRoles] = useState<string[]>([]);
+  const [roles, setRoles] = useState<IRolesPayload>();
   const [onboardingComposition, setOnboardingComposition] = useState<string[]>(
     options.map((option) => option.value)
   );
   const [username, setUsername] = useState('');
   const [sortBy, setSortBy] = useState('desc');
-  const [fetchedData, setFetchedData] = useState<{
-    limit?: string | number;
-    page?: string | number;
-    results: any[];
-    totalPages: number;
-    totalResults: number;
-  }>({
+  const [fetchedData, setFetchedData] = useState<FetchedData>({
+    limit: 10,
+    page: 1,
     results: [],
-    totalResults: 0,
     totalPages: 0,
+    totalResults: 0,
   });
-  const user = StorageService.readLocalStorage<IUser>('user');
-  const guild = user?.guild;
+
+  const platformId = community?.platforms.find(
+    (platform) => platform.disconnectedAt === null
+  )?.id;
 
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
@@ -69,13 +68,13 @@ export default function OnboardingMembersBreakdown() {
   };
 
   useEffect(() => {
-    if (!guild) {
+    if (!platformId) {
       return;
     }
     setLoading(true);
     const fetchData = async () => {
       const res = await getOnboardingMemberCompositionTable(
-        guild.guildId,
+        platformId,
         onboardingComposition,
         roles,
         username,
@@ -123,8 +122,9 @@ export default function OnboardingMembersBreakdown() {
       }
     }
   }, [router.query]);
-  const handleRoleSelectionChange = (selectedRoles: string[]) => {
-    setRoles(selectedRoles);
+
+  const handleRoleSelectionChange = (rolesPayload: IRolesPayload) => {
+    setRoles(rolesPayload);
   };
 
   const handleActivityOptionSelectionChange = (selectedOptions: string[]) => {
@@ -147,7 +147,7 @@ export default function OnboardingMembersBreakdown() {
   };
 
   const handleDownloadCSV = async () => {
-    if (!guild) {
+    if (!platformId) {
       return;
     }
 
@@ -155,7 +155,7 @@ export default function OnboardingMembersBreakdown() {
       const limit = fetchedData.totalResults;
 
       const { results } = await getOnboardingMemberCompositionTable(
-        guild.guildId,
+        platformId,
         onboardingComposition,
         roles,
         username,
@@ -189,6 +189,7 @@ export default function OnboardingMembersBreakdown() {
             startIcon={<BsFiletypeCsv />}
             size="small"
             variant="outlined"
+            sx={{ minWidth: '64px', padding: '0.4rem 1rem' }}
             className="border-black text-black"
             disableElevation
             onClick={handleDownloadCSV}

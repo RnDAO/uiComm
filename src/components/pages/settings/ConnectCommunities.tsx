@@ -6,22 +6,23 @@ import CustomButton from '../../global/CustomButton';
 import DatePeriodRange from '../../global/DatePeriodRange';
 import CustomModal from '../../global/CustomModal';
 import ChannelSelection from './ChannelSelection';
-import { BsClockHistory } from 'react-icons/bs';
+import { BsClockHistory, BsTwitter } from 'react-icons/bs';
 import useAppStore from '../../../store/useStore';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { StorageService } from '../../../services/StorageService';
 import { IUser } from '../../../utils/types';
-import * as amplitude from '@amplitude/analytics-browser';
-import { IDecodedToken } from '../../../utils/interfaces';
-import jwt_decode from 'jwt-decode';
+
 import {
   setAmplitudeUserIdFromToken,
   trackAmplitudeEvent,
 } from '../../../helpers/amplitudeHelper';
+import { decodeUserTokenDiscordId } from '../../../helpers/helper';
 
 export default function ConnectCommunities() {
   const router = useRouter();
+
+  const user = StorageService.readLocalStorage<IUser>('user');
 
   const [open, setOpen] = useState<boolean>(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
@@ -30,8 +31,13 @@ export default function ConnectCommunities() {
   const [datePeriod, setDatePeriod] = useState<string>('');
   const [selectedChannels, setSelectedChannels] = useState<any[]>([]);
 
-  const { guilds, connectNewGuild, patchGuildById, getUserGuildInfo } =
-    useAppStore();
+  const {
+    guilds,
+    connectNewGuild,
+    patchGuildById,
+    getUserGuildInfo,
+    authorizeTwitter,
+  } = useAppStore();
 
   if (typeof window !== 'undefined') {
     useEffect(() => {
@@ -121,6 +127,15 @@ export default function ConnectCommunities() {
     getUserGuildInfo(guildId);
     setConfirmModalOpen(false);
   };
+
+  const handleAuthorizeTwitter = () => {
+    authorizeTwitter(decodeUserTokenDiscordId(user));
+  };
+  const isAllTwitterPropertiesNull =
+    user &&
+    user.twitter &&
+    Object.values(user.twitter).every((value) => value == null);
+
   return (
     <>
       <CustomModal
@@ -181,42 +196,63 @@ export default function ConnectCommunities() {
         </div>
       </CustomModal>
       <div className="h-[268px] flex justify-center">
-        <div className="h-[200px] w-[200px]">
+        <div className="h-[200px] w-[500px]">
           <p className="text-base whitespace-nowrap font-semibold pt-2">
             Connect your communities
           </p>
-          {guilds.length >= 1 ? (
-            <Tooltip
-              title={
-                <Typography fontSize={14}>
-                  It will be possible to connect more communities soon.
-                </Typography>
-              }
-              arrow
-              placement="right"
-            >
-              <Paper className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer opacity-60">
-                <p className="font-sm">Discord</p>
-                <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
-                <div className="text-secondary text-base flex items-center justify-center">
-                  <GoPlus size={20} className="mr-1" />
-                  <p className="font-semibold">Connect</p>
-                </div>
-              </Paper>
-            </Tooltip>
-          ) : (
-            <Paper
-              className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
-              onClick={() => connectNewGuild()}
-            >
-              <p className="font-sm">Discord</p>
-              <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
-              <div className="text-secondary text-base flex items-center justify-center">
-                <GoPlus size={20} className="mr-1" />
-                <p className="font-semibold">Connect</p>
+          <div className="p-4 flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4">
+            {isAllTwitterPropertiesNull ? (
+              <div className="h-[200px] w-[200px]">
+                <Paper
+                  className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
+                  onClick={() => handleAuthorizeTwitter()}
+                >
+                  <p className="font-sm">Twitter</p>
+                  <BsTwitter size={55} className="mx-auto mt-2 mb-3" />
+                  <div className="text-secondary text-base flex items-center justify-center">
+                    <GoPlus size={20} className="mr-1" />
+                    <p className="font-semibold">Connect</p>
+                  </div>
+                </Paper>
               </div>
-            </Paper>
-          )}
+            ) : (
+              <></>
+            )}
+            <div className="h-[200px] w-[200px]">
+              {guilds.length >= 1 ? (
+                <Tooltip
+                  title={
+                    <Typography fontSize={14}>
+                      It will be possible to connect more communities soon.
+                    </Typography>
+                  }
+                  arrow
+                  placement="right"
+                >
+                  <Paper className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer opacity-60">
+                    <p className="font-sm">Discord</p>
+                    <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
+                    <div className="text-secondary text-base flex items-center justify-center">
+                      <GoPlus size={20} className="mr-1" />
+                      <p className="font-semibold">Connect</p>
+                    </div>
+                  </Paper>
+                </Tooltip>
+              ) : (
+                <Paper
+                  className="text-center h-[200px] py-8 shadow-box rounded-xl mt-3 cursor-pointer"
+                  onClick={() => connectNewGuild()}
+                >
+                  <p className="font-sm">Discord</p>
+                  <FaDiscord size={60} className="mx-auto mt-2 mb-2" />
+                  <div className="text-secondary text-base flex items-center justify-center">
+                    <GoPlus size={20} className="mr-1" />
+                    <p className="font-semibold">Connect</p>
+                  </div>
+                </Paper>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>

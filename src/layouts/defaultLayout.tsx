@@ -1,30 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Sidebar from '../components/layouts/Sidebar';
 import SidebarXs from '../components/layouts/xs/SidebarXs';
-import useAppStore from '../store/useStore';
-import { StorageService } from '../services/StorageService';
-import { IUser } from '../utils/types';
+import TcPrompt from '../components/layouts/shared/TcPrompt';
 
-type Props = {
+type IDefaultLayoutProps = {
   children: React.ReactNode;
 };
 
-export const defaultLayout = ({ children }: Props) => {
-  const { getGuilds, getGuildInfoByDiscord } = useAppStore();
-
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      const { guildId } = user.guild;
-      getGuilds();
-      if (guildId) {
-        getGuildInfoByDiscord(guildId);
-      }
-    }
-  }, []);
-
+export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
   return (
     <>
+      <TcPrompt />
       <div className="flex flex-col md:flex-row justify-between w-full">
         <Sidebar />
         <SidebarXs />

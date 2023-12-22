@@ -3,22 +3,47 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#35B9B7',
+      main: '#804EE1',
     },
   },
   typography: {
-    button: {
-      textTransform: 'none',
-    },
+    fontFamily: 'inherit',
+    fontWeightBold: '500',
+    fontWeightExtraBold: '700',
   },
   components: {
     MuiButton: {
       styleOverrides: {
+        sizeMedium: {
+          width: '15rem',
+          padding: '0.5rem',
+        },
         root: {
+          textTransform: 'none',
           borderRadius: '4px',
           color: '#804EE1',
+
           '&.Mui-disabled': {
             opacity: 0.7,
+          },
+          '@media (max-width:1023px)': {
+            width: '100%',
+          },
+        },
+        contained: {
+          background: '#804EE1 !important',
+          color: 'white',
+          '&.Mui-disabled': {
+            color: 'white',
+          },
+        },
+        outlined: {
+          background: 'transparent',
+          border: '1px solid #222222',
+          color: '#222222',
+          '&:hover': {
+            background: '#F5F5F5',
+            border: '1px solid #222222',
           },
         },
       },
@@ -33,8 +58,12 @@ export const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
+          minWidth: '25rem',
           '& label.Mui-focused': {
             color: '#804EE1',
+          },
+          '@media (max-width:1023px)': {
+            minWidth: '100%',
           },
         },
       },
@@ -54,7 +83,6 @@ export const theme = createTheme({
     MuiAlert: {
       styleOverrides: {
         root: {
-          padding: '6px 9rem 6px 14rem',
           borderRadius: '0px',
           position: 'sticky',
           top: '0',
@@ -72,6 +100,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderBottom: 'none',
+          textTransform: 'none',
         },
         indicator: {
           backgroundColor: 'transparent',
@@ -82,6 +111,7 @@ export const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
+          textTransform: 'none',
           borderRadius: '10px 10px 0 0',
           padding: '8px 24px',
           width: '214px',
@@ -107,7 +137,15 @@ export const theme = createTheme({
     },
   },
 });
+declare module '@mui/material/styles/createTypography' {
+  interface TypographyOptions {
+    fontWeightExtraBold?: string;
+  }
 
+  interface Typography {
+    fontWeightExtraBold: string;
+  }
+}
 declare module '@mui/material/styles' {
   interface Palette {
     neutral: Palette['primary'];

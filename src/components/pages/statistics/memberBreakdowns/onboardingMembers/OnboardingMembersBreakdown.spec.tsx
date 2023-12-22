@@ -1,12 +1,16 @@
 import { render, screen } from '@testing-library/react';
+import { TokenProvider } from '../../../../../context/TokenContext';
 import OnboardingMembersBreakdown from './OnboardingMembersBreakdown';
 jest.mock('next/router', () => require('next-router-mock'));
 
 describe('ActiveMemberBreakdown', () => {
   it('renders the component', () => {
-    render(<OnboardingMembersBreakdown />);
+    render(
+      <TokenProvider>
+        <OnboardingMembersBreakdown />
+      </TokenProvider>
+    );
 
-    // Assert the component is rendered
     const component = screen.getByText('Members breakdown');
     expect(component).toBeInTheDocument();
   });

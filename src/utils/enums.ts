@@ -1,0 +1,17 @@
+export enum IntegrationPlatform {
+  Discord = 'Discord',
+  Twitter = 'Twitter',
+  Discourse = 'Discourse',
+  Telegram = 'Telegram',
+  Snapshot = 'Snapshot',
+}
+
+export enum StatusCode {
+  DISCORD_AUTHORIZATION_SUCCESSFUL_FIRST_TIME = '1001',
+  REPEATED_DISCORD_AUTHORIZATION_ATTEMPT = '1002',
+  DISCORD_AUTHORIZATION_FAILURE = '1003',
+  DISCORD_AUTHORIZATION_FROM_SETTINGS = '1004',
+  DISCORD_AUTHORIZATION_FAILURE_FROM_SETTINGS = '1005',
+  TWITTER_AUTHORIZATION_SUCCESSFUL = '1006',
+  TWITTER_AUTHORIZATION_FAILURE = '1007',
+}

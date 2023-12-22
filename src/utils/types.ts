@@ -1,7 +1,7 @@
 export type IToken = {
-  readonly accessExp: string;
+  readonly accessExp?: string;
   readonly accessToken: string;
-  readonly refreshExp: string;
+  readonly refreshExp?: string;
   readonly refreshToken: string;
 };
 
@@ -14,9 +14,19 @@ export interface callbackUrlParams extends IGuild, IToken {
   statusCode: number | string;
 }
 
+export interface ITwitter {
+  twitterConnectedAt: string;
+  twitterId: string;
+  twitterProfileImageUrl: string;
+  twitterUsername: string;
+  lastUpdatedMetrics: string;
+  twitterIsInProgress: boolean;
+}
+
 export type IUser = {
   token: IToken;
   guild: IGuild;
+  twitter?: ITwitter;
 };
 
 export type IGuildChannels = {

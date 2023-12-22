@@ -27,6 +27,8 @@ export interface IRoles {
   roleId: string;
   color: number | string;
   name: string;
+  deletedAt: string;
+  id: number | string;
 }
 
 export interface IUserProfile {
@@ -84,4 +86,88 @@ export interface ITrackEventParams {
   eventType: string;
   eventProperties?: Record<string, any>;
   callback?: (result: { event: any; code: any; message: any }) => void;
+}
+
+export interface IActivity {
+  posts: number;
+  replies: number;
+  retweets: number;
+  likes: number;
+  mentions: number;
+}
+
+export interface IAudience {
+  replies: number;
+  retweets: number;
+  likes: number;
+  mentions: number;
+}
+
+export interface IEngagement {
+  hqla: number;
+  hqhe: number;
+  lqla: number;
+  lqhe: number;
+}
+
+export interface IAccount {
+  follower: number;
+  engagement: number;
+}
+
+export interface IDataTwitter {
+  activity: IActivity;
+  audience: IAudience;
+  engagement: IEngagement;
+  account: IAccount;
+}
+
+export interface ICommunity {
+  id: string;
+  name: string;
+  platforms: string[];
+  users: string[];
+  avatarURL: string;
+}
+
+export interface FetchedData {
+  limit: number;
+  page: number;
+  results: any[];
+  totalPages: number;
+  totalResults: number;
+}
+
+export interface IPlatformProps {
+  name: string;
+  community: string;
+  isInProgress: boolean;
+  connectedAt: string;
+  id: string;
+  disconnectedAt: string | null;
+  metadata: metaData;
+}
+
+export interface ICommunityDiscordPlatfromProps {
+  id: string;
+  name: string;
+  metadata: {
+    id: string;
+    icon: string;
+    name: string;
+    selectedChannels?: string[];
+    period?: string;
+    analyzerStartedAt?: string;
+    isInProgress?: boolean;
+  };
+  disconnectedAt: string | null;
+}
+
+export interface metaData {
+  [key: string]: any;
+}
+
+export interface IDiscordModifiedCommunity
+  extends Omit<ICommunity, 'platforms'> {
+  platforms: ICommunityDiscordPlatfromProps[];
 }

@@ -1,208 +1,174 @@
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { IUser, callbackUrlParams } from '../utils/types';
+import { extractUrlParams } from '../helpers/helper';
+import { StatusCode } from '../utils/enums';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
-import { toast } from 'react-toastify';
-import { BiError } from 'react-icons/bi';
+import { IRetrieveCommunitiesProps } from '../store/types/ICentric';
+import useAppStore from '../store/useStore';
+import { ICommunity, metaData } from '../utils/interfaces';
 
-export default function callback() {
+export type CommunityWithoutAvatar = Omit<ICommunity, 'avatarURL'>;
+interface Params {
+  name: string;
+  platform: string;
+  id: string;
+  username?: string;
+  profileImageUrl?: string;
+  icon?: string;
+}
+/**
+ * Callback Component.
+ *
+ * This component is designed to handle the callback after a user tries to authorize
+ * with Discord. Based on the status code received in the URL parameters, it will display
+ * appropriate messages to the user.
+ */
+function Callback() {
+  // State to store the displayed message
+  const [message, setMessage] = useState<string | null>(null);
+
+  // Next.js router instance
   const router = useRouter();
-  const [loading, toggleLoading] = useState<boolean>(true);
-  if (typeof window !== 'undefined') {
-    useEffect(() => {
-      if (
-        router?.query &&
-        Object.keys(router?.query) &&
-        Object.keys(router?.query).length > 0
-      ) {
-        const routerParams: callbackUrlParams = Object.assign(router.query);
 
-        statusDecoder(routerParams);
+  // Method to retrieve communities from the store.
+  const { retrieveCommunities, createNewPlatform } = useAppStore();
+
+  /**
+   * Asynchronously fetches communities.
+   * Depending on the presence of communities, it will redirect to either the terms and conditions
+   * page or the community selection page.
+   */
+  const fetchCommunities = async () => {
+    const params: IRetrieveCommunitiesProps = { page: 1, limit: 10 };
+    try {
+      const communities = await retrieveCommunities(params);
+      if (communities.results.length === 0) {
+        router.push('/centric/tac');
       } else {
-        router.push('/tryNow');
+        router.push('/centric/select-community');
       }
-    }, [router]);
-  }
-
-  const notify = () => {
-    toast('Discord authentication faild.please try again.', {
-      position: 'bottom-left',
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-      closeButton: false,
-      theme: 'light',
-      icon: <BiError color="#FB3E56" size={40} />,
-    });
+    } catch (error) {
+      console.error('Failed to retrieve communities:', error);
+    }
   };
 
-  const statusDecoder = (params: callbackUrlParams) => {
-    const { statusCode } = params;
-    let user = StorageService.readLocalStorage<IUser>('user');
-    switch (statusCode) {
-      case '490':
-        notify();
-        router.push('/tryNow');
+  const handleCreateNewPlatform = async (params: Params) => {
+    const community =
+      StorageService.readLocalStorage<CommunityWithoutAvatar>('community');
+
+    if (!community) {
+      console.error('Community not found in local storage.');
+      return;
+    }
+
+    let metadata: metaData = {
+      id: params.id,
+    };
+
+    if (params.platform === 'twitter') {
+      metadata.username = params.username;
+      metadata.profileImageUrl = params.profileImageUrl;
+    } else if (params.platform === 'discord') {
+      metadata.icon = params.icon;
+      metadata.name = params.name;
+    }
+
+    const payload = {
+      name: params.platform,
+      community: community.id,
+      metadata: metadata,
+    };
+
+    try {
+      const data = await createNewPlatform(payload);
+      if (!data) {
+        router.push('community-settings');
+      }
+      router.push(`/community-settings/platform/?platformId=${data.id}`);
+    } catch (error) {
+      console.error('Failed to create new platform:', error);
+    }
+  };
+
+  /**
+   * Handles the display message based on the received status code.
+   *
+   * @param {StatusCode} code - The status code received from the URL parameters.
+   */
+  const handleStatusCode = (code: StatusCode, params: any) => {
+    switch (code) {
+      case StatusCode.DISCORD_AUTHORIZATION_SUCCESSFUL_FIRST_TIME:
+        setMessage('Welcome! Authorization for sign-in was successful.');
+        StorageService.writeLocalStorage('user', params);
+        fetchCommunities();
+
         break;
 
-      case '491':
-        notify();
-        router.push('/settings');
+      case StatusCode.REPEATED_DISCORD_AUTHORIZATION_ATTEMPT:
+        setMessage(
+          'You have authorized before and are trying to authorize again.'
+        );
+        StorageService.writeLocalStorage('user', params);
+        fetchCommunities();
+
         break;
 
-      case '501':
-        router.push({
-          pathname: '/tryNow',
-          query: {
-            statusCode: params.statusCode,
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshExp: params.refreshExp,
-            refreshToken: params.refreshToken,
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-        });
+      case StatusCode.DISCORD_AUTHORIZATION_FAILURE:
+        setMessage('Authorization failed. Please try again.');
+        router.push('/centric');
         break;
 
-      case '502':
-        router.push({
-          pathname: '/tryNow',
-          query: {
-            statusCode: params.statusCode,
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshExp: params.refreshExp,
-            refreshToken: params.refreshToken,
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-        });
+      case StatusCode.DISCORD_AUTHORIZATION_FROM_SETTINGS:
+        setMessage('Authorizion complete from settings page.');
+        handleCreateNewPlatform(params);
         break;
 
-      case '503':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push({
-          pathname: '/',
-        });
+      case StatusCode.TWITTER_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Authorizion complete from settings page.');
+        handleCreateNewPlatform(params);
         break;
 
-      case '504':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push({
-          pathname: '/',
-        });
-        break;
+      case StatusCode.TWITTER_AUTHORIZATION_FAILURE:
+        setMessage('Twitter Authorization failed.');
+        router.push('/community-settings');
 
-      case '601':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push('/');
-        break;
-
-      case '602':
-        StorageService.removeLocalStorage('user');
-        router.push('/tryNow');
-        break;
-
-      case '603':
-        StorageService.writeLocalStorage('user', {
-          guild: {
-            guildId: params.guildId,
-            guildName: params.guildName,
-          },
-          token: {
-            accessToken: params.accessToken,
-            accessExp: params.accessExp,
-            refreshToken: params.refreshToken,
-            refreshExp: params.refreshExp,
-          },
-        });
-        router.push('/');
-        break;
-
-      case '701':
-        if (user) {
-          StorageService.writeLocalStorage('user', {
-            guild: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-            },
-            token: user.token,
-          });
-          router.push({
-            pathname: '/settings',
-            query: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-              isSuccessful: true,
-            },
-          });
-        }
-        break;
-
-      case '702':
-        if (user) {
-          StorageService.writeLocalStorage('user', {
-            guild: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-            },
-            token: user.token,
-          });
-          router.push({
-            pathname: '/settings',
-            query: {
-              guildId: params.guildId,
-              guildName: params.guildName,
-              isSuccessful: true,
-            },
-          });
-        }
-        break;
+      case StatusCode.DISCORD_AUTHORIZATION_FAILURE_FROM_SETTINGS:
+        setMessage('Discord Authorization during setup on setting faield.');
+        router.push('/community-settings');
 
       default:
+        console.error('Unexpected status code received:', code);
+        setMessage('An unexpected error occurred. Please try again later.');
         break;
     }
   };
 
-  if (loading) {
-    return <SimpleBackdrop />;
-  }
+  /**
+   * useEffect hook to handle status codes.
+   *
+   * It waits until the router instance is ready, extracts the parameters from the URL,
+   * and then handles the status code accordingly.
+   */
+  useEffect(() => {
+    if (router.isReady) {
+      const params = extractUrlParams(router.asPath);
+
+      if (
+        params.statusCode &&
+        Object.values(StatusCode).includes(params.statusCode as StatusCode)
+      ) {
+        handleStatusCode(params.statusCode as StatusCode, params);
+      } else {
+        console.error('Invalid or no status code found in the URL.');
+        setMessage(
+          'An error occurred while processing your request. Please try again.'
+        );
+      }
+    }
+  }, [router.isReady]);
+
+  return <SimpleBackdrop data-testid="loading-backdrop" />;
 }
+
+export default Callback;

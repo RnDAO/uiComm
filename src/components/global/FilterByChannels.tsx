@@ -1,163 +1,26 @@
 import { Popover } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { FaHashtag } from 'react-icons/fa';
-import ChannelList from '../pages/login/ChannelList';
-import { StorageService } from '../../services/StorageService';
-import {
-  IChannel,
-  IChannelWithoutId,
-  IGuild,
-  ISubChannels,
-  IUser,
-} from '../../utils/types';
 import CustomButton from './CustomButton';
-import { IGuildChannels } from '../../utils/types';
-import useAppStore from '../../store/useStore';
 import { BiError } from 'react-icons/bi';
+import { ChannelContext } from '../../context/ChannelContext';
+import TcPlatformChannelList from '../communitySettings/platform/TcPlatformChannelList';
+import { calculateSelectedChannelSize } from '../../helpers/helper';
 
-type IProps = {
-  guildChannels: IGuildChannels[];
-  filteredChannels: string[];
-  handleSelectedChannels: (selectedChannels: string[]) => void;
+type IFilterByChannelsProps = {
+  handleFetchHeatmapByChannels?: () => void;
 };
 
 const FilterByChannels = ({
-  guildChannels,
-  filteredChannels,
-  handleSelectedChannels,
-}: IProps) => {
-  const { guildInfo } = useAppStore();
-  const [guild, setGuild] = useState<IGuild>();
-  const [channels, setChannels] = useState<Array<IGuildChannels>>([]);
-  const [selectedChannels, setSelectedChannels] = useState<
-    Array<IChannelWithoutId>
-  >([]);
+  handleFetchHeatmapByChannels,
+}: IFilterByChannelsProps) => {
+  const channelContext = useContext(ChannelContext);
+
+  const { selectedSubChannels } = channelContext;
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
-
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
-    if (user) {
-      setGuild(user.guild);
-    }
-    let activeChannles: string[] = [];
-
-    if (filteredChannels.length > 0) {
-      activeChannles =
-        guildInfo && guildInfo.selectedChannels
-          ? guildInfo.selectedChannels
-              .filter((channel: IChannel) => {
-                return (
-                  filteredChannels.includes(channel.channelId) ??
-                  channel.channelId
-                );
-              })
-              .map((channel: IChannel) => {
-                return channel.channelId;
-              })
-          : [];
-    } else {
-      activeChannles =
-        guildInfo && guildInfo.selectedChannels
-          ? guildInfo.selectedChannels.map((channel: IChannel) => {
-              return channel.channelId;
-            })
-          : [];
-    }
-
-    const channels = guildChannels.map(
-      (guild: IGuildChannels, _index: number) => {
-        const selected: Record<string, boolean> = {};
-
-        guild.subChannels.forEach((subChannel: ISubChannels) => {
-          if (activeChannles.includes(subChannel.channelId)) {
-            selected[subChannel.channelId] = true;
-          } else {
-            selected[subChannel.channelId] = false;
-          }
-        });
-
-        return { ...guild, selected: selected ?? {} };
-      }
-    );
-
-    const subChannelsStatus = channels.map((channel: IGuildChannels) => {
-      return channel.selected;
-    });
-
-    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    for (const key in selectedChannelsStatus) {
-      if (selectedChannelsStatus[key]) {
-        activeChannel.push(key);
-      }
-    }
-
-    const result = ([] as IChannelWithoutId[]).concat(
-      ...channels.map((channel: IGuildChannels) => {
-        return channel.subChannels
-          .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.channelId)) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: ISubChannels) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
-    );
-
-    setSelectedChannels(result);
-
-    setChannels(channels);
-  }, [guildChannels]);
-
-  const onChange = (
-    channelId: string,
-    subChannelId: string,
-    status: boolean
-  ) => {
-    setChannels((preChannels) => {
-      return preChannels.map((preChannel) => {
-        if (preChannel.channelId !== channelId) return preChannel;
-
-        const selected = preChannel.selected ?? {};
-
-        selected[subChannelId] = status;
-
-        return { ...preChannel, selected };
-      });
-    });
-  };
-  const handleCheckAll = (guild: IGuildChannels, status: boolean) => {
-    const selectedGuild = channels.find(
-      (channel) => channel.channelId === guild.channelId
-    );
-    if (!selectedGuild) return;
-
-    const updatedChannels = channels.map((channel: IGuildChannels) => {
-      if (channel === selectedGuild) {
-        const selected = { ...channel.selected };
-        Object.keys(selected).forEach((key) => (selected[key] = status));
-        return { ...channel, selected };
-      }
-      return channel;
-    });
-
-    setChannels(updatedChannels);
-  };
-  const checkSelectedProperties = (channels: IGuildChannels[]) => {
-    return channels.every((channel) => {
-      const selectedValues = channel.selected
-        ? Object.values(channel.selected)
-        : [];
-      return selectedValues.every((selected) => !selected);
-    });
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -167,44 +30,7 @@ const FilterByChannels = ({
     setAnchorEl(null);
   };
 
-  const returnSelectedChannelsId = (channels: IGuildChannels[]) => {
-    const subChannelsStatus = channels.map((channel: IGuildChannels) => {
-      return channel.selected;
-    });
-
-    const selectedChannelsStatus = Object.assign({}, ...subChannelsStatus);
-    let activeChannel: string[] = [];
-    if (selectedChannelsStatus) {
-      for (const key in selectedChannelsStatus) {
-        if (selectedChannelsStatus[key]) {
-          activeChannel.push(key);
-        }
-      }
-    }
-
-    const result = ([] as IChannelWithoutId[]).concat(
-      ...channels.map((channel: IGuildChannels) => {
-        return channel.subChannels
-          .filter((subChannel: ISubChannels) => {
-            if (activeChannel.includes(subChannel.channelId)) {
-              return subChannel;
-            }
-          })
-          .map((filterdItem: ISubChannels) => {
-            return {
-              channelId: filterdItem.channelId,
-              channelName: filterdItem.name,
-            };
-          });
-      })
-    );
-
-    setSelectedChannels(result);
-
-    return result.map((channel: IChannelWithoutId) => {
-      return channel.channelId;
-    });
-  };
+  const selectedCount = calculateSelectedChannelSize(selectedSubChannels);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -217,7 +43,7 @@ const FilterByChannels = ({
         onClick={handleClick}
         className="hover:bg-lite active:bg-white px-2 rounded-md"
       >
-        By channel ({selectedChannels.length}){' '}
+        By channel ({selectedCount}){' '}
       </button>
       <Popover
         id={id}
@@ -240,20 +66,11 @@ const FilterByChannels = ({
           <p className="text-md pb-3 font-bold">
             Select channels to view activity
           </p>
-          <div className="max-h-[410px] overflow-y-scroll border border-gray-darken py-4 px-5 rounded-sm">
-            {channels && channels.length > 0
-              ? channels.map((guild: IGuildChannels, index: number) => {
-                  return (
-                    <div className="my-2" key={index}>
-                      <ChannelList
-                        guild={guild}
-                        onChange={onChange}
-                        handleCheckAll={handleCheckAll}
-                      />
-                    </div>
-                  );
-                })
-              : ''}
+          <div className="border border-gray-300 rounded-md">
+            <TcPlatformChannelList
+              refreshTrigger={false}
+              channelListCustomClass="px-4 py-3"
+            />
           </div>
           <div className="flex items-center text-sm text-orange pt-4">
             <BiError size={18} className="mr-0.5" />
@@ -262,11 +79,14 @@ const FilterByChannels = ({
           <div className="mx-auto pt-4 text-center">
             <CustomButton
               label={'Save channels'}
-              classes="bg-secondary text-white mx-auto"
               onClick={() => {
-                handleSelectedChannels(returnSelectedChannelsId(channels));
+                if (handleFetchHeatmapByChannels) {
+                  handleFetchHeatmapByChannels();
+                }
+                setAnchorEl(null);
               }}
-              disabled={checkSelectedProperties(channels) ?? true}
+              disabled={selectedCount === 0}
+              classes="bg-secondary text-white mx-auto"
             />
           </div>
         </div>

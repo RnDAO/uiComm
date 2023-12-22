@@ -1,5 +1,5 @@
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
-import { IoClose } from "react-icons/io5";
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { IoClose } from 'react-icons/io5';
 
 type IModalProps = {
   isOpen: boolean;
@@ -12,7 +12,7 @@ export default function ConfirmModal({
   toggleModal,
   children,
   hasClose,
-  ...rest
+  ...props
 }: IModalProps) {
   const handleClose = () => {
     toggleModal(false);
@@ -23,21 +23,21 @@ export default function ConfirmModal({
         open={isOpen}
         onClose={handleClose}
         sx={{
-          "& .MuiDialog-container": {
-            alignItems: "flex-start",
-            verticalAlign: "top",
-            "& .MuiPaper-root": {
-              width: "100%",
-              maxWidth: "650px",
-              borderRadius: "10px",
-              overflow:'visible'
+          '& .MuiDialog-container': {
+            alignItems: 'flex-start',
+            verticalAlign: 'top',
+            '& .MuiPaper-root': {
+              width: '100%',
+              maxWidth: '650px',
+              borderRadius: '10px',
+              overflow: 'visible',
             },
-            "& .MuiDialogContent-root": {
-              overflow: 'visible'
-            }
+            '& .MuiDialogContent-root': {
+              overflow: 'visible',
+            },
           },
         }}
-        {...rest}
+        {...props}
       >
         {hasClose ? (
           <DialogTitle
@@ -51,7 +51,7 @@ export default function ConfirmModal({
             />
           </DialogTitle>
         ) : (
-          ""
+          ''
         )}
         <DialogContent>{children}</DialogContent>
       </Dialog>

@@ -5,11 +5,11 @@ import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 import Link from '../components/global/Link';
 import { Paper, Popover } from '@mui/material';
 import useAppStore from '../store/useStore';
-import { StorageService } from '../services/StorageService';
 import HintBox from '../components/pages/memberInteraction/HintBox';
 import { IUser } from '../utils/types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import dynamic from 'next/dynamic';
+import { useToken } from '../context/TokenContext';
 
 const ForceGraphComponent = dynamic(
   () =>
@@ -87,6 +87,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
 };
 
 export default function membersInteraction() {
+  const { community } = useToken();
+
   const [nodes, setNodes] = useState<any[]>([]);
   const [links, setLinks] = useState<any[]>([]);
 
@@ -100,19 +102,18 @@ export default function membersInteraction() {
   const { getMemberInteraction, isLoading } = useAppStore();
 
   useEffect(() => {
-    const storedUser = StorageService.readLocalStorage<IUser>('user');
-    setUser(storedUser);
+    const platformId = community?.platforms.find(
+      (platform) => platform.disconnectedAt === null
+    )?.id;
 
-    if (storedUser && storedUser.guild) {
-      getMemberInteraction(storedUser.guild.guildId).then(
-        (apiResponse: any[]) => {
-          const { nodes, links } = transformApiResponseToMockData(apiResponse);
-          const nodeSizes = nodes.map((node) => node.size);
-          setNodes(nodes);
-          setLinks(links);
-          setNodeSizes(nodeSizes);
-        }
-      );
+    if (platformId) {
+      getMemberInteraction(platformId).then((apiResponse: any[]) => {
+        const { nodes, links } = transformApiResponseToMockData(apiResponse);
+        const nodeSizes = nodes.map((node) => node.size);
+        setNodes(nodes);
+        setLinks(links);
+        setNodeSizes(nodeSizes);
+      });
     }
   }, []);
 

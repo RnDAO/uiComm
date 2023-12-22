@@ -11,6 +11,19 @@ export type IGuildInfo = {
 
 export type DISCONNECT_TYPE = 'soft' | 'hard';
 
+export interface IUserInfo {
+  discordId: string;
+  email: string;
+  verified: boolean;
+  avatar: string;
+  twitterConnectedAt: string;
+  twitterId: string;
+  twitterProfileImageUrl: string;
+  twitterUsername: string;
+  twitterIsInProgress: boolean;
+  id: string;
+}
+
 export default interface IGuildList extends IGuildInfo {
   isInProgress?: boolean;
   isDisconnected?: boolean;
@@ -20,7 +33,7 @@ export default interface ISetting {
   isLoading: boolean;
   isRefetchLoading: boolean;
   guildInfo?: IGuildInfo | {};
-  userInfo: {};
+  userInfo: IUserInfo | {};
   guildInfoByDiscord: {};
   guilds: IGuildList[];
   guildChannels: IGuildChannels[];

@@ -20,13 +20,7 @@ const colors = {
     500: '#225262',
   },
   info: {
-    DEFAULT: '#4368F1',
-    50: '#F7FFFE',
-    100: '#D0FBF8',
-    200: '#A7F3F0',
-    300: '#92DAD6',
-    400: '#7DC0BD',
-    500: '#39C2C0',
+    DEFAULT: '#1DA1F2',
     600: '#313671',
   },
   error: {
@@ -80,7 +74,8 @@ const colors = {
   'purple-dark': '#673FB5',
   'purple-darker': '#35205E',
   'gray-subtitle':'#767676',
-  orange:'#FF8022'
+  orange:'#FF8022',
+  'gray-border-box':'#AAAAAA',
 };
 
 const backgroundImage = {

@@ -1,3 +1,5 @@
+import { IRolesPayload } from '../../components/pages/statistics/memberBreakdowns/CustomTable';
+
 export default interface IBreakdown {
   isActiveMembersBreakdownLoading: boolean;
   isOnboardingMembersBreakdownLoading: boolean;
@@ -5,31 +7,30 @@ export default interface IBreakdown {
   isRolesLoading: boolean;
   roles: any[];
   getActiveMemberCompositionTable: (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
     limit?: number
   ) => any;
   getOnboardingMemberCompositionTable: (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
     limit?: number
   ) => any;
   getDisengagedMembersCompositionTable: (
-    guild_id: string,
+    platformId: string,
     activityComposition: string[],
-    roles: string[],
+    roles: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
     limit?: number
   ) => any;
-  getRoles: (guild_id: string) => any;
 }

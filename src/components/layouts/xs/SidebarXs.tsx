@@ -9,12 +9,7 @@ type items = {
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// import the icons you need
-import {
-  faUserGroup,
-  faHeartPulse,
-  faGear,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -22,27 +17,31 @@ import { Drawer } from '@mui/material';
 
 import { FaBars } from 'react-icons/fa';
 import { MdKeyboardBackspace } from 'react-icons/md';
-import useAppStore from '../../../store/useStore';
-import { StorageService } from '../../../services/StorageService';
-import { IUser } from '../../../utils/types';
 import { conf } from '../../../configs';
+import { FiSettings } from 'react-icons/fi';
+import { useToken } from '../../../context/TokenContext';
+import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
 
 const Sidebar = () => {
-  const { guildInfoByDiscord } = useAppStore();
-  const [guildId, setGuildId] = useState('');
   const router = useRouter();
   const currentRoute = router.pathname;
 
-  useEffect(() => {
-    const user = StorageService.readLocalStorage<IUser>('user');
+  const { community } = useToken();
 
-    if (user) {
-      const { guildId } = user.guild;
-      if (guildId) {
-        setGuildId(guildId);
-      }
+  const [connectedPlatform, setConnectedPlatform] =
+    useState<ICommunityDiscordPlatfromProps | null>(null);
+
+  useEffect(() => {
+    const storedCommunity = community;
+
+    if (storedCommunity?.platforms) {
+      const foundPlatform = storedCommunity.platforms.find(
+        (platform) => platform.disconnectedAt === null
+      );
+
+      setConnectedPlatform(foundPlatform ?? null);
     }
-  }, []);
+  }, [community]);
 
   const menuItems: items[] = [
     {
@@ -57,7 +56,7 @@ const Sidebar = () => {
     },
     {
       name: 'Community Health',
-      path: '/communityHealth',
+      path: '/community-health',
       icon: (
         <FontAwesomeIcon
           icon={faHeartPulse}
@@ -66,12 +65,11 @@ const Sidebar = () => {
       ),
     },
     {
-      name: 'Settings',
-      path: '/settings',
+      name: 'Community Settings',
+      path: '/community-settings',
       icon: (
-        <FontAwesomeIcon
-          icon={faGear}
-          style={{ fontSize: 30, color: 'black' }}
+        <FiSettings
+          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
         />
       ),
     },
@@ -111,12 +109,18 @@ const Sidebar = () => {
           <div className="flex flex-row text-center items-center">
             <div className="w-8 h-8 mb-2 mr-3">
               <div className="w-10 h-10 mx-auto">
-                {guildId && guildInfoByDiscord.icon ? (
+                {connectedPlatform &&
+                connectedPlatform.metadata &&
+                connectedPlatform.metadata.icon ? (
                   <Image
-                    src={`${conf.DISCORD_CDN}icons/${guildId}/${guildInfoByDiscord.icon}`}
+                    src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width="100"
                     height="100"
-                    alt={guildInfoByDiscord.name ? guildInfoByDiscord.name : ''}
+                    alt={
+                      connectedPlatform.metadata.name
+                        ? connectedPlatform.metadata.name
+                        : ''
+                    }
                     className="rounded-full"
                   />
                 ) : (
@@ -124,7 +128,6 @@ const Sidebar = () => {
                 )}
               </div>
             </div>
-            <p className="text-md font-bold">{guildInfoByDiscord.name}</p>
           </div>
         </div>
         <FaBars size={30} onClick={handleDrawerOpen} />
