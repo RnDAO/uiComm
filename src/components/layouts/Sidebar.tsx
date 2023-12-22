@@ -116,7 +116,11 @@ const Sidebar = () => {
                   <div className="bg-secondary text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs" />
                 )}
               </div>
-              <TcText text={community?.name} variant="body1" />
+              <TcText
+                text={community?.name}
+                variant="body1"
+                fontWeight="bold"
+              />
             </div>
           </div>
         </div>
