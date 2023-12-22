@@ -22,5 +22,5 @@
     "jest.config.js",
     "jest.setup.js"
   ],
-  "exclude": ["node_modules", "./src/components/global/CustomDatePicker.tsx"]
+  "exclude": ["node_modules"]
 }
