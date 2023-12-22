@@ -17,9 +17,6 @@ export default function PrivateRoute({
     [router.pathname]
   );
 
-  const isObjectNotEmpty = (obj: Record<string, any>): boolean => {
-    return Object.keys(obj).length > 0;
-  };
   useEffect(() => {
     if (!isCentricRoute) {
       const storedToken = StorageService.readLocalStorage<IToken>('user');
