@@ -1,7 +1,5 @@
 import { defaultLayout } from '../layouts/defaultLayout';
 import SEO from '../components/global/SEO';
-import { useState } from 'react';
-import { StorageService } from '../services/StorageService';
 import EmptyState from '../components/global/EmptyState';
 import Image from 'next/image';
 import emptyState from '../assets/svg/empty-state.svg';
@@ -13,16 +11,7 @@ import { ChannelProvider } from '../context/ChannelContext';
 import { useToken } from '../context/TokenContext';
 
 function Dashboard(): JSX.Element {
-  const [alertStateOpen, setAlertStateOpen] = useState(false);
   const { community } = useToken();
-
-  const toggleAnalysisState = () => {
-    StorageService.writeLocalStorage('analysis_state', {
-      isRead: true,
-      visible: false,
-    });
-    setAlertStateOpen(false);
-  };
 
   if (!community || community?.platforms?.length === 0) {
     return (
