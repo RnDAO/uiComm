@@ -6,6 +6,7 @@ import TcText from '../../components/shared/TcText';
 import TcButton from '../../components/shared/TcButton';
 import { BsPlus } from 'react-icons/bs';
 import TcTableContainer from '../../components/shared/TcTableContainer';
+import router from 'next/router';
 
 const bodyRowItems = [
   { Name: 'Alice', Age: 28, Location: 'New York' },
@@ -27,6 +28,9 @@ function Index() {
                   text="Create Announcement"
                   startIcon={<BsPlus />}
                   variant="outlined"
+                  onClick={() =>
+                    router.push('/announcements/create-new-announcements')
+                  }
                 />
               </div>
               <TcTableContainer bodyRowItems={bodyRowItems} />
