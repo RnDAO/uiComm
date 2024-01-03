@@ -4,7 +4,12 @@ import { MdAnnouncement } from 'react-icons/md';
 import TcIconContainer from '../TcIconContainer';
 import TcButton from '../../../shared/TcButton';
 import TcSelect from '../../../shared/TcSelect';
-import { FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  SelectChangeEvent,
+} from '@mui/material';
 import TcInput from '../../../shared/TcInput';
 
 const mockPublicChannels = [
@@ -39,7 +44,11 @@ function TcPublicMessaageContainer() {
           </TcIconContainer>
           <TcText text="Public Message" variant="body1" fontWeight="bold" />
         </div>
-        <TcButton text="Preview" variant="outlined" sx={{ maxWidth: '8rem' }} />
+        <TcButton
+          text="Preview"
+          variant="outlined"
+          sx={{ maxWidth: '8rem', height: '2.4rem' }}
+        />
       </div>
       <div className="space-y-1.5">
         <FormControl variant="filled" fullWidth size="medium">
@@ -63,6 +72,10 @@ function TcPublicMessaageContainer() {
             }
             onChange={(event) => handleSelectChange(event)}
           />
+          <FormHelperText>
+            The announcement will be sent by the a bot which will have access to
+            send the following message within the selected channels
+          </FormHelperText>
         </FormControl>
         <FormControl variant="filled" fullWidth size="medium">
           <TcInput

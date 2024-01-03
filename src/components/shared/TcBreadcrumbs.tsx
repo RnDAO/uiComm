@@ -1,37 +1,15 @@
-/**
- * `TcBreadcrumbs` Component
- *
- * This component is used for displaying a breadcrumb navigation interface. It is built
- * using Material-UI's `Breadcrumbs` and a custom `TcLink` component for navigation.
- *
- * Props:
- * - `items`: An array of `BreadcrumbItem` objects. Each `BreadcrumbItem` should have:
- *   - `label` (string): The text displayed for the breadcrumb link.
- *   - `path` (string): The navigation path the breadcrumb link points to.
- *
- * Usage:
- * <TcBreadcrumbs
- *   items={[
- *     { label: 'Home', path: '/' },
- *     { label: 'About', path: '/about' },
- *     { label: 'Contact', path: '/contact' }
- *   ]}
- * />
- *
- * This component renders breadcrumbs for the provided `items` array. Each item in the array
- * represents a single breadcrumb link. The component uses flexbox for alignment and spacing,
- * and includes a hover effect on the links for better user interaction.
- */
-
 import React from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
 import TcLink from './TcLink';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { ArrowDropDownIcon } from '@mui/x-date-pickers';
+import { MdChevronRight } from 'react-icons/md';
+import TcText from './TcText';
 
 interface BreadcrumbItem {
   label: string;
-  path: string;
+  path?: string;
 }
 
 interface TcBreadcrumbsProps {
@@ -50,22 +28,25 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
   };
 
   return (
-    <Breadcrumbs aria-label="breadcrumb">
-      {items.map((item) => (
-        <div
-          className="flex items-center text-gray-500 hover:text-black ease-in"
+    <Breadcrumbs
+      aria-label="breadcrumb"
+      separator={<MdChevronRight fontSize="medium" />}
+    >
+      {items.map((item, index) => (
+        <TcLink
           key={item.label}
+          href={item.path || '#'}
+          onClick={(event) => handleClick(event, item.path || '')}
+          underline={'none'}
+          className={`${
+            index === items.length - 1
+              ? 'pointer-events-none text-black'
+              : 'text-gray-500'
+          }`}
+          to={item.path || '#'}
         >
-          <MdOutlineKeyboardArrowLeft size={20} />
-          <TcLink
-            color="inherit"
-            style={{ cursor: 'pointer' }}
-            to={item.path}
-            onClick={(event) => handleClick(event, item.path)}
-          >
-            {item.label}
-          </TcLink>
-        </div>
+          <TcText text={item.label} variant="body2" />
+        </TcLink>
       ))}
     </Breadcrumbs>
   );

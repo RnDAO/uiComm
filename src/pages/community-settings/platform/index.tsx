@@ -14,6 +14,7 @@ function Index() {
           <TcBreadcrumbs
             items={[
               { label: 'Community Settings', path: '/community-settings' },
+              { label: 'Platform' },
             ]}
           />
           <TcPlatform />
