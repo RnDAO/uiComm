@@ -88,7 +88,7 @@ function Index() {
           contentContainerChildren={
             <div className="flex flex-col justify-between p-4 md:p-10 space-y-4 min-h-[92dvh]">
               <div>
-                <div className="flex flex-col md:flex-row md:justify-between md:items-center">
+                <div className="flex flex-col md:flex-row md:justify-between space-y-3 md:space-y-0 md:items-center">
                   <TcText text="Announcement Scheduling" variant="h5" />
                   <TcButton
                     text="Create Announcement"
@@ -99,7 +99,7 @@ function Index() {
                     }
                   />
                 </div>
-                <div className="flex justify-between items-center mt-8 mb-4">
+                <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 items-center mt-8 mb-4">
                   <TcButton
                     text={dateTimeDisplay}
                     variant="contained"
@@ -129,7 +129,7 @@ function Index() {
                     bodyRowItems={bodyRowItems}
                   />
                 ) : (
-                  <div className="text-center mx-auto flex flex-col justify-center h-[65dvh] w-4/12">
+                  <div className="text-center mx-auto flex flex-col justify-center h-[65dvh] w-9/12 md:w-4/12">
                     <TcText
                       text="No announcements yet"
                       variant="h6"

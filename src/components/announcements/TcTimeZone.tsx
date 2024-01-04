@@ -48,7 +48,7 @@ function TcTimeZone() {
   };
 
   return (
-    <div>
+    <div className="w-full md:w-auto">
       <TcButton
         text={activeZone}
         variant="outlined"
