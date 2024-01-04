@@ -8,6 +8,7 @@ import TcButton from '../../components/shared/TcButton';
 import TcScheduleAnnouncement from '../../components/announcements/create/scheduleAnnouncement/';
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
 import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
+import router from 'next/router';
 
 function CreateNewAnnouncements() {
   return (
@@ -32,6 +33,7 @@ function CreateNewAnnouncements() {
               <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-12">
                 <TcButton
                   text="Cancel"
+                  onClick={() => router.push('/announcements')}
                   variant="outlined"
                   sx={{
                     maxWidth: {
