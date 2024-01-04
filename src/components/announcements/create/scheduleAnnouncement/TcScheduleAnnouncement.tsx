@@ -50,7 +50,7 @@ function TcScheduleAnnouncement() {
 
   return (
     <div className="space-y-3">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
         <div className="flex items-center space-x-3">
           <TcIconContainer>
             <MdCalendarMonth size={20} />

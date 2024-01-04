@@ -57,15 +57,14 @@ function TcPrivateMessageContainer() {
 
   return (
     <div className="space-y-3">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center space-x-3">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
           <TcIconContainer>
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
           <FormControlLabel
-            control={
-              <TcSwitch onChange={handlePrivateMessageChange} name="gilad" />
-            }
+            className="mx-auto md:mx-0"
+            control={<TcSwitch onChange={handlePrivateMessageChange} />}
             label={
               <div className="flex items-center space-x-1">
                 <TcText text="Private Message (optional)" variant="body1" />
@@ -78,8 +77,12 @@ function TcPrivateMessageContainer() {
             }
           />
         </div>
-        <div className="flex justify-end space-x-3 items-center">
-          <TcButtonGroup disableElevation disabled={!privateMessage}>
+        <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:justify-end md:space-x-3 items-center">
+          <TcButtonGroup
+            disableElevation
+            disabled={!privateMessage}
+            className="w-full"
+          >
             {messageTypesArray.map((el) => (
               <TcButton
                 key={el}
@@ -92,7 +95,10 @@ function TcPrivateMessageContainer() {
                 )}
                 sx={{
                   width: 'auto',
-                  padding: '0.4rem 1rem',
+                  padding: {
+                    xs: 'auto',
+                    sm: '0.4rem 1rem',
+                  },
                 }}
                 onClick={() => setMessageType(el)}
               />
@@ -101,7 +107,13 @@ function TcPrivateMessageContainer() {
           <TcButton
             text="Preview"
             variant="outlined"
-            sx={{ maxWidth: '8rem', height: '2.4rem' }}
+            sx={{
+              maxWidth: {
+                xs: '100%',
+                sm: '8rem',
+              },
+              height: '2.4rem',
+            }}
             disabled={!privateMessage}
           />
         </div>

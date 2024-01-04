@@ -37,8 +37,8 @@ function TcPublicMessaageContainer() {
 
   return (
     <div className="space-y-3">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center space-x-3">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
           <TcIconContainer>
             <MdAnnouncement size={20} />
           </TcIconContainer>
@@ -47,7 +47,13 @@ function TcPublicMessaageContainer() {
         <TcButton
           text="Preview"
           variant="outlined"
-          sx={{ maxWidth: '8rem', height: '2.4rem' }}
+          sx={{
+            maxWidth: {
+              xs: '100%',
+              sm: '8rem',
+            },
+            height: '2.4rem',
+          }}
         />
       </div>
       <div className="space-y-1.5">

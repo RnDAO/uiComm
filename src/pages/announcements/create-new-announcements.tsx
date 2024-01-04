@@ -29,22 +29,37 @@ function CreateNewAnnouncements() {
                 <TcPrivateMessaageContainer />
                 <TcScheduleAnnouncement />
               </div>
-              <div className="flex justify-between items-center pt-12">
+              <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-12">
                 <TcButton
                   text="Cancel"
                   variant="outlined"
-                  sx={{ maxWidth: '8rem' }}
+                  sx={{
+                    maxWidth: {
+                      xs: '100%',
+                      sm: '8rem',
+                    },
+                  }}
                 />
-                <div className="flex items-center space-x-3">
+                <div className="flex flex-col md:flex-row items-center md:space-x-3 w-full space-y-3 md:space-y-0 md:w-auto">
                   <TcButton
                     text="Save as Draft"
                     variant="outlined"
-                    sx={{ maxWidth: 'auto' }}
+                    sx={{
+                      maxWidth: {
+                        xs: '100%',
+                        sm: 'auto',
+                      },
+                    }}
                   />
                   <TcButton
                     text="Create Announcement"
                     variant="contained"
-                    sx={{ maxWidth: 'auto' }}
+                    sx={{
+                      maxWidth: {
+                        xs: '100%',
+                        sm: 'auto',
+                      },
+                    }}
                   />
                 </div>
               </div>
