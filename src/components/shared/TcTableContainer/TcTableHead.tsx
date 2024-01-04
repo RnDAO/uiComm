@@ -15,7 +15,10 @@ interface ITcTableHeadProps extends TableHeadProps {
 function TcTableHead({ headers, ...props }: ITcTableHeadProps) {
   return (
     <TableHead {...props}>
-      <TcTableRow rowItem={headers} />
+      <TcTableRow
+        rowItem={headers}
+        customTableCellClasses="rounded-none p-0 border-none uppercase text-xs font-light first:pl-3 last:pr-3"
+      />
     </TableHead>
   );
 }

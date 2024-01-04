@@ -4,7 +4,7 @@ import { MdCalendarMonth } from 'react-icons/md';
 import TcText from '../../../shared/TcText';
 import TcButton from '../../../shared/TcButton';
 import moment from 'moment';
-import TcTcDateTimePopover from './TcDateTimePopover';
+import TcDateTimePopover from './TcDateTimePopover';
 
 function TcScheduleAnnouncement() {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -71,7 +71,7 @@ function TcScheduleAnnouncement() {
           aria-describedby={id}
           onClick={handleOpen}
         />
-        <TcTcDateTimePopover
+        <TcDateTimePopover
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
