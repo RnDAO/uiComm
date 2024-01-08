@@ -11,6 +11,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import TcInput from '../../../shared/TcInput';
+import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
 
 const mockPublicChannels = [
   {
@@ -35,6 +36,9 @@ function TcPublicMessaageContainer() {
     setMessage(event.target.value);
   };
 
+  const isPreviewDialogEnabled =
+    selectedChannels.length > 0 && message.length > 0;
+
   return (
     <div className="space-y-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
@@ -44,16 +48,9 @@ function TcPublicMessaageContainer() {
           </TcIconContainer>
           <TcText text="Public Message" variant="body1" fontWeight="bold" />
         </div>
-        <TcButton
-          text="Preview"
-          variant="outlined"
-          sx={{
-            maxWidth: {
-              xs: '100%',
-              sm: '8rem',
-            },
-            height: '2.4rem',
-          }}
+        <TcPublicMessagePreviewDialog
+          textMessage={message}
+          isPreviewDialogEnabled={isPreviewDialogEnabled}
         />
       </div>
       <div className="space-y-1.5">

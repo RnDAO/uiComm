@@ -14,7 +14,7 @@ function CreateNewAnnouncements() {
   return (
     <>
       <SEO titleTemplate="Create Announcement" />
-      <div className="flex flex-col container px-4 md:px-12 py-4">
+      <div className="flex flex-col container px-4 md:px-12 py-4 space-y-3">
         <TcBreadcrumbs
           items={[
             { label: 'Announcement Scheduling', path: '/announcements' },
