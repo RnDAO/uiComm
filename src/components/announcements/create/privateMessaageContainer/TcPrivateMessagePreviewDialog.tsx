@@ -6,13 +6,15 @@ import TcText from '../../../shared/TcText';
 
 interface ITcPublicMessagePreviewDialogProps {
   textMessage: string;
-  selectedChannels: string[];
+  selectedRoles?: string[];
+  selectedUsernames?: string[];
   isPreviewDialogEnabled: boolean;
 }
 
 function TcPublicMessagePreviewDialog({
   textMessage,
-  selectedChannels,
+  selectedRoles,
+  selectedUsernames,
   isPreviewDialogEnabled,
 }: ITcPublicMessagePreviewDialogProps) {
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState<boolean>(false);
@@ -53,29 +55,51 @@ function TcPublicMessagePreviewDialog({
             </div>
             <div className="flex flex-col w-4/5 mx-auto text-center py-1">
               <TcText
-                text="Preview Public Message"
+                text="Preview Private Message"
                 variant="h5"
                 className="pb-4"
               />
-              <div className="flex items-center space-x-1">
-                <TcText
-                  text="Channels:"
-                  variant="caption"
-                  fontWeight={700}
-                  className="text-gray-500"
-                />
-                {selectedChannels &&
-                  selectedChannels.map((channel, index, array) => (
-                    <span key={channel} className="flex items-center">
-                      {'#'}
-                      <TcText
-                        text={channel}
-                        variant="caption"
-                        fontWeight="700"
-                      />
-                      {index < array.length - 1 && ', '}
-                    </span>
-                  ))}
+              <div className="flex flex-col items-start">
+                <div className="flex flex-row items-center space-x-1">
+                  <TcText
+                    text="Role(s):"
+                    variant="caption"
+                    fontWeight={700}
+                    className="text-gray-500"
+                  />
+                  {selectedRoles &&
+                    selectedRoles.map((role, index, array) => (
+                      <span key={role} className="flex items-center">
+                        {'#'}
+                        <TcText
+                          text={role}
+                          variant="caption"
+                          fontWeight="700"
+                        />
+                        {index < array.length - 1 && ', '}
+                      </span>
+                    ))}
+                </div>
+                <div className="flex flex-row items-center space-x-1">
+                  <TcText
+                    text="Username(s):"
+                    variant="caption"
+                    fontWeight={700}
+                    className="text-gray-500"
+                  />
+                  {selectedUsernames &&
+                    selectedUsernames.map((username, index, array) => (
+                      <span key={username} className="flex items-center">
+                        {'#'}
+                        <TcText
+                          text={username}
+                          variant="caption"
+                          fontWeight="700"
+                        />
+                        {index < array.length - 1 && ', '}
+                      </span>
+                    ))}
+                </div>
               </div>
               <TcText
                 text={textMessage}

@@ -18,11 +18,19 @@ const announcementsPlatforms = [
   },
 ];
 
-function TcSelectPlatform() {
+interface ITcSelectPlatformProps {
+  isEdit: boolean;
+}
+
+function TcSelectPlatform({ isEdit }: ITcSelectPlatformProps) {
   return (
     <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
       <div>
-        <TcText text="Create Announcement" variant="h6" fontWeight="bold" />
+        <TcText
+          text={`${isEdit ? 'Edit' : 'Create'} Announcement`}
+          variant="h6"
+          fontWeight="bold"
+        />
         <TcText
           text="Select a platform, enter your public and/or private messages below, finally schedule it in and then you’re good to go!"
           variant="subtitle2"

@@ -15,6 +15,7 @@ import TcSwitch from '../../../shared/TcSwitch';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import TcButtonGroup from '../../../shared/TcButtonGroup';
 import clsx from 'clsx';
+import TcPrivateMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
 
 const mockPublicChannels = [
   {
@@ -36,11 +37,17 @@ export enum MessageType {
 function TcPrivateMessageContainer() {
   const [privateMessage, setPrivateMessage] = useState<boolean>(false);
   const [messageType, setMessageType] = useState<MessageType>(MessageType.Both);
-  const [selectedChannels, setSelectedChannels] = useState<number[]>([]);
+  const [selectedUsernames, setSelectedUsernames] = useState<number[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
+
   const [message, setMessage] = useState<string>('');
 
-  const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedChannels(event.target.value as number[]);
+  const handleSelectRolesChange = (event: SelectChangeEvent<unknown>) => {
+    setSelectedRoles(event.target.value as number[]);
+  };
+
+  const handleSelectUsernamesChange = (event: SelectChangeEvent<unknown>) => {
+    setSelectedUsernames(event.target.value as number[]);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +62,27 @@ function TcPrivateMessageContainer() {
 
   const messageTypesArray = Object.values(MessageType);
 
+  const isPreviewDialogEnabled = message.length > 0 && privateMessage == true;
+
+  const getSelectedRolesLabels = () => {
+    return selectedRoles.map(
+      (roleId) =>
+        mockPublicChannels.find((channel) => channel.value === roleId)?.label ||
+        ''
+    );
+  };
+
+  const getSelectedUsernamesLabels = () => {
+    return selectedUsernames.map(
+      (usernameId) =>
+        mockPublicChannels.find((channel) => channel.value === usernameId)
+          ?.label || ''
+    );
+  };
+
+  const selectedRolesLables = getSelectedRolesLabels();
+  const selectedUsernamesLabels = getSelectedUsernamesLabels();
+
   return (
     <div className="space-y-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
@@ -62,6 +90,7 @@ function TcPrivateMessageContainer() {
           <TcIconContainer>
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
+
           <FormControlLabel
             className="mx-auto md:mx-0"
             control={<TcSwitch onChange={handlePrivateMessageChange} />}
@@ -104,17 +133,11 @@ function TcPrivateMessageContainer() {
               />
             ))}
           </TcButtonGroup>
-          <TcButton
-            text="Preview"
-            variant="outlined"
-            sx={{
-              maxWidth: {
-                xs: '100%',
-                sm: '8rem',
-              },
-              height: '2.4rem',
-            }}
-            disabled={!privateMessage}
+          <TcPrivateMessagePreviewDialog
+            textMessage={message}
+            selectedUsernames={selectedRolesLables}
+            selectedRoles={selectedUsernamesLabels}
+            isPreviewDialogEnabled={isPreviewDialogEnabled}
           />
         </div>
       </div>
@@ -137,7 +160,7 @@ function TcPrivateMessageContainer() {
                 id="select-standard-label"
                 label="Platform"
                 options={mockPublicChannels}
-                value={selectedChannels}
+                value={selectedRoles}
                 renderValue={(selected) =>
                   (selected as number[])
                     .map(
@@ -148,7 +171,7 @@ function TcPrivateMessageContainer() {
                     )
                     .join(', ')
                 }
-                onChange={(event) => handleSelectChange(event)}
+                onChange={(event) => handleSelectRolesChange(event)}
               />
             </FormControl>
             <FormControl
@@ -169,7 +192,7 @@ function TcPrivateMessageContainer() {
                 id="select-standard-label"
                 label="Platform"
                 options={mockPublicChannels}
-                value={selectedChannels}
+                value={selectedUsernames}
                 renderValue={(selected) =>
                   (selected as number[])
                     .map(
@@ -180,7 +203,7 @@ function TcPrivateMessageContainer() {
                     )
                     .join(', ')
                 }
-                onChange={(event) => handleSelectChange(event)}
+                onChange={(event) => handleSelectUsernamesChange(event)}
               />
             </FormControl>
           </div>

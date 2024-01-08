@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import TcText from '../../../shared/TcText';
 import { MdAnnouncement } from 'react-icons/md';
 import TcIconContainer from '../TcIconContainer';
-import TcButton from '../../../shared/TcButton';
 import TcSelect from '../../../shared/TcSelect';
 import {
   FormControl,
@@ -36,6 +35,16 @@ function TcPublicMessaageContainer() {
     setMessage(event.target.value);
   };
 
+  const getSelectedChannelLabels = () => {
+    return selectedChannels.map(
+      (channelId) =>
+        mockPublicChannels.find((channel) => channel.value === channelId)
+          ?.label || ''
+    );
+  };
+
+  const selectedChannelLabels = getSelectedChannelLabels();
+
   const isPreviewDialogEnabled =
     selectedChannels.length > 0 && message.length > 0;
 
@@ -51,6 +60,7 @@ function TcPublicMessaageContainer() {
         <TcPublicMessagePreviewDialog
           textMessage={message}
           isPreviewDialogEnabled={isPreviewDialogEnabled}
+          selectedChannels={selectedChannelLabels}
         />
       </div>
       <div className="space-y-1.5">
