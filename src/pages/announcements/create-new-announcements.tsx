@@ -9,6 +9,7 @@ import TcScheduleAnnouncement from '../../components/announcements/create/schedu
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
 import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
 import router from 'next/router';
+import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
 
 function CreateNewAnnouncements() {
   return (
@@ -53,15 +54,8 @@ function CreateNewAnnouncements() {
                       },
                     }}
                   />
-                  <TcButton
-                    text="Create Announcement"
-                    variant="contained"
-                    sx={{
-                      maxWidth: {
-                        xs: '100%',
-                        sm: 'auto',
-                      },
-                    }}
+                  <TcConfirmSchaduledAnnouncementsDialog
+                    buttonLabel={'Create Announcement'}
                   />
                 </div>
               </div>

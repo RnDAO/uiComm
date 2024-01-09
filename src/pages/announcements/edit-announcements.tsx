@@ -9,6 +9,7 @@ import TcSelectPlatform from '../../components/announcements/create/selectPlatfo
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
 import TcButton from '../../components/shared/TcButton';
+import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
 
 function EditAnnouncements() {
   return (
@@ -43,16 +44,7 @@ function EditAnnouncements() {
                   }}
                 />
                 <div className="flex flex-col md:flex-row items-center md:space-x-3 w-full space-y-3 md:space-y-0 md:w-auto">
-                  <TcButton
-                    text="Save"
-                    variant="contained"
-                    sx={{
-                      maxWidth: {
-                        xs: '100%',
-                        sm: 'auto',
-                      },
-                    }}
-                  />
+                  <TcConfirmSchaduledAnnouncementsDialog buttonLabel={'Save'} />
                 </div>
               </div>
             </div>

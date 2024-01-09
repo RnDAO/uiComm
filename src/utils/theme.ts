@@ -14,10 +14,10 @@ export const theme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        sizeMedium: {
-          width: '15rem',
-          padding: '0.5rem',
-        },
+        // sizeMedium: {
+        //   width: '15rem',
+        //   padding: '0.5rem',
+        // },
         root: {
           textTransform: 'none',
           borderRadius: '4px',
