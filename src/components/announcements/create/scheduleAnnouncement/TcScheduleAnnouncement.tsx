@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TcIconContainer from '../TcIconContainer';
 import { MdCalendarMonth } from 'react-icons/md';
 import TcText from '../../../shared/TcText';
@@ -6,7 +6,13 @@ import TcButton from '../../../shared/TcButton';
 import moment from 'moment';
 import TcDateTimePopover from './TcDateTimePopover';
 
-function TcScheduleAnnouncement() {
+export interface ITcScheduleAnnouncementProps {
+  handleSchaduledDate: ({ selectedTime }: { selectedTime: string }) => void;
+}
+
+function TcScheduleAnnouncement({
+  handleSchaduledDate,
+}: ITcScheduleAnnouncementProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -47,6 +53,15 @@ function TcScheduleAnnouncement() {
       }
     }
   };
+
+  useEffect(() => {
+    if (!selectedTime) return;
+
+    const formattedTime = selectedTime.toISOString();
+    console.log({ formattedTime });
+
+    handleSchaduledDate({ selectedTime: formattedTime });
+  }, [selectedTime]);
 
   return (
     <div className="space-y-3">

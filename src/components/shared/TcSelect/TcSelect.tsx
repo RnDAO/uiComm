@@ -14,12 +14,13 @@ interface ITcSelectProps extends SelectProps {
    *   - label (string): The display label for the option
    *   - icon (ReactElement<IconType>): Optional icon to display alongside the label
    */
-  options: Array<{
+  options?: Array<{
     value: string | number;
     label: string;
     icon?: ReactElement<IconType>;
     disabled?: boolean;
   }>;
+  children?: React.ReactNode;
 }
 
 /**
@@ -30,21 +31,27 @@ interface ITcSelectProps extends SelectProps {
  * @returns {ReactElement} The TcSelect component
  */
 
-function TcSelect({ options, ...props }: ITcSelectProps): ReactElement {
+function TcSelect({
+  options,
+  children,
+  ...props
+}: ITcSelectProps): ReactElement {
   return (
     <Select {...props}>
-      {options.map((option, index) => (
-        <MenuItem
-          key={index}
-          value={option.value}
-          disabled={option.disabled ? option.disabled : false}
-        >
-          <div className="flex justify-start items-center space-x-2">
-            {option.icon}
-            <TcText text={option.label} variant="body2" />
-          </div>
-        </MenuItem>
-      ))}
+      {options && options.length > 0
+        ? options.map((option) => (
+            <MenuItem
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
+              <div className="flex justify-start items-center space-x-2">
+                {option.icon && React.cloneElement(option.icon)}
+                <TcText text={option.label} />
+              </div>
+            </MenuItem>
+          ))
+        : children}
     </Select>
   );
 }

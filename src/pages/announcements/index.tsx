@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import SEO from '../../components/global/SEO';
@@ -12,39 +12,35 @@ import TcTimeZone from '../../components/announcements/TcTimeZone';
 import TcDateTimePopover from '../../components/announcements/create/scheduleAnnouncement/TcDateTimePopover';
 import moment from 'moment';
 import { MdCalendarMonth } from 'react-icons/md';
+import useAppStore from '../../store/useStore';
+import { StorageService } from '../../services/StorageService';
+import { FetchedData, IDiscordModifiedCommunity } from '../../utils/interfaces';
 
 const headers = ['Announcement', 'Channel', 'Handle', 'Role', 'Date'];
-const bodyRowItems: any[] = [
-  // {
-  //   Announcement: 'Lorem Ipsum Announcement',
-  //   Channel: 'General',
-  //   Handle: 'JohnDoe',
-  //   Role: 'Admin',
-  //   Date: '2023-03-15',
-  // },
-  // {
-  //   Announcement: 'New Feature Release',
-  //   Channel: 'Product Updates',
-  //   Handle: 'JaneSmith',
-  //   Role: 'User',
-  //   Date: '2023-03-20',
-  // },
-  // {
-  //   Announcement: 'Upcoming Event',
-  //   Channel: 'Events',
-  //   Handle: 'EventHost',
-  //   Role: 'Moderator',
-  //   Date: '2023-04-05',
-  // },
-];
 
 function Index() {
+  const { retrieveAnnouncements } = useAppStore();
+
+  const communityId =
+    StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
+
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [dateTimeDisplay, setDateTimeDisplay] = useState<string>(
     moment().format('D MMMM YYYY @ h A')
+  );
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [fetchedAnnouncements, setFetchedAnnouncements] = useState<FetchedData>(
+    {
+      limit: 10,
+      page: 1,
+      results: [],
+      totalPages: 0,
+      totalResults: 0,
+    }
   );
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -78,6 +74,41 @@ function Index() {
         setDateTimeDisplay(fullDateTime.format('D MMMM YYYY @ h A'));
       }
     }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const data = await retrieveAnnouncements({
+          page: 1,
+          limit: 10,
+          community: communityId,
+        });
+
+        setFetchedAnnouncements(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('An error occurred while fetching platforms:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatAnnouncementsForTable = () => {
+    console.log(fetchedAnnouncements.results);
+
+    return fetchedAnnouncements.results.map(
+      (announcement) => console.log(announcement.data.options)
+
+      //   {
+      //   Announcement: announcement.title,
+      //   Date: moment(announcement.scheduledAt).format('YYYY-MM-DD'),
+      // }
+    );
   };
 
   return (
@@ -123,10 +154,10 @@ function Index() {
                   />
                   <TcTimeZone />
                 </div>
-                {bodyRowItems.length > 0 ? (
+                {fetchedAnnouncements.results.length > 0 ? (
                   <TcTableContainer
                     headers={headers}
-                    bodyRowItems={bodyRowItems}
+                    bodyRowItems={formatAnnouncementsForTable()}
                   />
                 ) : (
                   <div className="text-center mx-auto flex flex-col justify-center h-[65dvh] w-9/12 md:w-4/12">
@@ -145,18 +176,14 @@ function Index() {
               </div>
 
               <div className="flex justify-end">
-                {bodyRowItems.length > 0 ? (
-                  <TcPagination
-                    totalItems={3}
-                    itemsPerPage={1}
-                    currentPage={1}
-                    onChangePage={function (page: number): void {
-                      throw new Error('Function not implemented.');
-                    }}
-                  />
-                ) : (
-                  ''
-                )}
+                <TcPagination
+                  totalItems={3}
+                  itemsPerPage={1}
+                  currentPage={1}
+                  onChangePage={function (page: number): void {
+                    throw new Error('Function not implemented.');
+                  }}
+                />
               </div>
             </div>
           }

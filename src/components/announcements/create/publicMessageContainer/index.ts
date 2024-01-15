@@ -1,3 +1,3 @@
-import { default as TcPublicMessaageContainer } from './TcPublicMessaageContainer';
+import { default as TcPublicMessageContainer } from './TcPublicMessageContainer';
 
-export default TcPublicMessaageContainer;
+export default TcPublicMessageContainer;

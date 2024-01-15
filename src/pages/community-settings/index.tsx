@@ -8,7 +8,6 @@ import TcIntegrationDialog from '../../components/pages/communitySettings/TcInte
 import { useRouter } from 'next/router';
 import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
-import { ChannelProvider } from '../../context/ChannelContext';
 
 function index() {
   const router = useRouter();
@@ -48,29 +47,27 @@ function index() {
 
   return (
     <>
-      <ChannelProvider>
-        <SEO titleTemplate="Community Settings" />
-        <div className="flex flex-col container px-4 md:px-12 py-4">
-          <TcBoxContainer
-            contentContainerChildren={
-              <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-4">
-                <TcText text="Community Settings" variant={'h5'} />
-                <div className="space-y-2">
-                  <TcSwitchCommunity />
-                  <TcCommunityIntegrations />
-                </div>
+      <SEO titleTemplate="Community Settings" />
+      <div className="flex flex-col container px-4 md:px-12 py-4">
+        <TcBoxContainer
+          contentContainerChildren={
+            <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-4">
+              <TcText text="Community Settings" variant={'h5'} />
+              <div className="space-y-2">
+                <TcSwitchCommunity />
+                <TcCommunityIntegrations />
               </div>
-            }
-          />
-        </div>
-        <TcIntegrationDialog
-          title={dialogContent.title}
-          bodyContent={dialogContent.bodyContent}
-          buttonText={dialogContent.dialogButtonText}
-          onClose={handleClose}
-          showDialog={showDialog}
+            </div>
+          }
         />
-      </ChannelProvider>
+      </div>
+      <TcIntegrationDialog
+        title={dialogContent.title}
+        bodyContent={dialogContent.bodyContent}
+        buttonText={dialogContent.dialogButtonText}
+        onClose={handleClose}
+        showDialog={showDialog}
+      />
     </>
   );
 }

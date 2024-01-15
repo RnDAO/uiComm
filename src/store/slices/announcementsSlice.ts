@@ -1,11 +1,31 @@
 import { StateCreator } from 'zustand';
 import { axiosInstance } from '../../axiosInstance';
-import IAnnouncements from '../types/IAnnouncements';
+import IAnnouncements, {
+  IRetrieveAnnouncementsProps,
+} from '../types/IAnnouncements';
+import { CreateAnnouncementsPayload } from '../../pages/announcements/create-new-announcements';
 
 const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
-  retrieveAnnouncements: async () => {
+  retrieveAnnouncements: async ({
+    page,
+    limit,
+    sortBy,
+    name,
+    community,
+  }: IRetrieveAnnouncementsProps) => {
     try {
-      const { data } = await axiosInstance.get(`/announcements/`);
+      const params = {
+        page,
+        limit,
+        sortBy,
+        ...(name ? { name } : {}),
+      };
+
+      const { data } = await axiosInstance.get(
+        `/announcements/?communityId=${community}`,
+        { params }
+      );
+
       return data;
     } catch (error) {
       console.error('Failed to retrieve announcements:', error);
@@ -19,9 +39,14 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
       console.error('Failed to retrieve announcement:', error);
     }
   },
-  createNewAnnouncements: async () => {
+  createNewAnnouncements: async (
+    announcementPayload: CreateAnnouncementsPayload
+  ) => {
     try {
-      const { data } = await axiosInstance.post(`/announcements/`);
+      const { data } = await axiosInstance.post(
+        `/announcements/`,
+        announcementPayload
+      );
       return data;
     } catch (error) {
       console.error('Failed to create announcements:', error);

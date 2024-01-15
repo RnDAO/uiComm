@@ -1,11 +1,11 @@
 import { ButtonGroup, ButtonGroupProps } from '@mui/material';
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
-interface TcButtonGroup extends ButtonGroupProps {
+interface ITcButtonGroup extends ButtonGroupProps {
   children: ReactNode;
 }
 
-function TcButtonGroup({ children, ...props }: TcButtonGroup) {
+function TcButtonGroup({ children, ...props }: ITcButtonGroup) {
   return <ButtonGroup {...props}>{children}</ButtonGroup>;
 }
 

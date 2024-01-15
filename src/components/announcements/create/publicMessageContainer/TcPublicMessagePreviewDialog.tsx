@@ -57,7 +57,7 @@ function TcPublicMessagePreviewDialog({
                 variant="h5"
                 className="pb-4"
               />
-              <div className="flex items-center space-x-1">
+              <div className="flex flex-wrap items-center space-x-1">
                 <TcText
                   text="Channels:"
                   variant="caption"

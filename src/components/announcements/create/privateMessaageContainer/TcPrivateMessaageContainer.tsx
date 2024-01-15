@@ -90,13 +90,14 @@ function TcPrivateMessageContainer() {
           <TcIconContainer>
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
+          <TcText text="Private Message" variant="body1" fontWeight="700" />
 
           <FormControlLabel
             className="mx-auto md:mx-0"
             control={<TcSwitch onChange={handlePrivateMessageChange} />}
             label={
               <div className="flex items-center space-x-1">
-                <TcText text="Private Message (optional)" variant="body1" />
+                <TcText text="Direct Message (optional)" variant="body1" />
                 <TcIconWithTooltip
                   tooltipText={
                     'Community members who have their DMs open will receive a DM. Members who have their DMs closed, will receive a private message inside the server (only they can see it). Additionally, a public message will always be sent with instructions to verify the legitimacy of the bot and announcement by checking the bot ID.'
@@ -143,6 +144,14 @@ function TcPrivateMessageContainer() {
       </div>
       {privateMessage && (
         <div className="space-y-1.5">
+          <div>
+            <TcText text="Send message to:" variant="subtitle1" />
+            <TcText
+              text="Choose one or more user selection criteria for DM recipients. If multiple criteria are selected (e.g., Users + Roles), users matching either will be messaged."
+              variant="caption"
+              className="text-gray-400"
+            />
+          </div>
           <div className="flex justify-between space-x-3">
             <FormControl
               variant="filled"
@@ -206,6 +215,14 @@ function TcPrivateMessageContainer() {
                 onChange={(event) => handleSelectUsernamesChange(event)}
               />
             </FormControl>
+          </div>
+          <div>
+            <TcText text="Write message here:" variant="subtitle1" />
+            <TcText
+              text="Personalize your messages with dynamic variables like {{username}}, which the tool replaces automatically with the recipient's username."
+              variant="caption"
+              className="text-gray-400"
+            />
           </div>
           <FormControl variant="filled" fullWidth size="medium">
             <TcInput
