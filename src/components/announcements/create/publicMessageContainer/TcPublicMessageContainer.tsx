@@ -8,7 +8,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   FormControl,
-  FormHelperText,
   InputLabel,
 } from '@mui/material';
 import TcInput from '../../../shared/TcInput';

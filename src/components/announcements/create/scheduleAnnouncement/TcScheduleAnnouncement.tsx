@@ -55,13 +55,19 @@ function TcScheduleAnnouncement({
   };
 
   useEffect(() => {
-    if (!selectedTime) return;
+    if (!selectedDate || !selectedTime) return;
 
-    const formattedTime = selectedTime.toISOString();
-    console.log({ formattedTime });
+    const fullDateTime = moment(selectedDate).set({
+      hour: selectedTime.getHours(),
+      minute: selectedTime.getMinutes(),
+    });
 
-    handleSchaduledDate({ selectedTime: formattedTime });
-  }, [selectedTime]);
+    const fullDateTimeUTC = fullDateTime.utc();
+
+    const formattedUTCDate = fullDateTimeUTC.format();
+
+    handleSchaduledDate({ selectedTime: formattedUTCDate });
+  }, [selectedDate, selectedTime]);
 
   return (
     <div className="space-y-3">

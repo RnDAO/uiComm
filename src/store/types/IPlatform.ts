@@ -14,7 +14,7 @@ export interface IRetrivePlatformRolesOrChannels {
   sortBy?: string;
   name?: string;
   platformId: string;
-  property: 'channel' | 'role';
+  property: 'channel' | 'role' | 'guildMember';
 }
 
 export interface IDeletePlatformProps {

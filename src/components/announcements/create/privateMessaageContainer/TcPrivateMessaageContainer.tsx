@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TcText from '../../../shared/TcText';
 import { MdOutlineAnnouncement } from 'react-icons/md';
 import TcIconContainer from '../TcIconContainer';
 import TcButton from '../../../shared/TcButton';
-import TcSelect from '../../../shared/TcSelect';
-import {
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  SelectChangeEvent,
-} from '@mui/material';
+import { FormControl, FormControlLabel } from '@mui/material';
 import TcInput from '../../../shared/TcInput';
 import TcSwitch from '../../../shared/TcSwitch';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import TcButtonGroup from '../../../shared/TcButtonGroup';
 import clsx from 'clsx';
 import TcPrivateMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
-
-const mockPublicChannels = [
-  {
-    label: 'test',
-    value: 1,
-  },
-  {
-    label: 'test2',
-    value: 2,
-  },
-];
+import TcRolesAutoComplete from './TcRolesAutoComplete';
+import TcUsersAutoComplete from './TcUsersAutoComplete';
+import { IRoles, IUser } from '../../../../utils/interfaces';
 
 export enum MessageType {
   Both = 'Both',
@@ -34,21 +20,27 @@ export enum MessageType {
   UserOnly = 'User Only',
 }
 
-function TcPrivateMessageContainer() {
+export interface ITcPrivateMessageContainerProps {
+  handlePrivateAnnouncements: ({
+    message,
+    selectedRoles,
+    selectedUsers,
+  }: {
+    message: string;
+    selectedRoles?: IRoles[];
+    selectedUsers?: IUser[];
+  }) => void;
+}
+
+function TcPrivateMessageContainer({
+  handlePrivateAnnouncements,
+}: ITcPrivateMessageContainerProps) {
   const [privateMessage, setPrivateMessage] = useState<boolean>(false);
   const [messageType, setMessageType] = useState<MessageType>(MessageType.Both);
-  const [selectedUsernames, setSelectedUsernames] = useState<number[]>([]);
-  const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<IRoles[]>([]);
 
   const [message, setMessage] = useState<string>('');
-
-  const handleSelectRolesChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedRoles(event.target.value as number[]);
-  };
-
-  const handleSelectUsernamesChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedUsernames(event.target.value as number[]);
-  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -65,23 +57,49 @@ function TcPrivateMessageContainer() {
   const isPreviewDialogEnabled = message.length > 0 && privateMessage == true;
 
   const getSelectedRolesLabels = () => {
-    return selectedRoles.map(
-      (roleId) =>
-        mockPublicChannels.find((channel) => channel.value === roleId)?.label ||
-        ''
-    );
-  };
-
-  const getSelectedUsernamesLabels = () => {
-    return selectedUsernames.map(
-      (usernameId) =>
-        mockPublicChannels.find((channel) => channel.value === usernameId)
-          ?.label || ''
-    );
+    return selectedRoles.map((role) => role.name || '');
   };
 
   const selectedRolesLables = getSelectedRolesLabels();
-  const selectedUsernamesLabels = getSelectedUsernamesLabels();
+
+  const getSelectedUsersLabels = () => {
+    return selectedUsers.map((user) => user.ngu || '');
+  };
+
+  const selectedUsersLables = getSelectedUsersLabels();
+
+  useEffect(() => {
+    const prepareAndSendData = () => {
+      switch (messageType) {
+        case MessageType.Both:
+          handlePrivateAnnouncements({ message, selectedRoles, selectedUsers });
+          break;
+
+        case MessageType.RoleOnly:
+          handlePrivateAnnouncements({ message, selectedRoles });
+          break;
+
+        case MessageType.UserOnly:
+          handlePrivateAnnouncements({ message, selectedUsers });
+          break;
+
+        default:
+          handlePrivateAnnouncements({ message, selectedRoles, selectedUsers });
+          break;
+      }
+    };
+
+    if (message && privateMessage) {
+      prepareAndSendData();
+    }
+  }, [
+    message,
+    selectedRoles,
+    selectedUsers,
+    messageType,
+    privateMessage,
+    handlePrivateAnnouncements,
+  ]);
 
   return (
     <div className="space-y-3">
@@ -91,7 +109,6 @@ function TcPrivateMessageContainer() {
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
           <TcText text="Private Message" variant="body1" fontWeight="700" />
-
           <FormControlLabel
             className="mx-auto md:mx-0"
             control={<TcSwitch onChange={handlePrivateMessageChange} />}
@@ -136,8 +153,8 @@ function TcPrivateMessageContainer() {
           </TcButtonGroup>
           <TcPrivateMessagePreviewDialog
             textMessage={message}
-            selectedUsernames={selectedRolesLables}
-            selectedRoles={selectedUsernamesLabels}
+            selectedUsernames={selectedUsersLables}
+            selectedRoles={selectedRolesLables}
             isPreviewDialogEnabled={isPreviewDialogEnabled}
           />
         </div>
@@ -162,25 +179,12 @@ function TcPrivateMessageContainer() {
                 messageType !== MessageType.RoleOnly
               }
             >
-              <InputLabel id="select-standard-label">Select Role(s)</InputLabel>
-              <TcSelect
-                multiple
-                labelId="select-standard-label"
-                id="select-standard-label"
-                label="Platform"
-                options={mockPublicChannels}
-                value={selectedRoles}
-                renderValue={(selected) =>
-                  (selected as number[])
-                    .map(
-                      (value) =>
-                        mockPublicChannels.find(
-                          (channel) => channel.value === value
-                        )?.label
-                    )
-                    .join(', ')
+              <TcRolesAutoComplete
+                isDisabled={
+                  messageType !== MessageType.Both &&
+                  messageType !== MessageType.RoleOnly
                 }
-                onChange={(event) => handleSelectRolesChange(event)}
+                handleSelectedUsers={setSelectedRoles}
               />
             </FormControl>
             <FormControl
@@ -192,27 +196,12 @@ function TcPrivateMessageContainer() {
                 messageType !== MessageType.UserOnly
               }
             >
-              <InputLabel id="select-standard-label">
-                Select Username(s)
-              </InputLabel>
-              <TcSelect
-                multiple
-                labelId="select-standard-label"
-                id="select-standard-label"
-                label="Platform"
-                options={mockPublicChannels}
-                value={selectedUsernames}
-                renderValue={(selected) =>
-                  (selected as number[])
-                    .map(
-                      (value) =>
-                        mockPublicChannels.find(
-                          (channel) => channel.value === value
-                        )?.label
-                    )
-                    .join(', ')
+              <TcUsersAutoComplete
+                isDisabled={
+                  messageType !== MessageType.Both &&
+                  messageType !== MessageType.UserOnly
                 }
-                onChange={(event) => handleSelectUsernamesChange(event)}
+                handleSelectedUsers={setSelectedUsers}
               />
             </FormControl>
           </div>

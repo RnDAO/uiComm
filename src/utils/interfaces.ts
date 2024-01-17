@@ -171,3 +171,12 @@ export interface IDiscordModifiedCommunity
   extends Omit<ICommunity, 'platforms'> {
   platforms: ICommunityDiscordPlatfromProps[];
 }
+
+export interface IUser {
+  discordId: string;
+  discriminator: string;
+  globalName: string | null;
+  ngu: string;
+  nickname: string | null;
+  username: string;
+}

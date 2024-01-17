@@ -3,7 +3,7 @@ import { defaultLayout } from '../../layouts/defaultLayout';
 import SEO from '../../components/global/SEO';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcPublicMessageContainer from '../../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
-import TcPrivateMessaageContainer from '../../components/announcements/create/privateMessaageContainer';
+import TcPrivateMessageContainer from '../../components/announcements/create/privateMessaageContainer/TcPrivateMessaageContainer';
 import TcButton from '../../components/shared/TcButton';
 import TcScheduleAnnouncement from '../../components/announcements/create/scheduleAnnouncement/';
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
@@ -13,6 +13,7 @@ import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcement
 import useAppStore from '../../store/useStore';
 import { useToken } from '../../context/TokenContext';
 import { ChannelContext } from '../../context/ChannelContext';
+import { IRoles, IUser } from '../../utils/interfaces';
 
 export type CreateAnnouncementsPayloadDataOptions =
   | { channelIds: string[]; userIds?: string[]; roleIds?: string[] }
@@ -41,25 +42,27 @@ function CreateNewAnnouncements() {
 
   const { refreshData } = channelContext;
 
+  const [channels, setChannels] = useState<any[]>([]);
+  const [roles, setRoles] = useState<IRoles[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
+
   const platformId = community?.platforms.find(
     (platform) => platform.disconnectedAt === null
   )?.id;
 
   const [publicAnnouncements, setPublicAnnouncements] =
     useState<CreateAnnouncementsPayloadData>();
+
+  const [privateAnnouncements, setPrivateAnnouncements] =
+    useState<CreateAnnouncementsPayloadData[]>();
+
   const [scheduledAt, setScheduledAt] = useState<string>();
 
   const fetchPlatformChannels = async () => {
     try {
       if (platformId) {
-        const data = await retrievePlatformById(platformId);
-        const { metadata } = data;
-        if (metadata) {
-          const { selectedChannels } = metadata;
-          await refreshData(platformId, 'channel', selectedChannels, true);
-        } else {
-          await refreshData(platformId);
-        }
+        await retrievePlatformById(platformId);
+        await refreshData(platformId, 'channel', undefined, undefined, false);
       }
     } catch (error) {
     } finally {
@@ -76,15 +79,24 @@ function CreateNewAnnouncements() {
 
   const handleCreateAnnouncements = (isDrafted: boolean) => {
     if (!community) return;
+
+    const data = [publicAnnouncements];
+
+    if (privateAnnouncements && privateAnnouncements.length > 0) {
+      data.push(...privateAnnouncements);
+    }
+
     const announcementsPayload = {
       communityId: community.id,
       draft: isDrafted,
       scheduledAt: scheduledAt,
-      data: [publicAnnouncements],
+      data: data,
     };
+    console.log({ announcementsPayload });
 
     createNewAnnouncements(announcementsPayload);
   };
+
   return (
     <>
       <SEO titleTemplate="Create Announcement" />
@@ -106,6 +118,7 @@ function CreateNewAnnouncements() {
                     selectedChannels,
                   }) => {
                     if (!platformId) return;
+                    setChannels(selectedChannels);
                     setPublicAnnouncements({
                       platformId: platformId,
                       template: message,
@@ -117,14 +130,63 @@ function CreateNewAnnouncements() {
                     });
                   }}
                 />
-                <TcPrivateMessaageContainer />
+                <TcPrivateMessageContainer
+                  handlePrivateAnnouncements={({
+                    message,
+                    selectedUsers,
+                    selectedRoles,
+                  }) => {
+                    if (!platformId) return;
+
+                    let rolePrivateAnnouncements;
+                    let userPrivateAnnouncements;
+
+                    const commonData = {
+                      platformId: platformId,
+                      template: message,
+                    };
+
+                    if (selectedRoles && selectedRoles.length > 0) {
+                      setRoles(selectedRoles);
+
+                      rolePrivateAnnouncements = {
+                        ...commonData,
+                        options: {
+                          roleIds: selectedRoles.map((role) =>
+                            role.id.toString()
+                          ),
+                        },
+                      };
+                    }
+
+                    if (selectedUsers && selectedUsers.length > 0) {
+                      setUsers(selectedUsers);
+
+                      userPrivateAnnouncements = {
+                        ...commonData,
+                        options: {
+                          userIds: selectedUsers.map((user) => user.discordId),
+                        },
+                      };
+                    }
+
+                    const announcements = [];
+                    if (rolePrivateAnnouncements)
+                      announcements.push(rolePrivateAnnouncements);
+                    if (userPrivateAnnouncements)
+                      announcements.push(userPrivateAnnouncements);
+
+                    setPrivateAnnouncements(announcements);
+                  }}
+                />
+
                 <TcScheduleAnnouncement
                   handleSchaduledDate={({ selectedTime }) => {
                     setScheduledAt(selectedTime);
                   }}
                 />
               </div>
-              <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-12">
+              <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-8">
                 <TcButton
                   text="Cancel"
                   onClick={() => router.push('/announcements')}
@@ -150,8 +212,18 @@ function CreateNewAnnouncements() {
                   />
                   <TcConfirmSchaduledAnnouncementsDialog
                     buttonLabel={'Create Announcement'}
-                    selectedChannels={[]}
-                    schaduledDate={''}
+                    selectedChannels={channels}
+                    selectedRoles={roles}
+                    selectedUsernames={users}
+                    schaduledDate={scheduledAt || ''}
+                    isDisabled={
+                      !scheduledAt ||
+                      !publicAnnouncements?.template ||
+                      !publicAnnouncements?.options.channelIds
+                    }
+                    handleCreateAnnouncements={(e) =>
+                      handleCreateAnnouncements(e)
+                    }
                   />
                 </div>
               </div>

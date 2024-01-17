@@ -60,7 +60,7 @@ function TcPublicMessagePreviewDialog({
                 className="pb-4"
               />
               <div className="flex flex-col items-start">
-                <div className="flex flex-row items-center space-x-1">
+                <div className="flex flex-wrap items-center space-x-1">
                   <TcText
                     text="Role(s):"
                     variant="caption"
@@ -69,8 +69,8 @@ function TcPublicMessagePreviewDialog({
                   />
                   {selectedRoles &&
                     selectedRoles.map((role, index, array) => (
-                      <span key={role} className="flex items-center">
-                        {'#'}
+                      <span key={role} className="flex items-baseline">
+                        {'@'}
                         <TcText
                           text={role}
                           variant="caption"
@@ -80,7 +80,7 @@ function TcPublicMessagePreviewDialog({
                       </span>
                     ))}
                 </div>
-                <div className="flex flex-row items-center space-x-1">
+                <div className="flex flex-wrap items-center space-x-1">
                   <TcText
                     text="Username(s):"
                     variant="caption"
@@ -104,7 +104,7 @@ function TcPublicMessagePreviewDialog({
               <TcText
                 text={textMessage}
                 variant="body1"
-                className="text-left"
+                className="text-left mt-2"
               />
               <div className="py-6 w-full">
                 <TcButton

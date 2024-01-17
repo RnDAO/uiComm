@@ -175,6 +175,22 @@ axiosInstance.interceptors.response.use(
           )
         );
         break;
+      case 500:
+        toast.error(`${error.response.data.message}`, {
+          position: 'bottom-left',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 0,
+        });
+        Sentry.captureException(
+          new Error(
+            `API responded with status code ${error.response.status}: ${error.response.data.message}`
+          )
+        );
+        break;
       case 590:
         toast.error(`${error.response.data.message}`, {
           position: 'bottom-left',
