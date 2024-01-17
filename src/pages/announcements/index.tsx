@@ -5,18 +5,16 @@ import SEO from '../../components/global/SEO';
 import TcText from '../../components/shared/TcText';
 import TcButton from '../../components/shared/TcButton';
 import { BsPlus } from 'react-icons/bs';
-import TcTableContainer from '../../components/shared/TcTableContainer';
 import router from 'next/router';
 import TcPagination from '../../components/shared/TcPagination';
 import TcTimeZone from '../../components/announcements/TcTimeZone';
-import TcDateTimePopover from '../../components/announcements/create/scheduleAnnouncement/TcDateTimePopover';
 import moment from 'moment';
 import { MdCalendarMonth } from 'react-icons/md';
 import useAppStore from '../../store/useStore';
 import { StorageService } from '../../services/StorageService';
 import { FetchedData, IDiscordModifiedCommunity } from '../../utils/interfaces';
-
-const headers = ['Announcement', 'Channel', 'Handle', 'Role', 'Date'];
+import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
+import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
 
 function Index() {
   const { retrieveAnnouncements } = useAppStore();
@@ -27,25 +25,21 @@ function Index() {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
-  const [dateTimeDisplay, setDateTimeDisplay] = useState<string>(
-    moment().format('D MMMM YYYY @ h A')
-  );
+  const [selectedZone, setSelectedZone] = useState(moment.tz.guess());
+  const [dateTimeDisplay, setDateTimeDisplay] = useState<string>('Filter Date');
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState(1);
+
   const [fetchedAnnouncements, setFetchedAnnouncements] = useState<FetchedData>(
     {
-      limit: 10,
+      limit: 8,
       page: 1,
       results: [],
       totalPages: 0,
       totalResults: 0,
     }
   );
-
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -54,61 +48,63 @@ function Index() {
   const open = Boolean(anchorEl);
   const id = open ? 'date-time-popover' : undefined;
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
+      const fullDateTime = moment(date);
+      setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
+
       setActiveTab(1);
+      setAnchorEl(null);
     }
   };
 
-  const handleTimeChange = (time: Date | null) => {
-    if (time) {
-      setSelectedTime(time);
-      handleClose();
+  const fetchData = async (date?: Date | null, zone?: string) => {
+    try {
+      setLoading(true);
 
-      if (selectedDate) {
-        const fullDateTime = moment(selectedDate).set({
-          hour: time.getHours(),
-          minute: time.getMinutes(),
-        });
-        setDateTimeDisplay(fullDateTime.format('D MMMM YYYY @ h A'));
+      let startDate, endDate;
+      if (date) {
+        startDate = moment(date)
+          .tz(zone || selectedZone)
+          .startOf('day')
+          .utcOffset(0, true)
+          .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        endDate = moment(date)
+          .tz(zone || selectedZone)
+          .endOf('day')
+          .utcOffset(0, true)
+          .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
       }
+      const data = await retrieveAnnouncements({
+        page: page,
+        limit: 8,
+        timeZone: zone || selectedZone,
+        ...(startDate ? { startDate: startDate } : {}),
+        ...(endDate ? { endDate: endDate } : {}),
+        community: communityId,
+      });
+
+      setFetchedAnnouncements(data);
+    } catch (error) {
+      console.error('An error occurred:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
+    console.log({ selectedDate });
 
-        const data = await retrieveAnnouncements({
-          page: 1,
-          limit: 10,
-          community: communityId,
-        });
+    fetchData(selectedDate, selectedZone);
+  }, [selectedZone, selectedDate, page]);
 
-        setFetchedAnnouncements(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('An error occurred while fetching platforms:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const formatAnnouncementsForTable = () => {
-    console.log(fetchedAnnouncements.results);
-
-    return fetchedAnnouncements.results.map(
-      (announcement) => console.log(announcement.data.options)
-
-      //   {
-      //   Announcement: announcement.title,
-      //   Date: moment(announcement.scheduledAt).format('YYYY-MM-DD'),
-      // }
-    );
+  const handlePageChange = (selectedPage: number) => {
+    setPage(selectedPage);
   };
 
   return (
@@ -132,32 +128,29 @@ function Index() {
                 </div>
                 <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 items-center mt-8 mb-4">
                   <TcButton
-                    text={dateTimeDisplay}
-                    variant="contained"
+                    variant="outlined"
                     startIcon={<MdCalendarMonth />}
-                    disableElevation={true}
-                    className="border border-black bg-gray-100 shadow-md"
-                    sx={{ color: 'black', height: '2.4rem' }}
+                    onClick={handleClick}
+                    text={dateTimeDisplay}
                     aria-describedby={id}
-                    onClick={handleOpen}
                   />
-                  <TcDateTimePopover
+                  <TcDatePickerPopover
                     open={open}
                     anchorEl={anchorEl}
                     onClose={handleClose}
                     selectedDate={selectedDate}
-                    handleDateChange={handleDateChange}
-                    selectedTime={selectedTime}
-                    handleTimeChange={handleTimeChange}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
+                    onDateChange={handleDateChange}
                   />
-                  <TcTimeZone />
+                  <TcTimeZone handleZone={setSelectedZone} />
                 </div>
                 {fetchedAnnouncements.results.length > 0 ? (
-                  <TcTableContainer
-                    headers={headers}
-                    bodyRowItems={formatAnnouncementsForTable()}
+                  <TcAnnouncementsTable
+                    announcements={
+                      fetchedAnnouncements.results
+                        ? fetchedAnnouncements.results
+                        : []
+                    }
+                    handleRefreshList={fetchData}
                   />
                 ) : (
                   <div className="text-center mx-auto flex flex-col justify-center h-[65dvh] w-9/12 md:w-4/12">
@@ -175,16 +168,21 @@ function Index() {
                 )}
               </div>
 
-              <div className="flex justify-end">
-                <TcPagination
-                  totalItems={3}
-                  itemsPerPage={1}
-                  currentPage={1}
-                  onChangePage={function (page: number): void {
-                    throw new Error('Function not implemented.');
-                  }}
-                />
-              </div>
+              {fetchedAnnouncements.totalResults > 8 ? (
+                <div className="flex justify-end">
+                  <TcPagination
+                    totalItems={fetchedAnnouncements.totalResults}
+                    itemsPerPage={Math.ceil(
+                      fetchedAnnouncements.totalResults /
+                        fetchedAnnouncements.totalPages
+                    )}
+                    currentPage={page}
+                    onChangePage={handlePageChange}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           }
         />

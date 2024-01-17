@@ -11,6 +11,9 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
     limit,
     sortBy,
     name,
+    timeZone,
+    startDate,
+    endDate,
     community,
   }: IRetrieveAnnouncementsProps) => {
     try {
@@ -18,6 +21,9 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
         page,
         limit,
         sortBy,
+        ...(timeZone ? { timeZone } : {}),
+        ...(startDate ? { startDate } : {}),
+        ...(endDate ? { endDate } : {}),
         ...(name ? { name } : {}),
       };
 
@@ -62,7 +68,7 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
   },
   deleteAnnouncements: async (id: string) => {
     try {
-      const { data } = await axiosInstance.delete(`/platforms/${id}`);
+      const { data } = await axiosInstance.delete(`/announcements/${id}`);
       return data;
     } catch (error) {
       console.error('Failed to delete announcements:', error);

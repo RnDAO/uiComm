@@ -131,7 +131,7 @@ function TcUsersAutoComplete({
     <TcAutocomplete
       options={fetchedUsers.results}
       getOptionLabel={(option) => option.ngu}
-      label={'Select Role(s)'}
+      label={'Select User(s)'}
       multiple={true}
       disabled={isDisabled}
       value={selectedUsers}

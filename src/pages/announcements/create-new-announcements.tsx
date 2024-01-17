@@ -8,12 +8,13 @@ import TcButton from '../../components/shared/TcButton';
 import TcScheduleAnnouncement from '../../components/announcements/create/scheduleAnnouncement/';
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
 import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
-import router from 'next/router';
 import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
 import useAppStore from '../../store/useStore';
 import { useToken } from '../../context/TokenContext';
 import { ChannelContext } from '../../context/ChannelContext';
 import { IRoles, IUser } from '../../utils/interfaces';
+import { useSnackbar } from '../../context/SnackbarContext';
+import { useRouter } from 'next/router';
 
 export type CreateAnnouncementsPayloadDataOptions =
   | { channelIds: string[]; userIds?: string[]; roleIds?: string[] }
@@ -34,11 +35,13 @@ export interface CreateAnnouncementsPayload {
 }
 
 function CreateNewAnnouncements() {
+  const router = useRouter();
   const { createNewAnnouncements, retrievePlatformById } = useAppStore();
 
   const { community } = useToken();
 
   const channelContext = useContext(ChannelContext);
+  const { showMessage } = useSnackbar();
 
   const { refreshData } = channelContext;
 
@@ -77,7 +80,7 @@ function CreateNewAnnouncements() {
     fetchPlatformChannels();
   }, [platformId]);
 
-  const handleCreateAnnouncements = (isDrafted: boolean) => {
+  const handleCreateAnnouncements = async (isDrafted: boolean) => {
     if (!community) return;
 
     const data = [publicAnnouncements];
@@ -92,9 +95,16 @@ function CreateNewAnnouncements() {
       scheduledAt: scheduledAt,
       data: data,
     };
-    console.log({ announcementsPayload });
 
-    createNewAnnouncements(announcementsPayload);
+    try {
+      const data = await createNewAnnouncements(announcementsPayload);
+      if (data) {
+        showMessage('Announcement created successfully', 'success');
+        router.push('/announcements');
+      }
+    } catch (error) {
+      showMessage('Failed to create announcement', 'error');
+    }
   };
 
   return (
@@ -153,7 +163,7 @@ function CreateNewAnnouncements() {
                         ...commonData,
                         options: {
                           roleIds: selectedRoles.map((role) =>
-                            role.id.toString()
+                            role.roleId.toString()
                           ),
                         },
                       };
@@ -216,11 +226,7 @@ function CreateNewAnnouncements() {
                     selectedRoles={roles}
                     selectedUsernames={users}
                     schaduledDate={scheduledAt || ''}
-                    isDisabled={
-                      !scheduledAt ||
-                      !publicAnnouncements?.template ||
-                      !publicAnnouncements?.options.channelIds
-                    }
+                    isDisabled={!scheduledAt}
                     handleCreateAnnouncements={(e) =>
                       handleCreateAnnouncements(e)
                     }

@@ -4,6 +4,9 @@ export interface IRetrieveAnnouncementsProps {
   sortBy?: string;
   name?: string;
   community: string;
+  startDate?: string;
+  endDate?: string;
+  timeZone: string;
 }
 
 export default interface IAnnouncements {

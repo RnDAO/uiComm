@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TcButton from '../shared/TcButton';
 import { FaGlobeAmericas } from 'react-icons/fa';
 import TcPopover from '../shared/TcPopover';
@@ -12,7 +12,10 @@ import { MdSearch } from 'react-icons/md';
 
 const timeZonesList = momentTZ.tz.names();
 
-function TcTimeZone() {
+interface ITcTimeZoneProps {
+  handleZone: (zone: string) => void;
+}
+function TcTimeZone({ handleZone }: ITcTimeZoneProps) {
   const [activeZone, setActiveZone] = useState<string>(moment.tz.guess());
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -46,6 +49,10 @@ function TcTimeZone() {
     setAnchorEl(null);
     setZones(timeZonesList);
   };
+
+  useEffect(() => {
+    handleZone(activeZone);
+  }, [activeZone]);
 
   return (
     <div className="w-full md:w-auto">

@@ -18,7 +18,7 @@ function TcScheduleAnnouncement({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [dateTimeDisplay, setDateTimeDisplay] = useState<string>(
-    moment().format('D MMMM YYYY @ h A')
+    'Select Date for Announcement'
   );
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
