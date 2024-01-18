@@ -114,12 +114,76 @@ function TcAnnouncementsTable({
       <Table className="border-separate border-spacing-y-2">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Announcements</TableCell>
-            <TableCell align="left">Channels</TableCell>
-            <TableCell align="left">Handle</TableCell>
-            <TableCell align="left">Role</TableCell>
-            <TableCell align="left">Date</TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className="uppercase text-gray-400"
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+              }}
+              align="left"
+            >
+              <TcText text="Announcements" variant="body2" />
+            </TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className="uppercase text-gray-400"
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+              }}
+              align="left"
+            >
+              <TcText text="Channels" variant="body2" />
+            </TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className="uppercase text-gray-400"
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+              }}
+              align="left"
+            >
+              <TcText text="Handle" variant="body2" />
+            </TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className="uppercase text-gray-400"
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+              }}
+              align="left"
+            >
+              <TcText text="Role" variant="body2" />
+            </TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className="uppercase text-gray-400"
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+              }}
+              align="left"
+            >
+              <TcText text="Date" variant="body2" />
+            </TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className="uppercase"
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+              }}
+              align="right"
+            ></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -132,8 +196,10 @@ function TcAnnouncementsTable({
                   : 'border-1 border-solid border-gray-700'
               }`}
             >
-              <TableCell>{announcement.data[0].template}</TableCell>
-              <TableCell>
+              <TableCell sx={{ borderBottom: 'none' }}>
+                {announcement.data[0].template}
+              </TableCell>
+              <TableCell sx={{ borderBottom: 'none' }}>
                 {announcement.data.map(
                   (item) =>
                     item.options.channels &&
@@ -142,7 +208,7 @@ function TcAnnouncementsTable({
                       .join(', ')
                 )}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ borderBottom: 'none' }}>
                 {announcement.data.map((item) =>
                   item.options.users
                     ? item.options.users
@@ -151,17 +217,17 @@ function TcAnnouncementsTable({
                     : ''
                 )}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ borderBottom: 'none' }}>
                 {announcement.data.map((item) =>
                   item.options.roles
                     ? item.options.roles.map((role) => role.name).join(', ')
                     : ''
                 )}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ borderBottom: 'none' }}>
                 {new Date(announcement.scheduledAt).toLocaleString()}
-              </TableCell>{' '}
-              <TableCell>
+              </TableCell>
+              <TableCell sx={{ borderBottom: 'none' }}>
                 <IconButton
                   aria-label="more"
                   aria-controls="long-menu"

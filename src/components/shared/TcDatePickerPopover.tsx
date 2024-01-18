@@ -3,6 +3,7 @@ import Popover from '@mui/material/Popover';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import TcButton from './TcButton';
 
 interface ITcDatePickerPopoverProps {
   open: boolean;
@@ -10,6 +11,7 @@ interface ITcDatePickerPopoverProps {
   onClose: () => void;
   selectedDate: Date | null;
   onDateChange: (date: Date | null) => void;
+  onResetDate: () => void;
 }
 
 function TcDatePickerPopover({
@@ -18,6 +20,7 @@ function TcDatePickerPopover({
   onClose,
   selectedDate,
   onDateChange,
+  onResetDate,
 }: ITcDatePickerPopoverProps) {
   return (
     <Popover
@@ -37,6 +40,14 @@ function TcDatePickerPopover({
           onChange={onDateChange}
         />
       </LocalizationProvider>
+      <div className="px-5 py-3">
+        <TcButton
+          text="Reset"
+          onClick={onResetDate}
+          className="w-full"
+          variant="outlined"
+        />
+      </div>
     </Popover>
   );
 }

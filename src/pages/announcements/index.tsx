@@ -58,9 +58,15 @@ function Index() {
       const fullDateTime = moment(date);
       setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
 
-      setActiveTab(1);
       setAnchorEl(null);
     }
+  };
+
+  const resetDateFilter = () => {
+    setSelectedDate(null);
+    setDateTimeDisplay('Filter Date');
+
+    setAnchorEl(null);
   };
 
   const fetchData = async (date?: Date | null, zone?: string) => {
@@ -140,6 +146,7 @@ function Index() {
                     onClose={handleClose}
                     selectedDate={selectedDate}
                     onDateChange={handleDateChange}
+                    onResetDate={resetDateFilter}
                   />
                   <TcTimeZone handleZone={setSelectedZone} />
                 </div>

@@ -212,6 +212,7 @@ function CreateNewAnnouncements() {
                   <TcButton
                     text="Save as Draft"
                     variant="outlined"
+                    disabled={!scheduledAt}
                     sx={{
                       maxWidth: {
                         xs: '100%',
