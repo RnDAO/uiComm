@@ -27,8 +27,8 @@ export interface IRoles {
   roleId: string;
   color: number | string;
   name: string;
-  deletedAt: string;
-  id: number | string;
+  deletedAt?: string;
+  id?: number | string;
 }
 
 export interface IUserProfile {
@@ -174,9 +174,9 @@ export interface IDiscordModifiedCommunity
 
 export interface IUser {
   discordId: string;
-  discriminator: string;
-  globalName: string | null;
+  discriminator?: string;
+  globalName?: string | null;
   ngu: string;
-  nickname: string | null;
-  username: string;
+  nickname?: string | null;
+  username?: string;
 }

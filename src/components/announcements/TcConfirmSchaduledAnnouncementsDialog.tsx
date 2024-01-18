@@ -94,7 +94,11 @@ function TcConfirmSchaduledAnnouncementsDialog({
                       className="text-left text-gray-400"
                     />
                     <TcText
-                      text={formatDateToLocalTimezone(schaduledDate)}
+                      text={
+                        schaduledDate
+                          ? formatDateToLocalTimezone(schaduledDate)
+                          : ''
+                      }
                       variant="subtitle2"
                     />
                   </div>
@@ -112,7 +116,11 @@ function TcConfirmSchaduledAnnouncementsDialog({
                         className="text-left text-gray-400"
                       />
                       <TcText
-                        text={formatDateToLocalTimezone(schaduledDate)}
+                        text={
+                          schaduledDate
+                            ? formatDateToLocalTimezone(schaduledDate)
+                            : ''
+                        }
                         variant="subtitle2"
                       />{' '}
                     </div>
@@ -133,7 +141,11 @@ function TcConfirmSchaduledAnnouncementsDialog({
                         className="text-left text-gray-400"
                       />
                       <TcText
-                        text={formatDateToLocalTimezone(schaduledDate)}
+                        text={
+                          schaduledDate
+                            ? formatDateToLocalTimezone(schaduledDate)
+                            : ''
+                        }
                         variant="subtitle2"
                       />
                     </div>

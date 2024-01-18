@@ -10,7 +10,7 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
     page,
     limit,
     sortBy,
-    name,
+    ngu,
     timeZone,
     startDate,
     endDate,
@@ -24,7 +24,7 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
         ...(timeZone ? { timeZone } : {}),
         ...(startDate ? { startDate } : {}),
         ...(endDate ? { endDate } : {}),
-        ...(name ? { name } : {}),
+        ...(ngu ? { name } : {}),
       };
 
       const { data } = await axiosInstance.get(
@@ -58,9 +58,17 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
       console.error('Failed to create announcements:', error);
     }
   },
-  patchExistingAnnouncement: async (id: string) => {
+  patchExistingAnnouncement: async (
+    id: string,
+    announcementPayload: CreateAnnouncementsPayload
+  ) => {
     try {
-      const { data } = await axiosInstance.post(`/announcements/${id}`);
+      console.log({ id });
+
+      const { data } = await axiosInstance.patch(
+        `/announcements/${id}`,
+        announcementPayload
+      );
       return data;
     } catch (error) {
       console.error('Failed to patch announcements:', error);

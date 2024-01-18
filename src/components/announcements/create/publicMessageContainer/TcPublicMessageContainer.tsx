@@ -15,6 +15,7 @@ import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
 import { ChannelContext } from '../../../../context/ChannelContext';
 import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatformChannelList';
 import { IGuildChannels } from '../../../../utils/types';
+import { DiscordData } from '../../../../pages/announcements/edit-announcements';
 
 export interface FlattenedChannel {
   id: string;
@@ -22,6 +23,8 @@ export interface FlattenedChannel {
 }
 
 export interface ITcPublicMessageContainerProps {
+  isEdit?: boolean;
+  publicAnnouncementsData?: DiscordData | undefined;
   handlePublicAnnouncements: ({
     message,
     selectedChannels,
@@ -33,6 +36,8 @@ export interface ITcPublicMessageContainerProps {
 
 function TcPublicMessageContainer({
   handlePublicAnnouncements,
+  isEdit = false,
+  publicAnnouncementsData,
 }: ITcPublicMessageContainerProps) {
   const channelContext = useContext(ChannelContext);
 
@@ -77,6 +82,24 @@ function TcPublicMessageContainer({
   useEffect(() => {
     handlePublicAnnouncements({ message, selectedChannels });
   }, [message, selectedChannels]);
+
+  useEffect(() => {
+    if (isEdit && publicAnnouncementsData) {
+      if (
+        publicAnnouncementsData.type === 'discord_public' &&
+        'channels' in publicAnnouncementsData.options
+      ) {
+        const formattedChannels = publicAnnouncementsData.options.channels.map(
+          (channel) => ({
+            id: channel.channelId,
+            label: channel.name,
+          })
+        );
+        setSelectedChannels(formattedChannels);
+        setMessage(publicAnnouncementsData.template);
+      }
+    }
+  }, [isEdit, publicAnnouncementsData]);
 
   return (
     <div className="space-y-3">

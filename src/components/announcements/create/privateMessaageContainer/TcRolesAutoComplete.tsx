@@ -7,11 +7,15 @@ import { useToken } from '../../../../context/TokenContext';
 import { debounce, hexToRGBA, isDarkColor } from '../../../../helpers/helper';
 
 interface ITcRolesAutoCompleteProps {
+  isEdit?: boolean;
+  privateSelectedRoles?: IRoles[];
   isDisabled: boolean;
   handleSelectedUsers: (roles: IRoles[]) => void;
 }
 
 function TcRolesAutoComplete({
+  isEdit = false,
+  privateSelectedRoles,
   isDisabled,
   handleSelectedUsers,
 }: ITcRolesAutoCompleteProps) {
@@ -32,6 +36,7 @@ function TcRolesAutoComplete({
     totalResults: 0,
   });
   const [filteredRolesByName, setFilteredRolesByName] = useState<string>('');
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   const fetchDiscordRoles = async (
     platformId: string,
@@ -126,6 +131,17 @@ function TcRolesAutoComplete({
     if (!selectedRoles) return;
     handleSelectedUsers(selectedRoles);
   }, [selectedRoles]);
+
+  useEffect(() => {
+    if (isEdit && !isInitialized) {
+      if (privateSelectedRoles !== undefined) {
+        setSelectedRoles(privateSelectedRoles);
+      } else {
+        setSelectedRoles([]);
+      }
+      setIsInitialized(true);
+    }
+  }, [privateSelectedRoles, isEdit, isInitialized]);
 
   return (
     <TcAutocomplete

@@ -13,6 +13,10 @@ import TcPrivateMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
 import TcRolesAutoComplete from './TcRolesAutoComplete';
 import TcUsersAutoComplete from './TcUsersAutoComplete';
 import { IRoles, IUser } from '../../../../utils/interfaces';
+import {
+  DiscordData,
+  DiscordPrivateOptions,
+} from '../../../../pages/announcements/edit-announcements';
 
 export enum MessageType {
   Both = 'Both',
@@ -21,6 +25,8 @@ export enum MessageType {
 }
 
 export interface ITcPrivateMessageContainerProps {
+  isEdit?: boolean;
+  privateAnnouncementsData?: DiscordData[] | undefined;
   handlePrivateAnnouncements: ({
     message,
     selectedRoles,
@@ -34,6 +40,8 @@ export interface ITcPrivateMessageContainerProps {
 
 function TcPrivateMessageContainer({
   handlePrivateAnnouncements,
+  isEdit = false,
+  privateAnnouncementsData,
 }: ITcPrivateMessageContainerProps) {
   const [privateMessage, setPrivateMessage] = useState<boolean>(false);
   const [messageType, setMessageType] = useState<MessageType>(MessageType.Both);
@@ -101,6 +109,37 @@ function TcPrivateMessageContainer({
     handlePrivateAnnouncements,
   ]);
 
+  useEffect(() => {
+    if (isEdit && privateAnnouncementsData) {
+      const rolesArray: IRoles[] = [];
+      const usersArray: IUser[] = [];
+      let templateText = '';
+
+      privateAnnouncementsData.forEach((item) => {
+        if (item.type === 'discord_private') {
+          const privateOptions = item.options as DiscordPrivateOptions;
+
+          if (privateOptions.roles) {
+            rolesArray.push(...privateOptions.roles);
+          }
+
+          if (privateOptions.users) {
+            usersArray.push(...privateOptions.users);
+          }
+
+          if (!templateText) {
+            templateText = item.template;
+          }
+        }
+      });
+
+      setPrivateMessage(true);
+      setSelectedRoles(rolesArray);
+      setSelectedUsers(usersArray);
+      setMessage(templateText);
+    }
+  }, [isEdit, privateAnnouncementsData]);
+
   return (
     <div className="space-y-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
@@ -111,7 +150,12 @@ function TcPrivateMessageContainer({
           <TcText text="Private Message" variant="body1" fontWeight="700" />
           <FormControlLabel
             className="mx-auto md:mx-0"
-            control={<TcSwitch onChange={handlePrivateMessageChange} />}
+            control={
+              <TcSwitch
+                onChange={handlePrivateMessageChange}
+                checked={privateMessage}
+              />
+            }
             label={
               <div className="flex items-center space-x-1">
                 <TcText text="Direct Message (optional)" variant="body1" />
@@ -184,6 +228,8 @@ function TcPrivateMessageContainer({
                   messageType !== MessageType.Both &&
                   messageType !== MessageType.RoleOnly
                 }
+                isEdit={true}
+                privateSelectedRoles={selectedRoles}
                 handleSelectedUsers={setSelectedRoles}
               />
             </FormControl>
@@ -201,6 +247,8 @@ function TcPrivateMessageContainer({
                   messageType !== MessageType.Both &&
                   messageType !== MessageType.UserOnly
                 }
+                isEdit={true}
+                privateSelectedUsers={selectedUsers}
                 handleSelectedUsers={setSelectedUsers}
               />
             </FormControl>

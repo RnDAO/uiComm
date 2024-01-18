@@ -104,8 +104,6 @@ function Index() {
   };
 
   useEffect(() => {
-    console.log({ selectedDate });
-
     fetchData(selectedDate, selectedZone);
   }, [selectedZone, selectedDate, page]);
 

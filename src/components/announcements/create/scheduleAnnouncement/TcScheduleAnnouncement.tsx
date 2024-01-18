@@ -7,10 +7,14 @@ import moment from 'moment';
 import TcDateTimePopover from './TcDateTimePopover';
 
 export interface ITcScheduleAnnouncementProps {
+  isEdit?: boolean;
+  preSelectedTime?: string;
   handleSchaduledDate: ({ selectedTime }: { selectedTime: string }) => void;
 }
 
 function TcScheduleAnnouncement({
+  isEdit = false,
+  preSelectedTime,
   handleSchaduledDate,
 }: ITcScheduleAnnouncementProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -68,6 +72,15 @@ function TcScheduleAnnouncement({
 
     handleSchaduledDate({ selectedTime: formattedUTCDate });
   }, [selectedDate, selectedTime]);
+
+  useEffect(() => {
+    if (isEdit) {
+      const date = moment(preSelectedTime);
+      setSelectedDate(date.toDate());
+      setSelectedTime(date.toDate());
+      setDateTimeDisplay(date.format('D MMMM YYYY @ h A'));
+    }
+  }, [isEdit]);
 
   return (
     <div className="space-y-3">

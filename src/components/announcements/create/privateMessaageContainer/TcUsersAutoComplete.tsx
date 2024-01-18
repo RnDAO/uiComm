@@ -7,11 +7,15 @@ import TcAutocomplete from '../../../shared/TcAutocomplete';
 import { Chip } from '@mui/material';
 
 interface ITcUsersAutoCompleteProps {
+  isEdit?: boolean;
+  privateSelectedUsers?: IUser[];
   isDisabled: boolean;
   handleSelectedUsers: (users: IUser[]) => void;
 }
 
 function TcUsersAutoComplete({
+  isEdit = false,
+  privateSelectedUsers,
   isDisabled,
   handleSelectedUsers,
 }: ITcUsersAutoCompleteProps) {
@@ -32,24 +36,25 @@ function TcUsersAutoComplete({
     totalResults: 0,
   });
   const [filteredRolesByName, setFilteredRolesByName] = useState<string>('');
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   const fetchDiscordUsers = async (
     platformId: string,
     page?: number,
     limit?: number,
-    name?: string
+    ngu?: string
   ) => {
     try {
       const fetchedUsers = await retrievePlatformProperties({
         platformId,
-        name: name,
+        ngu: ngu,
         property: 'guildMember',
         page: page,
         limit: limit,
       });
 
-      if (name) {
-        setFilteredRolesByName(name);
+      if (ngu) {
+        setFilteredRolesByName(ngu);
         setFetchedUsers(fetchedUsers);
       } else {
         setFetchedUsers((prevData: { results: any }) => {
@@ -126,6 +131,17 @@ function TcUsersAutoComplete({
     if (!selectedUsers) return;
     handleSelectedUsers(selectedUsers);
   }, [selectedUsers]);
+
+  useEffect(() => {
+    if (isEdit && !isInitialized) {
+      if (privateSelectedUsers !== undefined) {
+        setSelectedUsers(privateSelectedUsers);
+      } else {
+        setSelectedUsers([]);
+      }
+      setIsInitialized(true);
+    }
+  }, [privateSelectedUsers, isEdit, isInitialized]);
 
   return (
     <TcAutocomplete
