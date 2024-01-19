@@ -8,6 +8,7 @@ import {
   IconButton,
   MenuItem,
   Menu,
+  Chip,
 } from '@mui/material';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import Router from 'next/router';
@@ -18,6 +19,8 @@ import TcText from '../shared/TcText';
 import useAppStore from '../../store/useStore';
 import { useSnackbar } from '../../context/SnackbarContext';
 import { MdModeEdit, MdDelete } from 'react-icons/md';
+import Loading from '../global/Loading';
+import { truncateCenter } from '../../helpers/helper';
 
 interface Channel {
   channelId: string;
@@ -38,6 +41,7 @@ interface Role {
 interface AnnouncementData {
   platform: string;
   template: string;
+  type: 'discord_public' | 'discord_private';
   options: {
     channels: Channel[];
     users?: User[];
@@ -56,11 +60,13 @@ interface Announcement {
 
 interface AnnouncementsTableProps {
   announcements: Announcement[];
+  isLoading: boolean;
   handleRefreshList: () => void;
 }
 
 function TcAnnouncementsTable({
   announcements,
+  isLoading,
   handleRefreshList,
 }: AnnouncementsTableProps) {
   const { deleteAnnouncements } = useAppStore();
@@ -96,8 +102,7 @@ function TcAnnouncementsTable({
 
   const handleDeleteAnnouncements = async (id: string) => {
     try {
-      const data = await deleteAnnouncements(id);
-
+      await deleteAnnouncements(id);
       handleRefreshList();
       showMessage('Scheduled announcement removed successfully.', 'success');
     } catch (error) {
@@ -107,6 +112,212 @@ function TcAnnouncementsTable({
       setDeleteConfirmDialogOpen(false);
       setSelectedAnnouncementId(null);
     }
+  };
+
+  const getAnnouncementTypeLabel = (type: string) => {
+    if (type === 'discord_public') {
+      return 'Public';
+    } else if (type === 'discord_private') {
+      return 'Private';
+    }
+    return 'Unknown';
+  };
+
+  const renderTableBody = () => {
+    if (isLoading) {
+      return (
+        <TableRow>
+          <TableCell
+            colSpan={6}
+            style={{ textAlign: 'center' }}
+            sx={{ borderBottom: 'none' }}
+            className="min-h-[70vh] pt-[14rem]"
+            data-testid="loading-indicator"
+          >
+            <Loading />
+          </TableCell>
+        </TableRow>
+      );
+    }
+
+    return announcements.map((announcement, index) => (
+      <TableRow
+        key={announcement.id}
+        className={`my-5 ${
+          index % 2 === 0
+            ? 'bg-gray-100'
+            : 'border-1 border-solid border-gray-700'
+        }`}
+      >
+        <TableCell sx={{ borderBottom: 'none' }}>
+          <div className="flex flex-col">
+            <TcText
+              text={
+                <>
+                  <span
+                    style={{
+                      height: '8px',
+                      width: '8px',
+                      background: announcement.draft ? '#3A9E2B' : '#FF9022',
+                      borderRadius: '50%',
+                      display: 'inline-block',
+                      marginRight: '5px',
+                    }}
+                  />
+                  {truncateCenter(announcement.data[0].template, 20)}
+                </>
+              }
+              variant="subtitle2"
+            />
+            <span className="flex space-x-1">
+              {announcement.data
+                .reduce((unique: string[], item: AnnouncementData) => {
+                  const itemType = item.type;
+                  if (!unique.includes(itemType)) {
+                    unique.push(itemType);
+                  }
+                  return unique;
+                }, [] as string[])
+                .map((type, index) => (
+                  <Chip
+                    key={index}
+                    variant="outlined"
+                    label={
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span
+                          style={{
+                            height: '8px',
+                            width: '8px',
+                            background:
+                              type === 'discord_public' ? '#E91E63' : '#673AB7',
+                            borderRadius: '50%',
+                            display: 'inline-block',
+                            marginRight: '5px',
+                          }}
+                        />
+                        {getAnnouncementTypeLabel(type)}
+                      </div>
+                    }
+                    size="small"
+                    sx={{
+                      borderRadius: '4px',
+                      borderColor: '#D1D1D1',
+                      backgroundColor: 'white',
+                      color: 'black',
+                    }}
+                  />
+                ))}
+            </span>
+          </div>
+        </TableCell>
+        <TableCell sx={{ borderBottom: 'none' }}>
+          <div className="flex flex-row overflow-hidden whitespace-nowrap">
+            <TcText
+              text={announcement.data
+                .map((item, dataIndex) => {
+                  const channels = item.options.channels;
+                  if (channels && channels.length > 0) {
+                    const displayedChannels = channels
+                      .slice(0, 2)
+                      .map((channel) => `#${channel.name}`)
+                      .join(', ');
+                    const moreChannelsIndicator =
+                      channels.length > 2 ? '...' : '';
+                    return dataIndex > 0
+                      ? `, ${displayedChannels}${moreChannelsIndicator}`
+                      : `${displayedChannels}${moreChannelsIndicator}`;
+                  }
+                  return '';
+                })
+                .filter((text) => text !== '')
+                .join('')}
+              variant="subtitle2"
+            />
+          </div>
+        </TableCell>
+        <TableCell sx={{ borderBottom: 'none' }}>
+          <div className="flex flex-row overflow-hidden whitespace-nowrap">
+            <TcText
+              text={announcement.data
+                .map((item) => {
+                  const users = item.options.users;
+                  if (users && users.length > 0) {
+                    const displayedUsers = users
+                      .slice(0, 2)
+                      .map((user) => `@${user.ngu}`)
+                      .join(', ');
+                    const moreUsersIndicator = users.length > 2 ? '...' : '';
+                    return `${displayedUsers}${moreUsersIndicator}`;
+                  }
+                  return '';
+                })
+                .filter((text) => text !== '')
+                .join(', ')}
+              variant="subtitle2"
+            />
+          </div>
+        </TableCell>
+        <TableCell sx={{ borderBottom: 'none' }}>
+          <div className="flex flex-row overflow-hidden whitespace-nowrap">
+            <TcText
+              text={announcement.data
+                .map((item) => {
+                  const roles = item.options.roles;
+                  if (roles && roles.length > 0) {
+                    const displayedRoles = roles
+                      .slice(0, 2)
+                      .map((role) => role.name)
+                      .join(', ');
+                    const moreRolesIndicator = roles.length > 2 ? '...' : '';
+                    return `${displayedRoles}${moreRolesIndicator}`;
+                  }
+                  return '';
+                })
+                .filter((text) => text !== '')
+                .join(', ')}
+              variant="subtitle2"
+            />
+          </div>
+        </TableCell>
+        <TableCell sx={{ borderBottom: 'none' }}>
+          <div className="flex flex-row overflow-hidden whitespace-nowrap">
+            <TcText
+              text={new Date(announcement.scheduledAt).toLocaleString()}
+              variant="subtitle2"
+            />
+          </div>
+        </TableCell>
+        <TableCell sx={{ borderBottom: 'none' }}>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            size="small"
+            onClick={(event) => handleClick(event, announcement.id)}
+          >
+            <BsThreeDotsVertical />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={
+              Boolean(anchorEl) && selectedAnnouncementId === announcement.id
+            }
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => handleEdit(announcement.id)}>
+              <MdModeEdit />
+              Edit
+            </MenuItem>
+            <MenuItem onClick={handleDelete}>
+              <MdDelete />
+              Delete
+            </MenuItem>
+          </Menu>
+        </TableCell>
+      </TableRow>
+    ));
   };
 
   return (
@@ -121,6 +332,7 @@ function TcAnnouncementsTable({
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
+                padding: '0 1rem',
               }}
               align="left"
             >
@@ -133,6 +345,7 @@ function TcAnnouncementsTable({
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
+                padding: '0 1rem',
               }}
               align="left"
             >
@@ -145,6 +358,7 @@ function TcAnnouncementsTable({
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
+                padding: '0 1rem',
               }}
               align="left"
             >
@@ -157,6 +371,7 @@ function TcAnnouncementsTable({
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
+                padding: '0 1rem',
               }}
               align="left"
             >
@@ -169,6 +384,7 @@ function TcAnnouncementsTable({
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
+                padding: '0 1rem',
               }}
               align="left"
             >
@@ -181,85 +397,13 @@ function TcAnnouncementsTable({
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
+                padding: '0 1rem',
               }}
               align="right"
             ></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {announcements.map((announcement, index) => (
-            <TableRow
-              key={announcement.id}
-              className={`my-5 ${
-                index % 2 === 0
-                  ? 'bg-gray-100'
-                  : 'border-1 border-solid border-gray-700'
-              }`}
-            >
-              <TableCell sx={{ borderBottom: 'none' }}>
-                {announcement.data[0].template}
-              </TableCell>
-              <TableCell sx={{ borderBottom: 'none' }}>
-                {announcement.data.map(
-                  (item) =>
-                    item.options.channels &&
-                    item.options.channels
-                      .map((channel) => `#${channel.name}`)
-                      .join(', ')
-                )}
-              </TableCell>
-              <TableCell sx={{ borderBottom: 'none' }}>
-                {announcement.data.map((item) =>
-                  item.options.users
-                    ? item.options.users
-                        .map((user) => `@${user.ngu}`)
-                        .join(', ')
-                    : ''
-                )}
-              </TableCell>
-              <TableCell sx={{ borderBottom: 'none' }}>
-                {announcement.data.map((item) =>
-                  item.options.roles
-                    ? item.options.roles.map((role) => role.name).join(', ')
-                    : ''
-                )}
-              </TableCell>
-              <TableCell sx={{ borderBottom: 'none' }}>
-                {new Date(announcement.scheduledAt).toLocaleString()}
-              </TableCell>
-              <TableCell sx={{ borderBottom: 'none' }}>
-                <IconButton
-                  aria-label="more"
-                  aria-controls="long-menu"
-                  aria-haspopup="true"
-                  size="small"
-                  onClick={(event) => handleClick(event, announcement.id)}
-                >
-                  <BsThreeDotsVertical />
-                </IconButton>
-                <Menu
-                  id="long-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={
-                    Boolean(anchorEl) &&
-                    selectedAnnouncementId === announcement.id
-                  }
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={() => handleEdit(announcement.id)}>
-                    <MdModeEdit />
-                    Edit
-                  </MenuItem>
-                  <MenuItem onClick={handleDelete}>
-                    <MdDelete />
-                    Delete
-                  </MenuItem>
-                </Menu>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody> {renderTableBody()}</TableBody>
       </Table>
       <TcDialog
         sx={{

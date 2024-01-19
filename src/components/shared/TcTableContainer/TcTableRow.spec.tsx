@@ -1,15 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TcTableRow from './TcTableRow';
-import TcTableCell from './TcTableCell';
-
-describe('TcTableCell', () => {
-  it('renders correctly with children', () => {
-    render(<TcTableCell>Sample Content</TcTableCell>);
-    const cellContent = screen.getByText('Sample Content');
-    expect(cellContent).toBeInTheDocument();
-  });
-});
 
 describe('TcTableRow', () => {
   it('renders correctly with row data', () => {

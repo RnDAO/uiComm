@@ -15,6 +15,7 @@ import { ChannelContext } from '../../../context/ChannelContext';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
 import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
+import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
 
 export interface DiscordChannel {
   channelId: string;
@@ -67,6 +68,7 @@ function Index() {
   const [channels, setChannels] = useState<any[]>([]);
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const platformId = community?.platforms.find(
     (platform) => platform.disconnectedAt === null
@@ -99,6 +101,7 @@ function Index() {
 
   const fetchPlatformChannels = async () => {
     try {
+      setLoading(true);
       if (platformId) {
         let channelIds: string[] = [];
 
@@ -115,6 +118,7 @@ function Index() {
       }
     } catch (error) {
     } finally {
+      setLoading(false);
     }
   };
 
@@ -145,8 +149,7 @@ function Index() {
     };
 
     try {
-      console.log(id, announcementsPayload);
-
+      setLoading(true);
       const data = await patchExistingAnnouncement(id, announcementsPayload);
       if (data) {
         showMessage('Announcement updated successfully', 'success');
@@ -154,8 +157,14 @@ function Index() {
       }
     } catch (error) {
       showMessage('Failed to create announcement', 'error');
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <>

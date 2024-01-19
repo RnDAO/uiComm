@@ -31,6 +31,12 @@ export interface IPatchPlatformInput {
   };
 }
 
+export interface IGrantWritePermissionsProps {
+  platformType: 'discord' | 'telegram';
+  moduleType: 'Announcements';
+  id: string;
+}
+
 export default interface IPlatfrom {
   connectedPlatforms: any[];
   connectNewPlatform: (platfromType: string) => void;
@@ -56,4 +62,9 @@ export default interface IPlatfrom {
     page,
     limit,
   }: IRetrivePlatformRolesOrChannels) => void;
+  grantWritePermissions: ({
+    platformType,
+    moduleType,
+    id,
+  }: IGrantWritePermissionsProps) => void;
 }

@@ -12,24 +12,65 @@ import moment from 'moment';
 import { MdCalendarMonth } from 'react-icons/md';
 import useAppStore from '../../store/useStore';
 import { StorageService } from '../../services/StorageService';
-import { FetchedData, IDiscordModifiedCommunity } from '../../utils/interfaces';
+import {
+  FetchedData,
+  IDiscordModifiedCommunity,
+  IPlatformProps,
+} from '../../utils/interfaces';
 import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
 import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
+import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
+import { useToken } from '../../context/TokenContext';
 
 function Index() {
-  const { retrieveAnnouncements } = useAppStore();
+  const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
 
+  const { community } = useToken();
+
+  const [loading, setLoading] = useState<boolean>(false);
   const communityId =
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [activeTab, setActiveTab] = useState(0);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedZone, setSelectedZone] = useState(moment.tz.guess());
   const [dateTimeDisplay, setDateTimeDisplay] = useState<string>('Filter Date');
 
-  const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
+
+  const platformId = community?.platforms.find(
+    (platform) => platform.disconnectedAt === null
+  )?.id;
+
+  const [announcementsPermissions, setAnnouncementsPermissions] =
+    useState<boolean>(true);
+
+  const fetchPlatform = async () => {
+    if (platformId) {
+      try {
+        setLoading(true);
+        const data: IPlatformProps = await retrievePlatformById(platformId);
+        const { metadata } = data;
+
+        if (metadata) {
+          const announcements = metadata.permissions.Announcement;
+          const allPermissionsTrue = Object.values(announcements).every(
+            (value) => value === true
+          );
+
+          setAnnouncementsPermissions(allPermissionsTrue);
+        }
+        setLoading(false);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchPlatform();
+  }, [platformId]);
 
   const [fetchedAnnouncements, setFetchedAnnouncements] = useState<FetchedData>(
     {
@@ -114,6 +155,7 @@ function Index() {
   return (
     <>
       <SEO titleTemplate="Announcements" />
+      {!announcementsPermissions && <TcAnnouncementsAlert />}
       <div className="flex flex-col container px-4 md:px-12 py-4">
         <TcBoxContainer
           contentContainerChildren={
@@ -149,14 +191,17 @@ function Index() {
                   <TcTimeZone handleZone={setSelectedZone} />
                 </div>
                 {fetchedAnnouncements.results.length > 0 ? (
-                  <TcAnnouncementsTable
-                    announcements={
-                      fetchedAnnouncements.results
-                        ? fetchedAnnouncements.results
-                        : []
-                    }
-                    handleRefreshList={fetchData}
-                  />
+                  <div className="overflow-x-scroll md:overflow-hidden">
+                    <TcAnnouncementsTable
+                      announcements={
+                        fetchedAnnouncements.results
+                          ? fetchedAnnouncements.results
+                          : []
+                      }
+                      handleRefreshList={fetchData}
+                      isLoading={loading}
+                    />
+                  </div>
                 ) : (
                   <div className="text-center mx-auto flex flex-col justify-center h-[65dvh] w-9/12 md:w-4/12">
                     <TcText

@@ -96,15 +96,11 @@ const HeatmapChart = () => {
   };
 
   useEffect(() => {
-<<<<<<< Updated upstream
     const initializeSelectedChannels = async () => {
       await fetchPlatformChannels();
     };
 
     initializeSelectedChannels();
-=======
-    fetchPlatformChannels();
->>>>>>> Stashed changes
   }, []);
 
   const handleSelectedZone = (zone: string) => {
@@ -170,11 +166,7 @@ const HeatmapChart = () => {
         } else {
           await refreshData(platformId);
         }
-<<<<<<< Updated upstream
         setPlatformFetched(true);
-=======
-        await fetchData();
->>>>>>> Stashed changes
       }
     } catch (error) {
     } finally {

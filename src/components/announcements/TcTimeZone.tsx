@@ -62,7 +62,7 @@ function TcTimeZone({ handleZone }: ITcTimeZoneProps) {
         sx={{
           height: '2.4rem',
         }}
-        startIcon={<FaGlobeAmericas />}
+        startIcon={<FaGlobeAmericas data-testid="globe-icon" />}
         aria-describedby={id}
         onClick={handleClick}
       />

@@ -158,23 +158,30 @@ function TcRolesAutoComplete({
         value.map((option, index) => (
           <Chip
             variant="outlined"
-            label={option.name}
+            label={
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span
+                  style={{
+                    height: '8px',
+                    width: '8px',
+                    backgroundColor:
+                      option.color !== 0
+                        ? `#${option.color.toString(16).padStart(6, '0')}`
+                        : '#96A5A6',
+                    borderRadius: '50%',
+                    display: 'inline-block',
+                    marginRight: '5px',
+                  }}
+                />
+                {option.name}
+              </div>
+            }
             size="small"
             sx={{
               borderRadius: '4px',
-              borderColor: hexToRGBA(
-                option.color !== 0
-                  ? `#${option.color.toString(16).padStart(6, '0')}`
-                  : '#96A5A6',
-                1
-              ),
-              backgroundColor: hexToRGBA(
-                option.color !== 0
-                  ? `#${option.color.toString(16).padStart(6, '0')}`
-                  : '#96A5A6',
-                0.8
-              ),
-              color: isDarkColor(option.color) ? 'white' : 'black',
+              borderColor: '#D1D1D1',
+              backgroundColor: 'white',
+              color: 'black',
             }}
             {...getTagProps({ index })}
           />

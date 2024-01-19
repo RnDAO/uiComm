@@ -158,13 +158,27 @@ function TcUsersAutoComplete({
         value.map((option, index) => (
           <Chip
             variant="outlined"
-            label={option.ngu}
+            label={
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span
+                  style={{
+                    height: '8px',
+                    width: '8px',
+                    backgroundColor: '#96A5A6',
+                    borderRadius: '50%',
+                    display: 'inline-block',
+                    marginRight: '5px',
+                  }}
+                />
+                {option.ngu}
+              </div>
+            }
             size="small"
             sx={{
               borderRadius: '4px',
-              borderColor: '#96A5A6',
-              backgroundColor: '#96A5A6',
-              color: 'white',
+              borderColor: '#D1D1D1',
+              backgroundColor: 'white',
+              color: 'black',
             }}
             {...getTagProps({ index })}
           />

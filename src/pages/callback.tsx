@@ -137,6 +137,14 @@ function Callback() {
         setMessage('Discord Authorization during setup on setting faield.');
         router.push('/community-settings');
 
+      case StatusCode.ANNOUNCEMENTS_PERMISSION_FAILURE:
+        setMessage('Announcements grant write permissions faield.');
+        router.push('/announcements');
+
+      case StatusCode.ANNOUNCEMENTS_PERMISSION_SUCCESS:
+        setMessage('Announcements grant write permissions success.');
+        router.push('/announcements');
+
       default:
         console.error('Unexpected status code received:', code);
         setMessage('An unexpected error occurred. Please try again later.');

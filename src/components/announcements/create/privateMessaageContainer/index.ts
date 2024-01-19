@@ -1,3 +1,3 @@
-import { default as TcPrivateMessaageContainer } from './TcPrivateMessaageContainer';
+import { default as TcPrivateMessaageContainer } from './TcPrivateMessageContainer';
 
 export default TcPrivateMessaageContainer;

@@ -3,7 +3,7 @@ import { defaultLayout } from '../../layouts/defaultLayout';
 import SEO from '../../components/global/SEO';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcPublicMessageContainer from '../../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
-import TcPrivateMessageContainer from '../../components/announcements/create/privateMessaageContainer/TcPrivateMessaageContainer';
+import TcPrivateMessageContainer from '../../components/announcements/create/privateMessaageContainer/TcPrivateMessageContainer';
 import TcButton from '../../components/shared/TcButton';
 import TcScheduleAnnouncement from '../../components/announcements/create/scheduleAnnouncement/';
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
@@ -15,6 +15,7 @@ import { ChannelContext } from '../../context/ChannelContext';
 import { IRoles, IUser } from '../../utils/interfaces';
 import { useSnackbar } from '../../context/SnackbarContext';
 import { useRouter } from 'next/router';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 export type CreateAnnouncementsPayloadDataOptions =
   | { channelIds: string[]; userIds?: string[]; roleIds?: string[] }
@@ -48,6 +49,7 @@ function CreateNewAnnouncements() {
   const [channels, setChannels] = useState<any[]>([]);
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const platformId = community?.platforms.find(
     (platform) => platform.disconnectedAt === null
@@ -62,13 +64,16 @@ function CreateNewAnnouncements() {
   const [scheduledAt, setScheduledAt] = useState<string>();
 
   const fetchPlatformChannels = async () => {
+    setLoading(true);
     try {
       if (platformId) {
         await retrievePlatformById(platformId);
         await refreshData(platformId, 'channel', undefined, undefined, false);
       }
+      setLoading(false);
     } catch (error) {
     } finally {
+      setLoading(false);
     }
   };
 
@@ -97,6 +102,7 @@ function CreateNewAnnouncements() {
     };
 
     try {
+      setLoading(true);
       const data = await createNewAnnouncements(announcementsPayload);
       if (data) {
         showMessage('Announcement created successfully', 'success');
@@ -104,8 +110,14 @@ function CreateNewAnnouncements() {
       }
     } catch (error) {
       showMessage('Failed to create announcement', 'error');
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <>
