@@ -21,6 +21,7 @@ import TcAnnouncementsTable from '../../components/announcements/TcAnnouncements
 import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
 import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
 import { useToken } from '../../context/TokenContext';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
@@ -28,6 +29,7 @@ function Index() {
   const { community } = useToken();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const communityId =
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
@@ -64,6 +66,7 @@ function Index() {
       } catch (error) {
       } finally {
         setLoading(false);
+        if (isFirstLoad) setIsFirstLoad(false);
       }
     }
   };
@@ -75,7 +78,7 @@ function Index() {
   const [fetchedAnnouncements, setFetchedAnnouncements] = useState<FetchedData>(
     {
       limit: 8,
-      page: 1,
+      page: page,
       results: [],
       totalPages: 0,
       totalResults: 0,
@@ -96,6 +99,7 @@ function Index() {
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
+      setPage(1);
       const fullDateTime = moment(date);
       setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
 
@@ -151,6 +155,10 @@ function Index() {
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
   };
+
+  if (isFirstLoad && loading) {
+    return <SimpleBackdrop />;
+  }
 
   return (
     <>

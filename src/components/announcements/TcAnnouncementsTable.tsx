@@ -123,33 +123,18 @@ function TcAnnouncementsTable({
     return 'Unknown';
   };
 
-  const renderTableBody = () => {
-    if (isLoading) {
-      return (
-        <TableRow>
-          <TableCell
-            colSpan={6}
-            style={{ textAlign: 'center' }}
-            sx={{ borderBottom: 'none' }}
-            className="min-h-[70vh] pt-[20dvh]"
-            data-testid="loading-indicator"
-          >
-            <Loading />
-          </TableCell>
-        </TableRow>
-      );
-    }
-
-    return announcements.map((announcement, index) => (
-      <TableRow
-        key={announcement.id}
-        className={`my-5 ${
-          index % 2 === 0
-            ? 'bg-gray-100'
-            : 'border-1 border-solid border-gray-700'
-        }`}
-      >
-        <TableCell sx={{ borderBottom: 'none' }}>
+  const renderTableCell = (
+    announcement: {
+      draft: any;
+      data: any[];
+      scheduledAt: string | number | Date;
+      id: string | null;
+    },
+    cellType: any
+  ) => {
+    switch (cellType) {
+      case 'title':
+        return (
           <div className="flex flex-col">
             <TcText
               text={
@@ -178,7 +163,7 @@ function TcAnnouncementsTable({
                   }
                   return unique;
                 }, [] as string[])
-                .map((type, index) => (
+                .map((type: string, index: React.Key | null | undefined) => (
                   <Chip
                     key={index}
                     variant="outlined"
@@ -209,113 +194,177 @@ function TcAnnouncementsTable({
                 ))}
             </span>
           </div>
-        </TableCell>
-        <TableCell sx={{ borderBottom: 'none' }}>
+        );
+      case 'channels':
+        return (
           <div className="flex flex-row overflow-hidden whitespace-nowrap">
             <TcText
               text={announcement.data
-                .map((item, dataIndex) => {
-                  const channels = item.options.channels;
-                  if (channels && channels.length > 0) {
-                    const displayedChannels = channels
-                      .slice(0, 2)
-                      .map((channel) => `#${channel.name}`)
-                      .join(', ');
-                    const moreChannelsIndicator =
-                      channels.length > 2 ? '...' : '';
-                    return dataIndex > 0
-                      ? `, ${displayedChannels}${moreChannelsIndicator}`
-                      : `${displayedChannels}${moreChannelsIndicator}`;
+                .map(
+                  (item: { options: { channels: any } }, dataIndex: number) => {
+                    const channels = item.options.channels;
+                    if (channels && channels.length > 0) {
+                      const displayedChannels = channels
+                        .slice(0, 2)
+                        .map((channel: { name: any }) => `#${channel.name}`)
+                        .join(', ');
+                      const moreChannelsIndicator =
+                        channels.length > 2 ? '...' : '';
+                      return dataIndex > 0
+                        ? `, ${displayedChannels}${moreChannelsIndicator}`
+                        : `${displayedChannels}${moreChannelsIndicator}`;
+                    }
+                    return '';
                   }
-                  return '';
-                })
-                .filter((text) => text !== '')
+                )
+                .filter((text: string) => text !== '')
                 .join('')}
               variant="subtitle2"
             />
           </div>
-        </TableCell>
-        <TableCell sx={{ borderBottom: 'none' }}>
+        );
+      case 'users':
+        return (
           <div className="flex flex-row overflow-hidden whitespace-nowrap">
             <TcText
               text={announcement.data
-                .map((item) => {
+                .map((item: { options: { users: any } }) => {
                   const users = item.options.users;
                   if (users && users.length > 0) {
                     const displayedUsers = users
                       .slice(0, 2)
-                      .map((user) => `@${user.ngu}`)
+                      .map((user: { ngu: any }) => `@${user.ngu}`)
                       .join(', ');
                     const moreUsersIndicator = users.length > 2 ? '...' : '';
                     return `${displayedUsers}${moreUsersIndicator}`;
                   }
                   return '';
                 })
-                .filter((text) => text !== '')
+                .filter((text: string) => text !== '')
                 .join(', ')}
               variant="subtitle2"
             />
           </div>
-        </TableCell>
-        <TableCell sx={{ borderBottom: 'none' }}>
+        );
+      case 'roles':
+        return (
           <div className="flex flex-row overflow-hidden whitespace-nowrap">
             <TcText
               text={announcement.data
-                .map((item) => {
+                .map((item: { options: { roles: any } }) => {
                   const roles = item.options.roles;
                   if (roles && roles.length > 0) {
                     const displayedRoles = roles
                       .slice(0, 2)
-                      .map((role) => role.name)
+                      .map((role: { name: any }) => role.name)
                       .join(', ');
                     const moreRolesIndicator = roles.length > 2 ? '...' : '';
                     return `${displayedRoles}${moreRolesIndicator}`;
                   }
                   return '';
                 })
-                .filter((text) => text !== '')
+                .filter((text: string) => text !== '')
                 .join(', ')}
               variant="subtitle2"
             />
           </div>
-        </TableCell>
-        <TableCell sx={{ borderBottom: 'none' }}>
+        );
+      case 'scheduledAt':
+        return (
           <div className="flex flex-row overflow-hidden whitespace-nowrap">
             <TcText
               text={new Date(announcement.scheduledAt).toLocaleString()}
               variant="subtitle2"
             />
           </div>
-        </TableCell>
-        <TableCell sx={{ borderBottom: 'none' }}>
-          <IconButton
-            aria-label="more"
-            aria-controls="long-menu"
-            aria-haspopup="true"
-            size="small"
-            onClick={(event) => handleClick(event, announcement.id)}
+        );
+      case 'actions':
+        return (
+          <>
+            <IconButton
+              aria-label="more"
+              aria-controls="long-menu"
+              aria-haspopup="true"
+              size="small"
+              onClick={(event) => handleClick(event, announcement.id)}
+            >
+              <BsThreeDotsVertical />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={
+                Boolean(anchorEl) && selectedAnnouncementId === announcement.id
+              }
+              onClose={handleClose}
+            >
+              <MenuItem onClick={() => handleEdit(announcement.id)}>
+                <MdModeEdit />
+                Edit
+              </MenuItem>
+              <MenuItem onClick={handleDelete}>
+                <MdDelete />
+                Delete
+              </MenuItem>
+            </Menu>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderTableBody = () => {
+    if (isLoading) {
+      return (
+        <TableRow>
+          <TableCell
+            colSpan={6}
+            style={{ textAlign: 'center' }}
+            sx={{ borderBottom: 'none' }}
+            className="min-h-[70vh] pt-[25dvh]"
+            data-testid="loading-indicator"
           >
-            <BsThreeDotsVertical />
-          </IconButton>
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={
-              Boolean(anchorEl) && selectedAnnouncementId === announcement.id
-            }
-            onClose={handleClose}
-          >
-            <MenuItem onClick={() => handleEdit(announcement.id)}>
-              <MdModeEdit />
-              Edit
-            </MenuItem>
-            <MenuItem onClick={handleDelete}>
-              <MdDelete />
-              Delete
-            </MenuItem>
-          </Menu>
-        </TableCell>
+            <Loading />
+          </TableCell>
+        </TableRow>
+      );
+    }
+
+    return announcements.map((announcement, index) => (
+      <TableRow
+        key={announcement.id}
+        className={`my-5 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}
+      >
+        {['title', 'channels', 'users', 'roles', 'scheduledAt', 'actions'].map(
+          (cellType, cellIndex, array) => (
+            <TableCell
+              key={cellType}
+              sx={{
+                padding: '14px 16px',
+                borderBottom: index % 2 !== 0 ? '1px solid #f3f4f6' : 'none',
+                borderTop: index % 2 !== 0 ? '1px solid #f3f4f6' : 'none',
+                borderLeft:
+                  cellIndex === 0 && index % 2 !== 0
+                    ? '1px solid #f3f4f6'
+                    : 'none',
+                borderRight:
+                  cellIndex === array.length - 1 && index % 2 !== 0
+                    ? '1px solid #f3f4f6'
+                    : 'none',
+                borderTopLeftRadius: cellIndex === 0 ? '5px' : '0',
+                borderBottomLeftRadius: cellIndex === 0 ? '5px' : '0',
+                borderTopRightRadius:
+                  cellIndex === array.length - 1 ? '5px' : '0',
+                borderBottomRightRadius:
+                  cellIndex === array.length - 1 ? '5px' : '0',
+              }}
+            >
+              {renderTableCell(announcement, cellType)}
+            </TableCell>
+          )
+        )}
       </TableRow>
     ));
   };
