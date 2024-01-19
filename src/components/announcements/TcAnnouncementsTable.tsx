@@ -128,7 +128,7 @@ function TcAnnouncementsTable({
       draft: any;
       data: any[];
       scheduledAt: string | number | Date;
-      id: string | null;
+      id: string;
     },
     cellType: any
   ) => {

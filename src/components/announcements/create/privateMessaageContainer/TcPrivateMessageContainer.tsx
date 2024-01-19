@@ -256,7 +256,7 @@ function TcPrivateMessageContainer({
           <div>
             <TcText text="Write message here:" variant="subtitle1" />
             <TcText
-              text="Personalize your messages with dynamic variables like {{username}}, which the tool replaces automatically with the recipient's username."
+              text="Personalize your messages with dynamic variables like {{{username}}}, which the tool replaces automatically with the recipient's username."
               variant="caption"
               className="text-gray-400"
             />
