@@ -111,6 +111,7 @@ function TcSelectCommunity() {
         text="Continue"
         className="secondary"
         variant="contained"
+        sx={{ width: '15rem', padding: '0.5rem' }}
         disabled={!activeCommunity}
         onClick={handleSelectedCommunity}
       />
@@ -124,6 +125,7 @@ function TcSelectCommunity() {
       <TcButton
         startIcon={<BsPlus />}
         text="Create"
+        sx={{ width: '15rem', padding: '0.5rem' }}
         variant="outlined"
         onClick={() => router.push('/centric/create-new-community')}
       />

@@ -98,6 +98,7 @@ function CreateNewCommunity() {
             <TcButton
               text="Create community"
               variant="contained"
+              sx={{ width: '15rem', padding: '0.5rem' }}
               color="secondary"
               disabled={!readTermsAndCondition}
               onClick={() => handleCreateNewCommunitie()}
