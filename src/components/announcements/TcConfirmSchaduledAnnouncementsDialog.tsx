@@ -46,6 +46,17 @@ function TcConfirmSchaduledAnnouncementsDialog({
     <>
       <TcButton
         text={buttonLabel}
+        sx={{
+          maxWidth: {
+            xs: '100%',
+            sm: '8rem',
+          },
+          padding: {
+            xs: 'auto',
+            sm: '0.4rem 1.5rem',
+          },
+          height: '2.4rem',
+        }}
         variant="contained"
         disabled={isDisabled}
         onClick={() => setConfirmSchadulerDialog(true)}

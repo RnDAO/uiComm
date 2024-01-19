@@ -28,6 +28,10 @@ function TcPublicMessagePreviewDialog({
             xs: '100%',
             sm: '8rem',
           },
+          padding: {
+            xs: 'auto',
+            sm: '0.4rem 1.5rem',
+          },
           height: '2.4rem',
         }}
         disabled={!isPreviewDialogEnabled}

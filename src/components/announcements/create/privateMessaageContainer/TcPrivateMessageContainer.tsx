@@ -129,11 +129,11 @@ function TcPrivateMessageContainer({
 
           if (!templateText) {
             templateText = item.template;
+            setPrivateMessage(true);
           }
         }
       });
 
-      setPrivateMessage(true);
       setSelectedRoles(rolesArray);
       setSelectedUsers(usersArray);
       setMessage(templateText);
@@ -213,7 +213,7 @@ function TcPrivateMessageContainer({
               className="text-gray-400"
             />
           </div>
-          <div className="flex justify-between space-x-3">
+          <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-3">
             <FormControl
               variant="filled"
               fullWidth

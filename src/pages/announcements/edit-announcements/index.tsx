@@ -113,6 +113,7 @@ function Index() {
             (channel) => channel.channelId
           );
         }
+        console.log({ channelIds });
 
         await refreshData(platformId, 'channel', channelIds, undefined, false);
       }
@@ -130,8 +131,11 @@ function Index() {
     };
 
     fetchAnnouncement();
-    fetchPlatformChannels();
   }, [id]);
+
+  useEffect(() => {
+    fetchPlatformChannels();
+  }, [fetchedAnnouncements]);
 
   const handleEditAnnouncements = async (isDrafted: boolean) => {
     if (!community) return;

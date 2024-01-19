@@ -131,7 +131,7 @@ function TcAnnouncementsTable({
             colSpan={6}
             style={{ textAlign: 'center' }}
             sx={{ borderBottom: 'none' }}
-            className="min-h-[70vh] pt-[14rem]"
+            className="min-h-[70vh] pt-[20dvh]"
             data-testid="loading-indicator"
           >
             <Loading />

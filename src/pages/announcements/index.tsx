@@ -159,8 +159,8 @@ function Index() {
       <div className="flex flex-col container px-4 md:px-12 py-4">
         <TcBoxContainer
           contentContainerChildren={
-            <div className="flex flex-col justify-between p-4 md:p-10 space-y-4 min-h-[92dvh]">
-              <div>
+            <div className="flex flex-col justify-between p-4 md:p-10 space-y-4 min-h-[97dvh] max-h-[97dvh]">
+              <div className="flex-grow overflow-auto min-h-[calc(100vh-100px)]">
                 <div className="flex flex-col md:flex-row md:justify-between space-y-3 md:space-y-0 md:items-center">
                   <TcText text="Announcement Scheduling" variant="h5" />
                   <TcButton
@@ -217,22 +217,21 @@ function Index() {
                   </div>
                 )}
               </div>
-
-              {fetchedAnnouncements.totalResults > 8 ? (
-                <div className="flex justify-end">
-                  <TcPagination
-                    totalItems={fetchedAnnouncements.totalResults}
-                    itemsPerPage={Math.ceil(
-                      fetchedAnnouncements.totalResults /
-                        fetchedAnnouncements.totalPages
-                    )}
-                    currentPage={page}
-                    onChangePage={handlePageChange}
-                  />
-                </div>
-              ) : (
-                ''
-              )}
+              <div className="sticky bottom-0 bg-white px-4 py-2 min-h-[70px]">
+                {fetchedAnnouncements.totalResults > 8 && (
+                  <div className="flex justify-end">
+                    <TcPagination
+                      totalItems={fetchedAnnouncements.totalResults}
+                      itemsPerPage={Math.ceil(
+                        fetchedAnnouncements.totalResults /
+                          fetchedAnnouncements.totalPages
+                      )}
+                      currentPage={page}
+                      onChangePage={handlePageChange}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           }
         />
