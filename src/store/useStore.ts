@@ -7,6 +7,7 @@ import twitterSlice from './slices/twitterSlice';
 import centricSlice from './slices/centricSlice';
 import platformSlice from './slices/platformSlice';
 import userSlice from './slices/userSlice';
+import announcementsSlice from './slices/announcementsSlice';
 
 const useAppStore = create<any>()((...a) => ({
   ...createChartSlice(...a),
@@ -17,6 +18,7 @@ const useAppStore = create<any>()((...a) => ({
   ...centricSlice(...a),
   ...platformSlice(...a),
   ...userSlice(...a),
+  ...announcementsSlice(...a),
 }));
 
 export default useAppStore;

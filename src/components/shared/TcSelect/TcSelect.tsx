@@ -1,47 +1,57 @@
+import { MenuItem, Select, SelectProps } from '@mui/material';
+import React, { ReactElement } from 'react';
+import { IconType } from 'react-icons';
+import TcText from '../TcText';
+
 /**
- * TcSelect Component
- *
- * This component is a wrapper around Material-UI's Select component.
- * It provides a dropdown select box functionality.
- *
- * Props:
- * - options: Array of objects with 'value' and 'label' keys. These are used to populate the dropdown menu.
- *
- * Example Usage:
- * <TcSelect options={[{ value: '1', label: 'Option 1' }, { value: '2', label: 'Option 2' }]} />
+ * Interface for TcSelect props
  */
-
-import React, { useState } from 'react';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-
-interface TcSelectProps {
-  options: {
-    value: string;
+interface ITcSelectProps extends SelectProps {
+  /**
+   * options - Array of option objects for the select dropdown
+   * Each object can have:
+   *   - value (string | number): The value of the option
+   *   - label (string): The display label for the option
+   *   - icon (ReactElement<IconType>): Optional icon to display alongside the label
+   */
+  options?: Array<{
+    value: string | number;
     label: string;
-  }[];
+    icon?: ReactElement<IconType>;
+    disabled?: boolean;
+  }>;
+  children?: React.ReactNode;
 }
 
-function TcSelect({ options, ...props }: TcSelectProps) {
-  const [value, setValue] = useState('');
+/**
+ * TcSelect is a custom select component built on Material-UI's Select component.
+ * It allows displaying a list of options with optional icons.
+ *
+ * @param {ITcSelectProps} props - The props for the component
+ * @returns {ReactElement} The TcSelect component
+ */
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    const newValue = event.target.value as string;
-    setValue(newValue);
-  };
-
+function TcSelect({
+  options,
+  children,
+  ...props
+}: ITcSelectProps): ReactElement {
   return (
-    <Select
-      value={value}
-      onChange={handleChange}
-      {...props}
-      className="bg-gray-100"
-    >
-      {options.map((option) => (
-        <MenuItem key={option.value} value={option.value} className="px-2 py-1">
-          {option.label}
-        </MenuItem>
-      ))}
+    <Select {...props}>
+      {options && options.length > 0
+        ? options.map((option) => (
+            <MenuItem
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
+              <div className="flex justify-start items-center space-x-2">
+                {option.icon && React.cloneElement(option.icon)}
+                <TcText text={option.label} />
+              </div>
+            </MenuItem>
+          ))
+        : children}
     </Select>
   );
 }

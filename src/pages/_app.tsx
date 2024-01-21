@@ -24,6 +24,7 @@ import Script from 'next/script';
 import { usePageViewTracking } from '../helpers/amplitudeHelper';
 import SafaryClubScript from '../components/global/SafaryClubScript';
 import { TokenProvider } from '../context/TokenContext';
+import { ChannelProvider } from '../context/ChannelContext';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   usePageViewTracking();
@@ -58,15 +59,17 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
       </Script>
       <ThemeProvider theme={theme}>
         <TokenProvider>
-          {Component.pageLayout ? (
-            <PrivateRoute>
-              <Component.pageLayout>
-                <Component {...pageProps} />
-              </Component.pageLayout>
-            </PrivateRoute>
-          ) : (
-            <Component {...pageProps} />
-          )}
+          <ChannelProvider>
+            {Component.pageLayout ? (
+              <PrivateRoute>
+                <Component.pageLayout>
+                  <Component {...pageProps} />
+                </Component.pageLayout>
+              </PrivateRoute>
+            ) : (
+              <Component {...pageProps} />
+            )}
+          </ChannelProvider>
         </TokenProvider>
       </ThemeProvider>
       <ToastContainer />

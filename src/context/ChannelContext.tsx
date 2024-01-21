@@ -30,7 +30,8 @@ interface ChannelContextProps {
     platformId: string,
     property?: 'channel',
     selectedChannels?: string[],
-    hideDeactiveSubchannels?: boolean
+    hideDeactiveSubchannels?: boolean,
+    allDefaultChecked?: boolean
   ) => Promise<Channel[] | void>;
   handleSubChannelChange: (channelId: string, subChannelId: string) => void;
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => void;
@@ -57,7 +58,8 @@ const initialChannelContextData: ChannelContextProps = {
     platformId: string,
     property?: 'channel',
     selectedChannels?: string[],
-    hideDeactiveSubchannels?: boolean
+    hideDeactiveSubchannels?: boolean,
+    allDefaultChecked?: boolean
   ) => {},
   handleSubChannelChange: (channelId: string, subChannelId: string) => {},
   handleSelectAll: (channelId: string, subChannels: SubChannel[]) => {},
@@ -84,7 +86,8 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
       platformId: string,
       property: 'channel' = 'channel',
       selectedChannels?: string[],
-      hideDeactiveSubchannels: boolean = false
+      hideDeactiveSubchannels: boolean = false,
+      allDefaultChecked: boolean = true
     ) => {
       setLoading(true);
       try {
@@ -101,8 +104,13 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
             (acc: any, channel: any) => {
               acc[channel.channelId] = channel.subChannels.reduce(
                 (subAcc: any, subChannel: any) => {
-                  subAcc[subChannel.channelId] =
-                    subChannel.canReadMessageHistoryAndViewChannel;
+                  if (allDefaultChecked) {
+                    subAcc[subChannel.channelId] =
+                      subChannel.canReadMessageHistoryAndViewChannel;
+                  } else {
+                    subAcc[subChannel.channelId] = false;
+                  }
+
                   return subAcc;
                 },
                 {} as { [subChannelId: string]: boolean }

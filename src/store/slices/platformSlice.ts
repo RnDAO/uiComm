@@ -5,6 +5,7 @@ import IPlatfrom, {
   IRetrievePlatformsProps,
   IRetrivePlatformRolesOrChannels,
   IPatchPlatformInput,
+  IGrantWritePermissionsProps,
 } from '../types/IPlatform';
 import { conf } from '../../configs';
 import { IPlatformProps } from '../../utils/interfaces';
@@ -107,6 +108,15 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
       });
       return data;
     } catch (error) {}
+  },
+  grantWritePermissions: ({
+    platformType,
+    moduleType,
+    id,
+  }: IGrantWritePermissionsProps) => {
+    location.replace(
+      `${BASE_URL}/platforms/request-access/${platformType}/${moduleType}/${id}`
+    );
   },
 });
 

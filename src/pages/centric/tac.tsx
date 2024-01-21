@@ -96,6 +96,7 @@ function Tac() {
               <TcButton
                 text={'Continue'}
                 variant="contained"
+                sx={{ width: '15rem', padding: '0.5rem' }}
                 disabled={!acceptPrivacyAndPolicy}
                 onClick={() => handleAcceptTerms()}
               />

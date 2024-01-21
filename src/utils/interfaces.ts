@@ -27,8 +27,8 @@ export interface IRoles {
   roleId: string;
   color: number | string;
   name: string;
-  deletedAt: string;
-  id: number | string;
+  deletedAt?: string;
+  id?: number | string;
 }
 
 export interface IUserProfile {
@@ -148,6 +148,27 @@ export interface IPlatformProps {
   metadata: metaData;
 }
 
+export interface UserPermissions {
+  AttachFiles: boolean;
+  CreatePrivateThreads: boolean;
+  CreatePublicThreads: boolean;
+  EmbedLinks: boolean;
+  MentionEveryone: boolean;
+  SendMessages: boolean;
+  SendMessagesInThreads: boolean;
+  ViewChannel: boolean;
+}
+
+export interface ReadData {
+  ViewChannel: boolean;
+  ReadMessageHistory: boolean;
+}
+
+export interface Permissions {
+  permissions: UserPermissions;
+  ReadData: ReadData;
+}
+
 export interface ICommunityDiscordPlatfromProps {
   id: string;
   name: string;
@@ -157,6 +178,7 @@ export interface ICommunityDiscordPlatfromProps {
     name: string;
     selectedChannels?: string[];
     period?: string;
+    permissions: Permissions;
     analyzerStartedAt?: string;
     isInProgress?: boolean;
   };
@@ -170,4 +192,13 @@ export interface metaData {
 export interface IDiscordModifiedCommunity
   extends Omit<ICommunity, 'platforms'> {
   platforms: ICommunityDiscordPlatfromProps[];
+}
+
+export interface IUser {
+  discordId: string;
+  discriminator?: string;
+  globalName?: string | null;
+  ngu: string;
+  nickname?: string | null;
+  username?: string;
 }

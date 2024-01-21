@@ -37,6 +37,7 @@ const HeatmapChart = () => {
   const [heatmapChartOptions, setHeatmapChartOptions] = useState(
     defaultHeatmapChartOptions
   );
+  const [platformFetched, setPlatformFetched] = useState<boolean>(false);
 
   const defaultEndDate = moment().subtract(1, 'day');
   const defaultStartDate = moment(defaultEndDate).subtract(7, 'days');
@@ -57,6 +58,8 @@ const HeatmapChart = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
+      console.log({ selectedSubChannels });
+
       if (platformId) {
         const data = await fetchHeatmapData(
           platformId,
@@ -93,8 +96,11 @@ const HeatmapChart = () => {
   };
 
   useEffect(() => {
-    fetchPlatformChannels();
-    fetchData();
+    const initializeSelectedChannels = async () => {
+      await fetchPlatformChannels();
+    };
+
+    initializeSelectedChannels();
   }, []);
 
   const handleSelectedZone = (zone: string) => {
@@ -144,7 +150,9 @@ const HeatmapChart = () => {
   };
 
   const handleFetchHeatmapByChannels = () => {
-    fetchData();
+    if (platformFetched) {
+      fetchData();
+    }
   };
 
   const fetchPlatformChannels = async () => {
@@ -158,6 +166,7 @@ const HeatmapChart = () => {
         } else {
           await refreshData(platformId);
         }
+        setPlatformFetched(true);
       }
     } catch (error) {
     } finally {
@@ -169,7 +178,7 @@ const HeatmapChart = () => {
       return;
     }
     fetchData();
-  }, [dateRange, selectedZone, platformId]);
+  }, [dateRange, selectedZone, platformId, platformFetched]);
 
   return (
     <div className="bg-white shadow-box rounded-lg p-5 min-h-[400px]">

@@ -69,6 +69,7 @@ function TcPlatformChannelDialog() {
           <TcButton
             text={'Save Channels'}
             variant="contained"
+            sx={{ width: '15rem', padding: '0.5rem' }}
             onClick={() => setOpenDialog(false)}
           />
         </div>
