@@ -1,10 +1,10 @@
-import { Chip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import TcAutocomplete from '../../../shared/TcAutocomplete';
+import { useToken } from '../../../../context/TokenContext';
 import useAppStore from '../../../../store/useStore';
 import { FetchedData, IRoles } from '../../../../utils/interfaces';
-import { useToken } from '../../../../context/TokenContext';
-import { debounce, hexToRGBA, isDarkColor } from '../../../../helpers/helper';
+import { debounce } from '../../../../helpers/helper';
+import TcAutocomplete from '../../../shared/TcAutocomplete';
+import { Chip } from '@mui/material';
 
 interface ITcRolesAutoCompleteProps {
   isEdit?: boolean;
@@ -29,7 +29,7 @@ function TcRolesAutoComplete({
   const [selectedRoles, setSelectedRoles] = useState<IRoles[]>([]);
 
   const [fetchedRoles, setFetchedRoles] = useState<FetchedData>({
-    limit: 8,
+    limit: 100,
     page: 1,
     results: [],
     totalPages: 0,
@@ -92,16 +92,16 @@ function TcRolesAutoComplete({
     if (inputValue === '') {
       setFilteredRolesByName('');
       setFetchedRoles({
-        limit: 8,
+        limit: 100,
         page: 1,
         results: [],
         totalPages: 0,
         totalResults: 0,
       });
 
-      debouncedFetchDiscordRoles(platformId, 1, 8);
+      debouncedFetchDiscordRoles(platformId, 1, 100);
     } else {
-      debouncedFetchDiscordRoles(platformId, 1, 8, inputValue);
+      debouncedFetchDiscordRoles(platformId, 1, 100, inputValue);
     }
   };
 
@@ -153,7 +153,13 @@ function TcRolesAutoComplete({
       value={selectedRoles}
       onChange={handleChange}
       onInputChange={handleSearchChange}
+      isOptionEqualToValue={(option, value) => option.roleId === value.roleId}
       disableCloseOnSelect
+      renderOption={(props, option) => (
+        <li {...props} key={option.roleId}>
+          {option.name}
+        </li>
+      )}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip

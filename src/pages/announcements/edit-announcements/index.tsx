@@ -113,7 +113,6 @@ function Index() {
             (channel) => channel.channelId
           );
         }
-        console.log({ channelIds });
 
         await refreshData(platformId, 'channel', channelIds, undefined, false);
       }
@@ -127,7 +126,9 @@ function Index() {
     if (!id) return;
     const fetchAnnouncement = async () => {
       const data = await retrieveAnnouncementById(id);
+
       setFetchedAnnouncements(data);
+      setScheduledAt(data.scheduledAt);
     };
 
     fetchAnnouncement();
@@ -155,9 +156,10 @@ function Index() {
     try {
       setLoading(true);
       const data = await patchExistingAnnouncement(id, announcementsPayload);
+
       if (data) {
         showMessage('Announcement updated successfully', 'success');
-        router.push('/announcements');
+        location.replace('/announcements');
       }
     } catch (error) {
       showMessage('Failed to create announcement', 'error');

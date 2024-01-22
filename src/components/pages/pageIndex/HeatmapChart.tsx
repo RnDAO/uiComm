@@ -58,8 +58,6 @@ const HeatmapChart = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      console.log({ selectedSubChannels });
-
       if (platformId) {
         const data = await fetchHeatmapData(
           platformId,

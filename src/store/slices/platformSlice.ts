@@ -72,6 +72,7 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
     platformId,
     property = 'channel',
     name,
+    ngu,
     sortBy,
     page,
     limit,
@@ -88,6 +89,8 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
       }
 
       if (name) params.append('name', name);
+
+      if (ngu) params.append('ngu', ngu);
 
       if (page !== undefined) {
         params.append('page', page.toString());

@@ -13,6 +13,7 @@ export interface IRetrivePlatformRolesOrChannels {
   limit?: number;
   sortBy?: string;
   name?: string;
+  ngu?: string;
   platformId: string;
   property: 'channel' | 'role' | 'guildMember';
 }
