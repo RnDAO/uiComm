@@ -149,7 +149,12 @@ function TcAnnouncementsTable({
                       marginRight: '5px',
                     }}
                   />
-                  {truncateCenter(announcement.data[0].template, 20)}
+                  {announcement &&
+                  announcement.data &&
+                  announcement.data[0] &&
+                  announcement.data[0].template
+                    ? truncateCenter(announcement.data[0]?.template, 20)
+                    : ''}
                 </>
               }
               variant="subtitle2"
