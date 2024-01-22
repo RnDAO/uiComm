@@ -46,14 +46,13 @@ function TcScheduleAnnouncement({
   const handleTimeChange = (time: Date | null) => {
     if (time) {
       setSelectedTime(time);
-      handleClose();
 
       if (selectedDate) {
         const fullDateTime = moment(selectedDate).set({
           hour: time.getHours(),
           minute: time.getMinutes(),
         });
-        setDateTimeDisplay(fullDateTime.format('D MMMM YYYY @ h A'));
+        setDateTimeDisplay(fullDateTime.format('D MMMM YYYY @ hh:mm A'));
       }
     }
   };
@@ -79,7 +78,7 @@ function TcScheduleAnnouncement({
 
       setSelectedDate(date.toDate());
       setSelectedTime(date.toDate());
-      setDateTimeDisplay(date.format('D MMMM YYYY @ h A'));
+      setDateTimeDisplay(date.format('D MMMM YYYY @ hh:mm A'));
     }
   }, [isEdit, preSelectedTime]);
 
@@ -101,7 +100,7 @@ function TcScheduleAnnouncement({
           startIcon={<MdCalendarMonth />}
           disableElevation={true}
           className="border border-black bg-gray-100 shadow-md"
-          sx={{ color: 'black', height: '2.4rem' }}
+          sx={{ color: 'black', height: '2.4rem', paddingX: '1rem' }}
           aria-describedby={id}
           onClick={handleOpen}
         />
