@@ -52,6 +52,7 @@ function TcDateTimePopover({
       <StaticTimePicker
         displayStaticWrapperAs="desktop"
         value={selectedTime}
+        ampm={false}
         onChange={handleTimeChange}
       />
     </LocalizationProvider>,
