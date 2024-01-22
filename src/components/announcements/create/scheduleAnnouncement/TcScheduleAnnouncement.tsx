@@ -97,7 +97,6 @@ function TcScheduleAnnouncement({
         </div>
         <TcButton
           text={dateTimeDisplay}
-          variant="contained"
           startIcon={<MdCalendarMonth />}
           disableElevation={true}
           className="border border-black bg-gray-100 shadow-md"
