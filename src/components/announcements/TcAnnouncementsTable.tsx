@@ -318,55 +318,66 @@ function TcAnnouncementsTable({
   const renderTableBody = () => {
     if (isLoading) {
       return (
-        <TableRow>
-          <TableCell
-            colSpan={6}
-            style={{ textAlign: 'center' }}
-            sx={{ borderBottom: 'none' }}
-            className="min-h-[70vh] pt-[25dvh]"
-            data-testid="loading-indicator"
-          >
-            <Loading />
-          </TableCell>
-        </TableRow>
+        <TableBody>
+          <TableRow>
+            <TableCell
+              colSpan={6}
+              style={{ textAlign: 'center' }}
+              sx={{ borderBottom: 'none' }}
+              className="min-h-[70vh] pt-[25dvh]"
+              data-testid="loading-indicator"
+            >
+              <Loading />
+            </TableCell>
+          </TableRow>
+        </TableBody>
       );
     }
 
-    return announcements.map((announcement, index) => (
-      <TableRow
-        key={announcement.id}
-        className={`my-5 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}
-      >
-        {['title', 'channels', 'users', 'roles', 'scheduledAt', 'actions'].map(
-          (cellType, cellIndex, array) => (
-            <TableCell
-              key={cellType}
-              sx={{
-                padding: '14px 16px',
-                borderBottom: index % 2 !== 0 ? '1px solid #f3f4f6' : 'none',
-                borderTop: index % 2 !== 0 ? '1px solid #f3f4f6' : 'none',
-                borderLeft:
-                  cellIndex === 0 && index % 2 !== 0
-                    ? '1px solid #f3f4f6'
-                    : 'none',
-                borderRight:
-                  cellIndex === array.length - 1 && index % 2 !== 0
-                    ? '1px solid #f3f4f6'
-                    : 'none',
-                borderTopLeftRadius: cellIndex === 0 ? '5px' : '0',
-                borderBottomLeftRadius: cellIndex === 0 ? '5px' : '0',
-                borderTopRightRadius:
-                  cellIndex === array.length - 1 ? '5px' : '0',
-                borderBottomRightRadius:
-                  cellIndex === array.length - 1 ? '5px' : '0',
-              }}
-            >
-              {renderTableCell(announcement, cellType)}
-            </TableCell>
-          )
-        )}
-      </TableRow>
-    ));
+    return (
+      <TableBody>
+        {announcements.map((announcement, index) => (
+          <TableRow
+            key={announcement.id}
+            className={`my-5 ${index % 2 === 0 ? 'bg-gray-100' : ''}`}
+          >
+            {[
+              'title',
+              'channels',
+              'users',
+              'roles',
+              'scheduledAt',
+              'actions',
+            ].map((cellType, cellIndex, array) => (
+              <TableCell
+                key={cellType}
+                sx={{
+                  padding: '14px 16px',
+                  borderBottom: index % 2 !== 0 ? '1px solid #f3f4f6' : 'none',
+                  borderTop: index % 2 !== 0 ? '1px solid #f3f4f6' : 'none',
+                  borderLeft:
+                    cellIndex === 0 && index % 2 !== 0
+                      ? '1px solid #f3f4f6'
+                      : 'none',
+                  borderRight:
+                    cellIndex === array.length - 1 && index % 2 !== 0
+                      ? '1px solid #f3f4f6'
+                      : 'none',
+                  borderTopLeftRadius: cellIndex === 0 ? '5px' : '0',
+                  borderBottomLeftRadius: cellIndex === 0 ? '5px' : '0',
+                  borderTopRightRadius:
+                    cellIndex === array.length - 1 ? '5px' : '0',
+                  borderBottomRightRadius:
+                    cellIndex === array.length - 1 ? '5px' : '0',
+                }}
+              >
+                {renderTableCell(announcement, cellType)}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    );
   };
 
   return (
@@ -452,7 +463,7 @@ function TcAnnouncementsTable({
             ></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody> {renderTableBody()}</TableBody>
+        {renderTableBody()}
       </Table>
       <TcDialog
         sx={{

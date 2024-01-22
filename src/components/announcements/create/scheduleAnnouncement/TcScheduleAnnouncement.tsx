@@ -74,13 +74,14 @@ function TcScheduleAnnouncement({
   }, [selectedDate, selectedTime]);
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && preSelectedTime) {
       const date = moment(preSelectedTime);
+
       setSelectedDate(date.toDate());
       setSelectedTime(date.toDate());
       setDateTimeDisplay(date.format('D MMMM YYYY @ h A'));
     }
-  }, [isEdit]);
+  }, [isEdit, preSelectedTime]);
 
   return (
     <div className="space-y-3">

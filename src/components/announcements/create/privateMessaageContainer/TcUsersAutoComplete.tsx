@@ -29,13 +29,13 @@ function TcUsersAutoComplete({
   const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
 
   const [fetchedUsers, setFetchedUsers] = useState<FetchedData>({
-    limit: 8,
+    limit: 100,
     page: 1,
     results: [],
     totalPages: 0,
     totalResults: 0,
   });
-  const [filteredRolesByName, setFilteredRolesByName] = useState<string>('');
+  const [filteredUsersByName, setFilteredUsersByName] = useState<string>('');
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   const fetchDiscordUsers = async (
@@ -54,7 +54,7 @@ function TcUsersAutoComplete({
       });
 
       if (ngu) {
-        setFilteredRolesByName(ngu);
+        setFilteredUsersByName(ngu);
         setFetchedUsers(fetchedUsers);
       } else {
         setFetchedUsers((prevData: { results: any }) => {
@@ -90,18 +90,18 @@ function TcUsersAutoComplete({
     if (!platformId) return;
 
     if (inputValue === '') {
-      setFilteredRolesByName('');
+      setFilteredUsersByName('');
       setFetchedUsers({
-        limit: 8,
+        limit: 100,
         page: 1,
         results: [],
         totalPages: 0,
         totalResults: 0,
       });
 
-      debouncedFetchDiscordUsers(platformId, 1, 8);
+      debouncedFetchDiscordUsers(platformId, 1, 100);
     } else {
-      debouncedFetchDiscordUsers(platformId, 1, 8, inputValue);
+      debouncedFetchDiscordUsers(platformId, 1, 100, inputValue);
     }
   };
 
@@ -153,7 +153,15 @@ function TcUsersAutoComplete({
       value={selectedUsers}
       onChange={handleChange}
       onInputChange={handleSearchChange}
+      isOptionEqualToValue={(option, value) =>
+        option.discordId === value.discordId
+      }
       disableCloseOnSelect
+      renderOption={(props, option) => (
+        <li {...props} key={option.discordId}>
+          {option.ngu}
+        </li>
+      )}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip

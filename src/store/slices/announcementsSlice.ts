@@ -63,8 +63,6 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
     announcementPayload: CreateAnnouncementsPayload
   ) => {
     try {
-      console.log({ id });
-
       const { data } = await axiosInstance.patch(
         `/announcements/${id}`,
         announcementPayload
