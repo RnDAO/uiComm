@@ -13,7 +13,6 @@ export default interface IAnnouncements {
     page,
     limit,
     sortBy,
-    ngu,
     community,
   }: IRetrieveAnnouncementsProps) => void;
 }
