@@ -143,7 +143,7 @@ function TcAnnouncementsTable({
                     style={{
                       height: '8px',
                       width: '8px',
-                      background: announcement.draft ? '#3A9E2B' : '#FF9022',
+                      background: !announcement.draft ? '#3A9E2B' : '#FF9022',
                       borderRadius: '50%',
                       display: 'inline-block',
                       marginRight: '5px',
