@@ -2,7 +2,6 @@ export interface IRetrieveAnnouncementsProps {
   page: number;
   limit: number;
   sortBy?: string;
-  ngu?: string;
   community: string;
   startDate?: string;
   endDate?: string;

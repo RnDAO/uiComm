@@ -10,7 +10,6 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
     page,
     limit,
     sortBy,
-    ngu,
     timeZone,
     startDate,
     endDate,
@@ -24,7 +23,6 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
         ...(timeZone ? { timeZone } : {}),
         ...(startDate ? { startDate } : {}),
         ...(endDate ? { endDate } : {}),
-        ...(ngu ? { name } : {}),
       };
 
       const { data } = await axiosInstance.get(
