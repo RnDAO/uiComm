@@ -95,7 +95,8 @@ function TcPlatformChannelList({
                       }
                       disabled={channel?.subChannels?.some(
                         (subChannel) =>
-                          !subChannel.canReadMessageHistoryAndViewChannel
+                          !subChannel.canReadMessageHistoryAndViewChannel ||
+                          !subChannel.announcementAccess
                       )}
                     />
                   }

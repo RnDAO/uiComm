@@ -16,6 +16,7 @@ import { ChannelContext } from '../../../../context/ChannelContext';
 import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatformChannelList';
 import { IGuildChannels } from '../../../../utils/types';
 import { DiscordData } from '../../../../pages/announcements/edit-announcements';
+import TcPermissionHints from '../../../global/TcPermissionHints';
 
 export interface FlattenedChannel {
   id: string;
@@ -143,66 +144,7 @@ function TcPublicMessageContainer({
               <div className="border border-gray-300 rounded-md">
                 <TcPlatformChannelList refreshTrigger={false} />
               </div>
-              <div>
-                <Accordion disableGutters defaultExpanded={false} elevation={0}>
-                  <AccordionSummary
-                    expandIcon={
-                      <MdExpandMore color="#37474F" size={25} fill="#37474F" />
-                    }
-                  >
-                    <TcText
-                      text="Don't see a specific channel?"
-                      variant="body2"
-                      fontWeight="bold"
-                    />
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <div className="pl-1 pr-4 text-left">
-                      <TcText
-                        text="How to give access to the channel you want to import?"
-                        variant="subtitle2"
-                        fontWeight={300}
-                        className="text-gray-500"
-                      />
-                      <ol className="list-decimal text-sm pl-4">
-                        <li>
-                          Navigate to the channel you want to import on{' '}
-                          <a
-                            href="https://discord.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-secondary font-semibold cursor-pointer"
-                          >
-                            Discord
-                          </a>
-                        </li>
-                        <li>
-                          Go to the settings for that specific channel (select
-                          the wheel on the right of the channel name)
-                        </li>
-                        <li>
-                          Select <b>Permissions</b> (left sidebar), and then in
-                          the middle of the screen check{' '}
-                          <b>Advanced permissions</b>
-                        </li>
-                        <li>
-                          With the <b>TogetherCrew Bot</b> selected, under
-                          Advanced Permissions, make sure that [View channel]
-                          and [Write Access] are marked as [✓]
-                        </li>
-                        <li>
-                          Select the plus sign to the right of Roles/Members and
-                          under members select <b>TogetherCrew bot</b>
-                        </li>
-                        <li>
-                          Click on the <b>Refresh List</b> button on this window
-                          and select the new channels
-                        </li>
-                      </ol>
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
-              </div>
+              <TcPermissionHints />
             </div>
           </TcSelect>
         </FormControl>
