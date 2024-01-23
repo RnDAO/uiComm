@@ -6,6 +6,7 @@ export interface SubChannel {
   name: string;
   parentId: string;
   canReadMessageHistoryAndViewChannel: boolean;
+  announcementAccess: boolean;
 }
 
 export interface Channel {
