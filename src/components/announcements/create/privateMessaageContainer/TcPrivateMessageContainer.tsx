@@ -147,7 +147,11 @@ function TcPrivateMessageContainer({
           <TcIconContainer>
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
-          <TcText text="Private Message" variant="body1" fontWeight="700" />
+          <TcText
+            text="Private Message (optional)"
+            variant="body1"
+            fontWeight="700"
+          />
           <FormControlLabel
             className="mx-auto md:mx-0"
             control={
@@ -158,7 +162,6 @@ function TcPrivateMessageContainer({
             }
             label={
               <div className="flex items-center space-x-1">
-                <TcText text="Direct Message (optional)" variant="body1" />
                 <TcIconWithTooltip
                   tooltipText={
                     'Community members who have their DMs open will receive a DM. Members who have their DMs closed, will receive a private message inside the server (only they can see it). Additionally, a public message will always be sent with instructions to verify the legitimacy of the bot and announcement by checking the bot ID.'

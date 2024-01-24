@@ -93,7 +93,7 @@ const Sidebar = () => {
         >
           {el.icon}
         </div>
-        <p className="text-center text-sm">{el.name}</p>
+        <p className="text-center text-sm break-words">{el.name}</p>
       </Link>
     </li>
   ));
