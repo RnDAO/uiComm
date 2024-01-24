@@ -62,7 +62,7 @@ const Sidebar = () => {
       ),
     },
     {
-      name: 'Announcements',
+      name: 'Smart Announcements',
       path: '/announcements',
       icon: (
         <MdOutlineAnnouncement
