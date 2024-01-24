@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { Drawer } from '@mui/material';
 
 import { FaBars } from 'react-icons/fa';
-import { MdKeyboardBackspace } from 'react-icons/md';
+import { MdKeyboardBackspace, MdOutlineAnnouncement } from 'react-icons/md';
 import { conf } from '../../../configs';
 import { FiSettings } from 'react-icons/fi';
 import { useToken } from '../../../context/TokenContext';
@@ -66,11 +66,20 @@ const Sidebar = () => {
       ),
     },
     {
+      name: 'Smart Announcements',
+      path: '/announcements',
+      icon: (
+        <MdOutlineAnnouncement
+          style={{ fontSize: 30, color: 'black', margin: '0 auto' }}
+        />
+      ),
+    },
+    {
       name: 'Community Settings',
       path: '/community-settings',
       icon: (
         <FiSettings
-          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
+          style={{ fontSize: 30, color: 'black', margin: '0 auto' }}
         />
       ),
     },
