@@ -26,21 +26,21 @@ function PermissionHints() {
           <div className="pt-3">
             <TcText
               text="What does “Read” and “Write” access mean?"
-              variant="subtitle2"
+              variant="body2"
               fontWeight={500}
             />
             <ol className="list-disc pl-5">
               <li>
                 <TcText
                   text="“Read” access refers to the following settings within Discord:"
-                  variant="subtitle1"
+                  variant="body2"
                 />
                 <ul className="list-disc pl-5">
                   <li>
-                    <TcText text="“Read Channel”" variant="subtitle1" />
+                    <TcText text="“Read Channel”" variant="body2" />
                   </li>
                   <li>
-                    <TcText text="“Read Message History”" variant="subtitle1" />
+                    <TcText text="“Read Message History”" variant="body2" />
                   </li>
                 </ul>
               </li>
@@ -49,34 +49,31 @@ function PermissionHints() {
               <li>
                 <TcText
                   text="“Write” access refers to the following settings within Discord:"
-                  variant="subtitle1"
+                  variant="body2"
                 />
                 <ul className="list-disc pl-5">
                   <li>
-                    <TcText text="Send Message" variant="subtitle1" />
+                    <TcText text="Send Message" variant="body2" />
                   </li>
                   <li>
-                    <TcText
-                      text="Send Messages in Threads”"
-                      variant="subtitle1"
-                    />
+                    <TcText text="Send Messages in Threads”" variant="body2" />
                   </li>
                   <li>
-                    <TcText text="Create Public Threads" variant="subtitle1" />
+                    <TcText text="Create Public Threads" variant="body2" />
                   </li>
                   <li>
-                    <TcText text="Create Private Threads" variant="subtitle1" />
+                    <TcText text="Create Private Threads" variant="body2" />
                   </li>
                   <li>
-                    <TcText text="Embed Links" variant="subtitle1" />
+                    <TcText text="Embed Links" variant="body2" />
                   </li>
                   <li>
-                    <TcText text="Attach Files" variant="subtitle1" />
+                    <TcText text="Attach Files" variant="body2" />
                   </li>
                   <li>
                     <TcText
                       text="Mention @everyone, @here, and All Roles"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                 </ul>
@@ -89,7 +86,7 @@ function PermissionHints() {
           <div className="px-3 pt-3">
             <TcText
               text="Please note that your platform’s permission settings enable the above permission controls"
-              variant="subtitle2"
+              variant="body2"
             />
             <ol className="list-decimal pl-4 pt-2">
               <li>
@@ -100,7 +97,7 @@ function PermissionHints() {
                       corner of Discord
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
               </li>
               <li>
@@ -111,7 +108,7 @@ function PermissionHints() {
                       the middle of the screen check <b>Advanced permissions</b>
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
               </li>
               <li>
@@ -123,20 +120,20 @@ function PermissionHints() {
                       [✓]
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
 
                 <ol style={{ listStyleType: 'lower-alpha' }} className="pl-4">
                   <li>
                     <TcText
                       text="“Read” access settings (refer to “Access Settings” above);and/or"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                   <li>
                     <TcText
                       text="“Write” access settings (refer to “Access Settings” above)"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                 </ol>
@@ -150,7 +147,7 @@ function PermissionHints() {
                   you
                 </>
               }
-              variant="subtitle1"
+              variant="body2"
             />
           </div>
         );
@@ -159,7 +156,7 @@ function PermissionHints() {
           <div className="px-3 pt-3">
             <TcText
               text="Please note that Category-level permissions override Server-level permissions"
-              variant="subtitle2"
+              variant="body2"
             />
             <ol className="list-decimal pl-4 pt-2">
               <li>
@@ -170,7 +167,7 @@ function PermissionHints() {
                       corner of Discord
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
               </li>
               <li>
@@ -181,7 +178,7 @@ function PermissionHints() {
                       the middle of the screen check <b>Advanced permissions</b>
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
               </li>
               <li>
@@ -193,20 +190,20 @@ function PermissionHints() {
                       [✓]
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
 
                 <ol style={{ listStyleType: 'lower-alpha' }} className="pl-4">
                   <li>
                     <TcText
                       text="“Read” access settings (refer to “Access Settings” above);and/or"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                   <li>
                     <TcText
                       text="“Write” access settings (refer to “Access Settings” above)"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                 </ol>
@@ -220,7 +217,7 @@ function PermissionHints() {
                   you
                 </>
               }
-              variant="subtitle1"
+              variant="body2"
             />
           </div>
         );
@@ -229,7 +226,7 @@ function PermissionHints() {
           <div className="px-3 pt-3">
             <TcText
               text="Please note that Channel-level permissions override Category-level permissions, which in turn override Server-level permissions"
-              variant="subtitle2"
+              variant="body2"
             />
             <ol className="list-decimal pl-4 pt-2">
               <li>
@@ -240,7 +237,7 @@ function PermissionHints() {
                       the wheel on the right of the channel name)
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
               </li>
               <li>
@@ -251,7 +248,7 @@ function PermissionHints() {
                       the middle of the screen check <b>Advanced permissions</b>
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
               </li>
               <li>
@@ -263,20 +260,20 @@ function PermissionHints() {
                       [✓]
                     </>
                   }
-                  variant="subtitle1"
+                  variant="body2"
                 />
 
                 <ol style={{ listStyleType: 'lower-alpha' }} className="pl-4">
                   <li>
                     <TcText
                       text="“Read” access settings (refer to “Access Settings” above);and/or"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                   <li>
                     <TcText
                       text="“Write” access settings (refer to “Access Settings” above)"
-                      variant="subtitle1"
+                      variant="body2"
                     />
                   </li>
                 </ol>
@@ -290,7 +287,7 @@ function PermissionHints() {
                   you
                 </>
               }
-              variant="subtitle1"
+              variant="body2"
             />
           </div>
         );
