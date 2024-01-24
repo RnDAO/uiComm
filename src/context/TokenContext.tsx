@@ -21,7 +21,7 @@ type TokenContextType = {
   clearToken: () => void;
 };
 
-const TokenContext = createContext<TokenContextType | null>(null);
+export const TokenContext = createContext<TokenContextType | null>(null);
 
 type TokenProviderProps = {
   children: ReactNode;

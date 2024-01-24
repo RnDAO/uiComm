@@ -3,13 +3,7 @@ import TcText from '../../../shared/TcText';
 import { MdAnnouncement, MdExpandMore } from 'react-icons/md';
 import TcIconContainer from '../TcIconContainer';
 import TcSelect from '../../../shared/TcSelect';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
+import { FormControl, InputLabel } from '@mui/material';
 import TcInput from '../../../shared/TcInput';
 import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
 import { ChannelContext } from '../../../../context/ChannelContext';
@@ -17,6 +11,7 @@ import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatfor
 import { IGuildChannels } from '../../../../utils/types';
 import { DiscordData } from '../../../../pages/announcements/edit-announcements';
 import TcPermissionHints from '../../../global/TcPermissionHints';
+import { useToken } from '../../../../context/TokenContext';
 
 export interface FlattenedChannel {
   id: string;
@@ -43,6 +38,7 @@ function TcPublicMessageContainer({
   const channelContext = useContext(ChannelContext);
 
   const { channels, selectedSubChannels } = channelContext;
+  const { community } = useToken();
 
   const flattenChannels = (channels: IGuildChannels[]): FlattenedChannel[] => {
     let flattened: FlattenedChannel[] = [];
@@ -71,7 +67,9 @@ function TcPublicMessageContainer({
     setSelectedChannels(flattenChannels(channels));
   }, [channels, selectedSubChannels]);
 
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>(
+    `This message was sent to you because you’re part of ${community?.name}. To verify the legitimacy of this message, see the official announcement here ⁠👥together-crew⁠ and verify the bot ID If you don’t want to receive any more private message from ${community?.name}, please adjust your settings here: https://app.togethercrew.com/community-settings/`
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -121,7 +119,7 @@ function TcPublicMessageContainer({
         <div>
           <TcText text="Send message to:" variant="subtitle1" />
           <TcText
-            text="The announcement will be sent by the a bot which will have access to send the following message within the selected channels"
+            text="Our bot will deliver the announcement across chosen channels with the necessary access to share the specified message."
             variant="caption"
             className="text-gray-400"
           />
@@ -148,13 +146,20 @@ function TcPublicMessageContainer({
             </div>
           </TcSelect>
         </FormControl>
-        <TcText text="Write message here:" variant="subtitle1" />
+        <div className="flex items-center space-x-1">
+          <TcText text="Write message here:" variant="subtitle1" />
+          <TcText
+            text="If you don’t write a custom message then this auto-generated safety message wlll be sent out"
+            variant="caption"
+            className="text-gray-400"
+          />
+        </div>
         <FormControl variant="filled" fullWidth size="medium">
           <TcInput
             label="Message"
             variant="filled"
             placeholder="Write your message here"
-            rows={2}
+            rows={3}
             multiline
             value={message}
             onChange={handleChange}
