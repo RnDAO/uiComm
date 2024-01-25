@@ -4,7 +4,7 @@ import useAppStore from '../../../../store/useStore';
 import { FetchedData, IRoles } from '../../../../utils/interfaces';
 import { debounce } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
-import { Chip } from '@mui/material';
+import { Chip, CircularProgress } from '@mui/material';
 
 interface ITcRolesAutoCompleteProps {
   isEdit?: boolean;
@@ -29,7 +29,7 @@ function TcRolesAutoComplete({
   const [selectedRoles, setSelectedRoles] = useState<IRoles[]>([]);
 
   const [fetchedRoles, setFetchedRoles] = useState<FetchedData>({
-    limit: 100,
+    limit: 8,
     page: 1,
     results: [],
     totalPages: 0,
@@ -37,6 +37,7 @@ function TcRolesAutoComplete({
   });
   const [filteredRolesByName, setFilteredRolesByName] = useState<string>('');
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchDiscordRoles = async (
     platformId: string,
@@ -45,6 +46,8 @@ function TcRolesAutoComplete({
     name?: string
   ) => {
     try {
+      setIsLoading(true);
+
       const fetchedRoles = await retrievePlatformProperties({
         platformId,
         name: name,
@@ -73,7 +76,10 @@ function TcRolesAutoComplete({
           };
         });
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -92,7 +98,7 @@ function TcRolesAutoComplete({
     if (inputValue === '') {
       setFilteredRolesByName('');
       setFetchedRoles({
-        limit: 100,
+        limit: 8,
         page: 1,
         results: [],
         totalPages: 0,
@@ -149,6 +155,12 @@ function TcRolesAutoComplete({
       getOptionLabel={(option) => option.name}
       label={'Select Role(s)'}
       multiple={true}
+      loading={isLoading}
+      loadingText={
+        <div className="text-center">
+          <CircularProgress size={24} />
+        </div>
+      }
       disabled={isDisabled}
       value={selectedRoles}
       onChange={handleChange}
