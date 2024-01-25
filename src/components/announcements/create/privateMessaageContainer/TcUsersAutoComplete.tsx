@@ -4,7 +4,7 @@ import useAppStore from '../../../../store/useStore';
 import { FetchedData, IUser } from '../../../../utils/interfaces';
 import { debounce } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
-import { Chip } from '@mui/material';
+import { Chip, CircularProgress } from '@mui/material';
 
 interface ITcUsersAutoCompleteProps {
   isEdit?: boolean;
@@ -29,7 +29,7 @@ function TcUsersAutoComplete({
   const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
 
   const [fetchedUsers, setFetchedUsers] = useState<FetchedData>({
-    limit: 100,
+    limit: 8,
     page: 1,
     results: [],
     totalPages: 0,
@@ -37,6 +37,7 @@ function TcUsersAutoComplete({
   });
   const [filteredUsersByName, setFilteredUsersByName] = useState<string>('');
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchDiscordUsers = async (
     platformId: string,
@@ -45,6 +46,8 @@ function TcUsersAutoComplete({
     ngu?: string
   ) => {
     try {
+      setIsLoading(true);
+
       const fetchedUsers = await retrievePlatformProperties({
         platformId,
         ngu: ngu,
@@ -73,7 +76,10 @@ function TcUsersAutoComplete({
           };
         });
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -82,6 +88,11 @@ function TcUsersAutoComplete({
   }, []);
 
   const debouncedFetchDiscordUsers = debounce(fetchDiscordUsers, 700);
+
+  const handleClearAll = () => {
+    if (!platformId) return;
+    fetchDiscordUsers(platformId, fetchedUsers.page, fetchedUsers.limit);
+  };
 
   const handleSearchChange = (event: React.SyntheticEvent<Element, Event>) => {
     const target = event.target as HTMLInputElement;
@@ -92,16 +103,16 @@ function TcUsersAutoComplete({
     if (inputValue === '') {
       setFilteredUsersByName('');
       setFetchedUsers({
-        limit: 100,
+        limit: 8,
         page: 1,
         results: [],
         totalPages: 0,
         totalResults: 0,
       });
 
-      debouncedFetchDiscordUsers(platformId, 1, 100);
+      debouncedFetchDiscordUsers(platformId, 1, 8);
     } else {
-      debouncedFetchDiscordUsers(platformId, 1, 100, inputValue);
+      debouncedFetchDiscordUsers(platformId, 1, 8, inputValue);
     }
   };
 
@@ -149,10 +160,22 @@ function TcUsersAutoComplete({
       getOptionLabel={(option) => option.ngu}
       label={'Select User(s)'}
       multiple={true}
+      loading={isLoading}
+      loadingText={
+        <div className="text-center">
+          <CircularProgress size={24} />
+        </div>
+      }
       disabled={isDisabled}
       value={selectedUsers}
       onChange={handleChange}
-      onInputChange={handleSearchChange}
+      onInputChange={(event, value, reason) => {
+        if (reason === 'clear') {
+          handleClearAll();
+        } else {
+          handleSearchChange(event);
+        }
+      }}
       isOptionEqualToValue={(option, value) =>
         option.discordId === value.discordId
       }
