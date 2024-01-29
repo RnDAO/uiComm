@@ -9,6 +9,7 @@ import TcIntegrationDialog from '../../components/pages/communitySettings/TcInte
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
 import { defaultLayout } from '../../layouts/defaultLayout';
+import TcRolesAndPermissions from '../../components/communitySettings/rolesAndPermissions';
 
 function Index() {
   const router = useRouter();
@@ -57,6 +58,7 @@ function Index() {
               <div className='space-y-2'>
                 <TcSwitchCommunity />
                 <TcCommunityIntegrations />
+                <TcRolesAndPermissions />
               </div>
             </div>
           }
