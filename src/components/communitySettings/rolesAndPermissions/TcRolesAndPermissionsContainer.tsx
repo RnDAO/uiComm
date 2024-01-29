@@ -3,12 +3,11 @@ import TcText from '../../shared/TcText';
 import TcButton from '../../shared/TcButton';
 import TcRolesAutoComplete from '../../announcements/create/privateMessaageContainer/TcRolesAutoComplete';
 import TcUsersAutoComplete from '../../announcements/create/privateMessaageContainer/TcUsersAutoComplete';
-import { IRoles, IUser } from '../../../utils/interfaces';
 
 function TcRolesAndPermissionsContainer() {
   return (
-    <div className="border-t border-b-gray-200">
-      <div className="w-full flex justify-between items-center">
+    <div>
+      <div className="w-full flex flex-col md:flex-row justify-between md:items-center space-y-3 md:space-y-0">
         <div>
           <TcText text="Roles & Permissions" variant="h6" />
           <TcText
@@ -27,15 +26,15 @@ function TcRolesAndPermissionsContainer() {
           className="text-gray-400"
         />
         <TcText text="Add admin by:" variant="subtitle2" />
-        <div className="flex justify-between space-x-3">
-          <div className="w-1/2">
-            <TcRolesAutoComplete
+        <div className="flex flex-col md:flex-row md:justify-between md:space-x-3 space-y-3 md:space-y-0">
+          <div className="md:w-1/2">
+            <TcUsersAutoComplete
               isDisabled={false}
               handleSelectedUsers={() => {}}
             />
           </div>
-          <div className="w-1/2">
-            <TcUsersAutoComplete
+          <div className="md:w-1/2">
+            <TcRolesAutoComplete
               isDisabled={false}
               handleSelectedUsers={() => {}}
             />
@@ -50,15 +49,15 @@ function TcRolesAndPermissionsContainer() {
           className="text-gray-400"
         />
         <TcText text="Add viewer by:" variant="subtitle2" />
-        <div className="flex justify-between space-x-3">
-          <div className="w-1/2">
-            <TcRolesAutoComplete
+        <div className="flex flex-col md:flex-row md:justify-between md:space-x-3 space-y-3 md:space-y-0">
+          <div className="md:w-1/2">
+            <TcUsersAutoComplete
               isDisabled={false}
               handleSelectedUsers={() => {}}
             />
           </div>
-          <div className="w-1/2">
-            <TcUsersAutoComplete
+          <div className="md:w-1/2">
+            <TcRolesAutoComplete
               isDisabled={false}
               handleSelectedUsers={() => {}}
             />
