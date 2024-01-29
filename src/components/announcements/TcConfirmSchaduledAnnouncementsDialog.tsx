@@ -23,7 +23,7 @@ const formatDateToLocalTimezone = (scheduledDate: string) => {
     return 'Invalid Date';
   }
 
-  const formattedDate = moment(scheduledDate).format('MMMM D [at] hA');
+  const formattedDate = moment(scheduledDate).format('MMMM D [at] hh:mm A');
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 

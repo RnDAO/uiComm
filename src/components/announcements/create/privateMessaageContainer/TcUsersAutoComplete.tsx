@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useToken } from '../../../../context/TokenContext';
 import useAppStore from '../../../../store/useStore';
 import { FetchedData, IUser } from '../../../../utils/interfaces';
-import { debounce } from '../../../../helpers/helper';
+import { debounce, truncateCenter } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
 import { Chip, CircularProgress } from '@mui/material';
+import TcAvatar from '../../../shared/TcAvatar';
+import TcText from '../../../shared/TcText';
+import { conf } from '../../../../configs';
 
 interface ITcUsersAutoCompleteProps {
   isEdit?: boolean;
@@ -182,7 +185,24 @@ function TcUsersAutoComplete({
       disableCloseOnSelect
       renderOption={(props, option) => (
         <li {...props} key={option.discordId}>
-          {option.ngu}
+          <div className="flex items-center space-x-2">
+            <TcAvatar
+              sx={{ height: '28px', width: '28px' }}
+              src={
+                option.discordId && option?.avatar
+                  ? `${conf.DISCORD_CDN}avatars/${option.discordId}/${option?.avatar}.png`
+                  : ''
+              }
+              alt="User Avatar"
+            />
+            <TcText text={option.ngu} />
+            <TcText
+              text={`${
+                option.username ? '@' + truncateCenter(option.username, 10) : ''
+              }`}
+              className="text-gray-500"
+            />
+          </div>
         </li>
       )}
       renderTags={(value, getTagProps) =>
@@ -190,18 +210,29 @@ function TcUsersAutoComplete({
           <Chip
             variant="outlined"
             label={
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span
-                  style={{
-                    height: '8px',
-                    width: '8px',
-                    backgroundColor: '#96A5A6',
-                    borderRadius: '50%',
-                    display: 'inline-block',
-                    marginRight: '5px',
-                  }}
+              <div className="flex items-center space-x-1">
+                <div>
+                  <span
+                    style={{
+                      height: '8px',
+                      width: '8px',
+                      backgroundColor: '#96A5A6',
+                      borderRadius: '50%',
+                      display: 'inline-block',
+                      marginRight: '5px',
+                    }}
+                  />
+                  <TcText text={option.ngu} variant="caption" />
+                </div>
+                <TcText
+                  text={`${
+                    option.username
+                      ? '@' + truncateCenter(option.username, 10)
+                      : ''
+                  }`}
+                  variant="caption"
+                  className="text-gray-500"
                 />
-                {option.ngu}
               </div>
             }
             size="small"

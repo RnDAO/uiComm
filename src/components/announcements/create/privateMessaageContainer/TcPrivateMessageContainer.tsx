@@ -100,14 +100,7 @@ function TcPrivateMessageContainer({
     if (message && privateMessage) {
       prepareAndSendData();
     }
-  }, [
-    message,
-    selectedRoles,
-    selectedUsers,
-    messageType,
-    privateMessage,
-    handlePrivateAnnouncements,
-  ]);
+  }, [message, selectedRoles, selectedUsers, messageType, privateMessage]);
 
   useEffect(() => {
     if (isEdit && privateAnnouncementsData) {

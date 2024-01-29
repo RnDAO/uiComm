@@ -159,7 +159,7 @@ function Index() {
 
       if (data) {
         showMessage('Announcement updated successfully', 'success');
-        location.replace('/announcements');
+        router.push('/announcements');
       }
     } catch (error) {
       showMessage('Failed to create announcement', 'error');
