@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import SEO from '../../../components/global/SEO';
 import { useRouter } from 'next/router';
-import TcPrivateMessaageContainer from '../../../components/announcements/create/privateMessaageContainer';
+import TcPrivateMessageContainer from '../../../components/announcements/create/privateMessaageContainer';
 import TcPublicMessaageContainer from '../../../components/announcements/create/publicMessageContainer';
 import TcScheduleAnnouncement from '../../../components/announcements/create/scheduleAnnouncement';
 import TcSelectPlatform from '../../../components/announcements/create/selectPlatform';
@@ -207,7 +207,7 @@ function Index() {
                     });
                   }}
                 />
-                <TcPrivateMessaageContainer
+                <TcPrivateMessageContainer
                   isEdit={true}
                   privateAnnouncementsData={privateSelectedAnnouncements}
                   handlePrivateAnnouncements={({
@@ -217,45 +217,44 @@ function Index() {
                   }) => {
                     if (!platformId) return;
 
-                    let rolePrivateAnnouncements;
-                    let userPrivateAnnouncements;
-
                     const commonData = {
                       platformId: platformId,
                       template: message,
                     };
 
+                    let privateAnnouncementsOptions: {
+                      roleIds: string[];
+                      userIds: string[];
+                    } = {
+                      roleIds: [],
+                      userIds: [],
+                    };
+
                     if (selectedRoles && selectedRoles.length > 0) {
                       setRoles(selectedRoles);
-
-                      rolePrivateAnnouncements = {
-                        ...commonData,
-                        options: {
-                          roleIds: selectedRoles.map((role) =>
-                            role.roleId.toString()
-                          ),
-                        },
-                      };
+                      privateAnnouncementsOptions.roleIds = selectedRoles.map(
+                        (role) => role.roleId.toString()
+                      );
                     }
 
                     if (selectedUsers && selectedUsers.length > 0) {
                       setUsers(selectedUsers);
-
-                      userPrivateAnnouncements = {
-                        ...commonData,
-                        options: {
-                          userIds: selectedUsers.map((user) => user.discordId),
-                        },
-                      };
+                      privateAnnouncementsOptions.userIds = selectedUsers.map(
+                        (user) => user.discordId
+                      );
                     }
 
-                    const announcements = [];
-                    if (rolePrivateAnnouncements)
-                      announcements.push(rolePrivateAnnouncements);
-                    if (userPrivateAnnouncements)
-                      announcements.push(userPrivateAnnouncements);
+                    if (
+                      privateAnnouncementsOptions.roleIds.length > 0 ||
+                      privateAnnouncementsOptions.userIds.length > 0
+                    ) {
+                      const combinedPrivateAnnouncement = {
+                        ...commonData,
+                        options: privateAnnouncementsOptions,
+                      };
 
-                    setPrivateAnnouncements(announcements);
+                      setPrivateAnnouncements([combinedPrivateAnnouncement]);
+                    }
                   }}
                 />
                 <TcScheduleAnnouncement
