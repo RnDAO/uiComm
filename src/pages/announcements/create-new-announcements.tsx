@@ -160,48 +160,46 @@ function CreateNewAnnouncements() {
                   }) => {
                     if (!platformId) return;
 
-                    let rolePrivateAnnouncements;
-                    let userPrivateAnnouncements;
-
                     const commonData = {
                       platformId: platformId,
                       template: message,
                     };
 
+                    let privateAnnouncementsOptions: {
+                      roleIds: string[];
+                      userIds: string[];
+                    } = {
+                      roleIds: [],
+                      userIds: [],
+                    };
+
                     if (selectedRoles && selectedRoles.length > 0) {
                       setRoles(selectedRoles);
-
-                      rolePrivateAnnouncements = {
-                        ...commonData,
-                        options: {
-                          roleIds: selectedRoles.map((role) =>
-                            role.roleId.toString()
-                          ),
-                        },
-                      };
+                      privateAnnouncementsOptions.roleIds = selectedRoles.map(
+                        (role) => role.roleId.toString()
+                      );
                     }
 
                     if (selectedUsers && selectedUsers.length > 0) {
                       setUsers(selectedUsers);
-
-                      userPrivateAnnouncements = {
-                        ...commonData,
-                        options: {
-                          userIds: selectedUsers.map((user) => user.discordId),
-                        },
-                      };
+                      privateAnnouncementsOptions.userIds = selectedUsers.map(
+                        (user) => user.discordId
+                      );
                     }
 
-                    const announcements = [];
-                    if (rolePrivateAnnouncements)
-                      announcements.push(rolePrivateAnnouncements);
-                    if (userPrivateAnnouncements)
-                      announcements.push(userPrivateAnnouncements);
+                    if (
+                      privateAnnouncementsOptions.roleIds.length > 0 ||
+                      privateAnnouncementsOptions.userIds.length > 0
+                    ) {
+                      const combinedPrivateAnnouncement = {
+                        ...commonData,
+                        options: privateAnnouncementsOptions,
+                      };
 
-                    setPrivateAnnouncements(announcements);
+                      setPrivateAnnouncements([combinedPrivateAnnouncement]);
+                    }
                   }}
                 />
-
                 <TcScheduleAnnouncement
                   handleSchaduledDate={({ selectedTime }) => {
                     setScheduledAt(selectedTime);
