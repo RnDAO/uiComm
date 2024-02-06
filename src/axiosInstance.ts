@@ -1,8 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { conf } from './configs/index';
 import { StorageService } from './services/StorageService';
-import * as Sentry from '@sentry/nextjs';
-
 import { toast } from 'react-toastify';
 import { IToken } from './utils/types';
 import { tokenRefreshEventEmitter } from './services/EventEmitter';
@@ -149,11 +147,6 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
-        Sentry.captureException(
-          new Error(
-            `API responded with status code ${error.response.status}: ${error.response.data.message}`
-          )
-        );
         break;
       case 440:
         StorageService.removeLocalStorage('user');
@@ -168,12 +161,6 @@ axiosInstance.interceptors.response.use(
           progress: 0,
         });
         window.location.href = '/';
-
-        Sentry.captureException(
-          new Error(
-            `API responded with status code ${error.response.status}: ${error.response.data.message}`
-          )
-        );
         break;
       case 500:
         toast.error(`${error.response.data.message}`, {
@@ -185,11 +172,6 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
-        Sentry.captureException(
-          new Error(
-            `API responded with status code ${error.response.status}: ${error.response.data.message}`
-          )
-        );
         break;
       case 590:
         toast.error(`${error.response.data.message}`, {
@@ -201,11 +183,6 @@ axiosInstance.interceptors.response.use(
           draggable: true,
           progress: 0,
         });
-        Sentry.captureException(
-          new Error(
-            `API responded with status code ${error.response.status}: ${error.response.data.message}`
-          )
-        );
         break;
 
       default:
