@@ -222,7 +222,7 @@ function Index() {
                     });
                   }}
                 />
-                <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
+                <div className="flex flex-row items-center space-x-3">
                   <TcIconContainer>
                     <MdOutlineAnnouncement size={20} />
                   </TcIconContainer>

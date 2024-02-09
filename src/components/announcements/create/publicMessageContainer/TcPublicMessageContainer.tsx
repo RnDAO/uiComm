@@ -102,7 +102,7 @@ function TcPublicMessageContainer({
   return (
     <div className="space-y-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
-        <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
+        <div className="flex flex-row items-center space-x-3">
           <TcIconContainer>
             <MdAnnouncement size={20} />
           </TcIconContainer>
