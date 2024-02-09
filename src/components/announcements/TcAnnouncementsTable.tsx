@@ -21,6 +21,7 @@ import { useSnackbar } from '../../context/SnackbarContext';
 import { MdModeEdit, MdDelete } from 'react-icons/md';
 import Loading from '../global/Loading';
 import { truncateCenter } from '../../helpers/helper';
+import moment from 'moment';
 
 interface Channel {
   channelId: string;
@@ -61,12 +62,14 @@ interface Announcement {
 interface AnnouncementsTableProps {
   announcements: Announcement[];
   isLoading: boolean;
+  selectedZone: string;
   handleRefreshList: () => void;
 }
 
 function TcAnnouncementsTable({
   announcements,
   isLoading,
+  selectedZone,
   handleRefreshList,
 }: AnnouncementsTableProps) {
   const { deleteAnnouncements } = useAppStore();
@@ -77,6 +80,13 @@ function TcAnnouncementsTable({
   const [selectedAnnouncementId, setSelectedAnnouncementId] = useState<
     string | null
   >(null);
+
+  const formatDateBasedOnTimezone = (
+    date: string | number | Date,
+    timezone: string
+  ) => {
+    return moment(date).tz(timezone).format('DD/MM/YYYY, h:mm:ss a');
+  };
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -278,7 +288,10 @@ function TcAnnouncementsTable({
         return (
           <div className="flex flex-row overflow-hidden whitespace-nowrap">
             <TcText
-              text={new Date(announcement.scheduledAt).toLocaleString()}
+              text={formatDateBasedOnTimezone(
+                announcement.scheduledAt,
+                selectedZone
+              )}
               variant="subtitle2"
             />
           </div>
