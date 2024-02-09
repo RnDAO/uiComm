@@ -145,7 +145,7 @@ function TcPublicMessageContainer({
             </div>
           </TcSelect>
         </FormControl>
-        <div className="flex flex-col space-x-1">
+        <div className="flex flex-col">
           <TcText text="Write message here:" variant="subtitle1" />
           <TcText
             text="Our bot will distribute the announcement through selected channels with the required access to share the designated message."

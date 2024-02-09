@@ -291,7 +291,12 @@ function Index() {
                   selectedRoles={roles}
                   selectedUsernames={users}
                   schaduledDate={scheduledAt || ''}
-                  isDisabled={!scheduledAt || !isDateValid}
+                  isDisabled={
+                    !scheduledAt ||
+                    !isDateValid ||
+                    publicAnnouncements?.template == '' ||
+                    publicAnnouncements?.options.channelIds?.length === 0
+                  }
                   handleCreateAnnouncements={(e) => handleEditAnnouncements(e)}
                 />
               </div>

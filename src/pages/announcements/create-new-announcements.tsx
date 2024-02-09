@@ -242,7 +242,12 @@ function CreateNewAnnouncements() {
                   <TcButton
                     text="Save as Draft"
                     variant="outlined"
-                    disabled={!scheduledAt}
+                    disabled={
+                      !scheduledAt ||
+                      !isDateValid ||
+                      publicAnnouncements?.template == '' ||
+                      publicAnnouncements?.options.channelIds?.length === 0
+                    }
                     sx={{
                       maxWidth: {
                         xs: '100%',
@@ -257,7 +262,12 @@ function CreateNewAnnouncements() {
                     selectedRoles={roles}
                     selectedUsernames={users}
                     schaduledDate={scheduledAt || ''}
-                    isDisabled={!scheduledAt || !isDateValid}
+                    isDisabled={
+                      !scheduledAt ||
+                      !isDateValid ||
+                      publicAnnouncements?.template == '' ||
+                      publicAnnouncements?.options.channelIds?.length === 0
+                    }
                     handleCreateAnnouncements={(e) =>
                       handleCreateAnnouncements(e)
                     }
