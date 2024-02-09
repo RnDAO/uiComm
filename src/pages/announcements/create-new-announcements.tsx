@@ -16,6 +16,12 @@ import { IRoles, IUser } from '../../utils/interfaces';
 import { useSnackbar } from '../../context/SnackbarContext';
 import { useRouter } from 'next/router';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import { FormControlLabel } from '@mui/material';
+import { MdOutlineAnnouncement } from 'react-icons/md';
+import TcIconContainer from '../../components/announcements/create/TcIconContainer';
+import TcIconWithTooltip from '../../components/shared/TcIconWithTooltip';
+import TcSwitch from '../../components/shared/TcSwitch';
+import TcText from '../../components/shared/TcText';
 
 export type CreateAnnouncementsPayloadDataOptions =
   | { channelIds: string[]; userIds?: string[]; roleIds?: string[] }
@@ -50,6 +56,7 @@ function CreateNewAnnouncements() {
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isDateValid, setIsDateValid] = useState<boolean>(true);
 
   const platformId = community?.platforms.find(
     (platform) => platform.disconnectedAt === null
@@ -134,6 +141,13 @@ function CreateNewAnnouncements() {
             <div className="flex flex-col justify-between p-4 md:px-10 min-h-[92dvh]">
               <div className="space-y-4">
                 <TcSelectPlatform isEdit={false} />
+                <TcScheduleAnnouncement
+                  handleSchaduledDate={({ selectedTime }) => {
+                    setScheduledAt(selectedTime);
+                  }}
+                  isDateValid={isDateValid}
+                  setIsDateValid={setIsDateValid}
+                />
                 <TcPublicMessageContainer
                   handlePublicAnnouncements={({
                     message,
@@ -152,7 +166,18 @@ function CreateNewAnnouncements() {
                     });
                   }}
                 />
-                <TcPrivateMessageContainer
+                <div className="flex flex-row items-center space-x-3">
+                  <TcIconContainer>
+                    <MdOutlineAnnouncement size={20} />
+                  </TcIconContainer>
+                  <TcText
+                    text="Smart Announcements"
+                    variant="body1"
+                    fontWeight="700"
+                  />
+                  <TcText text="Coming Soon..." variant="subtitle1" />
+                </div>
+                {/* <TcPrivateMessageContainer
                   handlePrivateAnnouncements={({
                     message,
                     selectedUsers,
@@ -199,12 +224,7 @@ function CreateNewAnnouncements() {
                       setPrivateAnnouncements([combinedPrivateAnnouncement]);
                     }
                   }}
-                />
-                <TcScheduleAnnouncement
-                  handleSchaduledDate={({ selectedTime }) => {
-                    setScheduledAt(selectedTime);
-                  }}
-                />
+                /> */}
               </div>
               <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-8">
                 <TcButton
@@ -237,7 +257,7 @@ function CreateNewAnnouncements() {
                     selectedRoles={roles}
                     selectedUsernames={users}
                     schaduledDate={scheduledAt || ''}
-                    isDisabled={!scheduledAt}
+                    isDisabled={!scheduledAt || !isDateValid}
                     handleCreateAnnouncements={(e) =>
                       handleCreateAnnouncements(e)
                     }

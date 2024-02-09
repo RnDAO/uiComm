@@ -16,6 +16,9 @@ import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
 import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
 import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
+import { MdOutlineAnnouncement } from 'react-icons/md';
+import TcIconContainer from '../../../components/announcements/create/TcIconContainer';
+import TcText from '../../../components/shared/TcText';
 
 export interface DiscordChannel {
   channelId: string;
@@ -69,6 +72,7 @@ function Index() {
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isDateValid, setIsDateValid] = useState<boolean>(true);
 
   const platformId = community?.platforms.find(
     (platform) => platform.disconnectedAt === null
@@ -160,6 +164,8 @@ function Index() {
       if (data) {
         showMessage('Announcement updated successfully', 'success');
         router.push('/announcements');
+      } else {
+        fetchPlatformChannels();
       }
     } catch (error) {
       showMessage('Failed to create announcement', 'error');
@@ -187,6 +193,15 @@ function Index() {
             <div className="flex flex-col justify-between p-4 md:p-10 min-h-[92dvh]">
               <div className="space-y-4">
                 <TcSelectPlatform isEdit={true} />
+                <TcScheduleAnnouncement
+                  isEdit={true}
+                  preSelectedTime={scheduledAt}
+                  handleSchaduledDate={({ selectedTime }) => {
+                    setScheduledAt(selectedTime);
+                  }}
+                  isDateValid={isDateValid}
+                  setIsDateValid={setIsDateValid}
+                />
                 <TcPublicMessaageContainer
                   isEdit={true}
                   publicAnnouncementsData={publicSelectedAnnouncements}
@@ -207,7 +222,18 @@ function Index() {
                     });
                   }}
                 />
-                <TcPrivateMessageContainer
+                <div className="flex flex-row items-center space-x-3">
+                  <TcIconContainer>
+                    <MdOutlineAnnouncement size={20} />
+                  </TcIconContainer>
+                  <TcText
+                    text="Smart Announcements"
+                    variant="body1"
+                    fontWeight="700"
+                  />
+                  <TcText text="Coming Soon..." variant="subtitle1" />
+                </div>
+                {/* <TcPrivateMessageContainer
                   isEdit={true}
                   privateAnnouncementsData={privateSelectedAnnouncements}
                   handlePrivateAnnouncements={({
@@ -256,14 +282,7 @@ function Index() {
                       setPrivateAnnouncements([combinedPrivateAnnouncement]);
                     }
                   }}
-                />
-                <TcScheduleAnnouncement
-                  isEdit={true}
-                  preSelectedTime={scheduledAt}
-                  handleSchaduledDate={({ selectedTime }) => {
-                    setScheduledAt(selectedTime);
-                  }}
-                />
+                /> */}
               </div>
               <div className="flex flex-col md:flex-row justify-end items-center space-y-3 pt-6 md:pt-12">
                 <TcConfirmSchaduledAnnouncementsDialog
@@ -272,7 +291,7 @@ function Index() {
                   selectedRoles={roles}
                   selectedUsernames={users}
                   schaduledDate={scheduledAt || ''}
-                  isDisabled={!scheduledAt}
+                  isDisabled={!scheduledAt || !isDateValid}
                   handleCreateAnnouncements={(e) => handleEditAnnouncements(e)}
                 />
               </div>

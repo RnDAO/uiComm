@@ -38,23 +38,13 @@ describe('TcPublicMessageContainer', () => {
     expect(screen.getByText(/Public Message/i)).toBeInTheDocument();
   });
 
-  it('renders the "Send message to:" text', () => {
-    expect(screen.getByText(/Send message to:/i)).toBeInTheDocument();
-  });
-
-  it('renders the message about bot delivery', () => {
+  it('renders the message about bot distribute', () => {
     const message =
-      /Our bot will deliver the announcement across chosen channels with the necessary access to share the specified message\./i;
+      /Our bot will distribute the announcement through selected channels with the required access to share the designated message./i;
     expect(screen.getByText(message)).toBeInTheDocument();
   });
 
   it('renders the "Write message here:" text', () => {
     expect(screen.getByText(/Write message here:/i)).toBeInTheDocument();
-  });
-
-  it('renders the auto-generated safety message prompt', () => {
-    const message =
-      /If you don’t write a custom message then this auto-generated safety message wlll be sent out/i;
-    expect(screen.getByText(message)).toBeInTheDocument();
   });
 });

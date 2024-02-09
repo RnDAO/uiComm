@@ -5,7 +5,7 @@ import TcConfirmSchaduledAnnouncementsDialog from './TcConfirmSchaduledAnnouncem
 const mockHandleCreateAnnouncements = jest.fn();
 
 const defaultProps = {
-  buttonLabel: 'Schedule Announcement',
+  buttonLabel: 'Select Date for Announcement',
   selectedChannels: [{ id: '1', label: 'General' }],
   schaduledDate: '2024-01-20T12:00:00',
   isDisabled: false,
@@ -17,7 +17,7 @@ test('renders the dialog with button and calls handleCreateAnnouncements when co
     <TcConfirmSchaduledAnnouncementsDialog {...defaultProps} />
   );
 
-  const button = getByText('Schedule Announcement');
+  const button = getByText('Select Date for Announcement');
   expect(button).toBeInTheDocument();
 
   fireEvent.click(button);

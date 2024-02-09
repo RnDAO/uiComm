@@ -5,22 +5,28 @@ import TcText from '../../../shared/TcText';
 import TcButton from '../../../shared/TcButton';
 import moment from 'moment';
 import TcDateTimePopover from './TcDateTimePopover';
+import { validateDateTime } from '../../../../helpers/helper';
 
 export interface ITcScheduleAnnouncementProps {
   isEdit?: boolean;
   preSelectedTime?: string;
   handleSchaduledDate: ({ selectedTime }: { selectedTime: string }) => void;
+  isDateValid: boolean;
+  setIsDateValid: (isValid: boolean) => void;
 }
 
 function TcScheduleAnnouncement({
   isEdit = false,
   preSelectedTime,
   handleSchaduledDate,
+  isDateValid,
+  setIsDateValid,
 }: ITcScheduleAnnouncementProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+
   const [dateTimeDisplay, setDateTimeDisplay] = useState<string>(
     'Select Date for Announcement'
   );
@@ -40,6 +46,8 @@ function TcScheduleAnnouncement({
     if (date) {
       setSelectedDate(date);
       setActiveTab(1);
+      const isValid = validateDateTime(date, selectedTime);
+      setIsDateValid(isValid);
     }
   };
 
@@ -54,6 +62,8 @@ function TcScheduleAnnouncement({
         });
         setDateTimeDisplay(fullDateTime.format('D MMMM YYYY @ hh:mm A'));
       }
+      const isValid = validateDateTime(selectedDate, time);
+      setIsDateValid(isValid);
     }
   };
 
@@ -74,26 +84,23 @@ function TcScheduleAnnouncement({
 
   useEffect(() => {
     if (isEdit && preSelectedTime) {
-      const date = moment(preSelectedTime);
-
-      setSelectedDate(date.toDate());
-      setSelectedTime(date.toDate());
-      setDateTimeDisplay(date.format('D MMMM YYYY @ hh:mm A'));
+      const dateTime = moment(preSelectedTime);
+      const date = dateTime.toDate();
+      setSelectedDate(date);
+      setSelectedTime(date);
+      setDateTimeDisplay(dateTime.format('D MMMM YYYY @ hh:mm A'));
+      setIsDateValid(validateDateTime(date, date));
     }
   }, [isEdit, preSelectedTime]);
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
+      <div className="flex flex-col md:flex-row md:justify-start md:space-x-3 md:items-center space-y-3 md:space-y-0">
         <div className="flex items-center space-x-3">
           <TcIconContainer>
-            <MdCalendarMonth size={20} />
+            <MdCalendarMonth size={20} data-testid="MdCalendarMonth" />
           </TcIconContainer>
-          <TcText
-            text="Schedule Announcement"
-            variant="body1"
-            fontWeight="bold"
-          />
+          <TcText text="Select Date" variant="body1" fontWeight="bold" />
         </div>
         <TcButton
           text={dateTimeDisplay}
@@ -104,6 +111,13 @@ function TcScheduleAnnouncement({
           aria-describedby={id}
           onClick={handleOpen}
         />
+        {!isDateValid && (
+          <TcText
+            text="Selected Date should be greater that now."
+            variant="caption"
+            className="text-red-500"
+          />
+        )}
         <TcDateTimePopover
           open={open}
           anchorEl={anchorEl}

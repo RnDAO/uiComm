@@ -208,6 +208,7 @@ function Index() {
                       }
                       handleRefreshList={fetchData}
                       isLoading={loading}
+                      selectedZone={selectedZone}
                     />
                   </div>
                 ) : (

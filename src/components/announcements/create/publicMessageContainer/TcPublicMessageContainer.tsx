@@ -67,9 +67,7 @@ function TcPublicMessageContainer({
     setSelectedChannels(flattenChannels(channels));
   }, [channels, selectedSubChannels]);
 
-  const [message, setMessage] = useState<string>(
-    `This message was sent to you because you’re part of ${community?.name}. To verify the legitimacy of this message, see the official announcement here ⁠👥together-crew⁠ and verify the bot ID If you don’t want to receive any more private message from ${community?.name}, please adjust your settings here: https://app.togethercrew.com/community-settings/`
-  );
+  const [message, setMessage] = useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -94,6 +92,7 @@ function TcPublicMessageContainer({
             label: channel.name,
           })
         );
+
         setSelectedChannels(formattedChannels);
         setMessage(publicAnnouncementsData.template);
       }
@@ -103,7 +102,7 @@ function TcPublicMessageContainer({
   return (
     <div className="space-y-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
-        <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
+        <div className="flex flex-row items-center space-x-3">
           <TcIconContainer>
             <MdAnnouncement size={20} />
           </TcIconContainer>
@@ -116,14 +115,14 @@ function TcPublicMessageContainer({
         />
       </div>
       <div className="space-y-1.5">
-        <div>
+        {/* <div>
           <TcText text="Send message to:" variant="subtitle1" />
           <TcText
             text="Our bot will deliver the announcement across chosen channels with the necessary access to share the specified message."
             variant="caption"
             className="text-gray-400"
           />
-        </div>
+        </div> */}
         <FormControl variant="filled" fullWidth size="medium">
           <InputLabel id="select-standard-label">Select Channels</InputLabel>
           <TcSelect
@@ -146,10 +145,10 @@ function TcPublicMessageContainer({
             </div>
           </TcSelect>
         </FormControl>
-        <div className="flex items-center space-x-1">
+        <div className="flex flex-col space-x-1">
           <TcText text="Write message here:" variant="subtitle1" />
           <TcText
-            text="If you don’t write a custom message then this auto-generated safety message wlll be sent out"
+            text="Our bot will distribute the announcement through selected channels with the required access to share the designated message."
             variant="caption"
             className="text-gray-400"
           />
