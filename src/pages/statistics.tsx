@@ -19,12 +19,25 @@ import { useToken } from '../context/TokenContext';
 import EmptyState from '../components/global/EmptyState';
 import emptyState from '../assets/svg/empty-state.svg';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const Statistics = () => {
   const { community } = useToken();
+  const router = useRouter();
+
   const platformId = community?.platforms.find(
     (platform) => platform.disconnectedAt === null
   )?.id;
+
+  const tabMap: { [key: string]: string } = {
+    activeMembers: '1',
+    disengagedMembers: '2',
+  };
+
+  const reverseTabMap: { [key: string]: string } = {
+    '1': 'activeMembers',
+    '2': 'disengagedMembers',
+  };
 
   const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);
@@ -40,13 +53,36 @@ const Statistics = () => {
     fetchOnboardingMembers,
   } = useAppStore();
 
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState<string>(
+    tabMap[router.query.tab as string] || '1'
+  );
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    const handleRouteChange = () => {
+      setActiveTab(tabMap[router.query.tab as string] || '1');
+    };
+
+    handleRouteChange();
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.isReady, router.query.tab]);
 
   const handleTabChange = (
     event: React.SyntheticEvent,
     newValue: string
   ): void => {
-    setActiveTab(newValue);
+    if (newValue in reverseTabMap) {
+      const urlTabIdentifier = reverseTabMap[newValue];
+      router.push(`/statistics?tab=${urlTabIdentifier}`, undefined, {
+        shallow: true,
+      });
+    }
   };
 
   useEffect(() => {
