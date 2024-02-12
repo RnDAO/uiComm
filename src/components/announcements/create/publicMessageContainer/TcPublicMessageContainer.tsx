@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TcText from '../../../shared/TcText';
-import { MdAnnouncement, MdExpandMore } from 'react-icons/md';
+import { MdAnnouncement } from 'react-icons/md';
 import TcIconContainer from '../TcIconContainer';
 import TcSelect from '../../../shared/TcSelect';
-import { FormControl, InputLabel } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel } from '@mui/material';
 import TcInput from '../../../shared/TcInput';
 import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
 import { ChannelContext } from '../../../../context/ChannelContext';
@@ -11,7 +11,7 @@ import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatfor
 import { IGuildChannels } from '../../../../utils/types';
 import { DiscordData } from '../../../../pages/announcements/edit-announcements';
 import TcPermissionHints from '../../../global/TcPermissionHints';
-import { useToken } from '../../../../context/TokenContext';
+import TcButton from '../../../shared/TcButton';
 
 export interface FlattenedChannel {
   id: string;
@@ -26,7 +26,7 @@ export interface ITcPublicMessageContainerProps {
     selectedChannels,
   }: {
     message: string;
-    selectedChannels: FlattenedChannel[];
+    selectedChannels: FlattenedChannel[] | [];
   }) => void;
 }
 
@@ -38,7 +38,9 @@ function TcPublicMessageContainer({
   const channelContext = useContext(ChannelContext);
 
   const { channels, selectedSubChannels } = channelContext;
-  const { community } = useToken();
+  const [hasInteracted, setHasInteracted] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
 
   const flattenChannels = (channels: IGuildChannels[]): FlattenedChannel[] => {
     let flattened: FlattenedChannel[] = [];
@@ -62,6 +64,8 @@ function TcPublicMessageContainer({
   const [selectedChannels, setSelectedChannels] = useState<FlattenedChannel[]>(
     []
   );
+  const [confirmedSelectedChannels, setConfirmedSelectedChannels] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setSelectedChannels(flattenChannels(channels));
@@ -77,8 +81,12 @@ function TcPublicMessageContainer({
     selectedChannels.length > 0 && message.length > 0;
 
   useEffect(() => {
-    handlePublicAnnouncements({ message, selectedChannels });
-  }, [message, selectedChannels]);
+    if (confirmedSelectedChannels) {
+      handlePublicAnnouncements({ message, selectedChannels });
+    } else {
+      handlePublicAnnouncements({ message, selectedChannels: [] });
+    }
+  }, [message, selectedChannels, confirmedSelectedChannels]);
 
   useEffect(() => {
     if (isEdit && publicAnnouncementsData) {
@@ -92,12 +100,23 @@ function TcPublicMessageContainer({
             label: channel.name,
           })
         );
-
+        setConfirmedSelectedChannels(true);
         setSelectedChannels(formattedChannels);
         setMessage(publicAnnouncementsData.template);
       }
     }
   }, [isEdit, publicAnnouncementsData]);
+
+  const handleSaveChannels = () => {
+    setConfirmedSelectedChannels(true);
+    setIsDropdownVisible(false);
+    setShowError(hasInteracted && selectedChannels.length === 0);
+  };
+
+  const toggleDropdownVisibility = () => {
+    setHasInteracted(true);
+    setIsDropdownVisible(!isDropdownVisible);
+  };
 
   return (
     <div className="space-y-3">
@@ -115,14 +134,6 @@ function TcPublicMessageContainer({
         />
       </div>
       <div className="space-y-1.5">
-        {/* <div>
-          <TcText text="Send message to:" variant="subtitle1" />
-          <TcText
-            text="Our bot will deliver the announcement across chosen channels with the necessary access to share the specified message."
-            variant="caption"
-            className="text-gray-400"
-          />
-        </div> */}
         <FormControl variant="filled" fullWidth size="medium">
           <InputLabel id="select-standard-label">Select Channels</InputLabel>
           <TcSelect
@@ -131,6 +142,8 @@ function TcPublicMessageContainer({
             id="select-standard-label"
             label="Platform"
             value={selectedChannels}
+            open={isDropdownVisible}
+            onOpen={toggleDropdownVisibility}
             renderValue={(selected) =>
               (selected as FlattenedChannel[])
                 .map((channel) => `#${channel.label}`)
@@ -142,8 +155,25 @@ function TcPublicMessageContainer({
                 <TcPlatformChannelList refreshTrigger={false} />
               </div>
               <TcPermissionHints />
+              <div className="flex justify-end">
+                <TcButton
+                  text="Save"
+                  variant="contained"
+                  sx={{ minWidth: '12rem' }}
+                  onClick={handleSaveChannels}
+                />
+              </div>
             </div>
           </TcSelect>
+          {showError && (
+            <FormHelperText>
+              <TcText
+                text="Please select at least one channel."
+                variant="caption"
+                className="text-red-500"
+              />
+            </FormHelperText>
+          )}
         </FormControl>
         <div className="flex flex-col">
           <TcText text="Write message here:" variant="subtitle1" />
