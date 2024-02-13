@@ -165,6 +165,7 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
             <TcButton
               text="Confirm Changes"
               variant="contained"
+              sx={{ width: '15rem', padding: '0.5rem' }}
               onClick={handlePatchCommunity}
             />
           </div>

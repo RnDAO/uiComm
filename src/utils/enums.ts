@@ -14,4 +14,17 @@ export enum StatusCode {
   DISCORD_AUTHORIZATION_FAILURE_FROM_SETTINGS = '1005',
   TWITTER_AUTHORIZATION_SUCCESSFUL = '1006',
   TWITTER_AUTHORIZATION_FAILURE = '1007',
+  ANNOUNCEMENTS_PERMISSION_SUCCESS = '1008',
+  ANNOUNCEMENTS_PERMISSION_FAILURE = '1009',
+}
+
+export enum Permission {
+  AttachFiles = 'Attach Files',
+  CreatePrivateThreads = 'Create Private Threads',
+  CreatePublicThreads = 'Create Public Threads',
+  EmbedLinks = 'Embed Links',
+  MentionEveryone = 'Mention Everyone',
+  SendMessages = 'Send Messages',
+  SendMessagesInThreads = 'Send Messages In Threads',
+  ViewChannel = 'View Channel',
 }

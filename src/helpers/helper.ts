@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { SelectedSubChannels } from '../context/ChannelContext';
 import { IDecodedToken } from '../utils/interfaces';
 import { IUser } from '../utils/types';
@@ -119,4 +120,17 @@ export function hexToRGBA(hex: string, opacity: number): string {
   }
 
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+export function validateDateTime(date: Date | null, time: Date | null) {
+  if (date && time) {
+    const selectedDateTime = moment(date).set({
+      hour: time.getHours(),
+      minute: time.getMinutes(),
+      second: 0,
+    });
+
+    return selectedDateTime.isAfter(moment());
+  }
+  return false;
 }

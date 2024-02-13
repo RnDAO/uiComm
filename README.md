@@ -56,7 +56,6 @@ The project uses a variety of dependencies for different purposes:
 - **[Material-UI](https://mui.com/) and [Emotion](https://emotion.sh/)**: For UI components and styling.
 - **[Highcharts](https://www.highcharts.com/)**: For data visualization.
 - **[Axios](https://axios-http.com/)**: For making HTTP requests.
-- **[Sentry](https://sentry.io/welcome/)**: For error tracking and monitoring.
 - **[Zustand](https://github.com/pmndrs/zustand)**: For state management.
 
 And many others that enhance the functionality and performance of the application.

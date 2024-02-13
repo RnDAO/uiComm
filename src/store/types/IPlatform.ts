@@ -13,8 +13,9 @@ export interface IRetrivePlatformRolesOrChannels {
   limit?: number;
   sortBy?: string;
   name?: string;
+  ngu?: string;
   platformId: string;
-  property: 'channel' | 'role';
+  property: 'channel' | 'role' | 'guildMember';
 }
 
 export interface IDeletePlatformProps {
@@ -29,6 +30,12 @@ export interface IPatchPlatformInput {
     period: string;
     analyzerStartedAt: string;
   };
+}
+
+export interface IGrantWritePermissionsProps {
+  platformType: 'discord' | 'telegram';
+  moduleType: 'Announcements';
+  id: string;
 }
 
 export default interface IPlatfrom {
@@ -56,4 +63,9 @@ export default interface IPlatfrom {
     page,
     limit,
   }: IRetrivePlatformRolesOrChannels) => void;
+  grantWritePermissions: ({
+    platformType,
+    moduleType,
+    id,
+  }: IGrantWritePermissionsProps) => void;
 }

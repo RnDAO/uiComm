@@ -22,7 +22,7 @@ import React from 'react';
 import { Link, LinkProps as MuiLinkProps } from '@mui/material';
 
 interface CustomLinkProps extends MuiLinkProps {
-  to: string;
+  to?: string;
 }
 
 function TcLink({ children, to, ...props }: CustomLinkProps) {

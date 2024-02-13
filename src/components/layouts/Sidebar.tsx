@@ -11,6 +11,7 @@ import { conf } from '../../configs/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
+import { MdOutlineAnnouncement } from 'react-icons/md';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -61,6 +62,15 @@ const Sidebar = () => {
       ),
     },
     {
+      name: 'Smart Announcements',
+      path: '/announcements',
+      icon: (
+        <MdOutlineAnnouncement
+          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
+        />
+      ),
+    },
+    {
       name: 'Community Settings',
       path: '/community-settings',
       icon: (
@@ -83,7 +93,7 @@ const Sidebar = () => {
         >
           {el.icon}
         </div>
-        <p className="text-center text-sm">{el.name}</p>
+        <p className="text-center text-sm break-words">{el.name}</p>
       </Link>
     </li>
   ));
