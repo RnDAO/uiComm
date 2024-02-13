@@ -1,7 +1,11 @@
 import * as amplitude from '@amplitude/analytics-browser';
 import jwt_decode from 'jwt-decode';
 import { StorageService } from '../services/StorageService';
-import { IDecodedToken, ITrackEventParams } from '../utils/interfaces';
+import {
+  IDecodedToken,
+  IDiscordModifiedCommunity,
+  ITrackEventParams,
+} from '../utils/interfaces';
 import { IUser } from '../utils/types';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -44,19 +48,31 @@ export function usePageViewTracking() {
   const router = useRouter();
 
   useEffect(() => {
+    const community =
+      StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
+
     function trackPageView(url: string) {
-      amplitude.logEvent('PAGE_VIEW', { path: url });
+      const queryParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(queryParams.entries());
+
+      amplitude.logEvent('PAGE_VIEW', {
+        path: url,
+        communityId: community?.id,
+        communityName: community?.name,
+        ...params,
+      });
     }
 
-    // Track the current page when the component mounts
-    trackPageView(window.location.pathname);
+    trackPageView(window.location.pathname + window.location.search);
 
-    // Track subsequent page views on route change
-    router.events.on('routeChangeComplete', trackPageView);
+    const handleRouteChange = (url: string) => {
+      trackPageView(url);
+    };
 
-    // Cleanup event listener on unmount
+    router.events.on('routeChangeComplete', handleRouteChange);
+
     return () => {
-      router.events.off('routeChangeComplete', trackPageView);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 }
