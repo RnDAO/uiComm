@@ -30,6 +30,7 @@ module.exports = {
     'react/no-children-prop': 'off',
     'no-prototype-builtins': 'warn',
     'no-case-declarations': 'warn',
+    'react-hooks/exhaustive-deps': 'off',
 
     // Disable rule for unused vars but enable warning for unused imports and vars with specific patterns
     '@typescript-eslint/no-unused-vars': 'off',
