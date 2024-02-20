@@ -75,7 +75,7 @@ function Tac() {
                     <>
                       {'I understand and agree to the '}
                       <TcLink
-                        to="https://www.togethercrew.com/privacy-and-terms"
+                        to='https://www.togethercrew.com/privacy-and-terms'
                         color='primary'
                         fontWeight='bold'
                       >
@@ -83,7 +83,7 @@ function Tac() {
                       </TcLink>
                     </>
                   }
-                  variant="subtitle2"
+                  variant='subtitle2'
                 />
               }
               control={
@@ -95,7 +95,7 @@ function Tac() {
             />
             <div className='block py-5'>
               <TcButton
-                text="Continue"
+                text='Continue'
                 variant='contained'
                 sx={{ width: '15rem', padding: '0.5rem' }}
                 disabled={!acceptPrivacyAndPolicy}

@@ -36,7 +36,7 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
           key={item.label}
           href={item.path || '#'}
           onClick={(event) => handleClick(event, item.path || '')}
-          underline="none"
+          underline='none'
           className={`${
             index === items.length - 1
               ? 'pointer-events-none text-black'

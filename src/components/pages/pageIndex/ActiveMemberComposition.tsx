@@ -120,7 +120,7 @@ const ActiveMemberComposition = () => {
         </div>
         <div className='mb-3 text-center'>
           <TcButton
-            text="Show more"
+            text='Show more'
             variant='contained'
             onClick={() => {
               router.push('/statistics');

@@ -10,7 +10,7 @@ import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteract
 import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 
-function Dashboard(): JSX.Element {
+function Index(): JSX.Element {
   const { community } = useToken();
 
   if (!community || community?.platforms?.length === 0) {
@@ -41,6 +41,6 @@ function Dashboard(): JSX.Element {
   );
 }
 
-Dashboard.pageLayout = defaultLayout;
+Index.pageLayout = defaultLayout;
 
-export default Dashboard;
+export default Index;

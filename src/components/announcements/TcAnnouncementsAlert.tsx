@@ -39,7 +39,7 @@ function TcAnnouncementsAlert() {
     >
       <TcAlert
         variant='filled'
-        className="bg-error-500"
+        className='bg-error-500'
         icon={false}
         sx={{
           display: 'flex',
@@ -50,9 +50,9 @@ function TcAnnouncementsAlert() {
       >
         <div className='flex flex-col items-center justify-center p-0 md:flex-row md:space-x-3'>
           <TcText
-            text="Announcements needs write access at the server-level (i.e. Send Message, Send Messages in Threads, Create Public Threads, Create Private Threads, etc)"
-            color="white"
-            variant="subtitle1"
+            text='Announcements needs write access at the server-level (i.e. Send Message, Send Messages in Threads, Create Public Threads, Create Private Threads, etc)'
+            color='white'
+            variant='subtitle1'
           />
           <TcButton
             text='Update Permissions'

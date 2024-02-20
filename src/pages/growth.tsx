@@ -14,7 +14,7 @@ import useAppStore from '../store/useStore';
 import { IDataTwitter } from '../utils/interfaces';
 import { IUser } from '../utils/types';
 
-function growth() {
+function Growth() {
   const user = StorageService.readLocalStorage<IUser>('user');
 
   const [data, setData] = useState<IDataTwitter>({
@@ -132,11 +132,7 @@ function growth() {
         <TcBoxContainer
           titleContainerChildren={
             <div className='bg-info px-10 py-3 text-white'>
-              <TcText
-                text="Twitter analysis"
-                variant="h4"
-                fontWeight='bold'
-              />
+              <TcText text='Twitter analysis' variant='h4' fontWeight='bold' />
             </div>
           }
           contentContainerChildren={
@@ -153,6 +149,6 @@ function growth() {
   );
 }
 
-growth.pageLayout = defaultLayout;
+Growth.pageLayout = defaultLayout;
 
-export default growth;
+export default Growth;

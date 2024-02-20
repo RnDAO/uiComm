@@ -123,7 +123,7 @@ function TcConfirmDeleteCommunity({
             />
             <div className='flex justify-between'>
               <TcButton
-                text="Cancel"
+                text='Cancel'
                 variant='outlined'
                 onClick={() => setOpenDialog(false)}
               />
@@ -157,7 +157,7 @@ function TcConfirmDeleteCommunity({
             </div>
             <div className='flex justify-between'>
               <TcButton
-                text="Cancel"
+                text='Cancel'
                 variant='outlined'
                 onClick={() => setOpenDialog(false)}
               />

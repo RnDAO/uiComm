@@ -93,12 +93,12 @@ function TcCommunityIntegrationsDialog() {
             <div className='px-16 pb-12 text-left'>
               <div className='space-y-4 pt-2'>
                 <TcText
-                  text="Choose date period for data analysis"
+                  text='Choose date period for data analysis'
                   variant='body1'
                   fontWeight='bold'
                 />
                 <TcText
-                  text="You will be able to change date period and selected channels in the future."
+                  text='You will be able to change date period and selected channels in the future.'
                   variant='body2'
                 />
                 <TcPeriodRange
@@ -110,7 +110,7 @@ function TcCommunityIntegrationsDialog() {
               </div>
               <div className='flex justify-center pt-12 pb-4'>
                 <TcButton
-                  text="Continue"
+                  text='Continue'
                   variant='contained'
                   onClick={handlePatchPlatform}
                 />

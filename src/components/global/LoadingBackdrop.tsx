@@ -11,7 +11,7 @@ export default function SimpleBackdrop() {
         top: '-4rem',
       }}
     >
-      <CircularProgress color='inherit' size="80px" />
+      <CircularProgress color='inherit' size='80px' />
     </Backdrop>
   );
 }

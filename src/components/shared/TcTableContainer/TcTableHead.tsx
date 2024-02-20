@@ -1,4 +1,4 @@
-import {TableHead, TableHeadProps } from '@mui/material';
+import { TableHead, TableHeadProps } from '@mui/material';
 import React from 'react';
 
 import TcTableRow from './TcTableRow';

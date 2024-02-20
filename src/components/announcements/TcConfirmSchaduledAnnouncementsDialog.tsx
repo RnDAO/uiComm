@@ -81,7 +81,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
                 <div className='flex items-center space-x-1'>
                   <FaDiscord size={20} className='text-gray-500' />
                   <TcText
-                    text="Discord announcements scheduled for:"
+                    text='Discord announcements scheduled for:'
                     variant='body2'
                     className='text-left'
                   />
@@ -89,7 +89,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
                 <div className='flex flex-col'>
                   <div className='flex items-center justify-between'>
                     <TcText
-                      text="Public Message to:"
+                      text='Public Message to:'
                       fontWeight={500}
                       variant='subtitle2'
                       className='text-left text-gray-400'
@@ -111,7 +111,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
                   <div className='flex flex-col'>
                     <div className='flex items-center justify-between'>
                       <TcText
-                        text="Private Message to these user(s):"
+                        text='Private Message to these user(s):'
                         fontWeight={500}
                         variant='subtitle2'
                         className='text-left text-gray-400'
@@ -136,7 +136,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
                   <div className='flex flex-col'>
                     <div className='flex items-center justify-between'>
                       <TcText
-                        text="Private Message to these role(s):"
+                        text='Private Message to these role(s):'
                         fontWeight={500}
                         variant='subtitle2'
                         className='text-left text-gray-400'
@@ -158,7 +158,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
               </div>
               <div className='w-full py-6'>
                 <TcButton
-                  text="Confirm"
+                  text='Confirm'
                   variant='contained'
                   onClick={() => {
                     setConfirmSchadulerDialog(false);

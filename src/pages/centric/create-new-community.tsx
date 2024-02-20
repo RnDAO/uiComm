@@ -46,7 +46,7 @@ function CreateNewCommunity() {
       className='min-h-[37.5rem] rounded p-4 md:p-16'
       contentContainerChildren={
         <div className='space-y-8 pt-10'>
-          <TcText text='Create a new community account' variant="h4" />
+          <TcText text='Create a new community account' variant='h4' />
           <div className='space-y-2'>
             <TcText
               className='text-left md:text-center'
@@ -69,7 +69,7 @@ function CreateNewCommunity() {
                   <>
                     {'I understand and agree to the '}
                     <TcLink
-                      to="https://www.togethercrew.com/privacy-and-terms"
+                      to='https://www.togethercrew.com/privacy-and-terms'
                       color='primary'
                       fontWeight='bold'
                     >
@@ -77,7 +77,7 @@ function CreateNewCommunity() {
                     </TcLink>
                     {' and '}
                     <TcLink
-                      to="https://www.togethercrew.com/privacy-and-terms"
+                      to='https://www.togethercrew.com/privacy-and-terms'
                       color='primary'
                       fontWeight='bold'
                     >
@@ -85,7 +85,7 @@ function CreateNewCommunity() {
                     </TcLink>
                   </>
                 }
-                variant="subtitle2"
+                variant='subtitle2'
               />
             }
             control={

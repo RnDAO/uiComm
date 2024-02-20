@@ -1,4 +1,4 @@
-import { NextComponentType,NextPageContext } from 'next';
+import { NextComponentType, NextPageContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -56,16 +56,16 @@ const ErrorPage: NextComponentType<
           </div>
           <div className='flex flex-col justify-between space-y-2 md:flex-row md:space-y-0 md:space-x-2'>
             <TcButton
-              text="Community Insights"
+              text='Community Insights'
               variant='outlined'
               onClick={() => router.push('/')}
               className='py-2 md:w-1/2'
             />
             <TcButton
               onClick={() => router.push('/centric')}
-              classes="text-black"
+              classes='text-black'
               variant='outlined'
-              text="Connect your community"
+              text='Connect your community'
               className='py-2 md:w-1/2'
             />
           </div>

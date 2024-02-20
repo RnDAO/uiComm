@@ -10,7 +10,7 @@ import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
 import { defaultLayout } from '../../layouts/defaultLayout';
 
-function index() {
+function Index() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [showDialog, setShowDialog] = useState<boolean>(false);
@@ -53,7 +53,7 @@ function index() {
         <TcBoxContainer
           contentContainerChildren={
             <div className='space-y-4 px-4 pt-4 pb-[4rem] md:px-10'>
-              <TcText text='Community Settings' variant="h5" />
+              <TcText text='Community Settings' variant='h5' />
               <div className='space-y-2'>
                 <TcSwitchCommunity />
                 <TcCommunityIntegrations />
@@ -73,6 +73,6 @@ function index() {
   );
 }
 
-index.pageLayout = defaultLayout;
+Index.pageLayout = defaultLayout;
 
-export default index;
+export default Index;

@@ -372,7 +372,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       <List>
                         <ListItem
                           button
-                          key="desc"
+                          key='desc'
                           onClick={() => handleSortOptionClick('desc')}
                           selected={selectedSortOption === 'desc'}
                         >
@@ -380,7 +380,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         </ListItem>
                         <ListItem
                           button
-                          key="asc"
+                          key='asc'
                           onClick={() => handleSortOptionClick('asc')}
                           selected={selectedSortOption === 'asc'}
                         >
@@ -394,7 +394,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     <span>Name</span>
                     <TextField
                       variant='standard'
-                      placeholder="Search member"
+                      placeholder='Search member'
                       InputProps={{
                         disableUnderline: true,
                         startAdornment: <MdSearch color='disabled' size={25} />,

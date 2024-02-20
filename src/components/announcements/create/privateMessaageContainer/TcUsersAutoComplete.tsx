@@ -162,7 +162,7 @@ function TcUsersAutoComplete({
     <TcAutocomplete
       options={fetchedUsers.results}
       getOptionLabel={(option) => option.ngu}
-      label="Select User(s)"
+      label='Select User(s)'
       multiple={true}
       loading={isLoading}
       loadingText={

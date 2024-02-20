@@ -50,7 +50,7 @@ function TcPlatformChannelList({
     return (
       <div className='flex justify-center py-24'>
         <TcText
-          text="Channel list is empty"
+          text='Channel list is empty'
           variant='body2'
           className='text-gray-400'
         />
@@ -67,7 +67,7 @@ function TcPlatformChannelList({
           sx={{ maxWidth: '10rem' }}
           variant='outlined'
           onClick={handleRefresh}
-          text="Refresh List"
+          text='Refresh List'
         />
       ) : (
         ''

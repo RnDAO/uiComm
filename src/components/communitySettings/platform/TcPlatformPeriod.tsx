@@ -26,12 +26,12 @@ function TcPlatformPeriod({ onDateChange, platform }: ITcPlatformPeriodProps) {
         </TcAvatar>
         <div className='space-y-4 pt-2'>
           <TcText
-            text="Change date period for data analysis"
+            text='Change date period for data analysis'
             variant='body1'
             fontWeight='bold'
           />
           <TcText
-            text="It might take up to 12 hours to finish new data import. Once it is done we will send you a message on Discord."
+            text='It might take up to 12 hours to finish new data import. Once it is done we will send you a message on Discord.'
             variant='body2'
           />
           <div className='flex space-x-2 md:items-center'>

@@ -15,7 +15,7 @@ function centricLayout({ children }: ICentricLayout) {
         sx={{ textAlign: 'center', paddingY: '2rem' }}
         className='space-y-6'
       >
-        <Image src={tcLogo} alt="" className='mx-auto' />
+        <Image src={tcLogo} alt='' className='mx-auto' />
         {children}
       </Container>
     </Box>

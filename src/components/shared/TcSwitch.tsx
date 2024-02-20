@@ -1,7 +1,7 @@
 import { Switch, SwitchProps } from '@mui/material';
 import React from 'react';
 
-type ITcSwitchProps = SwitchProps
+type ITcSwitchProps = SwitchProps;
 
 /**
  * `TcSwitch` Component

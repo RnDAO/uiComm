@@ -87,7 +87,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
   return { nodes, links };
 };
 
-export default function membersInteraction() {
+export default function MembersInteraction() {
   const { community } = useToken();
 
   const [nodes, setNodes] = useState<any[]>([]);
@@ -193,4 +193,4 @@ export default function membersInteraction() {
   );
 }
 
-membersInteraction.pageLayout = defaultLayout;
+MembersInteraction.pageLayout = defaultLayout;

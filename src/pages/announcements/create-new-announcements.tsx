@@ -254,7 +254,7 @@ function CreateNewAnnouncements() {
                     onClick={() => handleCreateAnnouncements(true)}
                   />
                   <TcConfirmSchaduledAnnouncementsDialog
-                    buttonLabel="Create Announcement"
+                    buttonLabel='Create Announcement'
                     selectedChannels={channels}
                     selectedRoles={roles}
                     selectedUsernames={users}
