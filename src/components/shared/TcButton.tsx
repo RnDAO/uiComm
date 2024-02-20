@@ -21,14 +21,14 @@ function TcButton({ text, ...props }: ITcButtonProps) {
   if (props.variant === 'contained') {
     return (
       <Button {...props} disableElevation={true}>
-        <TcText text={text} variant={'subtitle1'} fontWeight="bold" />
+        <TcText text={text} variant={'subtitle1'} fontWeight='bold' />
       </Button>
     );
   }
   if (props.variant === 'outlined') {
     return (
       <Button {...props} disableElevation={true}>
-        <TcText text={text} variant={'subtitle1'} fontWeight="bold" />
+        <TcText text={text} variant={'subtitle1'} fontWeight='bold' />
       </Button>
     );
   }

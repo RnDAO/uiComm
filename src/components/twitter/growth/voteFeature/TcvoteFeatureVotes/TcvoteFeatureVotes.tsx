@@ -47,14 +47,14 @@ function TcvoteFeatureVotes({
     );
   };
   return (
-    <div className="flex flex-col space-y-3">
+    <div className='flex flex-col space-y-3'>
       {TcvoteFeatureVotesMockList.map((item, index) => (
         <TcvoteFeatureVotesItems
           isChecked={nextFeatures[index]}
           key={index}
           label={item.label}
           handleToggleCheckbox={(event) => handleToggleCheckbox(event, index)}
-          color="secondary"
+          color='secondary'
         />
       ))}
     </div>

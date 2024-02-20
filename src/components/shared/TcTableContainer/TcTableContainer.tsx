@@ -28,7 +28,7 @@ function TcTableContainer({
   ...props
 }: ITcTableContainerProps) {
   return (
-    <Table {...props} className="border-separate border-spacing-y-2">
+    <Table {...props} className='border-separate border-spacing-y-2'>
       {headers && headers.length > 0 && <TcTableHead headers={headers} />}
       {bodyRowItems && bodyRowItems.length > 0 && (
         <TcTableBody rowItems={bodyRowItems} />

@@ -42,10 +42,10 @@ function CommunityHealth() {
 
   return (
     <>
-      <SEO titleTemplate="Community Health" />
-      <div className="flex flex-col container justify-between px-4 md:px-12 py-3 space-y-4">
+      <SEO titleTemplate='Community Health' />
+      <div className='container flex flex-col justify-between space-y-4 px-4 py-3 md:px-12'>
         <HeaderSection />
-        <h3 className="pb-6 pt-4 text-lg font-medium text-lite-black">
+        <h3 className='pb-6 pt-4 text-lg font-medium text-lite-black'>
           Community Health
         </h3>
         <Fragmentation scoreData={fragmentationScoreData} />

@@ -126,20 +126,20 @@ function growth() {
 
   return (
     <>
-      <SEO titleTemplate="Twitter Growth" />
-      <div className="flex flex-col container px-4 md:px-12 py-4">
+      <SEO titleTemplate='Twitter Growth' />
+      <div className='container flex flex-col px-4 py-4 md:px-12'>
         <TcBoxContainer
           titleContainerChildren={
-            <div className="bg-info text-white px-10 py-3">
+            <div className='bg-info px-10 py-3 text-white'>
               <TcText
                 text={'Twitter analysis'}
                 variant={'h4'}
-                fontWeight="bold"
+                fontWeight='bold'
               />
             </div>
           }
           contentContainerChildren={
-            <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-8">
+            <div className='space-y-8 px-4 pt-4 pb-[4rem] md:px-10'>
               <TcAccountActivity account={data.account} />
               <TcYourAccountActivity activity={data.activity} />
               <TcAudienceResponse audience={data.audience} />

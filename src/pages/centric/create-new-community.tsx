@@ -41,44 +41,44 @@ function CreateNewCommunity() {
   }
   return (
     <TcBoxContainer
-      bgcolor="white"
-      className="rounded p-4 md:p-16 min-h-[37.5rem]"
+      bgcolor='white'
+      className='min-h-[37.5rem] rounded p-4 md:p-16'
       contentContainerChildren={
-        <div className="space-y-8 pt-10">
-          <TcText text="Create a new community account" variant={'h4'} />
-          <div className="space-y-2">
+        <div className='space-y-8 pt-10'>
+          <TcText text='Create a new community account' variant={'h4'} />
+          <div className='space-y-2'>
             <TcText
-              className="text-left md:text-center"
-              text="What is the name of the community or organization?"
-              fontWeight="bold"
+              className='text-left md:text-center'
+              text='What is the name of the community or organization?'
+              fontWeight='bold'
               sx={{ typography: { xs: 'body2', md: 'body1' } }}
             />
             <TcInput
-              label="Community name"
-              variant="filled"
-              placeholder="Write community name Placeholder"
+              label='Community name'
+              variant='filled'
+              placeholder='Write community name Placeholder'
               onChange={(e) => setCommunityName(e.target.value)}
             />
           </div>
           <FormControlLabel
             label={
               <TcText
-                className="text-left md:text-center"
+                className='text-left md:text-center'
                 text={
                   <>
                     {'I understand and agree to the '}
                     <TcLink
                       to={'https://www.togethercrew.com/privacy-and-terms'}
-                      color="primary"
-                      fontWeight="bold"
+                      color='primary'
+                      fontWeight='bold'
                     >
                       Privacy Policy
                     </TcLink>
                     {' and '}
                     <TcLink
                       to={'https://www.togethercrew.com/privacy-and-terms'}
-                      color="primary"
-                      fontWeight="bold"
+                      color='primary'
+                      fontWeight='bold'
                     >
                       Terms of Service.
                     </TcLink>
@@ -89,17 +89,17 @@ function CreateNewCommunity() {
             }
             control={
               <TcCheckbox
-                color="secondary"
+                color='secondary'
                 onChange={(e) => setReadTermsAndCondition(e.target.checked)}
               />
             }
           />
           <div>
             <TcButton
-              text="Create community"
-              variant="contained"
+              text='Create community'
+              variant='contained'
               sx={{ width: '15rem', padding: '0.5rem' }}
-              color="secondary"
+              color='secondary'
               disabled={!readTermsAndCondition}
               onClick={() => handleCreateNewCommunitie()}
             />

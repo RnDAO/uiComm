@@ -45,7 +45,7 @@ function TcSelect({
               value={option.value}
               disabled={option.disabled}
             >
-              <div className="flex justify-start items-center space-x-2">
+              <div className='flex items-center justify-start space-x-2'>
                 {option.icon && React.cloneElement(option.icon)}
                 <TcText text={option.label} />
               </div>

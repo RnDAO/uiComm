@@ -6,13 +6,13 @@ import TcLink from '../../../shared/TcLink';
 
 function TcYourAccountActivityHeader() {
   return (
-    <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-center">
-      <div className="space-y-3">
-        <TcText text="Your account activity" variant="h6" fontWeight="bold" />
+    <div className='flex flex-col-reverse md:flex-row md:items-center md:justify-between'>
+      <div className='space-y-3'>
+        <TcText text='Your account activity' variant='h6' fontWeight='bold' />
         <TcText
-          text="How much you engage with others"
-          variant="caption"
-          fontWeight="medium"
+          text='How much you engage with others'
+          variant='caption'
+          fontWeight='medium'
         />
       </div>
     </div>

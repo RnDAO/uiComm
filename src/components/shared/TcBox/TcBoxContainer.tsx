@@ -31,7 +31,7 @@ function TcBoxContainer({
   ...props
 }: ITcBoxContainer) {
   return (
-    <Box className="shadow-lg rounded-xl overflow-hidden" {...props}>
+    <Box className='overflow-hidden rounded-xl shadow-lg' {...props}>
       {titleContainerChildren && (
         <TcBoxTitleContainer children={titleContainerChildren} />
       )}

@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
     <>
       <AmplitudeAnalytics />
       <SafaryClubScript />
-      <Script id="tawk" strategy="lazyOnload">
+      <Script id='tawk' strategy='lazyOnload'>
         {`
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
           (function(){

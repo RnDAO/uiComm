@@ -32,7 +32,7 @@ function TcTableRow({
               className={clsx(
                 customTableCellClasses
                   ? `${customTableCellClasses}`
-                  : `px-1 first:px-3 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0`
+                  : `px-1 py-4 first:rounded-l-md first:border-r-0 first:px-3 last:rounded-r-md last:border-l-0`
               )}
             >
               {CustomRenderer ? CustomRenderer(value) : value}

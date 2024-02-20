@@ -82,30 +82,30 @@ const Sidebar = () => {
   ];
 
   const menuItem = menuItems.map((el) => (
-    <li key={el.name} className="py-4">
+    <li key={el.name} className='py-4'>
       <Link href={el.path}>
         <div
           className={
             currentRoute === el.path
-              ? 'py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer'
-              : 'py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer'
+              ? 'cursor-pointer rounded-xl bg-white py-2 text-center delay-75 ease-in hover:bg-white'
+              : 'cursor-pointer rounded-xl py-2 text-center delay-75 ease-in hover:bg-white'
           }
         >
           {el.icon}
         </div>
-        <p className="text-center text-sm break-words">{el.name}</p>
+        <p className='break-words text-center text-sm'>{el.name}</p>
       </Link>
     </li>
   ));
 
   return (
-    <aside className="hidden md:block bg-gray-background shadow-inner md:w-[100px] xl:w-[150px] fixed h-screen">
+    <aside className='fixed hidden h-screen bg-gray-background shadow-inner md:block md:w-[100px] xl:w-[150px]'>
       <nav>
         <div>
-          <div className="flex flex-col mx-auto justify-center text-center my-4">
-            <div className="w-full mx-auto">
+          <div className='mx-auto my-4 flex flex-col justify-center text-center'>
+            <div className='mx-auto w-full'>
               <div
-                className="w-10 h-10 mb-2 mx-auto cursor-pointer"
+                className='mx-auto mb-2 h-10 w-10 cursor-pointer'
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
@@ -113,29 +113,29 @@ const Sidebar = () => {
                 connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
-                    width="100"
-                    height="100"
+                    width='100'
+                    height='100'
                     alt={
                       connectedPlatform.metadata.name
                         ? connectedPlatform.metadata.name
                         : ''
                     }
-                    className="rounded-full"
+                    className='rounded-full'
                   />
                 ) : (
-                  <div className="bg-secondary text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs" />
+                  <div className='align-center flex h-10 w-10 flex-col justify-center rounded-full bg-secondary text-center text-xs' />
                 )}
               </div>
               <TcText
                 text={community?.name}
-                variant="body1"
-                fontWeight="bold"
+                variant='body1'
+                fontWeight='bold'
               />
             </div>
           </div>
         </div>
-        <hr className="mx-2" />
-        <ul className="flex flex-col px-3">{menuItem}</ul>
+        <hr className='mx-2' />
+        <ul className='flex flex-col px-3'>{menuItem}</ul>
       </nav>
     </aside>
   );

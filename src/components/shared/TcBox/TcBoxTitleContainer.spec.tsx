@@ -17,7 +17,7 @@ describe('<TcBoxTitleContainer />', () => {
     const { container } = render(
       <TcBoxTitleContainer
         children={<>Test Content</>}
-        customClasses="test-class1 test-class2"
+        customClasses='test-class1 test-class2'
       />
     );
 

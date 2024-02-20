@@ -134,19 +134,19 @@ function TcPrivateMessageContainer({
   }, [isEdit, privateAnnouncementsData]);
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
-        <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
+    <div className='space-y-3'>
+      <div className='flex flex-col space-y-1 md:flex-row md:items-center md:justify-between md:space-y-0'>
+        <div className='flex flex-col md:flex-row md:items-center md:space-x-3'>
           <TcIconContainer>
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
           <TcText
-            text="Private Message (optional)"
-            variant="body1"
-            fontWeight="700"
+            text='Private Message (optional)'
+            variant='body1'
+            fontWeight='700'
           />
           <FormControlLabel
-            className="mx-auto md:mx-0"
+            className='mx-auto md:mx-0'
             control={
               <TcSwitch
                 onChange={handlePrivateMessageChange}
@@ -154,7 +154,7 @@ function TcPrivateMessageContainer({
               />
             }
             label={
-              <div className="flex items-center space-x-1">
+              <div className='flex items-center space-x-1'>
                 <TcIconWithTooltip
                   tooltipText={
                     'Community members who have their DMs open will receive a DM. Members who have their DMs closed, will receive a private message inside the server (only they can see it). Additionally, a public message will always be sent with instructions to verify the legitimacy of the bot and announcement by checking the bot ID.'
@@ -164,11 +164,11 @@ function TcPrivateMessageContainer({
             }
           />
         </div>
-        <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:justify-end md:space-x-3 items-center">
+        <div className='flex flex-col items-center space-y-3 md:flex-row md:justify-end md:space-y-0 md:space-x-3'>
           <TcButtonGroup
             disableElevation
             disabled={!privateMessage}
-            className="w-full"
+            className='w-full'
           >
             {messageTypesArray.map((el) => (
               <TcButton
@@ -200,20 +200,20 @@ function TcPrivateMessageContainer({
         </div>
       </div>
       {privateMessage && (
-        <div className="space-y-1.5">
+        <div className='space-y-1.5'>
           <div>
-            <TcText text="Send message to:" variant="subtitle1" />
+            <TcText text='Send message to:' variant='subtitle1' />
             <TcText
-              text="Choose one or more user selection criteria for DM recipients. If multiple criteria are selected (e.g., Users + Roles), users matching either will be messaged."
-              variant="caption"
-              className="text-gray-400"
+              text='Choose one or more user selection criteria for DM recipients. If multiple criteria are selected (e.g., Users + Roles), users matching either will be messaged.'
+              variant='caption'
+              className='text-gray-400'
             />
           </div>
-          <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-3">
+          <div className='flex flex-col justify-between space-y-3 md:flex-row md:space-y-0 md:space-x-3'>
             <FormControl
-              variant="filled"
+              variant='filled'
               fullWidth
-              size="medium"
+              size='medium'
               disabled={
                 messageType !== MessageType.Both &&
                 messageType !== MessageType.RoleOnly
@@ -230,9 +230,9 @@ function TcPrivateMessageContainer({
               />
             </FormControl>
             <FormControl
-              variant="filled"
+              variant='filled'
               fullWidth
-              size="medium"
+              size='medium'
               disabled={
                 messageType !== MessageType.Both &&
                 messageType !== MessageType.UserOnly
@@ -250,18 +250,18 @@ function TcPrivateMessageContainer({
             </FormControl>
           </div>
           <div>
-            <TcText text="Write message here:" variant="subtitle1" />
+            <TcText text='Write message here:' variant='subtitle1' />
             <TcText
               text="Personalize your messages with dynamic variables like {{{username}}}, which the tool replaces automatically with the recipient's username."
-              variant="caption"
-              className="text-gray-400"
+              variant='caption'
+              className='text-gray-400'
             />
           </div>
-          <FormControl variant="filled" fullWidth size="medium">
+          <FormControl variant='filled' fullWidth size='medium'>
             <TcInput
-              label="Message"
-              variant="filled"
-              placeholder="Write your message here"
+              label='Message'
+              variant='filled'
+              placeholder='Write your message here'
               rows={2}
               multiline
               value={message}

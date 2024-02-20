@@ -33,7 +33,7 @@ function TcAudienceResponse({ audience }: ITcAudienceResponseProps) {
   }, [audience]);
 
   return (
-    <div className="space-y-3">
+    <div className='space-y-3'>
       <TcAudienceResponseHeader />
       <TcAudienceResponseContent data={audienceResponseList} />
     </div>

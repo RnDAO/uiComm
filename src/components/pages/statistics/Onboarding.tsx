@@ -212,20 +212,20 @@ export default function Onboarding({
 
   return (
     <>
-      <div className="flex flex-row justify-between">
-        <div className="w-full">
+      <div className='flex flex-row justify-between'>
+        <div className='w-full'>
           <div>
-            <h3 className="text-xl font-medium text-lite-black">
+            <h3 className='text-xl font-medium text-lite-black'>
               Onboarding overview
             </h3>
-            <p className="py-2">New members retention</p>
+            <p className='py-2'>New members retention</p>
           </div>
         </div>
       </div>
-      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+      <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
         <StatisticalData
           ableToFilter={true}
-          overviewType="onboardingMemberComposition"
+          overviewType='onboardingMemberComposition'
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}
         />
@@ -233,9 +233,9 @@ export default function Onboarding({
 
       <OnboardingMembersBreakdown />
 
-      <div className="w-full">
-        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
-          <h3 className="text-xl font-medium text-lite-black">
+      <div className='w-full'>
+        <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>
+          <h3 className='text-xl font-medium text-lite-black'>
             Onboarded members over time
           </h3>
           <RangeSelect
@@ -247,7 +247,7 @@ export default function Onboarding({
         </div>
       </div>
       {onboardingMembersLoading ? (
-        <Loading height="400px" />
+        <Loading height='400px' />
       ) : (
         <LineGraph options={options} />
       )}

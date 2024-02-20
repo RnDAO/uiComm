@@ -23,7 +23,7 @@ function CustomTab({
       <TabContext value={activeTab}>
         <TabList
           onChange={onTabChange}
-          aria-label="custom tabs"
+          aria-label='custom tabs'
           sx={{
             display: 'flex',
             flexWrap: 'wrap',

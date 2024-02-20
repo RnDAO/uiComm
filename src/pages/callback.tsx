@@ -176,7 +176,7 @@ function Callback() {
     }
   }, [router.isReady]);
 
-  return <SimpleBackdrop data-testid="loading-backdrop" />;
+  return <SimpleBackdrop data-testid='loading-backdrop' />;
 }
 
 export default Callback;

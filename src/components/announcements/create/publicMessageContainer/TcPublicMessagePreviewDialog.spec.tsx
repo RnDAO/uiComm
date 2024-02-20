@@ -73,7 +73,7 @@ describe('TcPublicMessagePreviewDialog', () => {
   it('preview button is disabled when isPreviewDialogEnabled is false', () => {
     render(
       <TcPublicMessagePreviewDialog
-        textMessage="Sample Message"
+        textMessage='Sample Message'
         isPreviewDialogEnabled={false}
       />
     );

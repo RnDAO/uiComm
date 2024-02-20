@@ -128,8 +128,8 @@ function CreateNewAnnouncements() {
 
   return (
     <>
-      <SEO titleTemplate="Create Announcement" />
-      <div className="flex flex-col container px-4 md:px-12 py-4 space-y-3">
+      <SEO titleTemplate='Create Announcement' />
+      <div className='container flex flex-col space-y-3 px-4 py-4 md:px-12'>
         <TcBreadcrumbs
           items={[
             { label: 'Announcement Scheduling', path: '/announcements' },
@@ -138,8 +138,8 @@ function CreateNewAnnouncements() {
         />
         <TcBoxContainer
           contentContainerChildren={
-            <div className="flex flex-col justify-between p-4 md:px-10 min-h-[92dvh]">
-              <div className="space-y-4">
+            <div className='flex min-h-[92dvh] flex-col justify-between p-4 md:px-10'>
+              <div className='space-y-4'>
                 <TcSelectPlatform isEdit={false} />
                 <TcScheduleAnnouncement
                   handleSchaduledDate={({ selectedTime }) => {
@@ -166,16 +166,16 @@ function CreateNewAnnouncements() {
                     });
                   }}
                 />
-                <div className="flex flex-row items-center space-x-3">
+                <div className='flex flex-row items-center space-x-3'>
                   <TcIconContainer>
                     <MdOutlineAnnouncement size={20} />
                   </TcIconContainer>
                   <TcText
-                    text="Smart Announcements"
-                    variant="body1"
-                    fontWeight="700"
+                    text='Smart Announcements'
+                    variant='body1'
+                    fontWeight='700'
                   />
-                  <TcText text="Coming Soon..." variant="subtitle1" />
+                  <TcText text='Coming Soon...' variant='subtitle1' />
                 </div>
                 {/* <TcPrivateMessageContainer
                   handlePrivateAnnouncements={({
@@ -226,11 +226,11 @@ function CreateNewAnnouncements() {
                   }}
                 /> */}
               </div>
-              <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-8">
+              <div className='flex flex-col items-center justify-between space-y-3 pt-6 md:flex-row md:pt-8'>
                 <TcButton
-                  text="Cancel"
+                  text='Cancel'
                   onClick={() => router.push('/announcements')}
-                  variant="outlined"
+                  variant='outlined'
                   sx={{
                     maxWidth: {
                       xs: '100%',
@@ -238,10 +238,10 @@ function CreateNewAnnouncements() {
                     },
                   }}
                 />
-                <div className="flex flex-col md:flex-row items-center md:space-x-3 w-full space-y-3 md:space-y-0 md:w-auto">
+                <div className='flex w-full flex-col items-center space-y-3 md:w-auto md:flex-row md:space-x-3 md:space-y-0'>
                   <TcButton
-                    text="Save as Draft"
-                    variant="outlined"
+                    text='Save as Draft'
+                    variant='outlined'
                     disabled={
                       !scheduledAt ||
                       !isDateValid ||

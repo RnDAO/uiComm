@@ -41,8 +41,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
         from.stats === 'SENDER'
           ? '#3AAE2B'
           : from.stats === 'RECEIVER'
-          ? '#FFCB33'
-          : '#804EE1',
+            ? '#FFCB33'
+            : '#804EE1',
       size: getNodeSize(from.radius),
       stats: from.stats,
       ngu: from.ngu,
@@ -58,8 +58,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
         to.stats === 'SENDER'
           ? '#3AAE2B'
           : to.stats === 'RECEIVER'
-          ? '#FFCB33'
-          : '#804EE1',
+            ? '#FFCB33'
+            : '#804EE1',
       size: getNodeSize(to.radius),
       stats: to.stats,
       ngu: to.ngu,
@@ -134,21 +134,21 @@ export default function membersInteraction() {
 
   return (
     <>
-      <SEO titleTemplate="Member interactions" />
-      <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
-        <Link to="/" className="mb-3">
-          <div className="flex items-center text-gray-subtitle text-base hover:text-black">
+      <SEO titleTemplate='Member interactions' />
+      <div className='container flex flex-col justify-between px-4 py-3 md:px-12'>
+        <Link to='/' className='mb-3'>
+          <div className='flex items-center text-base text-gray-subtitle hover:text-black'>
             <AiOutlineLeft />
-            <span className="pl-1">Community Insights</span>
+            <span className='pl-1'>Community Insights</span>
           </div>
         </Link>
-        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4 overflow-hidden">
-          <h3 className="text-xl font-medium text-lite-black">
+        <Paper className='space-y-4 overflow-hidden rounded-xl px-4 py-6 shadow-box md:px-8'>
+          <h3 className='text-xl font-medium text-lite-black'>
             Member interactions graph
           </h3>
           <p>Data from the last 7 days</p>
-          <div className="flex flex-col md:flex-row md:items-start">
-            <div className="lg:w-11/12 overflow-hidden justify-center items-center">
+          <div className='flex flex-col md:flex-row md:items-start'>
+            <div className='items-center justify-center overflow-hidden lg:w-11/12'>
               <ForceGraphComponent
                 nodes={nodes}
                 links={links}
@@ -156,11 +156,11 @@ export default function membersInteraction() {
                 numberOfnodes={nodes.length}
               />
             </div>
-            <div className="hidden md:flex md:w-1/2 lg:flex-1  justify-end">
+            <div className='hidden justify-end md:flex md:w-1/2  lg:flex-1'>
               <HintBox />
             </div>
           </div>
-          <div className="md:hidden float-left">
+          <div className='float-left md:hidden'>
             <button onClick={handlePopoverOpen}>
               <AiOutlineExclamationCircle size={30} />
             </button>
@@ -181,7 +181,7 @@ export default function membersInteraction() {
                 style: { background: 'none', boxShadow: 'none' },
               }}
             >
-              <div className="p-4">
+              <div className='p-4'>
                 <HintBox />
               </div>
             </Popover>

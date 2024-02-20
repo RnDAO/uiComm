@@ -35,10 +35,10 @@ function TcCommunityName({ platform }: TccommunityName) {
       return (
         <Image
           src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
-          width="100"
-          height="100"
+          width='100'
+          height='100'
           alt={activeCommunityPlatformIcon.metadata.name || ''}
-          className="rounded-full"
+          className='rounded-full'
         />
       );
     }
@@ -47,25 +47,25 @@ function TcCommunityName({ platform }: TccommunityName) {
   };
 
   return (
-    <div className="flex justify-start space-x-4 items-center py-3">
+    <div className='flex items-center justify-start space-x-4 py-3'>
       {community && community.avatarURL ? (
         <TcAvatar
-          className="mx-auto"
+          className='mx-auto'
           src={community.avatarURL}
-          data-testid="tc-avatar"
+          data-testid='tc-avatar'
         />
       ) : (
-        <TcAvatar className="mx-auto" data-testid="tc-avatar">
+        <TcAvatar className='mx-auto' data-testid='tc-avatar'>
           {community ? renderPlatformAvatar(community) : <MdGroups size={28} />}
         </TcAvatar>
       )}
-      <div className="flex flex-col">
-        <TcText text={platform?.metadata?.name} variant="body1" />
+      <div className='flex flex-col'>
+        <TcText text={platform?.metadata?.name} variant='body1' />
         <TcText
           text={`Connected since ${moment(platform?.connectedAt).format(
             'D MMM YYYY'
           )}`}
-          variant="body2"
+          variant='body2'
         />
       </div>
     </div>

@@ -7,8 +7,8 @@ import { defaultLayout } from '../../../layouts/defaultLayout';
 function Index() {
   return (
     <>
-      <SEO titleTemplate="Community Platform" />
-      <div className="flex flex-col container px-4 md:px-12 py-4">
+      <SEO titleTemplate='Community Platform' />
+      <div className='container flex flex-col px-4 py-4 md:px-12'>
         <TcBreadcrumbs
           items={[
             { label: 'Community Settings', path: '/community-settings' },

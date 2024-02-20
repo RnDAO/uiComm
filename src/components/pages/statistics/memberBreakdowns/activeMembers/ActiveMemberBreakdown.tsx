@@ -179,20 +179,20 @@ export default function ActiveMemberBreakdown() {
 
   return (
     <>
-      <div className="relative overflow-x-scroll md:overflow-hidden mb-1 md:mb-1">
-        <div className="flex justify-between items-start">
+      <div className='relative mb-1 overflow-x-scroll md:mb-1 md:overflow-hidden'>
+        <div className='flex items-start justify-between'>
           <h3
-            className="text-xl font-medium text-lite-black md:mb-4"
+            className='text-xl font-medium text-lite-black md:mb-4'
             ref={tableTopRef}
           >
             Members breakdown
           </h3>
           <Button
             startIcon={<BsFiletypeCsv />}
-            size="small"
-            variant="outlined"
+            size='small'
+            variant='outlined'
             sx={{ minWidth: '64px', padding: '0.4rem 1rem' }}
-            className="border-black text-black"
+            className='border-black text-black'
             disableElevation
             onClick={handleDownloadCSV}
           >
@@ -206,7 +206,7 @@ export default function ActiveMemberBreakdown() {
           )}
         >
           {!isExpanded && (
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-50 pointer-events-none"></div>
+            <div className='pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-50'></div>
           )}
 
           <CustomTable
@@ -220,11 +220,11 @@ export default function ActiveMemberBreakdown() {
             handleUsernameChange={handleUsernameChange}
             isLoading={loading}
             activityCompositionOptions={options}
-            breakdownName="activeMemberComposition"
+            breakdownName='activeMemberComposition'
           />
         </div>
       </div>
-      <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
+      <div className={clsx(!isExpanded ? 'hidden' : 'mb-8 flex justify-end')}>
         {fetchedData?.totalResults > 10 && (
           <CustomPagination
             totalItems={fetchedData.totalResults}
@@ -237,13 +237,13 @@ export default function ActiveMemberBreakdown() {
         )}
       </div>
       {fetchedData && fetchedData?.totalResults > 3 ? (
-        <div className="flex justify-center mt-2 mb-12">
+        <div className='mt-2 mb-12 flex justify-center'>
           <TcButton
             text={isExpanded ? 'Show less' : 'Show member breakdown'}
-            variant="outlined"
+            variant='outlined'
             disabled={fetchedData?.totalResults === 0}
             onClick={handleButtonClick}
-            className="py-2 min-w-[14rem]"
+            className='min-w-[14rem] py-2'
           />
         </div>
       ) : (
