@@ -1,5 +1,5 @@
-import React from 'react';
 import Collapse, { CollapseProps } from '@mui/material/Collapse';
+import React from 'react';
 
 /**
  * Custom wrapper component for MUI's Collapse component.

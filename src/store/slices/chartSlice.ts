@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
-import { axiosInstance } from '../../axiosInstance';
+
 import ICharts from '../types/ICharts';
+import { axiosInstance } from '../../axiosInstance';
 
 const chartSlice: StateCreator<ICharts> = (set, get) => ({
   isLoading: false,

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import StatisticalData from '../statistics/StatisticalData';
-import useAppStore from '../../../store/useStore';
-import CustomButton from '../../global/CustomButton';
-import { useRouter } from 'next/router';
 import moment from 'moment';
-import { StatisticsProps } from '../../../utils/interfaces';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
+import StatisticalData from '../statistics/StatisticalData';
+import TcButton from '../../shared/TcButton';
 import { useToken } from '../../../context/TokenContext';
+import useAppStore from '../../../store/useStore';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const ActiveMemberComposition = () => {
   const { community } = useToken();
@@ -15,8 +16,8 @@ const ActiveMemberComposition = () => {
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
-    let endDate: moment.Moment = moment().subtract(1, 'day');
-    let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
+    const endDate: moment.Moment = moment().subtract(1, 'day');
+    const startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     const platformId = community?.platforms.find(
       (platform) => platform.disconnectedAt === null
@@ -42,7 +43,7 @@ const ActiveMemberComposition = () => {
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
-            <ol className="list-disc pl-8">
+            <ol className='list-disc pl-8'>
               <li>mention someone</li>
               <li>receive a reply</li>
               <li>receive a reaction</li>
@@ -104,26 +105,27 @@ const ActiveMemberComposition = () => {
   }, [activeMembers]);
 
   return (
-    <div className="bg-white shadow-box rounded-lg py-8 px-5">
-      <div className="px-3">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
-          <h3 className="font-bold text-xl md:text-2xl pb-3">
+    <div className='rounded-lg bg-white py-8 px-5 shadow-box'>
+      <div className='px-3'>
+        <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
+          <h3 className='pb-3 text-xl font-bold md:text-2xl'>
             Members overview
           </h3>
         </div>
-        <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+        <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
           <StatisticalData
             statistics={[...statistics]}
             hideInformationText={true}
           />
         </div>
-        <div className="text-center mb-3">
-          <CustomButton
-            label={'Show more'}
-            classes="bg-secondary text-white mx-auto"
+        <div className='mb-3 text-center'>
+          <TcButton
+            text='Show more'
+            variant='contained'
             onClick={() => {
               router.push('/statistics');
             }}
+            className='py-2 px-[5rem]'
           />
         </div>
       </div>

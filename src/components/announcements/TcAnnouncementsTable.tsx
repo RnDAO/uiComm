@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
 import {
+  Chip,
+  IconButton,
+  Menu,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  IconButton,
-  MenuItem,
-  Menu,
-  Chip,
 } from '@mui/material';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import Router from 'next/router';
-import TcDialog from '../shared/TcDialog';
-import TcButton from '../shared/TcButton';
-import { AiOutlineClose } from 'react-icons/ai';
-import TcText from '../shared/TcText';
-import useAppStore from '../../store/useStore';
-import { useSnackbar } from '../../context/SnackbarContext';
-import { MdModeEdit, MdDelete } from 'react-icons/md';
-import Loading from '../global/Loading';
-import { truncateCenter } from '../../helpers/helper';
 import moment from 'moment';
+import Router from 'next/router';
+import React, { useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { MdDelete, MdModeEdit } from 'react-icons/md';
+
+import Loading from '../global/Loading';
+import TcButton from '../shared/TcButton';
+import TcDialog from '../shared/TcDialog';
+import TcText from '../shared/TcText';
+import { useSnackbar } from '../../context/SnackbarContext';
+import { truncateCenter } from '../../helpers/helper';
+import useAppStore from '../../store/useStore';
 
 interface Channel {
   channelId: string;
@@ -145,7 +146,7 @@ function TcAnnouncementsTable({
     switch (cellType) {
       case 'title':
         return (
-          <div className="flex flex-col">
+          <div className='flex flex-col'>
             <TcText
               text={
                 <>
@@ -167,9 +168,9 @@ function TcAnnouncementsTable({
                     : ''}
                 </>
               }
-              variant="subtitle2"
+              variant='subtitle2'
             />
-            <span className="flex space-x-1">
+            <span className='flex space-x-1'>
               {announcement.data
                 .reduce((unique: string[], item: AnnouncementData) => {
                   const itemType = item.type;
@@ -181,7 +182,7 @@ function TcAnnouncementsTable({
                 .map((type: string, index: React.Key | null | undefined) => (
                   <Chip
                     key={index}
-                    variant="outlined"
+                    variant='outlined'
                     label={
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <span
@@ -198,7 +199,7 @@ function TcAnnouncementsTable({
                         {getAnnouncementTypeLabel(type)}
                       </div>
                     }
-                    size="small"
+                    size='small'
                     sx={{
                       borderRadius: '4px',
                       borderColor: '#D1D1D1',
@@ -212,7 +213,7 @@ function TcAnnouncementsTable({
         );
       case 'channels':
         return (
-          <div className="flex flex-row overflow-hidden whitespace-nowrap">
+          <div className='flex flex-row overflow-hidden whitespace-nowrap'>
             <TcText
               text={announcement.data
                 .map(
@@ -234,7 +235,7 @@ function TcAnnouncementsTable({
                 )
                 .filter((text: string) => text !== '')
                 .join('')}
-              variant="subtitle2"
+              variant='subtitle2'
             />
           </div>
         );
@@ -286,13 +287,13 @@ function TcAnnouncementsTable({
       //   );
       case 'scheduledAt':
         return (
-          <div className="flex flex-row overflow-hidden whitespace-nowrap">
+          <div className='flex flex-row overflow-hidden whitespace-nowrap'>
             <TcText
               text={formatDateBasedOnTimezone(
                 announcement.scheduledAt,
                 selectedZone
               )}
-              variant="subtitle2"
+              variant='subtitle2'
             />
           </div>
         );
@@ -300,16 +301,16 @@ function TcAnnouncementsTable({
         return (
           <>
             <IconButton
-              aria-label="more"
-              aria-controls="long-menu"
-              aria-haspopup="true"
-              size="small"
+              aria-label='more'
+              aria-controls='long-menu'
+              aria-haspopup='true'
+              size='small'
               onClick={(event) => handleClick(event, announcement.id)}
             >
               <BsThreeDotsVertical />
             </IconButton>
             <Menu
-              id="long-menu"
+              id='long-menu'
               anchorEl={anchorEl}
               keepMounted
               open={
@@ -342,8 +343,8 @@ function TcAnnouncementsTable({
               colSpan={6}
               style={{ textAlign: 'center' }}
               sx={{ borderBottom: 'none' }}
-              className="min-h-[70vh] pt-[25dvh]"
-              data-testid="loading-indicator"
+              className='min-h-[70vh] pt-[25dvh]'
+              data-testid='loading-indicator'
             >
               <Loading />
             </TableCell>
@@ -396,34 +397,34 @@ function TcAnnouncementsTable({
 
   return (
     <>
-      <Table className="border-separate border-spacing-y-2">
+      <Table className='border-separate border-spacing-y-2'>
         <TableHead>
           <TableRow>
             <TableCell
               sx={{ borderBottom: 'none' }}
-              className="uppercase text-gray-400"
+              className='uppercase text-gray-400'
               style={{
                 width: '60%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
                 padding: '0 1rem',
               }}
-              align="left"
+              align='left'
             >
-              <TcText text="Announcements" variant="body2" />
+              <TcText text='Announcements' variant='body2' />
             </TableCell>
             <TableCell
               sx={{ borderBottom: 'none' }}
-              className="uppercase text-gray-400"
+              className='uppercase text-gray-400'
               style={{
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
                 padding: '0 1rem',
               }}
-              align="left"
+              align='left'
             >
-              <TcText text="Channels" variant="body2" />
+              <TcText text='Channels' variant='body2' />
             </TableCell>
             {/* <TableCell
               sx={{ borderBottom: 'none' }}
@@ -453,27 +454,27 @@ function TcAnnouncementsTable({
             </TableCell> */}
             <TableCell
               sx={{ borderBottom: 'none' }}
-              className="uppercase text-gray-400"
+              className='uppercase text-gray-400'
               style={{
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
                 padding: '0 1rem',
               }}
-              align="left"
+              align='left'
             >
-              <TcText text="Date" variant="body2" />
+              <TcText text='Date' variant='body2' />
             </TableCell>
             <TableCell
               sx={{ borderBottom: 'none' }}
-              className="uppercase"
+              className='uppercase'
               style={{
                 width: '20%',
                 borderBottom: 'none',
                 whiteSpace: 'nowrap',
                 padding: '0 1rem',
               }}
-              align="right"
+              align='right'
             ></TableCell>
           </TableRow>
         </TableHead>
@@ -491,36 +492,36 @@ function TcAnnouncementsTable({
         }}
         children={
           <>
-            <div className="flex justify-end p-4">
+            <div className='flex justify-end p-4'>
               <AiOutlineClose
-                data-testid="close-icon"
-                className="cursor-pointer"
+                data-testid='close-icon'
+                className='cursor-pointer'
                 size={24}
                 onClick={() => setDeleteConfirmDialogOpen(false)}
               />
             </div>
-            <div className="flex flex-col mx-auto py-1">
+            <div className='mx-auto flex flex-col py-1'>
               <TcText
-                text="Confirm Delete Announcements"
-                variant="h6"
-                className="pb-4  text-center"
+                text='Confirm Delete Announcements'
+                variant='h6'
+                className='pb-4  text-center'
               />
-              <div className="space-y-4 pb-6">
+              <div className='space-y-4 pb-6'>
                 <TcText
-                  text="Are you sure you want to delete schaduled announcements?"
-                  variant="body2"
+                  text='Are you sure you want to delete schaduled announcements?'
+                  variant='body2'
                 />
-                <div className="flex items-center space-x-3 py-3">
+                <div className='flex items-center space-x-3 py-3'>
                   <TcButton
-                    text={'Cancel'}
-                    className="w-full"
-                    variant="outlined"
+                    text='Cancel'
+                    className='w-full'
+                    variant='outlined'
                     onClick={() => setDeleteConfirmDialogOpen(false)}
                   />
                   <TcButton
-                    text={'Confirm'}
-                    className="w-full"
-                    variant="contained"
+                    text='Confirm'
+                    className='w-full'
+                    variant='contained'
                     onClick={() =>
                       selectedAnnouncementId &&
                       handleDeleteAnnouncements(selectedAnnouncementId)

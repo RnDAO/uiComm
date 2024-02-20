@@ -1,9 +1,8 @@
 import { Popover, TextField } from '@mui/material';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
 import React, { useState } from 'react';
 import { GoGlobe } from 'react-icons/go';
-
-import momentTZ from 'moment-timezone';
-import moment from 'moment';
 import 'moment-timezone';
 
 // let defaultTimeZone = momentTZ.tz.guess();
@@ -44,12 +43,12 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
   };
 
   return (
-    <div className="flex flex-row min-w-1/2 md:w-auto bg-gray-background px-3 mt-2 md:mt-0 items-center rounded-md py-1 md:py-2">
-      <GoGlobe size={20} className="mr-3 text-lite-gray" />
+    <div className='min-w-1/2 mt-2 flex flex-row items-center rounded-md bg-gray-background px-3 py-1 md:mt-0 md:w-auto md:py-2'>
+      <GoGlobe size={20} className='mr-3 text-lite-gray' />
       <button
         aria-describedby={id}
         onClick={handleClick}
-        className="hover:bg-lite active:bg-white px-2 rounded-md"
+        className='rounded-md px-2 hover:bg-lite active:bg-white'
       >
         {selectedZone}
       </button>
@@ -70,24 +69,24 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
           style: { width: '26rem' },
         }}
       >
-        <div className="h-64 px-2 overflow-scroll w-full">
-          <div className="bg-white sticky top-0 p-3">
+        <div className='h-64 w-full overflow-scroll px-2'>
+          <div className='sticky top-0 bg-white p-3'>
             <TextField
-              id="outlined-basic"
-              placeholder="Search"
-              size="small"
+              id='outlined-basic'
+              placeholder='Search'
+              size='small'
               sx={{ minWidth: 'auto' }}
-              className="w-full sticky"
-              variant="outlined"
+              className='sticky w-full'
+              variant='outlined'
               onChange={searchZones}
             />
           </div>
-          <ul className="w-full mt-2 px-3 py-1">
+          <ul className='mt-2 w-full px-3 py-1'>
             {zones.length > 0 ? (
               zones.map((el) => (
                 <li
                   key={el}
-                  className="py-2 hover:bg-lite px-3 cursor-pointer flex w-full text-sm flex-row justify-between"
+                  className='flex w-full cursor-pointer flex-row justify-between py-2 px-3 text-sm hover:bg-lite'
                   onClick={() => (
                     handleSelectedZone(el),
                     setAnchorEl(null),
@@ -95,8 +94,8 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
                   )}
                 >
                   <div>{el}</div>
-                  <div className="flex flex-row">
-                    <div className="text-secondary pr-3">
+                  <div className='flex flex-row'>
+                    <div className='pr-3 text-secondary'>
                       {moment.tz(moment(), el).format('z,Z')}
                     </div>
                     <div>{moment.tz(moment(), el).format('H a')}</div>
@@ -104,7 +103,7 @@ const ZonePicker = ({ selectedZone, handleSelectedZone }: IProps) => {
                 </li>
               ))
             ) : (
-              <div className="mx-auto py-12 text-gray-300 px-12 w-full text-center">
+              <div className='mx-auto w-full py-12 px-12 text-center text-gray-300'>
                 Not founded
               </div>
             )}

@@ -1,8 +1,9 @@
-import React from 'react';
 import Popover from '@mui/material/Popover';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import React from 'react';
+
 import TcButton from './TcButton';
 
 interface ITcDatePickerPopoverProps {
@@ -34,18 +35,18 @@ function TcDatePickerPopover({
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <StaticDatePicker
-          displayStaticWrapperAs="desktop"
-          openTo="day"
+          displayStaticWrapperAs='desktop'
+          openTo='day'
           value={selectedDate}
           onChange={onDateChange}
         />
       </LocalizationProvider>
-      <div className="px-5 py-3">
+      <div className='px-5 py-3'>
         <TcButton
-          text="Reset"
+          text='Reset'
           onClick={onResetDate}
-          className="w-full"
-          variant="outlined"
+          className='w-full'
+          variant='outlined'
         />
       </div>
     </Popover>

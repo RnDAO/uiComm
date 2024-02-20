@@ -13,7 +13,7 @@ interface DataObject {
  */
 function convertToCSV(data: any[]) {
   const flattenedData = data.map((item) => {
-    let flattenedItem: { [key: string]: string | number } = {};
+    const flattenedItem: { [key: string]: string | number } = {};
 
     for (const key in item) {
       if (item.hasOwnProperty(key)) {

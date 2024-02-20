@@ -1,9 +1,10 @@
 import React from 'react';
+
 import TcPlatformChannelList from './TcPlatformChannelList';
 
 function TcPlatformChannelDialogBody() {
   return (
-    <div className="border border-gray-300 rounded-md">
+    <div className='rounded-md border border-gray-300'>
       <TcPlatformChannelList refreshTrigger={true} />
     </div>
   );

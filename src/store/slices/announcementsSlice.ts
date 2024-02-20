@@ -1,8 +1,9 @@
 import { StateCreator } from 'zustand';
-import { axiosInstance } from '../../axiosInstance';
+
 import IAnnouncements, {
   IRetrieveAnnouncementsProps,
 } from '../types/IAnnouncements';
+import { axiosInstance } from '../../axiosInstance';
 import { CreateAnnouncementsPayload } from '../../pages/announcements/create-new-announcements';
 
 const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({

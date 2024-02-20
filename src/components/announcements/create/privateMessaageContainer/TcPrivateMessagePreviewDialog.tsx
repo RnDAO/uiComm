@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import TcDialog from '../../../shared/TcDialog';
-import TcButton from '../../../shared/TcButton';
 import { AiOutlineClose } from 'react-icons/ai';
+
+import TcButton from '../../../shared/TcButton';
+import TcDialog from '../../../shared/TcDialog';
 import TcText from '../../../shared/TcText';
 
 interface ITcPublicMessagePreviewDialogProps {
@@ -21,8 +22,8 @@ function TcPublicMessagePreviewDialog({
   return (
     <>
       <TcButton
-        text="Preview"
-        variant="outlined"
+        text='Preview'
+        variant='outlined'
         sx={{
           maxWidth: {
             xs: '100%',
@@ -49,56 +50,56 @@ function TcPublicMessagePreviewDialog({
         }}
         children={
           <>
-            <div className="flex justify-end p-4">
+            <div className='flex justify-end p-4'>
               <AiOutlineClose
-                data-testid="close-icon"
-                className="cursor-pointer"
+                data-testid='close-icon'
+                className='cursor-pointer'
                 size={24}
                 onClick={() => setPreviewDialogOpen(false)}
               />
             </div>
-            <div className="flex flex-col w-4/5 mx-auto text-center py-1">
+            <div className='mx-auto flex w-4/5 flex-col py-1 text-center'>
               <TcText
-                text="Preview Private Message"
-                variant="h5"
-                className="pb-4"
+                text='Preview Private Message'
+                variant='h5'
+                className='pb-4'
               />
-              <div className="flex flex-col items-start">
-                <div className="flex flex-wrap items-center space-x-1">
+              <div className='flex flex-col items-start'>
+                <div className='flex flex-wrap items-center space-x-1'>
                   <TcText
-                    text="Role(s):"
-                    variant="caption"
+                    text='Role(s):'
+                    variant='caption'
                     fontWeight={700}
-                    className="text-gray-500"
+                    className='text-gray-500'
                   />
                   {selectedRoles &&
                     selectedRoles.map((role, index, array) => (
-                      <span key={role} className="flex items-baseline">
-                        {'@'}
+                      <span key={role} className='flex items-baseline'>
+                        @
                         <TcText
                           text={role}
-                          variant="caption"
-                          fontWeight="700"
+                          variant='caption'
+                          fontWeight='700'
                         />
                         {index < array.length - 1 && ', '}
                       </span>
                     ))}
                 </div>
-                <div className="flex flex-wrap items-center space-x-1">
+                <div className='flex flex-wrap items-center space-x-1'>
                   <TcText
-                    text="Username(s):"
-                    variant="caption"
+                    text='Username(s):'
+                    variant='caption'
                     fontWeight={700}
-                    className="text-gray-500"
+                    className='text-gray-500'
                   />
                   {selectedUsernames &&
                     selectedUsernames.map((username, index, array) => (
-                      <span key={username} className="flex items-center">
-                        {'#'}
+                      <span key={username} className='flex items-center'>
+                        #
                         <TcText
                           text={username}
-                          variant="caption"
-                          fontWeight="700"
+                          variant='caption'
+                          fontWeight='700'
                         />
                         {index < array.length - 1 && ', '}
                       </span>
@@ -107,13 +108,13 @@ function TcPublicMessagePreviewDialog({
               </div>
               <TcText
                 text={textMessage}
-                variant="body1"
-                className="text-left mt-2"
+                variant='body1'
+                className='mt-2 text-left'
               />
-              <div className="py-6 w-full">
+              <div className='w-full py-6'>
                 <TcButton
-                  text={'Confirm'}
-                  variant="contained"
+                  text='Confirm'
+                  variant='contained'
                   onClick={() => setPreviewDialogOpen(false)}
                   sx={{ width: '100%' }}
                 />

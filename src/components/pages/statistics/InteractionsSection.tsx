@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import useAppStore from '../../../store/useStore';
-import LineGraph from '../../global/LineGraph';
-import StatisticalData from './StatisticalData';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 import { FiCalendar } from 'react-icons/fi';
+
+import StatisticalData from './StatisticalData';
+import LineGraph from '../../global/LineGraph';
+import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import Loading from '../../global/Loading';
+import useAppStore from '../../../store/useStore';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface IntractionsProps {
   activePeriod: number;
@@ -123,21 +124,21 @@ export default function InteractionsSection({
 
   return (
     <>
-      <div className="flex flex-row justify-between">
-        <div className="w-full">
+      <div className='flex flex-row justify-between'>
+        <div className='w-full'>
           <div>
-            <h3 className="text-xl font-medium text-lite-black">
+            <h3 className='text-xl font-medium text-lite-black'>
               Type of interaction
             </h3>
           </div>
         </div>
       </div>
-      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+      <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
         <StatisticalData statistics={[...statistics]} />
       </div>
-      <div className="w-full">
-        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
-          <h3 className="text-xl font-medium text-lite-black">
+      <div className='w-full'>
+        <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>
+          <h3 className='text-xl font-medium text-lite-black'>
             Members activity over time
           </h3>
           <RangeSelect
@@ -149,7 +150,7 @@ export default function InteractionsSection({
         </div>
       </div>
       {interactionsLoading ? (
-        <Loading height="400px" />
+        <Loading height='400px' />
       ) : (
         <LineGraph options={options} />
       )}

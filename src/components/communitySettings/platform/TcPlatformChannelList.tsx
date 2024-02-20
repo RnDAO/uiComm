@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
 import { FormControlLabel, FormGroup } from '@mui/material';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
+import React, { useContext } from 'react';
+import { BiError } from 'react-icons/bi';
+import { TbRefresh } from 'react-icons/tb';
+
+import Loading from '../../global/Loading';
+import TcButton from '../../shared/TcButton';
 import TcCheckbox from '../../shared/TcCheckbox';
 import TcText from '../../shared/TcText';
-import TcButton from '../../shared/TcButton';
-import { TbRefresh } from 'react-icons/tb';
-import Loading from '../../global/Loading';
 import { ChannelContext } from '../../../context/ChannelContext';
-import { useRouter } from 'next/router';
-import clsx from 'clsx';
-import { BiError } from 'react-icons/bi';
 
 interface ITcPlatformChannelList {
   refreshTrigger: boolean;
@@ -42,31 +43,31 @@ function TcPlatformChannelList({
   };
 
   if (loading) {
-    return <Loading height="400px" />;
+    return <Loading height='400px' />;
   }
 
   if (channels.length === 0) {
     return (
-      <div className="flex justify-center py-24">
+      <div className='flex justify-center py-24'>
         <TcText
-          text={'Channel list is empty'}
-          variant="body2"
-          className="text-gray-400"
+          text='Channel list is empty'
+          variant='body2'
+          className='text-gray-400'
         />
       </div>
     );
   }
 
   return (
-    <div className="max-h-[400px] overflow-y-scroll">
+    <div className='max-h-[400px] overflow-y-scroll'>
       {refreshTrigger ? (
         <TcButton
-          className="sticky top-4 float-right m-4 bg-white"
+          className='sticky top-4 float-right m-4 bg-white'
           startIcon={<TbRefresh />}
           sx={{ maxWidth: '10rem' }}
-          variant="outlined"
+          variant='outlined'
           onClick={handleRefresh}
-          text={'Refresh List'}
+          text='Refresh List'
         />
       ) : (
         ''
@@ -79,8 +80,8 @@ function TcPlatformChannelList({
         {channels &&
           channels?.map((channel, index) => (
             <div key={`${channel.channelId} ${index}`}>
-              <TcText variant="h6" text={channel.title} />
-              <div className="ml-5">
+              <TcText variant='h6' text={channel.title} />
+              <div className='ml-5'>
                 <FormControlLabel
                   control={
                     <TcCheckbox
@@ -100,13 +101,13 @@ function TcPlatformChannelList({
                       )}
                     />
                   }
-                  label="All Channels"
+                  label='All Channels'
                 />
-                <TcText text="Channels" />
+                <TcText text='Channels' />
                 <FormGroup>
                   {channel.subChannels.map((subChannel, index) => (
                     <div
-                      className="flex justify-between"
+                      className='flex justify-between'
                       key={`${subChannel.channelId} ${subChannel.parentId} ${index}`}
                     >
                       <FormControlLabel
@@ -131,11 +132,11 @@ function TcPlatformChannelList({
                         label={subChannel.name}
                       />
                       {!subChannel.canReadMessageHistoryAndViewChannel ? (
-                        <div className="flex items-center space-x-1">
-                          <BiError className="text-error-500" />
+                        <div className='flex items-center space-x-1'>
+                          <BiError className='text-error-500' />
                           <TcText
-                            className="text-error-500"
-                            text="Bot needs access"
+                            className='text-error-500'
+                            text='Bot needs access'
                           />
                         </div>
                       ) : (

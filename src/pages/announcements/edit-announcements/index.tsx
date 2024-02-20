@@ -1,24 +1,24 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { defaultLayout } from '../../../layouts/defaultLayout';
-import SEO from '../../../components/global/SEO';
 import { useRouter } from 'next/router';
-import TcPrivateMessageContainer from '../../../components/announcements/create/privateMessaageContainer';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { MdOutlineAnnouncement } from 'react-icons/md';
+
+import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
 import TcPublicMessaageContainer from '../../../components/announcements/create/publicMessageContainer';
 import TcScheduleAnnouncement from '../../../components/announcements/create/scheduleAnnouncement';
 import TcSelectPlatform from '../../../components/announcements/create/selectPlatform';
+import TcIconContainer from '../../../components/announcements/create/TcIconContainer';
+import TcConfirmSchaduledAnnouncementsDialog from '../../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
+import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
+import SEO from '../../../components/global/SEO';
 import TcBoxContainer from '../../../components/shared/TcBox/TcBoxContainer';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
-import TcConfirmSchaduledAnnouncementsDialog from '../../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
-import useAppStore from '../../../store/useStore';
-import { IRoles, IUser } from '../../../utils/interfaces';
+import TcText from '../../../components/shared/TcText';
 import { ChannelContext } from '../../../context/ChannelContext';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
-import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
-import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
-import { MdOutlineAnnouncement } from 'react-icons/md';
-import TcIconContainer from '../../../components/announcements/create/TcIconContainer';
-import TcText from '../../../components/shared/TcText';
+import { defaultLayout } from '../../../layouts/defaultLayout';
+import useAppStore from '../../../store/useStore';
+import { IRoles, IUser } from '../../../utils/interfaces';
 
 export interface DiscordChannel {
   channelId: string;
@@ -180,8 +180,8 @@ function Index() {
 
   return (
     <>
-      <SEO titleTemplate="Edit Announcement" />
-      <div className="flex flex-col container px-4 md:px-12 py-4 space-y-3">
+      <SEO titleTemplate='Edit Announcement' />
+      <div className='container flex flex-col space-y-3 px-4 py-4 md:px-12'>
         <TcBreadcrumbs
           items={[
             { label: 'Announcement Scheduling', path: '/announcements' },
@@ -190,8 +190,8 @@ function Index() {
         />
         <TcBoxContainer
           contentContainerChildren={
-            <div className="flex flex-col justify-between p-4 md:p-10 min-h-[92dvh]">
-              <div className="space-y-4">
+            <div className='flex min-h-[92dvh] flex-col justify-between p-4 md:p-10'>
+              <div className='space-y-4'>
                 <TcSelectPlatform isEdit={true} />
                 <TcScheduleAnnouncement
                   isEdit={true}
@@ -222,16 +222,16 @@ function Index() {
                     });
                   }}
                 />
-                <div className="flex flex-row items-center space-x-3">
+                <div className='flex flex-row items-center space-x-3'>
                   <TcIconContainer>
                     <MdOutlineAnnouncement size={20} />
                   </TcIconContainer>
                   <TcText
-                    text="Smart Announcements"
-                    variant="body1"
-                    fontWeight="700"
+                    text='Smart Announcements'
+                    variant='body1'
+                    fontWeight='700'
                   />
-                  <TcText text="Coming Soon..." variant="subtitle1" />
+                  <TcText text='Coming Soon...' variant='subtitle1' />
                 </div>
                 {/* <TcPrivateMessageContainer
                   isEdit={true}
@@ -284,9 +284,9 @@ function Index() {
                   }}
                 /> */}
               </div>
-              <div className="flex flex-col md:flex-row justify-end items-center space-y-3 pt-6 md:pt-12">
+              <div className='flex flex-col items-center justify-end space-y-3 pt-6 md:flex-row md:pt-12'>
                 <TcConfirmSchaduledAnnouncementsDialog
-                  buttonLabel={'Save'}
+                  buttonLabel='Save'
                   selectedChannels={channels}
                   selectedRoles={roles}
                   selectedUsernames={users}

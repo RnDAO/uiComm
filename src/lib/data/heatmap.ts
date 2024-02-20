@@ -179,4 +179,4 @@ const defaultHeatmapChartOptions = {
   },
 };
 
-export { WEEK_DAYS, HOURE_DAYS, defaultHeatmapChartOptions };
+export { defaultHeatmapChartOptions, HOURE_DAYS, WEEK_DAYS };

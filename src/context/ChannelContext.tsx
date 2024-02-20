@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
+
 import useAppStore from '../store/useStore';
 
 export interface SubChannel {
@@ -87,8 +88,8 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
       platformId: string,
       property: 'channel' = 'channel',
       selectedChannels?: string[],
-      hideDeactiveSubchannels: boolean = false,
-      allDefaultChecked: boolean = true
+      hideDeactiveSubchannels = false,
+      allDefaultChecked = true
     ) => {
       setLoading(true);
       try {
@@ -149,14 +150,17 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
         selectedSubChannels[channelId]?.[subChannel.channelId]
     );
 
-    const newSubChannelsState = subChannels.reduce((acc, subChannel) => {
-      if (subChannel.canReadMessageHistoryAndViewChannel) {
-        acc[subChannel.channelId] = !allSelected;
-      } else {
-        acc[subChannel.channelId] = false;
-      }
-      return acc;
-    }, {} as { [subChannelId: string]: boolean });
+    const newSubChannelsState = subChannels.reduce(
+      (acc, subChannel) => {
+        if (subChannel.canReadMessageHistoryAndViewChannel) {
+          acc[subChannel.channelId] = !allSelected;
+        } else {
+          acc[subChannel.channelId] = false;
+        }
+        return acc;
+      },
+      {} as { [subChannelId: string]: boolean }
+    );
 
     setSelectedSubChannels((prev) => ({
       ...prev,
@@ -167,7 +171,7 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
   const updateSelectedSubChannels = (
     allChannels: Channel[],
     newSelectedSubChannels: string[],
-    hideDeactiveSubchannels: boolean = false
+    hideDeactiveSubchannels = false
   ) => {
     if (hideDeactiveSubchannels) {
       const filteredChannels = allChannels

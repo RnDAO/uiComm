@@ -1,10 +1,11 @@
 import { Popover } from '@mui/material';
 import React, { useContext } from 'react';
-import { FaHashtag } from 'react-icons/fa';
-import CustomButton from './CustomButton';
 import { BiError } from 'react-icons/bi';
-import { ChannelContext } from '../../context/ChannelContext';
+import { FaHashtag } from 'react-icons/fa';
+
 import TcPlatformChannelList from '../communitySettings/platform/TcPlatformChannelList';
+import TcButton from '../shared/TcButton';
+import { ChannelContext } from '../../context/ChannelContext';
 import { calculateSelectedChannelSize } from '../../helpers/helper';
 
 type IFilterByChannelsProps = {
@@ -36,12 +37,12 @@ const FilterByChannels = ({
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <div className="flex flex-row min-w-1/2 md:w-auto bg-gray-background px-3 mt-2 md:mt-0 items-center rounded-md py-1.5 md:py-2">
-      <FaHashtag size={20} className="mr-3 text-black" />
+    <div className='min-w-1/2 mt-2 flex flex-row items-center rounded-md bg-gray-background px-3 py-1.5 md:mt-0 md:w-auto md:py-2'>
+      <FaHashtag size={20} className='mr-3 text-black' />
       <button
         aria-describedby={id}
         onClick={handleClick}
-        className="hover:bg-lite active:bg-white px-2 rounded-md"
+        className='rounded-md px-2 hover:bg-lite active:bg-white'
       >
         By channel ({selectedCount}){' '}
       </button>
@@ -62,31 +63,32 @@ const FilterByChannels = ({
           style: { width: '32rem' },
         }}
       >
-        <div className="w-full px-8 py-4">
-          <p className="text-md pb-3 font-bold">
+        <div className='w-full px-8 py-4'>
+          <p className='text-md pb-3 font-bold'>
             Select channels to view activity
           </p>
-          <div className="border border-gray-300 rounded-md">
+          <div className='rounded-md border border-gray-300'>
             <TcPlatformChannelList
               refreshTrigger={false}
-              channelListCustomClass="px-4 py-3"
+              channelListCustomClass='px-4 py-3'
             />
           </div>
-          <div className="flex items-center text-sm text-orange pt-4">
-            <BiError size={18} className="mr-0.5" />
+          <div className='flex items-center pt-4 text-sm text-orange'>
+            <BiError size={18} className='mr-0.5' />
             At least one channel needs to be selected. Please select channel.
           </div>
-          <div className="mx-auto pt-4 text-center">
-            <CustomButton
-              label={'Save channels'}
+          <div className='mx-auto pt-4 text-center'>
+            <TcButton
+              text='Save channels'
+              variant='contained'
+              className='w-full'
+              disabled={selectedCount === 0}
               onClick={() => {
                 if (handleFetchHeatmapByChannels) {
                   handleFetchHeatmapByChannels();
                 }
                 setAnchorEl(null);
               }}
-              disabled={selectedCount === 0}
-              classes="bg-secondary text-white mx-auto"
             />
           </div>
         </div>

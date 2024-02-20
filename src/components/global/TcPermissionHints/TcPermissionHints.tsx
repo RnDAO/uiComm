@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import TcButtonGroup from '../../shared/TcButtonGroup';
-import TcButton from '../../shared/TcButton';
 import clsx from 'clsx';
+import React, { useState } from 'react';
+
+import TcButton from '../../shared/TcButton';
+import TcButtonGroup from '../../shared/TcButtonGroup';
 import TcText from '../../shared/TcText';
 
 const permissionCategories = [
@@ -23,57 +24,57 @@ function PermissionHints() {
     switch (category) {
       case 'Access Settings':
         return (
-          <div className="pt-3">
+          <div className='pt-3'>
             <TcText
-              text="What does “Read” and “Write” access mean?"
-              variant="body2"
+              text='What does “Read” and “Write” access mean?'
+              variant='body2'
               fontWeight={500}
             />
-            <ol className="list-disc pl-5">
+            <ol className='list-disc pl-5'>
               <li>
                 <TcText
-                  text="“Read” access refers to the following settings within Discord:"
-                  variant="body2"
+                  text='“Read” access refers to the following settings within Discord:'
+                  variant='body2'
                 />
-                <ul className="list-disc pl-5">
+                <ul className='list-disc pl-5'>
                   <li>
-                    <TcText text="“Read Channel”" variant="body2" />
+                    <TcText text='“Read Channel”' variant='body2' />
                   </li>
                   <li>
-                    <TcText text="“Read Message History”" variant="body2" />
+                    <TcText text='“Read Message History”' variant='body2' />
                   </li>
                 </ul>
               </li>
             </ol>
-            <ol className="list-disc pl-5">
+            <ol className='list-disc pl-5'>
               <li>
                 <TcText
-                  text="“Write” access refers to the following settings within Discord:"
-                  variant="body2"
+                  text='“Write” access refers to the following settings within Discord:'
+                  variant='body2'
                 />
-                <ul className="list-disc pl-5">
+                <ul className='list-disc pl-5'>
                   <li>
-                    <TcText text="Send Message" variant="body2" />
+                    <TcText text='Send Message' variant='body2' />
                   </li>
                   <li>
-                    <TcText text="Send Messages in Threads”" variant="body2" />
+                    <TcText text='Send Messages in Threads”' variant='body2' />
                   </li>
                   <li>
-                    <TcText text="Create Public Threads" variant="body2" />
+                    <TcText text='Create Public Threads' variant='body2' />
                   </li>
                   <li>
-                    <TcText text="Create Private Threads" variant="body2" />
+                    <TcText text='Create Private Threads' variant='body2' />
                   </li>
                   <li>
-                    <TcText text="Embed Links" variant="body2" />
+                    <TcText text='Embed Links' variant='body2' />
                   </li>
                   <li>
-                    <TcText text="Attach Files" variant="body2" />
+                    <TcText text='Attach Files' variant='body2' />
                   </li>
                   <li>
                     <TcText
-                      text="Mention @everyone, @here, and All Roles"
-                      variant="body2"
+                      text='Mention @everyone, @here, and All Roles'
+                      variant='body2'
                     />
                   </li>
                 </ul>
@@ -83,12 +84,12 @@ function PermissionHints() {
         );
       case 'Server Level':
         return (
-          <div className="px-3 pt-3">
+          <div className='px-3 pt-3'>
             <TcText
-              text="Please note that your platform’s permission settings enable the above permission controls"
-              variant="body2"
+              text='Please note that your platform’s permission settings enable the above permission controls'
+              variant='body2'
             />
-            <ol className="list-decimal pl-4 pt-2">
+            <ol className='list-decimal pl-4 pt-2'>
               <li>
                 <TcText
                   text={
@@ -97,7 +98,7 @@ function PermissionHints() {
                       corner of Discord
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
               </li>
               <li>
@@ -108,7 +109,7 @@ function PermissionHints() {
                       the middle of the screen check <b>Advanced permissions</b>
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
               </li>
               <li>
@@ -120,20 +121,20 @@ function PermissionHints() {
                       [✓]
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
 
-                <ol style={{ listStyleType: 'lower-alpha' }} className="pl-4">
+                <ol style={{ listStyleType: 'lower-alpha' }} className='pl-4'>
                   <li>
                     <TcText
-                      text="“Read” access settings (refer to “Access Settings” above);and/or"
-                      variant="body2"
+                      text='“Read” access settings (refer to “Access Settings” above);and/or'
+                      variant='body2'
                     />
                   </li>
                   <li>
                     <TcText
-                      text="“Write” access settings (refer to “Access Settings” above)"
-                      variant="body2"
+                      text='“Write” access settings (refer to “Access Settings” above)'
+                      variant='body2'
                     />
                   </li>
                 </ol>
@@ -147,18 +148,18 @@ function PermissionHints() {
                   you
                 </>
               }
-              variant="body2"
+              variant='body2'
             />
           </div>
         );
       case 'Category Level':
         return (
-          <div className="px-3 pt-3">
+          <div className='px-3 pt-3'>
             <TcText
-              text="Please note that Category-level permissions override Server-level permissions"
-              variant="body2"
+              text='Please note that Category-level permissions override Server-level permissions'
+              variant='body2'
             />
-            <ol className="list-decimal pl-4 pt-2">
+            <ol className='list-decimal pl-4 pt-2'>
               <li>
                 <TcText
                   text={
@@ -167,7 +168,7 @@ function PermissionHints() {
                       corner of Discord
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
               </li>
               <li>
@@ -178,7 +179,7 @@ function PermissionHints() {
                       the middle of the screen check <b>Advanced permissions</b>
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
               </li>
               <li>
@@ -190,20 +191,20 @@ function PermissionHints() {
                       [✓]
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
 
-                <ol style={{ listStyleType: 'lower-alpha' }} className="pl-4">
+                <ol style={{ listStyleType: 'lower-alpha' }} className='pl-4'>
                   <li>
                     <TcText
-                      text="“Read” access settings (refer to “Access Settings” above);and/or"
-                      variant="body2"
+                      text='“Read” access settings (refer to “Access Settings” above);and/or'
+                      variant='body2'
                     />
                   </li>
                   <li>
                     <TcText
-                      text="“Write” access settings (refer to “Access Settings” above)"
-                      variant="body2"
+                      text='“Write” access settings (refer to “Access Settings” above)'
+                      variant='body2'
                     />
                   </li>
                 </ol>
@@ -217,18 +218,18 @@ function PermissionHints() {
                   you
                 </>
               }
-              variant="body2"
+              variant='body2'
             />
           </div>
         );
       case 'Channel Level':
         return (
-          <div className="px-3 pt-3">
+          <div className='px-3 pt-3'>
             <TcText
-              text="Please note that Channel-level permissions override Category-level permissions, which in turn override Server-level permissions"
-              variant="body2"
+              text='Please note that Channel-level permissions override Category-level permissions, which in turn override Server-level permissions'
+              variant='body2'
             />
-            <ol className="list-decimal pl-4 pt-2">
+            <ol className='list-decimal pl-4 pt-2'>
               <li>
                 <TcText
                   text={
@@ -237,7 +238,7 @@ function PermissionHints() {
                       the wheel on the right of the channel name)
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
               </li>
               <li>
@@ -248,7 +249,7 @@ function PermissionHints() {
                       the middle of the screen check <b>Advanced permissions</b>
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
               </li>
               <li>
@@ -260,20 +261,20 @@ function PermissionHints() {
                       [✓]
                     </>
                   }
-                  variant="body2"
+                  variant='body2'
                 />
 
-                <ol style={{ listStyleType: 'lower-alpha' }} className="pl-4">
+                <ol style={{ listStyleType: 'lower-alpha' }} className='pl-4'>
                   <li>
                     <TcText
-                      text="“Read” access settings (refer to “Access Settings” above);and/or"
-                      variant="body2"
+                      text='“Read” access settings (refer to “Access Settings” above);and/or'
+                      variant='body2'
                     />
                   </li>
                   <li>
                     <TcText
-                      text="“Write” access settings (refer to “Access Settings” above)"
-                      variant="body2"
+                      text='“Write” access settings (refer to “Access Settings” above)'
+                      variant='body2'
                     />
                   </li>
                 </ol>
@@ -287,7 +288,7 @@ function PermissionHints() {
                   you
                 </>
               }
-              variant="body2"
+              variant='body2'
             />
           </div>
         );
@@ -298,7 +299,7 @@ function PermissionHints() {
 
   return (
     <div>
-      <TcButtonGroup disableElevation className="w-full">
+      <TcButtonGroup disableElevation className='w-full'>
         {permissionCategories.map((category) => (
           <TcButton
             key={category}
@@ -308,7 +309,7 @@ function PermissionHints() {
             className={clsx(
               'border',
               category === activeCategory
-                ? 'bg-secondary text-white border-secondary'
+                ? 'border-secondary bg-secondary text-white'
                 : 'border-secondary bg-white text-secondary'
             )}
             sx={{
@@ -321,7 +322,7 @@ function PermissionHints() {
           />
         ))}
       </TcButtonGroup>
-      <div className="description">{getDescription(activeCategory)}</div>
+      <div className='description'>{getDescription(activeCategory)}</div>
     </div>
   );
 }

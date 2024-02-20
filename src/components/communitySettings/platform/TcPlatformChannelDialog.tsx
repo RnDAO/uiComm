@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
-import TcText from '../../shared/TcText';
-import TcButton from '../../shared/TcButton';
-import TcDialog from '../../shared/TcDialog';
 import { AiOutlineClose } from 'react-icons/ai';
-import TcPlatformChannelDialogHeader from './TcPlatformChannelDialogHeader';
+
 import TcPlatformChannelDialogBody from './TcPlatformChannelDialogBody';
 import TcPlatformChannelDialogFooter from './TcPlatformChannelDialogFooter';
+import TcPlatformChannelDialogHeader from './TcPlatformChannelDialogHeader';
+import TcButton from '../../shared/TcButton';
+import TcDialog from '../../shared/TcDialog';
+import TcText from '../../shared/TcText';
 import { ChannelContext } from '../../../context/ChannelContext';
 import { calculateSelectedChannelSize } from '../../../helpers/helper';
 
@@ -20,18 +21,18 @@ function TcPlatformChannelDialog() {
   return (
     <div>
       <TcText
-        text={'Confirm your imported channels'}
-        variant="body1"
-        fontWeight="bold"
+        text='Confirm your imported channels'
+        variant='body1'
+        fontWeight='bold'
       />
-      <div className="flex md:flex-row items-center space-x-3">
+      <div className='flex items-center space-x-3 md:flex-row'>
         <TcText
           text={`Selected channels: ${selectedCount}`}
-          variant="body1"
-          className="whitespace-nowrap"
+          variant='body1'
+          className='whitespace-nowrap'
         />
         <TcButton
-          text={'Show channels'}
+          text='Show channels'
           sx={{ width: 'auto', textDecoration: 'underline' }}
           onClick={() => setOpenDialog(true)}
         />
@@ -52,23 +53,23 @@ function TcPlatformChannelDialog() {
           },
         }}
       >
-        <div className="flex justify-between items-center p-6">
-          <TcText text={'Import activities from channels'} variant="h5" />
+        <div className='flex items-center justify-between p-6'>
+          <TcText text='Import activities from channels' variant='h5' />
           <AiOutlineClose
-            className="cursor-pointer"
+            className='cursor-pointer'
             size={24}
             onClick={() => setOpenDialog(false)}
           />
         </div>
-        <div className="px-6">
+        <div className='px-6'>
           <TcPlatformChannelDialogHeader />
           <TcPlatformChannelDialogBody />
           <TcPlatformChannelDialogFooter />
         </div>
-        <div className="flex justify-center px-6 md:px-0 pb-3">
+        <div className='flex justify-center px-6 pb-3 md:px-0'>
           <TcButton
-            text={'Save Channels'}
-            variant="contained"
+            text='Save Channels'
+            variant='contained'
             sx={{ width: '15rem', padding: '0.5rem' }}
             onClick={() => setOpenDialog(false)}
           />
