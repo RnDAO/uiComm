@@ -1,18 +1,19 @@
 import { AlertTitle } from '@mui/material';
+import Router from 'next/router';
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiError } from 'react-icons/bi';
+
+import SimpleBackdrop from '../../global/LoadingBackdrop';
 import TcAlert from '../../shared/TcAlert';
 import TcButton from '../../shared/TcButton';
 import TcDialog from '../../shared/TcDialog';
-import TcText from '../../shared/TcText';
-import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 import TcInput from '../../shared/TcInput';
-import useAppStore from '../../../store/useStore';
-import SimpleBackdrop from '../../global/LoadingBackdrop';
-import Router from 'next/router';
-import { StorageService } from '../../../services/StorageService';
+import TcText from '../../shared/TcText';
 import { useToken } from '../../../context/TokenContext';
+import { StorageService } from '../../../services/StorageService';
+import useAppStore from '../../../store/useStore';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 
 interface CommunityComponentProps {
   community: IDiscordModifiedCommunity | null;
@@ -122,7 +123,7 @@ function TcConfirmDeleteCommunity({
             />
             <div className='flex justify-between'>
               <TcButton
-                text={'Cancel'}
+                text="Cancel"
                 variant='outlined'
                 onClick={() => setOpenDialog(false)}
               />
@@ -156,7 +157,7 @@ function TcConfirmDeleteCommunity({
             </div>
             <div className='flex justify-between'>
               <TcButton
-                text={'Cancel'}
+                text="Cancel"
                 variant='outlined'
                 onClick={() => setOpenDialog(false)}
               />

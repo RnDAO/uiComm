@@ -17,8 +17,9 @@
  */
 
 import { Box, BoxProps } from '@mui/material';
-import TcBoxTitleContainer from './TcBoxTitleContainer';
+
 import TcBoxContentContainer from './TcBoxContentContainer';
+import TcBoxTitleContainer from './TcBoxTitleContainer';
 
 interface ITcBoxContainer extends Omit<BoxProps, 'children'> {
   titleContainerChildren?: JSX.Element | React.ReactElement;

@@ -1,8 +1,9 @@
 import React from 'react';
-import centricLayout from '../../layouts/centricLayout';
+
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import TcText from '../../components/shared/TcText';
 import TcButton from '../../components/shared/TcButton';
+import TcText from '../../components/shared/TcText';
+import centricLayout from '../../layouts/centricLayout';
 import useAppStore from '../../store/useStore';
 
 function Index() {
@@ -22,7 +23,7 @@ function Index() {
             />
             <div className='block'>
               <TcButton
-                text={'Log in with Discord'}
+                text="Log in with Discord"
                 sx={{ width: '15rem', padding: '0.5rem' }}
                 variant='contained'
                 onClick={() => discordAuthorization()}

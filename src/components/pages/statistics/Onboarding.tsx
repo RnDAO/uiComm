@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import useAppStore from '../../../store/useStore';
-import LineGraph from '../../global/LineGraph';
-import StatisticalData from './StatisticalData';
-import { FiCalendar } from 'react-icons/fi';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
-import RangeSelect from '../../global/RangeSelect';
-import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
-import Loading from '../../global/Loading';
 import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { FiCalendar } from 'react-icons/fi';
+
+import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
+import StatisticalData from './StatisticalData';
+import LineGraph from '../../global/LineGraph';
+import Loading from '../../global/Loading';
+import RangeSelect from '../../global/RangeSelect';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import useAppStore from '../../../store/useStore';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface OnboardingProps {
   activePeriod: number;

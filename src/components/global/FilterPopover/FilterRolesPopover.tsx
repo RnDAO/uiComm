@@ -1,28 +1,29 @@
+import {
+  Autocomplete,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  ListItem,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  MdOutlineKeyboardArrowUp,
   MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowUp,
 } from 'react-icons/md';
-import TcButton from '../../shared/TcButton';
-import TcPopover from '../../shared/TcPopover';
-import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  ListItem,
-  Chip,
-  Autocomplete,
-} from '@mui/material';
-import TcText from '../../shared/TcText';
-import TcInput from '../../shared/TcInput';
-import useAppStore from '../../../store/useStore';
-import { useToken } from '../../../context/TokenContext';
-import { debounce, hexToRGBA, isDarkColor } from '../../../helpers/helper';
-import { FetchedData, IRoles } from '../../../utils/interfaces';
-import TcCheckbox from '../../shared/TcCheckbox';
+
 import Loading from '../Loading';
 import { IRolesPayload } from '../../pages/statistics/memberBreakdowns/CustomTable';
+import TcButton from '../../shared/TcButton';
+import TcCheckbox from '../../shared/TcCheckbox';
+import TcInput from '../../shared/TcInput';
+import TcPopover from '../../shared/TcPopover';
+import TcText from '../../shared/TcText';
+import { useToken } from '../../../context/TokenContext';
+import { debounce, hexToRGBA, isDarkColor } from '../../../helpers/helper';
+import useAppStore from '../../../store/useStore';
+import { FetchedData, IRoles } from '../../../utils/interfaces';
 
 function createPayload(
   includeExclude: 'include' | 'exclude',
@@ -238,7 +239,7 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
   return (
     <div>
       <TcButton
-        text={'Roles'}
+        text="Roles"
         className='text-black'
         endIcon={
           isRolesPopupOpen ? (

@@ -1,13 +1,14 @@
+import { Chip, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
+import { conf } from '../../../../configs';
 import { useToken } from '../../../../context/TokenContext';
+import { debounce, truncateCenter } from '../../../../helpers/helper';
 import useAppStore from '../../../../store/useStore';
 import { FetchedData, IUser } from '../../../../utils/interfaces';
-import { debounce, truncateCenter } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
-import { Chip, CircularProgress } from '@mui/material';
 import TcAvatar from '../../../shared/TcAvatar';
 import TcText from '../../../shared/TcText';
-import { conf } from '../../../../configs';
 
 interface ITcUsersAutoCompleteProps {
   isEdit?: boolean;
@@ -161,7 +162,7 @@ function TcUsersAutoComplete({
     <TcAutocomplete
       options={fetchedUsers.results}
       getOptionLabel={(option) => option.ngu}
-      label={'Select User(s)'}
+      label="Select User(s)"
       multiple={true}
       loading={isLoading}
       loadingText={

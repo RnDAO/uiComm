@@ -1,7 +1,8 @@
 import React from 'react';
+
+import TcPrompt from '../components/layouts/shared/TcPrompt';
 import Sidebar from '../components/layouts/Sidebar';
 import SidebarXs from '../components/layouts/xs/SidebarXs';
-import TcPrompt from '../components/layouts/shared/TcPrompt';
 
 type IDefaultLayoutProps = {
   children: React.ReactNode;

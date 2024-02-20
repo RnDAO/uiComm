@@ -1,6 +1,7 @@
 import { Box, Container } from '@mui/material';
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
+
 import tcLogo from '../assets/svg/tc-logo.svg';
 
 interface ICentricLayout {
@@ -14,7 +15,7 @@ function centricLayout({ children }: ICentricLayout) {
         sx={{ textAlign: 'center', paddingY: '2rem' }}
         className='space-y-6'
       >
-        <Image src={tcLogo} alt={''} className='mx-auto' />
+        <Image src={tcLogo} alt="" className='mx-auto' />
         {children}
       </Container>
     </Box>

@@ -1,16 +1,17 @@
 import React, {
-  useState,
-  useContext,
   createContext,
+  ReactNode,
+  useContext,
   useEffect,
   useRef,
-  ReactNode,
+  useState,
 } from 'react';
-import { StorageService } from '../services/StorageService';
-import { IToken } from '../utils/types';
-import { IDiscordModifiedCommunity } from '../utils/interfaces';
+
 import { SnackbarProvider } from './SnackbarContext';
+import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
+import { IDiscordModifiedCommunity } from '../utils/interfaces';
+import { IToken } from '../utils/types';
 
 type TokenContextType = {
   token: IToken | null;

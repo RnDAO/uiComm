@@ -1,8 +1,6 @@
 import React from 'react';
+
 import TcText from '../../../shared/TcText';
-import { StorageService } from '../../../../services/StorageService';
-import { IUser } from '../../../../utils/types';
-import TcLink from '../../../shared/TcLink';
 
 function TcYourAccountActivityHeader() {
   return (

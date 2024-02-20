@@ -1,13 +1,14 @@
-import { defaultLayout } from '../layouts/defaultLayout';
-import SEO from '../components/global/SEO';
-import EmptyState from '../components/global/EmptyState';
 import Image from 'next/image';
-import emptyState from '../assets/svg/empty-state.svg';
 import React from 'react';
+
+import emptyState from '../assets/svg/empty-state.svg';
+import EmptyState from '../components/global/EmptyState';
+import SEO from '../components/global/SEO';
 import ActiveMemberComposition from '../components/pages/pageIndex/ActiveMemberComposition';
 import HeatmapChart from '../components/pages/pageIndex/HeatmapChart';
 import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteractionGraph';
 import { useToken } from '../context/TokenContext';
+import { defaultLayout } from '../layouts/defaultLayout';
 
 function Dashboard(): JSX.Element {
   const { community } = useToken();

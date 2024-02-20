@@ -1,9 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react';
-import TcAccountActivity from './TcAccountActivity';
-import TcAccountActivityHeader from './TcAccountActivityHeader';
-import TcAccountActivityContent from './TcAccountActivityContent';
+import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
+
+import TcAccountActivity from './TcAccountActivity';
 
 // Mocking the child components to check only if they're rendered
 jest.mock('./TcAccountActivityHeader', () => {

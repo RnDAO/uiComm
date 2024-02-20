@@ -1,22 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
 import moment from 'moment';
+import React, { useContext, useEffect, useState } from 'react';
+import { FiCalendar } from 'react-icons/fi';
 import 'moment-timezone';
+
 import NumberOfMessages from './NumberOfMessages';
+import FilterByChannels from '../../global/FilterByChannels';
+import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
 import ZonePicker from '../../global/ZonePicker';
-import FilterByChannels from '../../global/FilterByChannels';
-import useAppStore from '../../../store/useStore';
-import { FiCalendar } from 'react-icons/fi';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import { transformToMidnightUTC } from '../../../helpers/momentHelper';
-import { useToken } from '../../../context/TokenContext';
-import { defaultHeatmapChartOptions } from '../../../lib/data/heatmap';
 import { ChannelContext } from '../../../context/ChannelContext';
+import { useToken } from '../../../context/TokenContext';
 import { extractTrueSubChannelIds } from '../../../helpers/helper';
-import Loading from '../../global/Loading';
+import { transformToMidnightUTC } from '../../../helpers/momentHelper';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import { defaultHeatmapChartOptions } from '../../../lib/data/heatmap';
+import useAppStore from '../../../store/useStore';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);

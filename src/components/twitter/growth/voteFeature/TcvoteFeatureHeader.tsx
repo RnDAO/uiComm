@@ -1,4 +1,5 @@
 import React from 'react';
+
 import TcText from '../../../shared/TcText';
 
 function TcAudienceResponseHeader() {

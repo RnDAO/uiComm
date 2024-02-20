@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
 import { FormControlLabel, FormGroup } from '@mui/material';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
+import React, { useContext } from 'react';
+import { BiError } from 'react-icons/bi';
+import { TbRefresh } from 'react-icons/tb';
+
+import Loading from '../../global/Loading';
+import TcButton from '../../shared/TcButton';
 import TcCheckbox from '../../shared/TcCheckbox';
 import TcText from '../../shared/TcText';
-import TcButton from '../../shared/TcButton';
-import { TbRefresh } from 'react-icons/tb';
-import Loading from '../../global/Loading';
 import { ChannelContext } from '../../../context/ChannelContext';
-import { useRouter } from 'next/router';
-import clsx from 'clsx';
-import { BiError } from 'react-icons/bi';
 
 interface ITcPlatformChannelList {
   refreshTrigger: boolean;
@@ -49,7 +50,7 @@ function TcPlatformChannelList({
     return (
       <div className='flex justify-center py-24'>
         <TcText
-          text={'Channel list is empty'}
+          text="Channel list is empty"
           variant='body2'
           className='text-gray-400'
         />
@@ -66,7 +67,7 @@ function TcPlatformChannelList({
           sx={{ maxWidth: '10rem' }}
           variant='outlined'
           onClick={handleRefresh}
-          text={'Refresh List'}
+          text="Refresh List"
         />
       ) : (
         ''

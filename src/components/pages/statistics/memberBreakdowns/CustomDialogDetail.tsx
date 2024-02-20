@@ -1,8 +1,9 @@
-import React from 'react';
 import { Dialog, DialogProps } from '@mui/material';
-import { IoClose } from 'react-icons/io5';
-import { conf } from '../../../../configs';
 import { Avatar } from '@mui/material';
+import React from 'react';
+import { IoClose } from 'react-icons/io5';
+
+import { conf } from '../../../../configs';
 import { IActivityCompositionOptions } from '../../../../utils/interfaces';
 
 interface CustomDialogDetailProps extends DialogProps {

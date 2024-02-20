@@ -1,8 +1,9 @@
 import { FormControl, InputLabel } from '@mui/material';
 import React from 'react';
+import { BsDiscord, BsTelegram } from 'react-icons/bs';
+
 import TcSelect from '../../../shared/TcSelect';
 import TcText from '../../../shared/TcText';
-import { BsDiscord, BsTelegram } from 'react-icons/bs';
 
 const announcementsPlatforms = [
   {

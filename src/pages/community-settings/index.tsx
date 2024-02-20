@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { defaultLayout } from '../../layouts/defaultLayout';
-import SEO from '../../components/global/SEO';
-import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import TcText from '../../components/shared/TcText';
-import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
-import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
 import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
+import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
 import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import SEO from '../../components/global/SEO';
+import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import TcText from '../../components/shared/TcText';
+import { defaultLayout } from '../../layouts/defaultLayout';
 
 function index() {
   const router = useRouter();
@@ -52,7 +53,7 @@ function index() {
         <TcBoxContainer
           contentContainerChildren={
             <div className='space-y-4 px-4 pt-4 pb-[4rem] md:px-10'>
-              <TcText text='Community Settings' variant={'h5'} />
+              <TcText text='Community Settings' variant="h5" />
               <div className='space-y-2'>
                 <TcSwitchCommunity />
                 <TcCommunityIntegrations />

@@ -1,27 +1,24 @@
+import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultLayout } from '../../layouts/defaultLayout';
-import SEO from '../../components/global/SEO';
-import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import { MdOutlineAnnouncement } from 'react-icons/md';
+
 import TcPublicMessageContainer from '../../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
-import TcPrivateMessageContainer from '../../components/announcements/create/privateMessaageContainer/TcPrivateMessageContainer';
-import TcButton from '../../components/shared/TcButton';
 import TcScheduleAnnouncement from '../../components/announcements/create/scheduleAnnouncement/';
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
-import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
-import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
-import useAppStore from '../../store/useStore';
-import { useToken } from '../../context/TokenContext';
-import { ChannelContext } from '../../context/ChannelContext';
-import { IRoles, IUser } from '../../utils/interfaces';
-import { useSnackbar } from '../../context/SnackbarContext';
-import { useRouter } from 'next/router';
-import SimpleBackdrop from '../../components/global/LoadingBackdrop';
-import { FormControlLabel } from '@mui/material';
-import { MdOutlineAnnouncement } from 'react-icons/md';
 import TcIconContainer from '../../components/announcements/create/TcIconContainer';
-import TcIconWithTooltip from '../../components/shared/TcIconWithTooltip';
-import TcSwitch from '../../components/shared/TcSwitch';
+import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import SEO from '../../components/global/SEO';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
+import TcButton from '../../components/shared/TcButton';
 import TcText from '../../components/shared/TcText';
+import { ChannelContext } from '../../context/ChannelContext';
+import { useSnackbar } from '../../context/SnackbarContext';
+import { useToken } from '../../context/TokenContext';
+import { defaultLayout } from '../../layouts/defaultLayout';
+import useAppStore from '../../store/useStore';
+import { IRoles, IUser } from '../../utils/interfaces';
 
 export type CreateAnnouncementsPayloadDataOptions =
   | { channelIds: string[]; userIds?: string[]; roleIds?: string[] }
@@ -257,7 +254,7 @@ function CreateNewAnnouncements() {
                     onClick={() => handleCreateAnnouncements(true)}
                   />
                   <TcConfirmSchaduledAnnouncementsDialog
-                    buttonLabel={'Create Announcement'}
+                    buttonLabel="Create Announcement"
                     selectedChannels={channels}
                     selectedRoles={roles}
                     selectedUsernames={users}

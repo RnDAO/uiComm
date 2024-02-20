@@ -1,6 +1,7 @@
-import React from 'react';
-import TcCard from '../shared/TcCard';
 import { CardProps } from '@mui/material';
+import React from 'react';
+
+import TcCard from '../shared/TcCard';
 
 interface ITcIntegrationCardProps extends CardProps {
   children: React.ReactElement | JSX.Element;

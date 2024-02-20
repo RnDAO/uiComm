@@ -16,26 +16,26 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
+import moment from 'moment';
+import router from 'next/router';
 import { useEffect, useState } from 'react';
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
   MdSearch,
 } from 'react-icons/md';
-import moment from 'moment';
 
+import CustomDialogDetail from './CustomDialogDetail';
+import { conf } from '../../../../configs';
+import useAppStore from '../../../../store/useStore';
 import {
   Column,
+  IActivityCompositionOptions,
   IRoles,
   Row,
-  IActivityCompositionOptions,
 } from '../../../../utils/interfaces';
-import { conf } from '../../../../configs';
-import Loading from '../../../global/Loading';
-import useAppStore from '../../../../store/useStore';
-import CustomDialogDetail from './CustomDialogDetail';
-import router from 'next/router';
 import FilterRolesPopover from '../../../global/FilterPopover/FilterRolesPopover';
+import Loading from '../../../global/Loading';
 
 export interface IRolesPayload {
   allRoles: boolean;
@@ -372,7 +372,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       <List>
                         <ListItem
                           button
-                          key={'desc'}
+                          key="desc"
                           onClick={() => handleSortOptionClick('desc')}
                           selected={selectedSortOption === 'desc'}
                         >
@@ -380,7 +380,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         </ListItem>
                         <ListItem
                           button
-                          key={'asc'}
+                          key="asc"
                           onClick={() => handleSortOptionClick('asc')}
                           selected={selectedSortOption === 'asc'}
                         >
@@ -394,7 +394,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     <span>Name</span>
                     <TextField
                       variant='standard'
-                      placeholder={'Search member'}
+                      placeholder="Search member"
                       InputProps={{
                         disableUnderline: true,
                         startAdornment: <MdSearch color='disabled' size={25} />,

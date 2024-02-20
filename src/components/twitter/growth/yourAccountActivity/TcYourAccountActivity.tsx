@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import TcYourAccountActivityHeader from './TcYourAccountActivityHeader';
+import React, { useEffect,useState } from 'react';
+
 import TcYourAccountActivityContent from './TcYourAccountActivityContent';
-import { IActivity } from '../../../../utils/interfaces';
+import TcYourAccountActivityHeader from './TcYourAccountActivityHeader';
 import { capitalizeFirstChar } from '../../../../helpers/helper';
+import { IActivity } from '../../../../utils/interfaces';
 
 interface IAccountActivityItem {
   description: string;

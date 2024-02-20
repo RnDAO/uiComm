@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { defaultLayout } from '../layouts/defaultLayout';
+
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import SEO from '../components/global/SEO';
-import TcText from '../components/shared/TcText';
 import TcBoxContainer from '../components/shared/TcBox/TcBoxContainer';
-import TcYourAccountActivity from '../components/twitter/growth/yourAccountActivity/TcYourAccountActivity';
+import TcText from '../components/shared/TcText';
+import TcAccountActivity from '../components/twitter/growth/accountActivity/TcAccountActivity';
 import TcAudienceResponse from '../components/twitter/growth/audienceResponse/TcAudienceResponse';
 import TcEngagementAccounts from '../components/twitter/growth/engagementAccounts/TcEngagementAccounts';
-import useAppStore from '../store/useStore';
+import TcYourAccountActivity from '../components/twitter/growth/yourAccountActivity/TcYourAccountActivity';
+import { defaultLayout } from '../layouts/defaultLayout';
 import { StorageService } from '../services/StorageService';
-import { IUser } from '../utils/types';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import useAppStore from '../store/useStore';
 import { IDataTwitter } from '../utils/interfaces';
-import TcAccountActivity from '../components/twitter/growth/accountActivity/TcAccountActivity';
+import { IUser } from '../utils/types';
 
 function growth() {
   const user = StorageService.readLocalStorage<IUser>('user');
@@ -132,8 +133,8 @@ function growth() {
           titleContainerChildren={
             <div className='bg-info px-10 py-3 text-white'>
               <TcText
-                text={'Twitter analysis'}
-                variant={'h4'}
+                text="Twitter analysis"
+                variant="h4"
                 fontWeight='bold'
               />
             </div>

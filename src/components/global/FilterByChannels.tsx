@@ -1,11 +1,12 @@
 import { Popover } from '@mui/material';
 import React, { useContext } from 'react';
-import { FaHashtag } from 'react-icons/fa';
 import { BiError } from 'react-icons/bi';
-import { ChannelContext } from '../../context/ChannelContext';
+import { FaHashtag } from 'react-icons/fa';
+
 import TcPlatformChannelList from '../communitySettings/platform/TcPlatformChannelList';
-import { calculateSelectedChannelSize } from '../../helpers/helper';
 import TcButton from '../shared/TcButton';
+import { ChannelContext } from '../../context/ChannelContext';
+import { calculateSelectedChannelSize } from '../../helpers/helper';
 
 type IFilterByChannelsProps = {
   handleFetchHeatmapByChannels?: () => void;
@@ -78,7 +79,7 @@ const FilterByChannels = ({
           </div>
           <div className='mx-auto pt-4 text-center'>
             <TcButton
-              text={'Save channels'}
+              text="Save channels"
               variant='contained'
               className='w-full'
               disabled={selectedCount === 0}

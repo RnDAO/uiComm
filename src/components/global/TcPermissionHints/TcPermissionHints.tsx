@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import TcButtonGroup from '../../shared/TcButtonGroup';
-import TcButton from '../../shared/TcButton';
 import clsx from 'clsx';
+import React, { useState } from 'react';
+
+import TcButton from '../../shared/TcButton';
+import TcButtonGroup from '../../shared/TcButtonGroup';
 import TcText from '../../shared/TcText';
 
 const permissionCategories = [

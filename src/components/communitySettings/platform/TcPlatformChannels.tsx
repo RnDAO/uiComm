@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaHashtag } from 'react-icons/fa6';
-import TcAvatar from '../../shared/TcAvatar';
+
 import TcPlatformChannelDialog from './TcPlatformChannelDialog';
+import TcAvatar from '../../shared/TcAvatar';
 
 function TcPlatformChannels() {
   return (

@@ -1,16 +1,17 @@
+import { debounce } from '@mui/material';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import { MdGroups } from 'react-icons/md';
+
+import TcConfirmDeleteCommunity from './TcConfirmDeleteCommunity';
+import Loading from '../../global/Loading';
+import TcAvatar from '../../shared/TcAvatar';
+import TcInput from '../../shared/TcInput';
+import { conf } from '../../../configs';
+import { useSnackbar } from '../../../context/SnackbarContext';
 import { StorageService } from '../../../services/StorageService';
 import useAppStore from '../../../store/useStore';
 import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
-import TcAvatar from '../../shared/TcAvatar';
-import TcConfirmDeleteCommunity from './TcConfirmDeleteCommunity';
-import Loading from '../../global/Loading';
-import TcInput from '../../shared/TcInput';
-import { debounce } from '@mui/material';
-import { useSnackbar } from '../../../context/SnackbarContext';
-import { MdGroups } from 'react-icons/md';
-import { conf } from '../../../configs';
-import Image from 'next/image';
 
 const updateCommunityName = debounce(
   async (communityId, newName, updateFunc, fetchFunc, showSnackbar) => {

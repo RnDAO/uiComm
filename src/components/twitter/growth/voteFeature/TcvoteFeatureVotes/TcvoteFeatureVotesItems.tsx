@@ -1,6 +1,7 @@
-import React from 'react';
-import TcCheckbox from '../../../../shared/TcCheckbox';
 import { FormControlLabel } from '@mui/material';
+import React from 'react';
+
+import TcCheckbox from '../../../../shared/TcCheckbox';
 import TcText from '../../../../shared/TcText';
 
 interface ITcvoteFeatureVotesItemsProps {
@@ -21,7 +22,7 @@ function TcvoteFeatureVotesItems({
     <div className='mx-auto rounded-lg border border-gray-border-box p-4 md:w-2/3'>
       <FormControlLabel
         {...props}
-        label={<TcText text={label} variant={'subtitle1'} fontWeight='bold' />}
+        label={<TcText text={label} variant="subtitle1" fontWeight='bold' />}
         control={
           <TcCheckbox
             color={color}

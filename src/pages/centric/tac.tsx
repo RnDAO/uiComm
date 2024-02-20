@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import centricLayout from '../../layouts/centricLayout';
-import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import TcText from '../../components/shared/TcText';
-import TcCheckbox from '../../components/shared/TcCheckbox';
 import { FormControlLabel } from '@mui/material';
-import TcLink from '../../components/shared/TcLink';
-import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
-import useAppStore from '../../store/useStore';
-import { StorageService } from '../../services/StorageService';
+import React, { useState } from 'react';
+
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import TcButton from '../../components/shared/TcButton';
+import TcCheckbox from '../../components/shared/TcCheckbox';
+import TcLink from '../../components/shared/TcLink';
+import TcText from '../../components/shared/TcText';
+import centricLayout from '../../layouts/centricLayout';
+import { StorageService } from '../../services/StorageService';
+import useAppStore from '../../store/useStore';
 
 function Tac() {
   const { patchUser } = useAppStore();
@@ -74,7 +75,7 @@ function Tac() {
                     <>
                       {'I understand and agree to the '}
                       <TcLink
-                        to={'https://www.togethercrew.com/privacy-and-terms'}
+                        to="https://www.togethercrew.com/privacy-and-terms"
                         color='primary'
                         fontWeight='bold'
                       >
@@ -82,7 +83,7 @@ function Tac() {
                       </TcLink>
                     </>
                   }
-                  variant={'subtitle2'}
+                  variant="subtitle2"
                 />
               }
               control={
@@ -94,7 +95,7 @@ function Tac() {
             />
             <div className='block py-5'>
               <TcButton
-                text={'Continue'}
+                text="Continue"
                 variant='contained'
                 sx={{ width: '15rem', padding: '0.5rem' }}
                 disabled={!acceptPrivacyAndPolicy}

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import TcConnectedPlatforms from './TcConnectedPlatforms';
+
 import TcAvailableIntegrations from './TcAvailableIntegrations';
+import TcConnectedPlatforms from './TcConnectedPlatforms';
+import Loading from '../../global/Loading';
 import TcText from '../../shared/TcText';
+import { StorageService } from '../../../services/StorageService';
 import useAppStore from '../../../store/useStore';
 import {
   FetchedData,
   IDiscordModifiedCommunity,
 } from '../../../utils/interfaces';
-import { StorageService } from '../../../services/StorageService';
-import Loading from '../../global/Loading';
 
 function TcCommunityIntegrations() {
   const { retrievePlatforms } = useAppStore();
@@ -49,7 +50,7 @@ function TcCommunityIntegrations() {
 
   return (
     <>
-      <TcText text='Integration' variant={'h6'} />
+      <TcText text='Integration' variant="h6" />
       <div className='space-y-5'>
         {fetchedPlatforms?.results.length > 0 ? (
           <div className='space-y-4 md:mb-8'>

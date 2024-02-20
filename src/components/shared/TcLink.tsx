@@ -18,8 +18,8 @@
  * <TcLink to="https://www.example.com">Visit Example</TcLink>
  */
 
-import React from 'react';
 import { Link, LinkProps as MuiLinkProps } from '@mui/material';
+import React from 'react';
 
 interface CustomLinkProps extends MuiLinkProps {
   to?: string;

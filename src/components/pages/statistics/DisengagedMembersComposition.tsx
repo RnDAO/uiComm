@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import useAppStore from '../../../store/useStore';
-import LineGraph from '../../global/LineGraph';
-import StatisticalData from './StatisticalData';
-import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from '../../global/RangeSelect';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
-import Loading from '../../global/Loading';
 import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { FiCalendar } from 'react-icons/fi';
+
+import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
+import StatisticalData from './StatisticalData';
+import LineGraph from '../../global/LineGraph';
+import Loading from '../../global/Loading';
+import RangeSelect from '../../global/RangeSelect';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import useAppStore from '../../../store/useStore';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;

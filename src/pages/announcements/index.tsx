@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { defaultLayout } from '../../layouts/defaultLayout';
-import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import SEO from '../../components/global/SEO';
-import TcText from '../../components/shared/TcText';
-import TcButton from '../../components/shared/TcButton';
-import { BsPlus } from 'react-icons/bs';
-import router from 'next/router';
-import TcPagination from '../../components/shared/TcPagination';
-import TcTimeZone from '../../components/announcements/TcTimeZone';
 import moment from 'moment';
+import router from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { BsPlus } from 'react-icons/bs';
 import { MdCalendarMonth } from 'react-icons/md';
-import useAppStore from '../../store/useStore';
+
+import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
+import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
+import TcTimeZone from '../../components/announcements/TcTimeZone';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import SEO from '../../components/global/SEO';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import TcButton from '../../components/shared/TcButton';
+import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
+import TcPagination from '../../components/shared/TcPagination';
+import TcText from '../../components/shared/TcText';
+import { useToken } from '../../context/TokenContext';
+import { defaultLayout } from '../../layouts/defaultLayout';
 import { StorageService } from '../../services/StorageService';
+import useAppStore from '../../store/useStore';
 import {
   FetchedData,
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../utils/interfaces';
-import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
-import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
-import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
-import { useToken } from '../../context/TokenContext';
-import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
