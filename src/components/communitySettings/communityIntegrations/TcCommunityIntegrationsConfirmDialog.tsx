@@ -52,7 +52,7 @@ function TcCommunityIntegrationsConfirmDialog({
         />
         <div className='py-6'>
           <TcButton
-            text="I understand"
+            text='I understand'
             variant='contained'
             onClick={() => handleCloseDialog()}
           />

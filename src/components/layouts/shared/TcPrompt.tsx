@@ -75,7 +75,7 @@ function TcPrompt() {
         }}
       >
         <div className='flex flex-col items-center justify-center p-0 md:flex-row md:space-x-3'>
-          <TcText text={message} color="white" variant="subtitle1" />
+          <TcText text={message} color='white' variant='subtitle1' />
           {buttonText && (
             <TcButton
               text={buttonText}

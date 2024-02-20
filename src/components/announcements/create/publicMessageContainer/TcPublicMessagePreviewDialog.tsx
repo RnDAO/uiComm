@@ -85,7 +85,7 @@ function TcPublicMessagePreviewDialog({
               />
               <div className='w-full py-6'>
                 <TcButton
-                  text="Confirm"
+                  text='Confirm'
                   variant='contained'
                   onClick={() => setPreviewDialogOpen(false)}
                   sx={{ width: '100%' }}

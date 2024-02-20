@@ -91,7 +91,7 @@ function TcCommunityListItems({
   if (communities.length === 0) {
     return (
       <div className='py-8'>
-        <TcText text='No community exist' variant="body1" color='gray' />
+        <TcText text='No community exist' variant='body1' color='gray' />
       </div>
     );
   }
@@ -114,7 +114,7 @@ function TcCommunityListItems({
               {renderPlatformAvatar(community)}
             </TcAvatar>
           )}
-          <TcText text={community.name} variant="body1" />
+          <TcText text={community.name} variant='body1' />
         </div>
       ))}
     </div>

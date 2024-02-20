@@ -16,7 +16,7 @@ function HeaderSection() {
           Here you will find health indicators based on our{' '}
           <Link
             target='_blank'
-            to="https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM"
+            to='https://rndao.mirror.xyz/F-SMj6p_jdYvrMMkR1d9Hd6YbEg39qItTKfjo-zkgqM'
             color='secondary'
             className='font-semibold'
           >

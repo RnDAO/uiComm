@@ -7,7 +7,7 @@ type items = {
   icon: any;
 };
 
-import { faHeartPulse,faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Drawer } from '@mui/material';
 import Link from 'next/link';

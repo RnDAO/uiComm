@@ -79,7 +79,7 @@ const FilterByChannels = ({
           </div>
           <div className='mx-auto pt-4 text-center'>
             <TcButton
-              text="Save channels"
+              text='Save channels'
               variant='contained'
               className='w-full'
               disabled={selectedCount === 0}

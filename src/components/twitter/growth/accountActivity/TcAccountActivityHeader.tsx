@@ -25,7 +25,7 @@ export default function TcAccountActivityHeader() {
         <TcText text='Analyzed account:' variant='subtitle1' color='#767676' />
         {user?.twitter?.twitterUsername ? (
           <>
-            <TcLink to="/settings" color='secondary' fontWeight='bold'>
+            <TcLink to='/settings' color='secondary' fontWeight='bold'>
               @{user?.twitter?.twitterUsername}
             </TcLink>
           </>

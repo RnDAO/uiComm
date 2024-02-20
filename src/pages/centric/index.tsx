@@ -23,7 +23,7 @@ function Index() {
             />
             <div className='block'>
               <TcButton
-                text="Log in with Discord"
+                text='Log in with Discord'
                 sx={{ width: '15rem', padding: '0.5rem' }}
                 variant='contained'
                 onClick={() => discordAuthorization()}

@@ -30,7 +30,7 @@
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import React from 'react';
 
-type ITcCheckboxProps = CheckboxProps
+type ITcCheckboxProps = CheckboxProps;
 
 function TcCheckbox({ ...props }: ITcCheckboxProps) {
   return <Checkbox {...props} />;

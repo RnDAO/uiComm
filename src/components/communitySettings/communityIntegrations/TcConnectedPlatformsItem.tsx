@@ -89,14 +89,14 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
               />
               <ClickAwayListener onClickAway={handleTooltipClose}>
                 <Tooltip
-                  title="Connected"
+                  title='Connected'
                   arrow
                   placement='right'
                   enterTouchDelay={0}
                 >
                   <div
                     onClick={handleTooltipOpen}
-                    className="h-3 w-3 rounded-full bg-success"
+                    className='h-3 w-3 rounded-full bg-success'
                   />
                 </Tooltip>
               </ClickAwayListener>

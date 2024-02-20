@@ -8,7 +8,7 @@ describe('TcLink component', () => {
     const defaultText = 'Title Test';
 
     //arrange
-    const { getByText } = render(<TcLink to="/">{defaultText}</TcLink>);
+    const { getByText } = render(<TcLink to='/'>{defaultText}</TcLink>);
 
     //assert
     expect(getByText(defaultText)).toBeInTheDocument();

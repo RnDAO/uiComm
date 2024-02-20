@@ -154,7 +154,7 @@ function TcRolesAutoComplete({
     <TcAutocomplete
       options={fetchedRoles.results}
       getOptionLabel={(option) => option.name}
-      label="Select Role(s)"
+      label='Select Role(s)'
       multiple={true}
       loading={isLoading}
       loadingText={

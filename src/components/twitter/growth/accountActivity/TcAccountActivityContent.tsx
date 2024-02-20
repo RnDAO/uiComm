@@ -25,10 +25,10 @@ function TcAccountActivityContent({
             className='md:min-h-auto min-h-[6rem] min-w-[250px] bg-gray-hover py-4 px-6'
             children={
               <div className='flex flex-col space-y-1 text-center'>
-                <TcText text={el.value} variant="h4" fontWeight='bold' />
+                <TcText text={el.value} variant='h4' fontWeight='bold' />
                 <TcText
                   text={el.description}
-                  variant="body2"
+                  variant='body2'
                   className='text-gray-subtitle'
                 />
                 <div className='flex cursor-pointer justify-center'>

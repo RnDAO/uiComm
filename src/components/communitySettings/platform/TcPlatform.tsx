@@ -149,9 +149,9 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
         <div className='space-y-4 p-4 md:p-10'>
           <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
             <div className='space-y-5'>
-              <TcText text={platformName} variant="h6" />
+              <TcText text={platformName} variant='h6' />
               <div>
-                <TcText text='Server:' variant="body2" color="gray.100" />
+                <TcText text='Server:' variant='body2' color='gray.100' />
                 <TcCommunityName platform={fetchedPlatform} />
               </div>
             </div>

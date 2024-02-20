@@ -25,14 +25,14 @@ function TcEngagementAccountContentItems({
       <TcText
         text={value}
         color={bgColor === 'bg-[#3A9E2B]' ? 'white' : 'black'}
-        variant="h4"
+        variant='h4'
         fontWeight='bold'
         display='block'
       />
       <TcText
         text={description}
         color={bgColor === 'bg-[#3A9E2B]' ? 'white' : '#222222'}
-        variant="caption"
+        variant='caption'
         display='block'
         paddingX={1}
       />

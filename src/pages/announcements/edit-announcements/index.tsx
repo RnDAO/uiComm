@@ -286,7 +286,7 @@ function Index() {
               </div>
               <div className='flex flex-col items-center justify-end space-y-3 pt-6 md:flex-row md:pt-12'>
                 <TcConfirmSchaduledAnnouncementsDialog
-                  buttonLabel="Save"
+                  buttonLabel='Save'
                   selectedChannels={channels}
                   selectedRoles={roles}
                   selectedUsernames={users}

@@ -25,7 +25,7 @@ export default function MemberInteractionGraph() {
       </div>
       <div className='mb-3 pt-6 text-center md:pt-0'>
         <TcButton
-          text="Show more"
+          text='Show more'
           variant='contained'
           onClick={() => {
             router.push('/membersInteraction');

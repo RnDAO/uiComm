@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo,useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { IToken } from './types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';

@@ -239,7 +239,7 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
   return (
     <div>
       <TcButton
-        text="Roles"
+        text='Roles'
         className='text-black'
         endIcon={
           isRolesPopupOpen ? (

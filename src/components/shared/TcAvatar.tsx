@@ -7,7 +7,7 @@ import React from 'react';
  * Represents the properties for the TcAvatar component.
  * It extends AvatarProps from MUI's Avatar to inherit all of its properties.
  */
-type ITcAvatarProps = AvatarProps
+type ITcAvatarProps = AvatarProps;
 
 /**
  * `TcAvatar` functional component.

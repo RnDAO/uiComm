@@ -14,7 +14,7 @@ import Router from 'next/router';
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { MdDelete,MdModeEdit } from 'react-icons/md';
+import { MdDelete, MdModeEdit } from 'react-icons/md';
 
 import Loading from '../global/Loading';
 import TcButton from '../shared/TcButton';
@@ -513,13 +513,13 @@ function TcAnnouncementsTable({
                 />
                 <div className='flex items-center space-x-3 py-3'>
                   <TcButton
-                    text="Cancel"
+                    text='Cancel'
                     className='w-full'
                     variant='outlined'
                     onClick={() => setDeleteConfirmDialogOpen(false)}
                   />
                   <TcButton
-                    text="Confirm"
+                    text='Confirm'
                     className='w-full'
                     variant='contained'
                     onClick={() =>

@@ -21,7 +21,7 @@ function TcPlatformChannelDialog() {
   return (
     <div>
       <TcText
-        text="Confirm your imported channels"
+        text='Confirm your imported channels'
         variant='body1'
         fontWeight='bold'
       />
@@ -32,7 +32,7 @@ function TcPlatformChannelDialog() {
           className='whitespace-nowrap'
         />
         <TcButton
-          text="Show channels"
+          text='Show channels'
           sx={{ width: 'auto', textDecoration: 'underline' }}
           onClick={() => setOpenDialog(true)}
         />
@@ -54,7 +54,7 @@ function TcPlatformChannelDialog() {
         }}
       >
         <div className='flex items-center justify-between p-6'>
-          <TcText text="Import activities from channels" variant='h5' />
+          <TcText text='Import activities from channels' variant='h5' />
           <AiOutlineClose
             className='cursor-pointer'
             size={24}
@@ -68,7 +68,7 @@ function TcPlatformChannelDialog() {
         </div>
         <div className='flex justify-center px-6 pb-3 md:px-0'>
           <TcButton
-            text="Save Channels"
+            text='Save Channels'
             variant='contained'
             sx={{ width: '15rem', padding: '0.5rem' }}
             onClick={() => setOpenDialog(false)}

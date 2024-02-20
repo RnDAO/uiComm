@@ -50,7 +50,7 @@ function TcCommunityIntegrations() {
 
   return (
     <>
-      <TcText text='Integration' variant="h6" />
+      <TcText text='Integration' variant='h6' />
       <div className='space-y-5'>
         {fetchedPlatforms?.results.length > 0 ? (
           <div className='space-y-4 md:mb-8'>

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { RxArrowBottomRight,RxArrowTopRight } from 'react-icons/rx';
+import { RxArrowBottomRight, RxArrowTopRight } from 'react-icons/rx';
 
 import { StatisticsProps } from '../../../utils/interfaces';
 
@@ -101,9 +101,9 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
               )}
             >
               {stat.percentageChange > 0 ? (
-                <RxArrowTopRight size="15px" />
+                <RxArrowTopRight size='15px' />
               ) : stat.percentageChange < 0 ? (
-                <RxArrowBottomRight size="15px" />
+                <RxArrowBottomRight size='15px' />
               ) : (
                 ''
               )}{' '}
@@ -133,7 +133,7 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
                     >
                       <span onClick={handleTooltipOpen}>
                         <AiOutlineExclamationCircle
-                          size="18px"
+                          size='18px'
                           className='mx-auto ml-1'
                         />
                       </span>
@@ -155,10 +155,10 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
       ) : (
         <div className='mt-3 mb-12 flex flex-row items-center space-x-3'>
           <div className=' flex w-12 flex-row  items-center justify-center rounded bg-purple-light text-white'>
-            <RxArrowTopRight size="18px" /> %
+            <RxArrowTopRight size='18px' /> %
           </div>
           <div className=' flex w-12 flex-row  items-center justify-center rounded bg-gray-custom text-white'>
-            <RxArrowBottomRight size="18px" /> %
+            <RxArrowBottomRight size='18px' /> %
           </div>
           <p className='text-sm'>% compared to the last week</p>
         </div>
