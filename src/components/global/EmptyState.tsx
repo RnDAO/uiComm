@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import CustomButton from './CustomButton';
+import TcButton from '../shared/TcButton';
 
 type IProps = {
   image: JSX.Element;
@@ -20,12 +20,13 @@ export default function EmptyState({
       <div className="mx-auto">{image}</div>
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="text-sm md:w-5/12 mx-auto pb-1">{description}</p>
-      <CustomButton
-        label={customButtonLabel}
-        classes="bg-secondary text-white mx-auto"
+      <TcButton
+        text={customButtonLabel}
+        variant="contained"
         onClick={() => {
           router.push('/community-settings');
         }}
+        className="py-2 md:w-1/5 mx-auto"
       />
     </div>
   );

@@ -85,6 +85,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
               <TcButton
                 text={'Disconnect and delete'}
                 variant="contained"
+                className="w-full"
                 onClick={() => handleDeletePlatform('hard')}
               />
             </div>
@@ -107,6 +108,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
               <TcButton
                 text={'Disconnect'}
                 variant="contained"
+                className="w-full"
                 onClick={() => handleDeletePlatform('soft')}
               />
             </div>

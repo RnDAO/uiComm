@@ -1,11 +1,11 @@
 import { Popover } from '@mui/material';
 import React, { useContext } from 'react';
 import { FaHashtag } from 'react-icons/fa';
-import CustomButton from './CustomButton';
 import { BiError } from 'react-icons/bi';
 import { ChannelContext } from '../../context/ChannelContext';
 import TcPlatformChannelList from '../communitySettings/platform/TcPlatformChannelList';
 import { calculateSelectedChannelSize } from '../../helpers/helper';
+import TcButton from '../shared/TcButton';
 
 type IFilterByChannelsProps = {
   handleFetchHeatmapByChannels?: () => void;
@@ -77,16 +77,17 @@ const FilterByChannels = ({
             At least one channel needs to be selected. Please select channel.
           </div>
           <div className="mx-auto pt-4 text-center">
-            <CustomButton
-              label={'Save channels'}
+            <TcButton
+              text={'Save channels'}
+              variant="contained"
+              className="w-full"
+              disabled={selectedCount === 0}
               onClick={() => {
                 if (handleFetchHeatmapByChannels) {
                   handleFetchHeatmapByChannels();
                 }
                 setAnchorEl(null);
               }}
-              disabled={selectedCount === 0}
-              classes="bg-secondary text-white mx-auto"
             />
           </div>
         </div>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import StatisticalData from '../statistics/StatisticalData';
 import useAppStore from '../../../store/useStore';
-import CustomButton from '../../global/CustomButton';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { StatisticsProps } from '../../../utils/interfaces';
 import { useToken } from '../../../context/TokenContext';
+import TcButton from '../../shared/TcButton';
 
 const ActiveMemberComposition = () => {
   const { community } = useToken();
@@ -118,12 +118,13 @@ const ActiveMemberComposition = () => {
           />
         </div>
         <div className="text-center mb-3">
-          <CustomButton
-            label={'Show more'}
-            classes="bg-secondary text-white mx-auto"
+          <TcButton
+            text={'Show more'}
+            variant="contained"
             onClick={() => {
               router.push('/statistics');
             }}
+            className="py-2 px-[5rem]"
           />
         </div>
       </div>
