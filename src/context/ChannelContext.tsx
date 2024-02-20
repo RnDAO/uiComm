@@ -149,14 +149,17 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
         selectedSubChannels[channelId]?.[subChannel.channelId]
     );
 
-    const newSubChannelsState = subChannels.reduce((acc, subChannel) => {
-      if (subChannel.canReadMessageHistoryAndViewChannel) {
-        acc[subChannel.channelId] = !allSelected;
-      } else {
-        acc[subChannel.channelId] = false;
-      }
-      return acc;
-    }, {} as { [subChannelId: string]: boolean });
+    const newSubChannelsState = subChannels.reduce(
+      (acc, subChannel) => {
+        if (subChannel.canReadMessageHistoryAndViewChannel) {
+          acc[subChannel.channelId] = !allSelected;
+        } else {
+          acc[subChannel.channelId] = false;
+        }
+        return acc;
+      },
+      {} as { [subChannelId: string]: boolean }
+    );
 
     setSelectedSubChannels((prev) => ({
       ...prev,

@@ -27,7 +27,7 @@ interface CustomLinkProps extends MuiLinkProps {
 
 function TcLink({ children, to, ...props }: CustomLinkProps) {
   return (
-    <Link component="a" href={to} underline="none" {...props}>
+    <Link component='a' href={to} underline='none' {...props}>
       {children}
     </Link>
   );

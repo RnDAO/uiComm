@@ -39,7 +39,7 @@ function TcYourAccountActivity({ activity }: ITcYourAccountActivityProps) {
   }, [activity]);
 
   return (
-    <div className="space-y-3">
+    <div className='space-y-3'>
       <TcYourAccountActivityHeader />
       <TcYourAccountActivityContent data={yourAccountActivityList} />
     </div>

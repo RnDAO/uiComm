@@ -145,12 +145,12 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   return (
     <TcBoxContainer
       contentContainerChildren={
-        <div className="p-4 md:p-10 space-y-4">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-            <div className="space-y-5">
+        <div className='space-y-4 p-4 md:p-10'>
+          <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
+            <div className='space-y-5'>
               <TcText text={platformName} variant={'h6'} />
               <div>
-                <TcText text="Server:" variant={'body2'} color={'gray.100'} />
+                <TcText text='Server:' variant={'body2'} color={'gray.100'} />
                 <TcCommunityName platform={fetchedPlatform} />
               </div>
             </div>
@@ -161,10 +161,10 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
             onDateChange={handleDateChange}
           />
           <TcPlatformChannels />
-          <div className="flex justify-center pt-8 pb-6">
+          <div className='flex justify-center pt-8 pb-6'>
             <TcButton
-              text="Confirm Changes"
-              variant="contained"
+              text='Confirm Changes'
+              variant='contained'
               sx={{ width: '15rem', padding: '0.5rem' }}
               onClick={handlePatchCommunity}
             />

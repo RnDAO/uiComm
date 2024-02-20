@@ -46,19 +46,19 @@ function Tac() {
   return (
     <div>
       <TcBoxContainer
-        bgcolor="white"
-        className="rounded py-12 px-4 md:p-12 md:min-h-[37.5rem]"
+        bgcolor='white'
+        className='rounded py-12 px-4 md:min-h-[37.5rem] md:p-12'
         contentContainerChildren={
-          <div className="space-y-6 py-12">
+          <div className='space-y-6 py-12'>
             <TcText
               sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 'bold' }}
-              color="initial"
-              text="One more thing..."
+              color='initial'
+              text='One more thing...'
             />
             <TcText
-              variant="body1"
-              className="text-left md:text-center"
-              color="initial"
+              variant='body1'
+              className='text-left md:text-center'
+              color='initial'
               text={
                 <>
                   Please take a moment to familiarize yourself with <br /> our
@@ -69,14 +69,14 @@ function Tac() {
             <FormControlLabel
               label={
                 <TcText
-                  className="text-left md:text-center"
+                  className='text-left md:text-center'
                   text={
                     <>
                       {'I understand and agree to the '}
                       <TcLink
                         to={'https://www.togethercrew.com/privacy-and-terms'}
-                        color="primary"
-                        fontWeight="bold"
+                        color='primary'
+                        fontWeight='bold'
                       >
                         Privacy Policy and Terms of Service.
                       </TcLink>
@@ -87,15 +87,15 @@ function Tac() {
               }
               control={
                 <TcCheckbox
-                  color="secondary"
+                  color='secondary'
                   onChange={(e) => setAcceptPrivacyAndPolicy(e.target.checked)}
                 />
               }
             />
-            <div className="block py-5">
+            <div className='block py-5'>
               <TcButton
                 text={'Continue'}
-                variant="contained"
+                variant='contained'
                 sx={{ width: '15rem', padding: '0.5rem' }}
                 disabled={!acceptPrivacyAndPolicy}
                 onClick={() => handleAcceptTerms()}

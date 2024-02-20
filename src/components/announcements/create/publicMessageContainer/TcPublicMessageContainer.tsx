@@ -119,13 +119,13 @@ function TcPublicMessageContainer({
   };
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-1 md:space-y-0">
-        <div className="flex flex-row items-center space-x-3">
+    <div className='space-y-3'>
+      <div className='flex flex-col space-y-1 md:flex-row md:items-center md:justify-between md:space-y-0'>
+        <div className='flex flex-row items-center space-x-3'>
           <TcIconContainer>
             <MdAnnouncement size={20} />
           </TcIconContainer>
-          <TcText text="Public Message" variant="body1" fontWeight="700" />
+          <TcText text='Public Message' variant='body1' fontWeight='700' />
         </div>
         <TcPublicMessagePreviewDialog
           textMessage={message}
@@ -133,14 +133,14 @@ function TcPublicMessageContainer({
           selectedChannels={selectedChannels.map((channel) => channel.label)}
         />
       </div>
-      <div className="space-y-1.5">
-        <FormControl variant="filled" fullWidth size="medium">
-          <InputLabel id="select-standard-label">Select Channels</InputLabel>
+      <div className='space-y-1.5'>
+        <FormControl variant='filled' fullWidth size='medium'>
+          <InputLabel id='select-standard-label'>Select Channels</InputLabel>
           <TcSelect
             multiple
-            labelId="select-standard-label"
-            id="select-standard-label"
-            label="Platform"
+            labelId='select-standard-label'
+            id='select-standard-label'
+            label='Platform'
             value={selectedChannels}
             open={isDropdownVisible}
             onOpen={toggleDropdownVisibility}
@@ -150,15 +150,15 @@ function TcPublicMessageContainer({
                 .join(', ')
             }
           >
-            <div className="p-4 space-y-3">
-              <div className="border border-gray-300 rounded-md">
+            <div className='space-y-3 p-4'>
+              <div className='rounded-md border border-gray-300'>
                 <TcPlatformChannelList refreshTrigger={false} />
               </div>
               <TcPermissionHints />
-              <div className="flex justify-end">
+              <div className='flex justify-end'>
                 <TcButton
-                  text="Save"
-                  variant="contained"
+                  text='Save'
+                  variant='contained'
                   sx={{ minWidth: '12rem' }}
                   onClick={handleSaveChannels}
                 />
@@ -168,26 +168,26 @@ function TcPublicMessageContainer({
           {showError && (
             <FormHelperText>
               <TcText
-                text="Please select at least one channel."
-                variant="caption"
-                className="text-red-500"
+                text='Please select at least one channel.'
+                variant='caption'
+                className='text-red-500'
               />
             </FormHelperText>
           )}
         </FormControl>
-        <div className="flex flex-col">
-          <TcText text="Write message here:" variant="subtitle1" />
+        <div className='flex flex-col'>
+          <TcText text='Write message here:' variant='subtitle1' />
           <TcText
-            text="Our bot will distribute the announcement through selected channels with the required access to share the designated message."
-            variant="caption"
-            className="text-gray-400"
+            text='Our bot will distribute the announcement through selected channels with the required access to share the designated message.'
+            variant='caption'
+            className='text-gray-400'
           />
         </div>
-        <FormControl variant="filled" fullWidth size="medium">
+        <FormControl variant='filled' fullWidth size='medium'>
           <TcInput
-            label="Message"
-            variant="filled"
-            placeholder="Write your message here"
+            label='Message'
+            variant='filled'
+            placeholder='Write your message here'
             rows={3}
             multiline
             value={message}

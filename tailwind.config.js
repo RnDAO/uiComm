@@ -12,7 +12,7 @@ const colors = {
   secondary: {
     DEFAULT: '#804EE1',
     50: '#F6FDFF',
-    75:'#CCB8F3',
+    75: '#CCB8F3',
     100: '#E3F8FF',
     200: '#BCEEFF',
     300: '#8CD3EA',
@@ -31,7 +31,7 @@ const colors = {
     300: '#F06885',
     400: '#D3546F',
     500: '#FB3E56',
-    600:'#EB3E56'
+    600: '#EB3E56',
   },
   warning: {
     DEFAULT: '#BB6842',
@@ -52,8 +52,8 @@ const colors = {
   },
   green: {
     DEFAULT: '#3AAE2B',
-    100:'#DBF6D7',
-    600:'#3A9E2B'
+    100: '#DBF6D7',
+    600: '#3A9E2B',
   },
   lite: '#F8F8F8',
   'lite-black': '#3E3E3E',
@@ -73,9 +73,9 @@ const colors = {
   'purple-light': '#9971E7',
   'purple-dark': '#673FB5',
   'purple-darker': '#35205E',
-  'gray-subtitle':'#767676',
-  orange:'#FF8022',
-  'gray-border-box':'#AAAAAA',
+  'gray-subtitle': '#767676',
+  orange: '#FF8022',
+  'gray-border-box': '#AAAAAA',
 };
 
 const backgroundImage = {

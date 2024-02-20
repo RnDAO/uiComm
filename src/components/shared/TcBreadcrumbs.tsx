@@ -27,8 +27,8 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
 
   return (
     <Breadcrumbs
-      aria-label="breadcrumb"
-      separator={<MdChevronRight fontSize="medium" />}
+      aria-label='breadcrumb'
+      separator={<MdChevronRight fontSize='medium' />}
     >
       {items.map((item, index) => (
         <TcLink
@@ -43,7 +43,7 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
           }`}
           to={item.path || '#'}
         >
-          <TcText text={item.label} variant="body2" />
+          <TcText text={item.label} variant='body2' />
         </TcLink>
       ))}
     </Breadcrumbs>

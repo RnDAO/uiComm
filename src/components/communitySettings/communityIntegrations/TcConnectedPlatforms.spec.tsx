@@ -11,7 +11,7 @@ jest.mock('./TcConnectedPlatformsItem', () => {
     platform: any;
   }) {
     return (
-      <div data-testid="mock-connected-platforms-item">
+      <div data-testid='mock-connected-platforms-item'>
         {/* Render the platform's name for testing purposes */}
         {platform.name}
       </div>

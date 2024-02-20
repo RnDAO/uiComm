@@ -157,7 +157,7 @@ function TcRolesAutoComplete({
       multiple={true}
       loading={isLoading}
       loadingText={
-        <div className="text-center">
+        <div className='text-center'>
           <CircularProgress size={24} />
         </div>
       }
@@ -175,7 +175,7 @@ function TcRolesAutoComplete({
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip
-            variant="outlined"
+            variant='outlined'
             label={
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <span
@@ -194,7 +194,7 @@ function TcRolesAutoComplete({
                 {option.name}
               </div>
             }
-            size="small"
+            size='small'
             sx={{
               borderRadius: '4px',
               borderColor: '#D1D1D1',

@@ -9,7 +9,9 @@
     "lint": "eslint --ext .ts,.tsx",
     "test": "jest",
     "coverage": "jest --coverage",
-    "export": "next export"
+    "export": "next export",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.9.4",
@@ -50,7 +52,6 @@
     "next": "13.0.2",
     "next-router-mock": "^0.9.9",
     "papaparse": "^5.4.1",
-    "prettier": "^2.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-force-graph": "^1.43.0",
@@ -80,6 +81,8 @@
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "postcss": "^8.4.18",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.2.2"
   }

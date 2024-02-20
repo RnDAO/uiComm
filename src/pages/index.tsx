@@ -16,7 +16,7 @@ function Dashboard(): JSX.Element {
     return (
       <>
         <SEO />
-        <EmptyState image={<Image alt="Image Alt" src={emptyState} />} />
+        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
       </>
     );
   }
@@ -24,12 +24,12 @@ function Dashboard(): JSX.Element {
   return (
     <>
       <SEO />
-      <div className="flex flex-col container space-y-8 justify-between px-4 md:px-12 py-4">
-        <div className="block">
-          <h3 className="pb-6 text-lg font-medium text-lite-black">
+      <div className='container flex flex-col justify-between space-y-8 px-4 py-4 md:px-12'>
+        <div className='block'>
+          <h3 className='pb-6 text-lg font-medium text-lite-black'>
             Community Insights
           </h3>
-          <div className="space-y-4">
+          <div className='space-y-4'>
             <ActiveMemberComposition />
             <HeatmapChart />
             <MemberInteractionGraph />

@@ -47,13 +47,13 @@ function index() {
 
   return (
     <>
-      <SEO titleTemplate="Community Settings" />
-      <div className="flex flex-col container px-4 md:px-12 py-4">
+      <SEO titleTemplate='Community Settings' />
+      <div className='container flex flex-col px-4 py-4 md:px-12'>
         <TcBoxContainer
           contentContainerChildren={
-            <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-4">
-              <TcText text="Community Settings" variant={'h5'} />
-              <div className="space-y-2">
+            <div className='space-y-4 px-4 pt-4 pb-[4rem] md:px-10'>
+              <TcText text='Community Settings' variant={'h5'} />
+              <div className='space-y-2'>
                 <TcSwitchCommunity />
                 <TcCommunityIntegrations />
               </div>

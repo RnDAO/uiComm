@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ type Props = {
 export const emptyLayout = ({ children }: Props) => {
   return (
     <>
-      <div className="w-screen">
+      <div className='w-screen'>
         <main>{children}</main>
       </div>
     </>

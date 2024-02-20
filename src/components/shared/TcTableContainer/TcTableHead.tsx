@@ -17,7 +17,7 @@ function TcTableHead({ headers, ...props }: ITcTableHeadProps) {
     <TableHead {...props}>
       <TcTableRow
         rowItem={headers}
-        customTableCellClasses="rounded-none p-0 border-none uppercase text-xs font-light first:pl-3 last:pr-3"
+        customTableCellClasses='rounded-none p-0 border-none uppercase text-xs font-light first:pl-3 last:pr-3'
       />
     </TableHead>
   );

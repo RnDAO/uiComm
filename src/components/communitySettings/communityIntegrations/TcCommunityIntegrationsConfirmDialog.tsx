@@ -33,26 +33,26 @@ function TcCommunityIntegrationsConfirmDialog({
         },
       }}
     >
-      <div className="flex justify-end p-4">
+      <div className='flex justify-end p-4'>
         <AiOutlineClose
-          className="cursor-pointer"
+          className='cursor-pointer'
           size={24}
           onClick={() => toggleDialog()}
         />
       </div>
-      <div className="flex flex-col w-4/5 mx-auto text-center p-5 space-y-5">
-        <div className="bg-[#F5F5F5] mx-auto rounded-full w-16 p-3">
-          <RiTimeLine className="mx-auto" size={38} />
+      <div className='mx-auto flex w-4/5 flex-col space-y-5 p-5 text-center'>
+        <div className='mx-auto w-16 rounded-full bg-[#F5F5F5] p-3'>
+          <RiTimeLine className='mx-auto' size={38} />
         </div>
-        <TcText text="Perfect, you're all set!" variant="h5" />
+        <TcText text="Perfect, you're all set!" variant='h5' />
         <TcText
-          text="Data import just started. It might take up to 12 hours to finish. Once it is done we will send you a message on Discord."
-          variant="body2"
+          text='Data import just started. It might take up to 12 hours to finish. Once it is done we will send you a message on Discord.'
+          variant='body2'
         />
-        <div className="py-6">
+        <div className='py-6'>
           <TcButton
             text={'I understand'}
-            variant="contained"
+            variant='contained'
             onClick={() => handleCloseDialog()}
           />
         </div>

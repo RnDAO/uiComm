@@ -7,7 +7,7 @@ type CustomLinkProps = MuiLinkProps & {
 
 const Link: React.FC<CustomLinkProps> = ({ to, children, ...props }) => {
   return (
-    <MuiLink component="a" href={to} underline="none" {...props}>
+    <MuiLink component='a' href={to} underline='none' {...props}>
       {children}
     </MuiLink>
   );

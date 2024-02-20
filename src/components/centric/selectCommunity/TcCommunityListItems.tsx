@@ -76,10 +76,10 @@ function TcCommunityListItems({
       return (
         <Image
           src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
-          width="100"
-          height="100"
+          width='100'
+          height='100'
           alt={activeCommunityPlatformIcon.metadata.name || ''}
-          className="rounded-full"
+          className='rounded-full'
         />
       );
     }
@@ -89,27 +89,27 @@ function TcCommunityListItems({
 
   if (communities.length === 0) {
     return (
-      <div className="py-8">
-        <TcText text="No community exist" variant={'body1'} color="gray" />
+      <div className='py-8'>
+        <TcText text='No community exist' variant={'body1'} color='gray' />
       </div>
     );
   }
 
   return (
-    <div className="flex justify-start flex-wrap mt-8 mx-2">
+    <div className='mx-2 mt-8 flex flex-wrap justify-start'>
       {communities.map((community, index) => (
         <div
           className={clsx(
             selectedCommunity?.id === community.id ? 'bg-gray-100' : '',
-            'flex-shrink-0 w-1/2 md:w-1/4 min-h-[150px] rounded text-center px-8 py-4 cursor-pointer space-y-2 hover:bg-gray-100 transition-all delay-75 ease-in'
+            'min-h-[150px] w-1/2 flex-shrink-0 cursor-pointer space-y-2 rounded px-8 py-4 text-center transition-all delay-75 ease-in hover:bg-gray-100 md:w-1/4'
           )}
           key={community.name + index}
           onClick={() => setSelectedCommunity(community)}
         >
           {community?.avatarURL ? (
-            <TcAvatar className="mx-auto" src={community.avatarURL} />
+            <TcAvatar className='mx-auto' src={community.avatarURL} />
           ) : (
-            <TcAvatar className="mx-auto">
+            <TcAvatar className='mx-auto'>
               {renderPlatformAvatar(community)}
             </TcAvatar>
           )}

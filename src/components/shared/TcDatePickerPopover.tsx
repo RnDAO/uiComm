@@ -34,18 +34,18 @@ function TcDatePickerPopover({
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <StaticDatePicker
-          displayStaticWrapperAs="desktop"
-          openTo="day"
+          displayStaticWrapperAs='desktop'
+          openTo='day'
           value={selectedDate}
           onChange={onDateChange}
         />
       </LocalizationProvider>
-      <div className="px-5 py-3">
+      <div className='px-5 py-3'>
         <TcButton
-          text="Reset"
+          text='Reset'
           onClick={onResetDate}
-          className="w-full"
-          variant="outlined"
+          className='w-full'
+          variant='outlined'
         />
       </div>
     </Popover>

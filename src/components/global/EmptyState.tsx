@@ -16,17 +16,17 @@ export default function EmptyState({
 }: IProps) {
   const router = useRouter();
   return (
-    <div className="text-center flex flex-col justify-center p-8 md:p-0 md:w-2/3  mx-auto space-y-4 mt-[4rem]">
-      <div className="mx-auto">{image}</div>
-      <h1 className="text-2xl font-bold">{title}</h1>
-      <p className="text-sm md:w-5/12 mx-auto pb-1">{description}</p>
+    <div className='mx-auto mt-[4rem] flex flex-col justify-center space-y-4 p-8  text-center md:w-2/3 md:p-0'>
+      <div className='mx-auto'>{image}</div>
+      <h1 className='text-2xl font-bold'>{title}</h1>
+      <p className='mx-auto pb-1 text-sm md:w-5/12'>{description}</p>
       <TcButton
         text={customButtonLabel}
-        variant="contained"
+        variant='contained'
         onClick={() => {
           router.push('/community-settings');
         }}
-        className="py-2 md:w-1/5 mx-auto"
+        className='mx-auto py-2 md:w-1/5'
       />
     </div>
   );

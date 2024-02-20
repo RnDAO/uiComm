@@ -56,7 +56,7 @@ function TcEngagementAccounts({ engagement }: ITcEngagementAccountsProps) {
   }, [engagement]);
 
   return (
-    <div className="space-y-3">
+    <div className='space-y-3'>
       <TcEngagementAccountsHeader />
       <TcEngagementAccountsContent contentItems={contentItems} />
     </div>

@@ -60,9 +60,8 @@ function TcActiveCommunity() {
           'community'
         )?.id;
       if (storedCommunityId) {
-        const fullCommunityData = await retrieveCommunityById(
-          storedCommunityId
-        );
+        const fullCommunityData =
+          await retrieveCommunityById(storedCommunityId);
 
         setCommunity(fullCommunityData);
         StorageService.writeLocalStorage('community', fullCommunityData);
@@ -107,10 +106,10 @@ function TcActiveCommunity() {
       return (
         <Image
           src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
-          width="100"
-          height="100"
+          width='100'
+          height='100'
           alt={activeCommunityPlatformIcon.metadata.name || ''}
-          className="rounded-full"
+          className='rounded-full'
         />
       );
     }
@@ -120,19 +119,19 @@ function TcActiveCommunity() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center border-b border-b-gray-200 py-4 mt-4">
-        <Loading height="250" size={30} />
+      <div className='mt-4 flex items-center justify-center border-b border-b-gray-200 py-4'>
+        <Loading height='250' size={30} />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-b-gray-200 md:py-4 mt-4">
-      <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center space-x-2 md:px-3">
+    <div className='mt-4 flex flex-col border-b border-b-gray-200 md:flex-row md:items-center md:justify-between md:py-4'>
+      <div className='flex flex-col space-y-3 space-x-2 md:flex-row md:items-center md:space-y-0 md:px-3'>
         {community && community.avatarURL ? (
-          <TcAvatar className="mx-auto" src={community.avatarURL} />
+          <TcAvatar className='mx-auto' src={community.avatarURL} />
         ) : (
-          <TcAvatar className="mx-auto">
+          <TcAvatar className='mx-auto'>
             {community ? (
               renderPlatformAvatar(community)
             ) : (
@@ -141,13 +140,13 @@ function TcActiveCommunity() {
           </TcAvatar>
         )}
         {loading ? (
-          <Loading height="40px" size={30} />
+          <Loading height='40px' size={30} />
         ) : (
           <TcInput
-            label="Community name"
-            variant="filled"
-            placeholder="Write community name"
-            size="small"
+            label='Community name'
+            variant='filled'
+            placeholder='Write community name'
+            size='small'
             value={community?.name || ''}
             disabled={!community?.name}
             onChange={handleCommunityNameChange}

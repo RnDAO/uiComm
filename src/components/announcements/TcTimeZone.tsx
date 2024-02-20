@@ -55,14 +55,14 @@ function TcTimeZone({ handleZone }: ITcTimeZoneProps) {
   }, [activeZone]);
 
   return (
-    <div className="w-full md:w-auto">
+    <div className='w-full md:w-auto'>
       <TcButton
         text={activeZone}
-        variant="outlined"
+        variant='outlined'
         sx={{
           height: '2.4rem',
         }}
-        startIcon={<FaGlobeAmericas data-testid="globe-icon" />}
+        startIcon={<FaGlobeAmericas data-testid='globe-icon' />}
         aria-describedby={id}
         onClick={handleClick}
       />
@@ -75,18 +75,18 @@ function TcTimeZone({ handleZone }: ITcTimeZoneProps) {
           style: { width: 'auto' },
         }}
         content={
-          <div className="px-2">
-            <div className="bg-white sticky top-0 pt-3">
+          <div className='px-2'>
+            <div className='sticky top-0 bg-white pt-3'>
               <TcInput
-                label="Search timezone"
-                variant="filled"
-                placeholder="Enter here..."
+                label='Search timezone'
+                variant='filled'
+                placeholder='Enter here...'
                 sx={{
                   width: 'auto',
                 }}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position='start'>
                       <MdSearch size={20} />
                     </InputAdornment>
                   ),
@@ -94,19 +94,19 @@ function TcTimeZone({ handleZone }: ITcTimeZoneProps) {
                 onChange={searchZones}
               />
             </div>
-            <ul className="w-full px-3 h-64 overflow-y-scroll">
+            <ul className='h-64 w-full overflow-y-scroll px-3'>
               {zones.length > 0 ? (
                 zones.map((el) => (
                   <li
                     key={el}
-                    className="py-2 hover:bg-lite px-3 cursor-pointer flex w-full text-sm flex-row justify-between"
+                    className='flex w-full cursor-pointer flex-row justify-between py-2 px-3 text-sm hover:bg-lite'
                     onClick={() => handleTimeZoneSelect(el)}
                   >
                     <div>{el}</div>
                   </li>
                 ))
               ) : (
-                <div className="mx-auto py-12 text-gray-300 px-12 w-full text-center">
+                <div className='mx-auto w-full py-12 px-12 text-center text-gray-300'>
                   Not founded
                 </div>
               )}

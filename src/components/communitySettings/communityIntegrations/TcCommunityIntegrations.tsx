@@ -49,17 +49,17 @@ function TcCommunityIntegrations() {
 
   return (
     <>
-      <TcText text="Integration" variant={'h6'} />
-      <div className="space-y-5">
+      <TcText text='Integration' variant={'h6'} />
+      <div className='space-y-5'>
         {fetchedPlatforms?.results.length > 0 ? (
-          <div className="space-y-4 md:mb-8">
+          <div className='space-y-4 md:mb-8'>
             {loading ? (
-              <Loading height="10rem" />
+              <Loading height='10rem' />
             ) : (
               <>
                 <TcText
-                  text="Platforms currently connected to your community account"
-                  variant="body2"
+                  text='Platforms currently connected to your community account'
+                  variant='body2'
                 />
                 <TcConnectedPlatforms
                   connectedPlatforms={fetchedPlatforms?.results}
@@ -70,10 +70,10 @@ function TcCommunityIntegrations() {
         ) : (
           ''
         )}
-        <div className="space-y-4">
+        <div className='space-y-4'>
           <TcText
-            text="Chose the platforms you want to connect with your community account"
-            variant="body2"
+            text='Chose the platforms you want to connect with your community account'
+            variant='body2'
           />
           <TcAvailableIntegrations />
         </div>

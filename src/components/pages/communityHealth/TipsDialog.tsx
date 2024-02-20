@@ -22,9 +22,9 @@ function TipsDialog({
   return (
     <Dialog
       open={isOpen}
-      maxWidth="md"
+      maxWidth='md'
       fullWidth
-      className="overflow-hidden"
+      className='overflow-hidden'
       sx={{
         '& .MuiDialog-container': {
           alignItems: 'flex-start',
@@ -37,17 +37,17 @@ function TipsDialog({
         },
       }}
     >
-      <DialogTitle className="flex justify-between items-center text-center bg-secondary text-white">
-        <h4 className="text-base">{headerText}</h4>
+      <DialogTitle className='flex items-center justify-between bg-secondary text-center text-white'>
+        <h4 className='text-base'>{headerText}</h4>
         <IoClose
           size={30}
           onClick={handleClose}
-          className="cursor-pointer"
-          data-testid="close-icon"
+          className='cursor-pointer'
+          data-testid='close-icon'
         />
       </DialogTitle>
       <DialogContent>
-        <div className="text-center pb-4">{children}</div>
+        <div className='pb-4 text-center'>{children}</div>
       </DialogContent>
     </Dialog>
   );

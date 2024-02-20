@@ -159,25 +159,25 @@ function Decentralization({ scoreData }: DecentralizationProps) {
 
   return (
     <>
-      <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4">
-        <h3 className="text-lg font-semibold text-lite-black">
+      <Paper className='space-y-4 rounded-xl px-4 py-6 shadow-box md:px-8'>
+        <h3 className='text-lg font-semibold text-lite-black'>
           Decentralization
         </h3>
-        <div className="flex flex-col md:flex-row md:justify-start space-y-8 md:space-x-12">
-          <div className="bg-gray-hover md:w-1/3 rounded-xl overflow-hidden md:mr-12">
-            <p className="text-sm px-4 p-2">Your community</p>
+        <div className='flex flex-col space-y-8 md:flex-row md:justify-start md:space-x-12'>
+          <div className='overflow-hidden rounded-xl bg-gray-hover md:mr-12 md:w-1/3'>
+            <p className='p-2 px-4 text-sm'>Your community</p>
             {!scoreData?.decentralisationScore ? (
-              <div className="flex flex-col text-center space-y-7 min-h-[320px] px-4 md:px-2">
-                <div className="mt-16">
+              <div className='flex min-h-[320px] flex-col space-y-7 px-4 text-center md:px-2'>
+                <div className='mt-16'>
                   <FiAlertTriangle
-                    className="text-error-600 mx-auto"
+                    className='mx-auto text-error-600'
                     size={25}
                   />
-                  <p className="text-error-600 text-sm font-semibold pt-4">
+                  <p className='pt-4 text-sm font-semibold text-error-600'>
                     No data available
                   </p>
                 </div>
-                <span className="text-sm">
+                <span className='text-sm'>
                   Please ensure that your Discord connection is properly
                   established and that the data period and channels are
                   selected.
@@ -194,16 +194,16 @@ function Decentralization({ scoreData }: DecentralizationProps) {
               </>
             )}
           </div>
-          <div className="md:w-1/2 space-y-12">
-            <p className="text-sm">
+          <div className='space-y-12 md:w-1/2'>
+            <p className='text-sm'>
               Shows how much conversations depend on one (or very few) key
               members. Influence exists in a continuum between:
             </p>
-            <div className="flex items-start md:items-center space-x-3 md:space-x-6">
-              <Image src={centralized} alt="centralized" />
+            <div className='flex items-start space-x-3 md:items-center md:space-x-6'>
+              <Image src={centralized} alt='centralized' />
               <div>
-                <h4 className="font-semibold">Too centralized</h4>
-                <p className="text-sm">
+                <h4 className='font-semibold'>Too centralized</h4>
+                <p className='text-sm'>
                   A few core people engage with everyone, but other members
                   don't talk to each other. The community is dependent on these
                   key influencers, and its vision is only shaped by their
@@ -212,11 +212,11 @@ function Decentralization({ scoreData }: DecentralizationProps) {
                 </p>
               </div>
             </div>
-            <div className="flex items-start md:items-center space-x-3 md:space-x-6">
-              <Image src={decentralized} alt="decentralized" />
+            <div className='flex items-start space-x-3 md:items-center md:space-x-6'>
+              <Image src={decentralized} alt='decentralized' />
               <div>
-                <h4 className="font-semibold">Too decentralized</h4>
-                <p className="text-sm">
+                <h4 className='font-semibold'>Too decentralized</h4>
+                <p className='text-sm'>
                   Everyone regularly talks with everyone. Members manage too
                   many relationships and are involved in too many divergent
                   topics. Everyone’s voice is heard and included, but the
@@ -240,14 +240,14 @@ function Decentralization({ scoreData }: DecentralizationProps) {
         <>
           {scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2 ? (
             <>
-              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
-                <Image src={decentralized} alt="decentralized" />
+              <div className='flex items-center justify-center space-x-4 pt-8 pb-4'>
+                <Image src={decentralized} alt='decentralized' />
                 <HiOutlineArrowRight size={24} />
-                <Image src={centralized} alt="centralized" />
+                <Image src={centralized} alt='centralized' />
               </div>
-              <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
+              <ul className='leading-2 list-disc space-y-5 p-4 text-justify text-sm'>
                 {decentralizedTips.map((tip, index) => (
-                  <li key={index} className="list-disc ml-4">
+                  <li key={index} className='ml-4 list-disc'>
                     {tip}
                   </li>
                 ))}
@@ -255,14 +255,14 @@ function Decentralization({ scoreData }: DecentralizationProps) {
             </>
           ) : (
             <>
-              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
-                <Image src={centralized} alt="centralized" />
+              <div className='flex items-center justify-center space-x-4 pt-8 pb-4'>
+                <Image src={centralized} alt='centralized' />
                 <HiOutlineArrowRight size={24} />
-                <Image src={decentralized} alt="decentralized" />
+                <Image src={decentralized} alt='decentralized' />
               </div>
-              <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
+              <ul className='leading-2 list-disc space-y-5 p-4 text-justify text-sm'>
                 {centralizedTips.map((tip, index) => (
-                  <li key={index} className="list-disc ml-4">
+                  <li key={index} className='ml-4 list-disc'>
                     {tip}
                   </li>
                 ))}

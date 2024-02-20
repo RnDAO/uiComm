@@ -41,8 +41,8 @@ function TcDateTimePopover({
   const tabContent = [
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StaticDatePicker
-        displayStaticWrapperAs="desktop"
-        openTo="day"
+        displayStaticWrapperAs='desktop'
+        openTo='day'
         value={selectedDate}
         onChange={handleDateChange}
         shouldDisableDate={disablePastDates}
@@ -50,7 +50,7 @@ function TcDateTimePopover({
     </LocalizationProvider>,
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StaticTimePicker
-        displayStaticWrapperAs="desktop"
+        displayStaticWrapperAs='desktop'
         value={selectedTime}
         ampm={false}
         onChange={handleTimeChange}
@@ -69,24 +69,24 @@ function TcDateTimePopover({
         horizontal: 'left',
       }}
       content={
-        <div className="flex flex-col space-y-2">
+        <div className='flex flex-col space-y-2'>
           {tabContent[activeTab]}
 
           <TcTabs
             value={activeTab}
             onChange={(e, newValue) => setActiveTab(newValue)}
-            indicatorColor="secondary"
-            className="w-full border-t border-gray-200"
+            indicatorColor='secondary'
+            className='w-full border-t border-gray-200'
           >
             <TcTab
               icon={<FiCalendar size={20} />}
-              className="w-1/2"
-              data-testid="calendar-icon"
+              className='w-1/2'
+              data-testid='calendar-icon'
             />
             <TcTab
               icon={<MdAccessTime size={20} />}
-              className="w-1/2"
-              data-testid="time-icon"
+              className='w-1/2'
+              data-testid='time-icon'
             />
           </TcTabs>
         </div>

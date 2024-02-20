@@ -76,43 +76,43 @@ function TcCommunityIntegrationsDialog() {
         }}
       >
         {loading ? (
-          <div className="flex justify-center items-center min-h-[400px]">
-            <Loading height="auto" size={30} />
+          <div className='flex min-h-[400px] items-center justify-center'>
+            <Loading height='auto' size={30} />
           </div>
         ) : (
           <>
             {' '}
-            <div className="flex justify-end p-4">
+            <div className='flex justify-end p-4'>
               <AiOutlineClose
-                className="cursor-pointer"
+                className='cursor-pointer'
                 size={24}
                 onClick={() => setOpenDialog(false)}
               />
             </div>
-            <div className="text-left px-16 pb-12">
-              <div className="space-y-4 pt-2">
+            <div className='px-16 pb-12 text-left'>
+              <div className='space-y-4 pt-2'>
                 <TcText
                   text={'Choose date period for data analysis'}
-                  variant="body1"
-                  fontWeight="bold"
+                  variant='body1'
+                  fontWeight='bold'
                 />
                 <TcText
                   text={
                     'You will be able to change date period and selected channels in the future.'
                   }
-                  variant="body2"
+                  variant='body2'
                 />
                 <TcPeriodRange
                   handleSelectedDate={(date) => setPlatfromAnalyzerDate(date)}
                 />
               </div>
-              <div className="space-y-4 pt-10">
+              <div className='space-y-4 pt-10'>
                 <TcPlatformChannelDialog />
               </div>
-              <div className="flex justify-center pt-12 pb-4">
+              <div className='flex justify-center pt-12 pb-4'>
                 <TcButton
                   text={'Continue'}
-                  variant="contained"
+                  variant='contained'
                   onClick={handlePatchPlatform}
                 />
               </div>

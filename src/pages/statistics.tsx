@@ -267,7 +267,7 @@ const Statistics = () => {
     return (
       <>
         <SEO />
-        <EmptyState image={<Image alt="Image Alt" src={emptyState} />} />
+        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
       </>
     );
   }
@@ -283,11 +283,11 @@ const Statistics = () => {
           activeTab === '1' ? 'Active Members' : 'Disengaged Members'
         }
       />
-      <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
-        <Link to="/" className="mb-3">
-          <div className="flex items-center text-gray-subtitle text-base hover:text-black">
+      <div className='container flex flex-col justify-between px-4 py-3 md:px-12'>
+        <Link to='/' className='mb-3'>
+          <div className='flex items-center text-base text-gray-subtitle hover:text-black'>
             <AiOutlineLeft />
-            <span className="pl-1">Community Insights</span>
+            <span className='pl-1'>Community Insights</span>
           </div>
         </Link>{' '}
         <CustomTab
@@ -295,13 +295,13 @@ const Statistics = () => {
           onTabChange={handleTabChange}
           labels={['Active members', 'Disengaged members']}
           content={[
-            <div className="flex flex-col space-y-4">
+            <div className='flex flex-col space-y-4'>
               <Box
                 sx={{
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className="shadow-lg rounded-md p-6"
+                className='rounded-md p-6 shadow-lg'
               >
                 <ActiveMembersComposition
                   activePeriod={activeMemberDate}
@@ -313,7 +313,7 @@ const Statistics = () => {
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className="shadow-lg rounded-md p-6"
+                className='rounded-md p-6 shadow-lg'
               >
                 <Onboarding
                   activePeriod={onBoardingMemberDate}
@@ -325,7 +325,7 @@ const Statistics = () => {
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className="shadow-lg rounded-md p-6"
+                className='rounded-md p-6 shadow-lg'
               >
                 <InteractionsSection
                   activePeriod={activeInteractionDate}
@@ -333,13 +333,13 @@ const Statistics = () => {
                 />
               </Box>
             </div>,
-            <div className="flex flex-col space-y-4">
+            <div className='flex flex-col space-y-4'>
               <Box
                 sx={{
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className="shadow-lg rounded-md p-6"
+                className='rounded-md p-6 shadow-lg'
               >
                 <DisengagedMembersComposition
                   activePeriod={disengagedMemberDate}
@@ -351,7 +351,7 @@ const Statistics = () => {
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className="shadow-lg p-6 mb-4"
+                className='mb-4 p-6 shadow-lg'
               >
                 <InactiveMembers
                   activePeriod={inactiveMembersDate}

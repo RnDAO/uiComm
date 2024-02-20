@@ -9,14 +9,14 @@ import { unmountComponentAtNode } from 'react-dom';
 jest.mock('./TcAccountActivityHeader', () => {
   return {
     __esModule: true,
-    default: jest.fn(() => <div data-testid="header-mock" />),
+    default: jest.fn(() => <div data-testid='header-mock' />),
   };
 });
 
 jest.mock('./TcAccountActivityContent', () => {
   return {
     __esModule: true,
-    default: jest.fn(() => <div data-testid="content-mock" />),
+    default: jest.fn(() => <div data-testid='content-mock' />),
   };
 });
 

@@ -7,10 +7,10 @@ describe('<TcIntegrationDialog />', () => {
     const mockOnClose = jest.fn();
     const { getByText } = render(
       <TcIntegrationDialog
-        title="Test Title"
+        title='Test Title'
         showDialog={true}
         bodyContent={<p>Test Content</p>}
-        buttonText="Test Button"
+        buttonText='Test Button'
         onClose={mockOnClose}
       />
     );
