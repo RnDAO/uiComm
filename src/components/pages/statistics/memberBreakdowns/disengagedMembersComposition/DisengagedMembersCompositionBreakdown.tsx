@@ -7,7 +7,6 @@ import {
   IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
 import CustomPagination from '../CustomPagination';
-import CustomButton from '../../../../global/CustomButton';
 import clsx from 'clsx';
 import { Button } from '@mui/material';
 import { BsFiletypeCsv } from 'react-icons/bs';
@@ -17,6 +16,7 @@ import {
 } from '../../../../../helpers/csvHelper';
 import router from 'next/router';
 import { useToken } from '../../../../../context/TokenContext';
+import TcButton from '../../../../shared/TcButton';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -248,12 +248,12 @@ export default function DisengagedMembersCompositionBreakdown() {
       </div>
       {fetchedData && fetchedData?.totalResults > 3 ? (
         <div className="flex justify-center mt-2 mb-12">
-          <CustomButton
-            label={isExpanded ? 'Show less' : 'Show member breakdown'}
-            classes={'text-black'}
+          <TcButton
+            text={isExpanded ? 'Show less' : 'Show member breakdown'}
             variant="outlined"
             disabled={fetchedData?.totalResults === 0}
             onClick={handleButtonClick}
+            className="py-2 min-w-[14rem]"
           />
         </div>
       ) : (

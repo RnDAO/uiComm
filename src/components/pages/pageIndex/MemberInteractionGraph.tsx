@@ -2,7 +2,7 @@ import React from 'react';
 import networkGraph from '../../../assets/svg/networkGraph.svg';
 import Image from 'next/image';
 import router from 'next/router';
-import CustomButton from '../../global/CustomButton';
+import TcButton from '../../shared/TcButton';
 
 export default function MemberInteractionGraph() {
   return (
@@ -23,12 +23,13 @@ export default function MemberInteractionGraph() {
         </div>
       </div>
       <div className="text-center pt-6 md:pt-0 mb-3">
-        <CustomButton
-          label={'Show more'}
-          classes="bg-secondary text-white mx-auto"
+        <TcButton
+          text={'Show more'}
+          variant="contained"
           onClick={() => {
             router.push('/membersInteraction');
           }}
+          className="py-2 px-[5rem]"
         />
       </div>
     </div>

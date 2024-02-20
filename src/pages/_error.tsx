@@ -2,8 +2,8 @@ import { NextPageContext, NextComponentType } from 'next';
 import Image from 'next/image';
 import notFounded from '../assets/svg/404.svg';
 import tcLogo from '../assets/svg/tc-logo.svg';
-import CustomButton from '../components/global/CustomButton';
 import { useRouter } from 'next/router';
+import TcButton from '../components/shared/TcButton';
 
 interface ErrorPageProps {
   statusCode?: number;
@@ -53,18 +53,19 @@ const ErrorPage: NextComponentType<
               You might retype the URL or try some helpful links instead:
             </p>
           </div>
-          <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between">
-            <CustomButton
-              onClick={() => router.push('/')}
-              classes={'text-black'}
+          <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between md:space-x-2">
+            <TcButton
+              text={'Community Insights'}
               variant="outlined"
-              label={'Community Insights'}
+              onClick={() => router.push('/')}
+              className="md:w-1/2 py-2"
             />
-            <CustomButton
+            <TcButton
               onClick={() => router.push('/centric')}
               classes={'text-black'}
               variant="outlined"
-              label={'Connect your community'}
+              text={'Connect your community'}
+              className="md:w-1/2 py-2"
             />
           </div>
         </div>
