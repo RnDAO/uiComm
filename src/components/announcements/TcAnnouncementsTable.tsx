@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
 import {
+  Chip,
+  IconButton,
+  Menu,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  IconButton,
-  MenuItem,
-  Menu,
-  Chip,
 } from '@mui/material';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import Router from 'next/router';
-import TcDialog from '../shared/TcDialog';
-import TcButton from '../shared/TcButton';
-import { AiOutlineClose } from 'react-icons/ai';
-import TcText from '../shared/TcText';
-import useAppStore from '../../store/useStore';
-import { useSnackbar } from '../../context/SnackbarContext';
-import { MdModeEdit, MdDelete } from 'react-icons/md';
-import Loading from '../global/Loading';
-import { truncateCenter } from '../../helpers/helper';
 import moment from 'moment';
+import Router from 'next/router';
+import React, { useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { MdDelete,MdModeEdit } from 'react-icons/md';
+
+import Loading from '../global/Loading';
+import TcButton from '../shared/TcButton';
+import TcDialog from '../shared/TcDialog';
+import TcText from '../shared/TcText';
+import { useSnackbar } from '../../context/SnackbarContext';
+import { truncateCenter } from '../../helpers/helper';
+import useAppStore from '../../store/useStore';
 
 interface Channel {
   channelId: string;
@@ -512,13 +513,13 @@ function TcAnnouncementsTable({
                 />
                 <div className='flex items-center space-x-3 py-3'>
                   <TcButton
-                    text={'Cancel'}
+                    text="Cancel"
                     className='w-full'
                     variant='outlined'
                     onClick={() => setDeleteConfirmDialogOpen(false)}
                   />
                   <TcButton
-                    text={'Confirm'}
+                    text="Confirm"
                     className='w-full'
                     variant='contained'
                     onClick={() =>

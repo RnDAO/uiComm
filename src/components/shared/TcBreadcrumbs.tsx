@@ -1,8 +1,9 @@
-import React from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useRouter } from 'next/router';
-import TcLink from './TcLink';
+import React from 'react';
 import { MdChevronRight } from 'react-icons/md';
+
+import TcLink from './TcLink';
 import TcText from './TcText';
 
 interface BreadcrumbItem {
@@ -35,7 +36,7 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
           key={item.label}
           href={item.path || '#'}
           onClick={(event) => handleClick(event, item.path || '')}
-          underline={'none'}
+          underline="none"
           className={`${
             index === items.length - 1
               ? 'pointer-events-none text-black'

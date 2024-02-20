@@ -1,10 +1,11 @@
+import { Chip, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
 import { useToken } from '../../../../context/TokenContext';
+import { debounce } from '../../../../helpers/helper';
 import useAppStore from '../../../../store/useStore';
 import { FetchedData, IRoles } from '../../../../utils/interfaces';
-import { debounce } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
-import { Chip, CircularProgress } from '@mui/material';
 
 interface ITcRolesAutoCompleteProps {
   isEdit?: boolean;
@@ -153,7 +154,7 @@ function TcRolesAutoComplete({
     <TcAutocomplete
       options={fetchedRoles.results}
       getOptionLabel={(option) => option.name}
-      label={'Select Role(s)'}
+      label="Select Role(s)"
       multiple={true}
       loading={isLoading}
       loadingText={

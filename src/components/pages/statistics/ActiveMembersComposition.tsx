@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import useAppStore from '../../../store/useStore';
-import LineGraph from '../../global/LineGraph';
-import StatisticalData from './StatisticalData';
-import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from '../../global/RangeSelect';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
-import Loading from '../../global/Loading';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FiCalendar } from 'react-icons/fi';
+
+import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
+import StatisticalData from './StatisticalData';
+import LineGraph from '../../global/LineGraph';
+import Loading from '../../global/Loading';
+import RangeSelect from '../../global/RangeSelect';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import useAppStore from '../../../store/useStore';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface ActiveMembersComposition {
   activePeriod: number;

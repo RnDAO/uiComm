@@ -1,5 +1,6 @@
-import React from 'react';
 import { TableBody, TableBodyProps } from '@mui/material';
+import React from 'react';
+
 import TcTableRow from './TcTableRow';
 
 interface ITcTableBodyProps extends TableBodyProps {

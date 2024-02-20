@@ -11,7 +11,7 @@ import React from 'react';
  * @returns {React.ReactElement} A React element representing the Alert component.
  */
 
-interface ITcAlertProps extends AlertProps {}
+type ITcAlertProps = AlertProps
 
 function TcAlert({ ...props }: ITcAlertProps) {
   return <Alert {...props} />;

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import TcPlatformChannelList from './TcPlatformChannelList';
 
 function TcPlatformChannelDialogBody() {

@@ -1,10 +1,11 @@
+import Router from 'next/router';
 import React from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { RiTimeLine } from 'react-icons/ri';
+
+import TcButton from '../../shared/TcButton';
 import TcDialog from '../../shared/TcDialog';
 import TcText from '../../shared/TcText';
-import TcButton from '../../shared/TcButton';
-import { RiTimeLine } from 'react-icons/ri';
-import { AiOutlineClose } from 'react-icons/ai';
-import Router from 'next/router';
 
 interface ITcCommunityIntegrationsConfirmDialog {
   isOpen: boolean;
@@ -51,7 +52,7 @@ function TcCommunityIntegrationsConfirmDialog({
         />
         <div className='py-6'>
           <TcButton
-            text={'I understand'}
+            text="I understand"
             variant='contained'
             onClick={() => handleCloseDialog()}
           />

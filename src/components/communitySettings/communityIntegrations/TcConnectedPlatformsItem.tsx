@@ -37,19 +37,20 @@
  * <TcConnectedPlatformsItem platform={platform} />
  */
 
-import React, { useState } from 'react';
-import TcText from '../../shared/TcText';
+import { ClickAwayListener, Tooltip } from '@mui/material';
 import clsx from 'clsx';
-import TcAvatar from '../../shared/TcAvatar';
-import TcIntegrationCard from '../TcIntegrationCard';
 import router from 'next/router';
-import { conf } from '../../../configs';
-import { IPlatformProps } from '../../../utils/interfaces';
+import React, { useState } from 'react';
+import { BsThreeDots } from 'react-icons/bs';
+
 import TcIntegrationIcon from './TcIntegrationIcon';
+import TcIntegrationCard from '../TcIntegrationCard';
+import TcAvatar from '../../shared/TcAvatar';
+import TcText from '../../shared/TcText';
+import { conf } from '../../../configs';
 import { capitalizeFirstChar, truncateCenter } from '../../../helpers/helper';
 import { IntegrationPlatform } from '../../../utils/enums';
-import { BsThreeDots } from 'react-icons/bs';
-import { ClickAwayListener, Tooltip } from '@mui/material';
+import { IPlatformProps } from '../../../utils/interfaces';
 
 interface TcConnectedPlatformsItemProps {
   platform: IPlatformProps;
@@ -88,14 +89,14 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
               />
               <ClickAwayListener onClickAway={handleTooltipClose}>
                 <Tooltip
-                  title={'Connected'}
+                  title="Connected"
                   arrow
                   placement='right'
                   enterTouchDelay={0}
                 >
                   <div
                     onClick={handleTooltipOpen}
-                    className={'h-3 w-3 rounded-full bg-success'}
+                    className="h-3 w-3 rounded-full bg-success"
                   />
                 </Tooltip>
               </ClickAwayListener>

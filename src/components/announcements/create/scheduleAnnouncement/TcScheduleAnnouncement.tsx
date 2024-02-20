@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import TcIconContainer from '../TcIconContainer';
-import { MdCalendarMonth } from 'react-icons/md';
-import TcText from '../../../shared/TcText';
-import TcButton from '../../../shared/TcButton';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { MdCalendarMonth } from 'react-icons/md';
+
 import TcDateTimePopover from './TcDateTimePopover';
+import TcIconContainer from '../TcIconContainer';
 import { validateDateTime } from '../../../../helpers/helper';
+import TcButton from '../../../shared/TcButton';
+import TcText from '../../../shared/TcText';
 
 export interface ITcScheduleAnnouncementProps {
   isEdit?: boolean;

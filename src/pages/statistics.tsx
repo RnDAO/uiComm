@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
-import moment from 'moment';
-
-import CustomTab from '../components/global/CustomTab';
-import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
-import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
-import InteractionsSection from '../components/pages/statistics/InteractionsSection';
-import InactiveMembers from '../components/pages/statistics/InactiveMembers';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import { defaultLayout } from '../layouts/defaultLayout';
-import useAppStore from '../store/useStore';
-import SEO from '../components/global/SEO';
 import { Box } from '@mui/material';
-import Link from '../components/global/Link';
-import { AiOutlineLeft } from 'react-icons/ai';
-import Onboarding from '../components/pages/statistics/Onboarding';
-import { transformToMidnightUTC } from '../helpers/momentHelper';
-import { useToken } from '../context/TokenContext';
-import EmptyState from '../components/global/EmptyState';
-import emptyState from '../assets/svg/empty-state.svg';
+import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { AiOutlineLeft } from 'react-icons/ai';
+
+import emptyState from '../assets/svg/empty-state.svg';
+import CustomTab from '../components/global/CustomTab';
+import EmptyState from '../components/global/EmptyState';
+import Link from '../components/global/Link';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import SEO from '../components/global/SEO';
+import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
+import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
+import InteractionsSection from '../components/pages/statistics/InteractionsSection';
+import Onboarding from '../components/pages/statistics/Onboarding';
+import { useToken } from '../context/TokenContext';
+import { transformToMidnightUTC } from '../helpers/momentHelper';
+import { defaultLayout } from '../layouts/defaultLayout';
+import useAppStore from '../store/useStore';
 
 const Statistics = () => {
   const { community } = useToken();

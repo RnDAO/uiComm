@@ -1,4 +1,5 @@
 import React from 'react';
+
 import TcConnectedPlatformsItem from './TcConnectedPlatformsItem';
 import { IPlatformProps } from '../../../utils/interfaces';
 

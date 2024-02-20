@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import TcAudienceResponseHeader from './TcAudienceResponseHeader';
+
 import TcAudienceResponseContent from './TcAudienceResponseContent';
+import TcAudienceResponseHeader from './TcAudienceResponseHeader';
 import { capitalizeFirstChar } from '../../../../helpers/helper';
 import { IAudience } from '../../../../utils/interfaces';
 interface ITcAudienceResponseProps {

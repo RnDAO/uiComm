@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { defaultLayout } from '../layouts/defaultLayout';
-import SEO from '../components/global/SEO';
-import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
-import Link from '../components/global/Link';
 import { Paper, Popover } from '@mui/material';
-import useAppStore from '../store/useStore';
-import HintBox from '../components/pages/memberInteraction/HintBox';
-import { IUser } from '../utils/types';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
+
+import Link from '../components/global/Link';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import SEO from '../components/global/SEO';
+import HintBox from '../components/pages/memberInteraction/HintBox';
 import { useToken } from '../context/TokenContext';
+import { defaultLayout } from '../layouts/defaultLayout';
+import useAppStore from '../store/useStore';
+import { IUser } from '../utils/types';
 
 const ForceGraphComponent = dynamic(
   () =>

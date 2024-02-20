@@ -1,12 +1,13 @@
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import TcButton from '../../shared/TcButton';
 import { AiOutlineClose } from 'react-icons/ai';
+
+import TcButton from '../../shared/TcButton';
 import TcDialog from '../../shared/TcDialog';
 import TcText from '../../shared/TcText';
-import { IPlatformProps } from '../../../utils/interfaces';
-import useAppStore from '../../../store/useStore';
-import { useRouter } from 'next/router';
 import { useSnackbar } from '../../../context/SnackbarContext';
+import useAppStore from '../../../store/useStore';
+import { IPlatformProps } from '../../../utils/interfaces';
 
 interface TcDisconnectPlatformProps {
   platform: IPlatformProps | null;
@@ -33,7 +34,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
   return (
     <>
       <TcButton
-        text={'Disconnect'}
+        text="Disconnect"
         variant='outlined'
         sx={{ width: '7.5rem', padding: '0.5rem' }}
         onClick={() => setOpenDialog(true)}
@@ -68,7 +69,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
           <div className='flex flex-col justify-between space-y-4 pb-8 md:flex-row md:space-y-0 md:space-x-5 md:py-12'>
             <div className='space-y-4 rounded-md px-4 py-6 shadow-xl'>
               <TcText
-                text={'Disconnect and delete data'}
+                text="Disconnect and delete data"
                 variant='body1'
                 fontWeight='bold'
               />
@@ -83,7 +84,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
                 variant='body2'
               />
               <TcButton
-                text={'Disconnect and delete'}
+                text="Disconnect and delete"
                 variant='contained'
                 className='w-full'
                 onClick={() => handleDeletePlatform('hard')}
@@ -91,7 +92,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
             </div>
             <div className='space-y-4 rounded-md px-4 py-6 shadow-xl'>
               <TcText
-                text={'Disconnect only'}
+                text="Disconnect only"
                 variant='body1'
                 fontWeight='bold'
               />
@@ -106,7 +107,7 @@ function TcDisconnectPlatform({ platform }: TcDisconnectPlatformProps) {
                 variant='body2'
               />
               <TcButton
-                text={'Disconnect'}
+                text="Disconnect"
                 variant='contained'
                 className='w-full'
                 onClick={() => handleDeletePlatform('soft')}

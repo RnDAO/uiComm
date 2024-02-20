@@ -1,7 +1,8 @@
-import React from 'react';
 import { Table, TableProps } from '@mui/material';
-import TcTableHead from './TcTableHead';
+import React from 'react';
+
 import TcTableBody from './TcTableBody';
+import TcTableHead from './TcTableHead';
 
 interface ITcTableContainerProps extends TableProps {
   headers?: string[];

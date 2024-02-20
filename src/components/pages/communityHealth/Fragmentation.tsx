@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import GaugeChart from '../../global/GaugeChart';
+import { Paper } from '@mui/material';
 import Highcharts from 'highcharts/highcharts.js';
 import highchartsMore from 'highcharts/highcharts-more.js';
 import solidGauge from 'highcharts/modules/solid-gauge.js';
 import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { HiOutlineArrowRight } from 'react-icons/hi';
+
+import CommunityStatusShower from './CommunityStatusShower';
+import TipsDialog from './TipsDialog';
+import GaugeChart from '../../global/GaugeChart';
 import enmeshed from '../../../assets/svg/enmeshed.svg';
 import fragmented from '../../../assets/svg/fragmented.svg';
-import { Paper } from '@mui/material';
-import CommunityStatusShower from './CommunityStatusShower';
 import { IFragmentationScoreResponse } from '../../../utils/interfaces';
-import TipsDialog from './TipsDialog';
-import { HiOutlineArrowRight } from 'react-icons/hi';
-import { FiAlertTriangle } from 'react-icons/fi';
 
 // Initialize the Highcharts networkgraph module
 if (typeof Highcharts === 'object') {

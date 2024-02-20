@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
-import TcText from '../../../shared/TcText';
-import { MdAnnouncement } from 'react-icons/md';
-import TcIconContainer from '../TcIconContainer';
-import TcSelect from '../../../shared/TcSelect';
 import { FormControl, FormHelperText, InputLabel } from '@mui/material';
-import TcInput from '../../../shared/TcInput';
+import React, { useContext, useEffect, useState } from 'react';
+import { MdAnnouncement } from 'react-icons/md';
+
 import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
+import TcIconContainer from '../TcIconContainer';
 import { ChannelContext } from '../../../../context/ChannelContext';
-import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatformChannelList';
-import { IGuildChannels } from '../../../../utils/types';
 import { DiscordData } from '../../../../pages/announcements/edit-announcements';
+import { IGuildChannels } from '../../../../utils/types';
+import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatformChannelList';
 import TcPermissionHints from '../../../global/TcPermissionHints';
 import TcButton from '../../../shared/TcButton';
+import TcInput from '../../../shared/TcInput';
+import TcSelect from '../../../shared/TcSelect';
+import TcText from '../../../shared/TcText';
 
 export interface FlattenedChannel {
   id: string;
@@ -43,7 +44,7 @@ function TcPublicMessageContainer({
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
 
   const flattenChannels = (channels: IGuildChannels[]): FlattenedChannel[] => {
-    let flattened: FlattenedChannel[] = [];
+    const flattened: FlattenedChannel[] = [];
 
     channels.forEach((channel) => {
       if (channel.subChannels) {

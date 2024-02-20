@@ -1,4 +1,5 @@
 import React from 'react';
+
 import TcAvailableIntegrationsItem from './TcAvailableIntegrationsItem';
 import { IntegrationPlatform } from '../../../utils/enums';
 

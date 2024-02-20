@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 type items = {
   name: string;
@@ -7,21 +7,19 @@ type items = {
   icon: any;
 };
 
+import { faHeartPulse,faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
-
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { Drawer } from '@mui/material';
-
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FaBars } from 'react-icons/fa';
-import { MdKeyboardBackspace, MdOutlineAnnouncement } from 'react-icons/md';
-import { conf } from '../../../configs';
 import { FiSettings } from 'react-icons/fi';
+import { MdKeyboardBackspace, MdOutlineAnnouncement } from 'react-icons/md';
+
+import TcText from '../../shared/TcText';
+import { conf } from '../../../configs';
 import { useToken } from '../../../context/TokenContext';
 import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
-import TcText from '../../shared/TcText';
 
 const Sidebar = () => {
   const router = useRouter();

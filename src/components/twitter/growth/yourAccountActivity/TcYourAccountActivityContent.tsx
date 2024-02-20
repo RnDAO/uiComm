@@ -1,4 +1,5 @@
 import React from 'react';
+
 import TcCard from '../../../shared/TcCard';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import TcText from '../../../shared/TcText';
@@ -26,10 +27,10 @@ function TcYourAccountActivityContent({
               className='min-w-full flex-1 bg-transparent py-4 px-6 md:w-auto md:min-w-0'
               children={
                 <div className='flex flex-col space-y-1 text-center'>
-                  <TcText text={el.value} variant={'h4'} fontWeight='bold' />
+                  <TcText text={el.value} variant="h4" fontWeight='bold' />
                   <TcText
                     text={el.description}
-                    variant={'body2'}
+                    variant="body2"
                     className='text-gray-subtitle'
                   />
                   <div className='flex justify-center'>

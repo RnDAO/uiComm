@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import StatisticalData from '../statistics/StatisticalData';
-import useAppStore from '../../../store/useStore';
-import { useRouter } from 'next/router';
 import moment from 'moment';
-import { StatisticsProps } from '../../../utils/interfaces';
-import { useToken } from '../../../context/TokenContext';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
+import StatisticalData from '../statistics/StatisticalData';
 import TcButton from '../../shared/TcButton';
+import { useToken } from '../../../context/TokenContext';
+import useAppStore from '../../../store/useStore';
+import { StatisticsProps } from '../../../utils/interfaces';
 
 const ActiveMemberComposition = () => {
   const { community } = useToken();
@@ -15,8 +16,8 @@ const ActiveMemberComposition = () => {
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
   useEffect(() => {
-    let endDate: moment.Moment = moment().subtract(1, 'day');
-    let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
+    const endDate: moment.Moment = moment().subtract(1, 'day');
+    const startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     const platformId = community?.platforms.find(
       (platform) => platform.disconnectedAt === null
@@ -119,7 +120,7 @@ const ActiveMemberComposition = () => {
         </div>
         <div className='mb-3 text-center'>
           <TcButton
-            text={'Show more'}
+            text="Show more"
             variant='contained'
             onClick={() => {
               router.push('/statistics');

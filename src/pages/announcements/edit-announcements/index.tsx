@@ -1,24 +1,24 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { defaultLayout } from '../../../layouts/defaultLayout';
-import SEO from '../../../components/global/SEO';
 import { useRouter } from 'next/router';
-import TcPrivateMessageContainer from '../../../components/announcements/create/privateMessaageContainer';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { MdOutlineAnnouncement } from 'react-icons/md';
+
+import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
 import TcPublicMessaageContainer from '../../../components/announcements/create/publicMessageContainer';
 import TcScheduleAnnouncement from '../../../components/announcements/create/scheduleAnnouncement';
 import TcSelectPlatform from '../../../components/announcements/create/selectPlatform';
+import TcIconContainer from '../../../components/announcements/create/TcIconContainer';
+import TcConfirmSchaduledAnnouncementsDialog from '../../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
+import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
+import SEO from '../../../components/global/SEO';
 import TcBoxContainer from '../../../components/shared/TcBox/TcBoxContainer';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
-import TcConfirmSchaduledAnnouncementsDialog from '../../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
-import useAppStore from '../../../store/useStore';
-import { IRoles, IUser } from '../../../utils/interfaces';
+import TcText from '../../../components/shared/TcText';
 import { ChannelContext } from '../../../context/ChannelContext';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
-import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
-import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
-import { MdOutlineAnnouncement } from 'react-icons/md';
-import TcIconContainer from '../../../components/announcements/create/TcIconContainer';
-import TcText from '../../../components/shared/TcText';
+import { defaultLayout } from '../../../layouts/defaultLayout';
+import useAppStore from '../../../store/useStore';
+import { IRoles, IUser } from '../../../utils/interfaces';
 
 export interface DiscordChannel {
   channelId: string;
@@ -286,7 +286,7 @@ function Index() {
               </div>
               <div className='flex flex-col items-center justify-end space-y-3 pt-6 md:flex-row md:pt-12'>
                 <TcConfirmSchaduledAnnouncementsDialog
-                  buttonLabel={'Save'}
+                  buttonLabel="Save"
                   selectedChannels={channels}
                   selectedRoles={roles}
                   selectedUsernames={users}

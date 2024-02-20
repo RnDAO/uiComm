@@ -1,8 +1,9 @@
-import React from 'react';
-import networkGraph from '../../../assets/svg/networkGraph.svg';
 import Image from 'next/image';
 import router from 'next/router';
+import React from 'react';
+
 import TcButton from '../../shared/TcButton';
+import networkGraph from '../../../assets/svg/networkGraph.svg';
 
 export default function MemberInteractionGraph() {
   return (
@@ -24,7 +25,7 @@ export default function MemberInteractionGraph() {
       </div>
       <div className='mb-3 pt-6 text-center md:pt-0'>
         <TcButton
-          text={'Show more'}
+          text="Show more"
           variant='contained'
           onClick={() => {
             router.push('/membersInteraction');

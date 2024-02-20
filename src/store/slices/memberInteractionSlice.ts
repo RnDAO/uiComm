@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
-import { axiosInstance } from '../../axiosInstance';
+
 import IMemberInteraction from '../types/IMemberInteraction';
+import { axiosInstance } from '../../axiosInstance';
 
 const createHeatmapSlice: StateCreator<IMemberInteraction> = (set, get) => ({
   isLoading: false,

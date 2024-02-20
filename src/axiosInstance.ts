@@ -1,9 +1,10 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { conf } from './configs/index';
-import { StorageService } from './services/StorageService';
+import axios from 'axios';
 import { toast } from 'react-toastify';
-import { IToken } from './utils/types';
+
+import { conf } from './configs/index';
 import { tokenRefreshEventEmitter } from './services/EventEmitter';
+import { StorageService } from './services/StorageService';
+import { IToken } from './utils/types';
 
 let isRefreshing = false;
 

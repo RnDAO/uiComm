@@ -1,11 +1,12 @@
 import React from 'react';
+import { BsPlus } from 'react-icons/bs';
+
+import TcIntegrationIcon from './TcIntegrationIcon';
 import TcIntegrationCard from '../TcIntegrationCard';
 import TcButton from '../../shared/TcButton';
-import { BsPlus } from 'react-icons/bs';
 import TcText from '../../shared/TcText';
-import TcIntegrationIcon from './TcIntegrationIcon';
-import { IntegrationPlatform } from '../../../utils/enums';
 import useAppStore from '../../../store/useStore';
+import { IntegrationPlatform } from '../../../utils/enums';
 
 interface ITcAvailableIntegrationsItemProps {
   integrationPlatform: IntegrationPlatform;

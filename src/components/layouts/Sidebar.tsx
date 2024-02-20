@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 type items = {
   name: string;
@@ -7,18 +7,17 @@ type items = {
   icon: any;
 };
 
-import { conf } from '../../configs/index';
+import { faHeartPulse,faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
 
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { FiSettings } from 'react-icons/fi';
-import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
-import { useToken } from '../../context/TokenContext';
 import TcText from '../shared/TcText';
+import { conf } from '../../configs/index';
+import { useToken } from '../../context/TokenContext';
+import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
 
 const Sidebar = () => {
   const router = useRouter();

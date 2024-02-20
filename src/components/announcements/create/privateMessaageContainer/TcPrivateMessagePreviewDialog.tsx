@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import TcDialog from '../../../shared/TcDialog';
-import TcButton from '../../../shared/TcButton';
 import { AiOutlineClose } from 'react-icons/ai';
+
+import TcButton from '../../../shared/TcButton';
+import TcDialog from '../../../shared/TcDialog';
 import TcText from '../../../shared/TcText';
 
 interface ITcPublicMessagePreviewDialogProps {
@@ -74,7 +75,7 @@ function TcPublicMessagePreviewDialog({
                   {selectedRoles &&
                     selectedRoles.map((role, index, array) => (
                       <span key={role} className='flex items-baseline'>
-                        {'@'}
+                        @
                         <TcText
                           text={role}
                           variant='caption'
@@ -94,7 +95,7 @@ function TcPublicMessagePreviewDialog({
                   {selectedUsernames &&
                     selectedUsernames.map((username, index, array) => (
                       <span key={username} className='flex items-center'>
-                        {'#'}
+                        #
                         <TcText
                           text={username}
                           variant='caption'
@@ -112,7 +113,7 @@ function TcPublicMessagePreviewDialog({
               />
               <div className='w-full py-6'>
                 <TcButton
-                  text={'Confirm'}
+                  text="Confirm"
                   variant='contained'
                   onClick={() => setPreviewDialogOpen(false)}
                   sx={{ width: '100%' }}

@@ -1,15 +1,16 @@
-import React from 'react';
-import TcText from '../../shared/TcText';
-import TcAvatar from '../../shared/TcAvatar';
 import moment from 'moment';
 import Image from 'next/image';
+import React from 'react';
+import { MdGroups } from 'react-icons/md';
+
+import TcAvatar from '../../shared/TcAvatar';
+import TcText from '../../shared/TcText';
+import { conf } from '../../../configs';
+import { useToken } from '../../../context/TokenContext';
 import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../../utils/interfaces';
-import { MdGroups } from 'react-icons/md';
-import { useToken } from '../../../context/TokenContext';
-import { conf } from '../../../configs';
 
 interface TccommunityName {
   platform: IPlatformProps | null;

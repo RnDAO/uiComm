@@ -1,7 +1,7 @@
 import { Tab, TabProps } from '@mui/material';
 import React from 'react';
 
-interface ITcTabProps extends TabProps {}
+type ITcTabProps = TabProps
 
 function TcTab({ ...props }: ITcTabProps) {
   return <Tab {...props}></Tab>;

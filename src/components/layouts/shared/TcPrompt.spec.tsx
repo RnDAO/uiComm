@@ -1,10 +1,11 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import TcPrompt from './TcPrompt';
 import mockRouter from 'next-router-mock';
-import { StorageService } from '../../../services/StorageService';
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+
+import TcPrompt from './TcPrompt';
 import { TokenProvider } from '../../../context/TokenContext';
+import { StorageService } from '../../../services/StorageService';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('../../../services/StorageService');

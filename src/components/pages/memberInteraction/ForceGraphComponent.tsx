@@ -1,18 +1,19 @@
 import { Avatar, Popover, Typography } from '@mui/material';
+import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
 import ForceGraph2D, {
   ForceGraphMethods,
   NodeObject,
 } from 'react-force-graph-2d';
-import { conf } from '../../../configs';
-import { IRoles, IUserProfile } from '../../../utils/interfaces';
-import clsx from 'clsx';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+
+import { conf } from '../../../configs';
 import {
   setAmplitudeUserIdFromToken,
   trackAmplitudeEvent,
 } from '../../../helpers/amplitudeHelper';
 import { StorageService } from '../../../services/StorageService';
+import { IRoles, IUserProfile } from '../../../utils/interfaces';
 import { IUser } from '../../../utils/types';
 
 interface CustomNode {

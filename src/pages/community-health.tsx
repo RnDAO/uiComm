@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { defaultLayout } from '../layouts/defaultLayout';
-import SEO from '../components/global/SEO';
-import Fragmentation from '../components/pages/communityHealth/Fragmentation';
-import Decentralization from '../components/pages/communityHealth/Decentralization';
-import HeaderSection from '../components/pages/communityHealth/HeaderSection';
-import useAppStore from '../store/useStore';
+
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import SEO from '../components/global/SEO';
+import Decentralization from '../components/pages/communityHealth/Decentralization';
+import Fragmentation from '../components/pages/communityHealth/Fragmentation';
+import HeaderSection from '../components/pages/communityHealth/HeaderSection';
+import { useToken } from '../context/TokenContext';
+import { defaultLayout } from '../layouts/defaultLayout';
+import useAppStore from '../store/useStore';
 import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
 } from '../utils/interfaces';
-import { useToken } from '../context/TokenContext';
 
 function CommunityHealth() {
   const { community } = useToken();

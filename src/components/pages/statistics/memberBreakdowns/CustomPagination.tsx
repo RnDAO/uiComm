@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Pagination, PaginationItem } from '@mui/material';
 
 interface PaginationProps {

@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import centricLayout from '../../layouts/centricLayout';
-import TcText from '../../components/shared/TcText';
-import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import TcInput from '../../components/shared/TcInput';
-import TcCheckbox from '../../components/shared/TcCheckbox';
 import { FormControlLabel } from '@mui/material';
-import TcLink from '../../components/shared/TcLink';
-import TcButton from '../../components/shared/TcButton';
 import router from 'next/router';
-import useAppStore from '../../store/useStore';
+import React, { useState } from 'react';
+
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import TcButton from '../../components/shared/TcButton';
+import TcCheckbox from '../../components/shared/TcCheckbox';
+import TcInput from '../../components/shared/TcInput';
+import TcLink from '../../components/shared/TcLink';
+import TcText from '../../components/shared/TcText';
 import { useToken } from '../../context/TokenContext';
+import centricLayout from '../../layouts/centricLayout';
+import useAppStore from '../../store/useStore';
 
 function CreateNewCommunity() {
   const { createNewCommunitie } = useAppStore();
@@ -45,7 +46,7 @@ function CreateNewCommunity() {
       className='min-h-[37.5rem] rounded p-4 md:p-16'
       contentContainerChildren={
         <div className='space-y-8 pt-10'>
-          <TcText text='Create a new community account' variant={'h4'} />
+          <TcText text='Create a new community account' variant="h4" />
           <div className='space-y-2'>
             <TcText
               className='text-left md:text-center'
@@ -68,7 +69,7 @@ function CreateNewCommunity() {
                   <>
                     {'I understand and agree to the '}
                     <TcLink
-                      to={'https://www.togethercrew.com/privacy-and-terms'}
+                      to="https://www.togethercrew.com/privacy-and-terms"
                       color='primary'
                       fontWeight='bold'
                     >
@@ -76,7 +77,7 @@ function CreateNewCommunity() {
                     </TcLink>
                     {' and '}
                     <TcLink
-                      to={'https://www.togethercrew.com/privacy-and-terms'}
+                      to="https://www.togethercrew.com/privacy-and-terms"
                       color='primary'
                       fontWeight='bold'
                     >
@@ -84,7 +85,7 @@ function CreateNewCommunity() {
                     </TcLink>
                   </>
                 }
-                variant={'subtitle2'}
+                variant="subtitle2"
               />
             }
             control={

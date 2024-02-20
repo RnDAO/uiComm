@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import TcText from '../../shared/TcText';
-import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
-import TcInput from '../../shared/TcInput';
-import TcCommunityList from './TcCommunityList';
-import TcButton from '../../shared/TcButton';
-import { BsPlus } from 'react-icons/bs';
 import router from 'next/router';
-import useAppStore from '../../../store/useStore';
+import React, { useEffect, useState } from 'react';
+import { BsPlus } from 'react-icons/bs';
+
+import TcCommunityList from './TcCommunityList';
 import Loading from '../../global/Loading';
-import { debounce } from '../../../helpers/helper';
-import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
-import { StorageService } from '../../../services/StorageService';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
+import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
+import TcButton from '../../shared/TcButton';
+import TcInput from '../../shared/TcInput';
+import TcText from '../../shared/TcText';
 import { useToken } from '../../../context/TokenContext';
+import { debounce } from '../../../helpers/helper';
+import { StorageService } from '../../../services/StorageService';
+import useAppStore from '../../../store/useStore';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 
 export interface CommunityData {
   limit: number;

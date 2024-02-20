@@ -1,10 +1,11 @@
-import React from 'react';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { StaticTimePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import React from 'react';
 import { FiCalendar } from 'react-icons/fi';
 import { MdAccessTime } from 'react-icons/md';
+
 import TcPopover from '../../../shared/TcPopover';
 import TcTabs from '../../../shared/TcTabs';
 import TcTab from '../../../shared/TcTabs/TcTab';

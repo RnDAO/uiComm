@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import TcText from '../../../shared/TcText';
-import { MdOutlineAnnouncement } from 'react-icons/md';
-import TcIconContainer from '../TcIconContainer';
-import TcButton from '../../../shared/TcButton';
 import { FormControl, FormControlLabel } from '@mui/material';
-import TcInput from '../../../shared/TcInput';
-import TcSwitch from '../../../shared/TcSwitch';
-import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
-import TcButtonGroup from '../../../shared/TcButtonGroup';
 import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
+import { MdOutlineAnnouncement } from 'react-icons/md';
+
 import TcPrivateMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
 import TcRolesAutoComplete from './TcRolesAutoComplete';
 import TcUsersAutoComplete from './TcUsersAutoComplete';
-import { IRoles, IUser } from '../../../../utils/interfaces';
+import TcIconContainer from '../TcIconContainer';
 import {
   DiscordData,
   DiscordPrivateOptions,
 } from '../../../../pages/announcements/edit-announcements';
+import { IRoles, IUser } from '../../../../utils/interfaces';
+import TcButton from '../../../shared/TcButton';
+import TcButtonGroup from '../../../shared/TcButtonGroup';
+import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
+import TcInput from '../../../shared/TcInput';
+import TcSwitch from '../../../shared/TcSwitch';
+import TcText from '../../../shared/TcText';
 
 export enum MessageType {
   Both = 'Both',
@@ -156,9 +157,7 @@ function TcPrivateMessageContainer({
             label={
               <div className='flex items-center space-x-1'>
                 <TcIconWithTooltip
-                  tooltipText={
-                    'Community members who have their DMs open will receive a DM. Members who have their DMs closed, will receive a private message inside the server (only they can see it). Additionally, a public message will always be sent with instructions to verify the legitimacy of the bot and announcement by checking the bot ID.'
-                  }
+                  tooltipText="Community members who have their DMs open will receive a DM. Members who have their DMs closed, will receive a private message inside the server (only they can see it). Additionally, a public message will always be sent with instructions to verify the legitimacy of the bot and announcement by checking the bot ID."
                 />
               </div>
             }
