@@ -1,18 +1,16 @@
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
-import { MdOutlineAnnouncement } from 'react-icons/md';
 
+import TcPrivateMessageContainer from '../../components/announcements/create/privateMessaageContainer/TcPrivateMessageContainer';
 import TcPublicMessageContainer from '../../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
 import TcScheduleAnnouncement from '../../components/announcements/create/scheduleAnnouncement/';
 import TcSelectPlatform from '../../components/announcements/create/selectPlatform';
-import TcIconContainer from '../../components/announcements/create/TcIconContainer';
 import TcConfirmSchaduledAnnouncementsDialog from '../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 import SEO from '../../components/global/SEO';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcBreadcrumbs from '../../components/shared/TcBreadcrumbs';
 import TcButton from '../../components/shared/TcButton';
-import TcText from '../../components/shared/TcText';
 import { ChannelContext } from '../../context/ChannelContext';
 import { useSnackbar } from '../../context/SnackbarContext';
 import { useToken } from '../../context/TokenContext';
@@ -20,10 +18,13 @@ import { defaultLayout } from '../../layouts/defaultLayout';
 import useAppStore from '../../store/useStore';
 import { IRoles, IUser } from '../../utils/interfaces';
 
-export type CreateAnnouncementsPayloadDataOptions =
-  | { channelIds: string[]; userIds?: string[]; roleIds?: string[] }
-  | { channelIds?: string[]; userIds: string[]; roleIds?: string[] }
-  | { channelIds?: string[]; userIds?: string[]; roleIds: string[] };
+export type CreateAnnouncementsPayloadDataOptions = {
+  channelIds?: string[];
+  userIds?: string[];
+  roleIds?: string[];
+  engagementCategories?: string[];
+  safetyMessageChannelId?: string;
+};
 
 export interface CreateAnnouncementsPayloadData {
   platformId: string;
@@ -52,6 +53,11 @@ function CreateNewAnnouncements() {
   const [channels, setChannels] = useState<any[]>([]);
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [engagementCategories, setEngagementCategories] = useState<string[]>(
+    []
+  );
+  const [safetyMessageChannelId, setSafetyMessageChannelId] =
+    useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isDateValid, setIsDateValid] = useState<boolean>(true);
 
@@ -92,7 +98,7 @@ function CreateNewAnnouncements() {
   const handleCreateAnnouncements = async (isDrafted: boolean) => {
     if (!community) return;
 
-    const data = [publicAnnouncements];
+    const data = publicAnnouncements ? [publicAnnouncements] : [];
 
     if (privateAnnouncements && privateAnnouncements.length > 0) {
       data.push(...privateAnnouncements);
@@ -117,6 +123,13 @@ function CreateNewAnnouncements() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const isPayloadValid = () => {
+    return publicAnnouncements?.template ||
+      (privateAnnouncements && privateAnnouncements?.length > 0)
+      ? true
+      : false;
   };
 
   if (loading) {
@@ -151,34 +164,31 @@ function CreateNewAnnouncements() {
                     selectedChannels,
                   }) => {
                     if (!platformId) return;
-                    setChannels(selectedChannels);
-                    setPublicAnnouncements({
-                      platformId: platformId,
-                      template: message,
-                      options: {
-                        channelIds: selectedChannels.map(
-                          (channel) => channel.id
-                        ),
-                      },
-                    });
+
+                    if (selectedChannels.length > 0) {
+                      setChannels(selectedChannels);
+                      setPublicAnnouncements({
+                        platformId: platformId,
+                        template: message,
+                        options: {
+                          channelIds: selectedChannels.map(
+                            (channel) => channel.id
+                          ),
+                        },
+                      });
+                    } else {
+                      setChannels([]);
+                      setPublicAnnouncements(undefined);
+                    }
                   }}
                 />
-                <div className='flex flex-row items-center space-x-3'>
-                  <TcIconContainer>
-                    <MdOutlineAnnouncement size={20} />
-                  </TcIconContainer>
-                  <TcText
-                    text='Smart Announcements'
-                    variant='body1'
-                    fontWeight='700'
-                  />
-                  <TcText text='Coming Soon...' variant='subtitle1' />
-                </div>
-                {/* <TcPrivateMessageContainer
+                <TcPrivateMessageContainer
                   handlePrivateAnnouncements={({
                     message,
                     selectedUsers,
                     selectedRoles,
+                    selectedEngagementCategory,
+                    safetyChannelIds,
                   }) => {
                     if (!platformId) return;
 
@@ -187,12 +197,16 @@ function CreateNewAnnouncements() {
                       template: message,
                     };
 
-                    let privateAnnouncementsOptions: {
+                    const privateAnnouncementsOptions: {
                       roleIds: string[];
                       userIds: string[];
+                      engagementCategories?: string[];
+                      safetyMessageChannelId?: string;
                     } = {
                       roleIds: [],
                       userIds: [],
+                      engagementCategories: [],
+                      safetyMessageChannelId: '',
                     };
 
                     if (selectedRoles && selectedRoles.length > 0) {
@@ -200,6 +214,8 @@ function CreateNewAnnouncements() {
                       privateAnnouncementsOptions.roleIds = selectedRoles.map(
                         (role) => role.roleId.toString()
                       );
+                    } else {
+                      setRoles([]);
                     }
 
                     if (selectedUsers && selectedUsers.length > 0) {
@@ -207,11 +223,36 @@ function CreateNewAnnouncements() {
                       privateAnnouncementsOptions.userIds = selectedUsers.map(
                         (user) => user.discordId
                       );
+                    } else {
+                      setUsers([]);
+                    }
+
+                    if (
+                      selectedEngagementCategory &&
+                      selectedEngagementCategory.length > 0
+                    ) {
+                      setEngagementCategories(selectedEngagementCategory);
+                      privateAnnouncementsOptions.engagementCategories =
+                        selectedEngagementCategory.map((category) => category);
+                    } else {
+                      setEngagementCategories([]);
+                    }
+
+                    if (safetyChannelIds) {
+                      setSafetyMessageChannelId(safetyMessageChannelId);
+                      privateAnnouncementsOptions.safetyMessageChannelId =
+                        safetyChannelIds;
+                    } else {
+                      setSafetyMessageChannelId('');
                     }
 
                     if (
                       privateAnnouncementsOptions.roleIds.length > 0 ||
-                      privateAnnouncementsOptions.userIds.length > 0
+                      privateAnnouncementsOptions.userIds.length > 0 ||
+                      (privateAnnouncementsOptions.engagementCategories &&
+                        privateAnnouncementsOptions.engagementCategories
+                          ?.length > 0) ||
+                      privateAnnouncementsOptions.safetyMessageChannelId
                     ) {
                       const combinedPrivateAnnouncement = {
                         ...commonData,
@@ -221,7 +262,7 @@ function CreateNewAnnouncements() {
                       setPrivateAnnouncements([combinedPrivateAnnouncement]);
                     }
                   }}
-                /> */}
+                />
               </div>
               <div className='flex flex-col items-center justify-between space-y-3 pt-6 md:flex-row md:pt-8'>
                 <TcButton
@@ -239,12 +280,7 @@ function CreateNewAnnouncements() {
                   <TcButton
                     text='Save as Draft'
                     variant='outlined'
-                    disabled={
-                      !scheduledAt ||
-                      !isDateValid ||
-                      publicAnnouncements?.template == '' ||
-                      publicAnnouncements?.options.channelIds?.length === 0
-                    }
+                    disabled={!scheduledAt || !isDateValid || !isPayloadValid()}
                     sx={{
                       maxWidth: {
                         xs: '100%',
@@ -258,15 +294,13 @@ function CreateNewAnnouncements() {
                     selectedChannels={channels}
                     selectedRoles={roles}
                     selectedUsernames={users}
+                    selectedEngagementCategories={engagementCategories}
                     schaduledDate={scheduledAt || ''}
-                    isDisabled={
-                      !scheduledAt ||
-                      !isDateValid ||
-                      publicAnnouncements?.template == '' ||
-                      publicAnnouncements?.options.channelIds?.length === 0
-                    }
                     handleCreateAnnouncements={(e) =>
                       handleCreateAnnouncements(e)
+                    }
+                    isDisabled={
+                      !scheduledAt || !isDateValid || !isPayloadValid()
                     }
                   />
                 </div>

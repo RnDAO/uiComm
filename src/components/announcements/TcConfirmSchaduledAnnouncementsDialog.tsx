@@ -13,6 +13,7 @@ interface ITcConfirmSchaduledAnnouncementsDialogProps {
   selectedChannels: { id: string; label: string }[];
   selectedRoles?: IRoles[];
   selectedUsernames?: IUser[];
+  selectedEngagementCategories?: string[];
   schaduledDate: string;
   isDisabled: boolean;
   handleCreateAnnouncements: (isDrafted: boolean) => void;
@@ -35,6 +36,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
   buttonLabel,
   schaduledDate,
   selectedRoles,
+  selectedEngagementCategories,
   selectedUsernames,
   selectedChannels,
   isDisabled = true,
@@ -86,27 +88,31 @@ function TcConfirmSchaduledAnnouncementsDialog({
                     className='text-left'
                   />
                 </div>
-                <div className='flex flex-col'>
-                  <div className='flex items-center justify-between'>
-                    <TcText
-                      text='Public Message to:'
-                      fontWeight={500}
-                      variant='subtitle2'
-                      className='text-left text-gray-400'
-                    />
-                    <TcText
-                      text={
-                        schaduledDate
-                          ? formatDateToLocalTimezone(schaduledDate)
-                          : ''
-                      }
-                      variant='subtitle2'
-                    />
+                {selectedChannels && selectedChannels.length > 0 ? (
+                  <div className='flex flex-col'>
+                    <div className='flex items-center justify-between'>
+                      <TcText
+                        text='Public Message to:'
+                        fontWeight={500}
+                        variant='subtitle2'
+                        className='text-left text-gray-400'
+                      />
+                      <TcText
+                        text={
+                          schaduledDate
+                            ? formatDateToLocalTimezone(schaduledDate)
+                            : ''
+                        }
+                        variant='subtitle2'
+                      />
+                    </div>
+                    {selectedChannels
+                      .map((channel) => `#${channel.label}`)
+                      .join(', ')}
                   </div>
-                  {selectedChannels
-                    .map((channel) => `#${channel.label}`)
-                    .join(', ')}
-                </div>
+                ) : (
+                  ''
+                )}
                 {selectedUsernames && selectedUsernames.length > 0 ? (
                   <div className='flex flex-col'>
                     <div className='flex items-center justify-between'>
@@ -151,6 +157,32 @@ function TcConfirmSchaduledAnnouncementsDialog({
                       />
                     </div>
                     {selectedRoles.map((role) => `#${role.name}`).join(', ')}
+                  </div>
+                ) : (
+                  ''
+                )}
+                {selectedEngagementCategories &&
+                selectedEngagementCategories.length > 0 ? (
+                  <div className='flex flex-col'>
+                    <div className='flex items-center justify-between'>
+                      <TcText
+                        text='Engagement Categories:'
+                        fontWeight={500}
+                        variant='subtitle2'
+                        className='text-left text-gray-400'
+                      />
+                      <TcText
+                        text={
+                          schaduledDate
+                            ? formatDateToLocalTimezone(schaduledDate)
+                            : ''
+                        }
+                        variant='subtitle2'
+                      />
+                    </div>
+                    {`#${selectedEngagementCategories
+                      .join(', ')
+                      .replaceAll('_', ' ')}`}
                   </div>
                 ) : (
                   ''

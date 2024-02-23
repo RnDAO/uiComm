@@ -1,9 +1,10 @@
 import jwt_decode from 'jwt-decode';
 import moment from 'moment';
 
+import { FlattenedChannel } from '../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
 import { SelectedSubChannels } from '../context/ChannelContext';
 import { IDecodedToken } from '../utils/interfaces';
-import { IUser } from '../utils/types';
+import { IGuildChannels, IUser } from '../utils/types';
 
 export function capitalizeFirstChar(str: string): string {
   return str?.charAt(0).toUpperCase() + str.slice(1);
@@ -134,4 +135,26 @@ export function validateDateTime(date: Date | null, time: Date | null) {
     return selectedDateTime.isAfter(moment());
   }
   return false;
+}
+
+export function flattenChannels(
+  channels: IGuildChannels[],
+  selectedSubChannels: SelectedSubChannels
+) {
+  const flattened: FlattenedChannel[] = [];
+
+  channels.forEach((channel) => {
+    if (channel.subChannels) {
+      channel.subChannels.forEach((subChannel) => {
+        if (selectedSubChannels[channel.channelId]?.[subChannel.channelId]) {
+          flattened.push({
+            id: subChannel.channelId,
+            label: subChannel.name,
+          });
+        }
+      });
+    }
+  });
+
+  return flattened;
 }

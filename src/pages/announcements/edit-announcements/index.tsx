@@ -1,18 +1,16 @@
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { MdOutlineAnnouncement } from 'react-icons/md';
 
 import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
+import TcPrivateMessageContainer from '../../../components/announcements/create/privateMessaageContainer/TcPrivateMessageContainer';
 import TcPublicMessaageContainer from '../../../components/announcements/create/publicMessageContainer';
 import TcScheduleAnnouncement from '../../../components/announcements/create/scheduleAnnouncement';
 import TcSelectPlatform from '../../../components/announcements/create/selectPlatform';
-import TcIconContainer from '../../../components/announcements/create/TcIconContainer';
 import TcConfirmSchaduledAnnouncementsDialog from '../../../components/announcements/TcConfirmSchaduledAnnouncementsDialog';
 import SimpleBackdrop from '../../../components/global/LoadingBackdrop';
 import SEO from '../../../components/global/SEO';
 import TcBoxContainer from '../../../components/shared/TcBox/TcBoxContainer';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
-import TcText from '../../../components/shared/TcText';
 import { ChannelContext } from '../../../context/ChannelContext';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
@@ -37,6 +35,8 @@ interface DiscordPublicOptions {
 export interface DiscordPrivateOptions {
   roles?: IRoles[];
   users?: DiscordUser[];
+  safetyMessageChannel?: { channelId: string; name: string };
+  engagementCategories?: string[];
 }
 
 type DiscordOptions = DiscordPublicOptions | DiscordPrivateOptions;
@@ -71,6 +71,11 @@ function Index() {
   const [channels, setChannels] = useState<any[]>([]);
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [engagementCategories, setEngagementCategories] = useState<string[]>(
+    []
+  );
+  const [safetyMessageChannelId, setSafetyMessageChannelId] =
+    useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isDateValid, setIsDateValid] = useState<boolean>(true);
 
@@ -145,13 +150,13 @@ function Index() {
   const handleEditAnnouncements = async (isDrafted: boolean) => {
     if (!community) return;
 
-    const data = [publicAnnouncements];
+    const data = publicAnnouncements ? [publicAnnouncements] : [];
 
     if (privateAnnouncements && privateAnnouncements.length > 0) {
       data.push(...privateAnnouncements);
     }
 
-    const announcementsPayload = {
+    const announcementPayload = {
       draft: isDrafted,
       scheduledAt: scheduledAt,
       data: data,
@@ -159,7 +164,11 @@ function Index() {
 
     try {
       setLoading(true);
-      const data = await patchExistingAnnouncement(id, announcementsPayload);
+
+      const data = await patchExistingAnnouncement({
+        id,
+        announcementPayload,
+      });
 
       if (data) {
         showMessage('Announcement updated successfully', 'success');
@@ -210,57 +219,72 @@ function Index() {
                     selectedChannels,
                   }) => {
                     if (!platformId) return;
-                    setChannels(selectedChannels);
-                    setPublicAnnouncements({
-                      platformId: platformId,
-                      template: message,
-                      options: {
-                        channelIds: selectedChannels.map(
-                          (channel) => channel.id
-                        ),
-                      },
-                    });
+                    if (selectedChannels.length > 0) {
+                      setChannels(selectedChannels);
+                      setPublicAnnouncements({
+                        platformId: platformId,
+                        template: message,
+                        options: {
+                          channelIds: selectedChannels.map(
+                            (channel) => channel.id
+                          ),
+                        },
+                      });
+                    } else {
+                      setChannels([]);
+                      setPublicAnnouncements(undefined);
+                    }
                   }}
                 />
-                <div className='flex flex-row items-center space-x-3'>
-                  <TcIconContainer>
-                    <MdOutlineAnnouncement size={20} />
-                  </TcIconContainer>
-                  <TcText
-                    text='Smart Announcements'
-                    variant='body1'
-                    fontWeight='700'
-                  />
-                  <TcText text='Coming Soon...' variant='subtitle1' />
-                </div>
-                {/* <TcPrivateMessageContainer
+                <TcPrivateMessageContainer
                   isEdit={true}
                   privateAnnouncementsData={privateSelectedAnnouncements}
                   handlePrivateAnnouncements={({
                     message,
                     selectedUsers,
                     selectedRoles,
+                    selectedEngagementCategory,
+                    safetyChannelIds,
                   }) => {
                     if (!platformId) return;
+
+                    if (
+                      !message &&
+                      (!selectedUsers || selectedUsers.length === 0) &&
+                      (!selectedRoles || selectedRoles.length === 0) &&
+                      (!selectedEngagementCategory ||
+                        selectedEngagementCategory.length === 0) &&
+                      !safetyChannelIds
+                    ) {
+                      setPrivateAnnouncements([]);
+                      return;
+                    }
 
                     const commonData = {
                       platformId: platformId,
                       template: message,
                     };
 
-                    let privateAnnouncementsOptions: {
+                    const privateAnnouncementsOptions: {
                       roleIds: string[];
                       userIds: string[];
+                      engagementCategories: string[];
+                      safetyMessageChannelId: string;
                     } = {
                       roleIds: [],
                       userIds: [],
+                      engagementCategories: [],
+                      safetyMessageChannelId: '',
                     };
 
                     if (selectedRoles && selectedRoles.length > 0) {
                       setRoles(selectedRoles);
+
                       privateAnnouncementsOptions.roleIds = selectedRoles.map(
                         (role) => role.roleId.toString()
                       );
+                    } else {
+                      setRoles([]);
                     }
 
                     if (selectedUsers && selectedUsers.length > 0) {
@@ -268,11 +292,35 @@ function Index() {
                       privateAnnouncementsOptions.userIds = selectedUsers.map(
                         (user) => user.discordId
                       );
+                    } else {
+                      setUsers([]);
+                    }
+
+                    if (
+                      selectedEngagementCategory &&
+                      selectedEngagementCategory.length > 0
+                    ) {
+                      setEngagementCategories(selectedEngagementCategory);
+                      privateAnnouncementsOptions.engagementCategories =
+                        selectedEngagementCategory.map((category) => category);
+                    } else {
+                      setEngagementCategories([]);
+                    }
+
+                    if (safetyChannelIds) {
+                      setSafetyMessageChannelId(safetyMessageChannelId);
+                      privateAnnouncementsOptions.safetyMessageChannelId =
+                        safetyChannelIds;
+                    } else {
+                      setSafetyMessageChannelId('');
                     }
 
                     if (
                       privateAnnouncementsOptions.roleIds.length > 0 ||
-                      privateAnnouncementsOptions.userIds.length > 0
+                      privateAnnouncementsOptions.userIds.length > 0 ||
+                      privateAnnouncementsOptions.engagementCategories.length >
+                        0 ||
+                      privateAnnouncementsOptions.safetyMessageChannelId
                     ) {
                       const combinedPrivateAnnouncement = {
                         ...commonData,
@@ -282,7 +330,7 @@ function Index() {
                       setPrivateAnnouncements([combinedPrivateAnnouncement]);
                     }
                   }}
-                /> */}
+                />
               </div>
               <div className='flex flex-col items-center justify-end space-y-3 pt-6 md:flex-row md:pt-12'>
                 <TcConfirmSchaduledAnnouncementsDialog
@@ -290,6 +338,7 @@ function Index() {
                   selectedChannels={channels}
                   selectedRoles={roles}
                   selectedUsernames={users}
+                  selectedEngagementCategories={engagementCategories}
                   schaduledDate={scheduledAt || ''}
                   isDisabled={
                     !scheduledAt ||

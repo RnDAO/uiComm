@@ -52,7 +52,7 @@ const initialChannels: Channel[] = [];
 
 const initialSelectedSubChannels: SelectedSubChannels = {};
 
-const initialChannelContextData: ChannelContextProps = {
+export const initialChannelContextData: ChannelContextProps = {
   channels: initialChannels,
   loading: false,
   selectedSubChannels: initialSelectedSubChannels,
