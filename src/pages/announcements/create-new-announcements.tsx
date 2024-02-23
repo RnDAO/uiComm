@@ -125,6 +125,13 @@ function CreateNewAnnouncements() {
     }
   };
 
+  const isPayloadValid = () => {
+    return publicAnnouncements?.template ||
+      (privateAnnouncements && privateAnnouncements?.length > 0)
+      ? true
+      : false;
+  };
+
   if (loading) {
     return <SimpleBackdrop />;
   }
@@ -169,6 +176,9 @@ function CreateNewAnnouncements() {
                           ),
                         },
                       });
+                    } else {
+                      setChannels([]);
+                      setPublicAnnouncements(undefined);
                     }
                   }}
                 />
@@ -204,6 +214,8 @@ function CreateNewAnnouncements() {
                       privateAnnouncementsOptions.roleIds = selectedRoles.map(
                         (role) => role.roleId.toString()
                       );
+                    } else {
+                      setRoles([]);
                     }
 
                     if (selectedUsers && selectedUsers.length > 0) {
@@ -211,6 +223,8 @@ function CreateNewAnnouncements() {
                       privateAnnouncementsOptions.userIds = selectedUsers.map(
                         (user) => user.discordId
                       );
+                    } else {
+                      setUsers([]);
                     }
 
                     if (
@@ -220,12 +234,16 @@ function CreateNewAnnouncements() {
                       setEngagementCategories(selectedEngagementCategory);
                       privateAnnouncementsOptions.engagementCategories =
                         selectedEngagementCategory.map((category) => category);
+                    } else {
+                      setEngagementCategories([]);
                     }
 
                     if (safetyChannelIds) {
                       setSafetyMessageChannelId(safetyMessageChannelId);
                       privateAnnouncementsOptions.safetyMessageChannelId =
                         safetyChannelIds;
+                    } else {
+                      setSafetyMessageChannelId('');
                     }
 
                     if (
@@ -262,12 +280,7 @@ function CreateNewAnnouncements() {
                   <TcButton
                     text='Save as Draft'
                     variant='outlined'
-                    disabled={
-                      !scheduledAt ||
-                      !isDateValid ||
-                      publicAnnouncements?.template == '' ||
-                      publicAnnouncements?.options.channelIds?.length === 0
-                    }
+                    disabled={!scheduledAt || !isDateValid || !isPayloadValid()}
                     sx={{
                       maxWidth: {
                         xs: '100%',
@@ -285,7 +298,9 @@ function CreateNewAnnouncements() {
                     handleCreateAnnouncements={(e) =>
                       handleCreateAnnouncements(e)
                     }
-                    isDisabled={!scheduledAt || !isDateValid}
+                    isDisabled={
+                      !scheduledAt || !isDateValid || !isPayloadValid()
+                    }
                   />
                 </div>
               </div>

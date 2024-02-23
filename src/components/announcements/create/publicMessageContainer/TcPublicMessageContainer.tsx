@@ -145,6 +145,16 @@ function TcPublicMessageContainer({
     setPublicMessage(event.target.checked);
   };
 
+  useEffect(() => {
+    if (!isEdit && !publicMessage) {
+      setShowError(false);
+      setMessageError('');
+      setSelectedChannels([]);
+      setMessage('');
+      handlePublicAnnouncements({ message, selectedChannels: [] });
+    }
+  }, [isEdit, publicMessage]);
+
   const refreshChannels = async () => {
     try {
       if (!platformId) return;
