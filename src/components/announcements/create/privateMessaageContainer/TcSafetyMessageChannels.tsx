@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import TcSelect from '../../../shared/TcSelect';
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
-import { ChannelContext } from '../../../../context/ChannelContext';
-import TcText from '../../../shared/TcText';
+import React, { useContext, useEffect, useState } from 'react';
 import { BiError } from 'react-icons/bi';
+
+import { ChannelContext } from '../../../../context/ChannelContext';
 import { ISubChannels } from '../../../../utils/types';
+import TcSelect from '../../../shared/TcSelect';
+import TcText from '../../../shared/TcText';
 
 interface ITcSafetyMessageChannels {
   isEdit: boolean;
@@ -76,7 +77,7 @@ function TcSafetyMessageChannels({
                     fontWeight='bold'
                   />
                   <TcText
-                    text={'Channels'}
+                    text='Channels'
                     variant='subtitle1'
                     fontWeight='bold'
                   />

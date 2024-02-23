@@ -5,22 +5,22 @@ import {
   InputLabel,
 } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
+import { BiRefresh } from 'react-icons/bi';
 import { MdAnnouncement } from 'react-icons/md';
 
 import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
 import TcIconContainer from '../TcIconContainer';
+import { conf } from '../../../../configs';
 import { ChannelContext } from '../../../../context/ChannelContext';
+import { useToken } from '../../../../context/TokenContext';
+import { flattenChannels } from '../../../../helpers/helper';
 import { DiscordData } from '../../../../pages/announcements/edit-announcements';
 import TcPlatformChannelList from '../../../communitySettings/platform/TcPlatformChannelList';
 import TcButton from '../../../shared/TcButton';
 import TcInput from '../../../shared/TcInput';
 import TcSelect from '../../../shared/TcSelect';
-import TcText from '../../../shared/TcText';
 import TcSwitch from '../../../shared/TcSwitch';
-import { BiRefresh } from 'react-icons/bi';
-import { conf } from '../../../../configs';
-import { flattenChannels } from '../../../../helpers/helper';
-import { useToken } from '../../../../context/TokenContext';
+import TcText from '../../../shared/TcText';
 
 export interface FlattenedChannel {
   id: string;

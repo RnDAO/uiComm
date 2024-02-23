@@ -1,12 +1,12 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import TcPublicMessageContainer from './TcPublicMessageContainer';
-import { TokenContext } from '../../../../context/TokenContext';
 import {
   ChannelContext,
   initialChannelContextData,
 } from '../../../../context/ChannelContext';
+import { TokenContext } from '../../../../context/TokenContext';
 
 const mockToken = {
   accessToken: 'mockAccessToken',

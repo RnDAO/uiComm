@@ -10,22 +10,22 @@ import { MdOutlineAnnouncement } from 'react-icons/md';
 
 import TcPrivateMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
 import TcRolesAutoComplete from './TcRolesAutoComplete';
+import TcSafetyMessageChannels from './TcSafetyMessageChannels';
 import TcUsersAutoComplete from './TcUsersAutoComplete';
 import TcIconContainer from '../TcIconContainer';
 import {
   DiscordData,
   DiscordPrivateOptions,
 } from '../../../../pages/announcements/edit-announcements';
+import useAppStore from '../../../../store/useStore';
 import { IRoles, IUser } from '../../../../utils/interfaces';
 import TcButton from '../../../shared/TcButton';
 import TcButtonGroup from '../../../shared/TcButtonGroup';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import TcInput from '../../../shared/TcInput';
+import TcSelect from '../../../shared/TcSelect';
 import TcSwitch from '../../../shared/TcSwitch';
 import TcText from '../../../shared/TcText';
-import TcSelect from '../../../shared/TcSelect';
-import useAppStore from '../../../../store/useStore';
-import TcSafetyMessageChannels from './TcSafetyMessageChannels';
 
 export enum MessageType {
   AllTypes = 'All Types',
@@ -181,8 +181,8 @@ function TcPrivateMessageContainer({
 
   useEffect(() => {
     if (isEdit && privateAnnouncementsData) {
-      let rolesArray: IRoles[] = [];
-      let usersArray: IUser[] = [];
+      const rolesArray: IRoles[] = [];
+      const usersArray: IUser[] = [];
       let engagmentCategoriesArray: string[] = [];
       let safetyChannelIds: string = '';
       let templateText = '';
