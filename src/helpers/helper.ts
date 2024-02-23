@@ -1,10 +1,10 @@
 import jwt_decode from 'jwt-decode';
 import moment from 'moment';
 
+import { FlattenedChannel } from '../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
 import { SelectedSubChannels } from '../context/ChannelContext';
 import { IDecodedToken } from '../utils/interfaces';
 import { IGuildChannels, IUser } from '../utils/types';
-import { FlattenedChannel } from '../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
 
 export function capitalizeFirstChar(str: string): string {
   return str?.charAt(0).toUpperCase() + str.slice(1);

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CreateAnnouncementsPayloadData } from '../create-new-announcements';
+import TcPrivateMessageContainer from '../../../components/announcements/create/privateMessaageContainer/TcPrivateMessageContainer';
 import TcPublicMessaageContainer from '../../../components/announcements/create/publicMessageContainer';
 import TcScheduleAnnouncement from '../../../components/announcements/create/scheduleAnnouncement';
 import TcSelectPlatform from '../../../components/announcements/create/selectPlatform';
@@ -16,7 +17,6 @@ import { useToken } from '../../../context/TokenContext';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import useAppStore from '../../../store/useStore';
 import { IRoles, IUser } from '../../../utils/interfaces';
-import TcPrivateMessageContainer from '../../../components/announcements/create/privateMessaageContainer/TcPrivateMessageContainer';
 
 export interface DiscordChannel {
   channelId: string;
@@ -260,7 +260,7 @@ function Index() {
                       template: message,
                     };
 
-                    let privateAnnouncementsOptions: {
+                    const privateAnnouncementsOptions: {
                       roleIds: string[];
                       userIds: string[];
                       engagementCategories: string[];
