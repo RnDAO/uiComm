@@ -294,6 +294,7 @@ function CreateNewAnnouncements() {
                     selectedChannels={channels}
                     selectedRoles={roles}
                     selectedUsernames={users}
+                    selectedEngagementCategories={engagementCategories}
                     schaduledDate={scheduledAt || ''}
                     handleCreateAnnouncements={(e) =>
                       handleCreateAnnouncements(e)

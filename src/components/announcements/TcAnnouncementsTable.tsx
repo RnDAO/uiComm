@@ -21,7 +21,7 @@ import TcButton from '../shared/TcButton';
 import TcDialog from '../shared/TcDialog';
 import TcText from '../shared/TcText';
 import { useSnackbar } from '../../context/SnackbarContext';
-import { truncateCenter } from '../../helpers/helper';
+import { capitalizeFirstChar, truncateCenter } from '../../helpers/helper';
 import useAppStore from '../../store/useStore';
 
 interface Channel {
@@ -285,6 +285,34 @@ function TcAnnouncementsTable({
             />
           </div>
         );
+      case 'engagementCategories':
+        return (
+          <div className='flex flex-row overflow-hidden whitespace-nowrap'>
+            <TcText
+              text={announcement.data
+                .map((item: { options: { engagementCategories: any } }) => {
+                  const engagementCategories =
+                    item.options.engagementCategories;
+                  if (engagementCategories && engagementCategories.length > 0) {
+                    const displayedRoles = engagementCategories
+                      .slice(0, 2)
+                      .map(
+                        (role: string) =>
+                          '#' + capitalizeFirstChar(role.replaceAll('_', ' '))
+                      )
+                      .join(', ');
+                    const moreRolesIndicator =
+                      engagementCategories.length > 2 ? '...' : '';
+                    return `${displayedRoles}${moreRolesIndicator}`;
+                  }
+                  return '';
+                })
+                .filter((text: string) => text !== '')
+                .join(', ')}
+              variant='subtitle2'
+            />
+          </div>
+        );
       case 'scheduledAt':
         return (
           <div className='flex flex-row overflow-hidden whitespace-nowrap'>
@@ -365,6 +393,7 @@ function TcAnnouncementsTable({
               'channels',
               'users',
               'roles',
+              'engagementCategories',
               'scheduledAt',
               'actions',
             ].map((cellType, cellIndex, array) => (
@@ -455,6 +484,19 @@ function TcAnnouncementsTable({
               align='left'
             >
               <TcText text='Role' variant='body2' />
+            </TableCell>
+            <TableCell
+              sx={{ borderBottom: 'none' }}
+              className='uppercase text-gray-400'
+              style={{
+                width: '20%',
+                borderBottom: 'none',
+                whiteSpace: 'nowrap',
+                padding: '0 1rem',
+              }}
+              align='left'
+            >
+              <TcText text='Engagement Categories' variant='body2' />
             </TableCell>
             <TableCell
               sx={{ borderBottom: 'none' }}
