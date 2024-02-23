@@ -1,4 +1,9 @@
-import { FormControl, FormControlLabel } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  SelectChangeEvent,
+} from '@mui/material';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { MdOutlineAnnouncement } from 'react-icons/md';
@@ -18,9 +23,13 @@ import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
 import TcInput from '../../../shared/TcInput';
 import TcSwitch from '../../../shared/TcSwitch';
 import TcText from '../../../shared/TcText';
+import TcSelect from '../../../shared/TcSelect';
+import useAppStore from '../../../../store/useStore';
+import TcSafetyMessageChannels from './TcSafetyMessageChannels';
 
 export enum MessageType {
-  Both = 'Both',
+  AllTypes = 'All Types',
+  CategoryOnly = 'Category Only',
   RoleOnly = 'Role Only',
   UserOnly = 'User Only',
 }
@@ -32,10 +41,15 @@ export interface ITcPrivateMessageContainerProps {
     message,
     selectedRoles,
     selectedUsers,
+    selectedEngagementCategory,
+    safetyChannelIds,
   }: {
     message: string;
     selectedRoles?: IRoles[];
     selectedUsers?: IUser[];
+    selectedEngagementCategory?: string[];
+
+    safetyChannelIds?: string;
   }) => void;
 }
 
@@ -44,10 +58,21 @@ function TcPrivateMessageContainer({
   isEdit = false,
   privateAnnouncementsData,
 }: ITcPrivateMessageContainerProps) {
+  const { retrieveCategories } = useAppStore();
+  const [categories, setCategories] = useState<
+    { label: string; value: string }[]
+  >([]);
+
   const [privateMessage, setPrivateMessage] = useState<boolean>(false);
-  const [messageType, setMessageType] = useState<MessageType>(MessageType.Both);
+  const [messageType, setMessageType] = useState<MessageType>(
+    MessageType.AllTypes
+  );
   const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<IRoles[]>([]);
+  const [selectedEngagementCategory, setSelectedEngagementCategory] = useState<
+    string[]
+  >([]);
+  const [safetyChannelIds, setSafetyChannelIds] = useState<string>('');
 
   const [message, setMessage] = useState<string>('');
 
@@ -80,33 +105,86 @@ function TcPrivateMessageContainer({
   useEffect(() => {
     const prepareAndSendData = () => {
       switch (messageType) {
-        case MessageType.Both:
-          handlePrivateAnnouncements({ message, selectedRoles, selectedUsers });
+        case MessageType.AllTypes:
+          handlePrivateAnnouncements({
+            message,
+            selectedRoles,
+            selectedUsers,
+            selectedEngagementCategory,
+            safetyChannelIds,
+          });
+          break;
+
+        case MessageType.CategoryOnly:
+          handlePrivateAnnouncements({
+            message,
+            selectedEngagementCategory,
+            safetyChannelIds,
+          });
           break;
 
         case MessageType.RoleOnly:
-          handlePrivateAnnouncements({ message, selectedRoles });
+          handlePrivateAnnouncements({
+            message,
+            selectedRoles,
+            safetyChannelIds,
+          });
           break;
 
         case MessageType.UserOnly:
-          handlePrivateAnnouncements({ message, selectedUsers });
+          handlePrivateAnnouncements({
+            message,
+            selectedUsers,
+            safetyChannelIds,
+          });
           break;
 
         default:
-          handlePrivateAnnouncements({ message, selectedRoles, selectedUsers });
+          handlePrivateAnnouncements({
+            message,
+            selectedRoles,
+            selectedUsers,
+            selectedEngagementCategory,
+            safetyChannelIds,
+          });
           break;
       }
     };
-
-    if (message && privateMessage) {
-      prepareAndSendData();
+    if (!privateMessage) {
+      handlePrivateAnnouncements({
+        message: '',
+        selectedRoles: [],
+        selectedUsers: [],
+        selectedEngagementCategory: [],
+        safetyChannelIds: '',
+      });
+    } else {
+      if (
+        message &&
+        selectedRoles &&
+        selectedUsers &&
+        selectedEngagementCategory &&
+        safetyChannelIds
+      ) {
+        prepareAndSendData();
+      }
     }
-  }, [message, selectedRoles, selectedUsers, messageType, privateMessage]);
+  }, [
+    privateMessage,
+    message,
+    selectedRoles,
+    selectedUsers,
+    messageType,
+    safetyChannelIds,
+    selectedEngagementCategory,
+  ]);
 
   useEffect(() => {
     if (isEdit && privateAnnouncementsData) {
-      const rolesArray: IRoles[] = [];
-      const usersArray: IUser[] = [];
+      let rolesArray: IRoles[] = [];
+      let usersArray: IUser[] = [];
+      let engagmentCategoriesArray: string[] = [];
+      let safetyChannelIds: string = '';
       let templateText = '';
 
       privateAnnouncementsData.forEach((item) => {
@@ -121,6 +199,14 @@ function TcPrivateMessageContainer({
             usersArray.push(...privateOptions.users);
           }
 
+          if (privateOptions.safetyMessageChannel) {
+            safetyChannelIds = privateOptions.safetyMessageChannel.channelId;
+          }
+
+          if (privateOptions.engagementCategories) {
+            engagmentCategoriesArray = [...privateOptions.engagementCategories];
+          }
+
           if (!templateText) {
             templateText = item.template;
             setPrivateMessage(true);
@@ -130,9 +216,35 @@ function TcPrivateMessageContainer({
 
       setSelectedRoles(rolesArray);
       setSelectedUsers(usersArray);
+      setSafetyChannelIds(safetyChannelIds);
+      setSelectedEngagementCategory(engagmentCategoriesArray);
       setMessage(templateText);
     }
   }, [isEdit, privateAnnouncementsData]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await retrieveCategories();
+        setCategories(data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleCategoryChange = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value;
+
+    setSelectedEngagementCategory(
+      typeof value === 'string' ? value.split(',') : (value as string[])
+    );
+  };
+
+  const handleSelectedSafetyMessageChannels = (safetyChannelIds: string) => {
+    setSafetyChannelIds(safetyChannelIds);
+  };
 
   return (
     <div className='space-y-3'>
@@ -141,11 +253,7 @@ function TcPrivateMessageContainer({
           <TcIconContainer>
             <MdOutlineAnnouncement size={20} />
           </TcIconContainer>
-          <TcText
-            text='Private Message (optional)'
-            variant='body1'
-            fontWeight='700'
-          />
+          <TcText text='Private Message' variant='body1' fontWeight='700' />
           <FormControlLabel
             className='mx-auto md:mx-0'
             control={
@@ -201,24 +309,48 @@ function TcPrivateMessageContainer({
           <div>
             <TcText text='Send message to:' variant='subtitle1' />
             <TcText
-              text='Choose one or more user selection criteria for DM recipients. If multiple criteria are selected (e.g., Users + Roles), users matching either will be messaged.'
+              text='Choose one or more user selection criteria for DM recipients. If multiple criteria are selected (e.g., Engagement Category + Roles), users matching either will be messaged.'
               variant='caption'
               className='text-gray-400'
             />
           </div>
+          <FormControl
+            variant='filled'
+            fullWidth
+            size='medium'
+            disabled={
+              messageType !== MessageType.AllTypes &&
+              messageType !== MessageType.CategoryOnly
+            }
+          >
+            <InputLabel id='select-standard-label'>
+              Select Engagement Category(ies)
+            </InputLabel>
+            <TcSelect
+              multiple
+              labelId='select-standard-label'
+              id='select-standard-label'
+              options={categories}
+              value={selectedEngagementCategory}
+              onChange={handleCategoryChange}
+              renderValue={(selected) => (selected as string[]).join(', ')}
+              label='Select Engagement Category(ies)'
+              MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}
+            />
+          </FormControl>
           <div className='flex flex-col justify-between space-y-3 md:flex-row md:space-y-0 md:space-x-3'>
             <FormControl
               variant='filled'
               fullWidth
               size='medium'
               disabled={
-                messageType !== MessageType.Both &&
+                messageType !== MessageType.AllTypes &&
                 messageType !== MessageType.RoleOnly
               }
             >
               <TcRolesAutoComplete
                 isDisabled={
-                  messageType !== MessageType.Both &&
+                  messageType !== MessageType.AllTypes &&
                   messageType !== MessageType.RoleOnly
                 }
                 isEdit={true}
@@ -231,13 +363,13 @@ function TcPrivateMessageContainer({
               fullWidth
               size='medium'
               disabled={
-                messageType !== MessageType.Both &&
+                messageType !== MessageType.AllTypes &&
                 messageType !== MessageType.UserOnly
               }
             >
               <TcUsersAutoComplete
                 isDisabled={
-                  messageType !== MessageType.Both &&
+                  messageType !== MessageType.AllTypes &&
                   messageType !== MessageType.UserOnly
                 }
                 isEdit={true}
@@ -268,6 +400,31 @@ function TcPrivateMessageContainer({
               }`}
             />
           </FormControl>
+          <TcText
+            text={
+              <>
+                Safety Message
+                <TcIconWithTooltip
+                  tooltipText='The safety message is a s follows:
+                To verify the legitimacy of a message by the TogetherCrew bot, check the ID: TogetherCrew Bot#2107 and go to RnDAO'
+                />
+              </>
+            }
+            className='flex items-center space-x-3'
+            variant='subtitle1'
+          />
+          <TcText
+            className='text-gray-400'
+            text='Select a public channel where we’ll send instructions for your users to learn how to verify the bot ID and confirm the legitimacy of the private message they receive.'
+            variant='caption'
+          />
+          <TcSafetyMessageChannels
+            handleSelectedSafetyMessageChannels={
+              handleSelectedSafetyMessageChannels
+            }
+            isEdit={isEdit}
+            defaultSaftyMessageChannels={safetyChannelIds}
+          />
         </div>
       )}
     </div>
