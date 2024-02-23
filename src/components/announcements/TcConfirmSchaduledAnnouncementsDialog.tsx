@@ -180,9 +180,9 @@ function TcConfirmSchaduledAnnouncementsDialog({
                         variant='subtitle2'
                       />
                     </div>
-                    {selectedEngagementCategories
+                    {`#${selectedEngagementCategories
                       .join(', ')
-                      .replaceAll('_', ' ')}
+                      .replaceAll('_', ' ')}`}
                   </div>
                 ) : (
                   ''
