@@ -1,4 +1,9 @@
-import { FormControl, InputLabel, MenuItem } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+} from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { BiError } from 'react-icons/bi';
 
@@ -17,6 +22,7 @@ function TcSafetyMessageChannels({
   isEdit = false,
   defaultSaftyMessageChannels,
   handleSelectedSafetyMessageChannels,
+  ...props
 }: ITcSafetyMessageChannels) {
   const channelContext = useContext(ChannelContext);
   const { channels } = channelContext;
@@ -24,11 +30,20 @@ function TcSafetyMessageChannels({
   const [selectedChannels, setSelectedChannels] = useState<ISubChannels | null>(
     null
   );
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const validateSelection = (channel: ISubChannels | null) => {
+    const isValid = channel !== null;
+    setIsValid(isValid);
+
+    return isValid;
+  };
 
   const handleSelectedChannels = (channel: ISubChannels) => {
     setSelectedChannels(channel);
     setIsDropdownVisible(false);
+    validateSelection(channel);
   };
 
   const toggleDropdownVisibility = () => {
@@ -39,6 +54,7 @@ function TcSafetyMessageChannels({
     if (selectedChannels !== null) {
       handleSelectedSafetyMessageChannels(selectedChannels.channelId);
     }
+    validateSelection(selectedChannels);
   }, [selectedChannels]);
 
   useEffect(() => {
@@ -48,8 +64,9 @@ function TcSafetyMessageChannels({
           (subChannel) => subChannel.channelId === defaultSaftyMessageChannels
         );
       });
-
-      setSelectedChannels(selectedChannel?.subChannels[0] || null);
+      const initialChannel = selectedChannel?.subChannels[0] || null;
+      setSelectedChannels(initialChannel);
+      validateSelection(initialChannel);
     }
   }, [isEdit]);
 
@@ -66,6 +83,7 @@ function TcSafetyMessageChannels({
           onOpen={toggleDropdownVisibility}
           onClose={() => setIsDropdownVisible(false)}
           renderValue={(selected) => (selected as ISubChannels).name || ''}
+          {...props}
         >
           <div className='max-h-[200px] overflow-y-scroll'>
             {channels.map((channel, index) => (
@@ -111,6 +129,11 @@ function TcSafetyMessageChannels({
             ))}
           </div>
         </TcSelect>
+        {!isValid && (
+          <FormHelperText className='text-error-500'>
+            Please select a channel.
+          </FormHelperText>
+        )}
       </FormControl>
     </>
   );

@@ -219,16 +219,21 @@ function Index() {
                     selectedChannels,
                   }) => {
                     if (!platformId) return;
-                    setChannels(selectedChannels);
-                    setPublicAnnouncements({
-                      platformId: platformId,
-                      template: message,
-                      options: {
-                        channelIds: selectedChannels.map(
-                          (channel) => channel.id
-                        ),
-                      },
-                    });
+                    if (selectedChannels.length > 0) {
+                      setChannels(selectedChannels);
+                      setPublicAnnouncements({
+                        platformId: platformId,
+                        template: message,
+                        options: {
+                          channelIds: selectedChannels.map(
+                            (channel) => channel.id
+                          ),
+                        },
+                      });
+                    } else {
+                      setChannels([]);
+                      setPublicAnnouncements(undefined);
+                    }
                   }}
                 />
                 <TcPrivateMessageContainer
@@ -274,9 +279,12 @@ function Index() {
 
                     if (selectedRoles && selectedRoles.length > 0) {
                       setRoles(selectedRoles);
+
                       privateAnnouncementsOptions.roleIds = selectedRoles.map(
                         (role) => role.roleId.toString()
                       );
+                    } else {
+                      setRoles([]);
                     }
 
                     if (selectedUsers && selectedUsers.length > 0) {
@@ -284,6 +292,8 @@ function Index() {
                       privateAnnouncementsOptions.userIds = selectedUsers.map(
                         (user) => user.discordId
                       );
+                    } else {
+                      setUsers([]);
                     }
 
                     if (
@@ -293,12 +303,16 @@ function Index() {
                       setEngagementCategories(selectedEngagementCategory);
                       privateAnnouncementsOptions.engagementCategories =
                         selectedEngagementCategory.map((category) => category);
+                    } else {
+                      setEngagementCategories([]);
                     }
 
                     if (safetyChannelIds) {
                       setSafetyMessageChannelId(safetyMessageChannelId);
                       privateAnnouncementsOptions.safetyMessageChannelId =
                         safetyChannelIds;
+                    } else {
+                      setSafetyMessageChannelId('');
                     }
 
                     if (
