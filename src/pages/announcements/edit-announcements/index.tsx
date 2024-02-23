@@ -156,8 +156,7 @@ function Index() {
       data.push(...privateAnnouncements);
     }
 
-    const announcementsPayload = {
-      communityId: community.id,
+    const announcementPayload = {
       draft: isDrafted,
       scheduledAt: scheduledAt,
       data: data,
@@ -168,7 +167,7 @@ function Index() {
 
       const data = await patchExistingAnnouncement({
         id,
-        announcementsPayload,
+        announcementPayload,
       });
 
       if (data) {
@@ -325,6 +324,7 @@ function Index() {
                   selectedChannels={channels}
                   selectedRoles={roles}
                   selectedUsernames={users}
+                  selectedEngagementCategories={engagementCategories}
                   schaduledDate={scheduledAt || ''}
                   isDisabled={
                     !scheduledAt ||
