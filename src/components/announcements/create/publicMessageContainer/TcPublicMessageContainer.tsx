@@ -69,10 +69,23 @@ function TcPublicMessageContainer({
   }, [channels, selectedSubChannels]);
 
   const [message, setMessage] = useState<string>('');
+  const [messageError, setMessageError] = useState<string>('');
   const [publicMessage, setPublicMessage] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
+  };
+
+  useEffect(() => {
+    validateMessage();
+  }, [message]);
+
+  const validateMessage = () => {
+    if (publicMessage && !message.trim()) {
+      setMessageError('Message cannot be empty.');
+    } else {
+      setMessageError('');
+    }
   };
 
   const isPreviewDialogEnabled =
@@ -125,6 +138,10 @@ function TcPublicMessageContainer({
   const handlePublicMessaageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    if (!event.target.checked) {
+      setShowError(false);
+      setMessageError('');
+    }
     setPublicMessage(event.target.checked);
   };
 
@@ -238,9 +255,11 @@ function TcPublicMessageContainer({
               multiline
               value={message}
               onChange={handleChange}
-              helperText={`${message.length} character${
-                message.length !== 1 ? 's' : ''
-              }`}
+              error={!!messageError}
+              helperText={
+                messageError ||
+                `${message.length} character${message.length !== 1 ? 's' : ''}`
+              }
             />
           </FormControl>
         </div>
