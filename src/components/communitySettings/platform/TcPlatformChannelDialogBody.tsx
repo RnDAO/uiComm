@@ -5,7 +5,10 @@ import TcPlatformChannelList from './TcPlatformChannelList';
 function TcPlatformChannelDialogBody() {
   return (
     <div className='rounded-md border border-gray-300'>
-      <TcPlatformChannelList refreshTrigger={true} />
+      <TcPlatformChannelList
+        refreshTrigger={true}
+        disableSubChannelsByAnnouncement={false}
+      />
     </div>
   );
 }

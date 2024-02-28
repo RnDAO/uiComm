@@ -6,7 +6,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MdOutlineAnnouncement } from 'react-icons/md';
 
 import TcPrivateMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
@@ -14,6 +14,7 @@ import TcRolesAutoComplete from './TcRolesAutoComplete';
 import TcSafetyMessageChannels from './TcSafetyMessageChannels';
 import TcUsersAutoComplete from './TcUsersAutoComplete';
 import TcIconContainer from '../TcIconContainer';
+import { ChannelContext } from '../../../../context/ChannelContext';
 import {
   DiscordData,
   DiscordPrivateOptions,
@@ -60,6 +61,10 @@ function TcPrivateMessageContainer({
   privateAnnouncementsData,
 }: ITcPrivateMessageContainerProps) {
   const { retrieveCategories } = useAppStore();
+
+  const channelContext = useContext(ChannelContext);
+  const { channels } = channelContext;
+
   const [categories, setCategories] = useState<
     { label: string; value: string }[]
   >([]);
@@ -118,6 +123,16 @@ function TcPrivateMessageContainer({
   };
 
   const selectedUsersLables = getSelectedUsersLabels();
+
+  const getSelectedSafetyChannelLabel = (() => {
+    for (const channel of channels) {
+      const subChannel = channel.subChannels.find(
+        (subChannel) => subChannel.channelId === safetyChannelIds
+      );
+      if (subChannel) return subChannel.name;
+    }
+    return '';
+  })();
 
   useEffect(() => {
     const prepareAndSendData = () => {
@@ -392,6 +407,8 @@ function TcPrivateMessageContainer({
             textMessage={message}
             selectedUsernames={selectedUsersLables}
             selectedRoles={selectedRolesLables}
+            selectedEngagementCategory={selectedEngagementCategory}
+            safetyChannel={getSelectedSafetyChannelLabel}
             isPreviewDialogEnabled={isPreviewDialogEnabled}
           />
         </div>

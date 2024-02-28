@@ -70,6 +70,7 @@ const FilterByChannels = ({
           <div className='rounded-md border border-gray-300'>
             <TcPlatformChannelList
               refreshTrigger={false}
+              disableSubChannelsByAnnouncement={false}
               channelListCustomClass='px-4 py-3'
             />
           </div>

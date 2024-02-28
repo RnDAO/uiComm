@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
+import { capitalizeFirstChar } from '../../../../helpers/helper';
 import TcButton from '../../../shared/TcButton';
 import TcDialog from '../../../shared/TcDialog';
 import TcText from '../../../shared/TcText';
@@ -9,6 +10,8 @@ interface ITcPublicMessagePreviewDialogProps {
   textMessage: string;
   selectedRoles?: string[];
   selectedUsernames?: string[];
+  selectedEngagementCategory?: string[];
+  safetyChannel: string;
   isPreviewDialogEnabled: boolean;
 }
 
@@ -16,6 +19,8 @@ function TcPublicMessagePreviewDialog({
   textMessage,
   selectedRoles,
   selectedUsernames,
+  selectedEngagementCategory,
+  safetyChannel,
   isPreviewDialogEnabled,
 }: ITcPublicMessagePreviewDialogProps) {
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState<boolean>(false);
@@ -64,6 +69,28 @@ function TcPublicMessagePreviewDialog({
                 variant='h5'
                 className='pb-4'
               />
+              <div className='flex flex-wrap items-center space-x-1'>
+                <TcText
+                  text='Engagements Category(ies):'
+                  variant='caption'
+                  fontWeight={700}
+                  className='text-gray-500'
+                />
+                {selectedEngagementCategory &&
+                  selectedEngagementCategory.map((category, index, array) => (
+                    <span key={category} className='flex items-center'>
+                      #
+                      <TcText
+                        text={capitalizeFirstChar(
+                          category.replaceAll('_', ' ')
+                        )}
+                        variant='caption'
+                        fontWeight='700'
+                      />
+                      {index < array.length - 1 && ', '}
+                    </span>
+                  ))}
+              </div>
               <div className='flex flex-col items-start'>
                 <div className='flex flex-wrap items-center space-x-1'>
                   <TcText
@@ -104,6 +131,21 @@ function TcPublicMessagePreviewDialog({
                         {index < array.length - 1 && ', '}
                       </span>
                     ))}
+                </div>
+                <div className='flex flex-wrap items-center space-x-1'>
+                  <TcText
+                    text='Channel Safety Message:'
+                    variant='caption'
+                    fontWeight={700}
+                    className='text-gray-500'
+                  />
+                  {safetyChannel && (
+                    <TcText
+                      text={`#${safetyChannel}`}
+                      variant='caption'
+                      fontWeight='700'
+                    />
+                  )}
                 </div>
               </div>
               <TcText
