@@ -131,8 +131,8 @@ function TcConfirmSchaduledAnnouncementsDialog({
                         variant='subtitle2'
                       />{' '}
                     </div>
-                    {selectedChannels
-                      .map((channel) => `#${channel.label}`)
+                    {selectedUsernames
+                      .map((user) => `@${user.username}`)
                       .join(', ')}
                   </div>
                 ) : (
@@ -156,7 +156,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
                         variant='subtitle2'
                       />
                     </div>
-                    {selectedRoles.map((role) => `#${role.name}`).join(', ')}
+                    {selectedRoles.map((role) => `@${role.name}`).join(', ')}
                   </div>
                 ) : (
                   ''
