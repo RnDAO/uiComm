@@ -219,7 +219,7 @@ function TcPublicMessageContainer({
                     sx={{ minWidth: '12rem' }}
                     onClick={() =>
                       window.open(
-                        `${conf.GITBOOK_URL}/features/smart-announcements#how-to-set-permissions-for-the-smart-announcements-to-work`
+                        `${conf.GITBOOK_URL}features/smart-announcements#how-to-set-permissions-for-the-smart-announcements-to-work`
                       )
                     }
                   />

@@ -232,26 +232,6 @@ function TcPrivateMessageContainer({
       if (selectedUsers.length === 0) {
         setUserError('Please select at least one user');
       }
-    } else if (messageType === MessageType.AllTypes) {
-      let hasError = false;
-      if (selectedEngagementCategory.length === 0) {
-        setCategoryError('Please select at least one category');
-        hasError = true;
-      }
-      if (selectedRoles.length === 0) {
-        setRoleError('Please select at least one role');
-        hasError = true;
-      }
-      if (selectedUsers.length === 0) {
-        setUserError('Please select at least one user');
-        hasError = true;
-      }
-
-      if (!hasError) {
-        setCategoryError('');
-        setRoleError('');
-        setUserError('');
-      }
     }
   }, [messageType, selectedEngagementCategory, selectedRoles, selectedUsers]);
 
