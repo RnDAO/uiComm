@@ -11,7 +11,7 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
   retrieveAnnouncements: async ({
     page,
     limit,
-    sortBy = 'scheduledAt:asc',
+    sortBy = 'scheduledAt:desc',
     timeZone,
     startDate,
     endDate,
