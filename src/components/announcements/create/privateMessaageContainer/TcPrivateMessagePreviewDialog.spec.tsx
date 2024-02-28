@@ -13,7 +13,7 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel={''}
+        safetyChannel=''
       />
     );
     expect(screen.getByText('Preview')).toBeInTheDocument();
@@ -24,7 +24,7 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel={''}
+        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -36,7 +36,7 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel={''}
+        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -54,7 +54,7 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel={''}
+        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -72,7 +72,7 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel={''}
+        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -86,7 +86,7 @@ describe('TcPublicMessagePreviewDialog', () => {
         selectedRoles={roles}
         selectedUsernames={usernames}
         isPreviewDialogEnabled={true}
-        safetyChannel={''}
+        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
