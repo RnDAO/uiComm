@@ -207,7 +207,10 @@ function TcPublicMessageContainer({
             >
               <div className='space-y-3 p-4'>
                 <div className='rounded-md border border-gray-300'>
-                  <TcPlatformChannelList refreshTrigger={false} />
+                  <TcPlatformChannelList
+                    refreshTrigger={false}
+                    disableSubChannelsByAnnouncement={true}
+                  />
                 </div>
                 <div className='flex justify-between space-x-3'>
                   <TcButton

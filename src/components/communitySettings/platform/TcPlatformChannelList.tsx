@@ -10,15 +10,18 @@ import TcButton from '../../shared/TcButton';
 import TcCheckbox from '../../shared/TcCheckbox';
 import TcText from '../../shared/TcText';
 import { ChannelContext } from '../../../context/ChannelContext';
+import { ISubChannels } from '../../../utils/types';
 
 interface ITcPlatformChannelList {
   refreshTrigger: boolean;
   channelListCustomClass?: string;
+  disableSubChannelsByAnnouncement: boolean;
 }
 
 function TcPlatformChannelList({
   refreshTrigger = true,
   channelListCustomClass,
+  disableSubChannelsByAnnouncement = false,
 }: ITcPlatformChannelList) {
   const channelContext = useContext(ChannelContext);
   const router = useRouter();
@@ -40,6 +43,13 @@ function TcPlatformChannelList({
     if (id) {
       refreshData(id);
     }
+  };
+
+  const showErrorMessage = (subChannel: ISubChannels) => {
+    return disableSubChannelsByAnnouncement && !subChannel.announcementAccess
+      ? !subChannel.announcementAccess
+      : !disableSubChannelsByAnnouncement &&
+          !subChannel.canReadMessageHistoryAndViewChannel;
   };
 
   if (loading) {
@@ -94,11 +104,13 @@ function TcPlatformChannelList({
                       onChange={() =>
                         handleSelectAll(channel.channelId, channel?.subChannels)
                       }
-                      disabled={channel?.subChannels?.some(
-                        (subChannel) =>
-                          !subChannel.canReadMessageHistoryAndViewChannel ||
-                          !subChannel.announcementAccess
-                      )}
+                      disabled={channel?.subChannels?.some((subChannel) => {
+                        if (disableSubChannelsByAnnouncement) {
+                          return !subChannel.announcementAccess;
+                        } else {
+                          return !subChannel.canReadMessageHistoryAndViewChannel;
+                        }
+                      })}
                     />
                   }
                   label='All Channels'
@@ -119,7 +131,11 @@ function TcPlatformChannelList({
                               ] || false
                             }
                             disabled={
-                              !subChannel.canReadMessageHistoryAndViewChannel
+                              disableSubChannelsByAnnouncement &&
+                              !subChannel.announcementAccess
+                                ? !subChannel.announcementAccess
+                                : !disableSubChannelsByAnnouncement &&
+                                  !subChannel.canReadMessageHistoryAndViewChannel
                             }
                             onChange={() =>
                               handleSubChannelChange(
@@ -131,7 +147,7 @@ function TcPlatformChannelList({
                         }
                         label={subChannel.name}
                       />
-                      {!subChannel.canReadMessageHistoryAndViewChannel ? (
+                      {showErrorMessage(subChannel) ? (
                         <div className='flex items-center space-x-1'>
                           <BiError className='text-error-500' />
                           <TcText
