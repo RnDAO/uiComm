@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
+import { capitalizeFirstChar } from '../../../../helpers/helper';
 import TcButton from '../../../shared/TcButton';
 import TcDialog from '../../../shared/TcDialog';
 import TcText from '../../../shared/TcText';
-import { capitalizeFirstChar } from '../../../../helpers/helper';
 
 interface ITcPublicMessagePreviewDialogProps {
   textMessage: string;

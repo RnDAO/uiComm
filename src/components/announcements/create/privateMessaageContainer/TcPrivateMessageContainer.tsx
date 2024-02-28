@@ -14,6 +14,7 @@ import TcRolesAutoComplete from './TcRolesAutoComplete';
 import TcSafetyMessageChannels from './TcSafetyMessageChannels';
 import TcUsersAutoComplete from './TcUsersAutoComplete';
 import TcIconContainer from '../TcIconContainer';
+import { ChannelContext } from '../../../../context/ChannelContext';
 import {
   DiscordData,
   DiscordPrivateOptions,
@@ -27,7 +28,6 @@ import TcInput from '../../../shared/TcInput';
 import TcSelect from '../../../shared/TcSelect';
 import TcSwitch from '../../../shared/TcSwitch';
 import TcText from '../../../shared/TcText';
-import { ChannelContext } from '../../../../context/ChannelContext';
 
 export enum MessageType {
   AllTypes = 'All Types',
