@@ -27,7 +27,7 @@ const columns: Column[] = [
 ];
 
 const options: IActivityCompositionOptions[] = [
-  { name: 'Joined', value: 'all_joined', color: '#4368F1' },
+  { name: 'Joined', value: 'all_joined', color: '#1DA1F2' },
   { name: 'Newly active', value: 'all_new_active', color: '#FF9022' },
   { name: 'Still active', value: 'all_still_active', color: '#CCB8F3' },
   { name: 'Dropped', value: 'all_dropped', color: '#FB3E56' },
