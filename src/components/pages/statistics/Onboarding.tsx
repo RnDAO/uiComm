@@ -85,7 +85,7 @@ export default function Onboarding({
           return {
             ...onboardingMembers,
             name: 'Joined',
-            color: '#4368F1',
+            color: '#1DA1F2',
           };
         } else if (onboardingMembers.name === 'newlyActive') {
           return {
