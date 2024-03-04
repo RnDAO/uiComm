@@ -55,7 +55,7 @@ export function usePageViewTracking() {
       const queryParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(queryParams.entries());
 
-      amplitude.logEvent('PAGE_VIEW', {
+      amplitude.track('PAGE_VIEW', {
         path: url,
         communityId: community?.id,
         communityName: community?.name,
