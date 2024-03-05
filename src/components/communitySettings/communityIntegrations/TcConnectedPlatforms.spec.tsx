@@ -1,6 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
+
 import TcConnectedPlatforms from './TcConnectedPlatforms';
 
 // Mock the TcConnectedPlatformsItem component since it's imported and used in TcConnectedPlatforms
@@ -11,7 +12,7 @@ jest.mock('./TcConnectedPlatformsItem', () => {
     platform: any;
   }) {
     return (
-      <div data-testid="mock-connected-platforms-item">
+      <div data-testid='mock-connected-platforms-item'>
         {/* Render the platform's name for testing purposes */}
         {platform.name}
       </div>

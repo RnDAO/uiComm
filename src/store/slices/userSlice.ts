@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
-import { axiosInstance } from '../../axiosInstance';
+
 import IUser, { patchUserPayload } from '../types/IUser';
+import { axiosInstance } from '../../axiosInstance';
 
 const createUserSlice: StateCreator<IUser> = (set, get) => ({
   patchUser: async (payload: patchUserPayload) => {

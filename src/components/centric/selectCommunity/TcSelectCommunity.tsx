@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import TcText from '../../shared/TcText';
-import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
-import TcInput from '../../shared/TcInput';
-import TcCommunityList from './TcCommunityList';
-import TcButton from '../../shared/TcButton';
-import { BsPlus } from 'react-icons/bs';
 import router from 'next/router';
-import useAppStore from '../../../store/useStore';
+import React, { useEffect, useState } from 'react';
+import { BsPlus } from 'react-icons/bs';
+
+import TcCommunityList from './TcCommunityList';
 import Loading from '../../global/Loading';
-import { debounce } from '../../../helpers/helper';
-import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
-import { StorageService } from '../../../services/StorageService';
 import SimpleBackdrop from '../../global/LoadingBackdrop';
+import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
+import TcButton from '../../shared/TcButton';
+import TcInput from '../../shared/TcInput';
+import TcText from '../../shared/TcText';
 import { useToken } from '../../../context/TokenContext';
+import { debounce } from '../../../helpers/helper';
+import { StorageService } from '../../../services/StorageService';
+import useAppStore from '../../../store/useStore';
+import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 
 export interface CommunityData {
   limit: number;
@@ -71,24 +72,24 @@ function TcSelectCommunity() {
   }
 
   return (
-    <div className="space-y-4" data-testid="tcselect-community">
+    <div className='space-y-4' data-testid='tcselect-community'>
       <TcText
-        text="Select your community"
+        text='Select your community'
         sx={{ typography: { xs: 'h5', md: 'h4' } }}
       />
       <TcText
-        text="You will be able to switch between the communities later"
-        variant="body1"
+        text='You will be able to switch between the communities later'
+        variant='body1'
       />
 
       <TcBoxContainer
         contentContainerChildren={
           <>
-            <div className="sticky top-0 z-10 bg-white py-2">
+            <div className='sticky top-0 z-10 bg-white py-2'>
               <TcInput
-                label="Community"
-                variant="filled"
-                placeholder="Write community name"
+                label='Community'
+                variant='filled'
+                placeholder='Write community name'
                 onChange={(e) => debouncedFetchCommunities(e.target.value)}
               />
             </div>
@@ -104,29 +105,29 @@ function TcSelectCommunity() {
             )}
           </>
         }
-        className="md:w-3/5 mx-auto border border-custom-gray min-h-[20rem] max-h-[25rem] overflow-y-scroll rounded-lg"
+        className='border-custom-gray mx-auto max-h-[25rem] min-h-[20rem] overflow-y-scroll rounded-lg border md:w-3/5'
       />
 
       <TcButton
-        text="Continue"
-        className="secondary"
-        variant="contained"
+        text='Continue'
+        className='secondary'
+        variant='contained'
         sx={{ width: '15rem', padding: '0.5rem' }}
         disabled={!activeCommunity}
         onClick={handleSelectedCommunity}
       />
 
-      <hr className="w-6/12 mx-auto" />
+      <hr className='mx-auto w-6/12' />
 
       <TcText
-        text="Create a new community account"
+        text='Create a new community account'
         sx={{ typography: { xs: 'body1', md: 'h6' } }}
       />
       <TcButton
         startIcon={<BsPlus />}
-        text="Create"
+        text='Create'
         sx={{ width: '15rem', padding: '0.5rem' }}
-        variant="outlined"
+        variant='outlined'
         onClick={() => router.push('/centric/create-new-community')}
       />
     </div>

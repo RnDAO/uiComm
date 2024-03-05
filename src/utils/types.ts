@@ -41,6 +41,7 @@ export type ISubChannels = {
   readonly channelId: string;
   readonly name: string;
   readonly canReadMessageHistoryAndViewChannel: boolean;
+  readonly announcementAccess: boolean;
   readonly parent_id?: string;
 };
 

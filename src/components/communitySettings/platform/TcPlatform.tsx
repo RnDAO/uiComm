@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
-import TcText from '../../shared/TcText';
-import TcButton from '../../shared/TcButton';
-import TcPlatformPeriod from './TcPlatformPeriod';
-import TcPlatformChannels from './TcPlatformChannels';
 import { useRouter } from 'next/router';
-import useAppStore from '../../../store/useStore';
-import TcDisconnectPlatform from './TcDisconnectPlatform';
+import React, { useContext, useEffect, useState } from 'react';
+
 import TcCommunityName from './TcCommunityName';
-import { IPlatformProps } from '../../../utils/interfaces';
+import TcDisconnectPlatform from './TcDisconnectPlatform';
+import TcPlatformChannels from './TcPlatformChannels';
+import TcPlatformPeriod from './TcPlatformPeriod';
+import TcCommunityIntegrationsConfirmDialog from '../communityIntegrations/TcCommunityIntegrationsConfirmDialog';
+import SimpleBackdrop from '../../global/LoadingBackdrop';
+import TcBoxContainer from '../../shared/TcBox/TcBoxContainer';
+import TcButton from '../../shared/TcButton';
+import TcText from '../../shared/TcText';
 import { ChannelContext } from '../../../context/ChannelContext';
 import updateTrueIDs from '../../../helpers/PlatformHelper';
-import SimpleBackdrop from '../../global/LoadingBackdrop';
-import TcCommunityIntegrationsConfirmDialog from '../communityIntegrations/TcCommunityIntegrationsConfirmDialog';
+import useAppStore from '../../../store/useStore';
+import { IPlatformProps } from '../../../utils/interfaces';
 
 interface TcPlatformProps {
   platformName?: string;
@@ -145,12 +146,12 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
   return (
     <TcBoxContainer
       contentContainerChildren={
-        <div className="p-4 md:p-10 space-y-4">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-            <div className="space-y-5">
-              <TcText text={platformName} variant={'h6'} />
+        <div className='space-y-4 p-4 md:p-10'>
+          <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
+            <div className='space-y-5'>
+              <TcText text={platformName} variant='h6' />
               <div>
-                <TcText text="Server:" variant={'body2'} color={'gray.100'} />
+                <TcText text='Server:' variant='body2' color='gray.100' />
                 <TcCommunityName platform={fetchedPlatform} />
               </div>
             </div>
@@ -161,10 +162,10 @@ function TcPlatform({ platformName = 'Discord' }: TcPlatformProps) {
             onDateChange={handleDateChange}
           />
           <TcPlatformChannels />
-          <div className="flex justify-center pt-8 pb-6">
+          <div className='flex justify-center pt-8 pb-6'>
             <TcButton
-              text="Confirm Changes"
-              variant="contained"
+              text='Confirm Changes'
+              variant='contained'
               sx={{ width: '15rem', padding: '0.5rem' }}
               onClick={handlePatchCommunity}
             />
