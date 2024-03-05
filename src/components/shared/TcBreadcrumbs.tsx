@@ -1,9 +1,8 @@
+import React from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useRouter } from 'next/router';
-import React from 'react';
-import { MdChevronRight } from 'react-icons/md';
-
 import TcLink from './TcLink';
+import { MdChevronRight } from 'react-icons/md';
 import TcText from './TcText';
 
 interface BreadcrumbItem {
@@ -28,15 +27,15 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
 
   return (
     <Breadcrumbs
-      aria-label='breadcrumb'
-      separator={<MdChevronRight fontSize='medium' />}
+      aria-label="breadcrumb"
+      separator={<MdChevronRight fontSize="medium" />}
     >
       {items.map((item, index) => (
         <TcLink
           key={item.label}
           href={item.path || '#'}
           onClick={(event) => handleClick(event, item.path || '')}
-          underline='none'
+          underline={'none'}
           className={`${
             index === items.length - 1
               ? 'pointer-events-none text-black'
@@ -44,7 +43,7 @@ function TcBreadcrumbs({ items }: TcBreadcrumbsProps) {
           }`}
           to={item.path || '#'}
         >
-          <TcText text={item.label} variant='body2' />
+          <TcText text={item.label} variant="body2" />
         </TcLink>
       ))}
     </Breadcrumbs>

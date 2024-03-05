@@ -1,25 +1,25 @@
-import { Box } from '@mui/material';
-import moment from 'moment';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { AiOutlineLeft } from 'react-icons/ai';
+import moment from 'moment';
 
-import emptyState from '../assets/svg/empty-state.svg';
 import CustomTab from '../components/global/CustomTab';
-import EmptyState from '../components/global/EmptyState';
-import Link from '../components/global/Link';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import SEO from '../components/global/SEO';
 import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
 import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
-import InactiveMembers from '../components/pages/statistics/InactiveMembers';
 import InteractionsSection from '../components/pages/statistics/InteractionsSection';
-import Onboarding from '../components/pages/statistics/Onboarding';
-import { useToken } from '../context/TokenContext';
-import { transformToMidnightUTC } from '../helpers/momentHelper';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
+import SEO from '../components/global/SEO';
+import { Box } from '@mui/material';
+import Link from '../components/global/Link';
+import { AiOutlineLeft } from 'react-icons/ai';
+import Onboarding from '../components/pages/statistics/Onboarding';
+import { transformToMidnightUTC } from '../helpers/momentHelper';
+import { useToken } from '../context/TokenContext';
+import EmptyState from '../components/global/EmptyState';
+import emptyState from '../assets/svg/empty-state.svg';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const Statistics = () => {
   const { community } = useToken();
@@ -267,7 +267,7 @@ const Statistics = () => {
     return (
       <>
         <SEO />
-        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
+        <EmptyState image={<Image alt="Image Alt" src={emptyState} />} />
       </>
     );
   }
@@ -283,11 +283,11 @@ const Statistics = () => {
           activeTab === '1' ? 'Active Members' : 'Disengaged Members'
         }
       />
-      <div className='container flex flex-col justify-between px-4 py-3 md:px-12'>
-        <Link to='/' className='mb-3'>
-          <div className='flex items-center text-base text-gray-subtitle hover:text-black'>
+      <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
+        <Link to="/" className="mb-3">
+          <div className="flex items-center text-gray-subtitle text-base hover:text-black">
             <AiOutlineLeft />
-            <span className='pl-1'>Community Insights</span>
+            <span className="pl-1">Community Insights</span>
           </div>
         </Link>{' '}
         <CustomTab
@@ -295,13 +295,13 @@ const Statistics = () => {
           onTabChange={handleTabChange}
           labels={['Active members', 'Disengaged members']}
           content={[
-            <div className='flex flex-col space-y-4'>
+            <div className="flex flex-col space-y-4">
               <Box
                 sx={{
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className='rounded-md p-6 shadow-lg'
+                className="shadow-lg rounded-md p-6"
               >
                 <ActiveMembersComposition
                   activePeriod={activeMemberDate}
@@ -313,7 +313,7 @@ const Statistics = () => {
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className='rounded-md p-6 shadow-lg'
+                className="shadow-lg rounded-md p-6"
               >
                 <Onboarding
                   activePeriod={onBoardingMemberDate}
@@ -325,7 +325,7 @@ const Statistics = () => {
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className='rounded-md p-6 shadow-lg'
+                className="shadow-lg rounded-md p-6"
               >
                 <InteractionsSection
                   activePeriod={activeInteractionDate}
@@ -333,13 +333,13 @@ const Statistics = () => {
                 />
               </Box>
             </div>,
-            <div className='flex flex-col space-y-4'>
+            <div className="flex flex-col space-y-4">
               <Box
                 sx={{
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className='rounded-md p-6 shadow-lg'
+                className="shadow-lg rounded-md p-6"
               >
                 <DisengagedMembersComposition
                   activePeriod={disengagedMemberDate}
@@ -351,7 +351,7 @@ const Statistics = () => {
                   typography: 'body5',
                   borderRadius: '0px 14px 14px 14px;',
                 }}
-                className='mb-4 p-6 shadow-lg'
+                className="shadow-lg p-6 mb-4"
               >
                 <InactiveMembers
                   activePeriod={inactiveMembersDate}

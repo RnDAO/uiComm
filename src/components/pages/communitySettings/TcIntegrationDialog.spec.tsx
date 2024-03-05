@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react';
 import React from 'react';
-
+import { render, fireEvent, getByText } from '@testing-library/react';
 import TcIntegrationDialog from './TcIntegrationDialog';
 
 describe('<TcIntegrationDialog />', () => {
@@ -8,10 +7,10 @@ describe('<TcIntegrationDialog />', () => {
     const mockOnClose = jest.fn();
     const { getByText } = render(
       <TcIntegrationDialog
-        title='Test Title'
+        title="Test Title"
         showDialog={true}
         bodyContent={<p>Test Content</p>}
-        buttonText='Test Button'
+        buttonText="Test Button"
         onClose={mockOnClose}
       />
     );

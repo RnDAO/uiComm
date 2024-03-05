@@ -1,13 +1,12 @@
-import { render } from '@testing-library/react';
 import React from 'react';
-
+import { render } from '@testing-library/react';
 import TcAlert from './TcAlert'; // Replace with the correct import path
 
 describe('TcAlert Component', () => {
   it('renders the alert with custom message', () => {
     const message = 'This is a test alert';
 
-    const { getByText } = render(<TcAlert severity='info'>{message}</TcAlert>);
+    const { getByText } = render(<TcAlert severity="info">{message}</TcAlert>);
 
     // Use the @testing-library/jest-dom assertions to check if the element is present
     expect(getByText(message)).toBeInTheDocument();

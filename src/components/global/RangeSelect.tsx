@@ -14,9 +14,9 @@ type optionItem = {
 const RangeSelect = ({ options, icon, onClick, active }: Props) => {
   return (
     <>
-      <div className='rounded-md bg-gray-background px-3'>
-        <ul className='text-light-gray flex flex-row items-center py-1'>
-          <div className='mr-3'>{icon}</div>
+      <div className="bg-gray-background px-3 rounded-md">
+        <ul className="flex flex-row py-1 items-center text-light-gray">
+          <div className="mr-3">{icon}</div>
           {options.length > 0
             ? options.map((el) => (
                 <li
@@ -26,8 +26,8 @@ const RangeSelect = ({ options, icon, onClick, active }: Props) => {
                   key={el.value}
                   className={
                     active === el.value
-                      ? 'text-light-gray cursor-pointer whitespace-nowrap rounded-md bg-white py-1 px-2 text-sm hover:bg-lite md:px-1.5'
-                      : 'text-light-gray cursor-pointer whitespace-nowrap rounded-md py-1 px-3 text-sm hover:bg-lite md:px-1.5'
+                      ? 'py-1 px-2 whitespace-nowrap md:px-1.5 text-sm rounded-md bg-white text-light-gray cursor-pointer hover:bg-lite'
+                      : 'py-1 px-3 whitespace-nowrap md:px-1.5 text-sm rounded-md cursor-pointer text-light-gray hover:bg-lite'
                   }
                 >
                   <div>{el.title}</div>

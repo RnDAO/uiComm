@@ -1,12 +1,11 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { MdCalendarMonth } from 'react-icons/md';
-
-import TcDateTimePopover from './TcDateTimePopover';
 import TcIconContainer from '../TcIconContainer';
-import { validateDateTime } from '../../../../helpers/helper';
-import TcButton from '../../../shared/TcButton';
+import { MdCalendarMonth } from 'react-icons/md';
 import TcText from '../../../shared/TcText';
+import TcButton from '../../../shared/TcButton';
+import moment from 'moment';
+import TcDateTimePopover from './TcDateTimePopover';
+import { validateDateTime } from '../../../../helpers/helper';
 
 export interface ITcScheduleAnnouncementProps {
   isEdit?: boolean;
@@ -95,28 +94,28 @@ function TcScheduleAnnouncement({
   }, [isEdit, preSelectedTime]);
 
   return (
-    <div className='space-y-3'>
-      <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-start md:space-x-3 md:space-y-0'>
-        <div className='flex items-center space-x-3'>
+    <div className="space-y-3">
+      <div className="flex flex-col md:flex-row md:justify-start md:space-x-3 md:items-center space-y-3 md:space-y-0">
+        <div className="flex items-center space-x-3">
           <TcIconContainer>
-            <MdCalendarMonth size={20} data-testid='MdCalendarMonth' />
+            <MdCalendarMonth size={20} data-testid="MdCalendarMonth" />
           </TcIconContainer>
-          <TcText text='Select Date' variant='body1' fontWeight='bold' />
+          <TcText text="Select Date" variant="body1" fontWeight="bold" />
         </div>
         <TcButton
           text={dateTimeDisplay}
           startIcon={<MdCalendarMonth />}
           disableElevation={true}
-          className='border border-black bg-gray-100 shadow-md'
+          className="border border-black bg-gray-100 shadow-md"
           sx={{ color: 'black', height: '2.4rem', paddingX: '1rem' }}
           aria-describedby={id}
           onClick={handleOpen}
         />
         {!isDateValid && (
           <TcText
-            text='Selected Date should be greater that now.'
-            variant='caption'
-            className='text-red-500'
+            text="Selected Date should be greater that now."
+            variant="caption"
+            className="text-red-500"
           />
         )}
         <TcDateTimePopover

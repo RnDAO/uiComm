@@ -22,7 +22,7 @@ interface ITcIconContainerProps {
  */
 function TcIconContainer({ children }: ITcIconContainerProps): JSX.Element {
   return (
-    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-100'>
+    <div className="h-10 w-10 rounded-full bg-gray-100 flex justify-center items-center">
       {children}
     </div>
   );

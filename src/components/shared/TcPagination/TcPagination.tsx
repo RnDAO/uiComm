@@ -47,12 +47,12 @@ function TcPagination({
 
   return (
     <Pagination
-      shape='rounded'
+      shape="rounded"
       count={totalPages}
       page={currentPage}
       onChange={(event, page) => handleChangePage(page)}
       {...props}
-      renderItem={(item) => <PaginationItem component='button' {...item} />}
+      renderItem={(item) => <PaginationItem component="button" {...item} />}
     />
   );
 }

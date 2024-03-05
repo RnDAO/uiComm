@@ -1,17 +1,15 @@
 import { StateCreator } from 'zustand';
-
+import { axiosInstance } from '../../axiosInstance';
 import IAnnouncements, {
-  IPatchExistingAnnouncementsProps,
   IRetrieveAnnouncementsProps,
 } from '../types/IAnnouncements';
-import { axiosInstance } from '../../axiosInstance';
 import { CreateAnnouncementsPayload } from '../../pages/announcements/create-new-announcements';
 
 const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
   retrieveAnnouncements: async ({
     page,
     limit,
-    sortBy = 'scheduledAt:desc',
+    sortBy,
     timeZone,
     startDate,
     endDate,
@@ -58,10 +56,10 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
       console.error('Failed to create announcements:', error);
     }
   },
-  patchExistingAnnouncement: async ({
-    id,
-    announcementPayload,
-  }: IPatchExistingAnnouncementsProps) => {
+  patchExistingAnnouncement: async (
+    id: string,
+    announcementPayload: CreateAnnouncementsPayload
+  ) => {
     try {
       const { data } = await axiosInstance.patch(
         `/announcements/${id}`,
@@ -78,18 +76,6 @@ const createAnnouncementsSlice: StateCreator<IAnnouncements> = (set, get) => ({
       return data;
     } catch (error) {
       console.error('Failed to delete announcements:', error);
-    }
-  },
-  retrieveCategories: async () => {
-    try {
-      const { data } = await axiosInstance.get('/categories/');
-      return data.map((item: string) => ({
-        label: item.replaceAll('_', ' '),
-        value: item,
-      }));
-    } catch (error) {
-      console.error('Failed to retrieve categories', error);
-      return [];
     }
   },
 });

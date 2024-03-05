@@ -1,8 +1,8 @@
-const menu = [
-  {
-    name: 'test',
-    path: '/',
-  },
-];
+const menu =[
+    {
+        name:'test',
+        path:'/',
+    }
+]
 
 export default menu;

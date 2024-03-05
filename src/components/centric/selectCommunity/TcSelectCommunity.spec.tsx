@@ -1,6 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-
+import { render, screen, fireEvent } from '@testing-library/react';
 import TcCommunityListItems from './TcCommunityListItems';
 import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
 

@@ -1,7 +1,6 @@
 import { StateCreator } from 'zustand';
-
-import ICommunityHealth from '../types/ICommunityHealth';
 import { axiosInstance } from '../../axiosInstance';
+import ICommunityHealth from '../types/ICommunityHealth';
 
 const createCommunityHealthSlice: StateCreator<ICommunityHealth> = (
   set,

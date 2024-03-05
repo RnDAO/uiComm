@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react';
 import React from 'react';
-
+import { render } from '@testing-library/react';
 import TcBoxTitleContainer from './TcBoxTitleContainer';
 
 describe('<TcBoxTitleContainer />', () => {
@@ -18,7 +17,7 @@ describe('<TcBoxTitleContainer />', () => {
     const { container } = render(
       <TcBoxTitleContainer
         children={<>Test Content</>}
-        customClasses='test-class1 test-class2'
+        customClasses="test-class1 test-class2"
       />
     );
 

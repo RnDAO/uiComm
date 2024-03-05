@@ -14,11 +14,11 @@ const SEO: FC<IProps> = ({
 }): JSX.Element => (
   <HelmetProvider>
     <Helmet>
-      <meta charSet='utf-8' />
+      <meta charSet="utf-8" />
       <title>
         {titleTemplate} | {title}
       </title>
-      <meta name='description' content={description} />
+      <meta name="description" content={description} />
     </Helmet>
   </HelmetProvider>
 );

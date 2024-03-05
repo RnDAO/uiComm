@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type items = {
   name: string;
@@ -7,19 +7,21 @@ type items = {
   icon: any;
 };
 
-import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Drawer } from '@mui/material';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { FaBars } from 'react-icons/fa';
-import { FiSettings } from 'react-icons/fi';
-import { MdKeyboardBackspace, MdOutlineAnnouncement } from 'react-icons/md';
 
-import TcText from '../../shared/TcText';
+import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
+
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { Drawer } from '@mui/material';
+
+import { FaBars } from 'react-icons/fa';
+import { MdKeyboardBackspace, MdOutlineAnnouncement } from 'react-icons/md';
 import { conf } from '../../../configs';
+import { FiSettings } from 'react-icons/fi';
 import { useToken } from '../../../context/TokenContext';
 import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
+import TcText from '../../shared/TcText';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -94,56 +96,56 @@ const Sidebar = () => {
   };
 
   const menuItem = menuItems.map((el) => (
-    <li key={el.name} className='py-4'>
+    <li key={el.name} className="py-4">
       <Link href={el.path} onClick={() => setOpen(false)}>
         <div
           className={
             currentRoute === el.path
-              ? 'mx-auto w-1/2 cursor-pointer rounded-xl bg-white py-2 text-center delay-75 ease-in hover:bg-white'
-              : 'mx-auto w-1/2 cursor-pointer rounded-xl py-2 text-center delay-75 ease-in hover:bg-white'
+              ? 'w-1/2 mx-auto py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer'
+              : 'w-1/2 mx-auto py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer'
           }
         >
           {el.icon}
         </div>
-        <p className='text-center text-lg'>{el.name}</p>
+        <p className="text-center text-lg">{el.name}</p>
       </Link>
     </li>
   ));
 
   return (
     <>
-      <div className='sticky top-0 z-50 flex flex-row items-center justify-between bg-gray-background py-4 px-5 md:hidden'>
-        <div className='flex flex-row'>
-          <div className='flex flex-row items-center space-x-3 text-center'>
-            <div className='mb-2 mr-3 h-8 w-8'>
-              <div className='mx-auto h-10 w-10'>
+      <div className="bg-gray-background sticky top-0 py-4 px-5 flex md:hidden flex-row justify-between items-center z-50">
+        <div className="flex flex-row">
+          <div className="flex flex-row text-center items-center space-x-3">
+            <div className="w-8 h-8 mb-2 mr-3">
+              <div className="w-10 h-10 mx-auto">
                 {connectedPlatform &&
                 connectedPlatform.metadata &&
                 connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
-                    width='100'
-                    height='100'
+                    width="100"
+                    height="100"
                     alt={
                       connectedPlatform.metadata.name
                         ? connectedPlatform.metadata.name
                         : ''
                     }
-                    className='rounded-full'
+                    className="rounded-full"
                   />
                 ) : (
-                  <div className='align-center flex h-10 w-10 flex-col justify-center rounded-full bg-secondary text-center text-xs' />
+                  <div className="bg-secondary text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs" />
                 )}
               </div>
             </div>
-            <TcText text={community?.name} variant='h6' />
+            <TcText text={community?.name} variant="h6" />
           </div>
         </div>
         <FaBars size={30} onClick={handleDrawerOpen} />
       </div>
       <Drawer
-        variant='persistent'
-        anchor='right'
+        variant="persistent"
+        anchor="right"
         sx={{
           '& .MuiPaper-root': {
             width: '100%',
@@ -151,10 +153,10 @@ const Sidebar = () => {
         }}
         open={open}
       >
-        <div className='h-screen bg-gray-background p-3'>
+        <div className="bg-gray-background h-screen p-3">
           <MdKeyboardBackspace size={30} onClick={handleDrawerClose} />
           <nav>
-            <ul className='flex flex-col px-3'>{menuItem}</ul>
+            <ul className="flex flex-col px-3">{menuItem}</ul>
           </nav>
         </div>
       </Drawer>

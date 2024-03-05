@@ -1,5 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
-
+import React, { createContext, useState, useContext, useCallback } from 'react';
 import useAppStore from '../store/useStore';
 
 export interface SubChannel {
@@ -52,7 +51,7 @@ const initialChannels: Channel[] = [];
 
 const initialSelectedSubChannels: SelectedSubChannels = {};
 
-export const initialChannelContextData: ChannelContextProps = {
+const initialChannelContextData: ChannelContextProps = {
   channels: initialChannels,
   loading: false,
   selectedSubChannels: initialSelectedSubChannels,
@@ -88,8 +87,8 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
       platformId: string,
       property: 'channel' = 'channel',
       selectedChannels?: string[],
-      hideDeactiveSubchannels = false,
-      allDefaultChecked = true
+      hideDeactiveSubchannels: boolean = false,
+      allDefaultChecked: boolean = true
     ) => {
       setLoading(true);
       try {
@@ -150,17 +149,14 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
         selectedSubChannels[channelId]?.[subChannel.channelId]
     );
 
-    const newSubChannelsState = subChannels.reduce(
-      (acc, subChannel) => {
-        if (subChannel.canReadMessageHistoryAndViewChannel) {
-          acc[subChannel.channelId] = !allSelected;
-        } else {
-          acc[subChannel.channelId] = false;
-        }
-        return acc;
-      },
-      {} as { [subChannelId: string]: boolean }
-    );
+    const newSubChannelsState = subChannels.reduce((acc, subChannel) => {
+      if (subChannel.canReadMessageHistoryAndViewChannel) {
+        acc[subChannel.channelId] = !allSelected;
+      } else {
+        acc[subChannel.channelId] = false;
+      }
+      return acc;
+    }, {} as { [subChannelId: string]: boolean });
 
     setSelectedSubChannels((prev) => ({
       ...prev,
@@ -171,7 +167,7 @@ export const ChannelProvider = ({ children }: ChannelProviderProps) => {
   const updateSelectedSubChannels = (
     allChannels: Channel[],
     newSelectedSubChannels: string[],
-    hideDeactiveSubchannels = false
+    hideDeactiveSubchannels: boolean = false
   ) => {
     if (hideDeactiveSubchannels) {
       const filteredChannels = allChannels

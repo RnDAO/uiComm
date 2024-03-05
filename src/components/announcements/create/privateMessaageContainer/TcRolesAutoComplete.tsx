@@ -1,11 +1,10 @@
-import { Chip, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
 import { useToken } from '../../../../context/TokenContext';
-import { debounce } from '../../../../helpers/helper';
 import useAppStore from '../../../../store/useStore';
 import { FetchedData, IRoles } from '../../../../utils/interfaces';
+import { debounce } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
+import { Chip, CircularProgress } from '@mui/material';
 
 interface ITcRolesAutoCompleteProps {
   isEdit?: boolean;
@@ -154,11 +153,11 @@ function TcRolesAutoComplete({
     <TcAutocomplete
       options={fetchedRoles.results}
       getOptionLabel={(option) => option.name}
-      label='Select Role(s)'
+      label={'Select Role(s)'}
       multiple={true}
       loading={isLoading}
       loadingText={
-        <div className='text-center'>
+        <div className="text-center">
           <CircularProgress size={24} />
         </div>
       }
@@ -176,7 +175,7 @@ function TcRolesAutoComplete({
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip
-            variant='outlined'
+            variant="outlined"
             label={
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <span
@@ -195,7 +194,7 @@ function TcRolesAutoComplete({
                 {option.name}
               </div>
             }
-            size='small'
+            size="small"
             sx={{
               borderRadius: '4px',
               borderColor: '#D1D1D1',

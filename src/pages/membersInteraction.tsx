@@ -1,16 +1,15 @@
-import { Paper, Popover } from '@mui/material';
-import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
-
-import Link from '../components/global/Link';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import SEO from '../components/global/SEO';
-import HintBox from '../components/pages/memberInteraction/HintBox';
-import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
+import SEO from '../components/global/SEO';
+import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
+import Link from '../components/global/Link';
+import { Paper, Popover } from '@mui/material';
 import useAppStore from '../store/useStore';
+import HintBox from '../components/pages/memberInteraction/HintBox';
 import { IUser } from '../utils/types';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import dynamic from 'next/dynamic';
+import { useToken } from '../context/TokenContext';
 
 const ForceGraphComponent = dynamic(
   () =>
@@ -42,8 +41,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
         from.stats === 'SENDER'
           ? '#3AAE2B'
           : from.stats === 'RECEIVER'
-            ? '#FFCB33'
-            : '#804EE1',
+          ? '#FFCB33'
+          : '#804EE1',
       size: getNodeSize(from.radius),
       stats: from.stats,
       ngu: from.ngu,
@@ -59,8 +58,8 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
         to.stats === 'SENDER'
           ? '#3AAE2B'
           : to.stats === 'RECEIVER'
-            ? '#FFCB33'
-            : '#804EE1',
+          ? '#FFCB33'
+          : '#804EE1',
       size: getNodeSize(to.radius),
       stats: to.stats,
       ngu: to.ngu,
@@ -87,7 +86,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
   return { nodes, links };
 };
 
-export default function MembersInteraction() {
+export default function membersInteraction() {
   const { community } = useToken();
 
   const [nodes, setNodes] = useState<any[]>([]);
@@ -135,21 +134,21 @@ export default function MembersInteraction() {
 
   return (
     <>
-      <SEO titleTemplate='Member interactions' />
-      <div className='container flex flex-col justify-between px-4 py-3 md:px-12'>
-        <Link to='/' className='mb-3'>
-          <div className='flex items-center text-base text-gray-subtitle hover:text-black'>
+      <SEO titleTemplate="Member interactions" />
+      <div className="flex flex-col container justify-between px-4 md:px-12 py-3">
+        <Link to="/" className="mb-3">
+          <div className="flex items-center text-gray-subtitle text-base hover:text-black">
             <AiOutlineLeft />
-            <span className='pl-1'>Community Insights</span>
+            <span className="pl-1">Community Insights</span>
           </div>
         </Link>
-        <Paper className='space-y-4 overflow-hidden rounded-xl px-4 py-6 shadow-box md:px-8'>
-          <h3 className='text-xl font-medium text-lite-black'>
+        <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4 overflow-hidden">
+          <h3 className="text-xl font-medium text-lite-black">
             Member interactions graph
           </h3>
           <p>Data from the last 7 days</p>
-          <div className='flex flex-col md:flex-row md:items-start'>
-            <div className='items-center justify-center overflow-hidden lg:w-11/12'>
+          <div className="flex flex-col md:flex-row md:items-start">
+            <div className="lg:w-11/12 overflow-hidden justify-center items-center">
               <ForceGraphComponent
                 nodes={nodes}
                 links={links}
@@ -157,11 +156,11 @@ export default function MembersInteraction() {
                 numberOfnodes={nodes.length}
               />
             </div>
-            <div className='hidden justify-end md:flex md:w-1/2  lg:flex-1'>
+            <div className="hidden md:flex md:w-1/2 lg:flex-1  justify-end">
               <HintBox />
             </div>
           </div>
-          <div className='float-left md:hidden'>
+          <div className="md:hidden float-left">
             <button onClick={handlePopoverOpen}>
               <AiOutlineExclamationCircle size={30} />
             </button>
@@ -182,7 +181,7 @@ export default function MembersInteraction() {
                 style: { background: 'none', boxShadow: 'none' },
               }}
             >
-              <div className='p-4'>
+              <div className="p-4">
                 <HintBox />
               </div>
             </Popover>
@@ -193,4 +192,4 @@ export default function MembersInteraction() {
   );
 }
 
-MembersInteraction.pageLayout = defaultLayout;
+membersInteraction.pageLayout = defaultLayout;

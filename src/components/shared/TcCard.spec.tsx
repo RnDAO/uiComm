@@ -1,8 +1,7 @@
-import { CardContent, Typography } from '@mui/material';
-import { render } from '@testing-library/react';
 import React from 'react';
-
+import { render } from '@testing-library/react';
 import TcCard from './TcCard';
+import { Typography, CardContent } from '@mui/material';
 
 describe('<TcCard />', () => {
   // Test 1: Check if the component renders correctly

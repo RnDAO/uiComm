@@ -20,14 +20,13 @@
  */
 
 import React from 'react';
-import { BiLogoDiscourse } from 'react-icons/bi';
 import {
   BsDiscord,
-  BsQuestionCircleFill,
-  BsTelegram,
   BsTwitter,
+  BsTelegram,
+  BsQuestionCircleFill,
 } from 'react-icons/bs';
-
+import { BiLogoDiscourse } from 'react-icons/bi';
 import { IntegrationPlatform } from '../../../utils/enums';
 
 interface ITcIntegrationIconProps {

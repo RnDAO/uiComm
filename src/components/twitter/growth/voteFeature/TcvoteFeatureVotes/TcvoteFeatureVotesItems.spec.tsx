@@ -1,14 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-
+import { render, fireEvent, screen } from '@testing-library/react';
 import TcvoteFeatureVotesItems from './TcvoteFeatureVotesItems';
 
 describe('<TcvoteFeatureVotesItems />', () => {
   test('renders correctly', () => {
     render(
       <TcvoteFeatureVotesItems
-        label='Test'
-        color='primary'
+        label="Test"
+        color="primary"
         isChecked={false}
         handleToggleCheckbox={jest.fn()}
       />
@@ -19,8 +18,8 @@ describe('<TcvoteFeatureVotesItems />', () => {
   test('renders checked checkbox based on isChecked prop', () => {
     const { rerender } = render(
       <TcvoteFeatureVotesItems
-        label='Test'
-        color='primary'
+        label="Test"
+        color="primary"
         isChecked={false}
         handleToggleCheckbox={jest.fn()}
       />
@@ -29,8 +28,8 @@ describe('<TcvoteFeatureVotesItems />', () => {
 
     rerender(
       <TcvoteFeatureVotesItems
-        label='Test'
-        color='primary'
+        label="Test"
+        color="primary"
         isChecked={true}
         handleToggleCheckbox={jest.fn()}
       />
@@ -42,8 +41,8 @@ describe('<TcvoteFeatureVotesItems />', () => {
     const mockFn = jest.fn();
     render(
       <TcvoteFeatureVotesItems
-        label='Test'
-        color='primary'
+        label="Test"
+        color="primary"
         isChecked={false}
         handleToggleCheckbox={mockFn}
       />

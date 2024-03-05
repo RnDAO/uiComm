@@ -15,14 +15,14 @@ function NumberOfMessages() {
 
   return (
     <div>
-      <div className='flex flex-col'>
-        <p className='text-base'>Number of messages </p>
-        <div className='flex flex-row'>
+      <div className="flex flex-col">
+        <p className="text-base">Number of messages </p>
+        <div className="flex flex-row">
           {squareTexts.map((text, index) => (
             <div
               key={index}
               className={clsx(
-                `square ${squareColors[index]} flex h-[35px] w-[35px] items-center justify-center rounded-sm text-center text-sm md:h-[40px] md:w-[40px]`,
+                `square ${squareColors[index]} w-[35px] h-[35px] md:w-[40px] md:h-[40px] flex justify-center items-center text-sm rounded-sm text-center`,
                 index <= 3 ? 'text-black' : 'text-white'
               )}
             >

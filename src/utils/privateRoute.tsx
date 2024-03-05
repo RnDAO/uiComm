@@ -1,9 +1,8 @@
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-
-import { IToken } from './types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { StorageService } from '../services/StorageService';
+import { IToken } from './types';
 
 export default function PrivateRoute({
   children,

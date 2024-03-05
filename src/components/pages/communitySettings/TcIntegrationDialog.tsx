@@ -31,10 +31,9 @@
 
 import React from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
-
 import TcButton from '../../shared/TcButton';
-import TcDialog from '../../shared/TcDialog';
 import TcText from '../../shared/TcText';
+import TcDialog from '../../shared/TcDialog';
 
 interface IntegrationDialogProps {
   title: string;
@@ -67,23 +66,23 @@ function TcIntegrationDialog({
       }}
       {...props}
     >
-      <div className='block p-2'>
+      <div className="block p-2">
         <IoCloseSharp
           size={36}
           onClick={onClose}
-          className='float-right cursor-pointer'
+          className="float-right cursor-pointer"
         />
       </div>
-      <div className='mx-auto space-y-4 px-6 pb-8 md:w-5/6 md:px-8'>
+      <div className="md:w-5/6 mx-auto px-6 md:px-8 pb-8 space-y-4">
         <TcText
           text={title}
-          variant='h6'
-          fontWeight='extraBold'
-          className='text-left md:text-center'
+          variant="h6"
+          fontWeight="extraBold"
+          className="text-left md:text-center"
         />
         {bodyContent}
-        <div className='flex justify-center py-4'>
-          <TcButton text={buttonText} variant='contained' onClick={onClose} />
+        <div className="flex justify-center py-4">
+          <TcButton text={buttonText} variant="contained" onClick={onClose} />
         </div>
       </div>
     </TcDialog>

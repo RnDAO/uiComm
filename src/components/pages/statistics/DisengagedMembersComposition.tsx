@@ -1,15 +1,14 @@
-import router from 'next/router';
 import { useEffect, useState } from 'react';
-import { FiCalendar } from 'react-icons/fi';
-
-import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
-import StatisticalData from './StatisticalData';
-import LineGraph from '../../global/LineGraph';
-import Loading from '../../global/Loading';
-import RangeSelect from '../../global/RangeSelect';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import useAppStore from '../../../store/useStore';
+import LineGraph from '../../global/LineGraph';
+import StatisticalData from './StatisticalData';
+import { FiCalendar } from 'react-icons/fi';
+import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
+import Loading from '../../global/Loading';
+import router from 'next/router';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
@@ -97,7 +96,7 @@ export default function DisengagedMembersComposition({
         } else if (disengagedMember.name === 'wereConsistentlyActive') {
           return {
             ...disengagedMember,
-            name: 'Were consistenly active',
+            name: 'Were Consistently Active',
             color: '#804EE1',
           };
         } else if (disengagedMember.name === 'wereVitalMembers') {
@@ -142,7 +141,7 @@ export default function DisengagedMembersComposition({
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
-            <ol className='list-disc pl-8'>
+            <ol className="list-disc pl-8">
               <li>mention someone</li>
               <li>receive a reply</li>
               <li>receive a reaction</li>
@@ -153,7 +152,7 @@ export default function DisengagedMembersComposition({
         ),
       },
       {
-        label: 'Were consistenly active',
+        label: 'Were Consistently Active',
         description:
           'Were interacting every week for at least 3 out of the last 4 weeks',
         percentageChange:
@@ -166,7 +165,7 @@ export default function DisengagedMembersComposition({
       },
       {
         label: 'Were Vital Members',
-        description: 'Were consistenly active and very connected',
+        description: 'Were consistently active and very connected',
         percentageChange: disengagedMembers.wereVitalMembersPercentageChange
           ? disengagedMembers.wereVitalMembersPercentageChange
           : 0,
@@ -235,20 +234,20 @@ export default function DisengagedMembersComposition({
   };
   return (
     <>
-      <div className='flex flex-row justify-between'>
-        <div className='w-full'>
+      <div className="flex flex-row justify-between">
+        <div className="w-full">
           <div>
-            <h3 className='text-xl font-medium text-lite-black'>
+            <h3 className="text-xl font-medium text-lite-black">
               Members overview
             </h3>
-            <p className='py-2'>Today's statistics</p>
+            <p className="py-2">Today's statistics</p>
           </div>
         </div>
       </div>
-      <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData
           ableToFilter={true}
-          overviewType='disengagedMemberComposition'
+          overviewType="disengagedMemberComposition"
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}
         />
@@ -256,9 +255,9 @@ export default function DisengagedMembersComposition({
 
       <DisengagedMembersCompositionBreakdown />
 
-      <div className='w-full'>
-        <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>
-          <h3 className='text-xl font-medium text-lite-black'>
+      <div className="w-full">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
+          <h3 className="text-xl font-medium text-lite-black">
             Disengaged members over time
           </h3>
           <RangeSelect
@@ -270,7 +269,7 @@ export default function DisengagedMembersComposition({
         </div>
       </div>
       {disengagedMembersLoading ? (
-        <Loading height='400px' />
+        <Loading height="400px" />
       ) : (
         <LineGraph options={options} />
       )}

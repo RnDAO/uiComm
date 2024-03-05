@@ -26,7 +26,7 @@ interface ITcIconWithTooltip {
 
 function TcIconWithTooltip({ iconComponent, tooltipText }: ITcIconWithTooltip) {
   return (
-    <Tooltip title={tooltipText} placement='bottom'>
+    <Tooltip title={tooltipText} placement="bottom">
       <div>{iconComponent}</div>
     </Tooltip>
   );
@@ -34,7 +34,7 @@ function TcIconWithTooltip({ iconComponent, tooltipText }: ITcIconWithTooltip) {
 
 TcIconWithTooltip.defaultProps = {
   iconComponent: (
-    <MdOutlineInfo data-testid='icon-svg' size='20px' color='#767676' />
+    <MdOutlineInfo data-testid="icon-svg" size="20px" color="#767676" />
   ),
 };
 

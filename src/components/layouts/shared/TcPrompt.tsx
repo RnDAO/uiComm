@@ -1,10 +1,9 @@
-import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-
 import TcAlert from '../../shared/TcAlert';
 import TcButton from '../../shared/TcButton';
 import TcCollapse from '../../shared/TcCollapse';
 import TcText from '../../shared/TcText';
+import { useRouter } from 'next/router';
 import { useToken } from '../../../context/TokenContext';
 
 function TcPrompt() {
@@ -64,7 +63,7 @@ function TcPrompt() {
       }}
     >
       <TcAlert
-        variant='filled'
+        variant="filled"
         className={backgroundColor}
         icon={false}
         sx={{
@@ -74,13 +73,13 @@ function TcPrompt() {
           paddingY: 0,
         }}
       >
-        <div className='flex flex-col items-center justify-center p-0 md:flex-row md:space-x-3'>
-          <TcText text={message} color='white' variant='subtitle1' />
+        <div className="md:space-x-3 flex flex-col md:flex-row items-center justify-center p-0">
+          <TcText text={message} color={'white'} variant={'subtitle1'} />
           {buttonText && (
             <TcButton
               text={buttonText}
-              size='small'
-              variant='outlined'
+              size="small"
+              variant="outlined"
               onClick={() =>
                 router.push(`/community-settings${redirectRouteParams}`)
               }

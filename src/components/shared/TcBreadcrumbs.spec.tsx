@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { useRouter } from 'next/router';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-
 import TcBreadcrumbs from './TcBreadcrumbs';
+import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),

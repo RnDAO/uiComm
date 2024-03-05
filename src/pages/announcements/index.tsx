@@ -1,28 +1,27 @@
-import moment from 'moment';
-import router from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { BsPlus } from 'react-icons/bs';
-import { MdCalendarMonth } from 'react-icons/md';
-
-import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
-import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
-import TcTimeZone from '../../components/announcements/TcTimeZone';
-import SimpleBackdrop from '../../components/global/LoadingBackdrop';
-import SEO from '../../components/global/SEO';
-import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import TcButton from '../../components/shared/TcButton';
-import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
-import TcPagination from '../../components/shared/TcPagination';
-import TcText from '../../components/shared/TcText';
-import { useToken } from '../../context/TokenContext';
 import { defaultLayout } from '../../layouts/defaultLayout';
-import { StorageService } from '../../services/StorageService';
+import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
+import SEO from '../../components/global/SEO';
+import TcText from '../../components/shared/TcText';
+import TcButton from '../../components/shared/TcButton';
+import { BsPlus } from 'react-icons/bs';
+import router from 'next/router';
+import TcPagination from '../../components/shared/TcPagination';
+import TcTimeZone from '../../components/announcements/TcTimeZone';
+import moment from 'moment';
+import { MdCalendarMonth } from 'react-icons/md';
 import useAppStore from '../../store/useStore';
+import { StorageService } from '../../services/StorageService';
 import {
   FetchedData,
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../utils/interfaces';
+import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
+import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
+import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
+import { useToken } from '../../context/TokenContext';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
@@ -163,27 +162,27 @@ function Index() {
 
   return (
     <>
-      <SEO titleTemplate='Announcements' />
+      <SEO titleTemplate="Announcements" />
       {!announcementsPermissions && <TcAnnouncementsAlert />}
-      <div className='container flex flex-col px-4 py-4 md:px-12'>
+      <div className="flex flex-col container px-4 md:px-12 py-4">
         <TcBoxContainer
           contentContainerChildren={
-            <div className='flex max-h-[97dvh] min-h-[97dvh] flex-col justify-between space-y-4 p-4 md:p-10'>
-              <div className='min-h-[calc(100vh-100px)] flex-grow overflow-auto'>
-                <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
-                  <TcText text='Announcement Scheduling' variant='h5' />
+            <div className="flex flex-col justify-between p-4 md:p-10 space-y-4 min-h-[97dvh] max-h-[97dvh]">
+              <div className="flex-grow overflow-auto min-h-[calc(100vh-100px)]">
+                <div className="flex flex-col md:flex-row md:justify-between space-y-3 md:space-y-0 md:items-center">
+                  <TcText text="Announcement Scheduling" variant="h5" />
                   <TcButton
-                    text='Create Announcement'
+                    text="Create Announcement"
                     startIcon={<BsPlus />}
-                    variant='outlined'
+                    variant="outlined"
                     onClick={() =>
                       router.push('/announcements/create-new-announcements')
                     }
                   />
                 </div>
-                <div className='mt-8 mb-4 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>
+                <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 items-center mt-8 mb-4">
                   <TcButton
-                    variant='outlined'
+                    variant="outlined"
                     startIcon={<MdCalendarMonth />}
                     onClick={handleClick}
                     text={dateTimeDisplay}
@@ -200,7 +199,7 @@ function Index() {
                   <TcTimeZone handleZone={setSelectedZone} />
                 </div>
                 {fetchedAnnouncements.results.length > 0 ? (
-                  <div className='overflow-x-scroll md:overflow-hidden'>
+                  <div className="overflow-x-scroll md:overflow-hidden">
                     <TcAnnouncementsTable
                       announcements={
                         fetchedAnnouncements.results
@@ -213,23 +212,23 @@ function Index() {
                     />
                   </div>
                 ) : (
-                  <div className='mx-auto flex h-[65dvh] w-9/12 flex-col justify-center text-center md:w-4/12'>
+                  <div className="text-center mx-auto flex flex-col justify-center h-[65dvh] w-9/12 md:w-4/12">
                     <TcText
-                      text='No announcements yet'
-                      variant='h6'
-                      fontWeight='bold'
+                      text="No announcements yet"
+                      variant="h6"
+                      fontWeight="bold"
                     />
                     <TcText
-                      text='Your announcements will show up for the month and timezone selected once you create them'
-                      variant='body2'
-                      className='text-gray-400'
+                      text="Your announcements will show up for the month and timezone selected once you create them"
+                      variant="body2"
+                      className="text-gray-400"
                     />
                   </div>
                 )}
               </div>
-              <div className='sticky bottom-0 min-h-[70px] bg-white px-4 py-2'>
+              <div className="sticky bottom-0 bg-white px-4 py-2 min-h-[70px]">
                 {fetchedAnnouncements.totalResults > 8 && (
-                  <div className='flex justify-end'>
+                  <div className="flex justify-end">
                     <TcPagination
                       totalItems={fetchedAnnouncements.totalResults}
                       itemsPerPage={Math.ceil(

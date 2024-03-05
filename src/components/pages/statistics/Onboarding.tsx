@@ -1,15 +1,14 @@
-import router from 'next/router';
 import { useEffect, useState } from 'react';
-import { FiCalendar } from 'react-icons/fi';
-
-import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
-import StatisticalData from './StatisticalData';
-import LineGraph from '../../global/LineGraph';
-import Loading from '../../global/Loading';
-import RangeSelect from '../../global/RangeSelect';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import useAppStore from '../../../store/useStore';
+import LineGraph from '../../global/LineGraph';
+import StatisticalData from './StatisticalData';
+import { FiCalendar } from 'react-icons/fi';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
+import RangeSelect from '../../global/RangeSelect';
+import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
+import Loading from '../../global/Loading';
+import router from 'next/router';
 
 export interface OnboardingProps {
   activePeriod: number;
@@ -85,7 +84,7 @@ export default function Onboarding({
           return {
             ...onboardingMembers,
             name: 'Joined',
-            color: '#1DA1F2',
+            color: '#4368F1',
           };
         } else if (onboardingMembers.name === 'newlyActive') {
           return {
@@ -213,20 +212,20 @@ export default function Onboarding({
 
   return (
     <>
-      <div className='flex flex-row justify-between'>
-        <div className='w-full'>
+      <div className="flex flex-row justify-between">
+        <div className="w-full">
           <div>
-            <h3 className='text-xl font-medium text-lite-black'>
+            <h3 className="text-xl font-medium text-lite-black">
               Onboarding overview
             </h3>
-            <p className='py-2'>New members retention</p>
+            <p className="py-2">New members retention</p>
           </div>
         </div>
       </div>
-      <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData
           ableToFilter={true}
-          overviewType='onboardingMemberComposition'
+          overviewType="onboardingMemberComposition"
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}
         />
@@ -234,9 +233,9 @@ export default function Onboarding({
 
       <OnboardingMembersBreakdown />
 
-      <div className='w-full'>
-        <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>
-          <h3 className='text-xl font-medium text-lite-black'>
+      <div className="w-full">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
+          <h3 className="text-xl font-medium text-lite-black">
             Onboarded members over time
           </h3>
           <RangeSelect
@@ -248,7 +247,7 @@ export default function Onboarding({
         </div>
       </div>
       {onboardingMembersLoading ? (
-        <Loading height='400px' />
+        <Loading height="400px" />
       ) : (
         <LineGraph options={options} />
       )}

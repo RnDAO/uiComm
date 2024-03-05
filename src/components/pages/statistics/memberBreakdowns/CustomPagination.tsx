@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Pagination, PaginationItem } from '@mui/material';
 
 interface PaginationProps {
@@ -23,11 +24,11 @@ const CustomPagination: React.FC<PaginationProps> = ({
 
   return (
     <Pagination
-      shape='rounded'
+      shape="rounded"
       count={totalPages}
       page={currentPage}
       onChange={(event, page) => handleChangePage(page)}
-      renderItem={(item) => <PaginationItem component='button' {...item} />}
+      renderItem={(item) => <PaginationItem component="button" {...item} />}
     />
   );
 };

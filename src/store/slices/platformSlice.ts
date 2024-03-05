@@ -1,12 +1,12 @@
 import { StateCreator } from 'zustand';
 
+import { axiosInstance } from '../../axiosInstance';
 import IPlatfrom, {
-  IGrantWritePermissionsProps,
-  IPatchPlatformInput,
   IRetrievePlatformsProps,
   IRetrivePlatformRolesOrChannels,
+  IPatchPlatformInput,
+  IGrantWritePermissionsProps,
 } from '../types/IPlatform';
-import { axiosInstance } from '../../axiosInstance';
 import { conf } from '../../configs';
 import { IPlatformProps } from '../../utils/interfaces';
 

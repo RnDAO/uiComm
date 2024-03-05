@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import SEO from '../components/global/SEO';
-import Decentralization from '../components/pages/communityHealth/Decentralization';
-import Fragmentation from '../components/pages/communityHealth/Fragmentation';
-import HeaderSection from '../components/pages/communityHealth/HeaderSection';
-import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
+import SEO from '../components/global/SEO';
+import Fragmentation from '../components/pages/communityHealth/Fragmentation';
+import Decentralization from '../components/pages/communityHealth/Decentralization';
+import HeaderSection from '../components/pages/communityHealth/HeaderSection';
 import useAppStore from '../store/useStore';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
 } from '../utils/interfaces';
+import { useToken } from '../context/TokenContext';
 
 function CommunityHealth() {
   const { community } = useToken();
@@ -43,10 +42,10 @@ function CommunityHealth() {
 
   return (
     <>
-      <SEO titleTemplate='Community Health' />
-      <div className='container flex flex-col justify-between space-y-4 px-4 py-3 md:px-12'>
+      <SEO titleTemplate="Community Health" />
+      <div className="flex flex-col container justify-between px-4 md:px-12 py-3 space-y-4">
         <HeaderSection />
-        <h3 className='pb-6 pt-4 text-lg font-medium text-lite-black'>
+        <h3 className="pb-6 pt-4 text-lg font-medium text-lite-black">
           Community Health
         </h3>
         <Fragmentation scoreData={fragmentationScoreData} />

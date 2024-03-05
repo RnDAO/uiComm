@@ -1,16 +1,15 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-
-import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
-import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
-import SimpleBackdrop from '../../components/global/LoadingBackdrop';
+import { defaultLayout } from '../../layouts/defaultLayout';
 import SEO from '../../components/global/SEO';
-import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
-import { defaultLayout } from '../../layouts/defaultLayout';
+import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
+import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
+import { useRouter } from 'next/router';
+import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
+import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 
-function Index() {
+function index() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [showDialog, setShowDialog] = useState<boolean>(false);
@@ -48,13 +47,13 @@ function Index() {
 
   return (
     <>
-      <SEO titleTemplate='Community Settings' />
-      <div className='container flex flex-col px-4 py-4 md:px-12'>
+      <SEO titleTemplate="Community Settings" />
+      <div className="flex flex-col container px-4 md:px-12 py-4">
         <TcBoxContainer
           contentContainerChildren={
-            <div className='space-y-4 px-4 pt-4 pb-[4rem] md:px-10'>
-              <TcText text='Community Settings' variant='h5' />
-              <div className='space-y-2'>
+            <div className="px-4 md:px-10 pt-4 pb-[4rem] space-y-4">
+              <TcText text="Community Settings" variant={'h5'} />
+              <div className="space-y-2">
                 <TcSwitchCommunity />
                 <TcCommunityIntegrations />
               </div>
@@ -73,6 +72,6 @@ function Index() {
   );
 }
 
-Index.pageLayout = defaultLayout;
+index.pageLayout = defaultLayout;
 
-export default Index;
+export default index;

@@ -1,7 +1,7 @@
-import Highcharts from 'highcharts';
-import HighchartsNetworkgraph from 'highcharts/modules/networkgraph';
-import HighchartsReact from 'highcharts-react-official';
 import React from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import HighchartsNetworkgraph from 'highcharts/modules/networkgraph';
 
 // Initialize the Highcharts networkgraph module
 if (typeof Highcharts === 'object') {

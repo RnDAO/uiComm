@@ -1,14 +1,13 @@
-import { render } from '@testing-library/react';
 import React from 'react';
-
+import { render } from '@testing-library/react';
 import TcBoxContainer from './TcBoxContainer';
 
 // Mock the child components
 jest.mock('./TcBoxTitleContainer', () => (props: any) => (
-  <div data-testid='mock-title-container'>{props.children}</div>
+  <div data-testid="mock-title-container">{props.children}</div>
 ));
 jest.mock('./TcBoxContentContainer', () => (props: any) => (
-  <div data-testid='mock-content-container'>{props.children}</div>
+  <div data-testid="mock-content-container">{props.children}</div>
 ));
 
 describe('<TcBoxContainer />', () => {

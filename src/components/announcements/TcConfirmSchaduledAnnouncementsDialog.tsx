@@ -1,11 +1,10 @@
-import moment from 'moment';
 import React, { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import { FaDiscord } from 'react-icons/fa6';
-
 import TcButton from '../shared/TcButton';
+import { AiOutlineClose } from 'react-icons/ai';
 import TcDialog from '../shared/TcDialog';
 import TcText from '../shared/TcText';
+import { FaDiscord } from 'react-icons/fa6';
+import moment from 'moment';
 import { IRoles, IUser } from '../../utils/interfaces';
 
 interface ITcConfirmSchaduledAnnouncementsDialogProps {
@@ -13,7 +12,6 @@ interface ITcConfirmSchaduledAnnouncementsDialogProps {
   selectedChannels: { id: string; label: string }[];
   selectedRoles?: IRoles[];
   selectedUsernames?: IUser[];
-  selectedEngagementCategories?: string[];
   schaduledDate: string;
   isDisabled: boolean;
   handleCreateAnnouncements: (isDrafted: boolean) => void;
@@ -36,7 +34,6 @@ function TcConfirmSchaduledAnnouncementsDialog({
   buttonLabel,
   schaduledDate,
   selectedRoles,
-  selectedEngagementCategories,
   selectedUsernames,
   selectedChannels,
   isDisabled = true,
@@ -49,7 +46,7 @@ function TcConfirmSchaduledAnnouncementsDialog({
     <>
       <TcButton
         text={buttonLabel}
-        variant='contained'
+        variant="contained"
         disabled={isDisabled}
         onClick={() => setConfirmSchadulerDialog(true)}
       />
@@ -65,37 +62,58 @@ function TcConfirmSchaduledAnnouncementsDialog({
         }}
         children={
           <>
-            <div className='flex justify-end p-4'>
+            <div className="flex justify-end p-4">
               <AiOutlineClose
-                data-testid='close-icon'
-                className='cursor-pointer'
+                data-testid="close-icon"
+                className="cursor-pointer"
                 size={24}
                 onClick={() => setConfirmSchadulerDialog(false)}
               />
             </div>
-            <div className='mx-auto flex w-4/5 flex-col py-1'>
+            <div className="flex flex-col w-4/5 mx-auto py-1">
               <TcText
-                text='Confirm Schedule'
-                variant='h6'
-                className='pb-4  text-center'
+                text="Confirm Schedule"
+                variant="h6"
+                className="pb-4  text-center"
               />
-              <div className='space-y-2'>
-                <div className='flex items-center space-x-1'>
-                  <FaDiscord size={20} className='text-gray-500' />
+              <div className="space-y-2">
+                <div className="flex items-center space-x-1">
+                  <FaDiscord size={20} className="text-gray-500" />
                   <TcText
-                    text='Discord announcements scheduled for:'
-                    variant='body2'
-                    className='text-left'
+                    text={'Discord announcements scheduled for:'}
+                    variant="body2"
+                    className="text-left"
                   />
                 </div>
-                {selectedChannels && selectedChannels.length > 0 ? (
-                  <div className='flex flex-col'>
-                    <div className='flex items-center justify-between'>
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between">
+                    <TcText
+                      text={'Public Message to:'}
+                      fontWeight={500}
+                      variant="subtitle2"
+                      className="text-left text-gray-400"
+                    />
+                    <TcText
+                      text={
+                        schaduledDate
+                          ? formatDateToLocalTimezone(schaduledDate)
+                          : ''
+                      }
+                      variant="subtitle2"
+                    />
+                  </div>
+                  {selectedChannels
+                    .map((channel) => `#${channel.label}`)
+                    .join(', ')}
+                </div>
+                {selectedUsernames && selectedUsernames.length > 0 ? (
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between">
                       <TcText
-                        text='Public Message to:'
+                        text={'Private Message to these user(s):'}
                         fontWeight={500}
-                        variant='subtitle2'
-                        className='text-left text-gray-400'
+                        variant="subtitle2"
+                        className="text-left text-gray-400"
                       />
                       <TcText
                         text={
@@ -103,8 +121,8 @@ function TcConfirmSchaduledAnnouncementsDialog({
                             ? formatDateToLocalTimezone(schaduledDate)
                             : ''
                         }
-                        variant='subtitle2'
-                      />
+                        variant="subtitle2"
+                      />{' '}
                     </div>
                     {selectedChannels
                       .map((channel) => `#${channel.label}`)
@@ -113,39 +131,14 @@ function TcConfirmSchaduledAnnouncementsDialog({
                 ) : (
                   ''
                 )}
-                {selectedUsernames && selectedUsernames.length > 0 ? (
-                  <div className='flex flex-col'>
-                    <div className='flex items-center justify-between'>
-                      <TcText
-                        text='Private Message to these user(s):'
-                        fontWeight={500}
-                        variant='subtitle2'
-                        className='text-left text-gray-400'
-                      />
-                      <TcText
-                        text={
-                          schaduledDate
-                            ? formatDateToLocalTimezone(schaduledDate)
-                            : ''
-                        }
-                        variant='subtitle2'
-                      />{' '}
-                    </div>
-                    {selectedUsernames
-                      .map((user) => `@${user.username}`)
-                      .join(', ')}
-                  </div>
-                ) : (
-                  ''
-                )}
                 {selectedRoles && selectedRoles.length > 0 ? (
-                  <div className='flex flex-col'>
-                    <div className='flex items-center justify-between'>
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between">
                       <TcText
-                        text='Private Message to these role(s):'
+                        text={'Private Message to these role(s):'}
                         fontWeight={500}
-                        variant='subtitle2'
-                        className='text-left text-gray-400'
+                        variant="subtitle2"
+                        className="text-left text-gray-400"
                       />
                       <TcText
                         text={
@@ -153,45 +146,19 @@ function TcConfirmSchaduledAnnouncementsDialog({
                             ? formatDateToLocalTimezone(schaduledDate)
                             : ''
                         }
-                        variant='subtitle2'
+                        variant="subtitle2"
                       />
                     </div>
-                    {selectedRoles.map((role) => `@${role.name}`).join(', ')}
-                  </div>
-                ) : (
-                  ''
-                )}
-                {selectedEngagementCategories &&
-                selectedEngagementCategories.length > 0 ? (
-                  <div className='flex flex-col'>
-                    <div className='flex items-center justify-between'>
-                      <TcText
-                        text='Engagement Categories:'
-                        fontWeight={500}
-                        variant='subtitle2'
-                        className='text-left text-gray-400'
-                      />
-                      <TcText
-                        text={
-                          schaduledDate
-                            ? formatDateToLocalTimezone(schaduledDate)
-                            : ''
-                        }
-                        variant='subtitle2'
-                      />
-                    </div>
-                    {`#${selectedEngagementCategories
-                      .join(', ')
-                      .replaceAll('_', ' ')}`}
+                    {selectedRoles.map((role) => `#${role.name}`).join(', ')}
                   </div>
                 ) : (
                   ''
                 )}
               </div>
-              <div className='w-full py-6'>
+              <div className="py-6 w-full">
                 <TcButton
-                  text='Confirm'
-                  variant='contained'
+                  text={'Confirm'}
+                  variant="contained"
                   onClick={() => {
                     setConfirmSchadulerDialog(false);
                     handleCreateAnnouncements(false);

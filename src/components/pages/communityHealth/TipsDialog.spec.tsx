@@ -1,6 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-
+import { render, screen, fireEvent } from '@testing-library/react';
 import TipsDialog from './TipsDialog';
 
 describe('TipsDialog', () => {
@@ -21,7 +20,7 @@ describe('TipsDialog', () => {
   test('calls the onClose callback when the close button is clicked', () => {
     const onClose = jest.fn();
     render(
-      <TipsDialog isOpen={true} headerText='Dialog Header' onClose={onClose}>
+      <TipsDialog isOpen={true} headerText="Dialog Header" onClose={onClose}>
         Dialog Content
       </TipsDialog>
     );
@@ -38,7 +37,7 @@ describe('TipsDialog', () => {
   test('renders the dialog with the correct content', () => {
     const contentText = 'Dialog Content';
     render(
-      <TipsDialog isOpen={true} headerText='Dialog Header' onClose={jest.fn()}>
+      <TipsDialog isOpen={true} headerText="Dialog Header" onClose={jest.fn()}>
         {contentText}
       </TipsDialog>
     );
@@ -50,7 +49,7 @@ describe('TipsDialog', () => {
 
   test('renders the dialog when isOpen is true', () => {
     render(
-      <TipsDialog isOpen={true} headerText='Dialog Header' onClose={jest.fn()}>
+      <TipsDialog isOpen={true} headerText="Dialog Header" onClose={jest.fn()}>
         Dialog Content
       </TipsDialog>
     );
@@ -62,7 +61,7 @@ describe('TipsDialog', () => {
 
   test('does not render the dialog when isOpen is false', () => {
     render(
-      <TipsDialog isOpen={false} headerText='Dialog Header' onClose={jest.fn()}>
+      <TipsDialog isOpen={false} headerText="Dialog Header" onClose={jest.fn()}>
         Dialog Content
       </TipsDialog>
     );

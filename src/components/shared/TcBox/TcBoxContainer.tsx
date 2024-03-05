@@ -17,9 +17,8 @@
  */
 
 import { Box, BoxProps } from '@mui/material';
-
-import TcBoxContentContainer from './TcBoxContentContainer';
 import TcBoxTitleContainer from './TcBoxTitleContainer';
+import TcBoxContentContainer from './TcBoxContentContainer';
 
 interface ITcBoxContainer extends Omit<BoxProps, 'children'> {
   titleContainerChildren?: JSX.Element | React.ReactElement;
@@ -32,7 +31,7 @@ function TcBoxContainer({
   ...props
 }: ITcBoxContainer) {
   return (
-    <Box className='overflow-hidden rounded-xl shadow-lg' {...props}>
+    <Box className="shadow-lg rounded-xl overflow-hidden" {...props}>
       {titleContainerChildren && (
         <TcBoxTitleContainer children={titleContainerChildren} />
       )}

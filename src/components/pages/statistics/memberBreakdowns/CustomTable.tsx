@@ -16,26 +16,26 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import moment from 'moment';
-import router from 'next/router';
 import { useEffect, useState } from 'react';
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
   MdSearch,
 } from 'react-icons/md';
+import moment from 'moment';
 
-import CustomDialogDetail from './CustomDialogDetail';
-import { conf } from '../../../../configs';
-import useAppStore from '../../../../store/useStore';
 import {
   Column,
-  IActivityCompositionOptions,
   IRoles,
   Row,
+  IActivityCompositionOptions,
 } from '../../../../utils/interfaces';
-import FilterRolesPopover from '../../../global/FilterPopover/FilterRolesPopover';
+import { conf } from '../../../../configs';
 import Loading from '../../../global/Loading';
+import useAppStore from '../../../../store/useStore';
+import CustomDialogDetail from './CustomDialogDetail';
+import router from 'next/router';
+import FilterRolesPopover from '../../../global/FilterPopover/FilterRolesPopover';
 
 export interface IRolesPayload {
   allRoles: boolean;
@@ -242,7 +242,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   return (
     <>
-      <Table className='border-separate border-spacing-y-2'>
+      <Table className="border-separate border-spacing-y-2">
         <TableHead>
           <TableRow>
             {columns.map((column, columnIndex) => (
@@ -266,8 +266,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <>
                     <Button
                       onClick={handleOpenActivityPopup}
-                      size='small'
-                      variant='text'
+                      size="small"
+                      variant="text"
                       sx={{ color: 'black', minWidth: '64px' }}
                       endIcon={
                         isActivityPopupOpen ? (
@@ -292,17 +292,17 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         horizontal: 'left',
                       }}
                     >
-                      <div className='px-1 py-3'>
+                      <div className="px-1 py-3">
                         <FormControlLabel
-                          className='px-4 py-1'
+                          className="px-4 py-1"
                           control={
                             <Checkbox
-                              color='secondary'
+                              color="secondary"
                               checked={selectAllActivityOptions}
                               onChange={handleSelectAllActivityOptions}
                             />
                           }
-                          label={<div className='text-base'>All</div>}
+                          label={<div className="text-base">All</div>}
                         />
                         {activityCompositionOptions.map(
                           (option: IActivityCompositionOptions) => (
@@ -310,7 +310,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               <FormControlLabel
                                 control={
                                   <Checkbox
-                                    color='secondary'
+                                    color="secondary"
                                     checked={selectedActivityOptions.includes(
                                       option.value
                                     )}
@@ -319,15 +319,15 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                   />
                                 }
                                 label={
-                                  <div className='flex items-center'>
+                                  <div className="flex items-center">
                                     <span
-                                      className='mr-1 h-4 w-4 rounded-full'
+                                      className="w-4 h-4 rounded-full mr-1"
                                       style={{
                                         backgroundColor: option.color,
                                         flexShrink: 0,
                                       }}
                                     />
-                                    <div className='text-base'>
+                                    <div className="text-base">
                                       {option.name}
                                     </div>
                                   </div>
@@ -343,8 +343,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <>
                     <Button
                       onClick={handleOpenJoinedAtPopup}
-                      size='small'
-                      variant='text'
+                      size="small"
+                      variant="text"
                       sx={{ color: 'black', minWidth: '64px' }}
                       endIcon={
                         isJoinedAtPopupOpen ? (
@@ -372,32 +372,32 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       <List>
                         <ListItem
                           button
-                          key='desc'
+                          key={'desc'}
                           onClick={() => handleSortOptionClick('desc')}
                           selected={selectedSortOption === 'desc'}
                         >
-                          <ListItemText primary='Newest members' />
+                          <ListItemText primary="Newest members" />
                         </ListItem>
                         <ListItem
                           button
-                          key='asc'
+                          key={'asc'}
                           onClick={() => handleSortOptionClick('asc')}
                           selected={selectedSortOption === 'asc'}
                         >
-                          <ListItemText primary='Oldest members' />
+                          <ListItemText primary="Oldest members" />
                         </ListItem>
                       </List>
                     </Popover>
                   </>
                 ) : column.id === 'username' ? (
-                  <div className='flex flex-row items-center'>
+                  <div className="flex flex-row items-center">
                     <span>Name</span>
                     <TextField
-                      variant='standard'
-                      placeholder='Search member'
+                      variant="standard"
+                      placeholder={'Search member'}
                       InputProps={{
                         disableUnderline: true,
-                        startAdornment: <MdSearch color='disabled' size={25} />,
+                        startAdornment: <MdSearch color="disabled" size={25} />,
                         sx: {
                           backgroundColor: '#F5F5F5',
                           padding: '0 0.4rem',
@@ -422,10 +422,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
               <TableCell
                 key={columns.length}
                 colSpan={columns.length}
-                align='center'
+                align="center"
                 sx={{ border: 'none' }}
               >
-                <div className='flex h-40 items-center justify-center'>
+                <div className="flex items-center justify-center h-40">
                   <Loading />
                 </div>
               </TableCell>
@@ -453,24 +453,24 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           border:
                             index % 2 === 0 ? 'none' : '1px solid #F5F5F5',
                         }}
-                        className={`px-1 py-4 first:rounded-l-md first:border-r-0 first:px-3 last:rounded-r-md last:border-l-0 ${
+                        className={`px-1 first:px-3 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0 ${
                           columnIndex === 1 || columnIndex === 2
                             ? 'border-l-0 border-r-0'
                             : ''
                         }`}
                       >
                         {column.id === 'username' ? (
-                          <div className='flex items-center space-x-4'>
+                          <div className="flex items-center space-x-4">
                             <Avatar
                               src={
                                 row.discordId && row?.avatar
                                   ? `${conf.DISCORD_CDN}avatars/${row.discordId}/${row?.avatar}.png`
                                   : ''
                               }
-                              alt='User Avatar'
+                              alt="User Avatar"
                             />
-                            <p className='flex flex-row space-x-1.5 whitespace-nowrap'>
-                              <span className='text-base font-semibold'>
+                            <p className="flex flex-row space-x-1.5 whitespace-nowrap">
+                              <span className="font-semibold text-base">
                                 {row.ngu}
                               </span>
                               {row[column.id].length > 10 ? (
@@ -479,10 +479,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                 >
                                   <Tooltip
                                     title={row[column.id]}
-                                    placement='top'
+                                    placement="top"
                                     enterTouchDelay={0}
                                   >
-                                    <span className='cursor-pointer text-base text-gray-subtitle'>
+                                    <span className="text-gray-subtitle text-base cursor-pointer">
                                       {`${row[column.id].slice(0, 3)}...${row[
                                         column.id
                                       ].slice(-4)}`}
@@ -490,24 +490,24 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                   </Tooltip>
                                 </ClickAwayListener>
                               ) : (
-                                <span className='text-base text-gray-subtitle'>
+                                <span className="text-gray-subtitle text-base">
                                   {row[column.id]}
                                 </span>
                               )}
                             </p>
                           </div>
                         ) : column.id === 'roles' ? (
-                          <div className='flex flex-col flex-wrap space-y-1 md:flex-row md:space-y-0'>
+                          <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap">
                             {row.roles.length > 0 ? (
                               <>
                                 {row.roles.slice(0, 1).map((role: IRoles) => (
                                   <div
                                     key={role.roleId}
-                                    className='flex flex-row flex-wrap'
+                                    className="flex flex-row flex-wrap"
                                     style={{ whiteSpace: 'nowrap' }}
                                   >
                                     <span
-                                      className='mb-1 mr-1 rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
+                                      className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs mb-1 mr-1"
                                       style={{
                                         display: 'flex',
                                         alignItems: 'center',
@@ -520,7 +520,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                       }}
                                     >
                                       <span
-                                        className='mr-1 h-2 w-2 rounded-full'
+                                        className="w-2 h-2 rounded-full mr-1"
                                         style={{
                                           backgroundColor:
                                             role.color !== 0
@@ -537,11 +537,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                 ))}
                                 {row.roles.length > 1 && (
                                   <div
-                                    className='flex flex-row flex-wrap'
+                                    className="flex flex-row flex-wrap"
                                     onClick={() => handleShowDetails(row)}
                                   >
                                     <span
-                                      className='mb-1 mr-1 cursor-pointer rounded-[4px] border border-[#D1D1D1] bg-white p-1 text-xs'
+                                      className="bg-white p-1 rounded-[4px] border border-[#D1D1D1] text-xs cursor-pointer mb-1 mr-1"
                                       style={{
                                         display: 'flex',
                                         alignItems: 'center',
@@ -554,23 +554,23 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                 )}
                               </>
                             ) : (
-                              <div className='flex flex-row flex-wrap'>
+                              <div className="flex flex-row flex-wrap">
                                 <span
-                                  className='rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
+                                  className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs"
                                   style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     backgroundColor: '#AAAAAA',
                                   }}
                                 >
-                                  <span className='mr-1 h-2 w-2 rounded-full' />
+                                  <span className="w-2 h-2 rounded-full mr-1" />
                                   None
                                 </span>
                               </div>
                             )}
                           </div>
                         ) : column.id === 'activityComposition' ? (
-                          <div className='flex flex-row flex-wrap'>
+                          <div className="flex flex-row flex-wrap">
                             {row.activityComposition &&
                             row.activityComposition.length > 0 ? (
                               <>
@@ -588,10 +588,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                     return (
                                       <div
                                         key={composition}
-                                        className='mb:2 mr-1 flex flex-row flex-wrap items-center whitespace-nowrap md:mb-0'
+                                        className="flex flex-row flex-wrap items-center mr-1 mb:2 md:mb-0 whitespace-nowrap"
                                       >
                                         <span
-                                          className='mb-1 flex items-center rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs md:mb-0'
+                                          className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs mb-1 md:mb-0 flex items-center"
                                           style={{
                                             backgroundColor: backgroundColor,
                                             display: 'flex',
@@ -599,7 +599,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                           }}
                                         >
                                           <span
-                                            className='mr-2 h-2 w-2 rounded-full'
+                                            className="w-2 h-2 rounded-full mr-2"
                                             style={{
                                               backgroundColor: backgroundColor,
                                               flexShrink: 0,
@@ -612,11 +612,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                   })}
                                 {row.activityComposition.length > 1 && (
                                   <div
-                                    className='flex flex-row flex-wrap'
+                                    className="flex flex-row flex-wrap"
                                     onClick={() => handleShowDetails(row)}
                                   >
                                     <span
-                                      className='flex cursor-pointer items-center rounded-[4px] border border-[#D1D1D1] bg-white px-1 text-xs'
+                                      className="bg-white px-1 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center cursor-pointer"
                                       style={{
                                         backgroundColor: '#96A5A6',
                                         display: 'flex',
@@ -629,9 +629,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                 )}
                               </>
                             ) : (
-                              <div className='flex flex-row flex-wrap items-center'>
+                              <div className="flex flex-row flex-wrap items-center">
                                 <span
-                                  className='flex items-center rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
+                                  className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs flex items-center"
                                   style={{
                                     backgroundColor: '#96A5A6',
                                     display: 'flex',
@@ -639,7 +639,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                                   }}
                                 >
                                   <span
-                                    className='mr-2 h-2 w-2 rounded-full'
+                                    className="w-2 h-2 rounded-full mr-2"
                                     style={{
                                       backgroundColor: '#96A5A6',
                                       flexShrink: 0,
@@ -664,11 +664,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <TableCell
                     key={columns.length}
                     colSpan={columns.length}
-                    align='center'
+                    align="center"
                     style={{
                       border: 'none',
                     }}
-                    className='rounded-md bg-gray-100 py-8 font-semibold'
+                    className="bg-gray-100 py-8 rounded-md font-semibold"
                   >
                     No data available
                   </TableCell>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-import TcEngagementAccountsContent from './TcEngagementAccountsContent';
 import TcEngagementAccountsHeader from './TcEngagementAccountsHeader';
+import TcEngagementAccountsContent from './TcEngagementAccountsContent';
 import { IEngagement } from '../../../../utils/interfaces';
 
 interface ITcEngagementAccountsProps {
@@ -57,7 +56,7 @@ function TcEngagementAccounts({ engagement }: ITcEngagementAccountsProps) {
   }, [engagement]);
 
   return (
-    <div className='space-y-3'>
+    <div className="space-y-3">
       <TcEngagementAccountsHeader />
       <TcEngagementAccountsContent contentItems={contentItems} />
     </div>

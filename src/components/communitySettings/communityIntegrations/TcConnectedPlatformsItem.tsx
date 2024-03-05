@@ -37,20 +37,19 @@
  * <TcConnectedPlatformsItem platform={platform} />
  */
 
-import { ClickAwayListener, Tooltip } from '@mui/material';
-import clsx from 'clsx';
-import router from 'next/router';
 import React, { useState } from 'react';
-import { BsThreeDots } from 'react-icons/bs';
-
-import TcIntegrationIcon from './TcIntegrationIcon';
-import TcIntegrationCard from '../TcIntegrationCard';
-import TcAvatar from '../../shared/TcAvatar';
 import TcText from '../../shared/TcText';
+import clsx from 'clsx';
+import TcAvatar from '../../shared/TcAvatar';
+import TcIntegrationCard from '../TcIntegrationCard';
+import router from 'next/router';
 import { conf } from '../../../configs';
+import { IPlatformProps } from '../../../utils/interfaces';
+import TcIntegrationIcon from './TcIntegrationIcon';
 import { capitalizeFirstChar, truncateCenter } from '../../../helpers/helper';
 import { IntegrationPlatform } from '../../../utils/enums';
-import { IPlatformProps } from '../../../utils/interfaces';
+import { BsThreeDots } from 'react-icons/bs';
+import { ClickAwayListener, Tooltip } from '@mui/material';
 
 interface TcConnectedPlatformsItemProps {
   platform: IPlatformProps;
@@ -69,9 +68,9 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
   return (
     <TcIntegrationCard>
       <>
-        <div className='flex justify-end p-1.5'>
+        <div className="flex justify-end p-1.5">
           <BsThreeDots
-            className='cursor-pointer text-gray-400'
+            className="cursor-pointer text-gray-400"
             onClick={() =>
               router.push(
                 `/community-settings/platform/?platformId=${platform.id}`
@@ -79,29 +78,29 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
             }
           />
         </div>
-        <div className='space-y-4 px-3 text-center'>
-          <div className='space-y-2'>
-            <div className='flex items-center justify-center space-x-1'>
+        <div className="text-center px-3 space-y-4">
+          <div className="space-y-2">
+            <div className="flex justify-center items-center space-x-1">
               <TcText
                 text={capitalizeFirstChar(platform.name)}
-                variant='body1'
-                className='text-semibold'
+                variant="body1"
+                className="text-semibold"
               />
               <ClickAwayListener onClickAway={handleTooltipClose}>
                 <Tooltip
-                  title='Connected'
+                  title={'Connected'}
                   arrow
-                  placement='right'
+                  placement="right"
                   enterTouchDelay={0}
                 >
                   <div
                     onClick={handleTooltipOpen}
-                    className='h-3 w-3 rounded-full bg-success'
+                    className={'h-3 w-3 rounded-full bg-success'}
                   />
                 </Tooltip>
               </ClickAwayListener>
             </div>
-            <div className='flex justify-center'>
+            <div className="flex justify-center">
               <TcIntegrationIcon
                 platform={
                   capitalizeFirstChar(platform.name) as IntegrationPlatform
@@ -111,14 +110,14 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
             </div>
           </div>
           {platform && (
-            <div className={clsx('flex items-center justify-center space-x-2')}>
+            <div className={clsx('flex items-center space-x-2 justify-center')}>
               <TcAvatar
                 src={
                   platform.metadata.profileImageUrl
                     ? platform.metadata.profileImageUrl
                     : `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform?.metadata.icon}.png`
                 }
-                alt='User Avatar'
+                alt="User Avatar"
                 sx={{ width: 25, height: 25 }}
               />
               <TcText
@@ -128,7 +127,7 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
                     : platform.metadata.username,
                   15
                 )}
-                variant='caption'
+                variant="caption"
               />
             </div>
           )}

@@ -1,8 +1,7 @@
-import { TableRow, TableRowProps } from '@mui/material';
-import clsx from 'clsx';
 import React from 'react';
-
+import { TableRow, TableRowProps } from '@mui/material';
 import TcTableCell from './TcTableCell';
+import clsx from 'clsx';
 
 interface ITcTableRowProps extends TableRowProps {
   rowItem: { [key: string]: any };
@@ -33,7 +32,7 @@ function TcTableRow({
               className={clsx(
                 customTableCellClasses
                   ? `${customTableCellClasses}`
-                  : `px-1 py-4 first:rounded-l-md first:border-r-0 first:px-3 last:rounded-r-md last:border-l-0`
+                  : `px-1 first:px-3 py-4 first:rounded-l-md first:border-r-0 last:rounded-r-md last:border-l-0`
               )}
             >
               {CustomRenderer ? CustomRenderer(value) : value}

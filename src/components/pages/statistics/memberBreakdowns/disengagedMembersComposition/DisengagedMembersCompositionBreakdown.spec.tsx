@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
-
-import DisengagedMembersCompositionBreakdown from './DisengagedMembersCompositionBreakdown';
 import { TokenProvider } from '../../../../../context/TokenContext';
+import DisengagedMembersCompositionBreakdown from './DisengagedMembersCompositionBreakdown';
 jest.mock('next/router', () => require('next-router-mock'));
 
 describe('ActiveMemberBreakdown', () => {

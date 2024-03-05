@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { FiCalendar } from 'react-icons/fi';
-
-import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
-import StatisticalData from './StatisticalData';
-import LineGraph from '../../global/LineGraph';
-import Loading from '../../global/Loading';
-import RangeSelect from '../../global/RangeSelect';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import useAppStore from '../../../store/useStore';
+import LineGraph from '../../global/LineGraph';
+import StatisticalData from './StatisticalData';
+import { FiCalendar } from 'react-icons/fi';
+import RangeSelect from '../../global/RangeSelect';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMemberBreakdown';
+import Loading from '../../global/Loading';
+import { useRouter } from 'next/router';
 
 export interface ActiveMembersComposition {
   activePeriod: number;
@@ -138,7 +137,7 @@ export default function ActiveMembersComposition({
         tooltipText: (
           <>
             <span>Interactions are all messages that:</span>
-            <ol className='list-disc pl-8'>
+            <ol className="list-disc pl-8">
               <li>mention someone</li>
               <li>receive a reply</li>
               <li>receive a reaction</li>
@@ -251,20 +250,20 @@ export default function ActiveMembersComposition({
 
   return (
     <>
-      <div className='flex flex-row justify-between'>
-        <div className='w-full'>
+      <div className="flex flex-row justify-between">
+        <div className="w-full">
           <div>
-            <h3 className='text-xl font-medium text-lite-black'>
+            <h3 className="text-xl font-medium text-lite-black">
               Members overview
             </h3>
-            <p className='py-2'>Today's statistics</p>
+            <p className="py-2">Today's statistics</p>
           </div>
         </div>
       </div>
-      <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
+      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
         <StatisticalData
           ableToFilter={true}
-          overviewType='activeMemberComposition'
+          overviewType="activeMemberComposition"
           statistics={[...statistics]}
           handleSelectedOption={handleSelectedOption}
         />
@@ -272,9 +271,9 @@ export default function ActiveMembersComposition({
 
       <ActiveMemberBreakdown />
 
-      <div className='w-full'>
-        <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>
-          <h3 className='text-xl font-medium text-lite-black'>
+      <div className="w-full">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
+          <h3 className="text-xl font-medium text-lite-black">
             Active members over time
           </h3>
           <RangeSelect
@@ -286,7 +285,7 @@ export default function ActiveMembersComposition({
         </div>
       </div>
       {activeMembersLoading ? (
-        <Loading height='400px' />
+        <Loading height="400px" />
       ) : (
         <LineGraph options={options} />
       )}

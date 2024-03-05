@@ -1,12 +1,11 @@
 import { StateCreator } from 'zustand';
-
 import ICentric, {
   ICreateCommunitieProps,
   IPatchCommunityProps,
   IRetrieveCommunitiesProps,
 } from '../types/ICentric';
-import { axiosInstance } from '../../axiosInstance';
 import { conf } from '../../configs';
+import { axiosInstance } from '../../axiosInstance';
 
 const BASE_URL = conf.API_BASE_URL;
 

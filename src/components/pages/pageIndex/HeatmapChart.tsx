@@ -1,23 +1,22 @@
+import React, { useContext, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
 import moment from 'moment';
-import React, { useContext, useEffect, useState } from 'react';
-import { FiCalendar } from 'react-icons/fi';
 import 'moment-timezone';
-
 import NumberOfMessages from './NumberOfMessages';
-import FilterByChannels from '../../global/FilterByChannels';
-import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
 import ZonePicker from '../../global/ZonePicker';
-import { ChannelContext } from '../../../context/ChannelContext';
-import { useToken } from '../../../context/TokenContext';
-import { extractTrueSubChannelIds } from '../../../helpers/helper';
-import { transformToMidnightUTC } from '../../../helpers/momentHelper';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import { defaultHeatmapChartOptions } from '../../../lib/data/heatmap';
+import FilterByChannels from '../../global/FilterByChannels';
 import useAppStore from '../../../store/useStore';
+import { FiCalendar } from 'react-icons/fi';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import { transformToMidnightUTC } from '../../../helpers/momentHelper';
+import { useToken } from '../../../context/TokenContext';
+import { defaultHeatmapChartOptions } from '../../../lib/data/heatmap';
+import { ChannelContext } from '../../../context/ChannelContext';
+import { extractTrueSubChannelIds } from '../../../helpers/helper';
+import Loading from '../../global/Loading';
 
 if (typeof Highcharts === 'object') {
   HighchartsHeatmap(Highcharts);
@@ -180,17 +179,17 @@ const HeatmapChart = () => {
   }, [dateRange, selectedZone, platformId, platformFetched]);
 
   return (
-    <div className='min-h-[400px] rounded-lg bg-white p-5 shadow-box'>
-      <div className='flex flex-col items-baseline justify-between md:flex-row'>
-        <div className='px-3'>
-          <h3 className='text-xl font-bold md:text-2xl'>
+    <div className="bg-white shadow-box rounded-lg p-5 min-h-[400px]">
+      <div className="flex flex-col md:flex-row justify-between items-baseline">
+        <div className="px-3">
+          <h3 className="font-bold text-xl md:text-2xl">
             When is the community most active?
           </h3>
-          <p className='text-md pt-4 font-light text-gray-700 md:text-base'>
+          <p className="text-md md:text-base pt-4 text-gray-700 font-light">
             Hourly messages summed over the selected time period.
           </p>
         </div>
-        <div className='flex w-full flex-col-reverse space-y-3 px-2.5 md:w-auto md:flex-row md:space-y-0 md:space-x-3'>
+        <div className="flex flex-col-reverse px-2.5 w-full md:w-auto md:flex-row space-y-3 md:space-y-0 md:space-x-3">
           <RangeSelect
             options={communityActiveDates}
             icon={<FiCalendar size={18} />}
@@ -199,28 +198,28 @@ const HeatmapChart = () => {
           />
         </div>
       </div>
-      <div className='flex flex-col items-center justify-start px-3 md:flex-row md:justify-between md:py-2'>
-        <div className='flex w-full flex-col md:mt-3 md:flex-row md:space-x-3'>
-          <div className='flex flex-wrap'>
+      <div className="flex flex-col md:flex-row justify-start md:justify-between items-center md:py-2 px-3">
+        <div className="flex flex-col md:flex-row md:space-x-3 md:mt-3 w-full">
+          <div className="flex flex-wrap">
             <ZonePicker
               selectedZone={selectedZone}
               handleSelectedZone={handleSelectedZone}
             />
           </div>
-          <div className='flex flex-wrap'>
+          <div className="flex flex-wrap">
             <FilterByChannels
               handleFetchHeatmapByChannels={handleFetchHeatmapByChannels}
             />
           </div>
         </div>
-        <div className='hidden md:block'>
+        <div className="hidden md:block">
           <NumberOfMessages />
         </div>
       </div>
-      <div className='relative'>
+      <div className="relative">
         {loading && (
-          <div className='absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-30'>
-            <Loading size={40} height='440px' />
+          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-30 z-10">
+            <Loading size={40} height="440px" />
           </div>
         )}
 
@@ -233,7 +232,7 @@ const HeatmapChart = () => {
         </div>
       </div>
 
-      <div className='ml-3 block md:hidden'>
+      <div className="block ml-3 md:hidden">
         <NumberOfMessages />
       </div>
     </div>

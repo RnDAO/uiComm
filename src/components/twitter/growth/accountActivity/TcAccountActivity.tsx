@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-import TcAccountActivityContent from './TcAccountActivityContent';
 import TcAccountActivityHeader from './TcAccountActivityHeader';
+import TcAccountActivityContent from './TcAccountActivityContent';
 import { IAccount } from '../../../../utils/interfaces';
 
 interface ITcAccountActivityProps {

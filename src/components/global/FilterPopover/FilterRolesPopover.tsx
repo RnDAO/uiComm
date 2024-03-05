@@ -1,29 +1,28 @@
-import {
-  Autocomplete,
-  Chip,
-  FormControl,
-  FormControlLabel,
-  ListItem,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
+  MdOutlineKeyboardArrowDown,
 } from 'react-icons/md';
-
-import Loading from '../Loading';
-import { IRolesPayload } from '../../pages/statistics/memberBreakdowns/CustomTable';
 import TcButton from '../../shared/TcButton';
-import TcCheckbox from '../../shared/TcCheckbox';
-import TcInput from '../../shared/TcInput';
 import TcPopover from '../../shared/TcPopover';
+import {
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  ListItem,
+  Chip,
+  Autocomplete,
+} from '@mui/material';
 import TcText from '../../shared/TcText';
+import TcInput from '../../shared/TcInput';
+import useAppStore from '../../../store/useStore';
 import { useToken } from '../../../context/TokenContext';
 import { debounce, hexToRGBA, isDarkColor } from '../../../helpers/helper';
-import useAppStore from '../../../store/useStore';
 import { FetchedData, IRoles } from '../../../utils/interfaces';
+import TcCheckbox from '../../shared/TcCheckbox';
+import Loading from '../Loading';
+import { IRolesPayload } from '../../pages/statistics/memberBreakdowns/CustomTable';
 
 function createPayload(
   includeExclude: 'include' | 'exclude',
@@ -239,8 +238,8 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
   return (
     <div>
       <TcButton
-        text='Roles'
-        className='text-black'
+        text={'Roles'}
+        className="text-black"
         endIcon={
           isRolesPopupOpen ? (
             <MdOutlineKeyboardArrowUp />
@@ -258,26 +257,26 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
         anchorEl={anchorEl}
         sx={{ maxWidth: '340px' }}
         content={
-          <div className='flex flex-col space-y-2 px-4 py-2'>
+          <div className="px-4 flex flex-col space-y-2 py-2">
             {selectedRoles.length > 0 && (
-              <FormControl component='fieldset'>
+              <FormControl component="fieldset">
                 <RadioGroup
                   row
-                  aria-label='role-filter'
-                  name='role-filter'
+                  aria-label="role-filter"
+                  name="role-filter"
                   value={includeExclude}
                   onChange={handleIncludeExcludeChange}
                 >
                   <FormControlLabel
-                    value='include'
+                    value="include"
                     control={<Radio />}
-                    label={<TcText text='Include' variant='body2' />}
-                    className='w-1/2'
+                    label={<TcText text="Include" variant="body2" />}
+                    className="w-1/2"
                   />
                   <FormControlLabel
-                    value='exclude'
+                    value="exclude"
                     control={<Radio />}
-                    label={<TcText text='Exclude' variant='body2' />}
+                    label={<TcText text="Exclude" variant="body2" />}
                   />
                 </RadioGroup>
               </FormControl>
@@ -285,7 +284,7 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
             <FormControl>
               <Autocomplete
                 multiple
-                id='tags-filled'
+                id="tags-filled"
                 options={fetchedRoles.results}
                 freeSolo
                 open={isAutocompleteOpen}
@@ -308,9 +307,9 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
                     <Chip
-                      variant='outlined'
+                      variant="outlined"
                       label={option.name}
-                      size='small'
+                      size="small"
                       sx={{
                         borderRadius: '4px',
                         borderColor: hexToRGBA(
@@ -337,9 +336,9 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                       minWidth: 'auto',
                     }}
                     {...params}
-                    variant='filled'
-                    label='Roles'
-                    placeholder='Select one or more roles'
+                    variant="filled"
+                    label="Roles"
+                    placeholder="Select one or more roles"
                     value={filteredRolesByName}
                     onChange={handleSearchChange}
                   />
@@ -348,21 +347,21 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
             </FormControl>
             <div
               ref={scrollableDivRef}
-              className='max-h-[300px] min-w-[250px] overflow-y-auto overflow-x-hidden rounded-md border border-gray-200 p-1'
+              className="border max-h-[300px] min-w-[250px] overflow-y-auto border-gray-200 rounded-md p-1 overflow-x-hidden"
               onScroll={handleScroll}
             >
               {fetchedRoles && fetchedRoles.results.length > 0 ? (
                 <>
-                  <TcText text='Show members with roles:' className='p-1' />
+                  <TcText text="Show members with roles:" className="p-1" />
                   {fetchedRoles?.results?.map((role: IRoles) => (
                     <ListItem
                       key={`${role.id}-${role.name}`}
-                      className='w-full'
+                      className="w-full"
                     >
                       <FormControlLabel
                         control={
                           <TcCheckbox
-                            color='secondary'
+                            color="secondary"
                             checked={selectedRoles.some(
                               (selectedRole) => selectedRole.id === role.id
                             )}
@@ -372,9 +371,9 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                         label={
                           role ? (
                             <Chip
-                              variant='outlined'
+                              variant="outlined"
                               label={role.name}
-                              size='small'
+                              size="small"
                               sx={{
                                 borderRadius: '4px',
                                 borderColor: hexToRGBA(
@@ -402,15 +401,15 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
                             ''
                           )
                         }
-                        className='flex w-full justify-start'
+                        className="w-full flex justify-start"
                       />
                     </ListItem>
                   ))}
                 </>
               ) : (
-                <TcText text='Role not found' className='py-5 text-center' />
+                <TcText text="Role not found" className="text-center py-5" />
               )}
-              {loading ? <Loading height='20' size={20} /> : ''}
+              {loading ? <Loading height="20" size={20} /> : ''}
             </div>
           </div>
         }

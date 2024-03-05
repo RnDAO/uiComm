@@ -1,7 +1,6 @@
 import { MenuItem, Select, SelectProps } from '@mui/material';
 import React, { ReactElement } from 'react';
 import { IconType } from 'react-icons';
-
 import TcText from '../TcText';
 
 /**
@@ -46,7 +45,7 @@ function TcSelect({
               value={option.value}
               disabled={option.disabled}
             >
-              <div className='flex items-center justify-start space-x-2'>
+              <div className="flex justify-start items-center space-x-2">
                 {option.icon && React.cloneElement(option.icon)}
                 <TcText text={option.label} />
               </div>

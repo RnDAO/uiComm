@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type items = {
   name: string;
@@ -7,17 +7,18 @@ type items = {
   icon: any;
 };
 
-import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { conf } from '../../configs/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { FiSettings } from 'react-icons/fi';
+
+import { faUserGroup, faHeartPulse } from '@fortawesome/free-solid-svg-icons';
 import { MdOutlineAnnouncement } from 'react-icons/md';
 
-import TcText from '../shared/TcText';
-import { conf } from '../../configs/index';
-import { useToken } from '../../context/TokenContext';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { FiSettings } from 'react-icons/fi';
 import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
+import { useToken } from '../../context/TokenContext';
+import TcText from '../shared/TcText';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -81,30 +82,30 @@ const Sidebar = () => {
   ];
 
   const menuItem = menuItems.map((el) => (
-    <li key={el.name} className='py-4'>
+    <li key={el.name} className="py-4">
       <Link href={el.path}>
         <div
           className={
             currentRoute === el.path
-              ? 'cursor-pointer rounded-xl bg-white py-2 text-center delay-75 ease-in hover:bg-white'
-              : 'cursor-pointer rounded-xl py-2 text-center delay-75 ease-in hover:bg-white'
+              ? 'py-2 rounded-xl text-center bg-white hover:bg-white ease-in delay-75 cursor-pointer'
+              : 'py-2 rounded-xl text-center hover:bg-white ease-in delay-75 cursor-pointer'
           }
         >
           {el.icon}
         </div>
-        <p className='break-words text-center text-sm'>{el.name}</p>
+        <p className="text-center text-sm break-words">{el.name}</p>
       </Link>
     </li>
   ));
 
   return (
-    <aside className='fixed hidden h-screen bg-gray-background shadow-inner md:block md:w-[100px] xl:w-[150px]'>
+    <aside className="hidden md:block bg-gray-background shadow-inner md:w-[100px] xl:w-[150px] fixed h-screen">
       <nav>
         <div>
-          <div className='mx-auto my-4 flex flex-col justify-center text-center'>
-            <div className='mx-auto w-full'>
+          <div className="flex flex-col mx-auto justify-center text-center my-4">
+            <div className="w-full mx-auto">
               <div
-                className='mx-auto mb-2 h-10 w-10 cursor-pointer'
+                className="w-10 h-10 mb-2 mx-auto cursor-pointer"
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
@@ -112,29 +113,29 @@ const Sidebar = () => {
                 connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
-                    width='100'
-                    height='100'
+                    width="100"
+                    height="100"
                     alt={
                       connectedPlatform.metadata.name
                         ? connectedPlatform.metadata.name
                         : ''
                     }
-                    className='rounded-full'
+                    className="rounded-full"
                   />
                 ) : (
-                  <div className='align-center flex h-10 w-10 flex-col justify-center rounded-full bg-secondary text-center text-xs' />
+                  <div className="bg-secondary text-center w-10 h-10 rounded-full align-center flex flex-col justify-center text-xs" />
                 )}
               </div>
               <TcText
                 text={community?.name}
-                variant='body1'
-                fontWeight='bold'
+                variant="body1"
+                fontWeight="bold"
               />
             </div>
           </div>
         </div>
-        <hr className='mx-2' />
-        <ul className='flex flex-col px-3'>{menuItem}</ul>
+        <hr className="mx-2" />
+        <ul className="flex flex-col px-3">{menuItem}</ul>
       </nav>
     </aside>
   );

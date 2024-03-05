@@ -1,6 +1,5 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import TcPublicMessagePreviewDialog from './TcPrivateMessagePreviewDialog';
 
 describe('TcPublicMessagePreviewDialog', () => {
@@ -13,7 +12,6 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel=''
       />
     );
     expect(screen.getByText('Preview')).toBeInTheDocument();
@@ -24,7 +22,6 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -36,7 +33,6 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -54,7 +50,6 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -72,7 +67,6 @@ describe('TcPublicMessagePreviewDialog', () => {
       <TcPublicMessagePreviewDialog
         textMessage={textMessage}
         isPreviewDialogEnabled={true}
-        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));
@@ -86,7 +80,6 @@ describe('TcPublicMessagePreviewDialog', () => {
         selectedRoles={roles}
         selectedUsernames={usernames}
         isPreviewDialogEnabled={true}
-        safetyChannel=''
       />
     );
     fireEvent.click(screen.getByText('Preview'));

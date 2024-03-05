@@ -1,14 +1,13 @@
 import { create } from 'zustand';
-
-import announcementsSlice from './slices/announcementsSlice';
-import createBreakdownsSlice from './slices/breakdownsSlice';
-import centricSlice from './slices/centricSlice';
 import createChartSlice from './slices/chartSlice';
-import communityHealthSlice from './slices/communityHealthSlice';
+import createBreakdownsSlice from './slices/breakdownsSlice';
 import createMemberInteractionSlice from './slices/memberInteractionSlice';
-import platformSlice from './slices/platformSlice';
+import communityHealthSlice from './slices/communityHealthSlice';
 import twitterSlice from './slices/twitterSlice';
+import centricSlice from './slices/centricSlice';
+import platformSlice from './slices/platformSlice';
 import userSlice from './slices/userSlice';
+import announcementsSlice from './slices/announcementsSlice';
 
 const useAppStore = create<any>()((...a) => ({
   ...createChartSlice(...a),

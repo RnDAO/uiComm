@@ -1,6 +1,5 @@
-import { TableHead, TableHeadProps } from '@mui/material';
 import React from 'react';
-
+import { TableHead, TableHeadProps, TableRow, TableCell } from '@mui/material';
 import TcTableRow from './TcTableRow';
 
 interface ITcTableHeadProps extends TableHeadProps {
@@ -18,7 +17,7 @@ function TcTableHead({ headers, ...props }: ITcTableHeadProps) {
     <TableHead {...props}>
       <TcTableRow
         rowItem={headers}
-        customTableCellClasses='rounded-none p-0 border-none uppercase text-xs font-light first:pl-3 last:pr-3'
+        customTableCellClasses="rounded-none p-0 border-none uppercase text-xs font-light first:pl-3 last:pr-3"
       />
     </TableHead>
   );

@@ -1,27 +1,23 @@
-import { FormControlLabel, FormGroup } from '@mui/material';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
-import { BiError } from 'react-icons/bi';
-import { TbRefresh } from 'react-icons/tb';
-
-import Loading from '../../global/Loading';
-import TcButton from '../../shared/TcButton';
+import { FormControlLabel, FormGroup } from '@mui/material';
 import TcCheckbox from '../../shared/TcCheckbox';
 import TcText from '../../shared/TcText';
+import TcButton from '../../shared/TcButton';
+import { TbRefresh } from 'react-icons/tb';
+import Loading from '../../global/Loading';
 import { ChannelContext } from '../../../context/ChannelContext';
-import { ISubChannels } from '../../../utils/types';
+import { useRouter } from 'next/router';
+import clsx from 'clsx';
+import { BiError } from 'react-icons/bi';
 
 interface ITcPlatformChannelList {
   refreshTrigger: boolean;
   channelListCustomClass?: string;
-  disableSubChannelsByAnnouncement: boolean;
 }
 
 function TcPlatformChannelList({
   refreshTrigger = true,
   channelListCustomClass,
-  disableSubChannelsByAnnouncement = false,
 }: ITcPlatformChannelList) {
   const channelContext = useContext(ChannelContext);
   const router = useRouter();
@@ -45,39 +41,32 @@ function TcPlatformChannelList({
     }
   };
 
-  const showErrorMessage = (subChannel: ISubChannels) => {
-    return disableSubChannelsByAnnouncement && !subChannel.announcementAccess
-      ? !subChannel.announcementAccess
-      : !disableSubChannelsByAnnouncement &&
-          !subChannel.canReadMessageHistoryAndViewChannel;
-  };
-
   if (loading) {
-    return <Loading height='400px' />;
+    return <Loading height="400px" />;
   }
 
   if (channels.length === 0) {
     return (
-      <div className='flex justify-center py-24'>
+      <div className="flex justify-center py-24">
         <TcText
-          text='Channel list is empty'
-          variant='body2'
-          className='text-gray-400'
+          text={'Channel list is empty'}
+          variant="body2"
+          className="text-gray-400"
         />
       </div>
     );
   }
 
   return (
-    <div className='max-h-[400px] overflow-y-scroll'>
+    <div className="max-h-[400px] overflow-y-scroll">
       {refreshTrigger ? (
         <TcButton
-          className='sticky top-4 float-right m-4 bg-white'
+          className="sticky top-4 float-right m-4 bg-white"
           startIcon={<TbRefresh />}
           sx={{ maxWidth: '10rem' }}
-          variant='outlined'
+          variant="outlined"
           onClick={handleRefresh}
-          text='Refresh List'
+          text={'Refresh List'}
         />
       ) : (
         ''
@@ -90,8 +79,8 @@ function TcPlatformChannelList({
         {channels &&
           channels?.map((channel, index) => (
             <div key={`${channel.channelId} ${index}`}>
-              <TcText variant='h6' text={channel.title} />
-              <div className='ml-5'>
+              <TcText variant="h6" text={channel.title} />
+              <div className="ml-5">
                 <FormControlLabel
                   control={
                     <TcCheckbox
@@ -104,22 +93,20 @@ function TcPlatformChannelList({
                       onChange={() =>
                         handleSelectAll(channel.channelId, channel?.subChannels)
                       }
-                      disabled={channel?.subChannels?.some((subChannel) => {
-                        if (disableSubChannelsByAnnouncement) {
-                          return !subChannel.announcementAccess;
-                        } else {
-                          return !subChannel.canReadMessageHistoryAndViewChannel;
-                        }
-                      })}
+                      disabled={channel?.subChannels?.some(
+                        (subChannel) =>
+                          !subChannel.canReadMessageHistoryAndViewChannel ||
+                          !subChannel.announcementAccess
+                      )}
                     />
                   }
-                  label='All Channels'
+                  label="All Channels"
                 />
-                <TcText text='Channels' />
+                <TcText text="Channels" />
                 <FormGroup>
                   {channel.subChannels.map((subChannel, index) => (
                     <div
-                      className='flex justify-between'
+                      className="flex justify-between"
                       key={`${subChannel.channelId} ${subChannel.parentId} ${index}`}
                     >
                       <FormControlLabel
@@ -131,11 +118,7 @@ function TcPlatformChannelList({
                               ] || false
                             }
                             disabled={
-                              disableSubChannelsByAnnouncement &&
-                              !subChannel.announcementAccess
-                                ? !subChannel.announcementAccess
-                                : !disableSubChannelsByAnnouncement &&
-                                  !subChannel.canReadMessageHistoryAndViewChannel
+                              !subChannel.canReadMessageHistoryAndViewChannel
                             }
                             onChange={() =>
                               handleSubChannelChange(
@@ -147,12 +130,12 @@ function TcPlatformChannelList({
                         }
                         label={subChannel.name}
                       />
-                      {showErrorMessage(subChannel) ? (
-                        <div className='flex items-center space-x-1'>
-                          <BiError className='text-error-500' />
+                      {!subChannel.canReadMessageHistoryAndViewChannel ? (
+                        <div className="flex items-center space-x-1">
+                          <BiError className="text-error-500" />
                           <TcText
-                            className='text-error-500'
-                            text='Bot needs access'
+                            className="text-error-500"
+                            text="Bot needs access"
                           />
                         </div>
                       ) : (

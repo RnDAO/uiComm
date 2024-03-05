@@ -1,8 +1,6 @@
-import * as amplitude from '@amplitude/analytics-browser';
 import { useEffect } from 'react';
-
+import * as amplitude from '@amplitude/analytics-browser';
 import { conf } from '../../configs';
-import { setAmplitudeUserIdFromToken } from '../../helpers/amplitudeHelper';
 
 const AmplitudeAnalytics = () => {
   useEffect(() => {
@@ -18,7 +16,6 @@ const AmplitudeAnalytics = () => {
           fileDownloads: true,
         },
       });
-      setAmplitudeUserIdFromToken();
     }
   }, []);
 

@@ -1,19 +1,18 @@
 import { Avatar, Popover, Typography } from '@mui/material';
-import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
 import ForceGraph2D, {
   ForceGraphMethods,
   NodeObject,
 } from 'react-force-graph-2d';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-
 import { conf } from '../../../configs';
+import { IRoles, IUserProfile } from '../../../utils/interfaces';
+import clsx from 'clsx';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import {
   setAmplitudeUserIdFromToken,
   trackAmplitudeEvent,
 } from '../../../helpers/amplitudeHelper';
 import { StorageService } from '../../../services/StorageService';
-import { IRoles, IUserProfile } from '../../../utils/interfaces';
 import { IUser } from '../../../utils/types';
 
 interface CustomNode {
@@ -136,12 +135,12 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
   };
 
   return (
-    <div className='relative flex h-full items-center justify-center'>
+    <div className="flex justify-center items-center h-full relative">
       <ForceGraph2D
         graphData={{ nodes, links }}
-        nodeLabel='ngu'
+        nodeLabel="ngu"
         nodeVal={(node: CustomNode) => node.size / 1.5}
-        nodeAutoColorBy='id'
+        nodeAutoColorBy="id"
         height={Number(numberOfnodes) > 300 ? 800 : 350}
         {...graphView}
         minZoom={0.5}
@@ -151,14 +150,14 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
         }}
         onBackgroundClick={() => setpopOverOpen(false)}
       />
-      <div className='absolute bottom-4 right-4 flex flex-row items-center rounded-md bg-gray-background p-1 py-2'>
+      <div className="absolute bottom-4 right-4 flex p-1 py-2 flex-row items-center bg-gray-background rounded-md">
         <button
-          className='border-r border-[#AAAAAA]  px-2 pl-1'
+          className="px-2 pl-1  border-r border-[#AAAAAA]"
           onClick={zoomOut}
         >
           <AiOutlineMinus size={20} />
         </button>
-        <button className='px-2 pr-1' onClick={zoomIn}>
+        <button className="px-2 pr-1" onClick={zoomIn}>
           <AiOutlinePlus size={20} />
         </button>
       </div>
@@ -190,36 +189,36 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
           },
         }}
       >
-        <div className='flex flex-col items-start space-y-3 px-3 py-3'>
-          <div className='flex flex-row items-center space-x-3'>
+        <div className="px-3 py-3 flex flex-col items-start space-y-3">
+          <div className="flex flex-row items-center space-x-3">
             <Avatar
               src={`${conf.DISCORD_CDN}avatars/${user?.discordId}/${user?.avatar}.png`}
-              alt='User Avatar'
+              alt="User Avatar"
             />{' '}
-            <div className='flex flex-col items-baseline'>
+            <div className="flex flex-col items-baseline">
               <Typography
-                variant='body2'
-                color='initial'
-                className='font-semibold'
+                variant="body2"
+                color="initial"
+                className="font-semibold"
               >
                 {user ? user.ngu : ''}
               </Typography>
-              <Typography variant='body2' className='text-gray-subtitle'>
+              <Typography variant="body2" className="text-gray-subtitle">
                 {user ? user.username : ''}
               </Typography>
             </div>
           </div>
-          <div className='flex flex-col flex-wrap space-y-1 md:flex-row md:space-y-0'>
+          <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row flex-wrap">
             {user?.roles ? (
               <>
                 {user.roles.slice(0, 4).map((role: IRoles) => (
                   <div
                     key={role.roleId}
-                    className='flex flex-row flex-wrap'
+                    className="flex flex-row flex-wrap"
                     style={{ whiteSpace: 'nowrap' }}
                   >
                     <span
-                      className='mb-1 mr-1 rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
+                      className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs mb-1 mr-1"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -230,7 +229,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
                       }}
                     >
                       <span
-                        className='mr-1 h-2 w-2 rounded-full'
+                        className="w-2 h-2 rounded-full mr-1"
                         style={{
                           backgroundColor:
                             role.color !== 0
@@ -244,9 +243,9 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
                   </div>
                 ))}
                 {user.roles.length > 4 && (
-                  <div className='flex flex-row flex-wrap'>
+                  <div className="flex flex-row flex-wrap">
                     <span
-                      className='mb-1 mr-1 rounded-[4px] border border-[#D1D1D1] bg-white p-1 text-xs'
+                      className="bg-white p-1 rounded-[4px] border border-[#D1D1D1] text-xs mb-1 mr-1"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -259,31 +258,31 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
                 )}
               </>
             ) : (
-              <div className='flex flex-row flex-wrap'>
+              <div className="flex flex-row flex-wrap">
                 <span
-                  className='rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
+                  className="bg-white p-1 px-2 rounded-[4px] border border-[#D1D1D1] text-xs"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     backgroundColor: '#AAAAAA',
                   }}
                 >
-                  <span className='mr-1 h-2 w-2 rounded-full' />
+                  <span className="w-2 h-2 rounded-full mr-1" />
                   None
                 </span>
               </div>
             )}
           </div>
-          <div className='mx-auto flex w-2/3 flex-row items-baseline justify-center space-x-8'>
-            <div className='text-center text-sm'>
+          <div className="flex flex-row w-2/3 justify-center mx-auto items-baseline space-x-8">
+            <div className="text-center text-sm">
               <div
                 className={clsx(
-                  'mx-auto h-3.5 w-3.5 rounded-full bg-secondary',
+                  'rounded-full w-3.5 h-3.5 bg-secondary mx-auto',
                   user && user?.radius <= 10
-                    ? 'h-3.5 w-3.5'
+                    ? 'w-3.5 h-3.5'
                     : user && user?.radius > 10 && user?.radius <= 50
-                      ? 'h-5 w-5'
-                      : 'h-8 w-8'
+                    ? 'w-5 h-5'
+                    : 'w-8 h-8'
                 )}
               />
               <span>
@@ -291,27 +290,27 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
                 {user && user?.radius <= 10
                   ? '10'
                   : user && user?.radius > 10 && user?.radius <= 50
-                    ? '50'
-                    : '100'}
+                  ? '50'
+                  : '100'}
               </span>
             </div>
-            <div className='text-center text-sm'>
+            <div className="text-center text-sm">
               <div
                 className={clsx(
-                  'mx-auto h-5 w-5 rounded-full',
+                  'rounded-full mx-auto w-5 h-5',
                   user?.stats === 'BALANCED'
                     ? 'bg-secondary'
                     : user?.stats === 'SENDER'
-                      ? 'bg-green'
-                      : 'bg-yellow-400'
+                    ? 'bg-green'
+                    : 'bg-yellow-400'
                 )}
               />
               <span>
                 {user?.stats === 'BALANCED'
                   ? 'Balanced'
                   : user?.stats === 'SENDER'
-                    ? 'Frequent sender'
-                    : 'Frequent receiver'}
+                  ? 'Frequent sender'
+                  : 'Frequent receiver'}
               </span>
             </div>
           </div>

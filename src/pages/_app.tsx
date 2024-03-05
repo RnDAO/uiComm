@@ -1,10 +1,10 @@
-import { config } from '@fortawesome/fontawesome-svg-core';
+import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import { hotjar } from 'react-hotjar';
 
-import '../styles/globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
 config.autoAddCss = false;
 type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -13,19 +13,18 @@ type ComponentWithPageLayout = AppProps & {
 };
 
 import { ThemeProvider } from '@mui/material';
-import Script from 'next/script';
-import { ToastContainer } from 'react-toastify';
-
-import 'react-toastify/dist/ReactToastify.css';
-
-import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
-import SafaryClubScript from '../components/global/SafaryClubScript';
-import { conf } from '../configs';
-import { ChannelProvider } from '../context/ChannelContext';
-import { TokenProvider } from '../context/TokenContext';
-import { usePageViewTracking } from '../helpers/amplitudeHelper';
-import PrivateRoute from '../utils/privateRoute';
 import { theme } from '../utils/theme';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from '../utils/privateRoute';
+import { conf } from '../configs';
+import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
+import Script from 'next/script';
+import { usePageViewTracking } from '../helpers/amplitudeHelper';
+import SafaryClubScript from '../components/global/SafaryClubScript';
+import { TokenProvider } from '../context/TokenContext';
+import { ChannelProvider } from '../context/ChannelContext';
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   usePageViewTracking();
@@ -45,7 +44,7 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
     <>
       <AmplitudeAnalytics />
       <SafaryClubScript />
-      <Script id='tawk' strategy='lazyOnload'>
+      <Script id="tawk" strategy="lazyOnload">
         {`
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
           (function(){

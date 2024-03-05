@@ -1,7 +1,6 @@
 import { StateCreator } from 'zustand';
-
-import ITwitter from '../types/ITwitter';
 import { axiosInstance } from '../../axiosInstance';
+import ITwitter from '../types/ITwitter';
 import { conf } from '../../configs';
 
 const BASE_URL = conf.API_BASE_URL;

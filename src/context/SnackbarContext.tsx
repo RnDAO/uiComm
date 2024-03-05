@@ -1,6 +1,6 @@
-import Alert, { AlertColor } from '@mui/material/Alert';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import Alert, { AlertColor } from '@mui/material/Alert';
 
 type SnackbarContextType = {
   showMessage: (

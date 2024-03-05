@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import TcvoteFeatureHeader from './TcvoteFeatureHeader';
 import TcvoteFeatureVotes from './TcvoteFeatureVotes/TcvoteFeatureVotes';
 import TcButton from '../../../shared/TcButton';
@@ -17,14 +16,14 @@ function TcvoteFeature() {
   };
 
   return (
-    <div className='space-y-8'>
+    <div className="space-y-8">
       <TcvoteFeatureHeader />
       <TcvoteFeatureVotes handleSelectedFeatures={handleSelectedFeatures} />
-      <div className='flex justify-center'>
+      <div className="flex justify-center">
         <TcButton
-          text='Vote now'
-          variant='contained'
-          color='secondary'
+          text="Vote now"
+          variant="contained"
+          color="secondary"
           disabled={!nextFeature.includes(true)}
         />
       </div>

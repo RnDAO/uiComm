@@ -1,11 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-
+import { render, screen } from '@testing-library/react';
 import TcPublicMessageContainer from './TcPublicMessageContainer';
-import {
-  ChannelContext,
-  initialChannelContextData,
-} from '../../../../context/ChannelContext';
 import { TokenContext } from '../../../../context/TokenContext';
 
 const mockToken = {
@@ -31,26 +26,25 @@ const mockTokenContextValue = {
 };
 
 describe('TcPublicMessageContainer', () => {
-  const setup = () =>
+  beforeEach(() => {
     render(
       <TokenContext.Provider value={mockTokenContextValue}>
-        <ChannelContext.Provider value={initialChannelContextData}>
-          <TcPublicMessageContainer handlePublicAnnouncements={jest.fn()} />
-        </ChannelContext.Provider>
+        <TcPublicMessageContainer handlePublicAnnouncements={jest.fn()} />
       </TokenContext.Provider>
     );
+  });
 
-  it('should toggle public message state and render related UI elements', async () => {
-    setup();
+  it('renders the "Public Message" text', () => {
+    expect(screen.getByText(/Public Message/i)).toBeInTheDocument();
+  });
 
-    const switchElement = screen.getByRole('checkbox');
-    fireEvent.click(switchElement);
+  it('renders the message about bot distribute', () => {
+    const message =
+      /Our bot will distribute the announcement through selected channels with the required access to share the designated message./i;
+    expect(screen.getByText(message)).toBeInTheDocument();
+  });
 
+  it('renders the "Write message here:" text', () => {
     expect(screen.getByText(/Write message here:/i)).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /Our bot will distribute the announcement through selected channels with the required access to share the designated message./i
-      )
-    ).toBeInTheDocument();
   });
 });

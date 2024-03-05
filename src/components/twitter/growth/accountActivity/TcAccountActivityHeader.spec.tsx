@@ -1,8 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import React from 'react';
-
-import TcAccountActivityHeader from './TcAccountActivityHeader';
+import { render, screen } from '@testing-library/react';
 import { StorageService } from '../../../../services/StorageService';
+import TcAccountActivityHeader from './TcAccountActivityHeader';
 
 jest.mock('../../../../services/StorageService');
 

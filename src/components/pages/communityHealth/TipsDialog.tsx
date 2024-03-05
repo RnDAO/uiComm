@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import React from 'react';
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
+import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 interface TipsDialogProps {
@@ -22,9 +22,9 @@ function TipsDialog({
   return (
     <Dialog
       open={isOpen}
-      maxWidth='md'
+      maxWidth="md"
       fullWidth
-      className='overflow-hidden'
+      className="overflow-hidden"
       sx={{
         '& .MuiDialog-container': {
           alignItems: 'flex-start',
@@ -37,17 +37,17 @@ function TipsDialog({
         },
       }}
     >
-      <DialogTitle className='flex items-center justify-between bg-secondary text-center text-white'>
-        <h4 className='text-base'>{headerText}</h4>
+      <DialogTitle className="flex justify-between items-center text-center bg-secondary text-white">
+        <h4 className="text-base">{headerText}</h4>
         <IoClose
           size={30}
           onClick={handleClose}
-          className='cursor-pointer'
-          data-testid='close-icon'
+          className="cursor-pointer"
+          data-testid="close-icon"
         />
       </DialogTitle>
       <DialogContent>
-        <div className='pb-4 text-center'>{children}</div>
+        <div className="text-center pb-4">{children}</div>
       </DialogContent>
     </Dialog>
   );
