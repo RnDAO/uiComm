@@ -3,6 +3,7 @@ import React, { createContext, useCallback, useContext, useState } from 'react';
 import useAppStore from '../store/useStore';
 
 export interface SubChannel {
+  type: number;
   channelId: string;
   name: string;
   parentId: string;
