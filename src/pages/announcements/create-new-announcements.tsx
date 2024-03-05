@@ -59,7 +59,7 @@ function CreateNewAnnouncements() {
   const [isDateValid, setIsDateValid] = useState<boolean>(true);
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) => platform.disconnectedAt === null,
   )?.id;
 
   const [publicAnnouncements, setPublicAnnouncements] =
@@ -160,7 +160,7 @@ function CreateNewAnnouncements() {
                       template: message,
                       options: {
                         channelIds: selectedChannels.map(
-                          (channel) => channel.id
+                          (channel) => channel.id,
                         ),
                       },
                     });
@@ -177,54 +177,6 @@ function CreateNewAnnouncements() {
                   />
                   <TcText text="Coming Soon..." variant="subtitle1" />
                 </div>
-                {/* <TcPrivateMessageContainer
-                  handlePrivateAnnouncements={({
-                    message,
-                    selectedUsers,
-                    selectedRoles,
-                  }) => {
-                    if (!platformId) return;
-
-                    const commonData = {
-                      platformId: platformId,
-                      template: message,
-                    };
-
-                    let privateAnnouncementsOptions: {
-                      roleIds: string[];
-                      userIds: string[];
-                    } = {
-                      roleIds: [],
-                      userIds: [],
-                    };
-
-                    if (selectedRoles && selectedRoles.length > 0) {
-                      setRoles(selectedRoles);
-                      privateAnnouncementsOptions.roleIds = selectedRoles.map(
-                        (role) => role.roleId.toString()
-                      );
-                    }
-
-                    if (selectedUsers && selectedUsers.length > 0) {
-                      setUsers(selectedUsers);
-                      privateAnnouncementsOptions.userIds = selectedUsers.map(
-                        (user) => user.discordId
-                      );
-                    }
-
-                    if (
-                      privateAnnouncementsOptions.roleIds.length > 0 ||
-                      privateAnnouncementsOptions.userIds.length > 0
-                    ) {
-                      const combinedPrivateAnnouncement = {
-                        ...commonData,
-                        options: privateAnnouncementsOptions,
-                      };
-
-                      setPrivateAnnouncements([combinedPrivateAnnouncement]);
-                    }
-                  }}
-                /> */}
               </div>
               <div className="flex flex-col md:flex-row justify-between items-center space-y-3 pt-6 md:pt-8">
                 <TcButton
