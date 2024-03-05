@@ -214,11 +214,13 @@ function TcPrivateMessageContainer({
   const [categoryError, setCategoryError] = useState<string>('');
   const [roleError, setRoleError] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
+  const [allTypeError, setAllTypeError] = useState<string>('');
 
   useEffect(() => {
     setCategoryError('');
     setRoleError('');
     setUserError('');
+    setAllTypeError('');
 
     if (messageType === MessageType.CategoryOnly) {
       if (selectedEngagementCategory.length === 0) {
@@ -232,6 +234,18 @@ function TcPrivateMessageContainer({
       if (selectedUsers.length === 0) {
         setUserError('Please select at least one user');
       }
+    }
+    if (messageType === MessageType.AllTypes) {
+      const isSelectionEmpty =
+        !selectedEngagementCategory.length &&
+        !selectedRoles.length &&
+        !selectedUsers.length;
+
+      setAllTypeError(
+        isSelectionEmpty
+          ? 'Please select at least one engagement category, role, or username.'
+          : ''
+      );
     }
   }, [messageType, selectedEngagementCategory, selectedRoles, selectedUsers]);
 
@@ -478,6 +492,9 @@ function TcPrivateMessageContainer({
               </FormHelperText>
             </FormControl>
           </div>
+          <FormHelperText>
+            {allTypeError && <div className='text-red-500'>{allTypeError}</div>}
+          </FormHelperText>
           <div>
             <TcText text='Write message here:' variant='subtitle1' />
             <TcText
