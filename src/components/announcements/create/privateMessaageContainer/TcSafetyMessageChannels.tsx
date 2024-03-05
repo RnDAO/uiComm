@@ -16,12 +16,14 @@ interface ITcSafetyMessageChannels {
   isEdit: boolean;
   defaultSaftyMessageChannels: string;
   handleSelectedSafetyMessageChannels: (channel: string) => void;
+  disableSubChannelsByAnnouncement?: boolean;
 }
 
 function TcSafetyMessageChannels({
   isEdit = false,
   defaultSaftyMessageChannels,
   handleSelectedSafetyMessageChannels,
+  disableSubChannelsByAnnouncement = true,
   ...props
 }: ITcSafetyMessageChannels) {
   const channelContext = useContext(ChannelContext);
@@ -70,6 +72,14 @@ function TcSafetyMessageChannels({
     }
   }, [isEdit]);
 
+  const showErrorMessage = (subChannel: ISubChannels) => {
+    return (disableSubChannelsByAnnouncement &&
+      !subChannel.announcementAccess) ||
+      subChannel.type !== 0
+      ? true
+      : false;
+  };
+
   return (
     <>
       <FormControl variant='filled' fullWidth size='medium'>
@@ -106,14 +116,14 @@ function TcSafetyMessageChannels({
                     key={subChannel.channelId}
                     onClick={() => handleSelectedChannels(subChannel)}
                     disabled={
-                      !subChannel.canReadMessageHistoryAndViewChannel ||
-                      !subChannel.announcementAccess
+                      (disableSubChannelsByAnnouncement &&
+                        !subChannel.announcementAccess) ||
+                      subChannel.type !== 0
                     }
                   >
                     <div className='flex w-full justify-between'>
                       {subChannel.name}
-                      {!subChannel.canReadMessageHistoryAndViewChannel ||
-                      !subChannel.announcementAccess ? (
+                      {showErrorMessage(subChannel) ? (
                         <div className='flex items-center space-x-1'>
                           <BiError className='text-error-500' />
                           <TcText
@@ -121,7 +131,9 @@ function TcSafetyMessageChannels({
                             text='Bot needs access'
                           />
                         </div>
-                      ) : null}
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </MenuItem>
                 ))}
