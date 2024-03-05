@@ -1,5 +1,6 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+
 import TcPublicMessagePreviewDialog from './TcPublicMessagePreviewDialog';
 
 describe('TcPublicMessagePreviewDialog', () => {
@@ -73,7 +74,7 @@ describe('TcPublicMessagePreviewDialog', () => {
   it('preview button is disabled when isPreviewDialogEnabled is false', () => {
     render(
       <TcPublicMessagePreviewDialog
-        textMessage="Sample Message"
+        textMessage='Sample Message'
         isPreviewDialogEnabled={false}
       />
     );

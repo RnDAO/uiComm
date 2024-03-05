@@ -1,10 +1,11 @@
 import { ClickAwayListener, Tooltip } from '@mui/material';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
-import { RxArrowTopRight, RxArrowBottomRight } from 'react-icons/rx';
-import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { StatisticsProps } from '../../../utils/interfaces';
 import router from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { RxArrowBottomRight, RxArrowTopRight } from 'react-icons/rx';
+
+import { StatisticsProps } from '../../../utils/interfaces';
 
 type StatisticalDataProps = {
   statistics: StatisticsProps[];
@@ -68,22 +69,22 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
     <>
       <div
         className={clsx(
-          'flex flex-row my-1 space-x-1',
+          'my-1 flex flex-row space-x-1',
           statistics.length > 3 ? 'justify-between' : 'justify-start'
         )}
       >
         {statistics.map((stat, index) => (
           <div
             className={clsx(
-              'flex flex-col flex-1 text-center justify-center relative rounded-2xl',
+              'relative flex flex-1 flex-col justify-center rounded-2xl text-center',
               stat.description
-                ? 'min-w-full h-[200px] md:min-w-[100px] xl:min-w-[220px] md:max-w-[280px] md:h-[200px]'
-                : 'min-w-full h-[170px] md:min-w-[100px] xl:min-w-[280px] md:max-w-[280px] md:h-[180px]',
+                ? 'h-[200px] min-w-full md:h-[200px] md:min-w-[100px] md:max-w-[280px] xl:min-w-[220px]'
+                : 'h-[170px] min-w-full md:h-[180px] md:min-w-[100px] md:max-w-[280px] xl:min-w-[280px]',
               stat.customBackground || stat.label === activeState
                 ? 'bg-gray-hover'
                 : '',
               ableToFilter
-                ? 'hover:bg-gray-background ease-in delay-75 cursor-pointer'
+                ? 'cursor-pointer delay-75 ease-in hover:bg-gray-background'
                 : ''
             )}
             onClick={() => {
@@ -95,45 +96,45 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
           >
             <span
               className={clsx(
-                'absolute top-0 right-0 px-2 py-1 m-2 flex items-center justify-center rounded-md text-white text-xs z-10',
+                'absolute top-0 right-0 z-10 m-2 flex items-center justify-center rounded-md px-2 py-1 text-xs text-white',
                 stat.percentageChange >= 0 ? ' bg-purple-light' : 'bg-black'
               )}
             >
               {stat.percentageChange > 0 ? (
-                <RxArrowTopRight size={'15px'} />
+                <RxArrowTopRight size='15px' />
               ) : stat.percentageChange < 0 ? (
-                <RxArrowBottomRight size={'15px'} />
+                <RxArrowBottomRight size='15px' />
               ) : (
                 ''
               )}{' '}
-              <span className="pt-0.5">
+              <span className='pt-0.5'>
                 {typeof stat?.percentageChange === 'number'
                   ? stat?.percentageChange.toFixed(0) + '%'
                   : stat?.percentageChange}
               </span>
             </span>
-            <span className="text-4xl font-bold pb-1">{stat.value ?? 0}</span>
-            <div className="flex items-center justify-center">
+            <span className='pb-1 text-4xl font-bold'>{stat.value ?? 0}</span>
+            <div className='flex items-center justify-center'>
               <div
                 className={clsx(
-                  'rounded-full w-3.5 h-3.5 mr-2',
+                  'mr-2 h-3.5 w-3.5 rounded-full',
                   stat.colorBadge
                 )}
               />
-              <span className="text-base flex items-center">
+              <span className='flex items-center text-base'>
                 {stat.label}
                 {stat.hasTooltip && (
                   <ClickAwayListener onClickAway={handleTooltipClose}>
                     <Tooltip
                       title={stat.tooltipText}
                       arrow
-                      placement="bottom"
+                      placement='bottom'
                       enterTouchDelay={0}
                     >
                       <span onClick={handleTooltipOpen}>
                         <AiOutlineExclamationCircle
-                          size={'18px'}
-                          className="mx-auto ml-1"
+                          size='18px'
+                          className='mx-auto ml-1'
                         />
                       </span>
                     </Tooltip>
@@ -142,7 +143,7 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
               </span>
             </div>
             {stat.description && (
-              <span className="text-sm text-center text-gray-custom px-5 pt-2">
+              <span className='px-5 pt-2 text-center text-sm text-gray-custom'>
                 {stat.description}
               </span>
             )}
@@ -152,14 +153,14 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
       {hideInformationText ? (
         ''
       ) : (
-        <div className="flex flex-row space-x-3 items-center mt-3 mb-12">
-          <div className=" flex flex-row justify-center  items-center bg-purple-light text-white rounded w-12">
-            <RxArrowTopRight size={'18px'} /> %
+        <div className='mt-3 mb-12 flex flex-row items-center space-x-3'>
+          <div className=' flex w-12 flex-row  items-center justify-center rounded bg-purple-light text-white'>
+            <RxArrowTopRight size='18px' /> %
           </div>
-          <div className=" flex flex-row justify-center  items-center bg-gray-custom text-white rounded w-12">
-            <RxArrowBottomRight size={'18px'} /> %
+          <div className=' flex w-12 flex-row  items-center justify-center rounded bg-gray-custom text-white'>
+            <RxArrowBottomRight size='18px' /> %
           </div>
-          <p className="text-sm">% compared to the last week</p>
+          <p className='text-sm'>% compared to the last week</p>
         </div>
       )}
     </>

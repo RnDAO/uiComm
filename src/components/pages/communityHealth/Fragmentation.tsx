@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import GaugeChart from '../../global/GaugeChart';
+import { Paper } from '@mui/material';
 import Highcharts from 'highcharts/highcharts.js';
 import highchartsMore from 'highcharts/highcharts-more.js';
 import solidGauge from 'highcharts/modules/solid-gauge.js';
 import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { HiOutlineArrowRight } from 'react-icons/hi';
+
+import CommunityStatusShower from './CommunityStatusShower';
+import TipsDialog from './TipsDialog';
+import GaugeChart from '../../global/GaugeChart';
 import enmeshed from '../../../assets/svg/enmeshed.svg';
 import fragmented from '../../../assets/svg/fragmented.svg';
-import { Paper } from '@mui/material';
-import CommunityStatusShower from './CommunityStatusShower';
 import { IFragmentationScoreResponse } from '../../../utils/interfaces';
-import TipsDialog from './TipsDialog';
-import { HiOutlineArrowRight } from 'react-icons/hi';
-import { FiAlertTriangle } from 'react-icons/fi';
 
 // Initialize the Highcharts networkgraph module
 if (typeof Highcharts === 'object') {
@@ -154,23 +155,23 @@ function Fragmentation({ scoreData }: FragmentationProps) {
 
   return (
     <>
-      <Paper className="px-4 md:px-8 py-6 rounded-xl shadow-box space-y-4">
-        <h3 className="text-lg font-semibold text-lite-black">Fragmentation</h3>
-        <div className="flex flex-col md:flex-row md:justify-start space-y-8 md:space-x-12">
-          <div className="bg-gray-hover md:w-1/3 rounded-xl overflow-hidden md:mr-12">
-            <p className="text-sm px-4 p-2">Your community</p>
+      <Paper className='space-y-4 rounded-xl px-4 py-6 shadow-box md:px-8'>
+        <h3 className='text-lg font-semibold text-lite-black'>Fragmentation</h3>
+        <div className='flex flex-col space-y-8 md:flex-row md:justify-start md:space-x-12'>
+          <div className='overflow-hidden rounded-xl bg-gray-hover md:mr-12 md:w-1/3'>
+            <p className='p-2 px-4 text-sm'>Your community</p>
             {!scoreData?.fragmentationScore ? (
-              <div className="flex flex-col text-center space-y-7 min-h-[320px] px-4 md:px-2">
-                <div className="mt-16">
+              <div className='flex min-h-[320px] flex-col space-y-7 px-4 text-center md:px-2'>
+                <div className='mt-16'>
                   <FiAlertTriangle
-                    className="text-error-600 mx-auto"
+                    className='mx-auto text-error-600'
                     size={25}
                   />
-                  <p className="text-error-600 text-sm font-semibold pt-4">
+                  <p className='pt-4 text-sm font-semibold text-error-600'>
                     No data available
                   </p>
                 </div>
-                <span className="text-sm">
+                <span className='text-sm'>
                   Please ensure that your Discord connection is properly
                   established and that the data period and channels are
                   selected.
@@ -187,27 +188,27 @@ function Fragmentation({ scoreData }: FragmentationProps) {
               </>
             )}
           </div>
-          <div className="md:w-1/2 space-y-12">
-            <p className="text-sm">
+          <div className='space-y-12 md:w-1/2'>
+            <p className='text-sm'>
               Shows how much members are divided into informal cliques as a
               continuum between:
             </p>
-            <div className="flex items-start md:items-center space-x-3 md:space-x-6">
-              <Image src={enmeshed} alt="enmeshed" />
+            <div className='flex items-start space-x-3 md:items-center md:space-x-6'>
+              <Image src={enmeshed} alt='enmeshed' />
               <div>
-                <h4 className="font-semibold">Too enmeshed</h4>
-                <p className="text-sm">
+                <h4 className='font-semibold'>Too enmeshed</h4>
+                <p className='text-sm'>
                   The community is too dense and monolithic. It feels noisy and
                   overwhelming. Likely, similar tasks and topics are discussed
                   by different groups with overlapping membership.
                 </p>
               </div>
             </div>
-            <div className="flex items-start md:items-center space-x-3 md:space-x-6">
-              <Image src={fragmented} alt="fragmented" />
+            <div className='flex items-start space-x-3 md:items-center md:space-x-6'>
+              <Image src={fragmented} alt='fragmented' />
               <div>
-                <h4 className="font-semibold">Too fragmented</h4>
-                <p className="text-sm">
+                <h4 className='font-semibold'>Too fragmented</h4>
+                <p className='text-sm'>
                   The community is very divided. It no longer feels like one
                   community but rather multiple, smaller disconnected siloes.
                   This leads to a lack of collaboration and, if not addressed,
@@ -230,14 +231,14 @@ function Fragmentation({ scoreData }: FragmentationProps) {
         <>
           {scoreData?.scoreStatus === 1 || scoreData?.scoreStatus === 2 ? (
             <>
-              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
-                <Image src={fragmented} alt="fragmented" />
+              <div className='flex items-center justify-center space-x-4 pt-8 pb-4'>
+                <Image src={fragmented} alt='fragmented' />
                 <HiOutlineArrowRight size={24} />
-                <Image src={enmeshed} alt="enmeshed" />
+                <Image src={enmeshed} alt='enmeshed' />
               </div>
-              <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
+              <ul className='leading-2 list-disc space-y-5 p-4 text-justify text-sm'>
                 {fragmentedTips.map((tip, index) => (
-                  <li key={index} className="list-disc ml-4">
+                  <li key={index} className='ml-4 list-disc'>
                     {tip}
                   </li>
                 ))}
@@ -245,14 +246,14 @@ function Fragmentation({ scoreData }: FragmentationProps) {
             </>
           ) : (
             <>
-              <div className="flex items-center justify-center space-x-4 pt-8 pb-4">
-                <Image src={enmeshed} alt="enmeshed" />
+              <div className='flex items-center justify-center space-x-4 pt-8 pb-4'>
+                <Image src={enmeshed} alt='enmeshed' />
                 <HiOutlineArrowRight size={24} />
-                <Image src={fragmented} alt="fragmented" />
+                <Image src={fragmented} alt='fragmented' />
               </div>
-              <ul className="text-sm text-justify list-disc p-4 leading-2 space-y-5">
+              <ul className='leading-2 list-disc space-y-5 p-4 text-justify text-sm'>
                 {enmeshedTips.map((tip, index) => (
-                  <li key={index} className="list-disc ml-4">
+                  <li key={index} className='ml-4 list-disc'>
                     {tip}
                   </li>
                 ))}

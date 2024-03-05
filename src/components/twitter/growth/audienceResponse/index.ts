@@ -1,1 +1,3 @@
-import { default as TcYourAccountActivity } from './TcAudienceResponse';
+import { default as TcAudienceResponse } from './TcAudienceResponse';
+
+export default { TcAudienceResponse };

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import TcButtonGroup from '../../shared/TcButtonGroup';
-import TcButton from '../../shared/TcButton';
 import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
+
+import TcButton from '../../shared/TcButton';
+import TcButtonGroup from '../../shared/TcButtonGroup';
 
 type PeriodValue = 'Last 35 days' | '1M' | '3M' | '6M' | '1Y';
 

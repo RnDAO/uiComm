@@ -1,3 +1,5 @@
+import { CreateAnnouncementsPayload } from '../../pages/announcements/create-new-announcements';
+
 export interface IRetrieveAnnouncementsProps {
   page: number;
   limit: number;
@@ -8,6 +10,11 @@ export interface IRetrieveAnnouncementsProps {
   timeZone: string;
 }
 
+export interface IPatchExistingAnnouncementsProps {
+  announcementPayload: CreateAnnouncementsPayload;
+  id: string;
+}
+
 export default interface IAnnouncements {
   retrieveAnnouncements: ({
     page,
@@ -15,4 +22,14 @@ export default interface IAnnouncements {
     sortBy,
     community,
   }: IRetrieveAnnouncementsProps) => void;
+  retrieveAnnouncementById: (id: string) => void;
+  createNewAnnouncements: (
+    announcementPayload: CreateAnnouncementsPayload
+  ) => void;
+  patchExistingAnnouncement: ({
+    announcementPayload,
+    id,
+  }: IPatchExistingAnnouncementsProps) => void;
+  deleteAnnouncements: (id: string) => void;
+  retrieveCategories: () => void;
 }

@@ -1,11 +1,12 @@
 import React from 'react';
+import { BsPlus } from 'react-icons/bs';
+
+import TcIntegrationIcon from './TcIntegrationIcon';
 import TcIntegrationCard from '../TcIntegrationCard';
 import TcButton from '../../shared/TcButton';
-import { BsPlus } from 'react-icons/bs';
 import TcText from '../../shared/TcText';
-import TcIntegrationIcon from './TcIntegrationIcon';
-import { IntegrationPlatform } from '../../../utils/enums';
 import useAppStore from '../../../store/useStore';
+import { IntegrationPlatform } from '../../../utils/enums';
 
 interface ITcAvailableIntegrationsItemProps {
   integrationPlatform: IntegrationPlatform;
@@ -24,25 +25,25 @@ function TcAvailableIntegrationsItem({
 
   return (
     <div
-      data-testid="integration-item"
+      data-testid='integration-item'
       data-platform={integrationPlatform}
-      className="relative"
+      className='relative'
     >
       <TcIntegrationCard>
-        <div className="pt-4 px-2 text-center space-y-4">
-          <TcText text={integrationPlatform} variant="body1" />
-          <div className="flex justify-center">
+        <div className='space-y-4 px-2 pt-4 text-center'>
+          <TcText text={integrationPlatform} variant='body1' />
+          <div className='flex justify-center'>
             <TcIntegrationIcon
               platform={integrationPlatform}
               size={34}
-              data-testid="integration-icon"
+              data-testid='integration-icon'
             />
           </div>
           <TcButton
-            text="Connect"
+            text='Connect'
             startIcon={<BsPlus />}
-            className="max-w-full"
-            size="small"
+            className='max-w-full'
+            size='small'
             onClick={() => integratePlatform()}
           />
         </div>
@@ -50,8 +51,8 @@ function TcAvailableIntegrationsItem({
 
       {disabled && (
         <div
-          className="absolute inset-0 bg-gray-50 opacity-30"
-          aria-hidden="true"
+          className='absolute inset-0 bg-gray-50 opacity-30'
+          aria-hidden='true'
         />
       )}
     </div>

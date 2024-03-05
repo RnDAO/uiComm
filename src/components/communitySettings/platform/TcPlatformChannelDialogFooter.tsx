@@ -7,22 +7,22 @@ function TcPlatformChannelDialogFooter() {
     <div>
       <Accordion disableGutters defaultExpanded={true} elevation={0}>
         <AccordionSummary
-          expandIcon={<MdExpandMore color="#37474F" size={25} fill="#37474F" />}
+          expandIcon={<MdExpandMore color='#37474F' size={25} fill='#37474F' />}
         >
-          <p className="font-semibold text-md">
+          <p className='text-md font-semibold'>
             How to give access to the channel you want to import?
           </p>
         </AccordionSummary>
         <AccordionDetails>
-          <div className="pl-1 pr-4 text-left">
-            <ol className="list-decimal text-sm pl-4">
+          <div className='pl-1 pr-4 text-left'>
+            <ol className='list-decimal pl-4 text-sm'>
               <li>
                 Navigate to the channel you want to import on{' '}
                 <a
-                  href="https://discord.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-secondary font-semibold cursor-pointer"
+                  href='https://discord.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='cursor-pointer font-semibold text-secondary'
                 >
                   Discord
                 </a>

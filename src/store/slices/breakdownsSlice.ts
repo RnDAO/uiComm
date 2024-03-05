@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
-import { axiosInstance } from '../../axiosInstance';
+
 import IBreakdown from '../types/IBreakdown';
+import { axiosInstance } from '../../axiosInstance';
 import { IRolesPayload } from '../../components/pages/statistics/memberBreakdowns/CustomTable';
 
 const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({

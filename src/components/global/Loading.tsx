@@ -15,7 +15,7 @@ function Loading({ height = '10rem', size = 40 }: LoadingProps) {
         height,
       }}
     >
-      <CircularProgress color="secondary" size={size} />
+      <CircularProgress color='secondary' size={size} />
     </Box>
   );
 }

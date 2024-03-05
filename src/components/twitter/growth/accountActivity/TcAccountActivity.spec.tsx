@@ -1,22 +1,21 @@
-import React from 'react';
 import { render } from '@testing-library/react';
-import TcAccountActivity from './TcAccountActivity';
-import TcAccountActivityHeader from './TcAccountActivityHeader';
-import TcAccountActivityContent from './TcAccountActivityContent';
+import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
+
+import TcAccountActivity from './TcAccountActivity';
 
 // Mocking the child components to check only if they're rendered
 jest.mock('./TcAccountActivityHeader', () => {
   return {
     __esModule: true,
-    default: jest.fn(() => <div data-testid="header-mock" />),
+    default: jest.fn(() => <div data-testid='header-mock' />),
   };
 });
 
 jest.mock('./TcAccountActivityContent', () => {
   return {
     __esModule: true,
-    default: jest.fn(() => <div data-testid="content-mock" />),
+    default: jest.fn(() => <div data-testid='content-mock' />),
   };
 });
 

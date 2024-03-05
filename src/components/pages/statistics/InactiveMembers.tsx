@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import useAppStore from '../../../store/useStore';
-import LineGraph from '../../global/LineGraph';
-import StatisticalData from './StatisticalData';
 import { FiCalendar } from 'react-icons/fi';
-import RangeSelect from '../../global/RangeSelect';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+
+import StatisticalData from './StatisticalData';
+import LineGraph from '../../global/LineGraph';
 import Loading from '../../global/Loading';
+import RangeSelect from '../../global/RangeSelect';
+import { communityActiveDates } from '../../../lib/data/dateRangeValues';
+import useAppStore from '../../../store/useStore';
+import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface InactiveMembersProps {
   activePeriod: number;
@@ -111,17 +112,17 @@ export default function InactiveMembers({
 
   return (
     <>
-      <div className="flex flex-row justify-between">
-        <h3 className="text-xl font-medium text-lite-black">
+      <div className='flex flex-row justify-between'>
+        <h3 className='text-xl font-medium text-lite-black'>
           Inactive members
         </h3>
       </div>
-      <div className="overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+      <div className='overflow-y-hidden overflow-x-scroll md:overflow-hidden'>
         <StatisticalData statistics={[...statistics]} />
       </div>
-      <div className="w-full">
-        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row justify-between items-center pb-4">
-          <h3 className="text-xl font-medium text-lite-black">
+      <div className='w-full'>
+        <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>
+          <h3 className='text-xl font-medium text-lite-black'>
             Returned members over time
           </h3>
           <RangeSelect
@@ -133,7 +134,7 @@ export default function InactiveMembers({
         </div>
       </div>
       {inactiveMembersLoading ? (
-        <Loading height="400px" />
+        <Loading height='400px' />
       ) : (
         <LineGraph options={options} />
       )}

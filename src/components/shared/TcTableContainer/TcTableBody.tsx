@@ -1,5 +1,6 @@
-import React from 'react';
 import { TableBody, TableBodyProps } from '@mui/material';
+import React from 'react';
+
 import TcTableRow from './TcTableRow';
 
 interface ITcTableBodyProps extends TableBodyProps {
@@ -25,7 +26,7 @@ function TcTableBody({ rowItems, ...props }: ITcTableBodyProps) {
         <TcTableRow
           key={index}
           rowItem={row}
-          className={`my-5 no-border h-16 ${
+          className={`no-border my-5 h-16 ${
             index % 2 === 0 ? 'bg-gray-100' : ''
           }`}
         />
