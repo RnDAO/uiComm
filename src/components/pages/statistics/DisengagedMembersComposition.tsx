@@ -97,7 +97,7 @@ export default function DisengagedMembersComposition({
         } else if (disengagedMember.name === 'wereConsistentlyActive') {
           return {
             ...disengagedMember,
-            name: 'Were Consistently Active',
+            name: 'Were consistenly active',
             color: '#804EE1',
           };
         } else if (disengagedMember.name === 'wereVitalMembers') {
@@ -153,7 +153,7 @@ export default function DisengagedMembersComposition({
         ),
       },
       {
-        label: 'Were Consistently Active',
+        label: 'Were consistenly active',
         description:
           'Were interacting every week for at least 3 out of the last 4 weeks',
         percentageChange:
@@ -166,7 +166,7 @@ export default function DisengagedMembersComposition({
       },
       {
         label: 'Were Vital Members',
-        description: 'Were consistently active and very connected',
+        description: 'Were consistenly active and very connected',
         percentageChange: disengagedMembers.wereVitalMembersPercentageChange
           ? disengagedMembers.wereVitalMembersPercentageChange
           : 0,
