@@ -1,7 +1,6 @@
-import { ReactElement, SyntheticEvent, useState } from 'react';
-import Tab from '@mui/material/Tab';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import { ReactElement, SyntheticEvent } from 'react';
 
 interface ICustomTab {
   activeTab: string;
@@ -23,7 +22,7 @@ function CustomTab({
       <TabContext value={activeTab}>
         <TabList
           onChange={onTabChange}
-          aria-label="custom tabs"
+          aria-label='custom tabs'
           sx={{
             display: 'flex',
             flexWrap: 'wrap',

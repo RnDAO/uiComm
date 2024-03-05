@@ -1,5 +1,6 @@
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+
 import TcTimeZone from './TcTimeZone';
 
 test('should handle zone selection', async () => {

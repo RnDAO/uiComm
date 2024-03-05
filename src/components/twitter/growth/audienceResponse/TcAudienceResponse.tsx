@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import TcAudienceResponseHeader from './TcAudienceResponseHeader';
+
 import TcAudienceResponseContent from './TcAudienceResponseContent';
+import TcAudienceResponseHeader from './TcAudienceResponseHeader';
 import { capitalizeFirstChar } from '../../../../helpers/helper';
 import { IAudience } from '../../../../utils/interfaces';
 interface ITcAudienceResponseProps {
@@ -33,7 +34,7 @@ function TcAudienceResponse({ audience }: ITcAudienceResponseProps) {
   }, [audience]);
 
   return (
-    <div className="space-y-3">
+    <div className='space-y-3'>
       <TcAudienceResponseHeader />
       <TcAudienceResponseContent data={audienceResponseList} />
     </div>

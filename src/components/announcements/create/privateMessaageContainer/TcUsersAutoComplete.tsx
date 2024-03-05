@@ -1,13 +1,14 @@
+import { Chip, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
+import { conf } from '../../../../configs';
 import { useToken } from '../../../../context/TokenContext';
+import { debounce, truncateCenter } from '../../../../helpers/helper';
 import useAppStore from '../../../../store/useStore';
 import { FetchedData, IUser } from '../../../../utils/interfaces';
-import { debounce, truncateCenter } from '../../../../helpers/helper';
 import TcAutocomplete from '../../../shared/TcAutocomplete';
-import { Chip, CircularProgress } from '@mui/material';
 import TcAvatar from '../../../shared/TcAvatar';
 import TcText from '../../../shared/TcText';
-import { conf } from '../../../../configs';
 
 interface ITcUsersAutoCompleteProps {
   isEdit?: boolean;
@@ -161,11 +162,11 @@ function TcUsersAutoComplete({
     <TcAutocomplete
       options={fetchedUsers.results}
       getOptionLabel={(option) => option.ngu}
-      label={'Select User(s)'}
+      label='Select User(s)'
       multiple={true}
       loading={isLoading}
       loadingText={
-        <div className="text-center">
+        <div className='text-center'>
           <CircularProgress size={24} />
         </div>
       }
@@ -185,7 +186,7 @@ function TcUsersAutoComplete({
       disableCloseOnSelect
       renderOption={(props, option) => (
         <li {...props} key={option.discordId}>
-          <div className="flex items-center space-x-2">
+          <div className='flex items-center space-x-2'>
             <TcAvatar
               sx={{ height: '28px', width: '28px' }}
               src={
@@ -193,14 +194,14 @@ function TcUsersAutoComplete({
                   ? `${conf.DISCORD_CDN}avatars/${option.discordId}/${option?.avatar}.png`
                   : ''
               }
-              alt="User Avatar"
+              alt='User Avatar'
             />
             <TcText text={option.ngu} />
             <TcText
               text={`${
                 option.username ? '@' + truncateCenter(option.username, 10) : ''
               }`}
-              className="text-gray-500"
+              className='text-gray-500'
             />
           </div>
         </li>
@@ -208,9 +209,9 @@ function TcUsersAutoComplete({
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip
-            variant="outlined"
+            variant='outlined'
             label={
-              <div className="flex items-center space-x-1">
+              <div className='flex items-center space-x-1'>
                 <div>
                   <span
                     style={{
@@ -222,7 +223,7 @@ function TcUsersAutoComplete({
                       marginRight: '5px',
                     }}
                   />
-                  <TcText text={option.ngu} variant="caption" />
+                  <TcText text={option.ngu} variant='caption' />
                 </div>
                 <TcText
                   text={`${
@@ -230,12 +231,12 @@ function TcUsersAutoComplete({
                       ? '@' + truncateCenter(option.username, 10)
                       : ''
                   }`}
-                  variant="caption"
-                  className="text-gray-500"
+                  variant='caption'
+                  className='text-gray-500'
                 />
               </div>
             }
-            size="small"
+            size='small'
             sx={{
               borderRadius: '4px',
               borderColor: '#D1D1D1',

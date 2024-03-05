@@ -27,10 +27,10 @@
  * @returns {JSX.Element} Rendered Checkbox component.
  */
 
-import React from 'react';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import React from 'react';
 
-interface ITcCheckboxProps extends CheckboxProps {}
+type ITcCheckboxProps = CheckboxProps;
 
 function TcCheckbox({ ...props }: ITcCheckboxProps) {
   return <Checkbox {...props} />;

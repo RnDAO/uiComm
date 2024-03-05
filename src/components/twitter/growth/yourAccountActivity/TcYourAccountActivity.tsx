@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import TcYourAccountActivityHeader from './TcYourAccountActivityHeader';
+import React, { useEffect, useState } from 'react';
+
 import TcYourAccountActivityContent from './TcYourAccountActivityContent';
-import { IActivity } from '../../../../utils/interfaces';
+import TcYourAccountActivityHeader from './TcYourAccountActivityHeader';
 import { capitalizeFirstChar } from '../../../../helpers/helper';
+import { IActivity } from '../../../../utils/interfaces';
 
 interface IAccountActivityItem {
   description: string;
@@ -39,7 +40,7 @@ function TcYourAccountActivity({ activity }: ITcYourAccountActivityProps) {
   }, [activity]);
 
   return (
-    <div className="space-y-3">
+    <div className='space-y-3'>
       <TcYourAccountActivityHeader />
       <TcYourAccountActivityContent data={yourAccountActivityList} />
     </div>

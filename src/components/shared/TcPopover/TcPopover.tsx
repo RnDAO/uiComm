@@ -19,8 +19,8 @@
  * />
  */
 
-import React from 'react';
 import { Popover, PopoverProps } from '@mui/material';
+import React from 'react';
 
 interface TcPopoverProps extends PopoverProps {
   open: boolean;

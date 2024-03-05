@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { extractUrlParams } from '../helpers/helper';
-import { StatusCode } from '../utils/enums';
+import React, { useEffect, useState } from 'react';
+
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { extractUrlParams } from '../helpers/helper';
 import { StorageService } from '../services/StorageService';
 import { IRetrieveCommunitiesProps } from '../store/types/ICentric';
 import useAppStore from '../store/useStore';
+import { StatusCode } from '../utils/enums';
 import { ICommunity, metaData } from '../utils/interfaces';
 
 export type CommunityWithoutAvatar = Omit<ICommunity, 'avatarURL'>;
@@ -62,7 +63,7 @@ function Callback() {
       return;
     }
 
-    let metadata: metaData = {
+    const metadata: metaData = {
       id: params.id,
     };
 
@@ -176,7 +177,7 @@ function Callback() {
     }
   }, [router.isReady]);
 
-  return <SimpleBackdrop data-testid="loading-backdrop" />;
+  return <SimpleBackdrop data-testid='loading-backdrop' />;
 }
 
 export default Callback;

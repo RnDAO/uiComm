@@ -1,22 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
-import useAppStore from '../../../../../store/useStore';
+import { Button } from '@mui/material';
+import clsx from 'clsx';
+import router from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { BsFiletypeCsv } from 'react-icons/bs';
+
+import CustomPagination from '../CustomPagination';
 import CustomTable, { IRolesPayload } from '../CustomTable';
+import { useToken } from '../../../../../context/TokenContext';
+import {
+  convertToCSV,
+  downloadCSVFile,
+} from '../../../../../helpers/csvHelper';
+import useAppStore from '../../../../../store/useStore';
 import {
   Column,
   FetchedData,
   IActivityCompositionOptions,
 } from '../../../../../utils/interfaces';
-import CustomPagination from '../CustomPagination';
-import CustomButton from '../../../../global/CustomButton';
-import clsx from 'clsx';
-import { Button } from '@mui/material';
-import { BsFiletypeCsv } from 'react-icons/bs';
-import {
-  convertToCSV,
-  downloadCSVFile,
-} from '../../../../../helpers/csvHelper';
-import router from 'next/router';
-import { useToken } from '../../../../../context/TokenContext';
+import TcButton from '../../../../shared/TcButton';
 
 const columns: Column[] = [
   { id: 'username', label: 'Name' },
@@ -33,7 +34,7 @@ const options: IActivityCompositionOptions[] = [
     color: '#FF9022',
   },
   {
-    name: 'Were consistently active',
+    name: 'Were consistenly active',
     value: 'all_disengaged_were_consistently_active',
     color: '#804EE1',
   },
@@ -189,20 +190,20 @@ export default function DisengagedMembersCompositionBreakdown() {
 
   return (
     <>
-      <div className="relative overflow-x-scroll md:overflow-hidden mb-1 md:mb-1">
-        <div className="flex justify-between items-start">
+      <div className='relative mb-1 overflow-x-scroll md:mb-1 md:overflow-hidden'>
+        <div className='flex items-start justify-between'>
           <h3
-            className="text-xl font-medium text-lite-black md:mb-4"
+            className='text-xl font-medium text-lite-black md:mb-4'
             ref={tableTopRef}
           >
             Members breakdown
           </h3>
           <Button
             startIcon={<BsFiletypeCsv />}
-            size="small"
-            variant="outlined"
+            size='small'
+            variant='outlined'
             sx={{ minWidth: '64px', padding: '0.4rem 1rem' }}
-            className="border-black text-black"
+            className='border-black text-black'
             disableElevation
             onClick={handleDownloadCSV}
           >
@@ -216,7 +217,7 @@ export default function DisengagedMembersCompositionBreakdown() {
           )}
         >
           {!isExpanded && (
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-50 pointer-events-none"></div>
+            <div className='pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 opacity-50'></div>
           )}
 
           <CustomTable
@@ -230,11 +231,11 @@ export default function DisengagedMembersCompositionBreakdown() {
             handleUsernameChange={handleUsernameChange}
             isLoading={loading}
             activityCompositionOptions={options}
-            breakdownName="disengagedMemberComposition"
+            breakdownName='disengagedMemberComposition'
           />
         </div>
       </div>
-      <div className={clsx(!isExpanded ? 'hidden' : 'flex justify-end mb-8')}>
+      <div className={clsx(!isExpanded ? 'hidden' : 'mb-8 flex justify-end')}>
         {fetchedData?.totalResults > 10 && (
           <CustomPagination
             totalItems={fetchedData.totalResults}
@@ -247,13 +248,13 @@ export default function DisengagedMembersCompositionBreakdown() {
         )}
       </div>
       {fetchedData && fetchedData?.totalResults > 3 ? (
-        <div className="flex justify-center mt-2 mb-12">
-          <CustomButton
-            label={isExpanded ? 'Show less' : 'Show member breakdown'}
-            classes={'text-black'}
-            variant="outlined"
+        <div className='mt-2 mb-12 flex justify-center'>
+          <TcButton
+            text={isExpanded ? 'Show less' : 'Show member breakdown'}
+            variant='outlined'
             disabled={fetchedData?.totalResults === 0}
             onClick={handleButtonClick}
+            className='min-w-[14rem] py-2'
           />
         </div>
       ) : (

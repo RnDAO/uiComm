@@ -1,7 +1,8 @@
 import React from 'react';
+
 import TcCard from '../../../shared/TcCard';
-import TcText from '../../../shared/TcText';
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';
+import TcText from '../../../shared/TcText';
 
 interface ITcAccountActivityContentProps {
   activityList: {
@@ -15,24 +16,24 @@ function TcAccountActivityContent({
   activityList,
 }: ITcAccountActivityContentProps) {
   return (
-    <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
+    <div className='flex flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-4'>
       {activityList &&
         activityList.map((el, index) => (
           <TcCard
             key={index}
             elevation={0}
-            className="py-4 px-6 bg-gray-hover min-w-[250px] min-h-[6rem] md:min-h-auto"
+            className='md:min-h-auto min-h-[6rem] min-w-[250px] bg-gray-hover py-4 px-6'
             children={
-              <div className="text-center flex flex-col space-y-1">
-                <TcText text={el.value} variant={'h4'} fontWeight="bold" />
+              <div className='flex flex-col space-y-1 text-center'>
+                <TcText text={el.value} variant='h4' fontWeight='bold' />
                 <TcText
                   text={el.description}
-                  variant={'body2'}
-                  className="text-gray-subtitle"
+                  variant='body2'
+                  className='text-gray-subtitle'
                 />
-                <div className="flex justify-center cursor-pointer">
+                <div className='flex cursor-pointer justify-center'>
                   {el.hasTooltipInfo ? (
-                    <TcIconWithTooltip tooltipText="Followers and non-followers" />
+                    <TcIconWithTooltip tooltipText='Followers and non-followers' />
                   ) : (
                     ''
                   )}
