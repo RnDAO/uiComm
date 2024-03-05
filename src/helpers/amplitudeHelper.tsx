@@ -1,25 +1,25 @@
 import * as amplitude from '@amplitude/analytics-browser';
 import jwt_decode from 'jwt-decode';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
 import { StorageService } from '../services/StorageService';
 import {
-  IDecodedToken,
   IDiscordModifiedCommunity,
   ITrackEventParams,
 } from '../utils/interfaces';
-import { IUser } from '../utils/types';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { IToken } from '../utils/types';
 
 export const setAmplitudeUserIdFromToken = () => {
-  const user: IUser | undefined =
-    StorageService.readLocalStorage<IUser>('user');
+  const token: IToken | undefined =
+    StorageService.readLocalStorage<IToken>('user');
 
-  const decodedToken = user?.token?.accessToken
-    ? jwt_decode<IDecodedToken>(user.token.accessToken)
+  const decodedToken = token?.accessToken
+    ? jwt_decode<any>(token.accessToken)
     : null;
 
   if (decodedToken?.sub) {
-    amplitude.setUserId(decodedToken.sub);
+    amplitude.setUserId(decodedToken.sub?.id);
   }
 };
 
