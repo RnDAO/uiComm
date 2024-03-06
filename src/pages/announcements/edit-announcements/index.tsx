@@ -183,6 +183,33 @@ function Index() {
     }
   };
 
+  const isPayloadValid = () => {
+    if (!privateAnnouncements || privateAnnouncements.length === 0) {
+      return !!publicAnnouncements?.template;
+    }
+
+    const options = privateAnnouncements[0].options;
+
+    if (!options) {
+      return false;
+    }
+
+    const hasUserIds =
+      Array.isArray(options.userIds) && options.userIds.length > 0;
+    const hasRoleIds =
+      Array.isArray(options.roleIds) && options.roleIds.length > 0;
+    const hasEngagementCategories =
+      Array.isArray(options.engagementCategories) &&
+      options.engagementCategories.length > 0;
+
+    return (
+      hasUserIds ||
+      hasRoleIds ||
+      hasEngagementCategories ||
+      !!publicAnnouncements?.template
+    );
+  };
+
   if (loading) {
     return <SimpleBackdrop />;
   }
@@ -340,12 +367,7 @@ function Index() {
                   selectedUsernames={users}
                   selectedEngagementCategories={engagementCategories}
                   schaduledDate={scheduledAt || ''}
-                  isDisabled={
-                    !scheduledAt ||
-                    !isDateValid ||
-                    publicAnnouncements?.template == '' ||
-                    publicAnnouncements?.options.channelIds?.length === 0
-                  }
+                  isDisabled={!scheduledAt || !isDateValid || !isPayloadValid()}
                   handleCreateAnnouncements={(e) => handleEditAnnouncements(e)}
                 />
               </div>

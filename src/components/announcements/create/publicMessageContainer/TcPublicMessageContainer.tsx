@@ -135,23 +135,31 @@ function TcPublicMessageContainer({
     setIsDropdownVisible(!isDropdownVisible);
   };
 
+  const clearPublicMessage = () => {
+    setShowError(false);
+    setMessageError('');
+    setMessage('');
+    setSelectedChannels([]);
+    handlePublicAnnouncements({ message, selectedChannels: [] });
+    refreshChannels();
+  };
+
   const handlePublicMessaageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (!event.target.checked) {
-      setShowError(false);
-      setMessageError('');
+      clearPublicMessage();
     }
     setPublicMessage(event.target.checked);
   };
 
   useEffect(() => {
+    console.log({ publicMessage });
+  }, [publicMessage]);
+
+  useEffect(() => {
     if (!isEdit && !publicMessage) {
-      setShowError(false);
-      setMessageError('');
-      setSelectedChannels([]);
-      setMessage('');
-      handlePublicAnnouncements({ message, selectedChannels: [] });
+      clearPublicMessage();
     }
   }, [isEdit, publicMessage]);
 
