@@ -42,7 +42,20 @@ function TcPrompt() {
       }
     : {
         backgroundColor: 'bg-orange',
-        message: 'To see the data, connect your community platforms.',
+        message: (
+          <span>
+            To see the data, connect your community platforms. Check out our{' '}
+            <a
+              href='https://togethercrew.gitbook.io/onboarding/fundamentals/getting-set-up'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-white underline'
+            >
+              docs
+            </a>{' '}
+            for a guide.
+          </span>
+        ),
         buttonText: 'Connect Platform',
         redirectRouteParams: '/?platform=Discord',
       };

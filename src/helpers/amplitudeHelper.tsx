@@ -10,7 +10,6 @@ import {
 } from '../utils/interfaces';
 import { IToken } from '../utils/types';
 
-
 export const setAmplitudeUserIdFromToken = () => {
   const token: IToken | undefined =
     StorageService.readLocalStorage<IToken>('user');

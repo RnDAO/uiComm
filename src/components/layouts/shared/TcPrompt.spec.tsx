@@ -37,12 +37,17 @@ describe('TcPrompt', () => {
   test('renders prompt when no platforms are connected', () => {
     renderComponent();
     expect(
-      screen.getByText('To see the data, connect your community platforms.')
+      screen.getByText(/To see the data, connect your community platforms./i)
     ).toBeInTheDocument();
+    expect(screen.getByText('docs')).toHaveAttribute(
+      'href',
+      'https://togethercrew.gitbook.io/onboarding/fundamentals/getting-set-up'
+    );
   });
 
   test('does not render prompt on excluded routes', () => {
     renderComponent('/cetric');
+
     expect(
       screen.queryByText('To see the data, connect your community platforms.')
     ).not.toBeInTheDocument();
