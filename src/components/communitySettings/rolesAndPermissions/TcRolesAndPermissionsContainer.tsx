@@ -1,8 +1,9 @@
 import React from 'react';
-import TcText from '../../shared/TcText';
-import TcButton from '../../shared/TcButton';
+
 import TcRolesAutoComplete from '../../announcements/create/privateMessaageContainer/TcRolesAutoComplete';
 import TcUsersAutoComplete from '../../announcements/create/privateMessaageContainer/TcUsersAutoComplete';
+import TcButton from '../../shared/TcButton';
+import TcText from '../../shared/TcText';
 
 function TcRolesAndPermissionsContainer() {
   return (

@@ -17,6 +17,7 @@ import { useToken } from '../../../context/TokenContext';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import useAppStore from '../../../store/useStore';
 import { IRoles, IUser } from '../../../utils/interfaces';
+import { withRoles } from '../../withRoles';
 
 export interface DiscordChannel {
   channelId: string;
@@ -346,7 +347,7 @@ function Index() {
                       privateAnnouncementsOptions.roleIds.length > 0 ||
                       privateAnnouncementsOptions.userIds.length > 0 ||
                       privateAnnouncementsOptions.engagementCategories.length >
-                        0 ||
+                      0 ||
                       privateAnnouncementsOptions.safetyMessageChannelId
                     ) {
                       const combinedPrivateAnnouncement = {
@@ -381,4 +382,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);

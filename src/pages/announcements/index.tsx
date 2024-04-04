@@ -23,6 +23,7 @@ import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../utils/interfaces';
+import { withRoles } from '../withRoles';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
@@ -234,7 +235,7 @@ function Index() {
                       totalItems={fetchedAnnouncements.totalResults}
                       itemsPerPage={Math.ceil(
                         fetchedAnnouncements.totalResults /
-                          fetchedAnnouncements.totalPages
+                        fetchedAnnouncements.totalPages
                       )}
                       currentPage={page}
                       onChangePage={handlePageChange}
@@ -252,4 +253,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);

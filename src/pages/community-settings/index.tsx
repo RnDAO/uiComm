@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
+import TcRolesAndPermissions from '../../components/communitySettings/rolesAndPermissions';
 import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 import SEO from '../../components/global/SEO';
@@ -9,7 +10,7 @@ import TcIntegrationDialog from '../../components/pages/communitySettings/TcInte
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
 import { defaultLayout } from '../../layouts/defaultLayout';
-import TcRolesAndPermissions from '../../components/communitySettings/rolesAndPermissions';
+import { withRoles } from '../withRoles';
 
 function Index() {
   const router = useRouter();
@@ -77,4 +78,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);

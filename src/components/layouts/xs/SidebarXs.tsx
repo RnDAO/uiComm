@@ -20,12 +20,15 @@ import TcText from '../../shared/TcText';
 import { conf } from '../../../configs';
 import { useToken } from '../../../context/TokenContext';
 import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
+import useAppStore from '../../../store/useStore';
 
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
 
   const { community } = useToken();
+
+  const userPermissions = useAppStore(state => state.userRolePermissions || []);
 
   const [connectedPlatform, setConnectedPlatform] =
     useState<ICommunityDiscordPlatfromProps | null>(null);
@@ -42,7 +45,7 @@ const Sidebar = () => {
     }
   }, [community]);
 
-  const menuItems: items[] = [
+  let menuItems: items[] = [
     {
       name: 'Community Insights',
       path: '/',
@@ -93,6 +96,10 @@ const Sidebar = () => {
     setOpen(false);
   };
 
+  if (!userPermissions.includes('admin')) {
+    menuItems = menuItems.filter(item => item.name !== 'Community Settings' && item.name !== 'Smart Announcements');
+  }
+
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className='py-4'>
       <Link href={el.path} onClick={() => setOpen(false)}>
@@ -118,8 +125,8 @@ const Sidebar = () => {
             <div className='mb-2 mr-3 h-8 w-8'>
               <div className='mx-auto h-10 w-10'>
                 {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
+                  connectedPlatform.metadata &&
+                  connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'

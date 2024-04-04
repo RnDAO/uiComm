@@ -12,6 +12,7 @@ import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
 } from '../utils/interfaces';
+import { withRoles } from './withRoles';
 
 function CommunityHealth() {
   const { community } = useToken();
@@ -58,4 +59,4 @@ function CommunityHealth() {
 
 CommunityHealth.pageLayout = defaultLayout;
 
-export default CommunityHealth;
+export default withRoles(CommunityHealth, ['view', 'admin']);

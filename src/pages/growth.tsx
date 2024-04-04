@@ -13,6 +13,7 @@ import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
 import { IDataTwitter } from '../utils/interfaces';
 import { IUser } from '../utils/types';
+import { withRoles } from './withRoles';
 
 function Growth() {
   const user = StorageService.readLocalStorage<IUser>('user');
@@ -151,4 +152,4 @@ function Growth() {
 
 Growth.pageLayout = defaultLayout;
 
-export default Growth;
+export default withRoles(Growth, ['view', 'admin']);

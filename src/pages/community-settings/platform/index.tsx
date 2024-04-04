@@ -3,6 +3,7 @@ import TcPlatform from '../../../components/communitySettings/platform';
 import SEO from '../../../components/global/SEO';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
 import { defaultLayout } from '../../../layouts/defaultLayout';
+import { withRoles } from '../../withRoles';
 
 function Index() {
   return (
@@ -23,4 +24,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);

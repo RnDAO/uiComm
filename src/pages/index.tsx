@@ -9,6 +9,7 @@ import HeatmapChart from '../components/pages/pageIndex/HeatmapChart';
 import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteractionGraph';
 import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
+import { withRoles } from './withRoles';
 
 function Index(): JSX.Element {
   const { community } = useToken();
@@ -43,4 +44,4 @@ function Index(): JSX.Element {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['view', 'admin']);

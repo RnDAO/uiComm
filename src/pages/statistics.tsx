@@ -20,6 +20,7 @@ import { useToken } from '../context/TokenContext';
 import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
+import { withRoles } from './withRoles';
 
 const Statistics = () => {
   const { community } = useToken();
@@ -368,4 +369,4 @@ const Statistics = () => {
 
 Statistics.pageLayout = defaultLayout;
 
-export default Statistics;
+export default withRoles(Statistics, ['view', 'admin']);
