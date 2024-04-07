@@ -17,8 +17,8 @@ import { MdOutlineAnnouncement } from 'react-icons/md';
 import TcText from '../shared/TcText';
 import { conf } from '../../configs/index';
 import { useToken } from '../../context/TokenContext';
-import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
 import useAppStore from '../../store/useStore';
+import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
 
 const Sidebar = () => {
   const router = useRouter();

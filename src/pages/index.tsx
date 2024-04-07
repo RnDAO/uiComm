@@ -9,7 +9,7 @@ import HeatmapChart from '../components/pages/pageIndex/HeatmapChart';
 import MemberInteractionGraph from '../components/pages/pageIndex/MemberInteractionGraph';
 import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
-import { withRoles } from './withRoles';
+import { withRoles } from '../utils/withRoles';
 
 function Index(): JSX.Element {
   const { community } = useToken();

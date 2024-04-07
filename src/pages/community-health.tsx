@@ -12,7 +12,7 @@ import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
 } from '../utils/interfaces';
-import { withRoles } from './withRoles';
+import { withRoles } from '../utils/withRoles';
 
 function CommunityHealth() {
   const { community } = useToken();

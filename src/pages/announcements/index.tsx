@@ -23,7 +23,7 @@ import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../utils/interfaces';
-import { withRoles } from '../withRoles';
+import { withRoles } from '../../utils/withRoles';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();

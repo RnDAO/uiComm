@@ -154,10 +154,6 @@ function TcPublicMessageContainer({
   };
 
   useEffect(() => {
-    console.log({ publicMessage });
-  }, [publicMessage]);
-
-  useEffect(() => {
     if (!isEdit && !publicMessage) {
       clearPublicMessage();
     }
@@ -167,7 +163,7 @@ function TcPublicMessageContainer({
     try {
       if (!platformId) return;
       await refreshData(platformId, 'channel', undefined, undefined, false);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (

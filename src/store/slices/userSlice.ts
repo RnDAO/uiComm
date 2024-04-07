@@ -7,7 +7,7 @@ import IUser, {
 import { axiosInstance } from '../../axiosInstance';
 
 const createUserSlice: StateCreator<IUser> = (set, get) => ({
-  userRolePermissions: 'view',
+  userRolePermissions: [],
   getUser: async () => {
     try {
       const { data } = await axiosInstance.patch(`/users/@me`);

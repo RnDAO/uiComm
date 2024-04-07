@@ -20,7 +20,7 @@ import { useToken } from '../context/TokenContext';
 import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
-import { withRoles } from './withRoles';
+import { withRoles } from '../utils/withRoles';
 
 const Statistics = () => {
   const { community } = useToken();

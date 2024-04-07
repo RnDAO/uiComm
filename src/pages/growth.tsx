@@ -13,7 +13,7 @@ import { StorageService } from '../services/StorageService';
 import useAppStore from '../store/useStore';
 import { IDataTwitter } from '../utils/interfaces';
 import { IUser } from '../utils/types';
-import { withRoles } from './withRoles';
+import { withRoles } from '../utils/withRoles';
 
 function Growth() {
   const user = StorageService.readLocalStorage<IUser>('user');

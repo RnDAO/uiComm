@@ -1,5 +1,6 @@
-import React, { ComponentType, useEffect, FunctionComponent } from 'react';
 import { useRouter } from 'next/router';
+import React, { ComponentType, FunctionComponent, useEffect, useState } from 'react';
+
 import useAppStore from '../store/useStore';
 
 interface WithRolesProps {
@@ -20,15 +21,19 @@ export function withRoles<P extends WithRolesProps>(
 ): ComponentWithLayout<P> {
   const WithRolesWrapper: ComponentWithLayout<P> = (props) => {
     const userPermissions = useAppStore(state => state.userRolePermissions || []);
+    const [isPemissionLoaded, setIsPermissionLoaded] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-      console.log(userPermissions);
       const hasPermission = requiredPermissions.some(permission => userPermissions.includes(permission));
 
-      if (!hasPermission) {
-        router.push('/unauthorized');
+      if (hasPermission) {
+        if (isPemissionLoaded && !hasPermission) {
+          router.push('/unauthorized');
+        }
+        setIsPermissionLoaded(true);
       }
+
     }, [userPermissions, router, requiredPermissions]);
 
     return <Component {...props} />;

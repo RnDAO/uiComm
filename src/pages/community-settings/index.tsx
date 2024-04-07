@@ -10,7 +10,7 @@ import TcIntegrationDialog from '../../components/pages/communitySettings/TcInte
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
 import { defaultLayout } from '../../layouts/defaultLayout';
-import { withRoles } from '../withRoles';
+import { withRoles } from '../../utils/withRoles';
 
 function Index() {
   const router = useRouter();

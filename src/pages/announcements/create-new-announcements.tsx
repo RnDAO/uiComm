@@ -17,7 +17,7 @@ import { useToken } from '../../context/TokenContext';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import useAppStore from '../../store/useStore';
 import { IRoles, IUser } from '../../utils/interfaces';
-import { withRoles } from '../withRoles';
+import { withRoles } from '../../utils/withRoles';
 
 export type CreateAnnouncementsPayloadDataOptions = {
   channelIds?: string[];

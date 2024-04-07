@@ -10,15 +10,15 @@ import TcAutocomplete from '../../../shared/TcAutocomplete';
 interface ITcRolesAutoCompleteProps {
   isEdit?: boolean;
   privateSelectedRoles?: IRoles[];
-  isDisabled: boolean;
-  handleSelectedUsers: (roles: IRoles[]) => void;
+  isDisabled?: boolean;
+  handleSelectedRoles: (roles: IRoles[]) => void;
 }
 
 function TcRolesAutoComplete({
   isEdit = false,
   privateSelectedRoles,
-  isDisabled,
-  handleSelectedUsers,
+  isDisabled = false,
+  handleSelectedRoles,
 }: ITcRolesAutoCompleteProps) {
   const { community } = useToken();
 
@@ -136,7 +136,7 @@ function TcRolesAutoComplete({
 
   useEffect(() => {
     if (!selectedRoles) return;
-    handleSelectedUsers(selectedRoles);
+    handleSelectedRoles(selectedRoles);
   }, [selectedRoles]);
 
   useEffect(() => {

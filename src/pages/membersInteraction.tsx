@@ -11,7 +11,7 @@ import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { IUser } from '../utils/types';
-import { withRoles } from './withRoles';
+import { withRoles } from '../utils/withRoles';
 
 const ForceGraphComponent = dynamic(
   () =>

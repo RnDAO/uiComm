@@ -8,7 +8,7 @@ export interface getUserCommunityRolePayload {
 }
 
 export default interface IUser {
-  userRolePermissions: 'admin' | 'view';
+  userRolePermissions: 'admin' | 'view'[];
   getUser: () => void;
   patchUser: (payload: patchUserPayload) => void;
   getUserCommunityRole: (
