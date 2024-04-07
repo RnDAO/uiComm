@@ -196,5 +196,4 @@ function MembersInteraction() {
 
 MembersInteraction.pageLayout = defaultLayout;
 
-
 export default withRoles(MembersInteraction, ['view', 'admin']);

@@ -49,8 +49,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
 
     if (storedCommunity) {
       setCommunity(storedCommunity);
-      getUserCommunityRole(storedCommunity.id)
-
+      getUserCommunityRole(storedCommunity.id);
     }
 
     const fetchAndUpdateCommunity = async () => {

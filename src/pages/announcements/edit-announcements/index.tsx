@@ -347,7 +347,7 @@ function Index() {
                       privateAnnouncementsOptions.roleIds.length > 0 ||
                       privateAnnouncementsOptions.userIds.length > 0 ||
                       privateAnnouncementsOptions.engagementCategories.length >
-                      0 ||
+                        0 ||
                       privateAnnouncementsOptions.safetyMessageChannelId
                     ) {
                       const combinedPrivateAnnouncement = {

@@ -1,5 +1,10 @@
 import { useRouter } from 'next/router';
-import React, { ComponentType, FunctionComponent, useEffect, useState } from 'react';
+import React, {
+  ComponentType,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from 'react';
 
 import useAppStore from '../store/useStore';
 
@@ -10,22 +15,25 @@ interface IDefaultLayoutProps {
   children: React.ReactNode;
 }
 
-
 interface ComponentWithLayout<P = {}> extends FunctionComponent<P> {
   pageLayout?: ComponentType<IDefaultLayoutProps> | undefined;
 }
 
 export function withRoles<P extends WithRolesProps>(
   Component: ComponentWithLayout<P>,
-  requiredPermissions: string[],
+  requiredPermissions: string[]
 ): ComponentWithLayout<P> {
   const WithRolesWrapper: ComponentWithLayout<P> = (props) => {
-    const userPermissions = useAppStore(state => state.userRolePermissions || []);
+    const userPermissions = useAppStore(
+      (state) => state.userRolePermissions || []
+    );
     const [isPemissionLoaded, setIsPermissionLoaded] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-      const hasPermission = requiredPermissions.some(permission => userPermissions.includes(permission));
+      const hasPermission = requiredPermissions.some((permission) =>
+        userPermissions.includes(permission)
+      );
 
       if (hasPermission) {
         if (isPemissionLoaded && !hasPermission) {
@@ -33,7 +41,6 @@ export function withRoles<P extends WithRolesProps>(
         }
         setIsPermissionLoaded(true);
       }
-
     }, [userPermissions, router, requiredPermissions]);
 
     return <Component {...props} />;

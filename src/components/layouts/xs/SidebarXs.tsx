@@ -28,7 +28,9 @@ const Sidebar = () => {
 
   const { community } = useToken();
 
-  const userPermissions = useAppStore(state => state.userRolePermissions || []);
+  const userPermissions = useAppStore(
+    (state) => state.userRolePermissions || []
+  );
 
   const [connectedPlatform, setConnectedPlatform] =
     useState<ICommunityDiscordPlatfromProps | null>(null);
@@ -97,7 +99,11 @@ const Sidebar = () => {
   };
 
   if (!userPermissions.includes('admin')) {
-    menuItems = menuItems.filter(item => item.name !== 'Community Settings' && item.name !== 'Smart Announcements');
+    menuItems = menuItems.filter(
+      (item) =>
+        item.name !== 'Community Settings' &&
+        item.name !== 'Smart Announcements'
+    );
   }
 
   const menuItem = menuItems.map((el) => (
@@ -125,8 +131,8 @@ const Sidebar = () => {
             <div className='mb-2 mr-3 h-8 w-8'>
               <div className='mx-auto h-10 w-10'>
                 {connectedPlatform &&
-                  connectedPlatform.metadata &&
-                  connectedPlatform.metadata.icon ? (
+                connectedPlatform.metadata &&
+                connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'

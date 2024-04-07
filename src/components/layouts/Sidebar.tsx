@@ -25,8 +25,9 @@ const Sidebar = () => {
   const currentRoute = router.pathname;
   const { community } = useToken();
 
-  const userPermissions = useAppStore(state => state.userRolePermissions || []);
-
+  const userPermissions = useAppStore(
+    (state) => state.userRolePermissions || []
+  );
 
   const [connectedPlatform, setConnectedPlatform] =
     useState<ICommunityDiscordPlatfromProps | null>(null);
@@ -85,7 +86,11 @@ const Sidebar = () => {
   ];
 
   if (!userPermissions.includes('admin')) {
-    menuItems = menuItems.filter(item => item.name !== 'Community Settings' && item.name !== 'Smart Announcements');
+    menuItems = menuItems.filter(
+      (item) =>
+        item.name !== 'Community Settings' &&
+        item.name !== 'Smart Announcements'
+    );
   }
 
   const menuItem = menuItems.map((el) => (
@@ -116,8 +121,8 @@ const Sidebar = () => {
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
-                  connectedPlatform.metadata &&
-                  connectedPlatform.metadata.icon ? (
+                connectedPlatform.metadata &&
+                connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'
