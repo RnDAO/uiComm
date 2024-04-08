@@ -9,6 +9,7 @@ import { useToken } from '../../../context/TokenContext';
 import useAppStore from '../../../store/useStore';
 import { IRoles, IUser } from '../../../utils/interfaces';
 import { toast } from 'react-toastify';
+import { useSnackbar } from '../../../context/SnackbarContext';
 
 interface IPermissionsPayload {
   roleType: 'view' | 'admin';
@@ -21,6 +22,7 @@ interface IPermissionsPayload {
 }
 
 function TcRolesAndPermissionsContainer() {
+  const { showMessage } = useSnackbar();
   const { patchCommunityById, retrieveCommunityById } = useAppStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { community } = useToken();
@@ -127,7 +129,7 @@ function TcRolesAndPermissionsContainer() {
         communityId: community?.id as string,
         roles: permissionsPayload,
       });
-      toast.success('permissions updated successfully!');
+      showMessage('Permissions updated successfully!', 'success');
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
