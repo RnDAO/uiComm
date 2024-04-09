@@ -84,7 +84,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const updateToken = (newToken: IToken) => {
+  const updateToken = async (newToken: IToken) => {
     StorageService.writeLocalStorage<IToken>('user', newToken);
     setToken(newToken);
   };
@@ -101,6 +101,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
       'community',
       newCommunity
     );
+
+    await getUserCommunityRole(newCommunity?.id);
 
     // Restart the interval
     intervalIdRef.current = setInterval(async () => {
