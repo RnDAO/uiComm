@@ -27,7 +27,7 @@ export interface IRoles {
   roleId: string;
   color: number | string;
   name: string;
-  deletedAt?: string;
+  deletedAt?: string | null;
   id?: number | string;
 }
 
@@ -201,4 +201,5 @@ export interface IUser {
   ngu: string;
   nickname?: string | null;
   username?: string;
+  avatar?: string;
 }

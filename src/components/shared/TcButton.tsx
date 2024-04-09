@@ -15,7 +15,7 @@ import React from 'react';
 import TcText from './TcText';
 
 interface ITcButtonProps extends ButtonProps {
-  text: string;
+  text: string | JSX.Element;
 }
 
 function TcButton({ text, ...props }: ITcButtonProps) {

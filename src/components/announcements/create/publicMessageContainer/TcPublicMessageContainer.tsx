@@ -154,10 +154,6 @@ function TcPublicMessageContainer({
   };
 
   useEffect(() => {
-    console.log({ publicMessage });
-  }, [publicMessage]);
-
-  useEffect(() => {
     if (!isEdit && !publicMessage) {
       clearPublicMessage();
     }

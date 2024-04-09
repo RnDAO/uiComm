@@ -463,7 +463,7 @@ function TcPrivateMessageContainer({
                 }
                 isEdit={true}
                 privateSelectedRoles={selectedRoles}
-                handleSelectedUsers={setSelectedRoles}
+                handleSelectedRoles={setSelectedRoles}
               />
               <FormHelperText>
                 {roleError && <div className='text-red-500'>{roleError}</div>}

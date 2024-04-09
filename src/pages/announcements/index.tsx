@@ -23,6 +23,7 @@ import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../utils/interfaces';
+import { withRoles } from '../../utils/withRoles';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
@@ -252,4 +253,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);

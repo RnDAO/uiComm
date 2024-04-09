@@ -17,6 +17,7 @@ import { useToken } from '../../../context/TokenContext';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import useAppStore from '../../../store/useStore';
 import { IRoles, IUser } from '../../../utils/interfaces';
+import { withRoles } from '../../../utils/withRoles';
 
 export interface DiscordChannel {
   channelId: string;
@@ -381,4 +382,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);
