@@ -27,8 +27,9 @@ function TcRolesAutoComplete({
   )?.id;
 
   const { retrievePlatformProperties } = useAppStore();
-  const [selectedRoles, setSelectedRoles] = useState<IRoles[]>([]);
-
+  const [selectedRoles, setSelectedRoles] = useState<IRoles[]>(
+    privateSelectedRoles || []
+  );
   const [fetchedRoles, setFetchedRoles] = useState<FetchedData>({
     limit: 8,
     page: 1,
@@ -37,7 +38,6 @@ function TcRolesAutoComplete({
     totalResults: 0,
   });
   const [filteredRolesByName, setFilteredRolesByName] = useState<string>('');
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchDiscordRoles = async (
@@ -140,15 +140,14 @@ function TcRolesAutoComplete({
   }, [selectedRoles]);
 
   useEffect(() => {
-    if (isEdit && !isInitialized) {
+    if (isEdit) {
       if (privateSelectedRoles !== undefined) {
         setSelectedRoles(privateSelectedRoles);
       } else {
         setSelectedRoles([]);
       }
-      setIsInitialized(true);
     }
-  }, [privateSelectedRoles, isEdit, isInitialized]);
+  }, [privateSelectedRoles, isEdit]);
 
   return (
     <TcAutocomplete

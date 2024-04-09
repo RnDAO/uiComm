@@ -30,8 +30,9 @@ function TcUsersAutoComplete({
   )?.id;
 
   const { retrievePlatformProperties } = useAppStore();
-  const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
-
+  const [selectedUsers, setSelectedUsers] = useState<IUser[]>(
+    privateSelectedUsers || []
+  );
   const [fetchedUsers, setFetchedUsers] = useState<FetchedData>({
     limit: 8,
     page: 1,
@@ -40,7 +41,6 @@ function TcUsersAutoComplete({
     totalResults: 0,
   });
   const [filteredUsersByName, setFilteredUsersByName] = useState<string>('');
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchDiscordUsers = async (
@@ -148,15 +148,14 @@ function TcUsersAutoComplete({
   }, [selectedUsers]);
 
   useEffect(() => {
-    if (isEdit && !isInitialized) {
+    if (isEdit) {
       if (privateSelectedUsers !== undefined) {
         setSelectedUsers(privateSelectedUsers);
       } else {
         setSelectedUsers([]);
       }
-      setIsInitialized(true);
     }
-  }, [privateSelectedUsers, isEdit, isInitialized]);
+  }, [privateSelectedUsers, isEdit]);
 
   return (
     <TcAutocomplete

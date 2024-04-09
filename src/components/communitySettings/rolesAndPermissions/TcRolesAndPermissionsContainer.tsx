@@ -5,11 +5,10 @@ import TcRolesAutoComplete from '../../announcements/create/privateMessaageConta
 import TcUsersAutoComplete from '../../announcements/create/privateMessaageContainer/TcUsersAutoComplete';
 import TcButton from '../../shared/TcButton';
 import TcText from '../../shared/TcText';
+import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
 import useAppStore from '../../../store/useStore';
 import { IRoles, IUser } from '../../../utils/interfaces';
-import { toast } from 'react-toastify';
-import { useSnackbar } from '../../../context/SnackbarContext';
 
 interface IPermissionsPayload {
   roleType: 'view' | 'admin';
@@ -37,50 +36,44 @@ function TcRolesAndPermissionsContainer() {
     const fetchAndUpdateCommunity = async () => {
       const { roles } = await retrieveCommunityById(community?.id as string);
 
-      const adminRoleIds = roles
+      const adminRoles = roles
         .filter(
           (role: IPermissionsPayload) =>
             role.roleType === 'admin' && role.source.identifierType === 'role'
         )
-        .map(
-          (filteredRole: IPermissionsPayload) =>
-            filteredRole.source.identifierValues
-        )
+        .map((role: IPermissionsPayload) => role.source.identifierValues)
         .flat();
 
-      const adminMemberIds = roles
+      const adminMembers = roles
         .filter(
           (role: IPermissionsPayload) =>
             role.roleType === 'admin' && role.source.identifierType === 'member'
         )
-        .map(
-          (filteredRole: IPermissionsPayload) =>
-            filteredRole.source.identifierValues
-        )
+        .map((role: IPermissionsPayload) => role.source.identifierValues)
         .flat();
 
-      const viewerRoleIds = roles
+      const viewerRoles = roles
         .filter(
           (role: IPermissionsPayload) =>
             role.roleType === 'view' && role.source.identifierType === 'role'
         )
-        .map(
-          (filteredRole: IPermissionsPayload) =>
-            filteredRole.source.identifierValues
-        )
+        .map((role: IPermissionsPayload) => role.source.identifierValues)
         .flat();
 
-      const viewerMemberIds = roles
+      const viewerMembers = roles
         .filter(
           (role: IPermissionsPayload) =>
             role.roleType === 'view' && role.source.identifierType === 'member'
         )
-        .map(
-          (filteredRole: IPermissionsPayload) =>
-            filteredRole.source.identifierValues
-        )
+        .map((role: IPermissionsPayload) => role.source.identifierValues)
         .flat();
+
+      setAdminByRole(adminRoles);
+      setAdminByMember(adminMembers);
+      setViewerByRole(viewerRoles);
+      setViewerByMember(viewerMembers);
     };
+
     fetchAndUpdateCommunity();
   }, []);
 
@@ -203,6 +196,7 @@ function TcRolesAndPermissionsContainer() {
           <div className='flex flex-col space-y-3 md:flex-row md:justify-between md:space-x-3 md:space-y-0'>
             <div className='md:w-1/2'>
               <TcUsersAutoComplete
+                key='viewerByMember'
                 isEdit={true}
                 privateSelectedUsers={viewerByMember}
                 handleSelectedUsers={(users) => setViewerByMember(users)}

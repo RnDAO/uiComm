@@ -14,6 +14,13 @@ jest.mock('../../../context/TokenContext', () => ({
   })),
 }));
 
+jest.mock('../../../context/SnackbarContext', () => ({
+  __esModule: true,
+  useSnackbar: jest.fn().mockImplementation(() => ({
+    showMessage: jest.fn(),
+  })),
+}));
+
 describe('TcRolesAndPermissionsContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
