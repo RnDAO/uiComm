@@ -133,7 +133,7 @@ function Index() {
           .utcOffset(0, true)
           .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
       }
-      const data = await retrieveAnnouncements({
+      const data = await retrieveAnnouncements(platformId, {
         page: page,
         limit: 8,
         timeZone: zone || selectedZone,
