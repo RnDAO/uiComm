@@ -12,24 +12,26 @@ export interface IRetrieveAnnouncementsProps {
 
 export interface IPatchExistingAnnouncementsProps {
   announcementPayload: CreateAnnouncementsPayload;
-  id: string;
+  announcementsId: string;
 }
 
 export default interface IAnnouncements {
-  retrieveAnnouncements: ({
-    page,
-    limit,
-    sortBy,
-    community,
-  }: IRetrieveAnnouncementsProps) => void;
-  retrieveAnnouncementById: (id: string) => void;
+  retrieveAnnouncements: (
+    platformId: string,
+    { page, limit, sortBy, community }: IRetrieveAnnouncementsProps
+  ) => void;
+  retrieveAnnouncementById: (
+    platformId: string,
+    announcementsId: string
+  ) => void;
   createNewAnnouncements: (
+    platformId: string,
     announcementPayload: CreateAnnouncementsPayload
   ) => void;
-  patchExistingAnnouncement: ({
-    announcementPayload,
-    id,
-  }: IPatchExistingAnnouncementsProps) => void;
-  deleteAnnouncements: (id: string) => void;
+  patchExistingAnnouncement: (
+    platformId: string,
+    { announcementPayload, announcementsId }: IPatchExistingAnnouncementsProps
+  ) => void;
+  deleteAnnouncements: (platformId: string, announcementsId: string) => void;
   retrieveCategories: () => void;
 }

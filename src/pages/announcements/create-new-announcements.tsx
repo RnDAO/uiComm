@@ -114,7 +114,11 @@ function CreateNewAnnouncements() {
 
     try {
       setLoading(true);
-      const data = await createNewAnnouncements(announcementsPayload);
+
+      const data = await createNewAnnouncements(
+        platformId,
+        announcementsPayload
+      );
       if (data) {
         showMessage('Announcement created successfully', 'success');
         router.push('/announcements');

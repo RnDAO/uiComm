@@ -21,6 +21,7 @@ import TcButton from '../shared/TcButton';
 import TcDialog from '../shared/TcDialog';
 import TcText from '../shared/TcText';
 import { useSnackbar } from '../../context/SnackbarContext';
+import { useToken } from '../../context/TokenContext';
 import { capitalizeFirstChar, truncateCenter } from '../../helpers/helper';
 import useAppStore from '../../store/useStore';
 
@@ -75,12 +76,18 @@ function TcAnnouncementsTable({
 }: AnnouncementsTableProps) {
   const { deleteAnnouncements } = useAppStore();
   const { showMessage } = useSnackbar();
+  const { community } = useToken();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
   const [selectedAnnouncementId, setSelectedAnnouncementId] = useState<
     string | null
   >(null);
+
+  const platformId = community?.platforms.find(
+    (platform) => platform.disconnectedAt === null
+  )?.id;
 
   const formatDateBasedOnTimezone = (
     date: string | number | Date,
@@ -113,7 +120,7 @@ function TcAnnouncementsTable({
 
   const handleDeleteAnnouncements = async (id: string) => {
     try {
-      await deleteAnnouncements(id);
+      await deleteAnnouncements(platformId, id);
       handleRefreshList();
       showMessage('Scheduled announcement removed successfully.', 'success');
     } catch (error) {

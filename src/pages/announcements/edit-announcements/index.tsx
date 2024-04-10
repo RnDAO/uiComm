@@ -135,7 +135,7 @@ function Index() {
   useEffect(() => {
     if (!id) return;
     const fetchAnnouncement = async () => {
-      const data = await retrieveAnnouncementById(id);
+      const data = await retrieveAnnouncementById(platformId, id);
 
       setFetchedAnnouncements(data);
       setScheduledAt(data.scheduledAt);
@@ -165,9 +165,8 @@ function Index() {
 
     try {
       setLoading(true);
-
-      const data = await patchExistingAnnouncement({
-        id,
+      const data = await patchExistingAnnouncement(platformId, {
+        announcementsId: id,
         announcementPayload,
       });
 
