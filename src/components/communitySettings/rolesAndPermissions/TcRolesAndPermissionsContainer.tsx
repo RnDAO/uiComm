@@ -32,48 +32,49 @@ function TcRolesAndPermissionsContainer() {
   const [viewerByRole, setViewerByRole] = useState<IRoles[]>([]);
   const [viewerByMember, setViewerByMember] = useState<IUser[]>([]);
 
+  const fetchAndUpdateCommunity = async () => {
+    const { roles } = await retrieveCommunityById(community?.id as string);
+
+    const adminRoles = roles
+      .filter(
+        (role: IPermissionsPayload) =>
+          role.roleType === 'admin' && role.source.identifierType === 'role'
+      )
+      .map((role: IPermissionsPayload) => role.source.identifierValues)
+      .flat();
+
+    const adminMembers = roles
+      .filter(
+        (role: IPermissionsPayload) =>
+          role.roleType === 'admin' && role.source.identifierType === 'member'
+      )
+      .map((role: IPermissionsPayload) => role.source.identifierValues)
+      .flat();
+
+    const viewerRoles = roles
+      .filter(
+        (role: IPermissionsPayload) =>
+          role.roleType === 'view' && role.source.identifierType === 'role'
+      )
+      .map((role: IPermissionsPayload) => role.source.identifierValues)
+      .flat();
+
+    const viewerMembers = roles
+      .filter(
+        (role: IPermissionsPayload) =>
+          role.roleType === 'view' && role.source.identifierType === 'member'
+      )
+      .map((role: IPermissionsPayload) => role.source.identifierValues)
+      .flat();
+
+    setAdminByRole(adminRoles);
+    setAdminByMember(adminMembers);
+    setViewerByRole(viewerRoles);
+    setViewerByMember(viewerMembers);
+  };
+
+
   useEffect(() => {
-    const fetchAndUpdateCommunity = async () => {
-      const { roles } = await retrieveCommunityById(community?.id as string);
-
-      const adminRoles = roles
-        .filter(
-          (role: IPermissionsPayload) =>
-            role.roleType === 'admin' && role.source.identifierType === 'role'
-        )
-        .map((role: IPermissionsPayload) => role.source.identifierValues)
-        .flat();
-
-      const adminMembers = roles
-        .filter(
-          (role: IPermissionsPayload) =>
-            role.roleType === 'admin' && role.source.identifierType === 'member'
-        )
-        .map((role: IPermissionsPayload) => role.source.identifierValues)
-        .flat();
-
-      const viewerRoles = roles
-        .filter(
-          (role: IPermissionsPayload) =>
-            role.roleType === 'view' && role.source.identifierType === 'role'
-        )
-        .map((role: IPermissionsPayload) => role.source.identifierValues)
-        .flat();
-
-      const viewerMembers = roles
-        .filter(
-          (role: IPermissionsPayload) =>
-            role.roleType === 'view' && role.source.identifierType === 'member'
-        )
-        .map((role: IPermissionsPayload) => role.source.identifierValues)
-        .flat();
-
-      setAdminByRole(adminRoles);
-      setAdminByMember(adminMembers);
-      setViewerByRole(viewerRoles);
-      setViewerByMember(viewerMembers);
-    };
-
     fetchAndUpdateCommunity();
   }, []);
 
@@ -118,15 +119,21 @@ function TcRolesAndPermissionsContainer() {
 
     try {
       setIsLoading(true);
-      await patchCommunityById({
+      const data = await patchCommunityById({
         communityId: community?.id as string,
         roles: permissionsPayload,
       });
+
+      if (!data) {
+        throw new Error('Failed to update permissions.');
+      }
+
       showMessage('Permissions updated successfully!', 'success');
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
     }
+    fetchAndUpdateCommunity();
   };
 
   return (
