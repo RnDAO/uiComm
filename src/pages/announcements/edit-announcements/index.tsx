@@ -17,6 +17,7 @@ import { useToken } from '../../../context/TokenContext';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import useAppStore from '../../../store/useStore';
 import { IRoles, IUser } from '../../../utils/interfaces';
+import { withRoles } from '../../../utils/withRoles';
 
 export interface DiscordChannel {
   channelId: string;
@@ -134,7 +135,7 @@ function Index() {
   useEffect(() => {
     if (!id) return;
     const fetchAnnouncement = async () => {
-      const data = await retrieveAnnouncementById(id);
+      const data = await retrieveAnnouncementById(platformId, id);
 
       setFetchedAnnouncements(data);
       setScheduledAt(data.scheduledAt);
@@ -164,9 +165,8 @@ function Index() {
 
     try {
       setLoading(true);
-
-      const data = await patchExistingAnnouncement({
-        id,
+      const data = await patchExistingAnnouncement(platformId, {
+        announcementsId: id,
         announcementPayload,
       });
 
@@ -381,4 +381,4 @@ function Index() {
 
 Index.pageLayout = defaultLayout;
 
-export default Index;
+export default withRoles(Index, ['admin']);

@@ -11,6 +11,7 @@ import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { IUser } from '../utils/types';
+import { withRoles } from '../utils/withRoles';
 
 const ForceGraphComponent = dynamic(
   () =>
@@ -87,7 +88,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
   return { nodes, links };
 };
 
-export default function MembersInteraction() {
+function MembersInteraction() {
   const { community } = useToken();
 
   const [nodes, setNodes] = useState<any[]>([]);
@@ -194,3 +195,5 @@ export default function MembersInteraction() {
 }
 
 MembersInteraction.pageLayout = defaultLayout;
+
+export default withRoles(MembersInteraction, ['view', 'admin']);

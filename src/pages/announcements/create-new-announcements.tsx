@@ -17,6 +17,7 @@ import { useToken } from '../../context/TokenContext';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import useAppStore from '../../store/useStore';
 import { IRoles, IUser } from '../../utils/interfaces';
+import { withRoles } from '../../utils/withRoles';
 
 export type CreateAnnouncementsPayloadDataOptions = {
   channelIds?: string[];
@@ -113,7 +114,11 @@ function CreateNewAnnouncements() {
 
     try {
       setLoading(true);
-      const data = await createNewAnnouncements(announcementsPayload);
+
+      const data = await createNewAnnouncements(
+        platformId,
+        announcementsPayload
+      );
       if (data) {
         showMessage('Announcement created successfully', 'success');
         router.push('/announcements');
@@ -335,4 +340,4 @@ function CreateNewAnnouncements() {
 
 CreateNewAnnouncements.pageLayout = defaultLayout;
 
-export default CreateNewAnnouncements;
+export default withRoles(CreateNewAnnouncements, ['admin']);

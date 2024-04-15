@@ -29,7 +29,7 @@ type TokenProviderProps = {
 };
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
-  const { retrieveCommunityById } = useAppStore();
+  const { retrieveCommunityById, getUserCommunityRole } = useAppStore();
   const [token, setToken] = useState<IToken | null>(null);
   const [community, setCommunity] = useState<IDiscordModifiedCommunity | null>(
     null
@@ -49,6 +49,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
 
     if (storedCommunity) {
       setCommunity(storedCommunity);
+      getUserCommunityRole(storedCommunity.id);
     }
 
     const fetchAndUpdateCommunity = async () => {
@@ -83,7 +84,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const updateToken = (newToken: IToken) => {
+  const updateToken = async (newToken: IToken) => {
     StorageService.writeLocalStorage<IToken>('user', newToken);
     setToken(newToken);
   };
@@ -100,6 +101,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
       'community',
       newCommunity
     );
+
+    await getUserCommunityRole(newCommunity?.id);
 
     // Restart the interval
     intervalIdRef.current = setInterval(async () => {
