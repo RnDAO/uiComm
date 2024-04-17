@@ -63,7 +63,6 @@ const ErrorPage: NextComponentType<
             />
             <TcButton
               onClick={() => router.push('/centric')}
-              classes='text-black'
               variant='outlined'
               text='Connect your community'
               className='py-2 md:w-1/2'
