@@ -7,6 +7,8 @@ import React, {
 } from 'react';
 
 import useAppStore from '../store/useStore';
+import { StorageService } from '../services/StorageService';
+import { IDiscordModifiedCommunity } from './interfaces';
 
 interface WithRolesProps {
   [key: string]: any;
@@ -24,6 +26,7 @@ export function withRoles<P extends WithRolesProps>(
   requiredPermissions: string[]
 ): ComponentWithLayout<P> {
   const WithRolesWrapper: ComponentWithLayout<P> = (props) => {
+    const { getUserCommunityRole } = useAppStore();
     const userPermissions = useAppStore(
       (state) => state.userRolePermissions || []
     );
@@ -31,20 +34,31 @@ export function withRoles<P extends WithRolesProps>(
     const router = useRouter();
 
     useEffect(() => {
-      const hasPermission = requiredPermissions.some((permission) =>
-        userPermissions.includes(permission)
-      );
+      const fetchUserCommunityRole = async () => {
+        await getUserCommunityRole();
 
-      console.log('hasPermission', hasPermission);
-      console.log('isPemissionLoaded', isPemissionLoaded);
+        const storedCommunity =
+          StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
+
+        if (storedCommunity) {
+          const hasPermission = requiredPermissions.some((permission) =>
+            userPermissions.includes(permission)
+          );
+
+          console.log('hasPermission', hasPermission);
+          console.log('isPemissionLoaded', isPemissionLoaded);
 
 
-      if (hasPermission) {
-        if (isPemissionLoaded && !hasPermission) {
-          router.push('/unauthorized');
+          if (hasPermission) {
+            if (isPemissionLoaded && !hasPermission) {
+              router.push('/unauthorized');
+            }
+            setIsPermissionLoaded(true);
+          }
         }
-        setIsPermissionLoaded(true);
       }
+
+      fetchUserCommunityRole();
     }, [userPermissions, router, requiredPermissions]);
 
     return <Component {...props} />;
