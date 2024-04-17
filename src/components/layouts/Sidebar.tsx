@@ -121,8 +121,8 @@ const Sidebar = () => {
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
+                  connectedPlatform.metadata &&
+                  connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'

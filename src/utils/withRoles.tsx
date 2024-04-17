@@ -38,23 +38,24 @@ export function withRoles<P extends WithRolesProps>(
     const router = useRouter();
 
     useEffect(() => {
-      const fetchUserPermissions = async () => {
-        if (storedCommunity) {
-          await getUserCommunityRole(storedCommunity.id);
+      if (typeof window !== "undefined") {
+        const fetchUserPermissions = async () => {
+          if (storedCommunity) {
+            await getUserCommunityRole(storedCommunity.id);
 
-          const hasPermission = requiredPermissions.some(permission =>
-            userPermissions.includes(permission)
-          );
+            const hasPermission = requiredPermissions.some(permission =>
+              userPermissions.includes(permission)
+            );
 
-          if (isPemissionLoaded && !hasPermission) {
-            router.push('/unauthorized');
-          } else {
-            setIsPermissionLoaded(true);
+            if (isPemissionLoaded && !hasPermission) {
+              router.push('/unauthorized');
+            } else {
+              setIsPermissionLoaded(true);
+            }
           }
-        }
-      };
-
-      fetchUserPermissions()
+        };
+        fetchUserPermissions()
+      }
     }, [getUserCommunityRole]);
 
     return <Component {...props} />;
