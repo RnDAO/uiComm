@@ -1,3 +1,4 @@
+'use client';
 import Highcharts from 'highcharts';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
 import HighchartsReact from 'highcharts-react-official';
@@ -67,7 +68,7 @@ const HeatmapChart = () => {
           selectedZone,
           extractTrueSubChannelIds(selectedSubChannels)
         );
-        console.log({ data });
+
         if (data) {
           updateHeatmapData(data);
         }
