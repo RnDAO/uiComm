@@ -33,7 +33,7 @@ function Index(): JSX.Element {
           </h3>
           <div className='space-y-4'>
             <ActiveMemberComposition />
-            {/* <HeatmapChart /> */}
+            <HeatmapChart />
             <MemberInteractionGraph />
           </div>
         </div>

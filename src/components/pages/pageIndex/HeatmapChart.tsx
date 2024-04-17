@@ -67,6 +67,7 @@ const HeatmapChart = () => {
           selectedZone,
           extractTrueSubChannelIds(selectedSubChannels)
         );
+        console.log({ data });
 
         updateHeatmapData(data);
       }
