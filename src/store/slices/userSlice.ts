@@ -26,6 +26,7 @@ const createUserSlice: StateCreator<IUser> = (set, get) => ({
         `/users/@me/${communityId}/roles`
       );
       set({ userRolePermissions: data });
+      return data;
     } catch (error) {}
   },
 });

@@ -27,18 +27,17 @@ export function withRoles<P extends WithRolesProps>(
 ): ComponentWithLayout<P> {
   const WithRolesWrapper: ComponentWithLayout<P> = (props) => {
     const { getUserCommunityRole } = useAppStore();
-    const userPermissions = useAppStore(
-      (state) => state.userRolePermissions || []
-    );
-    const [isPemissionLoaded, setIsPermissionLoaded] = useState(false);
+    const [userPermissions, setUserPermissions] = useState<string[]>([]);
     const router = useRouter();
 
     useEffect(() => {
       const fetchPermissions = async () => {
         const storedCommunity = StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
         if (storedCommunity) {
-          getUserCommunityRole(storedCommunity.id);
-          setIsPermissionLoaded(true);
+          const userRoles = await getUserCommunityRole(storedCommunity.id);
+          if (userRoles) {
+            setUserPermissions(userRoles);
+          }
         }
       };
       fetchPermissions();
@@ -46,17 +45,16 @@ export function withRoles<P extends WithRolesProps>(
     }, []);
 
     useEffect(() => {
-      if (isPemissionLoaded) {
+      if (userPermissions && userPermissions.length > 0) {
         const hasPermission = requiredPermissions.some((permission) =>
           userPermissions.includes(permission)
         );
 
-        if (hasPermission) {
+        if (!hasPermission) {
           router.push('/unauthorized');
         }
       }
-
-    }, [isPemissionLoaded, userPermissions]);
+    }, [userPermissions]);
 
     return <Component {...props} />;
   };
