@@ -31,15 +31,16 @@ export function withRoles<P extends WithRolesProps>(
     const router = useRouter();
 
     useEffect(() => {
-      const hasPermission = requiredPermissions.some((permission) =>
-        userPermissions.includes(permission)
-      );
+      if (typeof window !== "undefined") {
+        const hasPermission = requiredPermissions.some(permission =>
+          userPermissions.includes(permission)
+        );
 
-      if (hasPermission) {
         if (isPemissionLoaded && !hasPermission) {
           router.push('/unauthorized');
+        } else {
+          setIsPermissionLoaded(true);
         }
-        setIsPermissionLoaded(true);
       }
     }, [userPermissions, router, requiredPermissions]);
 
