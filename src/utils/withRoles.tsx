@@ -54,7 +54,7 @@ export function withRoles<P extends WithRolesProps>(
         }
       };
       fetchUserPermissions()
-    }, [isPemissionLoaded, userPermissions, storedCommunity, getUserCommunityRole, router, requiredPermissions]);
+    }, [router.isReady, isPemissionLoaded]);
 
     return <Component {...props} />;
   };
