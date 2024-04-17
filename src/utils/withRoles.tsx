@@ -34,7 +34,7 @@ export function withRoles<P extends WithRolesProps>(
       const fetchPermissions = async () => {
         const storedCommunity = StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
         if (storedCommunity) {
-          const userRoles = await getUserCommunityRole(storedCommunity.id);
+          const userRoles = await getUserCommunityRole(storedCommunity?.id);
           if (userRoles) {
             setUserPermissions(userRoles);
           }
