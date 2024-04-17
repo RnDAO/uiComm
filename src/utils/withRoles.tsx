@@ -35,6 +35,10 @@ export function withRoles<P extends WithRolesProps>(
         userPermissions.includes(permission)
       );
 
+      console.log('hasPermission', hasPermission);
+      console.log('isPemissionLoaded', isPemissionLoaded);
+
+
       if (hasPermission) {
         if (isPemissionLoaded && !hasPermission) {
           router.push('/unauthorized');

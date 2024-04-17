@@ -98,13 +98,17 @@ const Sidebar = () => {
     setOpen(false);
   };
 
-  if (!userPermissions.includes('admin')) {
-    menuItems = menuItems.filter(
-      (item) =>
-        item.name !== 'Community Settings' &&
-        item.name !== 'Smart Announcements'
-    );
-  }
+
+
+  useEffect(() => {
+    if (!userPermissions.includes('admin')) {
+      menuItems = menuItems.filter(
+        (item) =>
+          item.name !== 'Community Settings' &&
+          item.name !== 'Smart Announcements'
+      );
+    }
+  }, [userPermissions]);
 
   const menuItem = menuItems.map((el) => (
     <li key={el.name} className='py-4'>
@@ -129,10 +133,12 @@ const Sidebar = () => {
         <div className='flex flex-row'>
           <div className='flex flex-row items-center space-x-3 text-center'>
             <div className='mb-2 mr-3 h-8 w-8'>
-              <div className='mx-auto h-10 w-10'>
+              <div className='mx-auto h-10 w-10'
+                onClick={() => router.push('/centric/select-community')}
+              >
                 {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
+                  connectedPlatform.metadata &&
+                  connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'
