@@ -35,12 +35,13 @@ export function withRoles<P extends WithRolesProps>(
 
     useEffect(() => {
       const fetchUserCommunityRole = async () => {
-        await getUserCommunityRole();
 
         const storedCommunity =
           StorageService.readLocalStorage<IDiscordModifiedCommunity>('community');
 
         if (storedCommunity) {
+          await getUserCommunityRole(storedCommunity.id);
+
           const hasPermission = requiredPermissions.some((permission) =>
             userPermissions.includes(permission)
           );
