@@ -226,14 +226,13 @@ const HeatmapChart = () => {
             <Loading size={40} height='440px' />
           </div>
         )}
-
-        {/* <div className={loading ? 'opacity-50' : ''}>
+        <div className={loading ? 'opacity-50' : ''}>
           <HighchartsReact
             highcharts={Highcharts}
             options={heatmapChartOptions}
             allowChartUpdate
           />
-        </div> */}
+        </div>
       </div>
 
       <div className='ml-3 block md:hidden'>
