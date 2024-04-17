@@ -68,8 +68,9 @@ const HeatmapChart = () => {
           extractTrueSubChannelIds(selectedSubChannels)
         );
         console.log({ data });
-
-        updateHeatmapData(data);
+        if (data) {
+          updateHeatmapData(data);
+        }
       }
     } catch (error) {
     } finally {
