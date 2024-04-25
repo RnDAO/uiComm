@@ -11,6 +11,7 @@ import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcText from '../../components/shared/TcText';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import { withRoles } from '../../utils/withRoles';
+import TcCommunityPlatforms from '../../components/communitySettings/communityPlatforms';
 
 function Index() {
   const router = useRouter();
@@ -57,8 +58,9 @@ function Index() {
             <div className='space-y-4 px-4 pt-4 pb-[4rem] md:px-10'>
               <TcText text='Community Settings' variant='h5' />
               <div className='space-y-2'>
-                <TcSwitchCommunity />
-                <TcCommunityIntegrations />
+                {/* <TcSwitchCommunity /> */}
+                {/* <TcCommunityIntegrations /> */}
+                <TcCommunityPlatforms />
                 <TcRolesAndPermissions />
               </div>
             </div>

@@ -57,6 +57,8 @@ function TcRolesAutoComplete({
         limit: limit,
       });
 
+      if (!fetchedRoles) return;
+
       if (name) {
         setFilteredRolesByName(name);
         setFetchedRoles(fetchedRoles);

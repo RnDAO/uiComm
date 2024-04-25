@@ -16,7 +16,9 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
   connectedPlatforms: [],
   connectNewPlatform: (platfromType) => {
     try {
-      location.replace(`${BASE_URL}/platforms/connect/${platfromType}`);
+      location.replace(
+        `${BASE_URL}/platforms/connect/?platform=${platfromType}`
+      );
     } catch (error) {}
   },
   retrievePlatforms: async ({
