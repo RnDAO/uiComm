@@ -53,9 +53,10 @@ function TcDiscordIntegrationSettingsDialog({
             if (!platform) return;
 
             const { selectedChannels, period } = platform.metadata;
+
             const newDateTimeDisplay = period ? moment(period).format('MMM DD, YYYY') : 'Filter Date';
 
-            setSelectedChannels(selectedChannels);
+            setSelectedChannels(selectedChannels ? selectedChannels : []);
 
             if (dateTimeDisplay !== newDateTimeDisplay) {
                 setDateTimeDisplay(newDateTimeDisplay);
@@ -73,6 +74,7 @@ function TcDiscordIntegrationSettingsDialog({
 
     const handleToggleSubChannel = (event: React.ChangeEvent<HTMLInputElement>, channelId: string) => {
         event.stopPropagation();
+
         const currentIndex = selectedChannels.indexOf(channelId);
 
         const newSelectedChannel = [...selectedChannels];
@@ -228,7 +230,7 @@ function TcDiscordIntegrationSettingsDialog({
                         <div>
                             <TcText text="Change your imported channels" variant='subtitle1' fontWeight='bold' />
                             <TcText text={
-                                `Selected channels:${selectedChannels.length}`
+                                `Selected channels:${selectedChannels?.length}`
                             } variant='body1' />
                         </div>
                         <TcButton variant='outlined' text='Permissions?' />
@@ -245,7 +247,7 @@ function TcDiscordIntegrationSettingsDialog({
                                             <TcText text={channel.title} variant='h6' fontWeight='bold' />
                                             <FormControlLabel
                                                 control={<TcSwitch checked={
-                                                    channel.subChannels.every(subChannel => selectedChannels.includes(subChannel.channelId))
+                                                    channel.subChannels.every(subChannel => selectedChannels?.includes(subChannel.channelId))
                                                 }
                                                     disabled={
                                                         channel.subChannels.some(subChannel => !subChannel.canReadMessageHistoryAndViewChannel)
@@ -263,7 +265,7 @@ function TcDiscordIntegrationSettingsDialog({
                                                         <TcText text={subChannel.name} variant='subtitle1' />
                                                         <FormControlLabel
                                                             control={<TcSwitch
-                                                                checked={selectedChannels.includes(subChannel.channelId)}
+                                                                checked={selectedChannels?.includes(subChannel.channelId)}
                                                                 disabled={!subChannel.canReadMessageHistoryAndViewChannel}
                                                                 onChange={(e) => handleToggleSubChannel(e, subChannel.channelId)}
                                                             />}

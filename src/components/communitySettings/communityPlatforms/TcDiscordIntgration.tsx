@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material'
+import { CircularProgress, Paper } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon'
 import TcButton from '../../shared/TcButton'
@@ -11,11 +11,12 @@ import TcDiscordIntegrationSettingsDialog from './TcDiscordIntegrationSettingsDi
 
 interface TcDiscordIntgrationProps {
     platformType: string;
+    isLoading: boolean;
     connectedPlatforms: IPlatformProps[];
     handleUpdateCommunityPlatoform: () => void;
 }
 
-function TcDiscordIntgration({ platformType, connectedPlatforms, handleUpdateCommunityPlatoform }: TcDiscordIntgrationProps) {
+function TcDiscordIntgration({ platformType, isLoading, connectedPlatforms, handleUpdateCommunityPlatoform }: TcDiscordIntgrationProps) {
     const { connectNewPlatform } = useAppStore()
 
     const handleConnect = () => {
@@ -33,15 +34,16 @@ function TcDiscordIntgration({ platformType, connectedPlatforms, handleUpdateCom
                 </div>
             </Paper>
             {
-                connectedPlatforms.map((platform, index) => (
-                    <Paper className='flex flex-col items-center justify-center shadow-none overflow-hidden w-[10rem] h-[6rem] rounded-sm py-2 space-y-1.5' key={index}>
-                        <TcAvatar
-                            src={`${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`}
-                            sizes='small'
-                        />
-                        <TcDiscordIntegrationSettingsDialog platform={platform} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
-                    </Paper>
-                ))
+                isLoading ? <CircularProgress size={30} /> :
+                    connectedPlatforms.map((platform, index) => (
+                        <Paper className='flex flex-col items-center justify-center shadow-none overflow-hidden w-[10rem] h-[6rem] rounded-sm py-2 space-y-1.5' key={index}>
+                            <TcAvatar
+                                src={`${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`}
+                                sizes='small'
+                            />
+                            <TcDiscordIntegrationSettingsDialog platform={platform} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
+                        </Paper>
+                    ))
             }
         </div>
     )

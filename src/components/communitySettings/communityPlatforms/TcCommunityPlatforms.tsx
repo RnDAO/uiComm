@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TcText from '../../shared/TcText'
 import { Box, Paper, Tab, Tabs } from '@mui/material'
 import { IntegrationPlatform } from '../../../utils/enums';
@@ -45,8 +45,9 @@ function a11yProps(index: number) {
 
 function TcCommunityPlatforms() {
     const { retrievePlatforms, reteriveModules, createModule } = useAppStore()
-    const [platforms, setPlatforms] = React.useState<IPlatformProps[]>([]);
-    const [activeTab, setActiveTab] = React.useState(0);
+    const [platforms, setPlatforms] = useState<IPlatformProps[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState(0);
     const router = useRouter()
 
     const communityId =
@@ -57,11 +58,13 @@ function TcCommunityPlatforms() {
     const fetchPlatformsByType = async () => {
         switch (activeTab) {
             case 0:
+                setIsLoading(true);
                 const { results } = await retrievePlatforms({
                     name: 'discord',
                     community: communityId
                 });
                 setPlatforms(results);
+                setIsLoading(false);
                 break;
             default:
                 break;
@@ -129,7 +132,7 @@ function TcCommunityPlatforms() {
                     </Tabs>
                     {
                         activeTab === 0 && <TabPanel value={activeTab} index={0}>
-                            <TcDiscordIntgration platformType={'discord'} connectedPlatforms={platforms} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
+                            <TcDiscordIntgration isLoading={isLoading} platformType={'discord'} connectedPlatforms={platforms} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
                         </TabPanel>
                     }
                 </Box>

@@ -59,7 +59,7 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
                 return {
                     ...channel,
                     subChannels: channel.subChannels.filter((subChannel) =>
-                        selectedChannels.includes(subChannel.channelId)
+                        selectedChannels?.includes(subChannel.channelId)
                     ),
                 };
             }).filter((channel: Channel) => channel.subChannels.length > 0);
@@ -207,7 +207,7 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
                                                         <TcText text={subChannel.name} variant='subtitle1' />
                                                         <FormControlLabel
                                                             control={<TcSwitch
-                                                                checked={selectedChannels.includes(subChannel.channelId)}
+                                                                checked={selectedChannels?.includes(subChannel.channelId)}
                                                                 disabled={!subChannel.canReadMessageHistoryAndViewChannel}
                                                                 onChange={(e) => handleToggleChannelSubChannel(channel.channelId, subChannel.channelId, e.target.checked)}
                                                             />}

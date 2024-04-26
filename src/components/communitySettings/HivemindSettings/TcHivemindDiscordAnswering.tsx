@@ -116,7 +116,7 @@ function TcHivemindDiscordAnswering({ platform, defaultAnsweringModuleConfig, ha
                                             <TcText text={channel.title} variant='h6' fontWeight='bold' />
                                             <FormControlLabel
                                                 control={<TcSwitch checked={
-                                                    channel.subChannels.every(subChannel => selectedChannels.includes(subChannel.channelId))
+                                                    channel.subChannels.every(subChannel => selectedChannels?.includes(subChannel.channelId))
                                                 }
                                                     disabled={
                                                         channel.subChannels.some(subChannel => !subChannel.canReadMessageHistoryAndViewChannel)
@@ -134,7 +134,7 @@ function TcHivemindDiscordAnswering({ platform, defaultAnsweringModuleConfig, ha
                                                         <TcText text={subChannel.name} variant='subtitle1' />
                                                         <FormControlLabel
                                                             control={<TcSwitch
-                                                                checked={selectedChannels.includes(subChannel.channelId)}
+                                                                checked={selectedChannels?.includes(subChannel.channelId)}
                                                                 disabled={!subChannel.canReadMessageHistoryAndViewChannel}
                                                                 onChange={(e) => handleToggleChannelSubChannel(channel.channelId, subChannel.channelId, e.target.checked)}
                                                             />}
