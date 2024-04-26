@@ -10,6 +10,7 @@ import { IDiscordModifiedCommunity, IPlatformProps } from '../../../utils/interf
 import TcCard from '../../shared/TcCard';
 import TcButton from '../../shared/TcButton';
 import { useRouter } from 'next/navigation';
+import TcGdriveIntgration from './TcGdriveIntgration';
 
 interface TcTabPanelProps {
     children?: React.ReactNode;
@@ -138,6 +139,11 @@ function TcCommunityPlatforms() {
                     {
                         activeTab === 0 && <TabPanel value={activeTab} index={0}>
                             <TcDiscordIntgration isLoading={isLoading} platformType={'discord'} connectedPlatforms={platforms} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
+                        </TabPanel>
+                    }
+                    {
+                        activeTab === 1 && <TabPanel value={activeTab} index={1}>
+                            <TcGdriveIntgration />
                         </TabPanel>
                     }
                 </Box>

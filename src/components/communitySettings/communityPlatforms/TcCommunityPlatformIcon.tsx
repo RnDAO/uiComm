@@ -4,6 +4,7 @@ import { FaDiscourse } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { FaGithub } from "react-icons/fa";
 import { FaGoogleDrive } from "react-icons/fa";
+import React from "react";
 
 interface TcCommunityPlatformIconProps {
     platform: string;
@@ -24,7 +25,7 @@ function TcCommunityPlatformIcon({ platform }: TcCommunityPlatformIconProps) {
                 return <AiFillThunderbolt size={44} />
             case 'Github':
                 return <FaGithub size={44} />
-            case 'Google':
+            case 'GDrive':
                 return <FaGoogleDrive size={44} />
             default:
                 return null;

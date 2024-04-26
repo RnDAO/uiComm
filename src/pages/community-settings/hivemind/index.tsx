@@ -7,6 +7,7 @@ import TcText from '../../../components/shared/TcText';
 import TcButton from '../../../components/shared/TcButton';
 import TcHivemindSettings from '../../../components/communitySettings/HivemindSettings';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
+import { conf } from '../../../configs';
 
 function Index() {
     return (
@@ -28,7 +29,11 @@ function Index() {
                                 <TcText text="Hivemind Settings" variant='h6' fontWeight='bold' />
                                 <div className='flex items-center justify-between'>
                                     <TcText className='w-2/3' text="Hivemind is a Q&A bot that retrieves answers from your documentation, website, and live chats, serving as a research assistant for team discussions or customer support inquiries. Learn More" variant='body2' />
-                                    <TcButton text="Permissions?" variant='outlined' />
+                                    <TcButton text="Permissions?" variant='outlined' onClick={() =>
+                                        window.open(
+                                            `${conf.GITBOOK_URL}features/smart-announcements#how-to-set-permissions-for-the-smart-announcements-to-work`
+                                        )
+                                    } />
                                 </div>
                                 <TcHivemindSettings />
                             </div>

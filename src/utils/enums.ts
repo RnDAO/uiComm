@@ -1,11 +1,11 @@
 export enum IntegrationPlatform {
   Discord = 'Discord',
+  GDrive = 'GDrive',
   Twitter = 'Twitter',
   Discourse = 'Discourse',
   Telegram = 'Telegram',
   Snapshot = 'Snapshot',
   Github = 'Github',
-  Google = 'Google',
 }
 
 export enum StatusCode {

@@ -20,6 +20,7 @@ import { useSnackbar } from '../../../context/SnackbarContext';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RiTimeLine } from 'react-icons/ri';
 import { useRouter } from 'next/router';
+import { conf } from '../../../configs';
 
 interface TcDiscordIntegrationSettingsDialog {
     platform: IPlatformProps;
@@ -233,7 +234,12 @@ function TcDiscordIntegrationSettingsDialog({
                                 `Selected channels:${selectedChannels?.length}`
                             } variant='body1' />
                         </div>
-                        <TcButton variant='outlined' text='Permissions?' />
+                        <TcButton variant='outlined' text='Permissions?'
+                            onClick={() =>
+                                window.open(
+                                    `${conf.GITBOOK_URL}features/smart-announcements#how-to-set-permissions-for-the-smart-announcements-to-work`
+                                )
+                            } />
                     </div>
                     <div className='h-72 max-h-72 overflow-y-scroll bg-gray-100 rounded-sm'>
                         <TreeView
