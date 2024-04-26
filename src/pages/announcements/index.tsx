@@ -117,10 +117,12 @@ function Index() {
   };
 
   const fetchData = async (date?: Date | null, zone?: string) => {
+    if (!platformId) return;
     try {
       setLoading(true);
 
-      let startDate, endDate;
+      let startDate: string = '';
+      let endDate: string = '';
       if (date) {
         startDate = moment(date)
           .tz(zone || selectedZone)
@@ -137,8 +139,8 @@ function Index() {
         page: page,
         limit: 8,
         timeZone: zone || selectedZone,
-        ...(startDate ? { startDate: startDate } : {}),
-        ...(endDate ? { endDate: endDate } : {}),
+        ...(startDate ? { startDate } : {}),
+        ...(endDate ? { endDate } : {}),
         community: communityId,
       });
 
@@ -200,7 +202,7 @@ function Index() {
                   />
                   <TcTimeZone handleZone={setSelectedZone} />
                 </div>
-                {fetchedAnnouncements.results.length > 0 ? (
+                {fetchedAnnouncements && fetchedAnnouncements.results.length > 0 ? (
                   <div className='overflow-x-scroll md:overflow-hidden'>
                     <TcAnnouncementsTable
                       announcements={
@@ -229,13 +231,13 @@ function Index() {
                 )}
               </div>
               <div className='sticky bottom-0 min-h-[70px] bg-white px-4 py-2'>
-                {fetchedAnnouncements.totalResults > 8 && (
+                {fetchedAnnouncements && fetchedAnnouncements.totalResults > 8 && (
                   <div className='flex justify-end'>
                     <TcPagination
                       totalItems={fetchedAnnouncements.totalResults}
                       itemsPerPage={Math.ceil(
                         fetchedAnnouncements.totalResults /
-                          fetchedAnnouncements.totalPages
+                        fetchedAnnouncements.totalPages
                       )}
                       currentPage={page}
                       onChangePage={handlePageChange}
