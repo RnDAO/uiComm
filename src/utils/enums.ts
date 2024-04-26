@@ -4,6 +4,8 @@ export enum IntegrationPlatform {
   Discourse = 'Discourse',
   Telegram = 'Telegram',
   Snapshot = 'Snapshot',
+  Github = 'Github',
+  Google = 'Google',
 }
 
 export enum StatusCode {

@@ -2,6 +2,8 @@ import { FaDiscord } from "react-icons/fa";
 import { FaTelegram, FaTwitter } from "react-icons/fa6";
 import { FaDiscourse } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
+import { FaGithub } from "react-icons/fa";
+import { FaGoogleDrive } from "react-icons/fa";
 
 interface TcCommunityPlatformIconProps {
     platform: string;
@@ -20,6 +22,10 @@ function TcCommunityPlatformIcon({ platform }: TcCommunityPlatformIconProps) {
                 return <FaTelegram size={44} />
             case 'Snapshot':
                 return <AiFillThunderbolt size={44} />
+            case 'Github':
+                return <FaGithub size={44} />
+            case 'Google':
+                return <FaGoogleDrive size={44} />
             default:
                 return null;
         }

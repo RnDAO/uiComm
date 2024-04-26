@@ -203,3 +203,19 @@ export interface IUser {
   username?: string;
   avatar?: string;
 }
+
+export interface IPlatformModuleProps {
+  platform: string;
+  name: 'discord';
+  metadata: {
+    [key: string]: any;
+  };
+}
+export interface IModuleProps {
+  id: string;
+  name: string;
+  community: string;
+  options: {
+    platforms: IPlatformModuleProps[];
+  };
+}

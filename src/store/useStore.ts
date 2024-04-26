@@ -9,6 +9,7 @@ import createMemberInteractionSlice from './slices/memberInteractionSlice';
 import platformSlice from './slices/platformSlice';
 import twitterSlice from './slices/twitterSlice';
 import userSlice from './slices/userSlice';
+import moduleSlice from './slices/moduleSlice';
 
 const useAppStore = create<any>()((...a) => ({
   ...createChartSlice(...a),
@@ -20,6 +21,7 @@ const useAppStore = create<any>()((...a) => ({
   ...platformSlice(...a),
   ...userSlice(...a),
   ...announcementsSlice(...a),
+  ...moduleSlice(...a),
 }));
 
 export default useAppStore;

@@ -5,9 +5,11 @@ import { IntegrationPlatform } from '../../../utils/enums';
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
 import useAppStore from '../../../store/useStore';
-import { useToken } from '../../../context/TokenContext';
 import { StorageService } from '../../../services/StorageService';
 import { IDiscordModifiedCommunity, IPlatformProps } from '../../../utils/interfaces';
+import TcCard from '../../shared/TcCard';
+import TcButton from '../../shared/TcButton';
+import { useRouter } from 'next/navigation';
 
 interface TcTabPanelProps {
     children?: React.ReactNode;
@@ -42,16 +44,17 @@ function a11yProps(index: number) {
 }
 
 function TcCommunityPlatforms() {
-    const { retrievePlatforms } = useAppStore()
+    const { retrievePlatforms, reteriveModules, createModule } = useAppStore()
     const [platforms, setPlatforms] = React.useState<IPlatformProps[]>([]);
     const [activeTab, setActiveTab] = React.useState(0);
+    const router = useRouter()
+
+    const communityId =
+        StorageService.readLocalStorage<IDiscordModifiedCommunity>(
+            'community'
+        )?.id;
 
     const fetchPlatformsByType = async () => {
-        const communityId =
-            StorageService.readLocalStorage<IDiscordModifiedCommunity>(
-                'community'
-            )?.id;
-
         switch (activeTab) {
             case 0:
                 const { results } = await retrievePlatforms({
@@ -67,6 +70,23 @@ function TcCommunityPlatforms() {
     useEffect(() => {
         fetchPlatformsByType()
     }, [activeTab])
+
+    const handleManageHivemindModule = async () => {
+        try {
+            const hivemindModules = await reteriveModules({ community: communityId, name: 'hivemind' })
+
+            if (hivemindModules.results.length > 0) {
+                router.push('/community-settings/hivemind')
+            } else {
+                const createdHivemindModule = await createModule({ name: 'hivemind', community: communityId })
+                console.log({ createdHivemindModule });
+                router.push('/community-settings/hivemind')
+            }
+        } catch (error) {
+            console.log('error', error)
+        }
+
+    }
 
     return (
         <div>
@@ -97,6 +117,7 @@ function TcCommunityPlatforms() {
                                             <TcText text={platform} variant='body2' />
                                         </div>
                                     }
+                                    disabled={!["Discord"].includes(platform)}
                                     {...a11yProps(index)}
                                 />
                             ))
@@ -109,6 +130,19 @@ function TcCommunityPlatforms() {
                         </TabPanel>
                     }
                 </Box>
+
+                <div className='flex items-center space-x-3'>
+                    <TcText text="Modules" variant='h6' fontWeight="bold" />
+                    <TcText text="Manage the following modules and their access setting" variant='body1' />
+                </div>
+
+                <TcCard className='max-w-[10rem] min-h-[6rem]'
+                    children={
+                        <div className='flex flex-col items-center justify-center py-4 space-y-2'>
+                            <TcText text="Hivemind" variant='subtitle1' fontWeight="bold" />
+                            <TcButton text="Manage" variant='text' onClick={() => handleManageHivemindModule()} />
+                        </div>
+                    } />
             </Paper>
         </div>
     )
