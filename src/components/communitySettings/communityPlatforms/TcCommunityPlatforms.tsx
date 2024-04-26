@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import TcText from '../../shared/TcText'
-import { Box, Paper, Tab, Tabs } from '@mui/material'
+import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material'
 import { IntegrationPlatform } from '../../../utils/enums';
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
@@ -46,8 +46,9 @@ function a11yProps(index: number) {
 function TcCommunityPlatforms() {
     const { retrievePlatforms, reteriveModules, createModule } = useAppStore()
     const [platforms, setPlatforms] = useState<IPlatformProps[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState(0);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [activeTab, setActiveTab] = useState<number>(0);
+    const [hivemindManageIsLoading, setHivemindManageIsLoading] = useState<boolean>(false);
     const router = useRouter()
 
     const communityId =
@@ -76,6 +77,7 @@ function TcCommunityPlatforms() {
 
     const handleManageHivemindModule = async () => {
         try {
+            setHivemindManageIsLoading(true)
             const hivemindModules = await reteriveModules({ community: communityId, name: 'hivemind' })
 
             if (hivemindModules.results.length > 0) {
@@ -84,8 +86,11 @@ function TcCommunityPlatforms() {
                 await createModule({ name: 'hivemind', community: communityId })
                 router.push('/community-settings/hivemind')
             }
+            setHivemindManageIsLoading(false)
         } catch (error) {
             console.log('error', error)
+        } finally {
+            setHivemindManageIsLoading(false)
         }
 
     }
@@ -146,7 +151,9 @@ function TcCommunityPlatforms() {
                     children={
                         <div className='flex flex-col items-center justify-center py-4 space-y-2'>
                             <TcText text="Hivemind" variant='subtitle1' fontWeight="bold" />
-                            <TcButton text="Manage" variant='text' onClick={() => handleManageHivemindModule()} />
+                            <TcButton text={
+                                hivemindManageIsLoading ? <CircularProgress size={20} /> : 'Manage'
+                            } disabled={platforms.length === 0} variant='text' onClick={() => handleManageHivemindModule()} />
                         </div>
                     } />
             </Paper>

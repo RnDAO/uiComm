@@ -44,7 +44,16 @@ function TcHivemindDiscordAnswering({ platform, defaultAnsweringModuleConfig, ha
                 platformId: platform.id
             })
 
-            setDiscordPlatformChannels(data)
+            const analyizedChannels = data.map((channel: Channel) => {
+                return {
+                    ...channel,
+                    subChannels: channel.subChannels.filter((subChannel) =>
+                        selectedChannels?.includes(subChannel.channelId)
+                    ),
+                };
+            }).filter((channel: Channel) => channel.subChannels.length > 0);
+
+            setDiscordPlatformChannels(analyizedChannels)
             setIsLoading(false);
         } catch (error) {
             console.log('Error fetching discord platform properties', error);
@@ -115,6 +124,7 @@ function TcHivemindDiscordAnswering({ platform, defaultAnsweringModuleConfig, ha
                                         <div className='flex justify-between items-center'>
                                             <TcText text={channel.title} variant='h6' fontWeight='bold' />
                                             <FormControlLabel
+                                                onClick={(e) => e.stopPropagation()}
                                                 control={<TcSwitch checked={
                                                     channel.subChannels.every(subChannel => selectedChannels?.includes(subChannel.channelId))
                                                 }
@@ -133,6 +143,7 @@ function TcHivemindDiscordAnswering({ platform, defaultAnsweringModuleConfig, ha
                                                     <div className='flex justify-between items-center'>
                                                         <TcText text={subChannel.name} variant='subtitle1' />
                                                         <FormControlLabel
+                                                            onClick={(e) => e.stopPropagation()}
                                                             control={<TcSwitch
                                                                 checked={selectedChannels?.includes(subChannel.channelId)}
                                                                 disabled={!subChannel.canReadMessageHistoryAndViewChannel}

@@ -16,7 +16,6 @@ import TcHivemindDiscordLearnings from './TcHivemindDiscordLearnings';
 import TcHivemindDiscordAnswering from './TcHivemindDiscordAnswering';
 import TcButton from '../../shared/TcButton';
 import { useRouter } from 'next/router';
-import SimpleBackdrop from '../../global/LoadingBackdrop';
 import { useSnackbar } from '../../../context/SnackbarContext';
 
 interface TcTabPanelProps {
@@ -56,7 +55,23 @@ function HivemindSettings() {
 
     const { showMessage } = useSnackbar();
 
-    let hivemindPayload = {};
+    const [hivemindPayload, setHivemindPayload] = useState<{
+        learning: {
+            selectedChannels: string[];
+            fromDate: string;
+        };
+        answering: {
+            selectedChannels: string[];
+        };
+    }>({
+        learning: {
+            selectedChannels: [],
+            fromDate: '',
+        },
+        answering: {
+            selectedChannels: [],
+        },
+    })
 
     const router = useRouter();
 
@@ -98,28 +113,36 @@ function HivemindSettings() {
         selectedChannels: string[];
         fromDate: string;
     }) => {
-        hivemindPayload = {
-            ...hivemindPayload,
-            learning: {
-                ...config,
-            },
-        };
+        setHivemindPayload(
+            (prevState) => {
+                return {
+                    ...prevState,
+                    learning: {
+                        ...config,
+                    },
+                };
+            }
+        );
     };
 
     const handleAnsweringConfigUpdate = (config: {
         selectedChannels: string[];
     }) => {
-        hivemindPayload = {
-            ...hivemindPayload,
-            answering: {
-                ...config,
-            },
-        };
+        setHivemindPayload((prevState) => {
+            return {
+                ...prevState,
+                answering: {
+                    ...config,
+                },
+            };
+        });
     };
 
     const handlePatchModule = async () => {
         try {
             if (!hivemindModule) return;
+            console.log(hivemindPayload);
+
             setLoading(true);
             const patchPayload = {
                 platforms: [

@@ -53,7 +53,6 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
             const data = await retrievePlatformProperties({
                 platformId: platform.id
             })
-            console.log({ selectedChannels });
 
             const analyizedChannels = data.map((channel: Channel) => {
                 return {
@@ -164,6 +163,7 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
                             selectedDate={selectedDate}
                             onDateChange={handleDateChange}
                             onResetDate={resetDateFilter}
+                            disableDaysFrom={35}
                         />
                     </div>
                 </div>
@@ -187,6 +187,7 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
                                         <div className='flex justify-between items-center'>
                                             <TcText text={channel.title} variant='h6' fontWeight='bold' />
                                             <FormControlLabel
+                                                onClick={(e) => e.stopPropagation()}
                                                 control={<TcSwitch checked={
                                                     channel.subChannels.every(subChannel => selectedChannels.includes(subChannel.channelId))
                                                 }
@@ -206,6 +207,7 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
                                                     <div className='flex justify-between items-center'>
                                                         <TcText text={subChannel.name} variant='subtitle1' />
                                                         <FormControlLabel
+                                                            onClick={(e) => e.stopPropagation()}
                                                             control={<TcSwitch
                                                                 checked={selectedChannels?.includes(subChannel.channelId)}
                                                                 disabled={!subChannel.canReadMessageHistoryAndViewChannel}
