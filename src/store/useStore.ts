@@ -6,10 +6,10 @@ import centricSlice from './slices/centricSlice';
 import createChartSlice from './slices/chartSlice';
 import communityHealthSlice from './slices/communityHealthSlice';
 import createMemberInteractionSlice from './slices/memberInteractionSlice';
+import moduleSlice from './slices/moduleSlice';
 import platformSlice from './slices/platformSlice';
 import twitterSlice from './slices/twitterSlice';
 import userSlice from './slices/userSlice';
-import moduleSlice from './slices/moduleSlice';
 
 const useAppStore = create<any>()((...a) => ({
   ...createChartSlice(...a),

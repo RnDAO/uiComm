@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
+import TcCommunityPlatforms from '../../components/communitySettings/communityPlatforms';
 import TcRolesAndPermissions from '../../components/communitySettings/rolesAndPermissions';
+import TcCommunitySettings from '../../components/communitySettings/TcCommunitySettings';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 import SEO from '../../components/global/SEO';
 import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import { withRoles } from '../../utils/withRoles';
-import TcCommunityPlatforms from '../../components/communitySettings/communityPlatforms';
-import TcCommunitySettings from '../../components/communitySettings/TcCommunitySettings';
 
 function Index() {
   const router = useRouter();

@@ -163,7 +163,7 @@ function TcPublicMessageContainer({
     try {
       if (!platformId) return;
       await refreshData(platformId, 'channel', undefined);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
