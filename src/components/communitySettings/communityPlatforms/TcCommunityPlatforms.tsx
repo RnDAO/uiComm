@@ -102,7 +102,7 @@ function TcCommunityPlatforms() {
 
   return (
     <div>
-      <div className='flex flex-col md:flex-row'>
+      <div>
         <TcText text='Platforms & Modules' variant='h6' />
         <TcText
           text='Configure the following by adding/removing platforms and enabling/disabling access settings within each module'
