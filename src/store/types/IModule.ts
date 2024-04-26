@@ -7,6 +7,6 @@ export default interface IModule {
     page: number;
     sortBy: string;
   }) => Promise<void>;
-  reteriveModuleById: (moduleId: string) => Promise<void>;
+  retrieveModuleById: (moduleId: string) => Promise<void>;
   patchModule: (module: { moduleId: string; payload: any }) => Promise<void>;
 }

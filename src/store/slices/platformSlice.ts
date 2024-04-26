@@ -14,10 +14,10 @@ const BASE_URL = conf.API_BASE_URL;
 
 const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
   connectedPlatforms: [],
-  connectNewPlatform: (platfromType) => {
+  connectNewPlatform: (platformType) => {
     try {
       location.replace(
-        `${BASE_URL}/platforms/connect/?platform=${platfromType}`
+        `${BASE_URL}/platforms/connect/?platform=${platformType}`
       );
     } catch (error) {}
   },

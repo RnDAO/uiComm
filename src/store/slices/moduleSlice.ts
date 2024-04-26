@@ -26,7 +26,7 @@ const createModuleSlice: StateCreator<IModule> = (set, get) => ({
       return data;
     } catch (error) {}
   },
-  reteriveModuleById: async (moduleId) => {
+  retrieveModuleById: async (moduleId) => {
     try {
       const { data } = await axiosInstance.get(`/modules/${moduleId}`);
       return data;
