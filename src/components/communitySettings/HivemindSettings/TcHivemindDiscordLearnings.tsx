@@ -53,8 +53,18 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
             const data = await retrievePlatformProperties({
                 platformId: platform.id
             })
+            console.log({ selectedChannels });
 
-            setDiscordPlatformChannels(data)
+            const analyizedChannels = data.map((channel: Channel) => {
+                return {
+                    ...channel,
+                    subChannels: channel.subChannels.filter((subChannel) =>
+                        selectedChannels.includes(subChannel.channelId)
+                    ),
+                };
+            }).filter((channel: Channel) => channel.subChannels.length > 0);
+
+            setDiscordPlatformChannels(analyizedChannels)
             setIsLoading(false);
         } catch (error) {
             console.log('Error fetching discord platform properties', error);
@@ -117,9 +127,6 @@ function TcHivemindDiscordLearnings({ platform, defaultLearningModuleConfig, han
 
 
     useEffect(() => {
-        console.log('selectedChannels', selectedChannels);
-        console.log('selectedDate', selectedDate);
-
         handleModuleConfigChange({
             selectedChannels,
             fromDate: selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : ''

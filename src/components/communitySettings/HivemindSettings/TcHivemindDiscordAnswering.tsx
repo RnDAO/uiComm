@@ -78,8 +78,6 @@ function TcHivemindDiscordAnswering({ platform, defaultAnsweringModuleConfig, ha
     }
 
     useEffect(() => {
-        console.log('selectedChannels', selectedChannels);
-
         handleModuleConfigChange({
             selectedChannels,
         });

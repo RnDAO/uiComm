@@ -79,7 +79,6 @@ function TcCommunityPlatforms() {
                 router.push('/community-settings/hivemind')
             } else {
                 const createdHivemindModule = await createModule({ name: 'hivemind', community: communityId })
-                console.log({ createdHivemindModule });
                 router.push('/community-settings/hivemind')
             }
         } catch (error) {

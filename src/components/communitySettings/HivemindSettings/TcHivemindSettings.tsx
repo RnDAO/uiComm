@@ -98,7 +98,6 @@ function HivemindSettings() {
         selectedChannels: string[];
         fromDate: string;
     }) => {
-        console.log({ config });
         hivemindPayload = {
             ...hivemindPayload,
             learning: {
@@ -110,7 +109,6 @@ function HivemindSettings() {
     const handleAnsweringConfigUpdate = (config: {
         selectedChannels: string[];
     }) => {
-        console.log({ config });
         hivemindPayload = {
             ...hivemindPayload,
             answering: {
@@ -214,7 +212,7 @@ function HivemindSettings() {
                                     )[0]
                                 }
                                 defaultLearningModuleConfig={
-                                    hivemindModule?.options?.platforms[0].metadata?.learning
+                                    hivemindModule?.options?.platforms[0]?.metadata?.learning
                                 }
                                 handleModuleConfigChange={handleLearningConfigUpdate}
                             />
@@ -226,7 +224,7 @@ function HivemindSettings() {
                                     )[0]
                                 }
                                 defaultAnsweringModuleConfig={
-                                    hivemindModule?.options?.platforms[0].metadata?.answering
+                                    hivemindModule?.options?.platforms[0]?.metadata?.answering
                                 }
                                 handleModuleConfigChange={handleAnsweringConfigUpdate}
                             />
