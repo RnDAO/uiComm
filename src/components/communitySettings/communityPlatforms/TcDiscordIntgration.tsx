@@ -12,10 +12,11 @@ import TcDiscordIntegrationSettingsDialog from './TcDiscordIntegrationSettingsDi
 interface TcDiscordIntgrationProps {
     platformType: string;
     connectedPlatforms: IPlatformProps[];
+    handleUpdateCommunityPlatoform: () => void;
 }
 
-function TcDiscordIntgration({ platformType, connectedPlatforms }: TcDiscordIntgrationProps) {
-    const { connectNewPlatform, retrievePlatformProperties } = useAppStore()
+function TcDiscordIntgration({ platformType, connectedPlatforms, handleUpdateCommunityPlatoform }: TcDiscordIntgrationProps) {
+    const { connectNewPlatform } = useAppStore()
 
     const handleConnect = () => {
         connectNewPlatform(platformType)
@@ -38,7 +39,7 @@ function TcDiscordIntgration({ platformType, connectedPlatforms }: TcDiscordIntg
                             src={`${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`}
                             sizes='small'
                         />
-                        <TcDiscordIntegrationSettingsDialog platform={platform} />
+                        <TcDiscordIntegrationSettingsDialog platform={platform} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
                     </Paper>
                 ))
             }

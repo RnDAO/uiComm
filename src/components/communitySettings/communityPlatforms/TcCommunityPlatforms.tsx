@@ -78,13 +78,17 @@ function TcCommunityPlatforms() {
             if (hivemindModules.results.length > 0) {
                 router.push('/community-settings/hivemind')
             } else {
-                const createdHivemindModule = await createModule({ name: 'hivemind', community: communityId })
+                await createModule({ name: 'hivemind', community: communityId })
                 router.push('/community-settings/hivemind')
             }
         } catch (error) {
             console.log('error', error)
         }
 
+    }
+
+    const handleUpdateCommunityPlatoform = async () => {
+        await fetchPlatformsByType()
     }
 
     return (
@@ -125,7 +129,7 @@ function TcCommunityPlatforms() {
                     </Tabs>
                     {
                         activeTab === 0 && <TabPanel value={activeTab} index={0}>
-                            <TcDiscordIntgration platformType={'discord'} connectedPlatforms={platforms} />
+                            <TcDiscordIntgration platformType={'discord'} connectedPlatforms={platforms} handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform} />
                         </TabPanel>
                     }
                 </Box>

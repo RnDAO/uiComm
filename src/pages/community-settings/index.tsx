@@ -1,17 +1,15 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import TcCommunityIntegrations from '../../components/communitySettings/communityIntegrations/TcCommunityIntegrations';
 import TcRolesAndPermissions from '../../components/communitySettings/rolesAndPermissions';
-import TcSwitchCommunity from '../../components/communitySettings/switchCommunity/TcSwitchCommunity';
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 import SEO from '../../components/global/SEO';
 import TcIntegrationDialog from '../../components/pages/communitySettings/TcIntegrationDialog';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
-import TcText from '../../components/shared/TcText';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import { withRoles } from '../../utils/withRoles';
 import TcCommunityPlatforms from '../../components/communitySettings/communityPlatforms';
+import TcCommunitySettings from '../../components/communitySettings/TcCommunitySettings';
 
 function Index() {
   const router = useRouter();
@@ -56,10 +54,8 @@ function Index() {
         <TcBoxContainer
           contentContainerChildren={
             <div className='space-y-4 px-4 pt-4 pb-[4rem] md:px-10'>
-              <TcText text='Community Settings' variant='h5' />
+              <TcCommunitySettings />
               <div className='space-y-2'>
-                {/* <TcSwitchCommunity /> */}
-                {/* <TcCommunityIntegrations /> */}
                 <TcCommunityPlatforms />
                 <TcRolesAndPermissions />
               </div>

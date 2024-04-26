@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IoSettingsSharp } from 'react-icons/io5';
+import { IoClose, IoSettingsSharp } from 'react-icons/io5';
 import { truncateCenter } from '../../../helpers/helper';
 import TcButton from '../../shared/TcButton';
 import { IPlatformProps } from '../../../utils/interfaces';
@@ -19,12 +19,14 @@ import { FormControlLabel } from '@mui/material';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RiTimeLine } from 'react-icons/ri';
+import { useRouter } from 'next/router';
 
 interface TcDiscordIntegrationSettingsDialog {
     platform: IPlatformProps;
+    handleUpdateCommunityPlatoform: () => void;
 }
 function TcDiscordIntegrationSettingsDialog({
-    platform,
+    platform, handleUpdateCommunityPlatoform
 }: TcDiscordIntegrationSettingsDialog) {
     const { retrievePlatformProperties, patchPlatformById, deletePlatform } = useAppStore();
     const [open, setOpen] = useState<boolean>(false);
@@ -38,21 +40,36 @@ function TcDiscordIntegrationSettingsDialog({
     const [discordPlatformChannels, setDiscordPlatformChannels] = useState<Channel[]>([])
     const { showMessage } = useSnackbar();
 
+    const router = useRouter()
+
+    useEffect(() => {
+        if (router?.query?.platformId) {
+            setOpen(true);
+        }
+    }, [])
+
     useEffect(() => {
         const fetchDiscordPlatformProperties = async () => {
             if (!platform) return;
 
-            const { selectedChannels } = platform.metadata;
+            const { selectedChannels, period } = platform.metadata;
+            const newDateTimeDisplay = period ? moment(period).format('MMM DD, YYYY') : 'Filter Date';
 
             setSelectedChannels(selectedChannels);
 
-            const data = await retrievePlatformProperties({
-                platformId: platform.id
-            })
-            setDiscordPlatformChannels(data)
-        }
+            if (dateTimeDisplay !== newDateTimeDisplay) {
+                setDateTimeDisplay(newDateTimeDisplay);
+            }
+
+            if (!selectedDate || (selectedDate && period && selectedDate.toISOString() !== period)) {
+                setSelectedDate(new Date(period));
+            }
+
+            const data = await retrievePlatformProperties({ platformId: platform.id });
+            setDiscordPlatformChannels(data);
+        };
         fetchDiscordPlatformProperties();
-    }, [platform])
+    }, [platform]);
 
     const handleToggleSubChannel = (event: React.ChangeEvent<HTMLInputElement>, channelId: string) => {
         event.stopPropagation();
@@ -104,6 +121,7 @@ function TcDiscordIntegrationSettingsDialog({
 
             if (data) {
                 setOpen(false);
+                router.replace('/community-settings', {}, { shallow: true })
                 setIsAnalyizingDialogOpen(true);
             }
         } catch (error) { }
@@ -115,6 +133,7 @@ function TcDiscordIntegrationSettingsDialog({
             if (data === '') {
                 setIsDeleteDialogOpen(false);
                 showMessage('Platform disconnected successfully.', 'success');
+                handleUpdateCommunityPlatoform()
             }
 
         } catch (error) { }
@@ -171,6 +190,9 @@ function TcDiscordIntegrationSettingsDialog({
                 }}
             >
                 <div className='flex flex-col p-5'>
+                    <div className='absolute right-2 top-2'>
+                        <IoClose size={30} className='cursor-pointer' onClick={() => setOpen(false)} />
+                    </div>
                     <div className='flex items-center space-x-3'>
                         <TcCommunityPlatformIcon platform='Discord' />
                         <div>
@@ -182,7 +204,7 @@ function TcDiscordIntegrationSettingsDialog({
                         <TcText text='Change date period for data analysis' variant='subtitle1' fontWeight='bold' />
                         <TcText text='Choose the analysis start date (min. last 35 days for all the metrics to show properly).' variant='body2' />
                     </div>
-                    <div className='w-1/3'>
+                    <div className='w-1/2'>
                         <TcButton
                             className='w-full'
                             variant='outlined'
@@ -199,12 +221,15 @@ function TcDiscordIntegrationSettingsDialog({
                             selectedDate={selectedDate}
                             onDateChange={handleDateChange}
                             onResetDate={resetDateFilter}
+                            disableDaysFrom={30}
                         />
                     </div>
                     <div className='flex justify-between items-center'>
                         <div>
                             <TcText text="Change your imported channels" variant='subtitle1' fontWeight='bold' />
-                            <TcText text='Selected channels:0' variant='body1' />
+                            <TcText text={
+                                `Selected channels:${selectedChannels.length}`
+                            } variant='body1' />
                         </div>
                         <TcButton variant='outlined' text='Permissions?' />
                     </div>

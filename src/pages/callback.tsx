@@ -84,9 +84,9 @@ function Callback() {
     try {
       const data = await createNewPlatform(payload);
       if (!data) {
-        router.push('community-settings');
+        router.push('/community-settings');
       }
-      router.push(`/community-settings/platform/?platformId=${data.id}`);
+      router.push(`/community-settings/?platformId=${data.id}`);
     } catch (error) {
       console.error('Failed to create new platform:', error);
     }
