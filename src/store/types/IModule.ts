@@ -1,6 +1,6 @@
 export default interface IModule {
   createModule: (module: { name: string; community: string }) => Promise<void>;
-  reteriveModules: (module: {
+  retrieveModules: (module: {
     name: string;
     community: string;
     limit: number;

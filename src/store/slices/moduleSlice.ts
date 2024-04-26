@@ -13,7 +13,7 @@ const createModuleSlice: StateCreator<IModule> = (set, get) => ({
       return data;
     } catch (error) {}
   },
-  reteriveModules: async ({ name, community, limit, page, sortBy }) => {
+  retrieveModules: async ({ name, community, limit, page, sortBy }) => {
     try {
       const params = {
         page,

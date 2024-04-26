@@ -44,7 +44,7 @@ function a11yProps(index: number) {
 }
 
 function TcCommunityPlatforms() {
-  const { retrievePlatforms, reteriveModules, createModule } = useAppStore();
+  const { retrievePlatforms, retrieveModules, createModule } = useAppStore();
   const [platforms, setPlatforms] = useState<IPlatformProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -77,7 +77,7 @@ function TcCommunityPlatforms() {
   const handleManageHivemindModule = async () => {
     try {
       setHivemindManageIsLoading(true);
-      const hivemindModules = await reteriveModules({
+      const hivemindModules = await retrieveModules({
         community: communityId,
         name: 'hivemind',
       });

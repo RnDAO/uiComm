@@ -47,7 +47,7 @@ function a11yProps(index: number) {
 }
 
 function HivemindSettings() {
-  const { retrievePlatforms, reteriveModules, patchModule } = useAppStore();
+  const { retrievePlatforms, retrieveModules, patchModule } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [activePlatform, setActivePlatform] = useState<number>(0);
   const [platform, setPlatform] = useState<number>(0);
@@ -82,7 +82,7 @@ function HivemindSettings() {
         'community'
       )?.id;
 
-    const hivemindModules = await reteriveModules({
+    const hivemindModules = await retrieveModules({
       community: communityId,
       name: 'hivemind',
     });
