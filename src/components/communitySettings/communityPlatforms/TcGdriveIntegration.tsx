@@ -5,7 +5,7 @@ import { BiPlus } from 'react-icons/bi';
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcButton from '../../shared/TcButton';
 
-function TcGdriveIntgration() {
+function TcGdriveIntegration() {
   return (
     <div className='flex items-center space-x-3 rounded-sm bg-secondary bg-opacity-5 p-5'>
       <Paper className='flex h-[6rem] w-[10rem] flex-col items-center justify-center rounded-sm py-2 shadow-none'>
@@ -25,4 +25,4 @@ function TcGdriveIntgration() {
   );
 }
 
-export default TcGdriveIntgration;
+export default TcGdriveIntegration;

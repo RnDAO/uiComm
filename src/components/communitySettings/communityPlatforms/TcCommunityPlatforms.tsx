@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
-import TcGdriveIntgration from './TcGdriveIntgration';
+import TcGdriveIntegration from './TcGdriveIntegration';
 import TcButton from '../../shared/TcButton';
 import TcCard from '../../shared/TcCard';
 import TcText from '../../shared/TcText';
@@ -152,7 +152,7 @@ function TcCommunityPlatforms() {
           )}
           {activeTab === 1 && (
             <TabPanel value={activeTab} index={1}>
-              <TcGdriveIntgration />
+              <TcGdriveIntegration />
             </TabPanel>
           )}
         </Box>
