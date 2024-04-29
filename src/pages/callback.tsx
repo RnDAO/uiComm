@@ -16,6 +16,7 @@ interface Params {
   id: string;
   username?: string;
   profileImageUrl?: string;
+  userId?: string;
   icon?: string;
 }
 /**
@@ -73,6 +74,8 @@ function Callback() {
     } else if (params.platform === 'discord') {
       metadata.icon = params.icon;
       metadata.name = params.name;
+    } else if (params.platform === 'google') {
+      metadata.userId = params.userId;
     }
 
     const payload = {
@@ -85,6 +88,9 @@ function Callback() {
       const data = await createNewPlatform(payload);
       if (!data) {
         router.push('/community-settings');
+      }
+      if (params.platform === 'google') {
+        router.push('/community-settings')
       }
       router.push(`/community-settings/?platformId=${data.id}`);
     } catch (error) {
@@ -123,6 +129,16 @@ function Callback() {
       case StatusCode.DISCORD_AUTHORIZATION_FROM_SETTINGS:
         setMessage('Authorizion complete from settings page.');
         handleCreateNewPlatform(params);
+        break;
+
+      case StatusCode.GDRIVE_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Google Drive authorization successful.');
+        handleCreateNewPlatform(params);
+        break;
+
+      case StatusCode.GDRIVE_AUTHORIZATION_FAILURE:
+        setMessage('Google Drive authorization failed.');
+        router.push('/community-settings');
         break;
 
       case StatusCode.TWITTER_AUTHORIZATION_SUCCESSFUL:

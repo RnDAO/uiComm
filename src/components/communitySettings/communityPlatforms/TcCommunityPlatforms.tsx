@@ -66,6 +66,14 @@ function TcCommunityPlatforms() {
         setPlatforms(results);
         setIsLoading(false);
         break;
+      case 1:
+        setIsLoading(true);
+        const { results: gdriveResults } = await retrievePlatforms({
+          name: 'google',
+          community: communityId,
+        });
+        setPlatforms(gdriveResults);
+        setIsLoading(false);
       default:
         break;
     }
@@ -135,7 +143,7 @@ function TcCommunityPlatforms() {
                     <TcText text={platform} variant='body2' />
                   </div>
                 }
-                disabled={!['Discord'].includes(platform)}
+                disabled={!['Discord', 'GDrive'].includes(platform)}
                 {...a11yProps(index)}
               />
             ))}
@@ -152,7 +160,12 @@ function TcCommunityPlatforms() {
           )}
           {activeTab === 1 && (
             <TabPanel value={activeTab} index={1}>
-              <TcGdriveIntegration />
+              <TcGdriveIntegration
+                isLoading={isLoading}
+                platformType='google'
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+              />
             </TabPanel>
           )}
         </Box>

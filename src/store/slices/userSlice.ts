@@ -10,7 +10,7 @@ const createUserSlice: StateCreator<IUser> = (set, get) => ({
   userRolePermissions: [],
   getUser: async () => {
     try {
-      const { data } = await axiosInstance.patch(`/users/@me`);
+      const { data } = await axiosInstance.get(`/users/@me`);
       return data;
     } catch (error) {}
   },
