@@ -8,6 +8,7 @@ import { IRetrieveCommunitiesProps } from '../store/types/ICentric';
 import useAppStore from '../store/useStore';
 import { StatusCode } from '../utils/enums';
 import { ICommunity, metaData } from '../utils/interfaces';
+import { useSnackbar } from '../context/SnackbarContext';
 
 export type CommunityWithoutAvatar = Omit<ICommunity, 'avatarURL'>;
 interface Params {
@@ -35,6 +36,8 @@ function Callback() {
 
   // Method to retrieve communities from the store.
   const { retrieveCommunities, createNewPlatform } = useAppStore();
+  const { showMessage } = useSnackbar();
+
 
   /**
    * Asynchronously fetches communities.
@@ -90,6 +93,7 @@ function Callback() {
         router.push('/community-settings');
       }
       if (params.platform === 'google') {
+        showMessage('Google Drive authorized successfully.', 'success');
         router.push('/community-settings')
       }
       router.push(`/community-settings/?platformId=${data.id}`);

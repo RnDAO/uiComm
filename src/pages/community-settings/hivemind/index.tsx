@@ -14,22 +14,22 @@ function Index() {
   return (
     <>
       <SEO titleTemplate='Hivemind Settings' />
-      <div className='container flex flex-col px-4 py-4 md:px-12'>
+      <div className='container flex flex-col px-4 space-y-3 py-4 md:px-12'>
+        <TcBreadcrumbs
+          items={[
+            {
+              label: 'Community Settings',
+              path: '/community-settings',
+            },
+            {
+              label: 'Hivemind Settings',
+              path: '/community-settings/hivemind',
+            },
+          ]}
+        />
         <TcBoxContainer
           contentContainerChildren={
             <div className='space-y-4'>
-              <TcBreadcrumbs
-                items={[
-                  {
-                    label: 'Community Settings',
-                    path: '/community-settings',
-                  },
-                  {
-                    label: 'Hivemind Settings',
-                    path: '/community-settings/hivemind',
-                  },
-                ]}
-              />
               <div className='space-y-4 px-4 pt-4 pb-[1rem] md:px-10'>
                 <TcText
                   text='Hivemind Settings'

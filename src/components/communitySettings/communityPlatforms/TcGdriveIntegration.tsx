@@ -14,13 +14,12 @@ import { useSnackbar } from '../../../context/SnackbarContext';
 import { MdDelete } from 'react-icons/md';
 
 interface TcGdriveIntegrationProps {
-  platformType: string;
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
   handleUpdateCommunityPlatoform: () => void;
 }
 
-function TcGdriveIntegration({ platformType, isLoading, connectedPlatforms, handleUpdateCommunityPlatoform }: TcGdriveIntegrationProps) {
+function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommunityPlatoform }: TcGdriveIntegrationProps) {
   const { connectNewPlatform, deletePlatform, getUser } = useAppStore();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>('');

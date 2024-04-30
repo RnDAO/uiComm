@@ -204,13 +204,23 @@ export interface IUser {
   avatar?: string;
 }
 
+export interface IModuleDiscordPlatformMetadata {
+  [key: string]: any;
+}
+
+export interface IModuleGooglePlatformMetadata {
+  driveIds: string[];
+  folderIds: string[];
+  fileIds: string[];
+}
+
 export interface IPlatformModuleProps {
   platform: string;
-  name: 'discord';
-  metadata: {
-    [key: string]: any;
-  };
+  name: 'discord' | 'google';
+  _i?: string;
+  metadata: IModuleDiscordPlatformMetadata;
 }
+
 export interface IModuleProps {
   id: string;
   name: string;
