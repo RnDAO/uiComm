@@ -127,7 +127,7 @@ export default function ActiveMembersComposition({
     setStatistics([
       {
         label: 'Active Members',
-        description: 'Interacted at least once in the last 7 days',
+        description: 'Posted at least once in the last 7 days',
         percentageChange: activeMembers.totActiveMembersPercentageChange
           ? activeMembers.totActiveMembersPercentageChange
           : 0,
@@ -137,7 +137,7 @@ export default function ActiveMembersComposition({
         customBackground: false,
         tooltipText: (
           <>
-            <span>Interactions are all messages that:</span>
+            <span>Posting means any message in a channel or thread that:</span>
             <ol className='list-disc pl-8'>
               <li>mention someone</li>
               <li>receive a reply</li>
@@ -151,7 +151,7 @@ export default function ActiveMembersComposition({
       {
         label: 'Newly Active',
         description:
-          'Started interacting for the first time in the last 7 days',
+          'Started posting for the first time in the last 7 days',
         percentageChange: activeMembers.newlyActivePercentageChange
           ? activeMembers.newlyActivePercentageChange
           : 0,
@@ -161,7 +161,7 @@ export default function ActiveMembersComposition({
       },
       {
         label: 'Consistently Active',
-        description: 'Interacted weekly for at least 3 out of 4 weeks',
+        description: 'Posted weekly for at least 3 out of 4 weeks',
         percentageChange: activeMembers.consistentlyActivePercentageChange
           ? activeMembers.consistentlyActivePercentageChange
           : 0,
@@ -188,7 +188,7 @@ export default function ActiveMembersComposition({
       },
       {
         label: 'Became Disengaged',
-        description: "Were active, but didn't interact in the last 2 weeks",
+        description: "Were active, but didn't post in the last 2 weeks",
         percentageChange: activeMembers.becameDisengagedPercentageChange
           ? activeMembers.becameDisengagedPercentageChange
           : 0,

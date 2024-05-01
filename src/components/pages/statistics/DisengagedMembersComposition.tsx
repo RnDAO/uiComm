@@ -120,7 +120,7 @@ export default function DisengagedMembersComposition({
     setStatistics([
       {
         label: 'Became Disengaged',
-        description: "Were active, but didn't interact in the last 2 weeks",
+        description: "Were active, but didn't post in the last 2 weeks",
         percentageChange: disengagedMembers.becameDisengagedPercentageChange
           ? disengagedMembers.becameDisengagedPercentageChange
           : 0,
@@ -132,7 +132,7 @@ export default function DisengagedMembersComposition({
       {
         label: 'Were Newly Active',
         description:
-          'Started interacting for the first time in the last 7 days',
+          'Started posting for the first time in the last 7 days',
         percentageChange: disengagedMembers.wereNewlyActivePercentageChange
           ? disengagedMembers.wereNewlyActivePercentageChange
           : 0,
@@ -141,7 +141,7 @@ export default function DisengagedMembersComposition({
         hasTooltip: true,
         tooltipText: (
           <>
-            <span>Interactions are all messages that:</span>
+            <span>Posting means any message in a channel or thread that:</span>
             <ol className='list-disc pl-8'>
               <li>mention someone</li>
               <li>receive a reply</li>
@@ -155,7 +155,7 @@ export default function DisengagedMembersComposition({
       {
         label: 'Were consistenly active',
         description:
-          'Were interacting every week for at least 3 out of the last 4 weeks',
+          'Were posting every week for at least 3 out of the last 4 weeks',
         percentageChange:
           disengagedMembers.wereConsistentlyActivePercentageChange
             ? disengagedMembers.wereConsistentlyActivePercentageChange
