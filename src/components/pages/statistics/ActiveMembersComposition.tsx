@@ -137,14 +137,7 @@ export default function ActiveMembersComposition({
         customBackground: false,
         tooltipText: (
           <>
-            <span>Posting means any message in a channel or thread that:</span>
-            <ol className='list-disc pl-8'>
-              <li>mention someone</li>
-              <li>receive a reply</li>
-              <li>receive a reaction</li>
-              <li>happen in a thread</li>
-            </ol>
-            <p>Messages without replies or reactions are not counted.</p>
+            <span>Posting means any message in a channel or thread</span>
           </>
         ),
       },
@@ -183,6 +176,15 @@ export default function ActiveMembersComposition({
             <span>
               Active member = at least 5 interactions with 5 other members.
             </span>
+            <br />
+            <span>Interactions are all messages that:</span>
+            <ol className='list-disc pl-8'>
+              <li>mention someone</li>
+              <li>receive a reply</li>
+              <li>receive a reaction</li>
+              <li>happen in a thread</li>
+            </ol>
+            <p>Messages without replies or reactions are not counted.</p>
           </>
         ),
       },
