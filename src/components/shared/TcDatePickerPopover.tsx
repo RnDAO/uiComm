@@ -2,6 +2,7 @@ import Popover from '@mui/material/Popover';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import moment from 'moment';
 import React from 'react';
 
 import TcButton from './TcButton';
@@ -13,6 +14,7 @@ interface ITcDatePickerPopoverProps {
   selectedDate: Date | null;
   onDateChange: (date: Date | null) => void;
   onResetDate: () => void;
+  disableDaysFrom?: number;
 }
 
 function TcDatePickerPopover({
@@ -22,7 +24,17 @@ function TcDatePickerPopover({
   selectedDate,
   onDateChange,
   onResetDate,
+  disableDaysFrom,
 }: ITcDatePickerPopoverProps) {
+  const disableRecentDates = (date: Date) => {
+    const today = moment();
+    const thirtyFiveDaysAgo = moment().subtract(disableDaysFrom, 'days');
+    return (
+      moment(date).isAfter(today) ||
+      moment(date).isBetween(thirtyFiveDaysAgo, today, 'day', '[]')
+    );
+  };
+
   return (
     <Popover
       open={open}
@@ -39,6 +51,7 @@ function TcDatePickerPopover({
           openTo='day'
           value={selectedDate}
           onChange={onDateChange}
+          shouldDisableDate={disableDaysFrom ? disableRecentDates : undefined}
         />
       </LocalizationProvider>
       <div className='px-5 py-3'>

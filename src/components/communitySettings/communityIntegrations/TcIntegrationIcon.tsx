@@ -48,7 +48,7 @@ function TcIntegrationIcon({ platform, size }: ITcIntegrationIconProps) {
     case IntegrationPlatform.Snapshot:
       return <BsQuestionCircleFill size={size} />;
     default:
-      return null;
+      return <BsDiscord size={size} />;
   }
 }
 

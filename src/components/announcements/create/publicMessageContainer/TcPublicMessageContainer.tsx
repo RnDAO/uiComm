@@ -162,7 +162,7 @@ function TcPublicMessageContainer({
   const refreshChannels = async () => {
     try {
       if (!platformId) return;
-      await refreshData(platformId, 'channel', undefined, undefined, false);
+      await refreshData(platformId, 'channel', undefined);
     } catch (error) {}
   };
 

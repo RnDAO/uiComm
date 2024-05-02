@@ -60,6 +60,8 @@ function TcUsersAutoComplete({
         limit: limit,
       });
 
+      if (!fetchedUsers) return;
+
       if (ngu) {
         setFilteredUsersByName(ngu);
         setFetchedUsers(fetchedUsers);
