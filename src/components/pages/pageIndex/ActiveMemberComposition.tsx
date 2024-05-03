@@ -32,7 +32,7 @@ const ActiveMemberComposition = () => {
     setStatistics([
       {
         label: 'Active Members',
-        description: 'Posted at least once in the last 7 days',
+        description: 'Posted at least once in the last 7 days.',
         percentageChange: activeMembers.totActiveMembersPercentageChange
           ? activeMembers.totActiveMembersPercentageChange
           : 0,
@@ -49,7 +49,7 @@ const ActiveMemberComposition = () => {
       {
         label: 'Newly Active',
         description:
-          'Started posting for the first time in the last 7 days',
+          'Started posting for the first time in the last 7 days.',
         percentageChange: activeMembers.newlyActivePercentageChange
           ? activeMembers.newlyActivePercentageChange
           : 0,
@@ -59,7 +59,7 @@ const ActiveMemberComposition = () => {
       },
       {
         label: 'Consistently Active',
-        description: 'Posted weekly for at least 3 out of 4 weeks',
+        description: 'Posted weekly for at least 3 out of 4 weeks.',
         percentageChange: activeMembers.consistentlyActivePercentageChange
           ? activeMembers.consistentlyActivePercentageChange
           : 0,

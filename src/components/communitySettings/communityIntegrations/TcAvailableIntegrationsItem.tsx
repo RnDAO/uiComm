@@ -39,23 +39,23 @@ function TcAvailableIntegrationsItem({
               data-testid='integration-icon'
             />
           </div>
-          {!disabled ? (
-            <TcButton
+          {
+            disabled ? (
+              <TcText text='Coming soon...' variant='body2' color='gray' className='pt-1' />
+            ) : <TcButton
               text='Connect'
               startIcon={<BsPlus />}
               className='max-w-full'
               size='small'
               onClick={() => integratePlatform()}
-            />) : (
-            <TcText text='Coming soon...' variant='body2' color='gray' />
-          )
+            />
           }
         </div>
       </TcIntegrationCard>
 
       {disabled && (
         <div
-          className='absolute inset-0 bg-gray-50 opacity-50 cursor-not-allowed'
+          className='absolute inset-0 bg-gray-50 opacity-30 cursor-not-allowed'
           aria-hidden='true'
         />
       )}
