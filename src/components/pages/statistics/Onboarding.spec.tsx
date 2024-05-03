@@ -45,13 +45,13 @@ describe('Onboarding component', () => {
       'All members that joined in the last 7 days'
     );
     const stillActiveDescriptionElement = screen.getByText(
-      'Started interacting for the first time in the last 7 days'
+      'Started posting for the first time in the last 7 days'
     );
     const droppedDescriptionElement = screen.getByText(
-      'New members that remain interacting 2 weeks after their first interaction'
+      'New members that remain posting 2 weeks after their first interaction'
     );
     const newlyActiveDescriptionElement = screen.getByText(
-      "Were newly active within the last 2 weeks, but didn't interact in the last 7 days"
+      "Were newly active within the last 2 weeks, but didn't post in the last 7 days"
     );
 
     expect(joinedDescriptionElement).toBeInTheDocument();

@@ -134,7 +134,7 @@ export default function Onboarding({
       {
         label: 'Newly Active',
         description:
-          'Started interacting for the first time in the last 7 days',
+          'Started posting for the first time in the last 7 days',
         percentageChange: onboardingMembers.newlyActivePercentageChange,
         value: onboardingMembers.newlyActive,
         colorBadge: 'bg-warning-500',
@@ -143,7 +143,7 @@ export default function Onboarding({
       {
         label: 'Still Active',
         description:
-          'New members that remain interacting 2 weeks after their first interaction',
+          'New members that remain posting 2 weeks after their first interaction',
         percentageChange: onboardingMembers.stillActivePercentageChange,
         value: onboardingMembers.stillActive,
         colorBadge: 'bg-secondary-75',
@@ -152,7 +152,7 @@ export default function Onboarding({
       {
         label: 'Dropped',
         description:
-          "Were newly active within the last 2 weeks, but didn't interact in the last 7 days",
+          "Were newly active within the last 2 weeks, but didn't post in the last 7 days",
         percentageChange: onboardingMembers.droppedPercentageChange,
         value: onboardingMembers.dropped,
         colorBadge: 'bg-error-500',
