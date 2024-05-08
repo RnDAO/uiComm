@@ -47,7 +47,7 @@ function TcHivemindDiscordLearnings({
     try {
       if (!platform) return;
       setIsLoading(true);
-      const { selectedChannels } = platform.metadata;
+      const { selectedChannels } = platform.metadata || { selectedChannels: [] };
 
       setSelectedChannels(selectedChannels);
 
@@ -119,6 +119,7 @@ function TcHivemindDiscordLearnings({
     const channelIndex = discordPlatformChannels.findIndex(
       (channel) => channel.channelId === channelId
     );
+    if (channelIndex === -1) return;
     const subChannels = discordPlatformChannels[channelIndex].subChannels;
     const subChannelIds = subChannels.map((subChannel) => subChannel.channelId);
 
