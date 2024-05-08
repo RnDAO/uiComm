@@ -140,7 +140,6 @@ function HivemindSettings() {
   const handlePatchModule = async () => {
     try {
       if (!hivemindModule) return;
-      console.log(hivemindPayload);
 
       setLoading(true);
       const patchPayload = {
@@ -205,7 +204,7 @@ function HivemindSettings() {
         >
           {platforms.map((platform, index) => (
             <Tab
-              className='mr-3 max-h-[6rem] max-w-[10rem] rounded-sm bg-white shadow-lg'
+              className='mr-3 min-w-[5rem] max-h-[6rem] max-w-[10rem] rounded-sm bg-white shadow-lg'
               key={index}
               label={
                 <div className='flex flex-col items-center space-x-2'>
@@ -268,6 +267,7 @@ function HivemindSettings() {
                 }
                 variant='contained'
                 className='md:w-1/4'
+                disabled={hivemindPayload?.learning?.fromDate === ''}
                 onClick={() => handlePatchModule()}
               />
             </div>
