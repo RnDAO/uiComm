@@ -109,28 +109,31 @@ function TcDiscordIntegrationSettingsDialog({
     channelId: string
   ) => {
     event.stopPropagation();
-    const newSelectedChannel = [...selectedChannels];
+    const channel = discordPlatformChannels.find(c => c.channelId === channelId);
 
-    const channel = discordPlatformChannels.find(
-      (channel) => channel.channelId === channelId
+    if (!channel) return;
+
+    let newSelectedChannels;
+
+    const areAllSelected = channel.subChannels.every(subChannel =>
+      selectedChannels.includes(subChannel.channelId)
     );
 
-    if (channel) {
-      if (channel.subChannels) {
-        channel.subChannels.forEach((subChannel) => {
-          const currentIndex = newSelectedChannel.indexOf(subChannel.channelId);
-
-          if (currentIndex === -1) {
-            newSelectedChannel.push(subChannel.channelId);
-          } else {
-            newSelectedChannel.splice(currentIndex, 1);
-          }
-        });
-      }
+    if (areAllSelected) {
+      newSelectedChannels = selectedChannels.filter(id =>
+        !channel.subChannels.some(subChannel => subChannel.channelId === id)
+      );
+    } else {
+      newSelectedChannels = [
+        ...selectedChannels,
+        ...channel.subChannels.map(subChannel => subChannel.channelId)
+      ];
+      newSelectedChannels = Array.from(new Set(newSelectedChannels));
     }
 
-    setSelectedChannels(newSelectedChannel);
+    setSelectedChannels(newSelectedChannels);
   };
+
 
   const handlePatchDiscordIntegrationSettings = async () => {
     try {
@@ -148,7 +151,7 @@ function TcDiscordIntegrationSettingsDialog({
         router.replace('/community-settings', {}, { shallow: true });
         setIsAnalyizingDialogOpen(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleDisconnectDiscordIntegration = async (
@@ -161,7 +164,7 @@ function TcDiscordIntegrationSettingsDialog({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const datePickerOpen = Boolean(anchorEl);
@@ -379,6 +382,7 @@ function TcDiscordIntegrationSettingsDialog({
             <TcButton
               className='w-1/3'
               text='Confirm'
+              disabled={selectedChannels?.length === 0 || !selectedDate}
               variant='contained'
               onClick={() => handlePatchDiscordIntegrationSettings()}
             />

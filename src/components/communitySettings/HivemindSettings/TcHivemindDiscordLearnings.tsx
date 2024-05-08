@@ -155,17 +155,17 @@ function TcHivemindDiscordLearnings({
   }, [selectedChannels, selectedDate]);
 
   return (
-    <div className='md:w-1/2'>
+    <div className='w-full md:w-1/2'>
       <div className='flex items-center'>
         <TcText text='Learnings' variant='h6' />
         <TcIconWithTooltip tooltipText='select the channels and sources from which the Hivemind AI will gather information to answer questions.' />
       </div>
       <div className='h-[23rem] overflow-y-scroll rounded-md border border-gray-400 bg-gray-50 p-4'>
-        <div className='mb-2 flex flex-col md:flex-row md:items-center md:justify-between'>
+        <div className='mb-2 flex flex-col'>
           <TcText text='Select the data extraction period' variant='h6' />
-          <div className='flex items-center space-x-1.5'>
+          <div className='flex items-center space-x-1.5 justify-end'>
             <TcIconWithTooltip tooltipText='select the date from which data will be analysed and fed to Hivemind. We recommend 3 months to start.' />
-            <TcButton
+            <TcButton className='w-full'
               variant='outlined'
               startIcon={<MdCalendarMonth />}
               onClick={handleClick}

@@ -140,7 +140,6 @@ function HivemindSettings() {
   const handlePatchModule = async () => {
     try {
       if (!hivemindModule) return;
-      console.log(hivemindPayload);
 
       setLoading(true);
       const patchPayload = {
@@ -268,6 +267,7 @@ function HivemindSettings() {
                 }
                 variant='contained'
                 className='md:w-1/4'
+                disabled={hivemindPayload?.learning?.fromDate === ''}
                 onClick={() => handlePatchModule()}
               />
             </div>
