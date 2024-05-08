@@ -115,7 +115,7 @@ function TcHivemindDiscordAnswering({
     <div className='md:w-1/2'>
       <div className='flex items-center'>
         <TcText text='Answering' variant='h6' />
-        <TcIconWithTooltip tooltipText='select the channels in which community members can ask questions to Hivemind using slash command /question.' />
+        <TcIconWithTooltip tooltipText='select the channels in which community members can ask questions to Hivemind using slash command /question.' data-testid="answering-tooltip" />
       </div>
       <div className='h-[23rem] overflow-y-scroll rounded-md border border-gray-400 bg-gray-50 p-4'>
         <TcText text='Select the data extraction period' variant='h6' />
