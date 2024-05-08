@@ -19,6 +19,7 @@ interface Params {
   profileImageUrl?: string;
   userId?: string;
   icon?: string;
+  picture?: string;
 }
 /**
  * Callback Component.
@@ -79,6 +80,9 @@ function Callback() {
       metadata.name = params.name;
     } else if (params.platform === 'google') {
       metadata.userId = params.userId;
+      metadata.name = params.name;
+      metadata.picture = params.picture;
+      metadata.id = params.id;
     }
 
     const payload = {

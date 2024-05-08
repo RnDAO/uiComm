@@ -11,7 +11,10 @@ import TcText from '../../shared/TcText';
 import TcDialog from '../../shared/TcDialog';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSnackbar } from '../../../context/SnackbarContext';
+import { IoClose, IoSettingsSharp } from 'react-icons/io5';
+import { truncateCenter } from '../../../helpers/helper';
 import { MdDelete } from 'react-icons/md';
+import moment from 'moment';
 
 interface TcGdriveIntegrationProps {
   isLoading: boolean;
@@ -21,6 +24,7 @@ interface TcGdriveIntegrationProps {
 
 function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommunityPlatoform }: TcGdriveIntegrationProps) {
   const { connectNewPlatform, deletePlatform, getUser } = useAppStore();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>('');
 
@@ -41,6 +45,7 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
       const data = await deletePlatform({ id: connectedPlatforms[0].id, deleteType });
       if (data === '') {
         setIsDeleteDialogOpen(false);
+        setIsOpen(false);
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
@@ -74,13 +79,70 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
           >
             <TcAvatar
               sizes='small'
+              src={platform.metadata.picture}
             >
-              G
             </TcAvatar>
-            <TcButton startIcon={<MdDelete />} text='Disconnect' variant='text' onClick={() => setIsDeleteDialogOpen(true)} />
+            <TcButton
+              text={truncateCenter(platform.metadata.name, 10)}
+              className='w-10/12'
+              variant='text'
+              color='primary'
+              startIcon={<IoSettingsSharp />}
+              onClick={() => setIsOpen(true)}
+            />
           </Paper>
         ))
       )}
+      <TcDialog
+        open={isOpen}
+        fullScreen={false}
+        sx={{
+          '& .MuiDialog-container': {
+            '& .MuiPaper-root': {
+              width: '100%',
+              maxWidth: '640px',
+              borderRadius: '10px',
+            },
+          },
+        }}
+      >
+
+        <div className='flex flex-col p-5'>
+          <div className='absolute right-2 top-2'>
+            <IoClose
+              size={30}
+              className='cursor-pointer'
+              onClick={() => setIsOpen(false)}
+            />
+          </div>
+          <div className='p-4 space-y-3'>
+            <div className='flex flex-col md:flex-row md:items-center md:space-x-3'>
+              <TcCommunityPlatformIcon platform='GDrive' />
+              <div>
+                <TcText
+                  text='GDrive Account Profile'
+                  variant='h6'
+                  fontWeight='bold'
+                />
+              </div>
+            </div>
+            <div className='flex items-center space-x-3'>
+              <TcAvatar
+                sizes='small'
+                src={connectedPlatforms[0]?.metadata?.picture}
+              />
+              <div>
+                <TcText text={connectedPlatforms[0]?.metadata?.name} variant='h6' fontWeight='bold' />
+                <TcText text={`Connected At: ${moment(connectedPlatforms[0]?.connectedAt).format(
+                  'D MMM YYYY'
+                )}`} variant='body2' />
+              </div>
+            </div>
+
+          </div>
+          <TcButton startIcon={<MdDelete />} text='Disconnect' variant='outlined' onClick={() => setIsDeleteDialogOpen(true)} />
+        </div>
+      </TcDialog>
       <TcDialog
         open={isDeleteDialogOpen}
         fullScreen={false}

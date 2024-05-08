@@ -162,7 +162,6 @@ function TcCommunityPlatforms() {
             <TabPanel value={activeTab} index={1}>
               <TcGdriveIntegration
                 isLoading={isLoading}
-                platformType='google'
                 connectedPlatforms={platforms}
                 handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
               />
