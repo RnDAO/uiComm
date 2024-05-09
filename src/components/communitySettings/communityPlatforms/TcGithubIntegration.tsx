@@ -1,6 +1,6 @@
 import { CircularProgress, Paper } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
@@ -16,31 +16,22 @@ import { truncateCenter } from '../../../helpers/helper';
 import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
 
-interface TcGdriveIntegrationProps {
+interface TcGithubIntegrationProps {
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
   handleUpdateCommunityPlatoform: () => void;
 }
 
-function TcGdriveIntegration({
+function TcGithubIntegration({
   isLoading,
   connectedPlatforms,
   handleUpdateCommunityPlatoform,
-}: TcGdriveIntegrationProps) {
-  const { connectNewPlatform, deletePlatform, getUser } = useAppStore();
+}: TcGithubIntegrationProps) {
+  const { connectNewPlatform, deletePlatform } = useAppStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-  const [userId, setUserId] = useState<string>('');
 
   const { showMessage } = useSnackbar();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { id } = await getUser();
-      setUserId(id);
-    };
-    fetchUser();
-  }, []);
 
   const handleDisconnectDiscordIntegration = async (
     deleteType: 'hard' | 'soft'
@@ -63,7 +54,7 @@ function TcGdriveIntegration({
     <div className='flex items-center space-x-3 rounded-sm bg-secondary bg-opacity-5 p-5'>
       <Paper className='flex h-[6rem] w-[10rem] flex-col items-center justify-center rounded-sm py-2 shadow-none'>
         <span className='mx-auto'>
-          <TcCommunityPlatformIcon platform='GDrive' />
+          <TcCommunityPlatformIcon platform='Github' />
         </span>
         <div className='mx-auto w-10/12 text-center'>
           <TcButton
@@ -71,9 +62,7 @@ function TcGdriveIntegration({
             variant='text'
             color='primary'
             startIcon={<BiPlus />}
-            onClick={() =>
-              connectNewPlatform('google', userId, ['googleDrive'])
-            }
+            onClick={() => connectNewPlatform('github')}
           />
         </div>
       </Paper>
@@ -81,15 +70,18 @@ function TcGdriveIntegration({
         <CircularProgress size={30} />
       ) : (
         connectedPlatforms &&
-        connectedPlatforms[0]?.name === 'google' &&
+        connectedPlatforms[0]?.name === 'github' &&
         connectedPlatforms.map((platform, index) => (
           <Paper
             className='flex h-[6rem] w-[10rem] flex-col items-center justify-center space-y-1.5 overflow-hidden rounded-sm py-2 shadow-none'
             key={index}
           >
-            <TcAvatar sizes='small' src={platform.metadata.picture}></TcAvatar>
+            <TcAvatar
+              sizes='small'
+              src={platform?.metadata?.account?.avatarUrl}
+            ></TcAvatar>
             <TcButton
-              text={truncateCenter(platform.metadata.name, 10)}
+              text={truncateCenter(platform?.metadata?.account?.login, 10)}
               className='w-10/12'
               variant='text'
               color='primary'
@@ -122,10 +114,10 @@ function TcGdriveIntegration({
           </div>
           <div className='space-y-3 p-4'>
             <div className='flex flex-col md:flex-row md:items-center md:space-x-3'>
-              <TcCommunityPlatformIcon platform='GDrive' />
+              <TcCommunityPlatformIcon platform='Github' />
               <div>
                 <TcText
-                  text='GDrive Account Profile'
+                  text='Github Account Profile'
                   variant='h6'
                   fontWeight='bold'
                 />
@@ -134,11 +126,11 @@ function TcGdriveIntegration({
             <div className='flex items-center space-x-3'>
               <TcAvatar
                 sizes='small'
-                src={connectedPlatforms[0]?.metadata?.picture}
+                src={connectedPlatforms[0]?.metadata?.account?.avatarUrl}
               />
               <div>
                 <TcText
-                  text={connectedPlatforms[0]?.metadata?.name}
+                  text={connectedPlatforms[0]?.metadata?.account?.login}
                   variant='h6'
                   fontWeight='bold'
                 />
@@ -182,7 +174,7 @@ function TcGdriveIntegration({
         <div className='px-4 text-center md:px-8'>
           <div className='mx-auto text-center md:w-4/5'>
             <TcText
-              text='Are you sure you want to disconnect Google drive?'
+              text='Are you sure you want to disconnect Github Account?'
               variant='h6'
             />
           </div>
@@ -240,4 +232,4 @@ function TcGdriveIntegration({
   );
 }
 
-export default TcGdriveIntegration;
+export default TcGithubIntegration;

@@ -131,8 +131,7 @@ export default function DisengagedMembersComposition({
       },
       {
         label: 'Were Newly Active',
-        description:
-          'Started posting for the first time in the last 7 days',
+        description: 'Started posting for the first time in the last 7 days',
         percentageChange: disengagedMembers.wereNewlyActivePercentageChange
           ? disengagedMembers.wereNewlyActivePercentageChange
           : 0,

@@ -1,9 +1,12 @@
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import TcHivemindDiscordAnswering from './TcHivemindDiscordAnswering';
 import TcHivemindDiscordLearnings from './TcHivemindDiscordLearnings';
+import TcHivemindGithub from './TcHivemindGithub';
+import TcHivemindGoogle from './TcHivemindGoogle';
 import TcCommunityPlatformIcon from '../communityPlatforms/TcCommunityPlatformIcon';
 import TcAvatar from '../../shared/TcAvatar';
 import TcButton from '../../shared/TcButton';
@@ -18,7 +21,6 @@ import {
   IModuleProps,
   IPlatformProps,
 } from '../../../utils/interfaces';
-import TcHivemindGoogle from './TcHivemindGoogle';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -51,7 +53,8 @@ function HivemindSettings() {
   const { retrievePlatforms, retrieveModules, patchModule } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [activePlatform, setActivePlatform] = useState<number>(0);
-  const [isActivePlatformLoading, setIsActivePlatformLoading] = useState<boolean>(false);
+  const [_isActivePlatformLoading, setIsActivePlatformLoading] =
+    useState<boolean>(false);
   const [platform, setPlatform] = useState<number>(0);
   const [platforms, setPlatforms] = useState<IPlatformProps[]>([]);
   const [hivemindModule, setHivemindModule] = useState<IModuleProps>();
@@ -76,12 +79,9 @@ function HivemindSettings() {
     },
   });
 
-
   const router = useRouter();
 
   const fetchPlatformsByType = async () => {
-    console.log({ activePlatform });
-
     const communityId =
       StorageService.readLocalStorage<IDiscordModifiedCommunity>(
         'community'
@@ -122,6 +122,21 @@ function HivemindSettings() {
         setPlatforms(googleResults);
         setIsActivePlatformLoading(false);
         break;
+
+      case 2:
+        setIsActivePlatformLoading(true);
+        const { results: githubResults } = await retrievePlatforms({
+          name: 'github',
+          community: communityId,
+        });
+        const githubHivemindModule = hivemindModules.results.find(
+          (hivemindModule: IModuleProps) =>
+            hivemindModule.community === communityId
+        );
+
+        setHivemindModule(githubHivemindModule);
+        setPlatforms(githubResults);
+        setIsActivePlatformLoading(false);
       default:
         break;
     }
@@ -158,7 +173,10 @@ function HivemindSettings() {
     });
   };
 
-  const handlePatchModule = async (moduleType: 'discord' | 'google', payload?: any) => {
+  const handlePatchModule = async (
+    moduleType: 'discord' | 'google' | 'github',
+    payload?: any
+  ) => {
     try {
       if (!hivemindModule) return;
 
@@ -185,7 +203,20 @@ function HivemindSettings() {
               platform: platforms[platform].id,
               name: 'google',
               metadata: {
-                ...payload
+                ...payload,
+              },
+            },
+          ],
+        };
+      } else if (moduleType === 'github') {
+        setLoading(true);
+        patchPayload = {
+          platforms: [
+            {
+              platform: platforms[platform].id,
+              name: 'github',
+              metadata: {
+                ...payload,
               },
             },
           ],
@@ -209,6 +240,32 @@ function HivemindSettings() {
     }
   };
 
+  const getPlatformContent = (platform: IPlatformProps) => {
+    let src = '';
+    let text = '';
+
+    switch (platform.name) {
+      case 'discord':
+        src = `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`;
+        text = platform.metadata.name;
+        break;
+      case 'github':
+        src = `${platform?.metadata?.account?.avatarUrl}`;
+        text = platform?.metadata?.account?.login;
+        break;
+      case 'google':
+        src = `${platform.metadata.picture}`;
+        text = platform?.metadata?.name;
+        break;
+      default:
+        src = '';
+        text = '';
+        break;
+    }
+
+    return { src, text };
+  };
+
   return (
     <>
       <div className='bg-gray-100 py-4 px-5'>
@@ -220,7 +277,14 @@ function HivemindSettings() {
         >
           {Object.keys(IntegrationPlatform).map((platform, index) => (
             <Tab
-              className='mr-3 min-h-[6rem] min-w-[10rem] rounded-sm bg-white shadow-lg'
+              className={clsx(
+                'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
+                activePlatform === index
+                  ? 'bg-secondary/80 text-white'
+                  : !['Discord', 'GDrive', 'Github'].includes(platform)
+                    ? 'bg-white'
+                    : 'bg-white text-black'
+              )}
               key={index}
               label={
                 <div className='flex flex-col items-center space-x-2'>
@@ -228,7 +292,7 @@ function HivemindSettings() {
                   <TcText text={platform} variant='body2' />
                 </div>
               }
-              disabled={!['Discord', 'GDrive'].includes(platform)}
+              disabled={!['Discord', 'GDrive', 'Github'].includes(platform)}
               {...a11yProps(index)}
             />
           ))}
@@ -241,22 +305,22 @@ function HivemindSettings() {
           value={platform}
           onChange={(event, newValue) => setPlatform(newValue)}
         >
-          {platforms.map((platform, index) => (
-            <Tab
-              className='mr-3 min-w-[5rem] max-h-[6rem] max-w-[10rem] rounded-sm bg-white shadow-lg'
-              key={index}
-              label={
-                <div className='flex flex-col items-center space-x-2'>
-                  <TcAvatar
-                    src={`${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`}
-                    sizes='small'
-                  />
-                  <TcText text={platform.metadata.name} variant='body2' />
-                </div>
-              }
-              {...a11yProps(index)}
-            />
-          ))}
+          {platforms.map((platform, index) => {
+            const { src, text } = getPlatformContent(platform);
+            return (
+              <Tab
+                className='mr-3 max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] rounded-sm bg-white shadow-lg'
+                key={index}
+                label={
+                  <div className='flex flex-col items-center space-x-2 space-y-2'>
+                    <TcAvatar src={src} sizes='small' />
+                    <TcText text={text} variant='body2' />
+                  </div>
+                }
+                {...a11yProps(index)}
+              />
+            );
+          })}
         </Tabs>
       </div>
 
@@ -268,7 +332,9 @@ function HivemindSettings() {
                 platform={
                   platforms &&
                   platforms.filter(
-                    (platform) => platform.disconnectedAt === null && platform.name === 'discord'
+                    (platform) =>
+                      platform.disconnectedAt === null &&
+                      platform.name === 'discord'
                   )[0]
                 }
                 defaultLearningModuleConfig={
@@ -280,7 +346,9 @@ function HivemindSettings() {
                 platform={
                   platforms &&
                   platforms.filter(
-                    (platform) => platform.disconnectedAt === null && platform.name === 'discord'
+                    (platform) =>
+                      platform.disconnectedAt === null &&
+                      platform.name === 'discord'
                   )[0]
                 }
                 defaultAnsweringModuleConfig={
@@ -312,16 +380,36 @@ function HivemindSettings() {
             </div>
           </TabPanel>
         )}
-        {
-          activePlatform === 1 && (
-            <TabPanel value={activePlatform} index={1}>
-              <TcHivemindGoogle
-                defaultGoogleHivemindConfig={
-                  hivemindModule?.options?.platforms.find((platform) => platform.name === 'google')?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
-                }
-                handlePatchHivemindGoogle={(payload) => handlePatchModule('google', payload)} isLoading={loading} />
-            </TabPanel>
-          )}
+        {activePlatform === 1 && (
+          <TabPanel value={activePlatform} index={1}>
+            <TcHivemindGoogle
+              defaultGoogleHivemindConfig={
+                hivemindModule?.options?.platforms.find(
+                  (platform) => platform.name === 'google'
+                )?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
+              }
+              handlePatchHivemindGoogle={(payload) =>
+                handlePatchModule('google', payload)
+              }
+              isLoading={loading}
+            />
+          </TabPanel>
+        )}
+        {activePlatform === 2 && (
+          <TabPanel value={activePlatform} index={2}>
+            <TcHivemindGithub
+              defaultGithubHivemindConfig={
+                hivemindModule?.options?.platforms.find(
+                  (platform) => platform.name === 'github'
+                )?.metadata || { repoIds: [] }
+              }
+              handlePatchHivemindGithub={(payload) =>
+                handlePatchModule('github', payload)
+              }
+              isLoading={loading}
+            />
+          </TabPanel>
+        )}
       </Paper>
     </>
   );

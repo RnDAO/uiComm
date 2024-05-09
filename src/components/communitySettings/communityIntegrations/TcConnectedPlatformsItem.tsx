@@ -122,12 +122,17 @@ function TcConnectedPlatformsItem({ platform }: TcConnectedPlatformsItemProps) {
                 sx={{ width: 25, height: 25 }}
               />
               <TcText
-                text={platform && platform.metadata && platform.metadata.name && truncateCenter(
-                  platform.metadata.name
-                    ? platform.metadata.name
-                    : platform.metadata.username,
-                  15
-                )}
+                text={
+                  platform &&
+                  platform.metadata &&
+                  platform.metadata.name &&
+                  truncateCenter(
+                    platform.metadata.name
+                      ? platform.metadata.name
+                      : platform.metadata.username,
+                    15
+                  )
+                }
                 variant='caption'
               />
             </div>

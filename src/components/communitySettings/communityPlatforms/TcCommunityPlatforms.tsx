@@ -1,10 +1,12 @@
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
 import TcGdriveIntegration from './TcGdriveIntegration';
+import TcGithubIntegration from './TcGithubIntegration';
 import TcButton from '../../shared/TcButton';
 import TcCard from '../../shared/TcCard';
 import TcText from '../../shared/TcText';
@@ -56,28 +58,29 @@ function TcCommunityPlatforms() {
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
   const fetchPlatformsByType = async () => {
-    switch (activeTab) {
-      case 0:
-        setIsLoading(true);
-        const { results } = await retrievePlatforms({
-          name: 'discord',
-          community: communityId,
-        });
-        setPlatforms(results);
-        setIsLoading(false);
-        break;
-      case 1:
-        setIsLoading(true);
-        const { results: gdriveResults } = await retrievePlatforms({
-          name: 'google',
-          community: communityId,
-        });
-        setPlatforms(gdriveResults);
-        setIsLoading(false);
-      default:
-        break;
+    const platformNames = ['discord', 'google', 'github'];
+    const platformName = platformNames[activeTab];
+
+    if (!platformName) {
+      console.log('Unexpected tab index');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { results } = await retrievePlatforms({
+        name: platformName,
+        community: communityId,
+      });
+      setPlatforms(results || []);
+    } catch (error) {
+      console.error('Error fetching platforms:', error);
+      setPlatforms([]);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchPlatformsByType();
   }, [activeTab]);
@@ -135,7 +138,14 @@ function TcCommunityPlatforms() {
           >
             {Object.keys(IntegrationPlatform).map((platform, index) => (
               <Tab
-                className='mr-3 min-h-[6rem] min-w-[10rem] rounded-sm bg-white shadow-lg'
+                className={clsx(
+                  'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
+                  activeTab === index
+                    ? 'bg-secondary/80 text-white'
+                    : !['Discord', 'GDrive', 'Github'].includes(platform)
+                      ? 'bg-white'
+                      : 'bg-white text-black'
+                )}
                 key={index}
                 label={
                   <div className='flex flex-col items-center space-x-2'>
@@ -143,7 +153,7 @@ function TcCommunityPlatforms() {
                     <TcText text={platform} variant='body2' />
                   </div>
                 }
-                disabled={!['Discord', 'GDrive'].includes(platform)}
+                disabled={!['Discord', 'GDrive', 'Github'].includes(platform)}
                 {...a11yProps(index)}
               />
             ))}
@@ -167,8 +177,18 @@ function TcCommunityPlatforms() {
               />
             </TabPanel>
           )}
+          {activeTab === 2 && (
+            <TabPanel value={activeTab} index={2}>
+              <TcGithubIntegration
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+              />
+            </TabPanel>
+          )}
         </Box>
-
+      </Paper>
+      <div className='py-4'>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Modules' variant='h6' fontWeight='bold' />
           <TcText
@@ -197,7 +217,7 @@ function TcCommunityPlatforms() {
             </div>
           }
         />
-      </Paper>
+      </div>
     </div>
   );
 }

@@ -133,8 +133,7 @@ export default function Onboarding({
       },
       {
         label: 'Newly Active',
-        description:
-          'Started posting for the first time in the last 7 days',
+        description: 'Started posting for the first time in the last 7 days',
         percentageChange: onboardingMembers.newlyActivePercentageChange,
         value: onboardingMembers.newlyActive,
         colorBadge: 'bg-warning-500',

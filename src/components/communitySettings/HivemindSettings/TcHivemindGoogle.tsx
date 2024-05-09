@@ -1,125 +1,144 @@
-import { FormControl, Autocomplete, TextField, FormLabel, CircularProgress } from '@mui/material';
+import {
+  Autocomplete,
+  CircularProgress,
+  FormControl,
+  FormLabel,
+  TextField,
+} from '@mui/material';
 import router from 'next/router';
-import { useEffect, useState } from 'react'
+import { useState } from 'react';
+
 import TcButton from '../../shared/TcButton';
 
 interface HivemindGoogleProps {
-    isLoading: boolean;
-    defaultGoogleHivemindConfig: {
-        driveIds?: string[];
-        folderIds?: string[];
-        fileIds?: string[];
-    },
-    handlePatchHivemindGoogle: ({
-        driveIds,
-        folderIds,
-        fileIds
-    }: {
-        driveIds: string[];
-        folderIds: string[];
-        fileIds: string[];
-    }) => void;
+  isLoading: boolean;
+  defaultGoogleHivemindConfig: {
+    driveIds?: string[];
+    folderIds?: string[];
+    fileIds?: string[];
+  };
+  handlePatchHivemindGoogle: ({
+    driveIds,
+    folderIds,
+    fileIds,
+  }: {
+    driveIds: string[];
+    folderIds: string[];
+    fileIds: string[];
+  }) => void;
 }
 
-function TcHivemindGoogle({ isLoading, defaultGoogleHivemindConfig, handlePatchHivemindGoogle }: HivemindGoogleProps) {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [driveIds, setDriveIds] = useState<string[]>(defaultGoogleHivemindConfig.driveIds || []);
-    const [folderIds, setFolderIds] = useState<string[]>(defaultGoogleHivemindConfig.folderIds || []);
-    const [fileIds, setFileIds] = useState<string[]>(defaultGoogleHivemindConfig.fileIds || []);
+function TcHivemindGoogle({
+  isLoading,
+  defaultGoogleHivemindConfig,
+  handlePatchHivemindGoogle,
+}: HivemindGoogleProps) {
+  const [driveIds, setDriveIds] = useState<string[]>(
+    defaultGoogleHivemindConfig.driveIds || []
+  );
+  const [folderIds, setFolderIds] = useState<string[]>(
+    defaultGoogleHivemindConfig.folderIds || []
+  );
+  const [fileIds, setFileIds] = useState<string[]>(
+    defaultGoogleHivemindConfig.fileIds || []
+  );
 
-    const handleGoogleHivemind = () => {
-        const payload = {
-            driveIds: driveIds,
-            folderIds: folderIds,
-            fileIds: fileIds
-        }
+  const handleGoogleHivemind = () => {
+    const payload = {
+      driveIds: driveIds,
+      folderIds: folderIds,
+      fileIds: fileIds,
+    };
 
-        handlePatchHivemindGoogle({ ...payload });
-    }
+    handlePatchHivemindGoogle({ ...payload });
+  };
 
-    return (
-        <>
-            <div className='flex flex-col items-center justify-between space-y-3'>
-                <FormControl fullWidth>
-                    <FormLabel>Google Drives</FormLabel>
-                    <Autocomplete
-                        multiple
-                        freeSolo
-                        value={driveIds}
-                        onChange={(event, newValue: string[] | null) => {
-                            setDriveIds(newValue || []);
-                        }}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant='filled'
-                                label="Drives Ids"
-                                placeholder="Type driver ids and enter" />
-                        )}
-                        options={[]}
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <FormLabel>Google Folders</FormLabel>
-                    <Autocomplete
-                        multiple
-                        freeSolo
-                        value={folderIds}
-                        onChange={(event, newValue: string[] | null) => {
-                            setFolderIds(newValue || []);
-                        }}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant='filled'
-                                label="Folder Ids"
-                                placeholder="Type folder ids and enter" />
-                        )}
-                        options={[]}
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <FormLabel>Google Files</FormLabel>
-                    <Autocomplete
-                        multiple
-                        freeSolo
-                        value={fileIds}
-                        onChange={(event, newValue: string[] | null) => {
-                            setFileIds(newValue || []);
-                        }}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant='filled'
-                                label="Files Ids"
-                                placeholder="Type File ids and enter" />
-                        )}
-                        options={[]}
-                    />
-                </FormControl>
-            </div>
-            <div className='mt-6 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>
-                <TcButton
-                    text='Cancel'
-                    variant='outlined'
-                    className='md:w-1/4'
-                    onClick={() => router.push('/community-settings')}
-                />
-                <TcButton
-                    text={
-                        isLoading ? (
-                            <CircularProgress size={20} color='inherit' />
-                        ) : (
-                            'Save Changes'
-                        )
-                    }
-                    variant='contained'
-                    className='md:w-1/4'
-                    onClick={() => handleGoogleHivemind()}
-                />
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className='flex flex-col items-center justify-between space-y-3'>
+        <FormControl fullWidth>
+          <FormLabel>Google Drives</FormLabel>
+          <Autocomplete
+            multiple
+            freeSolo
+            value={driveIds}
+            onChange={(event, newValue: string[] | null) => {
+              setDriveIds(newValue || []);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='filled'
+                label='Drives Ids'
+                placeholder='Type driver ids and enter'
+              />
+            )}
+            options={[]}
+          />
+        </FormControl>
+        <FormControl fullWidth>
+          <FormLabel>Google Folders</FormLabel>
+          <Autocomplete
+            multiple
+            freeSolo
+            value={folderIds}
+            onChange={(event, newValue: string[] | null) => {
+              setFolderIds(newValue || []);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='filled'
+                label='Folder Ids'
+                placeholder='Type folder ids and enter'
+              />
+            )}
+            options={[]}
+          />
+        </FormControl>
+        <FormControl fullWidth>
+          <FormLabel>Google Files</FormLabel>
+          <Autocomplete
+            multiple
+            freeSolo
+            value={fileIds}
+            onChange={(event, newValue: string[] | null) => {
+              setFileIds(newValue || []);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='filled'
+                label='Files Ids'
+                placeholder='Type File ids and enter'
+              />
+            )}
+            options={[]}
+          />
+        </FormControl>
+      </div>
+      <div className='mt-6 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>
+        <TcButton
+          text='Cancel'
+          variant='outlined'
+          className='md:w-1/4'
+          onClick={() => router.push('/community-settings')}
+        />
+        <TcButton
+          text={
+            isLoading ? (
+              <CircularProgress size={20} color='inherit' />
+            ) : (
+              'Save Changes'
+            )
+          }
+          variant='contained'
+          className='md:w-1/4'
+          onClick={() => handleGoogleHivemind()}
+        />
+      </div>
+    </>
+  );
 }
 
-export default TcHivemindGoogle
+export default TcHivemindGoogle;

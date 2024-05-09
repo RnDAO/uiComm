@@ -48,8 +48,7 @@ const ActiveMemberComposition = () => {
       },
       {
         label: 'Newly Active',
-        description:
-          'Started posting for the first time in the last 7 days.',
+        description: 'Started posting for the first time in the last 7 days.',
         percentageChange: activeMembers.newlyActivePercentageChange
           ? activeMembers.newlyActivePercentageChange
           : 0,
