@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
 import TcGdriveIntegration from './TcGdriveIntegration';
+import TcGithubIntegration from './TcGithubIntegration';
 import TcButton from '../../shared/TcButton';
 import TcCard from '../../shared/TcCard';
 import TcText from '../../shared/TcText';
@@ -15,7 +16,6 @@ import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../../utils/interfaces';
-import TcGithubIntegration from './TcGithubIntegration';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -169,19 +169,16 @@ function TcCommunityPlatforms() {
               />
             </TabPanel>
           )}
-          {
-            activeTab === 2 && (
-              <TabPanel value={activeTab} index={2}>
-                <TcGithubIntegration
-                  isLoading={isLoading}
-                  connectedPlatforms={platforms}
-                  handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
-                />
-              </TabPanel>
-            )}
+          {activeTab === 2 && (
+            <TabPanel value={activeTab} index={2}>
+              <TcGithubIntegration
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+              />
+            </TabPanel>
+          )}
         </Box>
-
-
       </Paper>
       <div>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>

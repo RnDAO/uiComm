@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 
 import TcHivemindDiscordAnswering from './TcHivemindDiscordAnswering';
 import TcHivemindDiscordLearnings from './TcHivemindDiscordLearnings';
+import TcHivemindGithub from './TcHivemindGithub';
+import TcHivemindGoogle from './TcHivemindGoogle';
 import TcCommunityPlatformIcon from '../communityPlatforms/TcCommunityPlatformIcon';
 import TcAvatar from '../../shared/TcAvatar';
 import TcButton from '../../shared/TcButton';
@@ -18,8 +20,6 @@ import {
   IModuleProps,
   IPlatformProps,
 } from '../../../utils/interfaces';
-import TcHivemindGoogle from './TcHivemindGoogle';
-import TcHivemindGithub from './TcHivemindGithub';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -52,7 +52,8 @@ function HivemindSettings() {
   const { retrievePlatforms, retrieveModules, patchModule } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [activePlatform, setActivePlatform] = useState<number>(0);
-  const [_isActivePlatformLoading, setIsActivePlatformLoading] = useState<boolean>(false);
+  const [_isActivePlatformLoading, setIsActivePlatformLoading] =
+    useState<boolean>(false);
   const [platform, setPlatform] = useState<number>(0);
   const [platforms, setPlatforms] = useState<IPlatformProps[]>([]);
   const [hivemindModule, setHivemindModule] = useState<IModuleProps>();
@@ -76,7 +77,6 @@ function HivemindSettings() {
       selectedChannels: [],
     },
   });
-
 
   const router = useRouter();
 
@@ -172,7 +172,10 @@ function HivemindSettings() {
     });
   };
 
-  const handlePatchModule = async (moduleType: 'discord' | 'google' | 'github', payload?: any) => {
+  const handlePatchModule = async (
+    moduleType: 'discord' | 'google' | 'github',
+    payload?: any
+  ) => {
     try {
       if (!hivemindModule) return;
 
@@ -199,7 +202,7 @@ function HivemindSettings() {
               platform: platforms[platform].id,
               name: 'google',
               metadata: {
-                ...payload
+                ...payload,
               },
             },
           ],
@@ -212,7 +215,7 @@ function HivemindSettings() {
               platform: platforms[platform].id,
               name: 'github',
               metadata: {
-                ...payload
+                ...payload,
               },
             },
           ],
@@ -237,13 +240,13 @@ function HivemindSettings() {
   };
 
   const getPlatformContent = (platform: IPlatformProps) => {
-    let src = "";
-    let text = "";
+    let src = '';
+    let text = '';
 
     switch (platform.name) {
       case 'discord':
         src = `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`;
-        text = platform.metadata.name
+        text = platform.metadata.name;
         break;
       case 'github':
         src = `${platform?.metadata?.account?.avatarUrl}`;
@@ -254,8 +257,8 @@ function HivemindSettings() {
         text = platform?.metadata?.name;
         break;
       default:
-        src = "";
-        text = "";
+        src = '';
+        text = '';
         break;
     }
 
@@ -298,7 +301,7 @@ function HivemindSettings() {
             const { src, text } = getPlatformContent(platform);
             return (
               <Tab
-                className='mr-3 min-w-[10rem] min-h-[6rem] max-w-[10rem] max-h-[6rem] rounded-sm bg-white shadow-lg'
+                className='mr-3 max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] rounded-sm bg-white shadow-lg'
                 key={index}
                 label={
                   <div className='flex flex-col items-center space-x-2 space-y-2'>
@@ -321,7 +324,9 @@ function HivemindSettings() {
                 platform={
                   platforms &&
                   platforms.filter(
-                    (platform) => platform.disconnectedAt === null && platform.name === 'discord'
+                    (platform) =>
+                      platform.disconnectedAt === null &&
+                      platform.name === 'discord'
                   )[0]
                 }
                 defaultLearningModuleConfig={
@@ -333,7 +338,9 @@ function HivemindSettings() {
                 platform={
                   platforms &&
                   platforms.filter(
-                    (platform) => platform.disconnectedAt === null && platform.name === 'discord'
+                    (platform) =>
+                      platform.disconnectedAt === null &&
+                      platform.name === 'discord'
                   )[0]
                 }
                 defaultAnsweringModuleConfig={
@@ -365,29 +372,36 @@ function HivemindSettings() {
             </div>
           </TabPanel>
         )}
-        {
-          activePlatform === 1 && (
-            <TabPanel value={activePlatform} index={1}>
-              <TcHivemindGoogle
-                defaultGoogleHivemindConfig={
-                  hivemindModule?.options?.platforms.find((platform) => platform.name === 'google')?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
-                }
-                handlePatchHivemindGoogle={(payload) => handlePatchModule('google', payload)} isLoading={loading} />
-            </TabPanel>
-          )}
-        {
-          activePlatform === 2 && (
-            <TabPanel value={activePlatform} index={2}>
-              <TcHivemindGithub
-                defaultGithubHivemindConfig={
-                  hivemindModule?.options?.platforms.find((platform) => platform.name === 'github')?.metadata || { repoIds: [] }
-                }
-                handlePatchHivemindGithub={(payload) => handlePatchModule('github', payload)}
-                isLoading={loading}
-              />
-            </TabPanel>
-          )
-        }
+        {activePlatform === 1 && (
+          <TabPanel value={activePlatform} index={1}>
+            <TcHivemindGoogle
+              defaultGoogleHivemindConfig={
+                hivemindModule?.options?.platforms.find(
+                  (platform) => platform.name === 'google'
+                )?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
+              }
+              handlePatchHivemindGoogle={(payload) =>
+                handlePatchModule('google', payload)
+              }
+              isLoading={loading}
+            />
+          </TabPanel>
+        )}
+        {activePlatform === 2 && (
+          <TabPanel value={activePlatform} index={2}>
+            <TcHivemindGithub
+              defaultGithubHivemindConfig={
+                hivemindModule?.options?.platforms.find(
+                  (platform) => platform.name === 'github'
+                )?.metadata || { repoIds: [] }
+              }
+              handlePatchHivemindGithub={(payload) =>
+                handlePatchModule('github', payload)
+              }
+              isLoading={loading}
+            />
+          </TabPanel>
+        )}
       </Paper>
     </>
   );

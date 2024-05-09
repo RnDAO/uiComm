@@ -47,7 +47,9 @@ function TcHivemindDiscordLearnings({
     try {
       if (!platform) return;
       setIsLoading(true);
-      const { selectedChannels } = platform.metadata || { selectedChannels: [] };
+      const { selectedChannels } = platform.metadata || {
+        selectedChannels: [],
+      };
 
       setSelectedChannels(selectedChannels);
 
@@ -164,9 +166,10 @@ function TcHivemindDiscordLearnings({
       <div className='h-[23rem] overflow-y-scroll rounded-md border border-gray-400 bg-gray-50 p-4'>
         <div className='mb-2 flex flex-col'>
           <TcText text='Select the data extraction period' variant='h6' />
-          <div className='flex items-center space-x-1.5 justify-end'>
+          <div className='flex items-center justify-end space-x-1.5'>
             <TcIconWithTooltip tooltipText='select the date from which data will be analysed and fed to Hivemind. We recommend 3 months to start.' />
-            <TcButton className='w-full'
+            <TcButton
+              className='w-full'
               variant='outlined'
               startIcon={<MdCalendarMonth />}
               onClick={handleClick}

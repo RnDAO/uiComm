@@ -1,20 +1,20 @@
 import { CircularProgress, Paper } from '@mui/material';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
+import { IoClose, IoSettingsSharp } from 'react-icons/io5';
+import { MdDelete } from 'react-icons/md';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
+import TcAvatar from '../../shared/TcAvatar';
 import TcButton from '../../shared/TcButton';
+import TcDialog from '../../shared/TcDialog';
+import TcText from '../../shared/TcText';
+import { useSnackbar } from '../../../context/SnackbarContext';
+import { truncateCenter } from '../../../helpers/helper';
 import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
-import TcAvatar from '../../shared/TcAvatar';
-import TcText from '../../shared/TcText';
-import TcDialog from '../../shared/TcDialog';
-import { AiOutlineClose } from 'react-icons/ai';
-import { useSnackbar } from '../../../context/SnackbarContext';
-import { IoClose, IoSettingsSharp } from 'react-icons/io5';
-import { truncateCenter } from '../../../helpers/helper';
-import { MdDelete } from 'react-icons/md';
-import moment from 'moment';
 
 interface TcGdriveIntegrationProps {
   isLoading: boolean;
@@ -22,7 +22,11 @@ interface TcGdriveIntegrationProps {
   handleUpdateCommunityPlatoform: () => void;
 }
 
-function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommunityPlatoform }: TcGdriveIntegrationProps) {
+function TcGdriveIntegration({
+  isLoading,
+  connectedPlatforms,
+  handleUpdateCommunityPlatoform,
+}: TcGdriveIntegrationProps) {
   const { connectNewPlatform, deletePlatform, getUser } = useAppStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -35,23 +39,25 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
       const { id } = await getUser();
       setUserId(id);
     };
-    fetchUser()
-  }, [])
+    fetchUser();
+  }, []);
 
   const handleDisconnectDiscordIntegration = async (
     deleteType: 'hard' | 'soft'
   ) => {
     try {
-      const data = await deletePlatform({ id: connectedPlatforms[0].id, deleteType });
+      const data = await deletePlatform({
+        id: connectedPlatforms[0].id,
+        deleteType,
+      });
       if (data === '') {
         setIsDeleteDialogOpen(false);
         setIsOpen(false);
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
-    } catch (error) { }
+    } catch (error) {}
   };
-
 
   return (
     <div className='flex items-center space-x-3 rounded-sm bg-secondary bg-opacity-5 p-5'>
@@ -65,23 +71,23 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
             variant='text'
             color='primary'
             startIcon={<BiPlus />}
-            onClick={() => connectNewPlatform('google', userId, ['googleDrive'])}
+            onClick={() =>
+              connectNewPlatform('google', userId, ['googleDrive'])
+            }
           />
         </div>
       </Paper>
       {isLoading ? (
         <CircularProgress size={30} />
       ) : (
-        connectedPlatforms && connectedPlatforms[0]?.name === 'google' && connectedPlatforms.map((platform, index) => (
+        connectedPlatforms &&
+        connectedPlatforms[0]?.name === 'google' &&
+        connectedPlatforms.map((platform, index) => (
           <Paper
             className='flex h-[6rem] w-[10rem] flex-col items-center justify-center space-y-1.5 overflow-hidden rounded-sm py-2 shadow-none'
             key={index}
           >
-            <TcAvatar
-              sizes='small'
-              src={platform.metadata.picture}
-            >
-            </TcAvatar>
+            <TcAvatar sizes='small' src={platform.metadata.picture}></TcAvatar>
             <TcButton
               text={truncateCenter(platform.metadata.name, 10)}
               className='w-10/12'
@@ -106,7 +112,6 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
           },
         }}
       >
-
         <div className='flex flex-col p-5'>
           <div className='absolute right-2 top-2'>
             <IoClose
@@ -115,7 +120,7 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
               onClick={() => setIsOpen(false)}
             />
           </div>
-          <div className='p-4 space-y-3'>
+          <div className='space-y-3 p-4'>
             <div className='flex flex-col md:flex-row md:items-center md:space-x-3'>
               <TcCommunityPlatformIcon platform='GDrive' />
               <div>
@@ -132,15 +137,26 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
                 src={connectedPlatforms[0]?.metadata?.picture}
               />
               <div>
-                <TcText text={connectedPlatforms[0]?.metadata?.name} variant='h6' fontWeight='bold' />
-                <TcText text={`Connected At: ${moment(connectedPlatforms[0]?.connectedAt).format(
-                  'D MMM YYYY'
-                )}`} variant='body2' />
+                <TcText
+                  text={connectedPlatforms[0]?.metadata?.name}
+                  variant='h6'
+                  fontWeight='bold'
+                />
+                <TcText
+                  text={`Connected At: ${moment(
+                    connectedPlatforms[0]?.connectedAt
+                  ).format('D MMM YYYY')}`}
+                  variant='body2'
+                />
               </div>
             </div>
-
           </div>
-          <TcButton startIcon={<MdDelete />} text='Disconnect' variant='outlined' onClick={() => setIsDeleteDialogOpen(true)} />
+          <TcButton
+            startIcon={<MdDelete />}
+            text='Disconnect'
+            variant='outlined'
+            onClick={() => setIsDeleteDialogOpen(true)}
+          />
         </div>
       </TcDialog>
       <TcDialog
@@ -166,7 +182,7 @@ function TcGdriveIntegration({ isLoading, connectedPlatforms, handleUpdateCommun
         <div className='px-4 text-center md:px-8'>
           <div className='mx-auto text-center md:w-4/5'>
             <TcText
-              text={`Are you sure you want to disconnect Google drive?`}
+              text='Are you sure you want to disconnect Google drive?'
               variant='h6'
             />
           </div>

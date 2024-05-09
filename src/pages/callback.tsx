@@ -2,13 +2,13 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { useSnackbar } from '../context/SnackbarContext';
 import { extractUrlParams } from '../helpers/helper';
 import { StorageService } from '../services/StorageService';
 import { IRetrieveCommunitiesProps } from '../store/types/ICentric';
 import useAppStore from '../store/useStore';
 import { StatusCode } from '../utils/enums';
 import { ICommunity, metaData } from '../utils/interfaces';
-import { useSnackbar } from '../context/SnackbarContext';
 
 export type CommunityWithoutAvatar = Omit<ICommunity, 'avatarURL'>;
 interface Params {
@@ -42,7 +42,6 @@ function Callback() {
   // Method to retrieve communities from the store.
   const { retrieveCommunities, createNewPlatform } = useAppStore();
   const { showMessage } = useSnackbar();
-
 
   /**
    * Asynchronously fetches communities.
@@ -93,8 +92,7 @@ function Callback() {
         login: params.account_login,
         id: params.account_id,
         avatarUrl: params.account_avatar_url,
-      }
-
+      };
     }
 
     const payload = {
@@ -110,10 +108,10 @@ function Callback() {
       }
       if (params.platform === 'google') {
         showMessage('Google Drive authorized successfully.', 'success');
-        router.push('/community-settings')
+        router.push('/community-settings');
       } else if (params.platform === 'github') {
         showMessage('Github authorized successfully.', 'success');
-        router.push('/community-settings')
+        router.push('/community-settings');
       } else {
         router.push(`/community-settings/?platformId=${data.id}`);
       }

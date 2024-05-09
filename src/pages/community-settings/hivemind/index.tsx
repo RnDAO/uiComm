@@ -14,7 +14,7 @@ function Index() {
   return (
     <>
       <SEO titleTemplate='Hivemind Settings' />
-      <div className='container flex flex-col px-4 space-y-3 py-4 md:px-12'>
+      <div className='container flex flex-col space-y-3 px-4 py-4 md:px-12'>
         <TcBreadcrumbs
           items={[
             {

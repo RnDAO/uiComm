@@ -109,31 +109,33 @@ function TcDiscordIntegrationSettingsDialog({
     channelId: string
   ) => {
     event.stopPropagation();
-    const channel = discordPlatformChannels.find(c => c.channelId === channelId);
+    const channel = discordPlatformChannels.find(
+      (c) => c.channelId === channelId
+    );
 
     if (!channel) return;
 
     let newSelectedChannels;
 
-    const areAllSelected = channel.subChannels.every(subChannel =>
+    const areAllSelected = channel.subChannels.every((subChannel) =>
       selectedChannels.includes(subChannel.channelId)
     );
 
     if (areAllSelected) {
-      newSelectedChannels = selectedChannels.filter(id =>
-        !channel.subChannels.some(subChannel => subChannel.channelId === id)
+      newSelectedChannels = selectedChannels.filter(
+        (id) =>
+          !channel.subChannels.some((subChannel) => subChannel.channelId === id)
       );
     } else {
       newSelectedChannels = [
         ...selectedChannels,
-        ...channel.subChannels.map(subChannel => subChannel.channelId)
+        ...channel.subChannels.map((subChannel) => subChannel.channelId),
       ];
       newSelectedChannels = Array.from(new Set(newSelectedChannels));
     }
 
     setSelectedChannels(newSelectedChannels);
   };
-
 
   const handlePatchDiscordIntegrationSettings = async () => {
     try {
@@ -151,7 +153,7 @@ function TcDiscordIntegrationSettingsDialog({
         router.replace('/community-settings', {}, { shallow: true });
         setIsAnalyizingDialogOpen(true);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleDisconnectDiscordIntegration = async (
@@ -164,7 +166,7 @@ function TcDiscordIntegrationSettingsDialog({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const datePickerOpen = Boolean(anchorEl);
@@ -197,18 +199,16 @@ function TcDiscordIntegrationSettingsDialog({
   return (
     <>
       <div className='mx-auto w-full text-center'>
-        {
-          platform && platform?.metadata && platform?.metadata?.name && (
-            <TcButton
-              text={truncateCenter(platform.metadata.name, 10)}
-              className='w-10/12'
-              variant='text'
-              color='primary'
-              startIcon={<IoSettingsSharp />}
-              onClick={() => setOpen(true)}
-            />
-          )
-        }
+        {platform && platform?.metadata && platform?.metadata?.name && (
+          <TcButton
+            text={truncateCenter(platform.metadata.name, 10)}
+            className='w-10/12'
+            variant='text'
+            color='primary'
+            startIcon={<IoSettingsSharp />}
+            onClick={() => setOpen(true)}
+          />
+        )}
       </div>
       <TcDialog
         open={open}
