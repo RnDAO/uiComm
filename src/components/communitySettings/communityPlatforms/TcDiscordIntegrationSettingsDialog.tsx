@@ -197,14 +197,18 @@ function TcDiscordIntegrationSettingsDialog({
   return (
     <>
       <div className='mx-auto w-full text-center'>
-        <TcButton
-          text={truncateCenter(platform.metadata.name, 10)}
-          className='w-10/12'
-          variant='text'
-          color='primary'
-          startIcon={<IoSettingsSharp />}
-          onClick={() => setOpen(true)}
-        />
+        {
+          platform && platform?.metadata && platform?.metadata?.name && (
+            <TcButton
+              text={truncateCenter(platform.metadata.name, 10)}
+              className='w-10/12'
+              variant='text'
+              color='primary'
+              startIcon={<IoSettingsSharp />}
+              onClick={() => setOpen(true)}
+            />
+          )
+        }
       </div>
       <TcDialog
         open={open}

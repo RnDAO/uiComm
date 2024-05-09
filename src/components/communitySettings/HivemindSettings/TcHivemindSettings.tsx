@@ -18,6 +18,7 @@ import {
   IModuleProps,
   IPlatformProps,
 } from '../../../utils/interfaces';
+import TcHivemindGoogle from './TcHivemindGoogle';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -50,8 +51,9 @@ function HivemindSettings() {
   const { retrievePlatforms, retrieveModules, patchModule } = useAppStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [activePlatform, setActivePlatform] = useState<number>(0);
+  const [isActivePlatformLoading, setIsActivePlatformLoading] = useState<boolean>(false);
   const [platform, setPlatform] = useState<number>(0);
-  const [platforms, setPlatforms] = React.useState<IPlatformProps[]>([]);
+  const [platforms, setPlatforms] = useState<IPlatformProps[]>([]);
   const [hivemindModule, setHivemindModule] = useState<IModuleProps>();
 
   const { showMessage } = useSnackbar();
@@ -74,9 +76,12 @@ function HivemindSettings() {
     },
   });
 
+
   const router = useRouter();
 
   const fetchPlatformsByType = async () => {
+    console.log({ activePlatform });
+
     const communityId =
       StorageService.readLocalStorage<IDiscordModifiedCommunity>(
         'community'
@@ -86,9 +91,9 @@ function HivemindSettings() {
       community: communityId,
       name: 'hivemind',
     });
-
     switch (activePlatform) {
       case 0:
+        setIsActivePlatformLoading(true);
         const { results } = await retrievePlatforms({
           name: 'discord',
           community: communityId,
@@ -100,6 +105,22 @@ function HivemindSettings() {
 
         setHivemindModule(discordHivemindModule);
         setPlatforms(results);
+        setIsActivePlatformLoading(false);
+        break;
+      case 1:
+        setIsActivePlatformLoading(true);
+        const { results: googleResults } = await retrievePlatforms({
+          name: 'google',
+          community: communityId,
+        });
+        const gdriveHivemindModule = hivemindModules.results.find(
+          (hivemindModule: IModuleProps) =>
+            hivemindModule.community === communityId
+        );
+
+        setHivemindModule(gdriveHivemindModule);
+        setPlatforms(googleResults);
+        setIsActivePlatformLoading(false);
         break;
       default:
         break;
@@ -108,7 +129,7 @@ function HivemindSettings() {
 
   useEffect(() => {
     fetchPlatformsByType();
-  }, [platform]);
+  }, [platform, activePlatform]);
 
   const handleLearningConfigUpdate = (config: {
     selectedChannels: string[];
@@ -137,27 +158,45 @@ function HivemindSettings() {
     });
   };
 
-  const handlePatchModule = async () => {
+  const handlePatchModule = async (moduleType: 'discord' | 'google', payload?: any) => {
     try {
       if (!hivemindModule) return;
 
-      setLoading(true);
-      const patchPayload = {
-        platforms: [
-          {
-            platform: platforms[platform].id,
-            name: 'discord',
-            metadata: {
-              ...hivemindPayload,
+      let patchPayload = {};
+
+      if (moduleType === 'discord') {
+        setLoading(true);
+        patchPayload = {
+          platforms: [
+            {
+              platform: platforms[platform].id,
+              name: 'discord',
+              metadata: {
+                ...hivemindPayload,
+              },
             },
-          },
-        ],
-      };
+          ],
+        };
+      } else if (moduleType === 'google') {
+        setLoading(true);
+        patchPayload = {
+          platforms: [
+            {
+              platform: platforms[platform].id,
+              name: 'google',
+              metadata: {
+                ...payload
+              },
+            },
+          ],
+        };
+      }
 
       const data = await patchModule({
         moduleId: hivemindModule.id,
         payload: patchPayload,
       });
+
       if (data) {
         showMessage('Hivemind module updated successfully', 'success');
         await fetchPlatformsByType();
@@ -189,7 +228,7 @@ function HivemindSettings() {
                   <TcText text={platform} variant='body2' />
                 </div>
               }
-              disabled={!['Discord'].includes(platform)}
+              disabled={!['Discord', 'GDrive'].includes(platform)}
               {...a11yProps(index)}
             />
           ))}
@@ -229,7 +268,7 @@ function HivemindSettings() {
                 platform={
                   platforms &&
                   platforms.filter(
-                    (platform) => platform.disconnectedAt === null
+                    (platform) => platform.disconnectedAt === null && platform.name === 'discord'
                   )[0]
                 }
                 defaultLearningModuleConfig={
@@ -241,7 +280,7 @@ function HivemindSettings() {
                 platform={
                   platforms &&
                   platforms.filter(
-                    (platform) => platform.disconnectedAt === null
+                    (platform) => platform.disconnectedAt === null && platform.name === 'discord'
                   )[0]
                 }
                 defaultAnsweringModuleConfig={
@@ -268,11 +307,21 @@ function HivemindSettings() {
                 variant='contained'
                 className='md:w-1/4'
                 disabled={hivemindPayload?.learning?.fromDate === ''}
-                onClick={() => handlePatchModule()}
+                onClick={() => handlePatchModule('discord')}
               />
             </div>
           </TabPanel>
         )}
+        {
+          activePlatform === 1 && (
+            <TabPanel value={activePlatform} index={1}>
+              <TcHivemindGoogle
+                defaultGoogleHivemindConfig={
+                  hivemindModule?.options?.platforms.find((platform) => platform.name === 'google')?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
+                }
+                handlePatchHivemindGoogle={(payload) => handlePatchModule('google', payload)} isLoading={loading} />
+            </TabPanel>
+          )}
       </Paper>
     </>
   );

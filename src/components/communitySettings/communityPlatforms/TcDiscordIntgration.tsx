@@ -48,7 +48,7 @@ function TcDiscordIntgration({
       {isLoading ? (
         <CircularProgress size={30} />
       ) : (
-        connectedPlatforms.map((platform, index) => (
+        connectedPlatforms && connectedPlatforms.map((platform, index) => (
           <Paper
             className='flex h-[6rem] w-[10rem] flex-col items-center justify-center space-y-1.5 overflow-hidden rounded-sm py-2 shadow-none'
             key={index}
