@@ -20,6 +20,10 @@ interface Params {
   userId?: string;
   icon?: string;
   picture?: string;
+  installationId?: string;
+  account_login?: string;
+  account_id?: string;
+  account_avatar_url?: string;
 }
 /**
  * Callback Component.
@@ -83,6 +87,14 @@ function Callback() {
       metadata.name = params.name;
       metadata.picture = params.picture;
       metadata.id = params.id;
+    } else if (params.platform === 'github') {
+      metadata.installationId = params.installationId;
+      metadata.account = {
+        login: params.account_login,
+        id: params.account_id,
+        avatarUrl: params.account_avatar_url,
+      }
+
     }
 
     const payload = {
@@ -99,8 +111,12 @@ function Callback() {
       if (params.platform === 'google') {
         showMessage('Google Drive authorized successfully.', 'success');
         router.push('/community-settings')
+      } else if (params.platform === 'github') {
+        showMessage('Github authorized successfully.', 'success');
+        router.push('/community-settings')
+      } else {
+        router.push(`/community-settings/?platformId=${data.id}`);
       }
-      router.push(`/community-settings/?platformId=${data.id}`);
     } catch (error) {
       console.error('Failed to create new platform:', error);
     }
@@ -169,6 +185,14 @@ function Callback() {
       case StatusCode.ANNOUNCEMENTS_PERMISSION_SUCCESS:
         setMessage('Announcements grant write permissions success.');
         router.push('/announcements');
+
+      case StatusCode.GITHUB_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Github authorization successful.');
+        handleCreateNewPlatform(params);
+
+      case StatusCode.GITHUB_AUTHORIZATION_FAILURE:
+        setMessage('Github authorization failed.');
+        router.push('/community-settings');
 
       default:
         console.error('Unexpected status code received:', code);
