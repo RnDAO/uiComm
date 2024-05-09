@@ -22,7 +22,6 @@ interface HivemindGoogleProps {
 }
 
 function TcHivemindGoogle({ isLoading, defaultGoogleHivemindConfig, handlePatchHivemindGoogle }: HivemindGoogleProps) {
-    const [loading, setLoading] = useState<boolean>(false);
     const [driveIds, setDriveIds] = useState<string[]>(defaultGoogleHivemindConfig.driveIds || []);
     const [folderIds, setFolderIds] = useState<string[]>(defaultGoogleHivemindConfig.folderIds || []);
     const [fileIds, setFileIds] = useState<string[]>(defaultGoogleHivemindConfig.fileIds || []);
