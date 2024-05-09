@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -276,7 +277,14 @@ function HivemindSettings() {
         >
           {Object.keys(IntegrationPlatform).map((platform, index) => (
             <Tab
-              className='mr-3 min-h-[6rem] min-w-[10rem] rounded-sm bg-white shadow-lg'
+              className={clsx(
+                'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
+                activePlatform === index
+                  ? 'bg-secondary/80 text-white'
+                  : !['Discord', 'GDrive', 'Github'].includes(platform)
+                    ? 'bg-white'
+                    : 'bg-white text-black'
+              )}
               key={index}
               label={
                 <div className='flex flex-col items-center space-x-2'>

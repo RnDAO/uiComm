@@ -117,7 +117,7 @@ function TcGithubIntegration({
               <TcCommunityPlatformIcon platform='Github' />
               <div>
                 <TcText
-                  text='GDrive Account Profile'
+                  text='Github Account Profile'
                   variant='h6'
                   fontWeight='bold'
                 />

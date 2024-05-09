@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -137,7 +138,14 @@ function TcCommunityPlatforms() {
           >
             {Object.keys(IntegrationPlatform).map((platform, index) => (
               <Tab
-                className='mr-3 min-h-[6rem] min-w-[10rem] rounded-sm bg-white shadow-lg'
+                className={clsx(
+                  'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
+                  activeTab === index
+                    ? 'bg-secondary/80 text-white'
+                    : !['Discord', 'GDrive', 'Github'].includes(platform)
+                      ? 'bg-white'
+                      : 'bg-white text-black'
+                )}
                 key={index}
                 label={
                   <div className='flex flex-col items-center space-x-2'>
@@ -180,7 +188,7 @@ function TcCommunityPlatforms() {
           )}
         </Box>
       </Paper>
-      <div>
+      <div className='py-4'>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Modules' variant='h6' fontWeight='bold' />
           <TcText
