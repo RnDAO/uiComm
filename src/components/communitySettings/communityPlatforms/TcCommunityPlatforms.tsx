@@ -181,6 +181,9 @@ function TcCommunityPlatforms() {
             )}
         </Box>
 
+
+      </Paper>
+      <div>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Modules' variant='h6' fontWeight='bold' />
           <TcText
@@ -209,7 +212,7 @@ function TcCommunityPlatforms() {
             </div>
           }
         />
-      </Paper>
+      </div>
     </div>
   );
 }
