@@ -2,6 +2,7 @@ export enum IntegrationPlatform {
   Discord = 'Discord',
   GDrive = 'GDrive',
   Github = 'Github',
+  Notion = 'Notion',
   Twitter = 'Twitter',
   Discourse = 'Discourse',
   Telegram = 'Telegram',
@@ -22,6 +23,8 @@ export enum StatusCode {
   GDRIVE_AUTHORIZATION_FAILURE = '1011',
   GITHUB_AUTHORIZATION_SUCCESSFUL = '1012',
   GITHUB_AUTHORIZATION_FAILURE = '1013',
+  NOTION_AUTHORIZATION_SUCCESSFUL = '1014',
+  NOTION_AUTHORIZATION_FAILURE = '1015',
 }
 
 export enum Permission {

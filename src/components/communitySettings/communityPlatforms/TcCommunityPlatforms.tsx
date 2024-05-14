@@ -17,6 +17,7 @@ import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../../utils/interfaces';
+import TcNotionIntegration from './TcNotionIntegration';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -58,7 +59,7 @@ function TcCommunityPlatforms() {
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
   const fetchPlatformsByType = async () => {
-    const platformNames = ['discord', 'google', 'github'];
+    const platformNames = ['discord', 'google', 'github', 'notion'];
     const platformName = platformNames[activeTab];
 
     if (!platformName) {
@@ -142,7 +143,7 @@ function TcCommunityPlatforms() {
                   'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
                   activeTab === index
                     ? 'bg-secondary/80 text-white'
-                    : !['Discord', 'GDrive', 'Github'].includes(platform)
+                    : !['Discord', 'GDrive', 'Github', 'Notion'].includes(platform)
                       ? 'bg-white'
                       : 'bg-white text-black'
                 )}
@@ -153,7 +154,7 @@ function TcCommunityPlatforms() {
                     <TcText text={platform} variant='body2' />
                   </div>
                 }
-                disabled={!['Discord', 'GDrive', 'Github'].includes(platform)}
+                disabled={!['Discord', 'GDrive', 'Github', 'Notion'].includes(platform)}
                 {...a11yProps(index)}
               />
             ))}
@@ -186,6 +187,17 @@ function TcCommunityPlatforms() {
               />
             </TabPanel>
           )}
+          {
+            activeTab === 3 && (
+              <TabPanel value={activeTab} index={3}>
+                <TcNotionIntegration
+                  isLoading={isLoading}
+                  connectedPlatforms={platforms}
+                  handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                />
+              </TabPanel>
+            )
+          }
         </Box>
       </Paper>
       <div className='py-4'>

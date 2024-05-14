@@ -25,11 +25,15 @@ const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
 
           location.replace(url);
         }
+      } else if (platformType === 'notion') {
+        if (userId) {
+          url += `&userId=${encodeURIComponent(userId)}`;
+        }
+        location.replace(url);
       } else {
         location.replace(url);
       }
     } catch (error) {
-      // Log any errors that occur during URL construction or redirection.
       console.error('Failed to connect platform due to:', error);
     }
   },
