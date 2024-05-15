@@ -202,18 +202,22 @@ function Callback() {
       case StatusCode.TWITTER_AUTHORIZATION_FAILURE:
         setMessage('Twitter Authorization failed.');
         router.push('/community-settings');
+        break;
 
       case StatusCode.DISCORD_AUTHORIZATION_FAILURE_FROM_SETTINGS:
         setMessage('Discord Authorization during setup on setting faield.');
         router.push('/community-settings');
+        break;
 
       case StatusCode.ANNOUNCEMENTS_PERMISSION_FAILURE:
         setMessage('Announcements grant write permissions faield.');
         router.push('/announcements');
+        break;
 
       case StatusCode.ANNOUNCEMENTS_PERMISSION_SUCCESS:
         setMessage('Announcements grant write permissions success.');
         router.push('/announcements');
+        break;
 
       case StatusCode.GITHUB_AUTHORIZATION_SUCCESSFUL:
         setMessage('Github authorization successful.');
@@ -222,14 +226,17 @@ function Callback() {
       case StatusCode.GITHUB_AUTHORIZATION_FAILURE:
         setMessage('Github authorization failed.');
         router.push('/community-settings');
+        break;
 
       case StatusCode.NOTION_AUTHORIZATION_SUCCESSFUL:
         setMessage('Notion authorization successful.');
         handleCreateNewPlatform(params);
+        break;
 
       case StatusCode.NOTION_AUTHORIZATION_FAILURE:
         setMessage('Notion authorization failed.');
         router.push('/community-settings');
+        break;
 
       default:
         console.error('Unexpected status code received:', code);
