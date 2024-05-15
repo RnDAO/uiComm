@@ -119,8 +119,8 @@ function Callback() {
           id: params.owner_user_id,
           name: params.owner_user_name,
           avatar_url: params.owner_user_avatar_url,
-        }
-      }
+        },
+      };
     }
 
     const payload = {

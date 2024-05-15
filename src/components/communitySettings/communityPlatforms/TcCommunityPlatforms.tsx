@@ -7,6 +7,8 @@ import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
 import TcGdriveIntegration from './TcGdriveIntegration';
 import TcGithubIntegration from './TcGithubIntegration';
+import TcMediaWiki from './TcMediaWiki';
+import TcNotionIntegration from './TcNotionIntegration';
 import TcButton from '../../shared/TcButton';
 import TcCard from '../../shared/TcCard';
 import TcText from '../../shared/TcText';
@@ -17,8 +19,6 @@ import {
   IDiscordModifiedCommunity,
   IPlatformProps,
 } from '../../../utils/interfaces';
-import TcNotionIntegration from './TcNotionIntegration';
-import TcMediaWiki from './TcMediaWiki';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -60,7 +60,13 @@ function TcCommunityPlatforms() {
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
   const fetchPlatformsByType = async () => {
-    const platformNames = ['discord', 'google', 'github', 'notion', 'mediaWiki'];
+    const platformNames = [
+      'discord',
+      'google',
+      'github',
+      'notion',
+      'mediaWiki',
+    ];
     const platformName = platformNames[activeTab];
 
     if (!platformName) {
@@ -144,7 +150,9 @@ function TcCommunityPlatforms() {
                   'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
                   activeTab === index
                     ? 'bg-secondary/80 text-white'
-                    : !['Discord', 'GDrive', 'Github', 'Notion'].includes(platform)
+                    : !['Discord', 'GDrive', 'Github', 'Notion'].includes(
+                          platform
+                        )
                       ? 'bg-white'
                       : 'bg-white text-black'
                 )}
@@ -155,7 +163,15 @@ function TcCommunityPlatforms() {
                     <TcText text={platform} variant='body2' />
                   </div>
                 }
-                disabled={!['Discord', 'GDrive', 'Github', 'Notion', 'MediaWiki'].includes(platform)}
+                disabled={
+                  ![
+                    'Discord',
+                    'GDrive',
+                    'Github',
+                    'Notion',
+                    'MediaWiki',
+                  ].includes(platform)
+                }
                 {...a11yProps(index)}
               />
             ))}
@@ -188,28 +204,24 @@ function TcCommunityPlatforms() {
               />
             </TabPanel>
           )}
-          {
-            activeTab === 3 && (
-              <TabPanel value={activeTab} index={3}>
-                <TcNotionIntegration
-                  isLoading={isLoading}
-                  connectedPlatforms={platforms}
-                  handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
-                />
-              </TabPanel>
-            )
-          }
-          {
-            activeTab === 4 && (
-              <TabPanel value={activeTab} index={4}>
-                <TcMediaWiki
-                  isLoading={isLoading}
-                  connectedPlatforms={platforms}
-                  handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
-                />
-              </TabPanel>
-            )
-          }
+          {activeTab === 3 && (
+            <TabPanel value={activeTab} index={3}>
+              <TcNotionIntegration
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+              />
+            </TabPanel>
+          )}
+          {activeTab === 4 && (
+            <TabPanel value={activeTab} index={4}>
+              <TcMediaWiki
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+              />
+            </TabPanel>
+          )}
         </Box>
       </Paper>
       <div className='py-4'>

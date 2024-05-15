@@ -4,9 +4,9 @@ import { FaDiscord } from 'react-icons/fa';
 import { FaDiscourse } from 'react-icons/fa';
 import { FaGithub } from 'react-icons/fa';
 import { FaGoogleDrive } from 'react-icons/fa';
+import { FaWikipediaW } from 'react-icons/fa';
 import { FaTelegram, FaTwitter } from 'react-icons/fa6';
-import { RiNotionFill } from "react-icons/ri";
-import { FaWikipediaW } from "react-icons/fa";
+import { RiNotionFill } from 'react-icons/ri';
 
 interface TcCommunityPlatformIconProps {
   platform: string;
