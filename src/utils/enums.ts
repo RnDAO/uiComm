@@ -3,6 +3,7 @@ export enum IntegrationPlatform {
   GDrive = 'GDrive',
   Github = 'Github',
   Notion = 'Notion',
+  MediaWiki = 'MediaWiki',
   Twitter = 'Twitter',
   Discourse = 'Discourse',
   Telegram = 'Telegram',

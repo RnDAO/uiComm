@@ -10,47 +10,36 @@ import React, { useState } from 'react';
 
 import TcButton from '../../shared/TcButton';
 
-interface TcHivemindNotionProps {
+interface TcHivemindMediaWikiProps {
   isLoading: boolean;
-  defaultNotionHivemindConfig: {
+  defaultMediaWikiHivemindConfig: {
     pageIds?: string[];
-    databaseIds?: string[];
   };
-  handlePatchHivemindNotion: ({
-    pageIds,
-    databaseIds,
-  }: {
-    pageIds: string[];
-    databaseIds: string[];
-  }) => void;
+  handlePatchHivemindMediaWiki: ({ pageIds }: { pageIds: string[] }) => void;
 }
 
-function TcHivemindNotion({
+function TcHivemindMediaWiki({
   isLoading,
-  defaultNotionHivemindConfig,
-  handlePatchHivemindNotion,
-}: TcHivemindNotionProps) {
+  defaultMediaWikiHivemindConfig,
+  handlePatchHivemindMediaWiki,
+}: TcHivemindMediaWikiProps) {
   const [pageIds, setPageIds] = useState<string[]>(
-    defaultNotionHivemindConfig?.pageIds || []
-  );
-  const [databaseIds, setDatabaseIds] = useState<string[]>(
-    defaultNotionHivemindConfig?.databaseIds || []
+    defaultMediaWikiHivemindConfig?.pageIds || []
   );
 
   const handleNotionHivemind = () => {
     const payload = {
       pageIds: pageIds,
-      databaseIds: databaseIds,
     };
 
-    handlePatchHivemindNotion({ ...payload });
+    handlePatchHivemindMediaWiki({ ...payload });
   };
 
   return (
     <>
       <div className='flex flex-col items-center justify-between space-y-3'>
         <FormControl fullWidth>
-          <FormLabel>Notion Page Id</FormLabel>
+          <FormLabel>WikiMedia Page Id</FormLabel>
           <Autocomplete
             multiple
             freeSolo
@@ -64,26 +53,6 @@ function TcHivemindNotion({
                 variant='filled'
                 label='Page Ids'
                 placeholder='Type Page ids and enter'
-              />
-            )}
-            options={[]}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <FormLabel>Notion Database Id</FormLabel>
-          <Autocomplete
-            multiple
-            freeSolo
-            value={databaseIds}
-            onChange={(event, newValue: string[] | null) => {
-              setDatabaseIds(newValue || []);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant='filled'
-                label='Database Ids'
-                placeholder='Type Database ids and enter'
               />
             )}
             options={[]}
@@ -114,4 +83,4 @@ function TcHivemindNotion({
   );
 }
 
-export default TcHivemindNotion;
+export default TcHivemindMediaWiki;

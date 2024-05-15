@@ -56,7 +56,7 @@ function TcGdriveIntegration({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -197,7 +197,8 @@ function TcGdriveIntegration({
                 className='text-left'
                 text={
                   <span>
-                    Importing new data will be stopped. Already imported and analyzed data <b>will be deleted.</b>
+                    Importing new data will be stopped. Already imported and
+                    analyzed data <b>will be deleted.</b>
                   </span>
                 }
                 variant='body2'
@@ -219,7 +220,8 @@ function TcGdriveIntegration({
                 className='text-left'
                 text={
                   <span>
-                    Importing new data will be stopped. Already imported and analyzed data <b>will be kept.</b>
+                    Importing new data will be stopped. Already imported and
+                    analyzed data <b>will be kept.</b>
                   </span>
                 }
                 variant='body2'
