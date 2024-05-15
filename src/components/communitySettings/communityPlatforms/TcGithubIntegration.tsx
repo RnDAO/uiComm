@@ -47,7 +47,7 @@ function TcGithubIntegration({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -189,8 +189,7 @@ function TcGithubIntegration({
                 className='text-left'
                 text={
                   <span>
-                    Importing activities and members will be stopped. Historical
-                    activities <b>will be deleted.</b>
+                    Importing new data will be stopped. Already imported and analyzed data <b>will be deleted.</b>
                   </span>
                 }
                 variant='body2'
@@ -212,8 +211,7 @@ function TcGithubIntegration({
                 className='text-left'
                 text={
                   <span>
-                    Importing activities and members will be stopped. Historical
-                    activities <b>will not be affected.</b>
+                    Importing new data will be stopped. Already imported and analyzed data <b>will be kept.</b>
                   </span>
                 }
                 variant='body2'

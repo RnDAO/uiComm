@@ -24,6 +24,17 @@ interface Params {
   account_login?: string;
   account_id?: string;
   account_avatar_url?: string;
+  bot_id?: string;
+  workspace_id?: string;
+  workspace_name?: string;
+  workspace_icon?: string;
+  request_id?: string;
+  owner_type?: string;
+  owner_user_type?: string;
+  owner_user_object?: string;
+  owner_user_id?: string;
+  owner_user_name?: string;
+  owner_user_avatar_url?: string;
 }
 /**
  * Callback Component.
@@ -93,6 +104,23 @@ function Callback() {
         id: params.account_id,
         avatarUrl: params.account_avatar_url,
       };
+    } else if (params.platform === 'notion') {
+      metadata.userId = params.userId;
+      metadata.workspace_id = params.workspace_id;
+      metadata.workspace_name = params.workspace_name;
+      metadata.workspace_icon = params.workspace_icon;
+      metadata.bot_id = params.bot_id;
+      metadata.request_id = params.request_id;
+      metadata.owner = {
+        type: params.owner_type,
+        user: {
+          type: params.owner_user_type,
+          object: params.owner_user_object,
+          id: params.owner_user_id,
+          name: params.owner_user_name,
+          avatar_url: params.owner_user_avatar_url,
+        }
+      }
     }
 
     const payload = {
@@ -111,6 +139,9 @@ function Callback() {
         router.push('/community-settings');
       } else if (params.platform === 'github') {
         showMessage('Github authorized successfully.', 'success');
+        router.push('/community-settings');
+      } else if (params.platform === 'notion') {
+        showMessage('Notion authorized successfully.', 'success');
         router.push('/community-settings');
       } else {
         router.push(`/community-settings/?platformId=${data.id}`);
@@ -190,6 +221,14 @@ function Callback() {
 
       case StatusCode.GITHUB_AUTHORIZATION_FAILURE:
         setMessage('Github authorization failed.');
+        router.push('/community-settings');
+
+      case StatusCode.NOTION_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Notion authorization successful.');
+        handleCreateNewPlatform(params);
+
+      case StatusCode.NOTION_AUTHORIZATION_FAILURE:
+        setMessage('Notion authorization failed.');
         router.push('/community-settings');
 
       default:
