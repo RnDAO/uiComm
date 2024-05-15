@@ -22,6 +22,8 @@ import {
   IPlatformProps,
 } from '../../../utils/interfaces';
 import TcHivemindNotion from './TcHivemindNotion';
+import TcHivemindMediaWiki from './TcHivemindMediaWiki';
+import { truncateCenter } from '../../../helpers/helper';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -155,6 +157,23 @@ function HivemindSettings() {
         setHivemindModule(notionHivemindModule);
         setPlatforms(notionResults);
         setIsActivePlatformLoading(false);
+        break;
+
+      case 4:
+        setIsActivePlatformLoading(true);
+        const { results: mediaWikiResults } = await retrievePlatforms({
+          name: 'mediaWiki',
+          community: communityId,
+        });
+
+        const mediaWikiHivemindModule = hivemindModules.results.find(
+          (hivemindModule: IModuleProps) =>
+            hivemindModule.community === communityId
+        );
+
+        setHivemindModule(mediaWikiHivemindModule);
+        setPlatforms(mediaWikiResults);
+        setIsActivePlatformLoading(false);
       default:
         break;
     }
@@ -192,7 +211,7 @@ function HivemindSettings() {
   };
 
   const handlePatchModule = async (
-    moduleType: 'discord' | 'google' | 'github' | 'notion',
+    moduleType: 'discord' | 'google' | 'github' | 'notion' | 'mediaWiki',
     payload?: any
   ) => {
     try {
@@ -252,6 +271,19 @@ function HivemindSettings() {
             },
           ],
         };
+      } else if (moduleType === 'mediaWiki') {
+        setLoading(true);
+        patchPayload = {
+          platforms: [
+            {
+              platform: platforms[platform].id,
+              name: 'mediaWiki',
+              metadata: {
+                ...payload,
+              },
+            },
+          ],
+        };
       }
 
       const data = await patchModule({
@@ -292,13 +324,15 @@ function HivemindSettings() {
         src = `${platform?.metadata?.owner?.user?.avatar_url}`;
         text = platform?.metadata?.owner?.user?.name;
         break;
+      case 'mediaWiki':
+        src = '';
+        text = truncateCenter(platform?.metadata?.baseURL.replace('https://', ''), 15);
+        break;
       default:
         src = '';
         text = '';
         break;
     }
-    console.log(src, text);
-
     return { src, text };
   };
 
@@ -331,7 +365,7 @@ function HivemindSettings() {
                 </div>
               }
               disabled={
-                !['Discord', 'GDrive', 'Github', 'Notion'].includes(platform)
+                !['Discord', 'GDrive', 'Github', 'Notion', 'MediaWiki'].includes(platform)
               }
               {...a11yProps(index)}
             />
@@ -491,7 +525,26 @@ function HivemindSettings() {
             }
           </TabPanel>
         )}
-      </Paper>
+        {activePlatform === 4 && (
+          <TabPanel value={activePlatform} index={4}>
+            {
+              platforms && platforms.length > 0 && (
+                <TcHivemindMediaWiki
+                  isLoading={loading}
+                  defaultMediaWikiHivemindConfig={
+                    hivemindModule?.options?.platforms.find(
+                      (platform) => platform.name === 'mediaWiki'
+                    )?.metadata || { pageIds: [] }
+                  }
+                  handlePatchHivemindMediaWiki={(payload) =>
+                    handlePatchModule('mediaWiki', payload)
+                  }
+                />
+              )
+            }
+          </TabPanel>
+        )}
+      </Paper >
     </>
   );
 }

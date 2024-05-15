@@ -18,6 +18,7 @@ import {
   IPlatformProps,
 } from '../../../utils/interfaces';
 import TcNotionIntegration from './TcNotionIntegration';
+import TcMediaWiki from './TcMediaWiki';
 
 interface TcTabPanelProps {
   children?: React.ReactNode;
@@ -59,7 +60,7 @@ function TcCommunityPlatforms() {
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
   const fetchPlatformsByType = async () => {
-    const platformNames = ['discord', 'google', 'github', 'notion'];
+    const platformNames = ['discord', 'google', 'github', 'notion', 'mediaWiki'];
     const platformName = platformNames[activeTab];
 
     if (!platformName) {
@@ -154,7 +155,7 @@ function TcCommunityPlatforms() {
                     <TcText text={platform} variant='body2' />
                   </div>
                 }
-                disabled={!['Discord', 'GDrive', 'Github', 'Notion'].includes(platform)}
+                disabled={!['Discord', 'GDrive', 'Github', 'Notion', 'MediaWiki'].includes(platform)}
                 {...a11yProps(index)}
               />
             ))}
@@ -198,6 +199,17 @@ function TcCommunityPlatforms() {
               </TabPanel>
             )
           }
+          {
+            activeTab === 4 && (
+              <TabPanel value={activeTab} index={4}>
+                <TcMediaWiki
+                  isLoading={isLoading}
+                  connectedPlatforms={platforms}
+                  handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                />
+              </TabPanel>
+            )
+          }
         </Box>
       </Paper>
       <div className='py-4'>
@@ -222,7 +234,6 @@ function TcCommunityPlatforms() {
                     'Manage'
                   )
                 }
-                disabled={platforms.length === 0}
                 variant='text'
                 onClick={() => handleManageHivemindModule()}
               />
