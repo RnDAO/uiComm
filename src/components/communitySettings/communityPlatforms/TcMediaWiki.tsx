@@ -170,12 +170,12 @@ function TcMediaWiki({
               <>
                 <div className='flex items-center space-x-3'>
                   <TcText
-                    text='WikiMedia URL:'
+                    text='MediaWiki URL:'
                     variant='body1'
                     fontWeight='bold'
                   />
                   <TcText
-                    text={`WikiMedia URL: ${activePlatform.metadata.baseURL}`}
+                    text={`MediaWiki URL: ${activePlatform.metadata.baseURL}`}
                     variant='body1'
                   />
                 </div>

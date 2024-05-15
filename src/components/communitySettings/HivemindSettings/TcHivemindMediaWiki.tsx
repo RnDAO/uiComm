@@ -39,7 +39,7 @@ function TcHivemindMediaWiki({
     <>
       <div className='flex flex-col items-center justify-between space-y-3'>
         <FormControl fullWidth>
-          <FormLabel>WikiMedia Page Id</FormLabel>
+          <FormLabel>MediaWiki Page Id</FormLabel>
           <Autocomplete
             multiple
             freeSolo
