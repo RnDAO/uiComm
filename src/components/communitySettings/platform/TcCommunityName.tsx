@@ -24,7 +24,8 @@ function TcCommunityName({ platform }: TccommunityName) {
 
     if (community?.platforms) {
       activeCommunityPlatformIcon = community.platforms.find(
-        (platform) => platform.disconnectedAt === null
+        (platform) =>
+          platform.disconnectedAt === null && platform.name === 'discord'
       );
     }
 

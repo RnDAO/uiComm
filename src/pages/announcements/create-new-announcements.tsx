@@ -63,7 +63,8 @@ function CreateNewAnnouncements() {
   const [isDateValid, setIsDateValid] = useState<boolean>(true);
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const [publicAnnouncements, setPublicAnnouncements] =

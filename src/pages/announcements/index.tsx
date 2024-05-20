@@ -43,7 +43,8 @@ function Index() {
   const [page, setPage] = useState(1);
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const [announcementsPermissions, setAnnouncementsPermissions] =

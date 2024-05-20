@@ -30,7 +30,8 @@ function TcCommunitySettings() {
   const router = useRouter();
 
   const activePlatform = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,16 +50,18 @@ function TcCommunitySettings() {
     setCommunityNameInput(e.target.value);
   };
 
-  const handleDeleteCommunity = () => {
+  const handleDeleteCommunity = async () => {
     if (communityNameInput === community?.name) {
-      deleteCommunityById(community?.id).then(() => {
+      const data = await deleteCommunityById(community?.id);
+
+      if (data) {
         StorageService.removeLocalStorage('community');
         showMessage('Community deleted successfully', 'success');
-      });
-      deleteCommunity();
-      setOpenDeleteCommunityDialog(false);
-      setCommunityNameInput('');
-      router.push('/centric/select-community');
+        deleteCommunity();
+        setOpenDeleteCommunityDialog(false);
+        setCommunityNameInput('');
+        router.push('/centric/select-community');
+      }
     }
   };
 

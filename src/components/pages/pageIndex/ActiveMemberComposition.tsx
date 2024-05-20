@@ -20,7 +20,8 @@ const ActiveMemberComposition = () => {
     const startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     const platformId = community?.platforms.find(
-      (platform) => platform.disconnectedAt === null
+      (platform) =>
+        platform.disconnectedAt === null && platform.name === 'discord'
     )?.id;
 
     if (platformId) {

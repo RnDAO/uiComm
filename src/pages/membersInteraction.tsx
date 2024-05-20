@@ -105,7 +105,8 @@ function MembersInteraction() {
 
   useEffect(() => {
     const platformId = community?.platforms.find(
-      (platform) => platform.disconnectedAt === null
+      (platform) =>
+        platform.disconnectedAt === null && platform.name === 'discord'
     )?.id;
 
     if (platformId) {
