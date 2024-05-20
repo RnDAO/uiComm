@@ -54,7 +54,7 @@ function TcCommunitySettings() {
     if (communityNameInput === community?.name) {
       const data = await deleteCommunityById(community?.id);
 
-      if (data) {
+      if (data !== undefined) {
         StorageService.removeLocalStorage('community');
         showMessage('Community deleted successfully', 'success');
         deleteCommunity();

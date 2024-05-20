@@ -126,6 +126,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   };
 
   const deleteCommunity = () => {
+    console.log('hjere');
+
     if (intervalIdRef.current) {
       clearInterval(intervalIdRef.current);
     }
