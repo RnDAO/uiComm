@@ -70,7 +70,8 @@ export default function DisengagedMembersCompositionBreakdown() {
   });
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const handlePageChange = (selectedPage: number) => {

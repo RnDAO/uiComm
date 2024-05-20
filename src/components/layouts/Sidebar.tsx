@@ -37,7 +37,8 @@ const Sidebar = () => {
 
     if (storedCommunity?.platforms) {
       const foundPlatform = storedCommunity.platforms.find(
-        (platform) => platform.disconnectedAt === null
+        (platform) =>
+          platform.disconnectedAt === null && platform.name === 'discord'
       );
 
       setConnectedPlatform(foundPlatform ?? null);

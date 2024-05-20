@@ -33,7 +33,8 @@ function TcRolesAndPermissionsContainer() {
   const [viewerByMember, setViewerByMember] = useState<IUser[]>([]);
 
   const activePlatoform = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   );
 
   const fetchAndUpdateCommunity = async () => {

@@ -55,7 +55,8 @@ function TcPublicMessageContainer({
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const [selectedChannels, setSelectedChannels] = useState<FlattenedChannel[]>(
