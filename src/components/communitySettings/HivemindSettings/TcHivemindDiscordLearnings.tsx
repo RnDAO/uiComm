@@ -183,7 +183,8 @@ function TcHivemindDiscordLearnings({
               selectedDate={selectedDate}
               onDateChange={handleDateChange}
               onResetDate={resetDateFilter}
-              disableDaysFrom={35}
+              disableDaysBefore={90}
+              disableDaysFrom={0}
             />
           </div>
         </div>

@@ -15,6 +15,7 @@ interface ITcDatePickerPopoverProps {
   onDateChange: (date: Date | null) => void;
   onResetDate: () => void;
   disableDaysFrom?: number;
+  disableDaysBefore?: number;
 }
 
 function TcDatePickerPopover({
@@ -25,14 +26,22 @@ function TcDatePickerPopover({
   onDateChange,
   onResetDate,
   disableDaysFrom,
+  disableDaysBefore,
 }: ITcDatePickerPopoverProps) {
-  const disableRecentDates = (date: Date) => {
+  const disableDates = (date: Date) => {
     const today = moment();
-    const thirtyFiveDaysAgo = moment().subtract(disableDaysFrom, 'days');
-    return (
-      moment(date).isAfter(today) ||
-      moment(date).isBetween(thirtyFiveDaysAgo, today, 'day', '[]')
-    );
+    const xDaysAgo = disableDaysFrom ? moment().subtract(disableDaysFrom, 'days') : null;
+    const yDaysAgo = disableDaysBefore ? moment().subtract(disableDaysBefore, 'days') : null;
+
+    if (disableDaysFrom && xDaysAgo && moment(date).isBetween(xDaysAgo, today, 'day', '[]')) {
+      return true;
+    }
+
+    if (disableDaysBefore && yDaysAgo && moment(date).isBefore(yDaysAgo, 'day')) {
+      return true;
+    }
+
+    return moment(date).isAfter(today);
   };
 
   return (
@@ -51,7 +60,7 @@ function TcDatePickerPopover({
           openTo='day'
           value={selectedDate}
           onChange={onDateChange}
-          shouldDisableDate={disableDaysFrom ? disableRecentDates : undefined}
+          shouldDisableDate={disableDaysFrom || disableDaysBefore ? disableDates : undefined}
         />
       </LocalizationProvider>
       <div className='px-5 py-3'>
