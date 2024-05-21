@@ -354,9 +354,9 @@ function HivemindSettings() {
                 'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
                 activePlatform === index
                   ? 'bg-secondary/80 text-white'
-                  : !['Discord', 'GDrive', 'Github', 'Notion'].includes(
-                        platform
-                      )
+                  : !['Discord', 'GDrive', 'Github', 'Notion', 'MediaWiki'].includes(
+                    platform
+                  )
                     ? 'bg-white'
                     : 'bg-white text-black'
               )}
