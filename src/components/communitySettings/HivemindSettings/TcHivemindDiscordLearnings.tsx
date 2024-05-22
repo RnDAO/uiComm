@@ -167,7 +167,7 @@ function TcHivemindDiscordLearnings({
         <div className='mb-2 flex flex-col'>
           <TcText text='Select the data extraction period' variant='h6' />
           <div className='flex items-center justify-end space-x-1.5'>
-            <TcIconWithTooltip tooltipText='select the date from which data will be analysed and fed to Hivemind. We recommend 3 months to start.' />
+            <TcIconWithTooltip tooltipText='select the date from which data will be analysed and fed to Hivemind. You can only go back 3 months from today.' />
             <TcButton
               className='w-full'
               variant='outlined'
