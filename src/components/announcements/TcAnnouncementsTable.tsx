@@ -169,9 +169,9 @@ function TcAnnouncementsTable({
                     }}
                   />
                   {announcement &&
-                  announcement.data &&
-                  announcement.data[0] &&
-                  announcement.data[0].template
+                    announcement.data &&
+                    announcement.data[0] &&
+                    announcement.data[0].template
                     ? truncateCenter(announcement.data[0]?.template, 20)
                     : ''}
                 </>
@@ -229,11 +229,11 @@ function TcAnnouncementsTable({
                     const channels = item.options.channels;
                     if (channels && channels.length > 0) {
                       const displayedChannels = channels
-                        .slice(0, 2)
+                        .slice(0, 1)
                         .map((channel: { name: any }) => `#${channel.name}`)
                         .join(', ');
                       const moreChannelsIndicator =
-                        channels.length > 2 ? '...' : '';
+                        channels.length > 1 ? '...' : '';
                       return dataIndex > 0
                         ? `, ${displayedChannels}${moreChannelsIndicator}`
                         : `${displayedChannels}${moreChannelsIndicator}`;
@@ -256,10 +256,10 @@ function TcAnnouncementsTable({
                   const users = item.options.users;
                   if (users && users.length > 0) {
                     const displayedUsers = users
-                      .slice(0, 2)
+                      .slice(0, 1)
                       .map((user: { ngu: any }) => `@${user.ngu}`)
                       .join(', ');
-                    const moreUsersIndicator = users.length > 2 ? '...' : '';
+                    const moreUsersIndicator = users.length > 1 ? '...' : '';
                     return `${displayedUsers}${moreUsersIndicator}`;
                   }
                   return '';
@@ -279,10 +279,10 @@ function TcAnnouncementsTable({
                   const roles = item.options.roles;
                   if (roles && roles.length > 0) {
                     const displayedRoles = roles
-                      .slice(0, 2)
+                      .slice(0, 1)
                       .map((role: { name: any }) => role.name)
                       .join(', ');
-                    const moreRolesIndicator = roles.length > 2 ? '...' : '';
+                    const moreRolesIndicator = roles.length > 1 ? '...' : '';
                     return `${displayedRoles}${moreRolesIndicator}`;
                   }
                   return '';
@@ -303,14 +303,14 @@ function TcAnnouncementsTable({
                     item.options.engagementCategories;
                   if (engagementCategories && engagementCategories.length > 0) {
                     const displayedRoles = engagementCategories
-                      .slice(0, 2)
+                      .slice(0, 1)
                       .map(
                         (role: string) =>
                           '#' + capitalizeFirstChar(role.replaceAll('_', ' '))
                       )
                       .join(', ');
                     const moreRolesIndicator =
-                      engagementCategories.length > 2 ? '...' : '';
+                      engagementCategories.length > 1 ? '...' : '';
                     return `${displayedRoles}${moreRolesIndicator}`;
                   }
                   return '';
