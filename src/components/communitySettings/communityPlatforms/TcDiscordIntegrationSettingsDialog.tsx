@@ -1,5 +1,5 @@
 import { TreeItem, TreeView } from '@mui/lab';
-import { FormControlLabel } from '@mui/material';
+import { CircularProgress, FormControlLabel } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -22,6 +22,7 @@ import { useSnackbar } from '../../../context/SnackbarContext';
 import { truncateCenter } from '../../../helpers/helper';
 import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
+import { FiRefreshCcw } from "react-icons/fi";
 
 interface TcDiscordIntegrationSettingsDialog {
   platform: IPlatformProps;
@@ -34,6 +35,7 @@ function TcDiscordIntegrationSettingsDialog({
   const { retrievePlatformProperties, patchPlatformById, deletePlatform } =
     useAppStore();
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [isAnalyizingDialogOpen, setIsAnalyizingDialogOpen] =
     useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -55,34 +57,41 @@ function TcDiscordIntegrationSettingsDialog({
     }
   }, []);
 
+
+  const fetchDiscordPlatformProperties = async () => {
+    if (!platform) return;
+
+    const { selectedChannels, period } = platform.metadata;
+
+    const newDateTimeDisplay = period
+      ? moment(period).format('MMM DD, YYYY')
+      : 'Filter Date';
+
+    setSelectedChannels(selectedChannels ? selectedChannels : []);
+
+    if (dateTimeDisplay !== newDateTimeDisplay) {
+      setDateTimeDisplay(newDateTimeDisplay);
+    }
+
+    if (
+      !selectedDate ||
+      (selectedDate && period && selectedDate.toISOString() !== period)
+    ) {
+      setSelectedDate(new Date(period));
+    }
+    setLoading(true);
+    const data = await retrievePlatformProperties({
+      platformId: platform.id,
+    });
+    setLoading(false);
+    setDiscordPlatformChannels(data);
+  };
+
+  const handleRefresh = async () => {
+    await fetchDiscordPlatformProperties();
+  };
+
   useEffect(() => {
-    const fetchDiscordPlatformProperties = async () => {
-      if (!platform) return;
-
-      const { selectedChannels, period } = platform.metadata;
-
-      const newDateTimeDisplay = period
-        ? moment(period).format('MMM DD, YYYY')
-        : 'Filter Date';
-
-      setSelectedChannels(selectedChannels ? selectedChannels : []);
-
-      if (dateTimeDisplay !== newDateTimeDisplay) {
-        setDateTimeDisplay(newDateTimeDisplay);
-      }
-
-      if (
-        !selectedDate ||
-        (selectedDate && period && selectedDate.toISOString() !== period)
-      ) {
-        setSelectedDate(new Date(period));
-      }
-
-      const data = await retrievePlatformProperties({
-        platformId: platform.id,
-      });
-      setDiscordPlatformChannels(data);
-    };
     fetchDiscordPlatformProperties();
   }, [platform]);
 
@@ -153,7 +162,7 @@ function TcDiscordIntegrationSettingsDialog({
         router.replace('/community-settings', {}, { shallow: true });
         setIsAnalyizingDialogOpen(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleDisconnectDiscordIntegration = async (
@@ -166,7 +175,7 @@ function TcDiscordIntegrationSettingsDialog({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatoform();
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const datePickerOpen = Boolean(anchorEl);
@@ -295,83 +304,94 @@ function TcDiscordIntegrationSettingsDialog({
             />
           </div>
           <div className='h-72 max-h-72 overflow-y-scroll rounded-sm bg-gray-100'>
-            <TreeView
-              defaultCollapseIcon={<MdExpandMore />}
-              defaultExpandIcon={<MdChevronRight />}
-            >
-              {discordPlatformChannels &&
-                discordPlatformChannels.map((channel, index) => (
-                  <TreeItem
-                    nodeId={channel.channelId}
-                    label={
-                      <div className='flex items-center justify-between'>
-                        <TcText
-                          text={channel.title}
-                          variant='h6'
-                          fontWeight='bold'
-                        />
-                        <FormControlLabel
-                          onClick={(e) => e.stopPropagation()}
-                          control={
-                            <TcSwitch
-                              checked={channel.subChannels.every((subChannel) =>
-                                selectedChannels?.includes(subChannel.channelId)
-                              )}
-                              disabled={channel.subChannels.some(
-                                (subChannel) =>
-                                  !subChannel.canReadMessageHistoryAndViewChannel
-                              )}
-                              onChange={(e) =>
-                                handleToggleAllChannelSubChannels(
-                                  e,
-                                  channel.channelId
-                                )
-                              }
-                            />
-                          }
-                          label='Enable All'
-                        />
-                      </div>
-                    }
-                    key={index}
-                  >
-                    {channel.subChannels.map((subChannel, index) => (
+            <div className='flex justify-end p-1'>
+              <TcButton text={'Refresh'} variant='outlined' startIcon={<FiRefreshCcw />} size='small' onClick={handleRefresh} />
+            </div>
+            {
+              loading ? (
+                <div className='flex justify-center items-center h-54'>
+                  <CircularProgress />
+                </div>
+              ) : (
+                <TreeView
+                  defaultCollapseIcon={<MdExpandMore />}
+                  defaultExpandIcon={<MdChevronRight />}
+                >
+                  {discordPlatformChannels &&
+                    discordPlatformChannels.map((channel, index) => (
                       <TreeItem
-                        nodeId={subChannel.channelId}
+                        nodeId={channel.channelId}
                         label={
                           <div className='flex items-center justify-between'>
                             <TcText
-                              text={subChannel.name}
-                              variant='subtitle1'
+                              text={channel.title}
+                              variant='h6'
+                              fontWeight='bold'
                             />
                             <FormControlLabel
                               onClick={(e) => e.stopPropagation()}
                               control={
                                 <TcSwitch
-                                  checked={selectedChannels?.includes(
-                                    subChannel.channelId
+                                  checked={channel.subChannels.every((subChannel) =>
+                                    selectedChannels?.includes(subChannel.channelId)
                                   )}
-                                  disabled={
-                                    !subChannel.canReadMessageHistoryAndViewChannel
-                                  }
+                                  disabled={channel.subChannels.some(
+                                    (subChannel) =>
+                                      !subChannel.canReadMessageHistoryAndViewChannel
+                                  )}
                                   onChange={(e) =>
-                                    handleToggleSubChannel(
+                                    handleToggleAllChannelSubChannels(
                                       e,
-                                      subChannel.channelId
+                                      channel.channelId
                                     )
                                   }
                                 />
                               }
-                              label='Enable'
+                              label='Enable All'
                             />
                           </div>
                         }
                         key={index}
-                      />
+                      >
+                        {channel.subChannels.map((subChannel, index) => (
+                          <TreeItem
+                            nodeId={subChannel.channelId}
+                            label={
+                              <div className='flex items-center justify-between'>
+                                <TcText
+                                  text={subChannel.name}
+                                  variant='subtitle1'
+                                />
+                                <FormControlLabel
+                                  onClick={(e) => e.stopPropagation()}
+                                  control={
+                                    <TcSwitch
+                                      checked={selectedChannels?.includes(
+                                        subChannel.channelId
+                                      )}
+                                      disabled={
+                                        !subChannel.canReadMessageHistoryAndViewChannel
+                                      }
+                                      onChange={(e) =>
+                                        handleToggleSubChannel(
+                                          e,
+                                          subChannel.channelId
+                                        )
+                                      }
+                                    />
+                                  }
+                                  label='Enable'
+                                />
+                              </div>
+                            }
+                            key={index}
+                          />
+                        ))}
+                      </TreeItem>
                     ))}
-                  </TreeItem>
-                ))}
-            </TreeView>
+                </TreeView>
+              )
+            }
           </div>
           <div className='mt-5 flex items-center justify-between'>
             <TcButton
