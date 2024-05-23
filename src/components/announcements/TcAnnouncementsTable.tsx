@@ -169,9 +169,9 @@ function TcAnnouncementsTable({
                     }}
                   />
                   {announcement &&
-                    announcement.data &&
-                    announcement.data[0] &&
-                    announcement.data[0].template
+                  announcement.data &&
+                  announcement.data[0] &&
+                  announcement.data[0].template
                     ? truncateCenter(announcement.data[0]?.template, 20)
                     : ''}
                 </>

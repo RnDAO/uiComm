@@ -30,14 +30,26 @@ function TcDatePickerPopover({
 }: ITcDatePickerPopoverProps) {
   const disableDates = (date: Date) => {
     const today = moment();
-    const xDaysAgo = disableDaysFrom ? moment().subtract(disableDaysFrom, 'days') : null;
-    const yDaysAgo = disableDaysBefore ? moment().subtract(disableDaysBefore, 'days') : null;
+    const xDaysAgo = disableDaysFrom
+      ? moment().subtract(disableDaysFrom, 'days')
+      : null;
+    const yDaysAgo = disableDaysBefore
+      ? moment().subtract(disableDaysBefore, 'days')
+      : null;
 
-    if (disableDaysFrom && xDaysAgo && moment(date).isBetween(xDaysAgo, today, 'day', '[]')) {
+    if (
+      disableDaysFrom &&
+      xDaysAgo &&
+      moment(date).isBetween(xDaysAgo, today, 'day', '[]')
+    ) {
       return true;
     }
 
-    if (disableDaysBefore && yDaysAgo && moment(date).isBefore(yDaysAgo, 'day')) {
+    if (
+      disableDaysBefore &&
+      yDaysAgo &&
+      moment(date).isBefore(yDaysAgo, 'day')
+    ) {
       return true;
     }
 
@@ -60,7 +72,9 @@ function TcDatePickerPopover({
           openTo='day'
           value={selectedDate}
           onChange={onDateChange}
-          shouldDisableDate={disableDaysFrom || disableDaysBefore ? disableDates : undefined}
+          shouldDisableDate={
+            disableDaysFrom || disableDaysBefore ? disableDates : undefined
+          }
         />
       </LocalizationProvider>
       <div className='px-5 py-3'>
