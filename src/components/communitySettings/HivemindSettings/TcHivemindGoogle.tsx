@@ -1,7 +1,9 @@
 import {
   Autocomplete,
+  Chip,
   CircularProgress,
   FormControl,
+  FormHelperText,
   FormLabel,
   TextField,
 } from '@mui/material';
@@ -74,7 +76,26 @@ function TcHivemindGoogle({
               />
             )}
             options={[]}
+            renderTags={(value, getTagProps) => {
+              return value.map((option, index) => (
+                <Chip
+                  label={option}
+                  {...getTagProps({ index })}
+                  variant='outlined'
+                  size='small'
+                  sx={{
+                    borderRadius: '4px',
+                    borderColor: '#D1D1D1',
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }}
+                />
+              ));
+            }}
           />
+          <FormHelperText>
+            Press Enter after each drive id to add it
+          </FormHelperText>
         </FormControl>
         <FormControl fullWidth>
           <FormLabel>Google Folders</FormLabel>
@@ -94,7 +115,26 @@ function TcHivemindGoogle({
               />
             )}
             options={[]}
+            renderTags={(value, getTagProps) => {
+              return value.map((option, index) => (
+                <Chip
+                  label={option}
+                  {...getTagProps({ index })}
+                  variant='outlined'
+                  size='small'
+                  sx={{
+                    borderRadius: '4px',
+                    borderColor: '#D1D1D1',
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }}
+                />
+              ));
+            }}
           />
+          <FormHelperText>
+            Press Enter after each folder id to add it
+          </FormHelperText>
         </FormControl>
         <FormControl fullWidth>
           <FormLabel>Google Files</FormLabel>
@@ -114,7 +154,26 @@ function TcHivemindGoogle({
               />
             )}
             options={[]}
+            renderTags={(value, getTagProps) => {
+              return value.map((option, index) => (
+                <Chip
+                  label={option}
+                  {...getTagProps({ index })}
+                  variant='outlined'
+                  size='small'
+                  sx={{
+                    borderRadius: '4px',
+                    borderColor: '#D1D1D1',
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }}
+                />
+              ));
+            }}
           />
+          <FormHelperText>
+            Press Enter after each file id to add it
+          </FormHelperText>
         </FormControl>
       </div>
       <div className='mt-6 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>
