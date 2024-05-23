@@ -204,7 +204,7 @@ function Index() {
                   <TcTimeZone handleZone={setSelectedZone} />
                 </div>
                 {fetchedAnnouncements &&
-                  fetchedAnnouncements.results.length > 0 ? (
+                fetchedAnnouncements.results.length > 0 ? (
                   <div className='overflow-x-scroll md:overflow-x-auto'>
                     <TcAnnouncementsTable
                       announcements={
@@ -240,7 +240,7 @@ function Index() {
                         totalItems={fetchedAnnouncements.totalResults}
                         itemsPerPage={Math.ceil(
                           fetchedAnnouncements.totalResults /
-                          fetchedAnnouncements.totalPages
+                            fetchedAnnouncements.totalPages
                         )}
                         currentPage={page}
                         onChangePage={handlePageChange}

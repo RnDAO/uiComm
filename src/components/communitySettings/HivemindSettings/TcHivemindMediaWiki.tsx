@@ -1,7 +1,9 @@
 import {
   Autocomplete,
+  Chip,
   CircularProgress,
   FormControl,
+  FormHelperText,
   FormLabel,
   TextField,
 } from '@mui/material';
@@ -56,7 +58,26 @@ function TcHivemindMediaWiki({
               />
             )}
             options={[]}
+            renderTags={(value, getTagProps) => {
+              return value.map((option, index) => (
+                <Chip
+                  label={option}
+                  {...getTagProps({ index })}
+                  variant='outlined'
+                  size='small'
+                  sx={{
+                    borderRadius: '4px',
+                    borderColor: '#D1D1D1',
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }}
+                />
+              ));
+            }}
           />
+          <FormHelperText>
+            Press Enter after typing the Page id to add it
+          </FormHelperText>
         </FormControl>
       </div>
       <div className='mt-6 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>
