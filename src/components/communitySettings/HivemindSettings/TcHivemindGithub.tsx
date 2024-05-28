@@ -1,11 +1,9 @@
 import {
-  Autocomplete,
-  Chip,
+  Checkbox,
   CircularProgress,
   FormControl,
-  FormHelperText,
-  FormLabel,
-  TextField,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import router from 'next/router';
 import { useState } from 'react';
@@ -15,9 +13,9 @@ import TcButton from '../../shared/TcButton';
 interface TcHivemindGithubProps {
   isLoading: boolean;
   defaultGithubHivemindConfig: {
-    repoIds?: string[];
+    activated?: boolean;
   };
-  handlePatchHivemindGithub: ({ repoIds }: { repoIds: string[] }) => void;
+  handlePatchHivemindGithub: (isActivated: boolean) => void;
 }
 
 function TcHivemindGithub({
@@ -25,59 +23,29 @@ function TcHivemindGithub({
   defaultGithubHivemindConfig,
   handlePatchHivemindGithub,
 }: TcHivemindGithubProps) {
-  const [repoIds, setRepoIds] = useState<string[]>(
-    defaultGithubHivemindConfig.repoIds || []
+  const [isActivated, setIsActivated] = useState<boolean>(
+    defaultGithubHivemindConfig.activated || false
   );
 
   const handleGithubHivemind = () => {
-    const payload = {
-      repoIds: repoIds,
-    };
+    console.log({ isActivated });
 
-    handlePatchHivemindGithub({ ...payload });
+    handlePatchHivemindGithub(isActivated);
   };
 
   return (
     <>
       <div className='flex flex-col items-center justify-between space-y-3'>
         <FormControl fullWidth>
-          <FormLabel>Github Repository Id</FormLabel>
-          <Autocomplete
-            multiple
-            freeSolo
-            value={repoIds}
-            onChange={(event, newValue: string[] | null) => {
-              setRepoIds(newValue || []);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant='filled'
-                label='Repository Ids'
-                placeholder='Type Repository ids and enter'
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isActivated}
+                onChange={(e) => setIsActivated(e.target.checked)}
               />
-            )}
-            options={[]}
-            renderTags={(value, getTagProps) => {
-              return value.map((option, index) => (
-                <Chip
-                  label={option}
-                  {...getTagProps({ index })}
-                  variant='outlined'
-                  size='small'
-                  sx={{
-                    borderRadius: '4px',
-                    borderColor: '#D1D1D1',
-                    backgroundColor: 'white',
-                    color: 'black',
-                  }}
-                />
-              ));
-            }}
+            }
+            label='I agree to give Hivemind access to my Github.'
           />
-          <FormHelperText>
-            Press Enter after typing the repository id
-          </FormHelperText>
         </FormControl>
       </div>
       <div className='mt-6 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>

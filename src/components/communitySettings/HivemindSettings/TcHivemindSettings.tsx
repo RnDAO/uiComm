@@ -253,7 +253,7 @@ function HivemindSettings() {
               platform: platforms[platform].id,
               name: 'github',
               metadata: {
-                ...payload,
+                activated: payload,
               },
             },
           ],
@@ -355,12 +355,12 @@ function HivemindSettings() {
                 activePlatform === index
                   ? 'bg-secondary/80 text-white'
                   : ![
-                        'Discord',
-                        'GDrive',
-                        'Github',
-                        'Notion',
-                        'MediaWiki',
-                      ].includes(platform)
+                    'Discord',
+                    'GDrive',
+                    'Github',
+                    'Notion',
+                    'MediaWiki',
+                  ].includes(platform)
                     ? 'bg-white'
                     : 'bg-white text-black'
               )}
@@ -501,7 +501,7 @@ function HivemindSettings() {
                 defaultGithubHivemindConfig={
                   hivemindModule?.options?.platforms.find(
                     (platform) => platform.name === 'github'
-                  )?.metadata || { repoIds: [] }
+                  )?.metadata || { activated: false }
                 }
                 handlePatchHivemindGithub={(payload) =>
                   handlePatchModule('github', payload)
