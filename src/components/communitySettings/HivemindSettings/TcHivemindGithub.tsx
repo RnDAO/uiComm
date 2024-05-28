@@ -1,5 +1,4 @@
 import {
-  Checkbox,
   CircularProgress,
   FormControl,
   FormControlLabel,
@@ -28,8 +27,6 @@ function TcHivemindGithub({
   );
 
   const handleGithubHivemind = () => {
-    console.log({ isActivated });
-
     handlePatchHivemindGithub(isActivated);
   };
 

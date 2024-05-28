@@ -71,7 +71,7 @@ function TcMediaWiki({
       name: 'mediaWiki',
       metadata: {
         baseURL: url,
-        path: '/w/api.php'
+        path: '/w/api.php',
       },
     });
     if (data) {
