@@ -8,6 +8,7 @@ import router from 'next/router';
 import { useState } from 'react';
 
 import TcButton from '../../shared/TcButton';
+import TcIconWithTooltip from '../../shared/TcIconWithTooltip';
 
 interface TcHivemindGithubProps {
   isLoading: boolean;
@@ -33,7 +34,7 @@ function TcHivemindGithub({
   return (
     <>
       <div className='flex flex-col items-center justify-between space-y-3'>
-        <FormControl fullWidth>
+        <FormControl fullWidth className='flex flex-row items-center'>
           <FormControlLabel
             control={
               <Switch
@@ -41,7 +42,10 @@ function TcHivemindGithub({
                 onChange={(e) => setIsActivated(e.target.checked)}
               />
             }
-            label='I agree to give Hivemind access to my Github.'
+            label='Enable Hivemind to read public repositories of the selected organization on GitHub.'
+          />
+          <TcIconWithTooltip
+            tooltipText='Only the pull requests, issues, comments, and commits of public repositories will be read.'
           />
         </FormControl>
       </div>
