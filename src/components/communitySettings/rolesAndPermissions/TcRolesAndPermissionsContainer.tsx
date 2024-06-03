@@ -92,7 +92,7 @@ function TcRolesAndPermissionsContainer() {
       platform: 'discord',
       identifierType,
       identifierValues: identifiers,
-      platformId: community?.platforms[0].id as string,
+      platformId: activePlatoform?.id as string,
     },
   });
 
@@ -123,6 +123,8 @@ function TcRolesAndPermissionsContainer() {
 
     try {
       setIsLoading(true);
+      console.log({ community });
+
       const data = await patchCommunityById({
         communityId: community?.id as string,
         roles: permissionsPayload,
