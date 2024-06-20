@@ -27,7 +27,30 @@ import { usePageViewTracking } from '../helpers/amplitudeHelper';
 import PrivateRoute from '../utils/privateRoute';
 import { theme } from '../utils/theme';
 
+import '@rainbow-me/rainbowkit/styles.css';
+
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+import {
+  sepolia
+} from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
+
+const configwallet = getDefaultConfig({
+  appName: 'TogetherCrew',
+  projectId: 'e6cfdac03834b31ebda253eab5177e8d',
+  chains: [sepolia],
+  ssr: false,
+});
+
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
+  const queryClient = new QueryClient();
   usePageViewTracking();
 
   useEffect(() => {
@@ -58,21 +81,27 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
           })();
         `}
       </Script>
-      <ThemeProvider theme={theme}>
-        <TokenProvider>
-          <ChannelProvider>
-            {Component.pageLayout ? (
-              <PrivateRoute>
-                <Component.pageLayout>
-                  <Component {...pageProps} />
-                </Component.pageLayout>
-              </PrivateRoute>
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </ChannelProvider>
-        </TokenProvider>
-      </ThemeProvider>
+      <WagmiProvider config={configwallet}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider modalSize="compact">
+            <ThemeProvider theme={theme}>
+              <TokenProvider>
+                <ChannelProvider>
+                  {Component.pageLayout ? (
+                    <PrivateRoute>
+                      <Component.pageLayout>
+                        <Component {...pageProps} />
+                      </Component.pageLayout>
+                    </PrivateRoute>
+                  ) : (
+                    <Component {...pageProps} />
+                  )}
+                </ChannelProvider>
+              </TokenProvider>
+            </ThemeProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
       <ToastContainer />
     </>
   );
