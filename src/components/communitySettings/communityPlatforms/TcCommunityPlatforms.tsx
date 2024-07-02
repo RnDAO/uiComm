@@ -151,12 +151,12 @@ function TcCommunityPlatforms() {
                   activeTab === index
                     ? 'bg-secondary/80 text-white'
                     : ![
-                          'Discord',
-                          'GDrive',
-                          'Github',
-                          'Notion',
-                          'MediaWiki',
-                        ].includes(platform)
+                      'Discord',
+                      'GDrive',
+                      'Github',
+                      'Notion',
+                      'MediaWiki',
+                    ].includes(platform)
                       ? 'bg-white'
                       : 'bg-white text-black'
                 )}
@@ -237,25 +237,47 @@ function TcCommunityPlatforms() {
           />
         </div>
 
-        <TcCard
-          className='min-h-[6rem] max-w-[10rem]'
-          children={
-            <div className='flex flex-col items-center justify-center space-y-2 py-4'>
-              <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
-              <TcButton
-                text={
-                  hivemindManageIsLoading ? (
-                    <CircularProgress size={20} />
-                  ) : (
-                    'Manage'
-                  )
-                }
-                variant='text'
-                onClick={() => handleManageHivemindModule()}
-              />
-            </div>
-          }
-        />
+        <div className='flex space-x-3'>
+          <TcCard
+            className='min-h-[6rem] min-w-[10rem] max-w-[10rem]'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
+                <TcButton
+                  text={
+                    hivemindManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleManageHivemindModule()}
+                />
+              </div>
+            }
+          />
+          <TcCard
+            className='min-h-[6rem] min-w-[10rem] max-w-[10rem]'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText text='Reputation Score' variant='subtitle1' fontWeight='bold' />
+                <TcButton
+                  text={
+                    hivemindManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => router.push('/community-settings/reputation-score')}
+                />
+              </div>
+            }
+          />
+        </div>
+
       </div>
     </div>
   );

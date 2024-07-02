@@ -31,6 +31,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 
 import {
   getDefaultConfig,
+  lightTheme,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
@@ -83,7 +84,11 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
       </Script>
       <WagmiProvider config={configwallet}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider modalSize="compact">
+          <RainbowKitProvider modalSize="compact" theme={lightTheme({
+            accentColor: '#7b3fe4',
+            accentColorForeground: 'white',
+            borderRadius: 'medium',
+          })}>
             <ThemeProvider theme={theme}>
               <TokenProvider>
                 <ChannelProvider>

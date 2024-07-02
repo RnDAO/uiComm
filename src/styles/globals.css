@@ -81,3 +81,8 @@ body {
 .no-border td {
   border: 0;
 }
+
+.nft-background {
+  background: url('../assets/nftbackground.jpg') no-repeat center center fixed;
+  background-size: cover;
+}

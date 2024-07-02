@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import React from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-
 import emptyState from '../assets/svg/empty-state.svg';
 import EmptyState from '../components/global/EmptyState';
 import SEO from '../components/global/SEO';
@@ -33,7 +31,6 @@ function Index(): JSX.Element {
             Community Insights
           </h3>
           <div className='space-y-4'>
-            <ConnectButton />
             <ActiveMemberComposition />
             <HeatmapChart />
             <MemberInteractionGraph />

@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
+import { RiNftFill } from "react-icons/ri";
 
 import TcText from '../shared/TcText';
 import { conf } from '../../configs/index';
@@ -76,6 +77,15 @@ const Sidebar = () => {
       ),
     },
     {
+      name: 'Reputation NFT',
+      path: '/engagement/reputation-nft/mint/',
+      icon: (
+        <RiNftFill
+          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
+        />
+      ),
+    },
+    {
       name: 'Community Settings',
       path: '/community-settings',
       icon: (
@@ -122,8 +132,8 @@ const Sidebar = () => {
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
+                  connectedPlatform.metadata &&
+                  connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'

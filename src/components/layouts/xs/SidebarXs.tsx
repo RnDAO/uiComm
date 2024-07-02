@@ -21,6 +21,7 @@ import { conf } from '../../../configs';
 import { useToken } from '../../../context/TokenContext';
 import useAppStore from '../../../store/useStore';
 import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
+import { RiNftFill } from 'react-icons/ri';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -75,6 +76,15 @@ const Sidebar = () => {
       icon: (
         <MdOutlineAnnouncement
           style={{ fontSize: 30, color: 'black', margin: '0 auto' }}
+        />
+      ),
+    },
+    {
+      name: 'Reputation NFT',
+      path: '/engagement/reputation-nft/mint/',
+      icon: (
+        <RiNftFill
+          style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
         />
       ),
     },
@@ -135,8 +145,8 @@ const Sidebar = () => {
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
+                  connectedPlatform.metadata &&
+                  connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'
