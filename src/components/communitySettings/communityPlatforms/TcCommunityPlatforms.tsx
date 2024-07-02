@@ -151,12 +151,11 @@ function TcCommunityPlatforms() {
                   activeTab === index
                     ? 'bg-secondary/80 text-white'
                     : ![
-                          'Discord',
-                          'GDrive',
-                          'Github',
-                          'Notion',
-                          'MediaWiki',
-                        ].includes(platform)
+                      'Discord',
+                      'Github',
+                      'Notion',
+                      'MediaWiki',
+                    ].includes(platform)
                       ? 'bg-white'
                       : 'bg-white text-black'
                 )}
@@ -165,12 +164,16 @@ function TcCommunityPlatforms() {
                   <div className='flex flex-col items-center space-x-2'>
                     <TcCommunityPlatformIcon platform={platform} />
                     <TcText text={platform} variant='body2' />
+                    {
+                      platform === "GDrive" && (
+                        <TcText variant='caption' className='text-gray-300' text="Comming soon" />
+                      )
+                    }
                   </div>
                 }
                 disabled={
                   ![
                     'Discord',
-                    'GDrive',
                     'Github',
                     'Notion',
                     'MediaWiki',
