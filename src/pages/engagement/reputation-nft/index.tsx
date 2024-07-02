@@ -3,17 +3,20 @@ import SEO from '../../../components/global/SEO';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import { withRoles } from '../../../utils/withRoles';
 import TcBoxContainer from '../../../components/shared/TcBox/TcBoxContainer';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import TcButton from '../../../components/shared/TcButton';
 import { useRouter } from 'next/router';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
 
 function Index() {
-    const [isMinted, setIsMinted] = useState<boolean>(false);
-    const router = useRouter()
+    const { address, isConnected } = useAccount();
+    const [isMinted, setIsMinted] = useState<boolean>(true);
+    const router = useRouter();
 
     const handleMint = () => {
         router.push('/engagement/reputation-nft/12332/mint');
-        setIsMinted(true);
+        // setIsMinted(true);
     };
 
     const handleRedirect = () => {
@@ -28,12 +31,15 @@ function Index() {
                     contentContainerChildren={
                         <div className="relative space-y-4 p-4">
                             <div className='space-y-3'>
-                                <Typography variant='h5'>Reputation Score</Typography>
+                                <Stack className='flex flex-row justify-between space-x-2 items-center'>
+                                    <Typography variant='h5'>Reputation Score</Typography>
+                                    <ConnectButton />
+                                </Stack>
                                 <Typography variant="body2" color="initial">
-                                    Here’s your soulbound Reputation NFT, this is non-transferrable and that you may earn rewards by minting & owning one
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi ipsum corrupti incidunt similique facere aperiam, et nulla, voluptates asperiores quidem laudantium doloribus ducimus ut. Iste vitae tenetur deserunt illum sapiente.
                                 </Typography>
                             </div>
-                            <div className='flex justify-center items-center pb-12'>
+                            <div className={`flex justify-center items-center pb-12 ${!isConnected ? 'blur-sm' : ''}`}>
                                 <div className='relative w-3/5 my-12 rounded-xl shadow-lg text-center h-[42rem]'>
                                     <div className={`absolute inset-0 ${isMinted ? 'backdrop-blur-2xl' : ''} nft-background rounded-xl`}></div>
                                     <div className='relative z-10 p-4'>
@@ -41,13 +47,16 @@ function Index() {
                                             <Typography variant='h6' className='text-white'>Your Engagement Score:</Typography>
                                             <Typography variant='h1' className='text-white'>{isMinted ? '100' : 'N/A'}</Typography>
                                             <div className='space-y-1.5 text-white'>
-                                                <Typography variant='body2'>Mint your reputation on-chain for potential rewards, governance and more</Typography>
+                                                <Typography variant='body2'>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Typography>
                                                 {isMinted ? (
-                                                    <TcButton text={"Show More"} variant='contained' fullWidth onClick={handleRedirect} />
+                                                    <>
+                                                        <TcButton text={"More Details"} variant='contained' fullWidth onClick={handleRedirect} />
+                                                        <TcButton text={"Settings"} variant='contained' className='bg-white text-black' fullWidth onClick={handleMint} />
+                                                    </>
                                                 ) : (
                                                     <TcButton text={"Mint Reputation NFT"} variant='contained' fullWidth onClick={handleMint} />
                                                 )}
-                                                <Typography variant='caption'>Minting will occur on Arbitrum, make sure you have enough for network fees</Typography>
+                                                <Typography variant='caption'>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Typography>
                                             </div>
                                         </div>
                                     </div>

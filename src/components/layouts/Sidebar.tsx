@@ -78,7 +78,7 @@ const Sidebar = () => {
     },
     {
       name: 'Reputation NFT',
-      path: '/engagement/reputation-nft/mint/',
+      path: '/engagement/reputation-nft/',
       icon: (
         <RiNftFill
           style={{ fontSize: 20, color: 'black', margin: '0 auto' }}
