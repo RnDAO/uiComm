@@ -112,7 +112,7 @@ function TcHivemindDiscordAnswering({
     handleModuleConfigChange({
       selectedChannels,
     });
-  }, [selectedChannels, handleModuleConfigChange]);
+  }, [selectedChannels]);
 
   return (
     <div className='w-full md:w-1/2'>
