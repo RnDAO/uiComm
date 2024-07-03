@@ -123,8 +123,6 @@ function TcRolesAndPermissionsContainer() {
 
     try {
       setIsLoading(true);
-      console.log({ community });
-
       const data = await patchCommunityById({
         communityId: community?.id as string,
         roles: permissionsPayload,

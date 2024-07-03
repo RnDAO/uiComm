@@ -14,14 +14,14 @@ interface TcDiscordIntgrationProps {
   platformType: string;
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
-  handleUpdateCommunityPlatoform: () => void;
+  handleUpdateCommunityPlatform: () => void;
 }
 
 function TcDiscordIntgration({
   platformType,
   isLoading,
   connectedPlatforms,
-  handleUpdateCommunityPlatoform,
+  handleUpdateCommunityPlatform,
 }: TcDiscordIntgrationProps) {
   const { connectNewPlatform } = useAppStore();
 
@@ -61,7 +61,7 @@ function TcDiscordIntgration({
             />
             <TcDiscordIntegrationSettingsDialog
               platform={platform}
-              handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+              handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
             />
           </Paper>
         ))

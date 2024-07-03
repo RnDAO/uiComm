@@ -34,8 +34,8 @@ function TcHivemindDiscordAnswering({
   >([]);
 
   const fetchDiscordPlatformProperties = async () => {
+    if (!platform) return;
     try {
-      if (!platform) return;
       setIsLoading(true);
       const { selectedChannels } = platform.metadata || {
         selectedChannels: [],
@@ -112,7 +112,7 @@ function TcHivemindDiscordAnswering({
     handleModuleConfigChange({
       selectedChannels,
     });
-  }, [selectedChannels]);
+  }, [selectedChannels, handleModuleConfigChange]);
 
   return (
     <div className='w-full md:w-1/2'>

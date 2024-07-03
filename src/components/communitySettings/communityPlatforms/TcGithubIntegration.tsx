@@ -19,13 +19,13 @@ import { IPlatformProps } from '../../../utils/interfaces';
 interface TcGithubIntegrationProps {
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
-  handleUpdateCommunityPlatoform: () => void;
+  handleUpdateCommunityPlatform: () => void;
 }
 
 function TcGithubIntegration({
   isLoading,
   connectedPlatforms,
-  handleUpdateCommunityPlatoform,
+  handleUpdateCommunityPlatform,
 }: TcGithubIntegrationProps) {
   const { connectNewPlatform, deletePlatform } = useAppStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -45,9 +45,9 @@ function TcGithubIntegration({
         setIsDeleteDialogOpen(false);
         setIsOpen(false);
         showMessage('Platform disconnected successfully.', 'success');
-        handleUpdateCommunityPlatoform();
+        handleUpdateCommunityPlatform();
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (

@@ -19,13 +19,13 @@ import { IPlatformProps } from '../../../utils/interfaces';
 interface TcGdriveIntegrationProps {
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
-  handleUpdateCommunityPlatoform: () => void;
+  handleUpdateCommunityPlatform: () => void;
 }
 
 function TcGdriveIntegration({
   isLoading,
   connectedPlatforms,
-  handleUpdateCommunityPlatoform,
+  handleUpdateCommunityPlatform,
 }: TcGdriveIntegrationProps) {
   const { connectNewPlatform, deletePlatform, getUser } = useAppStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -54,9 +54,9 @@ function TcGdriveIntegration({
         setIsDeleteDialogOpen(false);
         setIsOpen(false);
         showMessage('Platform disconnected successfully.', 'success');
-        handleUpdateCommunityPlatoform();
+        handleUpdateCommunityPlatform();
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (

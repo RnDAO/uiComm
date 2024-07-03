@@ -22,13 +22,13 @@ import {
 interface TcMediaWikiProps {
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
-  handleUpdateCommunityPlatoform: () => void;
+  handleUpdateCommunityPlatform: () => void;
 }
 
 function TcMediaWiki({
   isLoading,
   connectedPlatforms,
-  handleUpdateCommunityPlatoform,
+  handleUpdateCommunityPlatform,
 }: TcMediaWikiProps) {
   const { createNewPlatform, deletePlatform } = useAppStore();
   const [activePlatform, setActivePlatform] = useState<IPlatformProps | null>(
@@ -75,7 +75,7 @@ function TcMediaWiki({
       },
     });
     if (data) {
-      handleUpdateCommunityPlatoform();
+      handleUpdateCommunityPlatform();
       setIsOpen(false);
       setUrl('');
       showMessage('Platform connected successfully.', 'success');
@@ -90,7 +90,7 @@ function TcMediaWiki({
         setActivePlatform(null);
         setUrl('');
         showMessage('Platform disconnected successfully.', 'success');
-        handleUpdateCommunityPlatoform();
+        handleUpdateCommunityPlatform();
       }
     } catch (error) {
       showMessage('Error disconnecting platform.', 'error');

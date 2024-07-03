@@ -9,7 +9,7 @@ describe('TcDiscordIntgration', () => {
         platformType='discord'
         isLoading={false}
         connectedPlatforms={[]}
-        handleUpdateCommunityPlatoform={() => jest.fn()}
+        handleUpdateCommunityPlatform={() => jest.fn()}
       />
     );
   });

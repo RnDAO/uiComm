@@ -26,11 +26,11 @@ import { IPlatformProps } from '../../../utils/interfaces';
 
 interface TcDiscordIntegrationSettingsDialog {
   platform: IPlatformProps;
-  handleUpdateCommunityPlatoform: () => void;
+  handleUpdateCommunityPlatform: () => void;
 }
 function TcDiscordIntegrationSettingsDialog({
   platform,
-  handleUpdateCommunityPlatoform,
+  handleUpdateCommunityPlatform,
 }: TcDiscordIntegrationSettingsDialog) {
   const { retrievePlatformProperties, patchPlatformById, deletePlatform } =
     useAppStore();
@@ -60,7 +60,7 @@ function TcDiscordIntegrationSettingsDialog({
   const fetchDiscordPlatformProperties = async () => {
     if (!platform) return;
 
-    const { selectedChannels, period } = platform.metadata;
+    const { selectedChannels, period } = platform.metadata ?? {};
 
     const newDateTimeDisplay = period
       ? moment(period).format('MMM DD, YYYY')
@@ -161,7 +161,7 @@ function TcDiscordIntegrationSettingsDialog({
         router.replace('/community-settings', {}, { shallow: true });
         setIsAnalyizingDialogOpen(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleDisconnectDiscordIntegration = async (
@@ -172,9 +172,12 @@ function TcDiscordIntegrationSettingsDialog({
       if (data === '') {
         setIsDeleteDialogOpen(false);
         showMessage('Platform disconnected successfully.', 'success');
-        handleUpdateCommunityPlatoform();
+        handleUpdateCommunityPlatform();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error('Failed to disconnect Discord integration:', error);
+      showMessage('Failed to disconnect. Please try again.', 'error');
+    }
   };
 
   const datePickerOpen = Boolean(anchorEl);
@@ -207,7 +210,7 @@ function TcDiscordIntegrationSettingsDialog({
   return (
     <>
       <div className='mx-auto w-full text-center'>
-        {platform && platform?.metadata && platform?.metadata?.name && (
+        {platform?.metadata?.name && (
           <TcButton
             text={truncateCenter(platform.metadata.name, 10)}
             className='w-10/12'

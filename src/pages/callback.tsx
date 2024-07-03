@@ -222,6 +222,7 @@ function Callback() {
       case StatusCode.GITHUB_AUTHORIZATION_SUCCESSFUL:
         setMessage('Github authorization successful.');
         handleCreateNewPlatform(params);
+        break;
 
       case StatusCode.GITHUB_AUTHORIZATION_FAILURE:
         setMessage('Github authorization failed.');

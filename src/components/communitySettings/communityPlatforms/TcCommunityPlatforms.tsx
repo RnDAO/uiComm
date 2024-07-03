@@ -115,7 +115,7 @@ function TcCommunityPlatforms() {
     }
   };
 
-  const handleUpdateCommunityPlatoform = async () => {
+  const handleUpdateCommunityPlatform = async () => {
     await fetchPlatformsByType();
   };
 
@@ -189,7 +189,7 @@ function TcCommunityPlatforms() {
                 isLoading={isLoading}
                 platformType='discord'
                 connectedPlatforms={platforms}
-                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
               />
             </TabPanel>
           )}
@@ -198,7 +198,7 @@ function TcCommunityPlatforms() {
               <TcGdriveIntegration
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
-                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
               />
             </TabPanel>
           )}
@@ -207,7 +207,7 @@ function TcCommunityPlatforms() {
               <TcGithubIntegration
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
-                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
               />
             </TabPanel>
           )}
@@ -216,7 +216,7 @@ function TcCommunityPlatforms() {
               <TcNotionIntegration
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
-                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
               />
             </TabPanel>
           )}
@@ -225,7 +225,7 @@ function TcCommunityPlatforms() {
               <TcMediaWiki
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
-                handleUpdateCommunityPlatoform={handleUpdateCommunityPlatoform}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
               />
             </TabPanel>
           )}
