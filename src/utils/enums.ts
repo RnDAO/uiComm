@@ -1,5 +1,9 @@
 export enum IntegrationPlatform {
   Discord = 'Discord',
+  GDrive = 'GDrive',
+  Github = 'Github',
+  Notion = 'Notion',
+  MediaWiki = 'MediaWiki',
   Twitter = 'Twitter',
   Discourse = 'Discourse',
   Telegram = 'Telegram',
@@ -16,6 +20,12 @@ export enum StatusCode {
   TWITTER_AUTHORIZATION_FAILURE = '1007',
   ANNOUNCEMENTS_PERMISSION_SUCCESS = '1008',
   ANNOUNCEMENTS_PERMISSION_FAILURE = '1009',
+  GDRIVE_AUTHORIZATION_SUCCESSFUL = '1010',
+  GDRIVE_AUTHORIZATION_FAILURE = '1011',
+  GITHUB_AUTHORIZATION_SUCCESSFUL = '1012',
+  GITHUB_AUTHORIZATION_FAILURE = '1013',
+  NOTION_AUTHORIZATION_SUCCESSFUL = '1014',
+  NOTION_AUTHORIZATION_FAILURE = '1015',
 }
 
 export enum Permission {

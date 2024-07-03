@@ -27,7 +27,8 @@ const Statistics = () => {
   const router = useRouter();
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const tabMap: { [key: string]: string } = {

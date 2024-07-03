@@ -131,8 +131,7 @@ export default function DisengagedMembersComposition({
       },
       {
         label: 'Were Newly Active',
-        description:
-          'Started posting for the first time in the last 7 days',
+        description: 'Started posting for the first time in the last 7 days',
         percentageChange: disengagedMembers.wereNewlyActivePercentageChange
           ? disengagedMembers.wereNewlyActivePercentageChange
           : 0,
@@ -141,7 +140,7 @@ export default function DisengagedMembersComposition({
         hasTooltip: true,
         tooltipText: (
           <>
-            <span>Posting means any message in a channel or thread.</span>
+            <span>Posting means any message in a channel or thread</span>
           </>
         ),
       },
@@ -172,7 +171,7 @@ export default function DisengagedMembersComposition({
               Active member = at least 5 interactions with 5 other members.
             </span>
             <br />
-            <span>Interactions are all messages that:</span>
+            <span> Interactions are all messages that:</span>
             <ol className='list-disc pl-8'>
               <li>mention someone</li>
               <li>receive a reply</li>

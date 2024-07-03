@@ -43,7 +43,8 @@ function Index() {
   const [page, setPage] = useState(1);
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const [announcementsPermissions, setAnnouncementsPermissions] =
@@ -117,10 +118,12 @@ function Index() {
   };
 
   const fetchData = async (date?: Date | null, zone?: string) => {
+    if (!platformId) return;
     try {
       setLoading(true);
 
-      let startDate, endDate;
+      let startDate: string = '';
+      let endDate: string = '';
       if (date) {
         startDate = moment(date)
           .tz(zone || selectedZone)
@@ -137,8 +140,8 @@ function Index() {
         page: page,
         limit: 8,
         timeZone: zone || selectedZone,
-        ...(startDate ? { startDate: startDate } : {}),
-        ...(endDate ? { endDate: endDate } : {}),
+        ...(startDate ? { startDate } : {}),
+        ...(endDate ? { endDate } : {}),
         community: communityId,
       });
 
@@ -200,8 +203,9 @@ function Index() {
                   />
                   <TcTimeZone handleZone={setSelectedZone} />
                 </div>
-                {fetchedAnnouncements.results.length > 0 ? (
-                  <div className='overflow-x-scroll md:overflow-hidden'>
+                {fetchedAnnouncements &&
+                fetchedAnnouncements.results.length > 0 ? (
+                  <div className='overflow-x-scroll md:overflow-x-auto'>
                     <TcAnnouncementsTable
                       announcements={
                         fetchedAnnouncements.results
@@ -229,19 +233,20 @@ function Index() {
                 )}
               </div>
               <div className='sticky bottom-0 min-h-[70px] bg-white px-4 py-2'>
-                {fetchedAnnouncements.totalResults > 8 && (
-                  <div className='flex justify-end'>
-                    <TcPagination
-                      totalItems={fetchedAnnouncements.totalResults}
-                      itemsPerPage={Math.ceil(
-                        fetchedAnnouncements.totalResults /
-                          fetchedAnnouncements.totalPages
-                      )}
-                      currentPage={page}
-                      onChangePage={handlePageChange}
-                    />
-                  </div>
-                )}
+                {fetchedAnnouncements &&
+                  fetchedAnnouncements.totalResults > 8 && (
+                    <div className='flex justify-end'>
+                      <TcPagination
+                        totalItems={fetchedAnnouncements.totalResults}
+                        itemsPerPage={Math.ceil(
+                          fetchedAnnouncements.totalResults /
+                            fetchedAnnouncements.totalPages
+                        )}
+                        currentPage={page}
+                        onChangePage={handlePageChange}
+                      />
+                    </div>
+                  )}
               </div>
             </div>
           }

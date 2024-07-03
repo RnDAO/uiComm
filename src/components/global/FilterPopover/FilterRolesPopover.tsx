@@ -83,7 +83,8 @@ function FilterRolesPopover({ handleSelectedRoles }: IFilterRolesPopover) {
   const { community } = useToken();
 
   const platformId = community?.platforms.find(
-    (platform) => platform.disconnectedAt === null
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
   )?.id;
 
   const [loading, setLoading] = useState<boolean>(false);

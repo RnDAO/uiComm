@@ -2,7 +2,7 @@ import jwt_decode from 'jwt-decode';
 import moment from 'moment';
 
 import { FlattenedChannel } from '../components/announcements/create/publicMessageContainer/TcPublicMessageContainer';
-import { SelectedSubChannels } from '../context/ChannelContext';
+import { Channel, SelectedSubChannels } from '../context/ChannelContext';
 import { IDecodedToken } from '../utils/interfaces';
 import { IGuildChannels, IUser } from '../utils/types';
 
@@ -138,7 +138,7 @@ export function validateDateTime(date: Date | null, time: Date | null) {
 }
 
 export function flattenChannels(
-  channels: IGuildChannels[],
+  channels: IGuildChannels[] | Channel[],
   selectedSubChannels: SelectedSubChannels
 ) {
   const flattened: FlattenedChannel[] = [];

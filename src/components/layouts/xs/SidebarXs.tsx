@@ -40,7 +40,8 @@ const Sidebar = () => {
 
     if (storedCommunity?.platforms) {
       const foundPlatform = storedCommunity.platforms.find(
-        (platform) => platform.disconnectedAt === null
+        (platform) =>
+          platform.disconnectedAt === null && platform.name === 'discord'
       );
 
       setConnectedPlatform(foundPlatform ?? null);
@@ -129,12 +130,13 @@ const Sidebar = () => {
         <div className='flex flex-row'>
           <div className='flex flex-row items-center space-x-3 text-center'>
             <div className='mb-2 mr-3 h-8 w-8'>
-              <div className='mx-auto h-10 w-10'
+              <div
+                className='mx-auto h-10 w-10'
                 onClick={() => router.push('/centric/select-community')}
               >
                 {connectedPlatform &&
-                  connectedPlatform.metadata &&
-                  connectedPlatform.metadata.icon ? (
+                connectedPlatform.metadata &&
+                connectedPlatform.metadata.icon ? (
                   <Image
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
                     width='100'

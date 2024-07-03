@@ -3,7 +3,6 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { MdGroups } from 'react-icons/md';
 
-import TcConfirmDeleteCommunity from './TcConfirmDeleteCommunity';
 import Loading from '../../global/Loading';
 import TcAvatar from '../../shared/TcAvatar';
 import TcInput from '../../shared/TcInput';
@@ -95,7 +94,8 @@ function TcActiveCommunity() {
 
     if (community?.platforms) {
       activeCommunityPlatformIcon = community.platforms.find(
-        (platform) => platform.disconnectedAt === null
+        (platform) =>
+          platform.disconnectedAt === null && platform.name === 'discord'
       );
     }
 
@@ -157,10 +157,6 @@ function TcActiveCommunity() {
           />
         )}
       </div>
-      <TcConfirmDeleteCommunity
-        community={community}
-        handleUpdatePlatforms={fetchCommunity}
-      />
     </div>
   );
 }

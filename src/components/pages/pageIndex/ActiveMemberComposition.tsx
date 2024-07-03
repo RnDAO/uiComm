@@ -20,7 +20,8 @@ const ActiveMemberComposition = () => {
     const startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     const platformId = community?.platforms.find(
-      (platform) => platform.disconnectedAt === null
+      (platform) =>
+        platform.disconnectedAt === null && platform.name === 'discord'
     )?.id;
 
     if (platformId) {
@@ -42,14 +43,13 @@ const ActiveMemberComposition = () => {
         customBackground: true,
         tooltipText: (
           <>
-            <span>Posting means any message in a channel or thread.</span>
+            <span>Posting means any message in a channel or thread</span>
           </>
         ),
       },
       {
         label: 'Newly Active',
-        description:
-          'Started posting for the first time in the last 7 days.',
+        description: 'Started posting for the first time in the last 7 days.',
         percentageChange: activeMembers.newlyActivePercentageChange
           ? activeMembers.newlyActivePercentageChange
           : 0,

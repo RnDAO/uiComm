@@ -137,14 +137,13 @@ export default function ActiveMembersComposition({
         customBackground: false,
         tooltipText: (
           <>
-            <span>Posting means any message in a channel or thread.</span>
+            <span>Posting means any message in a channel or thread</span>
           </>
         ),
       },
       {
         label: 'Newly Active',
-        description:
-          'Started posting for the first time in the last 7 days.',
+        description: 'Started posting for the first time in the last 7 days.',
         percentageChange: activeMembers.newlyActivePercentageChange
           ? activeMembers.newlyActivePercentageChange
           : 0,

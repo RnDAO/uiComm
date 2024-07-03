@@ -14,10 +14,28 @@ const BASE_URL = conf.API_BASE_URL;
 
 const createPlatfromSlice: StateCreator<IPlatfrom> = (set, get) => ({
   connectedPlatforms: [],
-  connectNewPlatform: (platfromType) => {
+  connectNewPlatform: (platformType, userId, scopes) => {
     try {
-      location.replace(`${BASE_URL}/platforms/connect/${platfromType}`);
-    } catch (error) {}
+      let url = `${BASE_URL}/platforms/connect/?platform=${platformType}`;
+
+      if (platformType === 'google') {
+        if (userId && scopes && scopes.length > 0) {
+          const encodedScopes = encodeURIComponent(scopes.join(','));
+          url += `&userId=${encodeURIComponent(userId)}&scopes[]=${encodedScopes}`;
+
+          location.replace(url);
+        }
+      } else if (platformType === 'notion') {
+        if (userId) {
+          url += `&userId=${encodeURIComponent(userId)}`;
+        }
+        location.replace(url);
+      } else {
+        location.replace(url);
+      }
+    } catch (error) {
+      console.error('Failed to connect platform due to:', error);
+    }
   },
   retrievePlatforms: async ({
     page,

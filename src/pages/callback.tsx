@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import { useSnackbar } from '../context/SnackbarContext';
 import { extractUrlParams } from '../helpers/helper';
 import { StorageService } from '../services/StorageService';
 import { IRetrieveCommunitiesProps } from '../store/types/ICentric';
@@ -16,7 +17,24 @@ interface Params {
   id: string;
   username?: string;
   profileImageUrl?: string;
+  userId?: string;
   icon?: string;
+  picture?: string;
+  installationId?: string;
+  account_login?: string;
+  account_id?: string;
+  account_avatar_url?: string;
+  bot_id?: string;
+  workspace_id?: string;
+  workspace_name?: string;
+  workspace_icon?: string;
+  request_id?: string;
+  owner_type?: string;
+  owner_user_type?: string;
+  owner_user_object?: string;
+  owner_user_id?: string;
+  owner_user_name?: string;
+  owner_user_avatar_url?: string;
 }
 /**
  * Callback Component.
@@ -34,6 +52,7 @@ function Callback() {
 
   // Method to retrieve communities from the store.
   const { retrieveCommunities, createNewPlatform } = useAppStore();
+  const { showMessage } = useSnackbar();
 
   /**
    * Asynchronously fetches communities.
@@ -73,6 +92,35 @@ function Callback() {
     } else if (params.platform === 'discord') {
       metadata.icon = params.icon;
       metadata.name = params.name;
+    } else if (params.platform === 'google') {
+      metadata.userId = params.userId;
+      metadata.name = params.name;
+      metadata.picture = params.picture;
+      metadata.id = params.id;
+    } else if (params.platform === 'github') {
+      metadata.installationId = params.installationId;
+      metadata.account = {
+        login: params.account_login,
+        id: params.account_id,
+        avatarUrl: params.account_avatar_url,
+      };
+    } else if (params.platform === 'notion') {
+      metadata.userId = params.userId;
+      metadata.workspace_id = params.workspace_id;
+      metadata.workspace_name = params.workspace_name;
+      metadata.workspace_icon = params.workspace_icon;
+      metadata.bot_id = params.bot_id;
+      metadata.request_id = params.request_id;
+      metadata.owner = {
+        type: params.owner_type,
+        user: {
+          type: params.owner_user_type,
+          object: params.owner_user_object,
+          id: params.owner_user_id,
+          name: params.owner_user_name,
+          avatar_url: params.owner_user_avatar_url,
+        },
+      };
     }
 
     const payload = {
@@ -84,9 +132,20 @@ function Callback() {
     try {
       const data = await createNewPlatform(payload);
       if (!data) {
-        router.push('community-settings');
+        router.push('/community-settings');
       }
-      router.push(`/community-settings/platform/?platformId=${data.id}`);
+      if (params.platform === 'google') {
+        showMessage('Google Drive authorized successfully.', 'success');
+        router.push('/community-settings');
+      } else if (params.platform === 'github') {
+        showMessage('Github authorized successfully.', 'success');
+        router.push('/community-settings');
+      } else if (params.platform === 'notion') {
+        showMessage('Notion authorized successfully.', 'success');
+        router.push('/community-settings');
+      } else {
+        router.push(`/community-settings/?platformId=${data.id}`);
+      }
     } catch (error) {
       console.error('Failed to create new platform:', error);
     }
@@ -125,6 +184,16 @@ function Callback() {
         handleCreateNewPlatform(params);
         break;
 
+      case StatusCode.GDRIVE_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Google Drive authorization successful.');
+        handleCreateNewPlatform(params);
+        break;
+
+      case StatusCode.GDRIVE_AUTHORIZATION_FAILURE:
+        setMessage('Google Drive authorization failed.');
+        router.push('/community-settings');
+        break;
+
       case StatusCode.TWITTER_AUTHORIZATION_SUCCESSFUL:
         setMessage('Authorizion complete from settings page.');
         handleCreateNewPlatform(params);
@@ -133,18 +202,42 @@ function Callback() {
       case StatusCode.TWITTER_AUTHORIZATION_FAILURE:
         setMessage('Twitter Authorization failed.');
         router.push('/community-settings');
+        break;
 
       case StatusCode.DISCORD_AUTHORIZATION_FAILURE_FROM_SETTINGS:
         setMessage('Discord Authorization during setup on setting faield.');
         router.push('/community-settings');
+        break;
 
       case StatusCode.ANNOUNCEMENTS_PERMISSION_FAILURE:
         setMessage('Announcements grant write permissions faield.');
         router.push('/announcements');
+        break;
 
       case StatusCode.ANNOUNCEMENTS_PERMISSION_SUCCESS:
         setMessage('Announcements grant write permissions success.');
         router.push('/announcements');
+        break;
+
+      case StatusCode.GITHUB_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Github authorization successful.');
+        handleCreateNewPlatform(params);
+        break;
+
+      case StatusCode.GITHUB_AUTHORIZATION_FAILURE:
+        setMessage('Github authorization failed.');
+        router.push('/community-settings');
+        break;
+
+      case StatusCode.NOTION_AUTHORIZATION_SUCCESSFUL:
+        setMessage('Notion authorization successful.');
+        handleCreateNewPlatform(params);
+        break;
+
+      case StatusCode.NOTION_AUTHORIZATION_FAILURE:
+        setMessage('Notion authorization failed.');
+        router.push('/community-settings');
+        break;
 
       default:
         console.error('Unexpected status code received:', code);

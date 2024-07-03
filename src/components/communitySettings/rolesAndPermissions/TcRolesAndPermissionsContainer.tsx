@@ -32,6 +32,11 @@ function TcRolesAndPermissionsContainer() {
   const [viewerByRole, setViewerByRole] = useState<IRoles[]>([]);
   const [viewerByMember, setViewerByMember] = useState<IUser[]>([]);
 
+  const activePlatoform = community?.platforms.find(
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
+  );
+
   const fetchAndUpdateCommunity = async () => {
     const { roles } = await retrieveCommunityById(community?.id as string);
 
@@ -73,7 +78,6 @@ function TcRolesAndPermissionsContainer() {
     setViewerByMember(viewerMembers);
   };
 
-
   useEffect(() => {
     fetchAndUpdateCommunity();
   }, []);
@@ -88,7 +92,7 @@ function TcRolesAndPermissionsContainer() {
       platform: 'discord',
       identifierType,
       identifierValues: identifiers,
-      platformId: community?.platforms[0].id as string,
+      platformId: activePlatoform?.id as string,
     },
   });
 
@@ -137,7 +141,7 @@ function TcRolesAndPermissionsContainer() {
   };
 
   return (
-    <div>
+    <div className={!activePlatoform ? 'hidden' : ''}>
       <div className='flex w-full flex-col justify-between space-y-3 md:flex-row md:items-center md:space-y-0'>
         <div className='space-y-1.5 md:space-y-0'>
           <TcText text='Roles & Permissions' variant='h6' />

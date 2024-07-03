@@ -40,7 +40,11 @@ export interface IGrantWritePermissionsProps {
 
 export default interface IPlatfrom {
   connectedPlatforms: any[];
-  connectNewPlatform: (platfromType: string) => void;
+  connectNewPlatform: (
+    platformType: 'discord' | 'google' | 'github' | 'twitter' | 'notion',
+    userId?: string,
+    scopes?: string[]
+  ) => void;
   retrievePlatforms: ({
     page,
     limit,
