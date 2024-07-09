@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { defaultLayout } from '../../../layouts/defaultLayout';
 import { withRoles } from '../../../utils/withRoles';
 import SEO from '../../../components/global/SEO';
@@ -6,60 +6,47 @@ import TcBoxContainer from '../../../components/shared/TcBox/TcBoxContainer';
 import TcBreadcrumbs from '../../../components/shared/TcBreadcrumbs';
 import TcText from '../../../components/shared/TcText';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { FormControl, TextField, Typography, IconButton, Button, Avatar, Grid, Paper } from '@mui/material';
+import { FormControl, Typography, Button, Avatar, Grid, Paper } from '@mui/material';
 import { useAccount } from 'wagmi';
-import { AiOutlineDelete } from "react-icons/ai";
+import { useToken } from '../../../context/TokenContext';
+import { conf } from '../../../configs';
 
 function Index() {
     const { address, isConnected } = useAccount();
+    const { community } = useToken();
     const [connected, setConnected] = useState<boolean>(false);
     const [uploadedImage, setUploadedImage] = useState(null);
-    const [hover, setHover] = useState<boolean>(false);
-    const fileInputRef = useRef(null);
-
     const [tokenName, setTokenName] = useState('');
     const [tokenDescription, setTokenDescription] = useState('');
-    const [issuedToken, setIssuedToken] = useState<{ name: string, description: string, image: string, id: string } | null>(null);
+    const [issuedToken, setIssuedToken] = useState<{ name: string, description: string, image: string, id: string, platform: any } | null>(null);
 
     useEffect(() => {
         setConnected(isConnected);
     }, [isConnected]);
 
-    const handleImageUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUploadedImage(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const triggerFileInput = () => {
-        fileInputRef.current.click();
-    };
-
-    const removeImage = () => {
-        setUploadedImage(null);
-    };
-
     const generateTokenId = () => {
         return Math.floor(10000000 + Math.random() * 90000000).toString();
     };
 
+    const platform = community?.platforms.find(
+        (platform) =>
+            platform.disconnectedAt === null && platform.name === 'discord'
+    );
+
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!platform) {
+            alert('No active platform found');
+            return;
+        }
         setIssuedToken({
-            name: tokenName,
-            description: tokenDescription,
-            image: uploadedImage,
+            name: platform?.metadata?.name,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            image: `${conf.DISCORD_CDN}icons/${platform.metadata.id}/${platform.metadata.icon}`,
             id: generateTokenId(),
+            platform: platform
         });
     };
-
-    console.log(issuedToken);
-
 
     return (
         <>
@@ -89,7 +76,7 @@ function Index() {
                                             fontWeight='bold'
                                         />
                                         <TcText
-                                            text='lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+                                            text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                                             variant='body2'
                                         />
                                     </div>
@@ -102,106 +89,13 @@ function Index() {
                                 {!issuedToken ? (
                                     <form onSubmit={handleSubmit}>
                                         <FormControl fullWidth margin="normal">
-                                            <TextField
-                                                label="Token Name"
-                                                variant="outlined"
-                                                fullWidth
-                                                required
-                                                value={tokenName}
-                                                onChange={(e) => setTokenName(e.target.value)}
-                                            />
-                                        </FormControl>
-                                        <FormControl fullWidth margin="normal">
-                                            <TextField
-                                                label="Token Description"
-                                                variant="outlined"
-                                                multiline
-                                                rows={4}
-                                                fullWidth
-                                                required
-                                                value={tokenDescription}
-                                                onChange={(e) => setTokenDescription(e.target.value)}
-                                            />
-                                        </FormControl>
-                                        <FormControl fullWidth margin="normal">
-                                            <Typography variant="body1" gutterBottom>
-                                                Token Logo
-                                            </Typography>
-                                            <div
-                                                style={{
-                                                    border: '1px dashed #ccc',
-                                                    borderRadius: '8px',
-                                                    overflow: 'hidden',
-                                                    textAlign: 'center',
-                                                    cursor: 'pointer',
-                                                    height: '200px',
-                                                    width: '200px',
-                                                    position: 'relative',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                }}
-                                                onClick={triggerFileInput}
-                                                onMouseEnter={() => setHover(true)}
-                                                onMouseLeave={() => setHover(false)}
-                                                className={hover ? 'blurred' : ''}
-                                            >
-                                                {uploadedImage ? (
-                                                    <>
-                                                        <div
-                                                            style={{
-                                                                height: '100%',
-                                                                width: '100%',
-                                                                backgroundImage: `url(${uploadedImage})`,
-                                                                backgroundSize: 'cover',
-                                                                backgroundPosition: 'center',
-                                                                filter: hover ? 'blur(3px)' : 'none',
-                                                                position: 'absolute',
-                                                                top: 0,
-                                                                left: 0,
-                                                            }}
-                                                        ></div>
-                                                        {hover && (
-                                                            <IconButton
-                                                                style={{
-                                                                    position: 'absolute',
-                                                                    top: '50%',
-                                                                    left: '50%',
-                                                                    transform: 'translate(-50%, -50%)',
-                                                                    backgroundColor: 'rgba(255, 0, 0, 0.7)',
-                                                                    color: 'white',
-                                                                }}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    removeImage();
-                                                                }}
-                                                            >
-                                                                <AiOutlineDelete />
-                                                            </IconButton>
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    <Typography variant="body2" color="textSecondary">
-                                                        Click to upload image
-                                                    </Typography>
-                                                )}
-                                                <input
-                                                    type="file"
-                                                    hidden
-                                                    accept='image/*'
-                                                    ref={fileInputRef}
-                                                    onChange={handleImageUpload}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                        <FormControl fullWidth margin="normal">
                                             <Button
                                                 type="submit"
                                                 variant="contained"
                                                 color="primary"
                                                 fullWidth
                                             >
-                                                Issue community Token
+                                                Issue Community Token
                                             </Button>
                                         </FormControl>
                                     </form>
@@ -217,7 +111,7 @@ function Index() {
                                             </Grid>
                                             <Grid item>
                                                 <Typography variant="h6">{issuedToken.name}</Typography>
-                                                <Typography variant="body2">ID: 12332193821</Typography>
+                                                <Typography variant="body2">NFT ID: {issuedToken.id}</Typography>
                                             </Grid>
                                         </Grid>
                                         <Typography variant="body1" style={{ marginTop: '10px' }}>

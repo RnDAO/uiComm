@@ -15,8 +15,8 @@ function Index() {
     const router = useRouter();
 
     const handleMint = () => {
+        setIsMinted(true); // Simulate the minting process
         router.push('/engagement/reputation-nft/12332/mint');
-        // setIsMinted(true);
     };
 
     const handleRedirect = () => {
@@ -42,23 +42,19 @@ function Index() {
                             <div className={`flex justify-center items-center pb-12 ${!isConnected ? 'blur-sm' : ''}`}>
                                 <div className='relative w-3/5 my-12 rounded-xl shadow-lg text-center h-[42rem]'>
                                     <div className={`absolute inset-0 ${isMinted ? 'backdrop-blur-2xl' : ''} nft-background rounded-xl`}></div>
-                                    <div className='relative z-10 p-4'>
-                                        <div className='w-1/3 space-y-3 mx-auto text-center translate-y-1/2'>
-                                            <Typography variant='h6' className='text-white'>Your Engagement Score:</Typography>
-                                            <Typography variant='h1' className='text-white'>{isMinted ? '100' : 'N/A'}</Typography>
-                                            <div className='space-y-1.5 text-white'>
+                                    <div className='relative z-10 p-4 h-full flex items-center justify-center'>
+                                        {isMinted ? (
+                                            <div className='w-1/3 space-y-3 text-white'>
+                                                <Typography variant='h6' className='text-white'>Your Engagement Score:</Typography>
+                                                <Typography variant='h1' className='text-white'>{isMinted ? '100' : 'N/A'}</Typography>
                                                 <Typography variant='body2'>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Typography>
-                                                {isMinted ? (
-                                                    <>
-                                                        <TcButton text={"More Details"} variant='contained' fullWidth onClick={handleRedirect} />
-                                                        <TcButton text={"Settings"} variant='contained' className='bg-white text-black' fullWidth onClick={handleMint} />
-                                                    </>
-                                                ) : (
-                                                    <TcButton text={"Mint Reputation NFT"} variant='contained' fullWidth onClick={handleMint} />
-                                                )}
+                                                <TcButton text={"More Details"} variant='contained' fullWidth onClick={handleRedirect} />
+                                                <TcButton text={"Settings"} variant='contained' className='bg-white text-black' fullWidth onClick={handleMint} />
                                                 <Typography variant='caption'>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Typography>
                                             </div>
-                                        </div>
+                                        ) : (
+                                            <TcButton text={"Mint Reputation NFT"} variant='contained' onClick={handleMint} />
+                                        )}
                                     </div>
                                 </div>
                             </div>

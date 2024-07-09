@@ -4,21 +4,36 @@ import { Stack, Typography, Button, List, ListItem, ListItemText, ListItemIcon }
 import { useAccount } from 'wagmi';
 import TcButton from '../../shared/TcButton';
 import TcCommunityPlatformIcon from '../../communitySettings/communityPlatforms/TcCommunityPlatformIcon';
-import Image from 'next/image';
-import arbitrum from '../../../assets/svg/arbitrum-arb-logo.svg';
 
 interface Credential {
     name: string;
     granted: boolean;
+    connected: boolean;
 }
 
 function TcIdentityPermissionContainer() {
     const { address, isConnected } = useAccount();
     const [attestations, setAttestations] = useState<number>(0);
-    const credentials: Credential[] = [
-        { name: 'Telegram', granted: false },
-        { name: 'Discord', granted: false },
-    ];
+    const [credentials, setCredentials] = useState<Credential[]>([
+        { name: 'Telegram', granted: false, connected: false },
+        { name: 'Discord', granted: false, connected: false },
+    ]);
+
+    const handleConnect = (index: number, grant = false) => {
+        const newCredentials = [...credentials];
+        newCredentials[index].connected = true;
+        if (grant) {
+            newCredentials[index].granted = true;
+        }
+        setCredentials(newCredentials);
+    };
+
+    const handleRevoke = (index: number) => {
+        const newCredentials = [...credentials];
+        newCredentials[index].connected = false;
+        newCredentials[index].granted = false;
+        setCredentials(newCredentials);
+    };
 
     return (
         <TcBoxContainer
@@ -59,20 +74,33 @@ function TcIdentityPermissionContainer() {
                                             primary={credential.name}
                                             secondary={`Granted: ${credential.granted ? 'Yes' : 'No'}`}
                                         />
-                                        {!credential.granted && (
-                                            <Button variant='contained' disableElevation>
-                                                Grant access
-                                            </Button>
-                                        )}
+                                        <div className='space-x-3'>
+                                            <TcButton
+                                                text="Connect"
+                                                variant='outlined'
+                                                onClick={() => handleConnect(index)}
+                                                disabled={credential.connected}
+                                            />
+                                            <TcButton
+                                                text="Connect & Grant"
+                                                variant='contained'
+                                                onClick={() => handleConnect(index, true)}
+                                                disabled={credential.connected && credential.granted}
+                                            />
+                                            <TcButton
+                                                text="Revoke"
+                                                variant='contained'
+                                                className='bg-error-500'
+                                                onClick={() => handleRevoke(index)}
+                                                disabled={!credential.connected}
+                                            />
+                                        </div>
                                     </ListItem>
                                 ))}
                             </List>
-                            <Stack className='flex flex-row justify-end space-x-2 items-center mt-4'>
-                                <TcButton text={'Grant access to all'} variant='contained' />
-                            </Stack>
                         </>
                     )}
-                </div>
+                </div >
             }
         />
     );
