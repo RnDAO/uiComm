@@ -363,81 +363,80 @@ function TcDiscordIntegrationSettingsDialog({
                     defaultCollapseIcon={<MdExpandMore />}
                     defaultExpandIcon={<MdChevronRight />}
                   >
-                    {discordPlatformChannels &&
-                      discordPlatformChannels.map((channel, index) => (
-                        <TreeItem
-                          nodeId={channel.channelId}
-                          label={
-                            <div className='flex items-center justify-between'>
-                              <TcText
-                                text={channel.title}
-                                variant='h6'
-                                fontWeight='bold'
-                              />
-                              <FormControlLabel
-                                onClick={(e) => e.stopPropagation()}
-                                control={
-                                  <TcSwitch
-                                    checked={channel.subChannels.every(
-                                      (subChannel) =>
-                                        selectedChannels?.includes(
+                    {discordPlatformChannels?.map((channel, index) => (
+                      <TreeItem
+                        nodeId={channel.channelId}
+                        label={
+                          <div className='flex items-center justify-between'>
+                            <TcText
+                              text={channel.title}
+                              variant='h6'
+                              fontWeight='bold'
+                            />
+                            <FormControlLabel
+                              onClick={(e) => e.stopPropagation()}
+                              control={
+                                <TcSwitch
+                                  checked={channel.subChannels.every(
+                                    (subChannel) =>
+                                      selectedChannels?.includes(
+                                        subChannel.channelId
+                                      )
+                                  )}
+                                  disabled={channel.subChannels.some(
+                                    (subChannel) =>
+                                      !subChannel.canReadMessageHistoryAndViewChannel
+                                  )}
+                                  onChange={(e) =>
+                                    handleToggleAllChannelSubChannels(
+                                      e,
+                                      channel.channelId
+                                    )
+                                  }
+                                />
+                              }
+                              label='Enable All'
+                            />
+                          </div>
+                        }
+                        key={index}
+                      >
+                        {channel.subChannels.map((subChannel, index) => (
+                          <TreeItem
+                            nodeId={subChannel.channelId}
+                            label={
+                              <div className='flex items-center justify-between'>
+                                <TcText
+                                  text={subChannel.name}
+                                  variant='subtitle1'
+                                />
+                                <FormControlLabel
+                                  onClick={(e) => e.stopPropagation()}
+                                  control={
+                                    <TcSwitch
+                                      checked={selectedChannels?.includes(
+                                        subChannel.channelId
+                                      )}
+                                      disabled={
+                                        !subChannel.canReadMessageHistoryAndViewChannel
+                                      }
+                                      onChange={(e) =>
+                                        handleToggleSubChannel(
+                                          e,
                                           subChannel.channelId
                                         )
-                                    )}
-                                    disabled={channel.subChannels.some(
-                                      (subChannel) =>
-                                        !subChannel.canReadMessageHistoryAndViewChannel
-                                    )}
-                                    onChange={(e) =>
-                                      handleToggleAllChannelSubChannels(
-                                        e,
-                                        channel.channelId
-                                      )
-                                    }
-                                  />
-                                }
-                                label='Enable All'
-                              />
-                            </div>
-                          }
-                          key={index}
-                        >
-                          {channel.subChannels.map((subChannel, index) => (
-                            <TreeItem
-                              nodeId={subChannel.channelId}
-                              label={
-                                <div className='flex items-center justify-between'>
-                                  <TcText
-                                    text={subChannel.name}
-                                    variant='subtitle1'
-                                  />
-                                  <FormControlLabel
-                                    onClick={(e) => e.stopPropagation()}
-                                    control={
-                                      <TcSwitch
-                                        checked={selectedChannels?.includes(
-                                          subChannel.channelId
-                                        )}
-                                        disabled={
-                                          !subChannel.canReadMessageHistoryAndViewChannel
-                                        }
-                                        onChange={(e) =>
-                                          handleToggleSubChannel(
-                                            e,
-                                            subChannel.channelId
-                                          )
-                                        }
-                                      />
-                                    }
-                                    label='Enable'
-                                  />
-                                </div>
-                              }
-                              key={index}
-                            />
-                          ))}
-                        </TreeItem>
-                      ))}
+                                      }
+                                    />
+                                  }
+                                  label='Enable'
+                                />
+                              </div>
+                            }
+                            key={index}
+                          />
+                        ))}
+                      </TreeItem>
+                    ))}
                   </TreeView>
                 )}
               </div>
