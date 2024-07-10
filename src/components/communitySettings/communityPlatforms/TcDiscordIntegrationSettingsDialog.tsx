@@ -37,7 +37,7 @@ function TcDiscordIntegrationSettingsDialog({
 
   const { retrievePlatformProperties, patchPlatformById, deletePlatform } =
     useAppStore();
-  const [isFetchingIntialData, setIsFetchingIntialData] =
+  const [isFetchingInitialData, setIsFetchingInitialData] =
     useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -63,16 +63,16 @@ function TcDiscordIntegrationSettingsDialog({
   }, []);
 
   useEffect(() => {
-    const discordPlatformIsFetchingIntialData = community?.platforms
+    const discordPlatformIsFetchingInitialData = community?.platforms
       .filter(
         (platform) =>
           platform.disconnectedAt === null && platform.name === 'discord'
       )
-      .map((platform) => platform.metadata?.isFetchingIntialData)[0];
+      .map((platform) => platform.metadata?.isFetchingInitialData)[0];
 
-    setIsFetchingIntialData(
-      discordPlatformIsFetchingIntialData
-        ? discordPlatformIsFetchingIntialData
+    setIsFetchingInitialData(
+      discordPlatformIsFetchingInitialData
+        ? discordPlatformIsFetchingInitialData
         : false
     );
   }, [community]);
@@ -269,7 +269,7 @@ function TcDiscordIntegrationSettingsDialog({
               onClick={() => setOpen(false)}
             />
           </div>
-          {isFetchingIntialData ? (
+          {isFetchingInitialData ? (
             <div className='flex justify-center items-center h-96'>
               <div className='text-center space-y-4'>
                 <CircularProgress size={54} />
@@ -455,7 +455,7 @@ function TcDiscordIntegrationSettingsDialog({
             <TcButton
               className='w-1/3'
               text='Confirm'
-              disabled={selectedChannels?.length === 0 || !selectedDate || isFetchingIntialData}
+              disabled={selectedChannels?.length === 0 || !selectedDate || isFetchingInitialData}
               variant='contained'
               onClick={() => handlePatchDiscordIntegrationSettings()}
             />
