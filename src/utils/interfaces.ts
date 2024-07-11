@@ -181,6 +181,7 @@ export interface ICommunityDiscordPlatfromProps {
     permissions: Permissions;
     analyzerStartedAt?: string;
     isInProgress?: boolean;
+    isFetchingInitialData?: boolean;
   };
   disconnectedAt: string | null;
 }
