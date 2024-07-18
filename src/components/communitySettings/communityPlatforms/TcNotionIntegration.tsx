@@ -1,4 +1,4 @@
-import { CircularProgress, Paper } from '@mui/material';
+import { Alert, CircularProgress, Paper } from '@mui/material';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -162,6 +162,9 @@ function TcNotionIntegration({
                 </>
               )}
             </div>
+            <Alert severity="info">
+              To edit pages access, please remove the Notion integration and add it again
+            </Alert>
           </div>
           <TcButton
             startIcon={<MdDelete />}
