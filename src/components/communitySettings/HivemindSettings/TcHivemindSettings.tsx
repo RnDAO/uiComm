@@ -370,7 +370,7 @@ function HivemindSettings() {
                   <TcText text={platform} variant='body2' />
                   {
                     platform === "GDrive" && (
-                      <TcText variant='caption' className='text-gray-300' text="Comming soon" />
+                      <TcText variant='caption' className='text-gray-300' text="Coming soon" />
                     )
                   }
                 </div>
