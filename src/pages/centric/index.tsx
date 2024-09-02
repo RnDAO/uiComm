@@ -32,7 +32,7 @@ function Index() {
             <TcText
               variant='body1'
               color='initial'
-              text='More log-in options comming soon.'
+              text='More log-in options Coming soon.'
             />
           </div>
         }
