@@ -72,14 +72,14 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
 
     setAnchorEl(event.currentTarget as HTMLElement);
 
-    const selectedUser = nodes.find((node: any) => node.id === selectedNode.id);
-
-    setUser(selectedUser);
-
+    // Capture the click position accurately
     setPosition({
       x: event.clientX,
       y: event.clientY,
     });
+
+    const selectedUser = nodes.find((node: any) => node.id === selectedNode.id);
+    setUser(selectedUser);
   };
 
   const ZOOM_DURATION = 200;
@@ -142,7 +142,7 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
         nodeLabel='ngu'
         nodeVal={(node: CustomNode) => node.size / 1.5}
         nodeAutoColorBy='id'
-        height={Number(numberOfnodes) > 300 ? 800 : 350}
+        height={Number(numberOfnodes) > 300 ? 800 : 580}
         {...graphView}
         minZoom={0.5}
         ref={graphRef}
@@ -165,16 +165,10 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
       <Popover
         open={popOverOpen}
         onClose={() => setpopOverOpen(false)}
-        anchorEl={anchorEl}
-        sx={{
-          position: 'absolute',
-          top: `${position?.y}px`,
-          left: `${position?.x}px`,
-        }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
+        anchorReference='anchorPosition' // Use anchorPosition for direct control
+        anchorPosition={
+          position ? { top: position.y, left: position.x } : undefined
+        } // Use the captured position
         transformOrigin={{
           vertical: 'top',
           horizontal: 'left',
@@ -187,8 +181,11 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
             maxWidth: '19rem',
             border: '1px solid #E1E1E1',
             overflow: 'wrap',
+            position: 'absolute', // Ensure it's absolutely positioned
+            zIndex: 1300, // Ensure it's on top
           },
         }}
+        container={document.body} // Render it at the root level
       >
         <div className='flex flex-col items-start space-y-3 px-3 py-3'>
           <div className='flex flex-row items-center space-x-3'>
