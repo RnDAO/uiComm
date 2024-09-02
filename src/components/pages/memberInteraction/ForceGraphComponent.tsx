@@ -1,4 +1,4 @@
-import { Avatar, Popover, Typography } from '@mui/material';
+import { Avatar, Box, Paper, Popover, Typography } from '@mui/material';
 import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
 import ForceGraph2D, {
@@ -136,20 +136,30 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
 
   return (
     <div className='relative flex h-full items-center justify-center'>
-      <ForceGraph2D
-        graphData={{ nodes, links }}
-        nodeLabel='ngu'
-        nodeVal={(node: CustomNode) => node.size / 1.5}
-        nodeAutoColorBy='id'
-        height={Number(numberOfnodes) > 300 ? 800 : 580}
-        {...graphView}
-        minZoom={0.5}
-        ref={graphRef}
-        onNodeClick={(node: any, event: MouseEvent) => {
-          handleSelectedNode(node, event);
+      <Box
+        sx={{
+          maxHeight: { xs: 'calc(70vh - 100px)', md: 'calc(100vh - 200px)' },
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-        onBackgroundClick={() => setpopOverOpen(false)}
-      />
+      >
+        <ForceGraph2D
+          graphData={{ nodes, links }}
+          nodeLabel='ngu'
+          nodeVal={(node: CustomNode) => node.size / 1.5}
+          nodeAutoColorBy='id'
+          width={window.innerWidth}
+          height={window.innerHeight}
+          {...graphView}
+          minZoom={0.5}
+          ref={graphRef}
+          onNodeClick={(node: any, event: MouseEvent) => {
+            handleSelectedNode(node, event);
+          }}
+          onBackgroundClick={() => setpopOverOpen(false)}
+        />
+      </Box>
       <div className='absolute bottom-4 right-4 flex flex-row items-center rounded-md bg-gray-background p-1 py-2'>
         <button
           className='border-r border-[#AAAAAA]  px-2 pl-1'
