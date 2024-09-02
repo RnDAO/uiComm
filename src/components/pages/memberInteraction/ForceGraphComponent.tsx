@@ -1,4 +1,4 @@
-import { Avatar, Popover, Typography } from '@mui/material';
+import { Avatar, Box, Paper, Popover, Typography } from '@mui/material';
 import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
 import ForceGraph2D, {
@@ -72,14 +72,13 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
 
     setAnchorEl(event.currentTarget as HTMLElement);
 
-    const selectedUser = nodes.find((node: any) => node.id === selectedNode.id);
-
-    setUser(selectedUser);
-
     setPosition({
       x: event.clientX,
       y: event.clientY,
     });
+
+    const selectedUser = nodes.find((node: any) => node.id === selectedNode.id);
+    setUser(selectedUser);
   };
 
   const ZOOM_DURATION = 200;
@@ -137,20 +136,30 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
 
   return (
     <div className='relative flex h-full items-center justify-center'>
-      <ForceGraph2D
-        graphData={{ nodes, links }}
-        nodeLabel='ngu'
-        nodeVal={(node: CustomNode) => node.size / 1.5}
-        nodeAutoColorBy='id'
-        height={Number(numberOfnodes) > 300 ? 800 : 350}
-        {...graphView}
-        minZoom={0.5}
-        ref={graphRef}
-        onNodeClick={(node: any, event: MouseEvent) => {
-          handleSelectedNode(node, event);
+      <Box
+        sx={{
+          maxHeight: { xs: 'calc(70vh - 100px)', md: 'calc(100vh - 200px)' },
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-        onBackgroundClick={() => setpopOverOpen(false)}
-      />
+      >
+        <ForceGraph2D
+          graphData={{ nodes, links }}
+          nodeLabel='ngu'
+          nodeVal={(node: CustomNode) => node.size / 1.5}
+          nodeAutoColorBy='id'
+          width={window.innerWidth}
+          height={window.innerHeight}
+          {...graphView}
+          minZoom={0.5}
+          ref={graphRef}
+          onNodeClick={(node: any, event: MouseEvent) => {
+            handleSelectedNode(node, event);
+          }}
+          onBackgroundClick={() => setpopOverOpen(false)}
+        />
+      </Box>
       <div className='absolute bottom-4 right-4 flex flex-row items-center rounded-md bg-gray-background p-1 py-2'>
         <button
           className='border-r border-[#AAAAAA]  px-2 pl-1'
@@ -165,16 +174,10 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
       <Popover
         open={popOverOpen}
         onClose={() => setpopOverOpen(false)}
-        anchorEl={anchorEl}
-        sx={{
-          position: 'absolute',
-          top: `${position?.y}px`,
-          left: `${position?.x}px`,
-        }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
+        anchorReference='anchorPosition'
+        anchorPosition={
+          position ? { top: position.y, left: position.x } : undefined
+        }
         transformOrigin={{
           vertical: 'top',
           horizontal: 'left',
@@ -187,8 +190,11 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
             maxWidth: '19rem',
             border: '1px solid #E1E1E1',
             overflow: 'wrap',
+            position: 'absolute',
+            zIndex: 1300,
           },
         }}
+        container={document.body}
       >
         <div className='flex flex-col items-start space-y-3 px-3 py-3'>
           <div className='flex flex-row items-center space-x-3'>
