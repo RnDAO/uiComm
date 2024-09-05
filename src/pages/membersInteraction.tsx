@@ -145,13 +145,18 @@ function MembersInteraction() {
             <span className='pl-1'>Community Insights</span>
           </div>
         </Link>
-        <Paper className='space-y-4 overflow-hidden rounded-xl px-4 py-6 shadow-box md:px-8'>
+        <Paper
+          sx={{
+            maxHeight: { xs: 'calc(100vh - 100px)', md: 'calc(100vh - 60px)' },
+          }}
+          className='space-y-4 overflow-hidden rounded-xl px-4 py-6 shadow-box md:px-8'
+        >
           <h3 className='text-xl font-medium text-lite-black'>
             Member interactions graph
           </h3>
           <p>Data from the last 7 days</p>
-          <div className='flex flex-col md:flex-row md:items-start'>
-            <div className='items-center justify-center overflow-hidden lg:w-11/12'>
+          <div className='flex flex-col md:flex-row md:items-start md:space-x-5'>
+            <div className='items-center justify-center overflow-hidden lg:w-11/12 bg-gray-hover border border-gray-150 rounded-lg shadow-sm'>
               <ForceGraphComponent
                 nodes={nodes}
                 links={links}
