@@ -23,6 +23,7 @@ export default interface ICharts {
     platformId: string,
     startDate: string,
     endDate: string,
+    platformType: 'discord' | 'discourse',
     timeZone: string
   ) => any;
   fetchActiveMembers: (

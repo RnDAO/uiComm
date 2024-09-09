@@ -1,4 +1,5 @@
 import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
+import clsx from 'clsx';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
@@ -14,6 +15,7 @@ import useAppStore from '../../../store/useStore';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface OnboardingProps {
+  platformType: 'discord' | 'discourse';
   activePeriod: number;
   handleDateRange: (range: number) => void;
 }
@@ -61,6 +63,7 @@ const defaultOptions = {
 };
 
 export default function Onboarding({
+  platformType,
   activePeriod,
   handleDateRange,
 }: OnboardingProps) {
@@ -243,7 +246,28 @@ export default function Onboarding({
         />
       </div>
 
-      <OnboardingMembersBreakdown />
+      <div className='relative'>
+        <div
+          className={clsx(
+            platformType === 'discourse' ? 'rounded-xl p-4 blur-sm' : ''
+          )}
+        >
+          <OnboardingMembersBreakdown />
+        </div>
+
+        {platformType === 'discourse' && (
+          <div className='absolute inset-0 flex items-center justify-center bg-white bg-opacity-75'>
+            <div className='rounded-lg border border-gray-300 bg-gray-50 p-4 text-center shadow-md'>
+              <h2 className='text-xl font-semibold text-gray-700'>
+                Coming Soon
+              </h2>
+              <p className='text-gray-500'>
+                Member breakdown will be available for <b>Discourse</b> soon.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className='w-full'>
         <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>

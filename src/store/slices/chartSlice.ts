@@ -44,17 +44,20 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
   fetchInteractions: async (
     platformId: string,
     startDate: string,
-    endDate: string
+    endDate: string,
+    platformType: 'discord' | 'discourse'
   ) => {
+    const endpoint =
+      platformType === 'discourse'
+        ? `/discourse/heatmaps/${platformId}/line-graph`
+        : `/heatmaps/${platformId}/line-graph`;
+
     try {
       set(() => ({ interactionsLoading: true }));
-      const { data } = await axiosInstance.post(
-        `/heatmaps/${platformId}/line-graph`,
-        {
-          startDate,
-          endDate,
-        }
-      );
+      const { data } = await axiosInstance.post(endpoint, {
+        startDate,
+        endDate,
+      });
       set({ interactions: data, interactionsLoading: false });
     } catch (error) {
       set(() => ({ interactionsLoading: false }));
