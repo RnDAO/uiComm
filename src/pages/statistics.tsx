@@ -6,22 +6,24 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 
-import emptyState from '../assets/svg/empty-state.svg';
-import CustomTab from '../components/global/CustomTab';
-import EmptyState from '../components/global/EmptyState';
-import Link from '../components/global/Link';
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import SEO from '../components/global/SEO';
-import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
-import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
-import InactiveMembers from '../components/pages/statistics/InactiveMembers';
-import InteractionsSection from '../components/pages/statistics/InteractionsSection';
-import Onboarding from '../components/pages/statistics/Onboarding';
-import { useToken } from '../context/TokenContext';
-import { transformToMidnightUTC } from '../helpers/momentHelper';
-import { defaultLayout } from '../layouts/defaultLayout';
-import useAppStore from '../store/useStore';
-import { withRoles } from '../utils/withRoles';
+import CustomTab from '@/components/global/CustomTab';
+import EmptyState from '@/components/global/EmptyState';
+import Link from '@/components/global/Link';
+import SimpleBackdrop from '@/components/global/LoadingBackdrop';
+import SEO from '@/components/global/SEO';
+import ActiveMembersComposition from '@/components/pages/statistics/ActiveMembersComposition';
+import DisengagedMembersComposition from '@/components/pages/statistics/DisengagedMembersComposition';
+import InactiveMembers from '@/components/pages/statistics/InactiveMembers';
+import InteractionsSection from '@/components/pages/statistics/InteractionsSection';
+import Onboarding from '@/components/pages/statistics/Onboarding';
+
+import useAppStore from '@/store/useStore';
+
+import emptyState from '@/assets/svg/empty-state.svg';
+import { useToken } from '@/context/TokenContext';
+import { transformToMidnightUTC } from '@/helpers/momentHelper';
+import { defaultLayout } from '@/layouts/defaultLayout';
+import { withRoles } from '@/utils/withRoles';
 
 const Statistics = () => {
   const { community, selectedPlatform } = useToken();
