@@ -16,36 +16,41 @@ import TcCommunityPlatformIcon from '../communitySettings/communityPlatforms/TcC
 import TcIconWithTooltip from '../shared/TcIconWithTooltip';
 import { useToken } from '../../context/TokenContext';
 import { capitalizeFirstChar } from '../../helpers/helper';
+import { StorageService } from '../../services/StorageService';
 import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
 
-const Header = React.memo(() => {
+const Header = () => {
+  const { community, selectedPlatform, handleSwitchPlatform } = useToken();
   const [platforms, setPlatforms] = useState<ICommunityDiscordPlatfromProps[]>(
     []
   );
-  const [selectedPlatform, setSelectedPlatform] = useState<string>(() => {
-    return localStorage.getItem('SELECTED_PLATFORM') || '';
-  });
-  const { community } = useToken();
 
   useEffect(() => {
     const fetchedPlatforms =
-      community?.platforms.filter((platform) => {
-        return (
-          (platform.name.includes('discord') ||
-            platform.name.includes('discourse')) &&
-          platform.disconnectedAt === null
-        );
-      }) || [];
+      community?.platforms.filter(
+        ({ name, disconnectedAt }) =>
+          (name.includes('discord') || name.includes('discourse')) &&
+          !disconnectedAt
+      ) || [];
+
     setPlatforms(fetchedPlatforms);
 
     if (fetchedPlatforms.length > 0) {
-      const storedPlatform = localStorage.getItem('SELECTED_PLATFORM');
-      const defaultPlatform = storedPlatform || fetchedPlatforms[0].id;
-      setSelectedPlatform(defaultPlatform);
-    } else {
-      setSelectedPlatform('');
+      const storedPlatform = StorageService.readLocalStorage<string>(
+        'SELECTED_PLATFORM',
+        'string'
+      );
+
+      if (
+        storedPlatform &&
+        fetchedPlatforms.some((p) => p.id === storedPlatform)
+      ) {
+        handleSwitchPlatform(storedPlatform);
+      } else {
+        handleSwitchPlatform(fetchedPlatforms[0].id);
+      }
     }
-  }, [community]);
+  }, [community, selectedPlatform, handleSwitchPlatform]);
 
   const platformOptions = useMemo(() => {
     return platforms.map((platform) => {
@@ -67,10 +72,10 @@ const Header = React.memo(() => {
     });
   }, [platforms]);
 
+  // Handle platform change from the dropdown
   const handlePlatformChange = (event: SelectChangeEvent<string>) => {
     const newPlatform = event.target.value;
-    setSelectedPlatform(newPlatform);
-    localStorage.setItem('SELECTED_PLATFORM', newPlatform);
+    handleSwitchPlatform(newPlatform);
   };
 
   return (
@@ -101,19 +106,19 @@ const Header = React.memo(() => {
             }}
             disableUnderline
             renderValue={(selected) => {
-              const selectedPlatform = platforms.find(
+              const selectedPlatformObj = platforms.find(
                 (platform) => platform.id === selected
               );
-              return selectedPlatform ? (
+              return selectedPlatformObj ? (
                 <Box display='flex' alignItems='center'>
                   <TcCommunityPlatformIcon
                     size={28}
                     platform={
-                      capitalizeFirstChar(selectedPlatform.name) as string
+                      capitalizeFirstChar(selectedPlatformObj.name) as string
                     }
                   />
                   <ListItemText className='pl-2'>
-                    {capitalizeFirstChar(selectedPlatform.name)}
+                    {capitalizeFirstChar(selectedPlatformObj.name)}
                   </ListItemText>
                 </Box>
               ) : (
@@ -127,6 +132,6 @@ const Header = React.memo(() => {
       </Stack>
     </AppBar>
   );
-});
+};
 
 export default Header;
