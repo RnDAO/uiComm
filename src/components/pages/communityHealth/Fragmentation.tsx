@@ -7,12 +7,14 @@ import React, { useEffect, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 
+import GaugeChart from '@/components/global/GaugeChart';
+
+import enmeshed from '@/assets/svg/enmeshed.svg';
+import fragmented from '@/assets/svg/fragmented.svg';
+import { IFragmentationScoreResponse } from '@/utils/interfaces';
+
 import CommunityStatusShower from './CommunityStatusShower';
 import TipsDialog from './TipsDialog';
-import GaugeChart from '../../global/GaugeChart';
-import enmeshed from '../../../assets/svg/enmeshed.svg';
-import fragmented from '../../../assets/svg/fragmented.svg';
-import { IFragmentationScoreResponse } from '../../../utils/interfaces';
 
 // Initialize the Highcharts networkgraph module
 if (typeof Highcharts === 'object') {

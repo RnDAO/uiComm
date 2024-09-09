@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
-import SimpleBackdrop from '../components/global/LoadingBackdrop';
-import SEO from '../components/global/SEO';
-import Decentralization from '../components/pages/communityHealth/Decentralization';
-import Fragmentation from '../components/pages/communityHealth/Fragmentation';
-import HeaderSection from '../components/pages/communityHealth/HeaderSection';
-import { useToken } from '../context/TokenContext';
-import { defaultLayout } from '../layouts/defaultLayout';
-import useAppStore from '../store/useStore';
+import SimpleBackdrop from '@/components/global/LoadingBackdrop';
+import SEO from '@/components/global/SEO';
+import Decentralization from '@/components/pages/communityHealth/Decentralization';
+import Fragmentation from '@/components/pages/communityHealth/Fragmentation';
+import HeaderSection from '@/components/pages/communityHealth/HeaderSection';
+
+import useAppStore from '@/store/useStore';
+
+import { useToken } from '@/context/TokenContext';
+import { defaultLayout } from '@/layouts/defaultLayout';
 import {
   IDecentralisationScoreResponse,
   IFragmentationScoreResponse,
-} from '../utils/interfaces';
-import { withRoles } from '../utils/withRoles';
+} from '@/utils/interfaces';
+import { withRoles } from '@/utils/withRoles';
 
 function CommunityHealth() {
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
   const { getDecentralisation, getFragmentation, isLoading } = useAppStore();
   const [decentralisationScoreData, setDecentralisationScoreData] =
     useState<IDecentralisationScoreResponse | null>(null);
@@ -24,8 +26,7 @@ function CommunityHealth() {
 
   useEffect(() => {
     const platformId = community?.platforms.find(
-      (platform) =>
-        platform.disconnectedAt === null && platform.name === 'discord'
+      (platform) => platform.id === selectedPlatform
     )?.id;
 
     if (platformId) {
@@ -37,7 +38,7 @@ function CommunityHealth() {
         setFragmentationScoreData(fragmentationRes);
       });
     }
-  }, [getDecentralisation, getFragmentation]);
+  }, [getDecentralisation, getFragmentation, selectedPlatform]);
 
   if (isLoading) {
     return <SimpleBackdrop />;
