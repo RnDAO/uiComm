@@ -14,10 +14,11 @@ export default interface ICharts {
   selectedChannelsList: any[];
   fetchHeatmapData: (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     startDate: string,
     endDate: string,
     timeZone: string,
-    channelIds: string[]
+    channelIds?: string[]
   ) => any;
   fetchInteractions: (
     platformId: string,

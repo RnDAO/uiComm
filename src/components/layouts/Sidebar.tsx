@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 type items = {
@@ -9,17 +8,18 @@ type items = {
 
 import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Avatar } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
 
+import { ICommunityPlatfromProps } from '@/utils/interfaces';
+
 import TcText from '../shared/TcText';
 import { conf } from '../../configs/index';
 import { useToken } from '../../context/TokenContext';
 import useAppStore from '../../store/useStore';
-import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
-import { Avatar } from '@mui/material';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ const Sidebar = () => {
   );
 
   const [connectedPlatform, setConnectedPlatform] =
-    useState<ICommunityDiscordPlatfromProps | null>(null);
+    useState<ICommunityPlatfromProps | null>(null);
 
   useEffect(() => {
     const storedCommunity = community;

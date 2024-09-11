@@ -17,11 +17,11 @@ import TcIconWithTooltip from '../shared/TcIconWithTooltip';
 import { useToken } from '../../context/TokenContext';
 import { capitalizeFirstChar } from '../../helpers/helper';
 import { StorageService } from '../../services/StorageService';
-import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
+import { ICommunityPlatfromProps } from '../../utils/interfaces';
 
 const Header = () => {
   const { community, selectedPlatform, handleSwitchPlatform } = useToken();
-  const [platforms, setPlatforms] = useState<ICommunityDiscordPlatfromProps[]>(
+  const [platforms, setPlatforms] = useState<ICommunityPlatfromProps[]>(
     []
   );
 

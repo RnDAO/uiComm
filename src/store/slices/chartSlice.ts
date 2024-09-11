@@ -19,22 +19,31 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
   onboardingMembersLoading: false,
   fetchHeatmapData: async (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     startDate: string,
     endDate: string,
     timeZone: string,
-    channelIds: string[]
+    channelIds?: string[]
   ) => {
     try {
+      const endpoint =
+        platformType === 'discourse'
+          ? `/discourse/heatmaps/${platformId}/heatmap-chart`
+          : `/heatmaps/${platformId}/heatmap-chart`;
+
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.post(
-        `/heatmaps/${platformId}/heatmap-chart`,
-        {
-          startDate,
-          endDate,
-          timeZone,
-          channelIds: channelIds,
-        }
-      );
+
+      const payload: any = {
+        startDate,
+        endDate,
+        timeZone,
+      };
+
+      if (platformType === 'discord' && channelIds) {
+        payload.channelIds = channelIds;
+      }
+
+      const { data } = await axiosInstance.post(endpoint, payload);
       set({ heatmapRecords: [...data], isLoading: false });
       return data;
     } catch (error) {
