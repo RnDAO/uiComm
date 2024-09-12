@@ -6,7 +6,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FiCalendar } from 'react-icons/fi';
 import 'moment-timezone';
 
-import NumberOfMessages from './NumberOfMessages';
 import FilterByChannels from '../../global/FilterByChannels';
 import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
@@ -78,8 +77,33 @@ const HeatmapChart = () => {
   };
 
   const updateHeatmapData = (responseData: HeatmapData) => {
+    const findBiggestValue = (data: HeatmapData) => {
+      let biggestValue = 0;
+      data.forEach((item) => {
+        if (item[2] && item[2] > biggestValue) {
+          biggestValue = item[2];
+        }
+      });
+      return biggestValue;
+    };
+
+    const result = findBiggestValue(responseData);
+
+    const periods = 6;
+    const rangeStep = result / periods;
+
+    const ranges = Array.from({ length: periods }, (_, i) =>
+      Math.floor(i * rangeStep)
+    );
+
+    ranges.push(Math.floor(result));
+
     const newOptions = {
       ...defaultHeatmapChartOptions,
+      colorAxis: {
+        ...defaultHeatmapChartOptions.colorAxis,
+        max: result > 0 ? result : 100,
+      },
       series: [
         {
           ...defaultHeatmapChartOptions.series[0],
@@ -200,42 +224,37 @@ const HeatmapChart = () => {
           />
         </div>
       </div>
-      <div className='flex flex-col items-center justify-start px-3 md:flex-row md:justify-between md:py-2'>
-        <div className='flex w-full flex-col md:mt-3 md:flex-row md:space-x-3'>
-          <div className='flex flex-wrap'>
-            <ZonePicker
-              selectedZone={selectedZone}
-              handleSelectedZone={handleSelectedZone}
-            />
-          </div>
-          <div className='flex flex-wrap'>
-            <FilterByChannels
-              handleFetchHeatmapByChannels={handleFetchHeatmapByChannels}
-            />
-          </div>
-        </div>
-        <div className='hidden md:block'>
-          <NumberOfMessages />
-        </div>
-      </div>
+
       <div className='relative'>
         {loading && (
           <div className='absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-30'>
             <Loading size={40} height='440px' />
           </div>
         )}
-
         <div className={loading ? 'opacity-50' : ''}>
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={heatmapChartOptions}
-            allowChartUpdate
-          />
+          <div className='z-[10] flex flex-col items-center justify-start px-3 md:absolute md:flex-row md:justify-between md:py-2'>
+            <div className='flex w-full flex-col md:mt-6 md:flex-row md:space-x-3'>
+              <div className='flex flex-wrap'>
+                <ZonePicker
+                  selectedZone={selectedZone}
+                  handleSelectedZone={handleSelectedZone}
+                />
+              </div>
+              <div className='flex flex-wrap'>
+                <FilterByChannels
+                  handleFetchHeatmapByChannels={handleFetchHeatmapByChannels}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='relative'>
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={heatmapChartOptions}
+              allowChartUpdate
+            />
+          </div>
         </div>
-      </div>
-
-      <div className='ml-3 block md:hidden'>
-        <NumberOfMessages />
       </div>
     </div>
   );

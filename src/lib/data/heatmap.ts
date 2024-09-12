@@ -11,7 +11,18 @@ const defaultHeatmapChartOptions = {
     text: null,
   },
   legend: {
-    enabled: false,
+    enabled: true,
+    title: {
+      text: 'Number of interactions',
+      style: {
+        fontStyle: 'bold',
+        fontSize: '14px',
+        fontFamily: 'Inter',
+      },
+    },
+    verticalAlign: 'top',
+    align: 'right',
+    layout: 'horizontal',
   },
   xAxis: {
     categories: HOURE_DAYS,
@@ -62,17 +73,11 @@ const defaultHeatmapChartOptions = {
     max: 100,
     stops: [
       [0, '#F3F3F3'],
-      [9 / 100, '#F3F3F3'],
       [10 / 100, '#E3E9FF'],
-      [19 / 100, '#E3E9FF'],
       [20 / 100, '#C5D2FF'],
-      [29 / 100, '#C5D2FF'],
       [30 / 100, '#9CB1FF'],
-      [49 / 100, '#9CB1FF'],
       [50 / 100, '#9971E7'],
-      [69 / 100, '#9971E7'],
       [70 / 100, '#673FB5'],
-      [99 / 100, '#673FB5'],
       [1, '#35205E'],
     ].map(([position, color]) => [position, color] as [number, string]),
   },
@@ -101,8 +106,8 @@ const defaultHeatmapChartOptions = {
         Math.floor(i / 24),
         0,
       ]),
-      colsize: 0.9,
-      rowsize: 0.8,
+      colsize: 1,
+      rowsize: 0.95,
     },
   ],
   responsive: {
