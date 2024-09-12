@@ -1,5 +1,7 @@
+import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
 
 import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/OnboardingMembersBreakdown';
@@ -63,6 +65,8 @@ export default function Onboarding({
   handleDateRange,
 }: OnboardingProps) {
   const { onboardingMembers, onboardingMembersLoading } = useAppStore();
+
+  const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [options, setOptions] = useState(defaultOptions);
   const [statistics, setStatistics] = useState<StatisticsProps[]>([]);
 
@@ -210,6 +214,14 @@ export default function Onboarding({
     );
   };
 
+  useEffect(() => {
+    if (activePeriod === 4 || activePeriod === 5) {
+      setShowOverlay(true);
+    } else {
+      setShowOverlay(false);
+    }
+  }, [activePeriod]);
+
   return (
     <>
       <div className='flex flex-row justify-between'>
@@ -249,7 +261,61 @@ export default function Onboarding({
       {onboardingMembersLoading ? (
         <Loading height='400px' />
       ) : (
-        <LineGraph options={options} />
+        <div className='relative'>
+          {showOverlay && (
+            <div className='absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/95'>
+              <Alert
+                severity='info'
+                className='w-full max-w-lg rounded-sm border border-blue-300 p-3'
+              >
+                <AlertTitle>
+                  Interested in looking further back in history?
+                </AlertTitle>
+                <Typography variant='body1'>
+                  Reach out to a member of our customer success team.
+                </Typography>
+                <div className='flex justify-center space-x-3 pt-3'>
+                  <a
+                    href='https://t.me/k_bc0'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    <IconButton>
+                      <FaTelegram className='text-gray-800' size={30} />
+                    </IconButton>
+                  </a>
+
+                  <a
+                    href='https://discord.com/users/876487027099582524'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    <IconButton>
+                      <FaDiscord className='text-gray-800' size={30} />
+                    </IconButton>
+                  </a>
+
+                  <a href='mailto:info@togethercrew.com'>
+                    <IconButton>
+                      <FaEnvelope className='text-gray-800' size={30} />
+                    </IconButton>
+                  </a>
+
+                  <a
+                    href='https://x.com/together_crew'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    <IconButton>
+                      <FaXTwitter className='text-gray-800' size={30} />
+                    </IconButton>
+                  </a>
+                </div>
+              </Alert>
+            </div>
+          )}
+          <LineGraph options={options} />
+        </div>
       )}
     </>
   );
