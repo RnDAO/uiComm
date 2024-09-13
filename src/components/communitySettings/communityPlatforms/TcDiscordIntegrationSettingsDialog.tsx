@@ -1,29 +1,33 @@
 import { TreeItem, TreeView } from '@mui/lab';
-import { CircularProgress, FormControlLabel, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  CircularProgress,
+  FormControlLabel,
+  Typography,
+} from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiRefreshCcw } from 'react-icons/fi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
-import { MdCalendarMonth } from 'react-icons/md';
 import { MdExpandMore } from 'react-icons/md';
 import { MdChevronRight } from 'react-icons/md';
 import { RiTimeLine } from 'react-icons/ri';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcButton from '../../shared/TcButton';
-import TcDatePickerPopover from '../../shared/TcDatePickerPopover';
 import TcDialog from '../../shared/TcDialog';
 import TcSwitch from '../../shared/TcSwitch';
 import TcText from '../../shared/TcText';
 import { conf } from '../../../configs';
 import { Channel } from '../../../context/ChannelContext';
 import { useSnackbar } from '../../../context/SnackbarContext';
+import { useToken } from '../../../context/TokenContext';
 import { truncateCenter } from '../../../helpers/helper';
 import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
-import { useToken } from '../../../context/TokenContext';
 
 interface TcDiscordIntegrationSettingsDialog {
   platform: IPlatformProps;
@@ -44,9 +48,11 @@ function TcDiscordIntegrationSettingsDialog({
   const [isAnalyizingDialogOpen, setIsAnalyizingDialogOpen] =
     useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [dateTimeDisplay, setDateTimeDisplay] = useState<string>('Filter Date');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  // const [selectedDate, setSelectedDate] = useState<Date | null>();
+
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
 
   const [discordPlatformChannels, setDiscordPlatformChannels] = useState<
@@ -92,12 +98,12 @@ function TcDiscordIntegrationSettingsDialog({
       setDateTimeDisplay(newDateTimeDisplay);
     }
 
-    if (
-      !selectedDate ||
-      (selectedDate && period && selectedDate.toISOString() !== period)
-    ) {
-      setSelectedDate(new Date(period));
-    }
+    // if (
+    //   !selectedDate ||
+    //   (selectedDate && period && selectedDate.toISOString() !== period)
+    // ) {
+    //   setSelectedDate(new Date(period));
+    // }
     setLoading(true);
     const data = await retrievePlatformProperties({
       platformId: platform.id,
@@ -171,7 +177,9 @@ function TcDiscordIntegrationSettingsDialog({
         id: platform.id,
         metadata: {
           selectedChannels: selectedChannels,
-          period: selectedDate?.toISOString(),
+          period: new Date(
+            new Date().setDate(new Date().getDate() - 90)
+          ).toISOString(),
           analyzerStartedAt: new Date().toISOString(),
         },
       });
@@ -181,7 +189,7 @@ function TcDiscordIntegrationSettingsDialog({
         router.replace('/community-settings', {}, { shallow: true });
         setIsAnalyizingDialogOpen(true);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleDisconnectDiscordIntegration = async (
@@ -198,7 +206,10 @@ function TcDiscordIntegrationSettingsDialog({
           const updatedPlatforms = community.platforms.filter(
             (p) => p.id !== platform.id
           );
-          const updatedCommunity = { ...community, platforms: updatedPlatforms };
+          const updatedCommunity = {
+            ...community,
+            platforms: updatedPlatforms,
+          };
           updateCommunity(updatedCommunity);
         }
       }
@@ -208,32 +219,32 @@ function TcDiscordIntegrationSettingsDialog({
     }
   };
 
-  const datePickerOpen = Boolean(anchorEl);
-  const id = open ? 'date-time-popover' : undefined;
+  // const datePickerOpen = Boolean(anchorEl);
+  // const id = open ? 'date-time-popover' : undefined;
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleDateChange = (date: Date | null) => {
-    if (date) {
-      setSelectedDate(date);
-      const fullDateTime = moment(date);
-      setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
-      setAnchorEl(null);
-    }
-  };
+  // const handleDateChange = (date: Date | null) => {
+  //   if (date) {
+  //     setSelectedDate(date);
+  //     const fullDateTime = moment(date);
+  //     setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
+  //     setAnchorEl(null);
+  //   }
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
-  const resetDateFilter = () => {
-    setSelectedDate(null);
-    setDateTimeDisplay('Filter Date');
+  // const resetDateFilter = () => {
+  //   setSelectedDate(null);
+  //   setDateTimeDisplay('Filter Date');
 
-    setAnchorEl(null);
-  };
+  //   setAnchorEl(null);
+  // };
 
   return (
     <>
@@ -270,11 +281,12 @@ function TcDiscordIntegrationSettingsDialog({
             />
           </div>
           {isFetchingInitialData ? (
-            <div className='flex justify-center items-center h-96'>
-              <div className='text-center space-y-4'>
+            <div className='flex h-96 items-center justify-center'>
+              <div className='space-y-4 text-center'>
                 <CircularProgress size={54} />
                 <Typography variant='body2'>
-                  We are fetching data of your server. It may take a few minutes.
+                  We are fetching data of your server. It may take a few
+                  minutes.
                 </Typography>
               </div>
             </div>
@@ -291,7 +303,16 @@ function TcDiscordIntegrationSettingsDialog({
                   />
                 </div>
               </div>
-              <div>
+              <Alert severity='info' className='my-2 rounded-sm'>
+                <AlertTitle>Analyzing Your Community Data</AlertTitle>
+                <Typography variant='body2'>
+                  We are currently analyzing your community's data from the past
+                  90 days. This process may take up to 6 hours. Once the
+                  analysis is complete, you will receive a message on Discord.
+                </Typography>
+              </Alert>
+
+              {/* <div>
                 <TcText
                   text='Change date period for data analysis'
                   variant='subtitle1'
@@ -301,8 +322,8 @@ function TcDiscordIntegrationSettingsDialog({
                   text='Choose the analysis start date (min. last 35 days for all the metrics to show properly).'
                   variant='body2'
                 />
-              </div>
-              <div className='w-1/2'>
+              </div> */}
+              {/* <div className='w-1/2'>
                 <TcButton
                   className='w-full'
                   variant='outlined'
@@ -321,7 +342,7 @@ function TcDiscordIntegrationSettingsDialog({
                   onResetDate={resetDateFilter}
                   disableDaysFrom={30}
                 />
-              </div>
+              </div> */}
               <div className='my-2 flex flex-col md:flex-row md:items-center md:justify-between'>
                 <div>
                   <TcText
@@ -455,7 +476,7 @@ function TcDiscordIntegrationSettingsDialog({
             <TcButton
               className='w-1/3'
               text='Confirm'
-              disabled={selectedChannels?.length === 0 || !selectedDate || isFetchingInitialData}
+              disabled={selectedChannels?.length === 0 || isFetchingInitialData}
               variant='contained'
               onClick={() => handlePatchDiscordIntegrationSettings()}
             />
