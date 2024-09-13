@@ -179,7 +179,7 @@ const HeatmapChart = () => {
         break;
     }
 
-    if (!showOverlay && startDate && endDate) {
+    if (startDate && endDate) {
       setDateRange([
         transformToMidnightUTC(startDate).toString(),
         transformToMidnightUTC(endDate).toString(),
