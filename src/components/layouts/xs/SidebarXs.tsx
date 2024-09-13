@@ -9,7 +9,7 @@ type items = {
 
 import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Drawer } from '@mui/material';
+import { Avatar, Drawer } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaBars } from 'react-icons/fa';
@@ -134,19 +134,14 @@ const Sidebar = () => {
                 className='mx-auto h-10 w-10'
                 onClick={() => router.push('/centric/select-community')}
               >
-                {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
-                  <Image
+                {connectedPlatform?.metadata?.icon ? (
+                  <Avatar
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
-                    width='100'
-                    height='100'
                     alt={
                       connectedPlatform.metadata.name
                         ? connectedPlatform.metadata.name
                         : ''
                     }
-                    className='rounded-full'
                   />
                 ) : (
                   <div className='align-center flex h-10 w-10 flex-col justify-center rounded-full bg-secondary text-center text-xs' />

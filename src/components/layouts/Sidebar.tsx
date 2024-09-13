@@ -19,6 +19,7 @@ import { conf } from '../../configs/index';
 import { useToken } from '../../context/TokenContext';
 import useAppStore from '../../store/useStore';
 import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
+import { Avatar } from '@mui/material';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -121,19 +122,14 @@ const Sidebar = () => {
                 className='mx-auto mb-2 h-10 w-10 cursor-pointer'
                 onClick={() => router.push('/centric/select-community')}
               >
-                {connectedPlatform &&
-                connectedPlatform.metadata &&
-                connectedPlatform.metadata.icon ? (
-                  <Image
+                {connectedPlatform?.metadata?.icon ? (
+                  <Avatar
                     src={`${conf.DISCORD_CDN}icons/${connectedPlatform.metadata.id}/${connectedPlatform.metadata.icon}`}
-                    width='100'
-                    height='100'
                     alt={
                       connectedPlatform.metadata.name
                         ? connectedPlatform.metadata.name
                         : ''
                     }
-                    className='rounded-full'
                   />
                 ) : (
                   <div className='align-center flex h-10 w-10 flex-col justify-center rounded-full bg-secondary text-center text-xs' />
