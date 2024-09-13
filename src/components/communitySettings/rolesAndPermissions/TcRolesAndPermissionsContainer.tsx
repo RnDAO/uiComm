@@ -151,18 +151,6 @@ function TcRolesAndPermissionsContainer() {
             className='text-gray-400'
           />
         </div>
-        <TcButton
-          text={
-            isLoading ? (
-              <CircularProgress className='text-white' size={20} />
-            ) : (
-              'Save Changes'
-            )
-          }
-          variant='contained'
-          onClick={handlePermissionsChange}
-          className='min-w-[10rem]'
-        />
       </div>
       <div className='space-y-1.5 md:space-y-0'>
         <div className='py-1'>
@@ -223,6 +211,18 @@ function TcRolesAndPermissionsContainer() {
           </div>
         </div>
       </div>
+      <TcButton
+        text={
+          isLoading ? (
+            <CircularProgress className='text-white' size={20} />
+          ) : (
+            'Save Changes'
+          )
+        }
+        variant='contained'
+        onClick={handlePermissionsChange}
+        className='min-w-[10rem] mt-6'
+      />
     </div>
   );
 }

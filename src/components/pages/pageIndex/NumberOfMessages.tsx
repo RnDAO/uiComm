@@ -1,8 +1,11 @@
 import clsx from 'clsx';
 import React from 'react';
 
-function NumberOfMessages() {
-  const squareTexts = ['0+', '10+', '20+', '30+', '50+', '70+', '100+'];
+interface NumberOfMessagesProps {
+  ranges: number[];
+}
+
+function NumberOfMessages({ ranges }: NumberOfMessagesProps): JSX.Element {
   const squareColors = [
     'bg-gray-white',
     'bg-gray-light',
@@ -18,7 +21,7 @@ function NumberOfMessages() {
       <div className='flex flex-col'>
         <p className='text-base'>Number of messages </p>
         <div className='flex flex-row'>
-          {squareTexts.map((text, index) => (
+          {ranges.map((text, index) => (
             <div
               key={index}
               className={clsx(
@@ -26,7 +29,7 @@ function NumberOfMessages() {
                 index <= 3 ? 'text-black' : 'text-white'
               )}
             >
-              {text}
+              {`+${text}`}
             </div>
           ))}
         </div>

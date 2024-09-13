@@ -121,19 +121,11 @@ function TcCommunityPlatforms() {
 
   return (
     <div>
-      <div>
-        <TcText text='Platforms & Modules' variant='h6' />
-        <TcText
-          text='Configure the following by adding/removing platforms and enabling/disabling access settings within each module'
-          variant='body2'
-        />
-      </div>
-
       <Paper className='rounded-none bg-gray-100 p-4 shadow-none'>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Platforms' variant='h6' fontWeight='bold' />
           <TcText
-            text='Connect platforms to their respective modules'
+            text='Add/remove platform integrations'
             variant='body1'
           />
         </div>
@@ -235,7 +227,7 @@ function TcCommunityPlatforms() {
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Modules' variant='h6' fontWeight='bold' />
           <TcText
-            text='Manage the following modules and their access setting'
+            text='Turn on/off modules and change their settings'
             variant='body1'
           />
         </div>
