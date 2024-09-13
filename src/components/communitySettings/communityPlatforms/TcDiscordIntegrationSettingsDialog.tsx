@@ -306,9 +306,9 @@ function TcDiscordIntegrationSettingsDialog({
               <Alert severity='info' className='my-2 rounded-sm'>
                 <AlertTitle>Analyzing Your Community Data</AlertTitle>
                 <Typography variant='body2'>
-                  We are currently analyzing your community's data from the past
-                  90 days. This process may take up to 6 hours. Once the
-                  analysis is complete, you will receive a message on Discord.
+                  We're currently analyzing 90 days of your community's data.
+                  This process may take up to 6 hours. Once the analysis is
+                  complete, you will receive a message on Discord.
                 </Typography>
               </Alert>
 
