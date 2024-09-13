@@ -227,7 +227,7 @@ function TcCommunityPlatforms() {
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Modules' variant='h6' fontWeight='bold' />
           <TcText
-            text='Turn on/off the different modules and give them or remove data access to the Platforms you have integrated'
+            text='Turn on/off modules and change their settings'
             variant='body1'
           />
         </div>
