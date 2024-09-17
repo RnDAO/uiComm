@@ -8,6 +8,8 @@ import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
 import 'moment-timezone';
 
+import FilterByCategory from '@/components/global/FilterByCategory';
+
 import { ICommunityPlatfromProps } from '@/utils/interfaces';
 
 import FilterByChannels from '../../global/FilterByChannels';
@@ -45,6 +47,10 @@ const HeatmapChart = () => {
   const [platformFetched, setPlatformFetched] = useState<boolean>(false);
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
+  const [allCategories, setAllCategories] = useState<boolean>(true);
+  const [includeCategories, setIncludeCategories] = useState<string[]>([]);
+  const [excludeCategories, setExcludeCategories] = useState<string[]>([]);
+
   const defaultEndDate = moment().subtract(1, 'day');
   const defaultStartDate = moment(defaultEndDate).subtract(7, 'days');
 
@@ -62,6 +68,12 @@ const HeatmapChart = () => {
       (platform) => platform.id === selectedPlatform
     );
     setPlatform(platform);
+
+    if (platform?.name === 'discourse') {
+      setAllCategories(true);
+      setIncludeCategories([]);
+      setExcludeCategories([]);
+    }
   }, [selectedPlatform]);
 
   const fetchData = async () => {
@@ -69,7 +81,7 @@ const HeatmapChart = () => {
 
     setLoading(true);
     try {
-      if (platform) {
+      if (platform && platform.name === 'discord') {
         const data = await fetchHeatmapData(
           platform.id,
           platform.name,
@@ -80,8 +92,23 @@ const HeatmapChart = () => {
         );
 
         updateHeatmapData(data);
+      } else if (platform && platform.name === 'discourse') {
+        const data = await fetchHeatmapData(
+          platform.id,
+          platform.name,
+          dateRange[0],
+          dateRange[1],
+          selectedZone,
+          undefined,
+          allCategories,
+          includeCategories.length > 0 ? includeCategories : undefined,
+          excludeCategories.length > 0 ? excludeCategories : undefined
+        );
+
+        updateHeatmapData(data);
       }
     } catch (error) {
+      console.error('Error fetching heatmap data:', error);
     } finally {
       setLoading(false);
     }
@@ -201,6 +228,22 @@ const HeatmapChart = () => {
     }
   };
 
+  const handleFetchHeatmapByCategories = (payload: {
+    includeExclude: string;
+    selectedCategoryIds: string[];
+    allCategories: boolean;
+  }) => {
+    setAllCategories(payload.allCategories);
+
+    if (payload.includeExclude === 'include') {
+      setIncludeCategories(payload.selectedCategoryIds);
+      setExcludeCategories([]);
+    } else {
+      setExcludeCategories(payload.selectedCategoryIds);
+      setIncludeCategories([]);
+    }
+  };
+
   const fetchPlatformChannels = async () => {
     try {
       if (platform) {
@@ -215,7 +258,7 @@ const HeatmapChart = () => {
         setPlatformFetched(true);
       }
     } catch (error) {
-    } finally {
+      console.error('Error fetching platform channels:', error);
     }
   };
 
@@ -224,7 +267,16 @@ const HeatmapChart = () => {
       return;
     }
     fetchData();
-  }, [dateRange, selectedZone, platform, platformFetched, selectedPlatform]);
+  }, [
+    dateRange,
+    selectedZone,
+    platform,
+    platformFetched,
+    selectedPlatform,
+    allCategories,
+    includeCategories,
+    excludeCategories,
+  ]);
 
   return (
     <div className='min-h-[400px] rounded-lg bg-white p-5 shadow-box'>
@@ -261,11 +313,21 @@ const HeatmapChart = () => {
                   handleSelectedZone={handleSelectedZone}
                 />
               </div>
-              <div className='flex flex-wrap'>
-                <FilterByChannels
-                  handleFetchHeatmapByChannels={handleFetchHeatmapByChannels}
-                />
-              </div>
+              {platform?.name === 'discord' ? (
+                <div className='flex flex-wrap'>
+                  <FilterByChannels
+                    handleFetchHeatmapByChannels={handleFetchHeatmapByChannels}
+                  />
+                </div>
+              ) : (
+                <div className='flex flex-wrap'>
+                  <FilterByCategory
+                    handleFetchHeatmapByCategories={
+                      handleFetchHeatmapByCategories
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className='relative'>

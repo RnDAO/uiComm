@@ -18,7 +18,10 @@ export default interface ICharts {
     startDate: string,
     endDate: string,
     timeZone: string,
-    channelIds?: string[]
+    channelIds?: string[],
+    allCategories?: boolean,
+    includeCategories?: string[],
+    excludeCategories?: string[]
   ) => any;
   fetchInteractions: (
     platformId: string,

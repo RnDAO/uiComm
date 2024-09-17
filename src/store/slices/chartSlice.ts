@@ -23,7 +23,10 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
     startDate: string,
     endDate: string,
     timeZone: string,
-    channelIds?: string[]
+    channelIds?: string[],
+    allCategories?: boolean,
+    includeCategories?: string[],
+    excludeCategories?: string[]
   ) => {
     try {
       const endpoint =
@@ -43,10 +46,24 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
         payload.channelIds = channelIds;
       }
 
+      if (platformType === 'discourse') {
+        payload.allCategories = allCategories ?? false;
+
+        if (includeCategories && includeCategories.length > 0) {
+          payload.include = includeCategories;
+        }
+
+        if (excludeCategories && excludeCategories.length > 0) {
+          payload.exclude = excludeCategories;
+        }
+      }
+
       const { data } = await axiosInstance.post(endpoint, payload);
       set({ heatmapRecords: [...data], isLoading: false });
+
       return data;
     } catch (error) {
+      console.error('Error fetching heatmap data:', error);
       set(() => ({ isLoading: false }));
     }
   },
