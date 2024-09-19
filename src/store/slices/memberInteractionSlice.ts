@@ -6,12 +6,17 @@ import { axiosInstance } from '../../axiosInstance';
 const createHeatmapSlice: StateCreator<IMemberInteraction> = (set, get) => ({
   isLoading: false,
   memberInteractionRecords: [],
-  getMemberInteraction: async (platformId: string) => {
+  getMemberInteraction: async (
+    platformId: string,
+    platformType: 'discord' | 'discourse'
+  ) => {
     try {
+      const endpoint =
+        platformType === 'discourse'
+          ? `/discourse/member-activity/${platformId}/members-interactions-network-graph`
+          : `/member-activity/${platformId}/members-interactions-network-graph`;
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.post(
-        `/member-activity/${platformId}/members-interactions-network-graph`
-      );
+      const { data } = await axiosInstance.post(endpoint);
       set({ memberInteractionRecords: [...data], isLoading: false });
       return data;
     } catch (error) {
