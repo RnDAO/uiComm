@@ -20,7 +20,7 @@ import TcText from '../../shared/TcText';
 import { conf } from '../../../configs';
 import { useToken } from '../../../context/TokenContext';
 import useAppStore from '../../../store/useStore';
-import { ICommunityDiscordPlatfromProps } from '../../../utils/interfaces';
+import { ICommunityPlatfromProps } from '../../../utils/interfaces';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const Sidebar = () => {
   );
 
   const [connectedPlatform, setConnectedPlatform] =
-    useState<ICommunityDiscordPlatfromProps | null>(null);
+    useState<ICommunityPlatfromProps | null>(null);
 
   useEffect(() => {
     const storedCommunity = community;

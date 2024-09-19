@@ -10,7 +10,6 @@ import HintBox from '../components/pages/memberInteraction/HintBox';
 import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
-import { IUser } from '../utils/types';
 import { withRoles } from '../utils/withRoles';
 
 const ForceGraphComponent = dynamic(
@@ -50,7 +49,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
       ngu: from.ngu,
       roles: from.roles,
       radius: from.radius,
-      discordId: from.discordId,
+      discordId: from.id,
       avatar: from.avatar,
     };
     const targetNode = {
@@ -67,7 +66,7 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
       ngu: to.ngu,
       roles: to.roles,
       radius: to.radius,
-      discordId: to.discordId,
+      discordId: to.id,
       avatar: to.avatar,
     };
     const link = { source: from.id, target: to.id, width };
@@ -89,14 +88,13 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
 };
 
 function MembersInteraction() {
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
 
   const [nodes, setNodes] = useState<any[]>([]);
   const [links, setLinks] = useState<any[]>([]);
 
   const [nodeSizes, setNodeSizes] = useState<number[]>([]);
 
-  const [user, setUser] = useState<IUser | undefined>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<null | HTMLElement>(
     null
   );
@@ -104,21 +102,22 @@ function MembersInteraction() {
   const { getMemberInteraction, isLoading } = useAppStore();
 
   useEffect(() => {
-    const platformId = community?.platforms.find(
-      (platform) =>
-        platform.disconnectedAt === null && platform.name === 'discord'
-    )?.id;
+    const platform = community?.platforms.find(
+      (platform) => platform.id === selectedPlatform
+    );
 
-    if (platformId) {
-      getMemberInteraction(platformId).then((apiResponse: any[]) => {
-        const { nodes, links } = transformApiResponseToMockData(apiResponse);
-        const nodeSizes = nodes.map((node) => node.size);
-        setNodes(nodes);
-        setLinks(links);
-        setNodeSizes(nodeSizes);
-      });
+    if (platform) {
+      getMemberInteraction(selectedPlatform, platform.name).then(
+        (apiResponse: any[]) => {
+          const { nodes, links } = transformApiResponseToMockData(apiResponse);
+          const nodeSizes = nodes.map((node) => node.size);
+          setNodes(nodes);
+          setLinks(links);
+          setNodeSizes(nodeSizes);
+        }
+      );
     }
-  }, []);
+  }, [selectedPlatform]);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setPopoverAnchorEl(event.currentTarget);
@@ -156,12 +155,17 @@ function MembersInteraction() {
           </h3>
           <p>Data from the last 7 days</p>
           <div className='flex flex-col md:flex-row md:items-start md:space-x-5'>
-            <div className='items-center justify-center overflow-hidden lg:w-11/12 bg-gray-hover border border-gray-150 rounded-lg shadow-sm'>
+            <div className='border-gray-150 items-center justify-center overflow-hidden rounded-lg border bg-gray-hover shadow-sm lg:w-11/12'>
               <ForceGraphComponent
                 nodes={nodes}
                 links={links}
                 nodeRelSize={nodeSizes}
                 numberOfnodes={nodes.length}
+                platformType={
+                  community?.platforms.find(
+                    (platform) => platform.id === selectedPlatform
+                  )?.name
+                }
               />
             </div>
             <div className='hidden justify-end md:flex md:w-1/2  lg:flex-1'>

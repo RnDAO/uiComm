@@ -69,7 +69,7 @@ function TcPrompt() {
       sx={{
         position: 'sticky',
         top: 0,
-        zIndex: 999,
+        zIndex: 9999999,
         '&:MuiPaper-root': {
           display: 'flex',
           justifyContent: 'center',

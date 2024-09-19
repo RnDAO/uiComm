@@ -1,19 +1,25 @@
+import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
+import clsx from 'clsx';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
+
+import { communityActiveDates } from '@/lib/data/dateRangeValues';
+
+import LineGraph from '@/components/global/LineGraph';
+import Loading from '@/components/global/Loading';
+import RangeSelect from '@/components/global/RangeSelect';
+
+import useAppStore from '@/store/useStore';
+
+import { SeriesData, StatisticsProps } from '@/utils/interfaces';
 
 import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
 import StatisticalData from './StatisticalData';
-import LineGraph from '../../global/LineGraph';
-import Loading from '../../global/Loading';
-import RangeSelect from '../../global/RangeSelect';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import useAppStore from '../../../store/useStore';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
-import { Alert, AlertTitle, Typography, IconButton } from '@mui/material';
-import { FaTelegram, FaDiscord, FaEnvelope, FaXTwitter } from 'react-icons/fa6';
 
 export interface DisengagedMembersComposition {
+  platformType: 'discord' | 'discourse';
   activePeriod: number;
   handleDateRange: (range: number) => void;
 }
@@ -61,6 +67,7 @@ const defaultOptions = {
 };
 
 export default function DisengagedMembersComposition({
+  platformType,
   activePeriod,
   handleDateRange,
 }: DisengagedMembersComposition) {
@@ -268,7 +275,28 @@ export default function DisengagedMembersComposition({
         />
       </div>
 
-      <DisengagedMembersCompositionBreakdown />
+      <div className='relative'>
+        <div
+          className={clsx(
+            platformType === 'discourse' ? 'rounded-xl p-4 blur-sm' : ''
+          )}
+        >
+          <DisengagedMembersCompositionBreakdown />
+        </div>
+
+        {platformType === 'discourse' && (
+          <div className='absolute inset-0 flex items-center justify-center bg-white bg-opacity-75'>
+            <div className='rounded-lg border border-gray-300 bg-gray-50 p-4 text-center shadow-md'>
+              <h2 className='text-xl font-semibold text-gray-700'>
+                Coming Soon
+              </h2>
+              <p className='text-gray-500'>
+                Member breakdown will be available for <b>Discourse</b> soon.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className='w-full'>
         <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>

@@ -16,10 +16,12 @@ import { IToken } from '../utils/types';
 type TokenContextType = {
   token: IToken | null;
   community: IDiscordModifiedCommunity | null;
+  selectedPlatform: string;
   updateToken: (newToken: IToken) => void;
   updateCommunity: (newCommunity: IDiscordModifiedCommunity) => void;
   deleteCommunity: () => void;
   clearToken: () => void;
+  handleSwitchPlatform: (platformId: string) => void;
 };
 
 export const TokenContext = createContext<TokenContextType | null>(null);
@@ -30,6 +32,7 @@ type TokenProviderProps = {
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
   const { retrieveCommunityById, getUserCommunityRole } = useAppStore();
+  const [selectedPlatform, setSelectedPlatform] = useState<string>('');
   const [token, setToken] = useState<IToken | null>(null);
   const [community, setCommunity] = useState<IDiscordModifiedCommunity | null>(
     null
@@ -139,15 +142,22 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     setToken(null);
   };
 
+  const handleSwitchPlatform = (platformId: string) => {
+    setSelectedPlatform(platformId);
+    StorageService.writeLocalStorage('SELECTED_PLATFORM', platformId);
+  };
+
   return (
     <TokenContext.Provider
       value={{
         token,
         community,
+        selectedPlatform,
         updateToken,
         updateCommunity,
         deleteCommunity,
         clearToken,
+        handleSwitchPlatform,
       }}
     >
       <SnackbarProvider>{children}</SnackbarProvider>
