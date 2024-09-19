@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import {
   Alert,
   Box,
@@ -190,7 +191,10 @@ const FilterByCategory = ({
               open={false}
               value={selectedCategories}
               onChange={(event, newValue) => {
-                setSelectedCategories(newValue);
+                const filteredCategories = newValue.filter(
+                  (value): value is ICategory => typeof value !== 'string'
+                );
+                setSelectedCategories(filteredCategories);
               }}
               onInputChange={(event, value) => {
                 setSearchQuery(value);
@@ -258,7 +262,7 @@ const FilterByCategory = ({
             className='mt-3 max-h-[300px] overflow-y-auto rounded-lg border border-gray-300'
             onScroll={handleScroll}
           >
-            {initialLoading ? ( // Only show the spinner on the first load
+            {initialLoading ? (
               <Box className='flex justify-center py-8'>
                 <CircularProgress size={42} />
               </Box>
