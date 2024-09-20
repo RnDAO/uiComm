@@ -191,14 +191,10 @@ const FilterByCategory = ({
               open={false}
               value={selectedCategories}
               onChange={(event, newValue) => {
-<<<<<<< HEAD
                 const filteredCategories = newValue.filter(
                   (value): value is ICategory => typeof value !== 'string'
                 );
                 setSelectedCategories(filteredCategories);
-=======
-                setSelectedCategories(newValue);
->>>>>>> 92e7f4b (integrate filters on category for heatmap chart)
               }}
               onInputChange={(event, value) => {
                 setSearchQuery(value);
@@ -266,11 +262,7 @@ const FilterByCategory = ({
             className='mt-3 max-h-[300px] overflow-y-auto rounded-lg border border-gray-300'
             onScroll={handleScroll}
           >
-<<<<<<< HEAD
             {initialLoading ? (
-=======
-            {initialLoading ? ( // Only show the spinner on the first load
->>>>>>> 92e7f4b (integrate filters on category for heatmap chart)
               <Box className='flex justify-center py-8'>
                 <CircularProgress size={42} />
               </Box>
