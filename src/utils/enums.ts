@@ -4,8 +4,8 @@ export enum IntegrationPlatform {
   Github = 'Github',
   Notion = 'Notion',
   MediaWiki = 'MediaWiki',
-  Twitter = 'Twitter',
   Discourse = 'Discourse',
+  Twitter = 'Twitter',
   Telegram = 'Telegram',
   Snapshot = 'Snapshot',
 }

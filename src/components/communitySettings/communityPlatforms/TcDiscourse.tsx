@@ -1,53 +1,76 @@
-import { CircularProgress, FormControl, Paper, TextField } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  CircularProgress,
+  FormControl,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
+import moment from 'moment';
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
 import { MdDelete } from 'react-icons/md';
 
-import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
-import TcAvatar from '../../shared/TcAvatar';
-import TcButton from '../../shared/TcButton';
-import TcDialog from '../../shared/TcDialog';
-import TcText from '../../shared/TcText';
-import { useSnackbar } from '../../../context/SnackbarContext';
-import { truncateCenter } from '../../../helpers/helper';
-import { StorageService } from '../../../services/StorageService';
-import useAppStore from '../../../store/useStore';
-import {
-  IDiscordModifiedCommunity,
-  IPlatformProps,
-} from '../../../utils/interfaces';
+import TcAvatar from '@/components/shared/TcAvatar';
+import TcButton from '@/components/shared/TcButton';
+import TcDialog from '@/components/shared/TcDialog';
+import TcText from '@/components/shared/TcText';
 
-interface TcMediaWikiProps {
+import useAppStore from '@/store/useStore';
+
+import { useSnackbar } from '@/context/SnackbarContext';
+import { useToken } from '@/context/TokenContext';
+import { truncateCenter } from '@/helpers/helper';
+import { IPlatformProps } from '@/utils/interfaces';
+
+import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
+
+interface TcDiscourseProps {
   isLoading: boolean;
   connectedPlatforms: IPlatformProps[];
   handleUpdateCommunityPlatform: () => void;
 }
 
-function TcMediaWiki({
+function TcDiscourse({
   isLoading,
   connectedPlatforms,
   handleUpdateCommunityPlatform,
-}: TcMediaWikiProps) {
+}: TcDiscourseProps) {
   const { createNewPlatform, deletePlatform } = useAppStore();
   const [activePlatform, setActivePlatform] = useState<IPlatformProps | null>(
     null
   );
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [url, setUrl] = useState<string>('');
   const [urlError, setUrlError] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
   const { showMessage } = useSnackbar();
 
-  const communityId =
-    StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
+  const { community } = useToken();
 
-  const handleOpenDialog = (platform: IPlatformProps | null = null) => {
-    setActivePlatform(platform);
-    setUrl(platform?.metadata?.baseURL || '');
-    setIsOpen(true);
+  const handleCreateNewPlatform = async () => {
+    const data = await createNewPlatform({
+      community: community?.id,
+      name: 'discourse',
+      metadata: {
+        id: url.replaceAll('https://', '').replaceAll('http://', ''),
+        period: new Date(
+          new Date().setDate(new Date().getDate() - 90)
+        ).toISOString(),
+        analyzerStartedAt: new Date().toISOString(),
+        resources: [],
+      },
+    });
+    if (data) {
+      handleUpdateCommunityPlatform();
+      setIsOpen(false);
+      setUrl('');
+      showMessage('Platform connected successfully.', 'success');
+    }
   };
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,21 +88,10 @@ function TcMediaWiki({
     }
   };
 
-  const handleCreateNewPlatform = async () => {
-    const data = await createNewPlatform({
-      community: communityId,
-      name: 'mediaWiki',
-      metadata: {
-        baseURL: url,
-        path: '/w/api.php',
-      },
-    });
-    if (data) {
-      handleUpdateCommunityPlatform();
-      setIsOpen(false);
-      setUrl('');
-      showMessage('Platform connected successfully.', 'success');
-    }
+  const handleOpenDialog = (platform: IPlatformProps | null = null) => {
+    setActivePlatform(platform);
+    setUrl(platform?.metadata?.id || '');
+    setIsOpen(true);
   };
 
   const handleDisconnectPlatform = async (deleteType: 'hard' | 'soft') => {
@@ -101,7 +113,7 @@ function TcMediaWiki({
     <div className='flex items-center space-x-3 rounded-sm bg-secondary bg-opacity-5 p-5'>
       <Paper className='flex h-[6rem] w-[10rem] flex-col items-center justify-center rounded-sm py-2 shadow-none'>
         <span className='mx-auto'>
-          <TcCommunityPlatformIcon platform='MediaWiki' />
+          <TcCommunityPlatformIcon platform='Discourse' />
         </span>
         <div className='mx-auto w-10/12 text-center'>
           <TcButton
@@ -117,15 +129,15 @@ function TcMediaWiki({
         <CircularProgress size={30} />
       ) : (
         connectedPlatforms &&
-        connectedPlatforms[0]?.name === 'mediaWiki' &&
+        connectedPlatforms[0]?.name === 'discourse' &&
         connectedPlatforms.map((platform, index) => (
           <Paper
             className='flex h-[6rem] w-[10rem] flex-col items-center justify-center space-y-1.5 overflow-hidden rounded-sm py-2 shadow-none'
             key={index}
           >
-            <TcAvatar sizes='small'>W</TcAvatar>
+            <TcAvatar sizes='small' src={platform?.metadata?.icon} />
             <TcButton
-              text={truncateCenter(platform?.metadata?.baseURL, 14)}
+              text={truncateCenter(platform?.metadata?.id, 14)}
               className='w-10/12'
               variant='text'
               color='primary'
@@ -158,10 +170,10 @@ function TcMediaWiki({
           </div>
           <div className='space-y-3 p-4'>
             <div className='flex flex-col md:flex-row md:items-center md:space-x-3'>
-              <TcCommunityPlatformIcon platform='MediaWiki' />
+              <TcCommunityPlatformIcon platform='Discourse' />
               <div>
                 <TcText
-                  text='MediaWiki Account Profile'
+                  text='Discourse Account Profile'
                   variant='h6'
                   fontWeight='bold'
                 />
@@ -169,16 +181,29 @@ function TcMediaWiki({
             </div>
             {activePlatform ? (
               <>
-                <div className='flex items-center space-x-3'>
-                  <TcText
-                    text='MediaWiki URL:'
-                    variant='body1'
-                    fontWeight='bold'
-                  />
-                  <TcText
-                    text={`${activePlatform.metadata.baseURL}`}
-                    variant='body1'
-                  />
+                <div className='flex flex-col space-y-3 px-1'>
+                  <div className='flex items-center space-x-3'>
+                    <TcText
+                      text='Discourse URL:'
+                      variant='body1'
+                      fontWeight='bold'
+                    />
+                    <TcText
+                      text={`${activePlatform.metadata.id}`}
+                      variant='body1'
+                    />
+                  </div>
+                  <div className='flex items-center space-x-3'>
+                    <TcText
+                      text='Analyzer started at:'
+                      variant='body1'
+                      fontWeight='bold'
+                    />
+                    <TcText
+                      text={`${moment(activePlatform.metadata.analyzerStartedAt).format('DD MMM YYYY HH:mm')}`}
+                      variant='body1'
+                    />
+                  </div>
                 </div>
                 <div className='flex items-center justify-between'>
                   <TcButton
@@ -194,20 +219,31 @@ function TcMediaWiki({
                 </div>
               </>
             ) : (
-              <FormControl variant='filled' fullWidth size='medium'>
-                <TextField
-                  label='MediaWiki URL'
-                  variant='filled'
-                  placeholder='https://example.org'
-                  value={url}
-                  onChange={handleUrlChange}
-                  error={!!urlError}
-                  helperText={
-                    urlError ||
-                    'The base URL of your wiki, for example https://example.org'
-                  }
-                />
-              </FormControl>
+              <>
+                <Alert severity='info' className='my-2 rounded-sm'>
+                  <AlertTitle>Analyzing Your Community Data</AlertTitle>
+                  <Typography variant='body2'>
+                    We're currently analyzing 90 days of your community's data.
+                    This process may take up to 6 hours. Once the analysis is
+                    complete, you will receive a message on Discord.
+                  </Typography>
+                </Alert>
+                <FormControl variant='filled' fullWidth size='medium'>
+                  <TextField
+                    label='Discourse URL'
+                    variant='filled'
+                    placeholder='example.org'
+                    autoComplete='off'
+                    value={url}
+                    onChange={handleUrlChange}
+                    error={!!urlError}
+                    helperText={
+                      urlError ||
+                      'The base URL of your discourse, for example https://example.org'
+                    }
+                  />
+                </FormControl>
+              </>
             )}
           </div>
           {!activePlatform && (
@@ -221,7 +257,6 @@ function TcMediaWiki({
               <TcButton
                 className='w-1/3'
                 text='Confirm'
-                disabled={!!urlError || url === ''}
                 variant='contained'
                 onClick={handleCreateNewPlatform}
               />
@@ -307,4 +342,4 @@ function TcMediaWiki({
   );
 }
 
-export default TcMediaWiki;
+export default TcDiscourse;
