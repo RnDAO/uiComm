@@ -68,8 +68,9 @@ function Index() {
       setViolationModules(results);
 
       if (results.length > 0) {
+        if (results[0]?.options?.platforms.length === 0) return;
         setEmails(
-          results[0].options.platforms[0].metadata.selectedEmails || []
+          results[0]?.options?.platforms[0]?.metadata?.selectedEmails || []
         );
 
         const hasActiveModerators =

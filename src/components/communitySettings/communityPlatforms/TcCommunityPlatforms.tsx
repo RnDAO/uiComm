@@ -96,8 +96,6 @@ function TcCommunityPlatforms() {
   };
 
   useEffect(() => {
-    console.log({ activeTab });
-
     fetchPlatformsByType();
   }, [activeTab]);
 

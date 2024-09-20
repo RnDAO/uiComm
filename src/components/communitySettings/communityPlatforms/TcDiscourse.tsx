@@ -1,4 +1,12 @@
-import { CircularProgress, FormControl, Paper, TextField } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  CircularProgress,
+  FormControl,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -50,12 +58,10 @@ function TcDiscourse({
       name: 'discourse',
       metadata: {
         id: url.replaceAll('https://', '').replaceAll('http://', ''),
-        period: community?.platforms.filter(
-          (platform) => platform.name === 'discourse'
-        )[0]?.metadata?.period,
-        analyzerStartedAt: community?.platforms.filter(
-          (platform) => platform.name === 'discourse'
-        )[0]?.metadata?.analyzerStartedAt,
+        period: new Date(
+          new Date().setDate(new Date().getDate() - 90)
+        ).toISOString(),
+        analyzerStartedAt: new Date().toISOString(),
         resources: [],
       },
     });
@@ -213,21 +219,31 @@ function TcDiscourse({
                 </div>
               </>
             ) : (
-              <FormControl variant='filled' fullWidth size='medium'>
-                <TextField
-                  label='Discourse URL'
-                  variant='filled'
-                  placeholder='example.org'
-                  autoComplete='off'
-                  value={url}
-                  onChange={handleUrlChange}
-                  error={!!urlError}
-                  helperText={
-                    urlError ||
-                    'The base URL of your discourse, for example https://example.org'
-                  }
-                />
-              </FormControl>
+              <>
+                <Alert severity='info' className='my-2 rounded-sm'>
+                  <AlertTitle>Analyzing Your Community Data</AlertTitle>
+                  <Typography variant='body2'>
+                    We're currently analyzing 90 days of your community's data.
+                    This process may take up to 6 hours. Once the analysis is
+                    complete, you will receive a message on Discord.
+                  </Typography>
+                </Alert>
+                <FormControl variant='filled' fullWidth size='medium'>
+                  <TextField
+                    label='Discourse URL'
+                    variant='filled'
+                    placeholder='example.org'
+                    autoComplete='off'
+                    value={url}
+                    onChange={handleUrlChange}
+                    error={!!urlError}
+                    helperText={
+                      urlError ||
+                      'The base URL of your discourse, for example https://example.org'
+                    }
+                  />
+                </FormControl>
+              </>
             )}
           </div>
           {!activePlatform && (

@@ -4,6 +4,7 @@ type items = {
   name: string;
   path: string;
   icon: any;
+  isVisible?: boolean;
 };
 
 import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +25,8 @@ import useAppStore from '../../store/useStore';
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
+  const [isDiscourse, setIsDiscourse] = useState<boolean>(false);
 
   const userPermissions = useAppStore(
     (state) => state.userRolePermissions || []
@@ -45,6 +47,18 @@ const Sidebar = () => {
       setConnectedPlatform(foundPlatform ?? null);
     }
   }, [community]);
+
+  useEffect(() => {
+    const discoursePlatformId = community?.platforms?.find((platform) => {
+      return platform.name === 'discourse' && platform.disconnectedAt === null;
+    })?.id;
+    
+    if (discoursePlatformId && selectedPlatform) {
+      setIsDiscourse(selectedPlatform === discoursePlatformId);
+    } else {
+      setIsDiscourse(false);
+    }
+  }, [community, selectedPlatform]);
 
   let menuItems: items[] = [
     {
@@ -93,6 +107,10 @@ const Sidebar = () => {
         item.name !== 'Community Settings' &&
         item.name !== 'Smart Announcements'
     );
+  }
+
+  if (isDiscourse) {
+    menuItems = menuItems.filter((item) => item.name !== 'Smart Announcements');
   }
 
   const menuItem = menuItems.map((el) => (
