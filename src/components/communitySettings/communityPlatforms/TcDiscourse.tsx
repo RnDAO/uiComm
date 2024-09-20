@@ -1,8 +1,10 @@
 import { CircularProgress, FormControl, Paper, TextField } from '@mui/material';
 import moment from 'moment';
 import React, { useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
+import { MdDelete } from 'react-icons/md';
 
 import TcAvatar from '@/components/shared/TcAvatar';
 import TcButton from '@/components/shared/TcButton';
@@ -17,8 +19,6 @@ import { truncateCenter } from '@/helpers/helper';
 import { IPlatformProps } from '@/utils/interfaces';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
-import { AiOutlineClose } from 'react-icons/ai';
-import { MdDelete } from 'react-icons/md';
 
 interface TcDiscourseProps {
   isLoading: boolean;

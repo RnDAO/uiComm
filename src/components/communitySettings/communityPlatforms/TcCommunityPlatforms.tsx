@@ -231,9 +231,7 @@ function TcCommunityPlatforms() {
               <TcDiscourse
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
-                handleUpdateCommunityPlatform={function (): void {
-                  throw new Error('Function not implemented.');
-                }}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
               />
             </TabPanel>
           )}
