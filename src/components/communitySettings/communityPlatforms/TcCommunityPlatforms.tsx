@@ -55,6 +55,10 @@ function TcCommunityPlatforms() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [hivemindManageIsLoading, setHivemindManageIsLoading] =
     useState<boolean>(false);
+  const [
+    violationDetectionManageIsLoading,
+    setViolationDetectionManageIsLoading,
+  ] = useState<boolean>(false);
   const router = useRouter();
 
   const communityId =
@@ -116,6 +120,31 @@ function TcCommunityPlatforms() {
       console.log('error', error);
     } finally {
       setHivemindManageIsLoading(false);
+    }
+  };
+
+  const handleViolationDetectionModule = async () => {
+    try {
+      setViolationDetectionManageIsLoading(true);
+      const hivemindModules = await retrieveModules({
+        community: communityId,
+        name: 'violationDetection',
+      });
+
+      if (hivemindModules.results.length > 0) {
+        router.push('/community-settings/violation-detection');
+      } else {
+        await createModule({
+          name: 'violationDetection',
+          community: communityId,
+        });
+        router.push('/community-settings/violation-detection');
+      }
+      setViolationDetectionManageIsLoading(false);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setViolationDetectionManageIsLoading(false);
     }
   };
 
@@ -246,25 +275,50 @@ function TcCommunityPlatforms() {
           />
         </div>
 
-        <TcCard
-          className='min-h-[6rem] max-w-[10rem]'
-          children={
-            <div className='flex flex-col items-center justify-center space-y-2 py-4'>
-              <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
-              <TcButton
-                text={
-                  hivemindManageIsLoading ? (
-                    <CircularProgress size={20} />
-                  ) : (
-                    'Manage'
-                  )
-                }
-                variant='text'
-                onClick={() => handleManageHivemindModule()}
-              />
-            </div>
-          }
-        />
+        <div className='flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4'>
+          <TcCard
+            className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
+                <TcButton
+                  text={
+                    hivemindManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleManageHivemindModule()}
+                />
+              </div>
+            }
+          />
+          <TcCard
+            className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText
+                  text='Violation Detection'
+                  variant='subtitle1'
+                  fontWeight='bold'
+                />
+                <TcButton
+                  text={
+                    violationDetectionManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleViolationDetectionModule()}
+                />
+              </div>
+            }
+          />
+        </div>
       </div>
     </div>
   );
