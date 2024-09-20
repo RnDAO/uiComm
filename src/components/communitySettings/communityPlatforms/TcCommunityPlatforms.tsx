@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
+import TcDiscourse from './TcDiscourse';
 import TcGdriveIntegration from './TcGdriveIntegration';
 import TcGithubIntegration from './TcGithubIntegration';
 import TcMediaWiki from './TcMediaWiki';
@@ -66,11 +67,12 @@ function TcCommunityPlatforms() {
       'github',
       'notion',
       'mediaWiki',
+      'discourse',
     ];
+
     const platformName = platformNames[activeTab];
 
     if (!platformName) {
-      console.log('Unexpected tab index');
       return;
     }
 
@@ -90,6 +92,8 @@ function TcCommunityPlatforms() {
   };
 
   useEffect(() => {
+    console.log({ activeTab });
+
     fetchPlatformsByType();
   }, [activeTab]);
 
@@ -124,10 +128,7 @@ function TcCommunityPlatforms() {
       <Paper className='rounded-none bg-gray-100 p-4 shadow-none'>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Platforms' variant='h6' fontWeight='bold' />
-          <TcText
-            text='Add/remove platform integrations'
-            variant='body1'
-          />
+          <TcText text='Add/remove platform integrations' variant='body1' />
         </div>
         <Box>
           <Tabs
@@ -143,11 +144,12 @@ function TcCommunityPlatforms() {
                   activeTab === index
                     ? 'bg-secondary/80 text-white'
                     : ![
-                      'Discord',
-                      'Github',
-                      'Notion',
-                      'MediaWiki',
-                    ].includes(platform)
+                          'Discord',
+                          'Discourse',
+                          'Github',
+                          'Notion',
+                          'MediaWiki',
+                        ].includes(platform)
                       ? 'bg-white'
                       : 'bg-white text-black'
                 )}
@@ -156,16 +158,19 @@ function TcCommunityPlatforms() {
                   <div className='flex flex-col items-center space-x-2'>
                     <TcCommunityPlatformIcon platform={platform} />
                     <TcText text={platform} variant='body2' />
-                    {
-                      platform === "GDrive" && (
-                        <TcText variant='caption' className='text-gray-300' text="Coming soon" />
-                      )
-                    }
+                    {platform === 'GDrive' && (
+                      <TcText
+                        variant='caption'
+                        className='text-gray-300'
+                        text='Coming soon'
+                      />
+                    )}
                   </div>
                 }
                 disabled={
                   ![
                     'Discord',
+                    'Discourse',
                     'Github',
                     'Notion',
                     'MediaWiki',
@@ -218,6 +223,17 @@ function TcCommunityPlatforms() {
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
                 handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
+              />
+            </TabPanel>
+          )}
+          {activeTab === 5 && (
+            <TabPanel value={activeTab} index={5}>
+              <TcDiscourse
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatform={function (): void {
+                  throw new Error('Function not implemented.');
+                }}
               />
             </TabPanel>
           )}
