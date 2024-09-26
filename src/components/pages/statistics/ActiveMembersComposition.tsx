@@ -289,28 +289,7 @@ export default function ActiveMembersComposition({
         />
       </div>
 
-      <div className='relative'>
-        <div
-          className={clsx(
-            platformType === 'discourse' ? 'rounded-xl p-4 blur-sm' : ''
-          )}
-        >
-          <ActiveMemberBreakdown />
-        </div>
-
-        {platformType === 'discourse' && (
-          <div className='absolute inset-0 flex items-center justify-center bg-white bg-opacity-75'>
-            <div className='rounded-lg border border-gray-300 bg-gray-50 p-4 text-center shadow-md'>
-              <h2 className='text-xl font-semibold text-gray-700'>
-                Coming Soon
-              </h2>
-              <p className='text-gray-500'>
-                Member breakdown will be available for <b>Discourse</b> soon.
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+      <ActiveMemberBreakdown platformType={platformType} />
 
       <div className='w-full'>
         <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>

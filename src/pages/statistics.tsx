@@ -302,7 +302,13 @@ const Statistics = () => {
     setInactiveMembersDate(dateRangeType);
   };
 
-  if (!community || community?.platforms?.length === 0) {
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
     return (
       <>
         <SEO />
@@ -310,7 +316,7 @@ const Statistics = () => {
       </>
     );
   }
-
+  
   if (loading) {
     return <SimpleBackdrop />;
   }

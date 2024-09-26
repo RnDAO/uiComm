@@ -8,8 +8,9 @@ export default interface IBreakdown {
   roles: any[];
   getActiveMemberCompositionTable: (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     activityComposition: string[],
-    roles: IRolesPayload,
+    roles?: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -17,8 +18,9 @@ export default interface IBreakdown {
   ) => any;
   getOnboardingMemberCompositionTable: (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     activityComposition: string[],
-    roles: IRolesPayload,
+    roles?: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
@@ -26,8 +28,9 @@ export default interface IBreakdown {
   ) => any;
   getDisengagedMembersCompositionTable: (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     activityComposition: string[],
-    roles: IRolesPayload,
+    roles?: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,

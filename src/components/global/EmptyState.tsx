@@ -27,7 +27,7 @@ export default function EmptyState({
         onClick={() => {
           router.push('/community-settings');
         }}
-        className='mx-auto py-2 md:w-1/5'
+        className='mx-auto py-2 md:w-2/5'
       />
     </div>
   );

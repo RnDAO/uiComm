@@ -339,7 +339,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       </div>
                     </Popover>
                   </>
-                ) : column.id === 'joinedAt' ? (
+                ) : column.id === 'joinedAt' || column.id === 'joined_at' ? (
                   <>
                     <Button
                       onClick={handleOpenJoinedAtPopup}
@@ -463,9 +463,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           <div className='flex items-center space-x-4'>
                             <Avatar
                               src={
-                                row.discordId && row?.avatar
+                                row.discordId
                                   ? `${conf.DISCORD_CDN}avatars/${row.discordId}/${row?.avatar}.png`
-                                  : ''
+                                  : row.avatar
                               }
                               alt='User Avatar'
                             />
@@ -650,8 +650,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               </div>
                             )}
                           </div>
-                        ) : column.id === 'joinedAt' ? (
-                          formatDate(row.joinedAt)
+                        ) : column.id === 'joinedAt' ||
+                          column.id === 'joined_at' ? (
+                          formatDate(row.joinedAt ?? row.joined_at)
                         ) : (
                           row[column.id]
                         )}

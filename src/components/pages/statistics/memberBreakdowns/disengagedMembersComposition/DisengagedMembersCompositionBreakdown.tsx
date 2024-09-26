@@ -19,11 +19,17 @@ import {
 } from '../../../../../utils/interfaces';
 import TcButton from '../../../../shared/TcButton';
 
-const columns: Column[] = [
+const discordMemberBreakdownTableColumns: Column[] = [
   { id: 'username', label: 'Name' },
   { id: 'roles', label: 'Roles' },
   { id: 'activityComposition', label: 'Activity composition' },
   { id: 'joinedAt', label: 'DAO member since' },
+];
+
+const discourseMemberBreakdownTableColumns: Column[] = [
+  { id: 'username', label: 'Name' },
+  { id: 'activityComposition', label: 'Activity composition' },
+  { id: 'joined_at', label: 'DAO member since' },
 ];
 
 const options: IActivityCompositionOptions[] = [
@@ -46,9 +52,15 @@ const options: IActivityCompositionOptions[] = [
   { name: 'Others', value: 'others', color: '#AAAAAA' },
 ];
 
-export default function DisengagedMembersCompositionBreakdown() {
+interface IDisengagedMembersCompositionBreakdown {
+  platformType: 'discord' | 'discourse';
+}
+
+export default function DisengagedMembersCompositionBreakdown({
+  platformType,
+}: IDisengagedMembersCompositionBreakdown) {
   const { getDisengagedMembersCompositionTable } = useAppStore();
-  const { community } = useToken();
+  const { selectedPlatform } = useToken();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -69,11 +81,6 @@ export default function DisengagedMembersCompositionBreakdown() {
     totalResults: 0,
   });
 
-  const platformId = community?.platforms.find(
-    (platform) =>
-      platform.disconnectedAt === null && platform.name === 'discord'
-  )?.id;
-
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
     if (tableTopRef.current && isExpanded) {
@@ -82,13 +89,14 @@ export default function DisengagedMembersCompositionBreakdown() {
   };
 
   useEffect(() => {
-    if (!platformId) {
+    if (!selectedPlatform) {
       return;
     }
     setLoading(true);
     const fetchData = async () => {
       const res = await getDisengagedMembersCompositionTable(
-        platformId,
+        selectedPlatform,
+        platformType,
         disengagedComposition,
         roles,
         username,
@@ -161,7 +169,7 @@ export default function DisengagedMembersCompositionBreakdown() {
   };
 
   const handleDownloadCSV = async () => {
-    if (!platformId) {
+    if (!selectedPlatform) {
       return;
     }
 
@@ -169,7 +177,8 @@ export default function DisengagedMembersCompositionBreakdown() {
       const limit = fetchedData.totalResults;
 
       const { results } = await getDisengagedMembersCompositionTable(
-        platformId,
+        selectedPlatform,
+        platformType,
         disengagedComposition,
         roles,
         username,
@@ -223,7 +232,11 @@ export default function DisengagedMembersCompositionBreakdown() {
 
           <CustomTable
             data={fetchedData?.results ? fetchedData.results : []}
-            columns={columns}
+            columns={
+              platformType === 'discord'
+                ? discordMemberBreakdownTableColumns
+                : discourseMemberBreakdownTableColumns
+            }
             handleRoleSelectionChange={handleRoleSelectionChange}
             handleActivityOptionSelectionChange={
               handleActivityOptionSelectionChange
