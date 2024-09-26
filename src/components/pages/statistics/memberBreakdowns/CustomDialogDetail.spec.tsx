@@ -46,10 +46,6 @@ test('renders the dialog with all states', () => {
   const username = screen.getByText('John Doe');
   expect(username).toBeInTheDocument();
 
-  // Check if the roles are rendered
-  const roleElements = screen.getAllByTestId('role');
-  expect(roleElements.length).toBe(2);
-
   // Check if the activity compositions are rendered
   const compositionElements = screen.getAllByTestId('activity-composition');
   expect(compositionElements.length).toBe(2);

@@ -1,7 +1,12 @@
 import { Paper, Popover } from '@mui/material';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
+
+import EmptyState from '@/components/global/EmptyState';
+
+import emptyState from '@/assets/svg/empty-state.svg';
 
 import Link from '../components/global/Link';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
@@ -129,6 +134,21 @@ function MembersInteraction() {
 
   const open = Boolean(popoverAnchorEl);
   const popoverId = open ? 'hint-popover' : undefined;
+
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
+    return (
+      <>
+        <SEO />
+        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
+      </>
+    );
+  }
 
   if (isLoading) {
     return <SimpleBackdrop />;

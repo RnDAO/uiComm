@@ -36,50 +36,56 @@ const CustomDialogDetail: React.FC<CustomDialogDetailProps> = ({
         <div className='space-y-6 py-2 px-8'>
           <div className='flex flex-row items-center'>
             <Avatar
-              src={`${conf.DISCORD_CDN}avatars/${rowDetail?.discordId}/${rowDetail?.avatar}.png`}
+              src={
+                rowDetail?.discordId
+                  ? `${conf.DISCORD_CDN}avatars/${rowDetail.discordId}/${rowDetail?.avatar}.png`
+                  : rowDetail?.avatar
+              }
               alt='User Avatar'
             />
             <span className='ml-2 text-base font-semibold'>
               {rowDetail?.username}
             </span>
           </div>
-          <div>
-            <p className='pb-2 text-base font-semibold'>Roles:</p>
-            <div className='flex flex-row flex-wrap'>
-              {rowDetail?.roles.map((role: any) => (
-                <div
-                  key={role.roleId}
-                  className='ml-1 flex flex-row flex-wrap items-center first:ml-0'
-                  style={{ whiteSpace: 'nowrap' }}
-                  data-testid='role'
-                >
-                  <span
-                    className='mb-2 flex items-center rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      backgroundColor:
-                        role.color !== 0
-                          ? `#${role.color.toString(16).padStart(6, '0')}`
-                          : '#96A5A6',
-                    }}
+          {rowDetail?.role && (
+            <div>
+              <p className='pb-2 text-base font-semibold'>Roles:</p>
+              <div className='flex flex-row flex-wrap'>
+                {rowDetail?.roles.map((role: any) => (
+                  <div
+                    key={role.roleId}
+                    className='ml-1 flex flex-row flex-wrap items-center first:ml-0'
+                    style={{ whiteSpace: 'nowrap' }}
+                    data-testid='role'
                   >
                     <span
-                      className='mr-2 h-2 w-2 rounded-full'
+                      className='mb-2 flex items-center rounded-[4px] border border-[#D1D1D1] bg-white p-1 px-2 text-xs'
                       style={{
+                        display: 'flex',
+                        alignItems: 'center',
                         backgroundColor:
                           role.color !== 0
                             ? `#${role.color.toString(16).padStart(6, '0')}`
                             : '#96A5A6',
-                        flexShrink: 0,
                       }}
-                    />
-                    {role.name}
-                  </span>
-                </div>
-              ))}
+                    >
+                      <span
+                        className='mr-2 h-2 w-2 rounded-full'
+                        style={{
+                          backgroundColor:
+                            role.color !== 0
+                              ? `#${role.color.toString(16).padStart(6, '0')}`
+                              : '#96A5A6',
+                          flexShrink: 0,
+                        }}
+                      />
+                      {role.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div>
             <p className='pb-2 text-base font-semibold'>
               Activity composition:

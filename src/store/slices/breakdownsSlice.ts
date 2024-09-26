@@ -12,19 +12,23 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   roles: [],
   getActiveMemberCompositionTable: async (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     activityComposition: string[],
-    roles: IRolesPayload,
+    roles?: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
     limit?: number
   ) => {
     try {
-      const requestData = {
+      const requestData: any = {
         activityComposition: activityComposition || [],
-        roles: roles || [],
         username: username || undefined,
       };
+
+      if (platformType === 'discord') {
+        requestData.roles = roles || [];
+      }
 
       const params = new URLSearchParams();
       if (page) {
@@ -34,10 +38,14 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('limit', limit.toString());
       }
       if (sortBy) {
-        params.append('sortBy', `joinedAt:${sortBy}`);
+        if (platformType === 'discord') {
+          params.append('sortBy', `joinedAt:${sortBy}`);
+        } else if (platformType === 'discourse') {
+          params.append('sortBy', `joined_at:${sortBy}`);
+        }
       }
 
-      requestData.activityComposition.forEach((value) => {
+      requestData.activityComposition.forEach((value: string) => {
         params.append('activityComposition', value);
       });
 
@@ -45,28 +53,39 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('ngu', username);
       }
 
-      const url = `/member-activity/${platformId}/active-members-composition-table?${params.toString()}`;
+      const baseUrl =
+        platformType === 'discourse'
+          ? `/discourse/member-activity/${platformId}/active-members-composition-table`
+          : `/member-activity/${platformId}/active-members-composition-table`;
 
-      const { data } = await axiosInstance.post(url, roles);
+      const url = `${baseUrl}?${params.toString()}`;
+
+      const payload = platformType === 'discord' ? roles : {};
+
+      const { data } = await axiosInstance.post(url, payload);
 
       return data;
     } catch (error) {}
   },
   getOnboardingMemberCompositionTable: async (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     activityComposition: string[],
-    roles: IRolesPayload,
+    roles?: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
     limit?: number
   ) => {
     try {
-      const requestData = {
+      const requestData: any = {
         activityComposition: activityComposition || [],
-        roles: roles || [],
         username: username || undefined,
       };
+
+      if (platformType === 'discord') {
+        requestData.roles = roles || [];
+      }
 
       const params = new URLSearchParams();
       if (page) {
@@ -76,10 +95,14 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('limit', limit.toString());
       }
       if (sortBy) {
-        params.append('sortBy', `joinedAt:${sortBy}`);
+        if (platformType === 'discord') {
+          params.append('sortBy', `joinedAt:${sortBy}`);
+        } else if (platformType === 'discourse') {
+          params.append('sortBy', `joined_at:${sortBy}`);
+        }
       }
 
-      requestData.activityComposition.forEach((value) => {
+      requestData.activityComposition.forEach((value: string) => {
         params.append('activityComposition', value);
       });
 
@@ -87,28 +110,39 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('ngu', username);
       }
 
-      const url = `/member-activity/${platformId}/active-members-onboarding-table?${params.toString()}`;
+      const baseUrl =
+        platformType === 'discourse'
+          ? `/discourse/member-activity/${platformId}/active-members-onboarding-table`
+          : `/member-activity/${platformId}/active-members-onboarding-table`;
 
-      const { data } = await axiosInstance.post(url, roles);
+      const url = `${baseUrl}?${params.toString()}`;
+
+      const payload = platformType === 'discord' ? roles : {};
+
+      const { data } = await axiosInstance.post(url, payload);
 
       return data;
     } catch (error) {}
   },
   getDisengagedMembersCompositionTable: async (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     activityComposition: string[],
-    roles: IRolesPayload,
+    roles?: IRolesPayload,
     username?: string,
     sortBy?: string,
     page?: number,
     limit?: number
   ) => {
     try {
-      const requestData = {
+      const requestData: any = {
         activityComposition: activityComposition || [],
-        roles: roles || [],
         username: username || undefined,
       };
+
+      if (platformType === 'discord') {
+        requestData.roles = roles || [];
+      }
 
       const params = new URLSearchParams();
       if (page) {
@@ -118,10 +152,14 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('limit', limit.toString());
       }
       if (sortBy) {
-        params.append('sortBy', `joinedAt:${sortBy}`);
+        if (platformType === 'discord') {
+          params.append('sortBy', `joinedAt:${sortBy}`);
+        } else if (platformType === 'discourse') {
+          params.append('sortBy', `joined_at:${sortBy}`);
+        }
       }
 
-      requestData.activityComposition.forEach((value) => {
+      requestData.activityComposition.forEach((value: string) => {
         params.append('activityComposition', value);
       });
 
@@ -129,9 +167,16 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
         params.append('ngu', username);
       }
 
-      const url = `/member-activity/${platformId}/disengaged-members-composition-table?${params.toString()}`;
+      const baseUrl =
+        platformType === 'discourse'
+          ? `/discourse/member-activity/${platformId}/disengaged-members-composition-table`
+          : `/member-activity/${platformId}/disengaged-members-composition-table`;
 
-      const { data } = await axiosInstance.post(url, roles);
+      const url = `${baseUrl}?${params.toString()}`;
+
+      const payload = platformType === 'discord' ? roles : {};
+
+      const { data } = await axiosInstance.post(url, payload);
 
       return data;
     } catch (error) {}

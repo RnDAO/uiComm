@@ -14,7 +14,13 @@ import { withRoles } from '../utils/withRoles';
 function Index(): JSX.Element {
   const { community } = useToken();
 
-  if (!community || community?.platforms?.length === 0) {
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
     return (
       <>
         <SEO />

@@ -1,5 +1,7 @@
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import EmptyState from '@/components/global/EmptyState';
 import SimpleBackdrop from '@/components/global/LoadingBackdrop';
 import SEO from '@/components/global/SEO';
 import Decentralization from '@/components/pages/communityHealth/Decentralization';
@@ -15,6 +17,8 @@ import {
   IFragmentationScoreResponse,
 } from '@/utils/interfaces';
 import { withRoles } from '@/utils/withRoles';
+
+import emptyState from '../assets/svg/empty-state.svg';
 
 function CommunityHealth() {
   const { community, selectedPlatform } = useToken();
@@ -39,6 +43,21 @@ function CommunityHealth() {
       });
     }
   }, [getDecentralisation, getFragmentation, selectedPlatform]);
+
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
+    return (
+      <>
+        <SEO />
+        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
+      </>
+    );
+  }
 
   if (isLoading) {
     return <SimpleBackdrop />;
