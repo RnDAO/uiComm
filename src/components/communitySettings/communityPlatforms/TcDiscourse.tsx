@@ -46,6 +46,8 @@ function TcDiscourse({
   const [url, setUrl] = useState<string>('');
   const [urlError, setUrlError] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCreatePlatformLoading, setIsCreatePlatformLoading] =
+    useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
   const { showMessage } = useSnackbar();
@@ -53,23 +55,29 @@ function TcDiscourse({
   const { community } = useToken();
 
   const handleCreateNewPlatform = async () => {
-    const data = await createNewPlatform({
-      community: community?.id,
-      name: 'discourse',
-      metadata: {
-        id: url.replaceAll('https://', '').replaceAll('http://', ''),
-        period: new Date(
-          new Date().setDate(new Date().getDate() - 90)
-        ).toISOString(),
-        analyzerStartedAt: new Date().toISOString(),
-        resources: [],
-      },
-    });
-    if (data) {
-      handleUpdateCommunityPlatform();
-      setIsOpen(false);
-      setUrl('');
-      showMessage('Platform connected successfully.', 'success');
+    try {
+      setIsCreatePlatformLoading(true);
+      const data = await createNewPlatform({
+        community: community?.id,
+        name: 'discourse',
+        metadata: {
+          id: url.replaceAll('https://', '').replaceAll('http://', ''),
+          period: new Date(
+            new Date().setDate(new Date().getDate() - 90)
+          ).toISOString(),
+          analyzerStartedAt: new Date().toISOString(),
+          resources: [],
+        },
+      });
+      if (data) {
+        handleUpdateCommunityPlatform();
+        setIsOpen(false);
+        setUrl('');
+        showMessage('Platform connected successfully.', 'success');
+      }
+    } catch (error) {
+    } finally {
+      setIsCreatePlatformLoading(false);
     }
   };
 
@@ -258,6 +266,7 @@ function TcDiscourse({
                 className='w-1/3'
                 text='Confirm'
                 variant='contained'
+                disabled={!!urlError || !url || isCreatePlatformLoading}
                 onClick={handleCreateNewPlatform}
               />
             </div>
