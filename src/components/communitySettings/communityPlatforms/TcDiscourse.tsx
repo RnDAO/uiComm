@@ -57,11 +57,17 @@ function TcDiscourse({
   const handleCreateNewPlatform = async () => {
     try {
       setIsCreatePlatformLoading(true);
+
+      const transformedUrl = url
+        .replace(/\/+$/, '')
+        .replaceAll('https://', '')
+        .replaceAll('http://', '');
+
       const data = await createNewPlatform({
         community: community?.id,
         name: 'discourse',
         metadata: {
-          id: url.replaceAll('https://', '').replaceAll('http://', ''),
+          id: transformedUrl,
           period: new Date(
             new Date().setDate(new Date().getDate() - 90)
           ).toISOString(),
@@ -264,7 +270,7 @@ function TcDiscourse({
               />
               <TcButton
                 className='w-1/3'
-                text='Confirm'
+                text={isCreatePlatformLoading ? 'Confirming...' : 'Confirm'}
                 variant='contained'
                 disabled={!!urlError || !url || isCreatePlatformLoading}
                 onClick={handleCreateNewPlatform}
