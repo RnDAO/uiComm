@@ -58,13 +58,16 @@ function TcDiscourse({
     try {
       setIsCreatePlatformLoading(true);
 
-      const cleanedUrl = url.replace(/\/$/, '').replaceAll('https://', '').replaceAll('http://', '');
+      const transformedUrl = url
+        .replace(/\/+$/, '')
+        .replaceAll('https://', '')
+        .replaceAll('http://', '');
 
       const data = await createNewPlatform({
         community: community?.id,
         name: 'discourse',
         metadata: {
-          id: cleanedUrl,
+          id: transformedUrl,
           period: new Date(
             new Date().setDate(new Date().getDate() - 90)
           ).toISOString(),
