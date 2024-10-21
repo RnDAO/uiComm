@@ -13,7 +13,7 @@ import { withRoles } from '../../../utils/withRoles';
 function Index() {
   return (
     <>
-      <SEO titleTemplate='Hivemind Settings' />
+      <SEO titleTemplate='AI assistant Settings' />
       <div className='container flex flex-col space-y-3 px-4 py-4 md:px-12'>
         <TcBreadcrumbs
           items={[
@@ -22,8 +22,8 @@ function Index() {
               path: '/community-settings',
             },
             {
-              label: 'Hivemind Settings',
-              path: '/community-settings/hivemind',
+              label: 'AI assistant Settings',
+              path: '/community-settings/ai-assistant',
             },
           ]}
         />
@@ -32,14 +32,31 @@ function Index() {
             <div className='space-y-4'>
               <div className='space-y-4 px-4 pt-4 pb-[1rem] md:px-10'>
                 <TcText
-                  text='Hivemind Settings'
+                  text='AI Settings'
                   variant='h6'
                   fontWeight='bold'
                 />
                 <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
                   <TcText
                     className='md:w-2/3'
-                    text='Hivemind is a Q&A bot that retrieves answers from your documentation, website, and live chats, serving as a research assistant for team discussions or customer support inquiries. Learn More'
+                    text={
+                      <>
+                        Our AI assistant retrieves answers from your
+                        documentation, website, and live chats. It supports your
+                        members by answering their questions.{' '}
+                        <a
+                          href='https://www.togethercrew.com/ai-assistant'
+                          style={{
+                            fontWeight: 'bold',
+                            textDecoration: 'underline',
+                          }}
+                          target='_blank' rel="noreferrer"
+                        >
+                          Learn More
+                        </a>
+                        .
+                      </>
+                    }
                     variant='body2'
                   />
                   <TcButton

@@ -292,7 +292,7 @@ function HivemindSettings() {
       });
 
       if (data) {
-        showMessage('Hivemind module updated successfully', 'success');
+        showMessage('AI assistant module updated successfully', 'success');
         await fetchPlatformsByType();
       }
       setLoading(false);

@@ -102,10 +102,10 @@ function TcCommunityPlatforms() {
       });
 
       if (hivemindModules.results.length > 0) {
-        router.push('/community-settings/hivemind');
+        router.push('/community-settings/ai-assistant');
       } else {
         await createModule({ name: 'hivemind', community: communityId });
-        router.push('/community-settings/hivemind');
+        router.push('/community-settings/ai-assistant');
       }
       setHivemindManageIsLoading(false);
     } catch (error) {
@@ -236,7 +236,7 @@ function TcCommunityPlatforms() {
           className='min-h-[6rem] max-w-[10rem]'
           children={
             <div className='flex flex-col items-center justify-center space-y-2 py-4'>
-              <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
+              <TcText text='AI assistant' variant='subtitle1' fontWeight='bold' />
               <TcButton
                 text={
                   hivemindManageIsLoading ? (
