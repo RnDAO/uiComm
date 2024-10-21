@@ -161,7 +161,7 @@ function TcHivemindDiscordLearnings({
     <div className='w-full md:w-1/2'>
       <div className='flex items-center'>
         <TcText text='Learnings' variant='h6' />
-        <TcIconWithTooltip tooltipText='select the channels and sources from which the Hivemind AI will gather information to answer questions.' />
+        <TcIconWithTooltip tooltipText='select the channels and sources from which the AI assistant will gather information to answer questions.' />
       </div>
       <div className='h-[23rem] overflow-y-scroll rounded-md border border-gray-400 bg-gray-50 p-4'>
         <div className='mb-2 flex flex-col'>

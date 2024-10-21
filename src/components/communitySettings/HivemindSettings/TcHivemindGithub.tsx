@@ -42,7 +42,7 @@ function TcHivemindGithub({
                 onChange={(e) => setIsActivated(e.target.checked)}
               />
             }
-            label='Enable Hivemind to read public repositories of the selected organization on GitHub.'
+            label='Enable AI assistant to read public repositories of the selected organization on GitHub.'
           />
           <TcIconWithTooltip
             tooltipText='Only the pull requests, issues, comments, and commits of public repositories will be read.'
