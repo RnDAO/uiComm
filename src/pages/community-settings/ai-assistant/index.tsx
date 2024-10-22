@@ -32,7 +32,7 @@ function Index() {
             <div className='space-y-4'>
               <div className='space-y-4 px-4 pt-4 pb-[1rem] md:px-10'>
                 <TcText
-                  text='AI Settings'
+                  text='AI assistant Settings'
                   variant='h6'
                   fontWeight='bold'
                 />

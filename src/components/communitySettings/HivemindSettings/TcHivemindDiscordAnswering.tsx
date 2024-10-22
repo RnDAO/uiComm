@@ -119,7 +119,7 @@ function TcHivemindDiscordAnswering({
       <div className='flex items-center'>
         <TcText text='Answering' variant='h6' />
         <TcIconWithTooltip
-          tooltipText='select the channels in which community members can ask questions to AI assistant using slash command /question.'
+          tooltipText='select the channels in which community members can ask questions to the AI assistant using slash command /question.'
           data-testid='answering-tooltip'
         />
       </div>
