@@ -31,9 +31,8 @@ import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
 
 export const PREMIUM_GUILDS = [
-  '732892373507375164',
-  '1012430565959553145',
-  '915914985140531240',
+  '732892373507375164', // fuel
+  '915914985140531240', // rndao
 ];
 
 interface TcDiscordIntegrationSettingsDialog {
