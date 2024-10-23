@@ -33,6 +33,10 @@ import { IPlatformProps } from '../../../utils/interfaces';
 export const PREMIUM_GUILDS = [
   '732892373507375164', // fuel
   '915914985140531240', // rndao
+  '1012430565959553145',
+  '980858613587382322',
+  '1007641784798691468',
+  ''
 ];
 
 interface TcDiscordIntegrationSettingsDialog {
