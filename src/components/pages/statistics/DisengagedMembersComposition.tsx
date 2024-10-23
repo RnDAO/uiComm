@@ -1,5 +1,7 @@
+import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
 
 import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
@@ -10,11 +12,10 @@ import RangeSelect from '../../global/RangeSelect';
 import { communityActiveDates } from '../../../lib/data/dateRangeValues';
 import useAppStore from '../../../store/useStore';
 import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
-import { Alert, AlertTitle, Typography, IconButton } from '@mui/material';
-import { FaTelegram, FaDiscord, FaEnvelope, FaXTwitter } from 'react-icons/fa6';
 
 export interface DisengagedMembersComposition {
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -62,6 +63,7 @@ const defaultOptions = {
 
 export default function DisengagedMembersComposition({
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: DisengagedMembersComposition) {
   const { disengagedMembers, disengagedMembersLoading } = useAppStore();
@@ -240,12 +242,10 @@ export default function DisengagedMembersComposition({
   };
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

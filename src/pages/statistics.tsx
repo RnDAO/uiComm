@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { Box } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
@@ -6,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 
 import emptyState from '../assets/svg/empty-state.svg';
+import { PREMIUM_GUILDS } from '../components/communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import CustomTab from '../components/global/CustomTab';
 import EmptyState from '../components/global/EmptyState';
 import Link from '../components/global/Link';
@@ -26,10 +28,14 @@ const Statistics = () => {
   const { community } = useToken();
   const router = useRouter();
 
-  const platformId = community?.platforms.find(
+  const platform = community?.platforms.find(
     (platform) =>
       platform.disconnectedAt === null && platform.name === 'discord'
-  )?.id;
+  );
+
+  const isPremiumGuild: boolean = Boolean(
+    platform?.metadata?.id && PREMIUM_GUILDS.includes(platform.metadata.id)
+  );
 
   const tabMap: { [key: string]: string } = {
     activeMembers: '1',
@@ -90,7 +96,7 @@ const Statistics = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!platformId) {
+        if (!platform?.id) {
           return;
         }
 
@@ -104,17 +110,17 @@ const Statistics = () => {
           );
 
           await fetchActiveMembers(
-            platformId,
+            platform?.id,
             activeDateRange[0],
             activeDateRange[1]
           );
           await fetchInteractions(
-            platformId,
+            platform?.id,
             activeIntegrationDateRange[0],
             activeIntegrationDateRange[1]
           );
           await fetchOnboardingMembers(
-            platformId,
+            platform?.id,
             onBoardingMemberDateRange[0],
             onBoardingMemberDateRange[1]
           );
@@ -123,12 +129,12 @@ const Statistics = () => {
           const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
 
           await fetchDisengagedMembers(
-            platformId,
+            platform?.id,
             disengagedDateRange[0],
             disengagedDateRange[1]
           );
           await fetchInactiveMembers(
-            platformId,
+            platform?.id,
             inactiveMemberDateRange[0],
             inactiveMemberDateRange[1]
           );
@@ -146,65 +152,65 @@ const Statistics = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const activeDateRange = getDateRange(activeMemberDate);
-    fetchActiveMembers(platformId, activeDateRange[0], activeDateRange[1]);
+    fetchActiveMembers(platform?.id, activeDateRange[0], activeDateRange[1]);
   }, [activeMemberDate]);
 
   useEffect(() => {
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const onBoardingMemberDateRange = getDateRange(onBoardingMemberDate);
 
     fetchOnboardingMembers(
-      platformId,
+      platform?.id,
       onBoardingMemberDateRange[0],
       onBoardingMemberDateRange[1]
     );
   }, [onBoardingMemberDate]);
 
   useEffect(() => {
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const activeIntegrationDateRange = getDateRange(activeInteractionDate);
 
     fetchInteractions(
-      platformId,
+      platform?.id,
       activeIntegrationDateRange[0],
       activeIntegrationDateRange[1]
     );
   }, [activeInteractionDate]);
 
   useEffect(() => {
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const disengagedDateRange = getDateRange(disengagedMemberDate);
 
     fetchDisengagedMembers(
-      platformId,
+      platform?.id,
       disengagedDateRange[0],
       disengagedDateRange[1]
     );
   }, [disengagedMemberDate]);
 
   useEffect(() => {
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
 
     fetchInactiveMembers(
-      platformId,
+      platform?.id,
       inactiveMemberDateRange[0],
       inactiveMemberDateRange[1]
     );
@@ -307,6 +313,7 @@ const Statistics = () => {
               >
                 <ActiveMembersComposition
                   activePeriod={activeMemberDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleActiveMembersDateRange}
                 />
               </Box>
@@ -319,6 +326,7 @@ const Statistics = () => {
               >
                 <Onboarding
                   activePeriod={onBoardingMemberDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleOnboardingMembersDate}
                 />
               </Box>
@@ -331,6 +339,7 @@ const Statistics = () => {
               >
                 <InteractionsSection
                   activePeriod={activeInteractionDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleActiveInteractionDate}
                 />
               </Box>
@@ -345,6 +354,7 @@ const Statistics = () => {
               >
                 <DisengagedMembersComposition
                   activePeriod={disengagedMemberDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleDisengagedMemberDateRange}
                 />
               </Box>
@@ -357,6 +367,7 @@ const Statistics = () => {
               >
                 <InactiveMembers
                   activePeriod={inactiveMembersDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleInactiveMemberDateRange}
                 />
               </Box>
