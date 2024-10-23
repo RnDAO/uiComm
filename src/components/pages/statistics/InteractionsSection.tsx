@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
+import { Alert, AlertTitle, IconButton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
@@ -13,6 +13,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface IntractionsProps {
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -60,6 +61,7 @@ const defaultOptions = {
 
 export default function InteractionsSection({
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: IntractionsProps) {
   const { interactions, interactionsLoading } = useAppStore();
@@ -127,12 +129,10 @@ export default function InteractionsSection({
   }, [interactions]);
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

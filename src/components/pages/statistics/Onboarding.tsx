@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
+import { Alert, AlertTitle, IconButton, Typography } from '@mui/material';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
@@ -15,6 +15,7 @@ import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface OnboardingProps {
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -62,6 +63,7 @@ const defaultOptions = {
 
 export default function Onboarding({
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: OnboardingProps) {
   const { onboardingMembers, onboardingMembersLoading } = useAppStore();
@@ -215,12 +217,10 @@ export default function Onboarding({
   };
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

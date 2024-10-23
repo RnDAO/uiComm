@@ -8,6 +8,7 @@ import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
 import 'moment-timezone';
 
+import { PREMIUM_GUILDS } from '../../communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import FilterByChannels from '../../global/FilterByChannels';
 import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
@@ -54,19 +55,19 @@ const HeatmapChart = () => {
 
   const { community } = useToken();
 
-  const platformId = community?.platforms.find(
+  const platform = community?.platforms.find(
     (platform) =>
       platform.disconnectedAt === null && platform.name === 'discord'
-  )?.id;
+  );
 
   const fetchData = async () => {
     if (showOverlay) return;
 
     setLoading(true);
     try {
-      if (platformId) {
+      if (platform?.id) {
         const data = await fetchHeatmapData(
-          platformId,
+          platform.id,
           dateRange[0],
           dateRange[1],
           selectedZone,
@@ -139,6 +140,16 @@ const HeatmapChart = () => {
   const handleDateRange = (dateRangeType: number): void => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
     let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
+    const isPremiumGuild =
+      platform?.metadata?.id && PREMIUM_GUILDS.includes(platform.metadata.id);
+
+    const handleNonPremiumLoading = () => {
+      setShowOverlay(true);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
+    };
 
     switch (dateRangeType) {
       case 1:
@@ -161,20 +172,26 @@ const HeatmapChart = () => {
         break;
       case 4:
         setActiveDateRange(dateRangeType);
-        setShowOverlay(true);
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
+        if (isPremiumGuild) {
+          startDate = moment(endDate).subtract(6, 'months');
+          endDate = moment().subtract(1, 'day');
+          setShowOverlay(false);
+        } else {
+          handleNonPremiumLoading();
+        }
         break;
+
       case 5:
         setActiveDateRange(dateRangeType);
-        setShowOverlay(true);
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
+        if (isPremiumGuild) {
+          startDate = moment(endDate).subtract(12, 'months');
+          endDate = moment().subtract(1, 'day');
+          setShowOverlay(false);
+        } else {
+          handleNonPremiumLoading();
+        }
         break;
+
       default:
         break;
     }
@@ -195,14 +212,14 @@ const HeatmapChart = () => {
 
   const fetchPlatformChannels = async () => {
     try {
-      if (platformId) {
-        const data = await retrievePlatformById(platformId);
+      if (platform?.id) {
+        const data = await retrievePlatformById(platform.id);
         const { metadata } = data;
         if (metadata) {
           const { selectedChannels } = metadata;
-          await refreshData(platformId, 'channel', selectedChannels, true);
+          await refreshData(platform.id, 'channel', selectedChannels, true);
         } else {
-          await refreshData(platformId);
+          await refreshData(platform.id);
         }
         setPlatformFetched(true);
       }
@@ -212,11 +229,11 @@ const HeatmapChart = () => {
   };
 
   useEffect(() => {
-    if (!platformId || showOverlay) {
+    if (!platform?.id || showOverlay) {
       return;
     }
     fetchData();
-  }, [dateRange, selectedZone, platformId, platformFetched]);
+  }, [dateRange, selectedZone, platform?.id, platformFetched]);
 
   return (
     <div className='min-h-[400px] rounded-lg bg-white p-5 shadow-box'>
