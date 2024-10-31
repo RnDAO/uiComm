@@ -39,18 +39,7 @@ describe('TcHivemindDiscordAnswering', () => {
       />
     );
     expect(
-      screen.getByText('Select the data extraction period')
-    ).toBeInTheDocument();
-  });
-  it('should render Sync the following data sources', () => {
-    render(
-      <TcHivemindDiscordAnswering
-        platform={mockPlatform}
-        handleModuleConfigChange={() => jest.fn()}
-      />
-    );
-    expect(
-      screen.getByText('Sync the following data sources')
+      screen.getByText('Select the channels in which the AI assistant can answer questions')
     ).toBeInTheDocument();
   });
 });
