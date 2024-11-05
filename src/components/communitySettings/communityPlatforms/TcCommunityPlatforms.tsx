@@ -108,10 +108,10 @@ function TcCommunityPlatforms() {
       });
 
       if (hivemindModules.results.length > 0) {
-        router.push('/community-settings/hivemind');
+        router.push('/community-settings/ai-assistant');
       } else {
         await createModule({ name: 'hivemind', community: communityId });
-        router.push('/community-settings/hivemind');
+        router.push('/community-settings/ai-assistant');
       }
       setHivemindManageIsLoading(false);
     } catch (error) {

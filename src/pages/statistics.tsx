@@ -6,28 +6,36 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 
-import CustomTab from '@/components/global/CustomTab';
-import EmptyState from '@/components/global/EmptyState';
-import Link from '@/components/global/Link';
-import SimpleBackdrop from '@/components/global/LoadingBackdrop';
-import SEO from '@/components/global/SEO';
-import ActiveMembersComposition from '@/components/pages/statistics/ActiveMembersComposition';
-import DisengagedMembersComposition from '@/components/pages/statistics/DisengagedMembersComposition';
-import InactiveMembers from '@/components/pages/statistics/InactiveMembers';
-import InteractionsSection from '@/components/pages/statistics/InteractionsSection';
-import Onboarding from '@/components/pages/statistics/Onboarding';
-
-import useAppStore from '@/store/useStore';
-
-import emptyState from '@/assets/svg/empty-state.svg';
-import { useToken } from '@/context/TokenContext';
-import { transformToMidnightUTC } from '@/helpers/momentHelper';
-import { defaultLayout } from '@/layouts/defaultLayout';
-import { withRoles } from '@/utils/withRoles';
+import emptyState from '../assets/svg/empty-state.svg';
+import { PREMIUM_GUILDS } from '../components/communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
+import CustomTab from '../components/global/CustomTab';
+import EmptyState from '../components/global/EmptyState';
+import Link from '../components/global/Link';
+import SimpleBackdrop from '../components/global/LoadingBackdrop';
+import SEO from '../components/global/SEO';
+import ActiveMembersComposition from '../components/pages/statistics/ActiveMembersComposition';
+import DisengagedMembersComposition from '../components/pages/statistics/DisengagedMembersComposition';
+import InactiveMembers from '../components/pages/statistics/InactiveMembers';
+import InteractionsSection from '../components/pages/statistics/InteractionsSection';
+import Onboarding from '../components/pages/statistics/Onboarding';
+import { useToken } from '../context/TokenContext';
+import { transformToMidnightUTC } from '../helpers/momentHelper';
+import { defaultLayout } from '../layouts/defaultLayout';
+import useAppStore from '../store/useStore';
+import { withRoles } from '../utils/withRoles';
 
 const Statistics = () => {
   const { community, selectedPlatform } = useToken();
   const router = useRouter();
+
+  const platform = community?.platforms.find(
+    (platform) =>
+      platform.disconnectedAt === null && platform.name === 'discord'
+  );
+
+  const isPremiumGuild: boolean = Boolean(
+    platform?.metadata?.id && PREMIUM_GUILDS.includes(platform.metadata.id)
+  );
 
   const tabMap: { [key: string]: string } = {
     activeMembers: '1',
@@ -104,7 +112,7 @@ const Statistics = () => {
 
     const fetchData = async () => {
       try {
-        if (!platform) {
+        if (!platform?.id) {
           return;
         }
 
@@ -124,7 +132,7 @@ const Statistics = () => {
           );
 
           await fetchInteractions(
-            platform.id,
+            platform?.id,
             activeIntegrationDateRange[0],
             activeIntegrationDateRange[1],
             platform.name.includes('discourse') ? 'discourse' : 'discord'
@@ -162,49 +170,37 @@ const Statistics = () => {
   }, [selectedPlatform, activeTab]);
 
   useEffect(() => {
-    const platformId = community?.platforms.find(
-      (platform) => platform.id === selectedPlatform
-    )?.id;
-
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const activeDateRange = getDateRange(activeMemberDate);
-    fetchActiveMembers(platformId, activeDateRange[0], activeDateRange[1]);
-  }, [selectedPlatform, activeMemberDate]);
+    fetchActiveMembers(platform?.id, activeDateRange[0], activeDateRange[1]);
+  }, [activeMemberDate]);
 
   useEffect(() => {
-    const platformId = community?.platforms.find(
-      (platform) => platform.id === selectedPlatform
-    )?.id;
-
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const onBoardingMemberDateRange = getDateRange(onBoardingMemberDate);
 
     fetchOnboardingMembers(
-      platformId,
+      platform?.id,
       onBoardingMemberDateRange[0],
       onBoardingMemberDateRange[1]
     );
   }, [selectedPlatform, onBoardingMemberDate]);
 
   useEffect(() => {
-    const platform = community?.platforms.find(
-      (platform) => platform.id === selectedPlatform
-    );
-
-    if (!platform) {
+    if (!platform?.id) {
       return;
     }
 
     const activeIntegrationDateRange = getDateRange(activeInteractionDate);
 
     fetchInteractions(
-      platform.id,
+      platform?.id,
       activeIntegrationDateRange[0],
       activeIntegrationDateRange[1],
       platform.name.includes('discourse') ? 'discourse' : 'discord'
@@ -212,36 +208,28 @@ const Statistics = () => {
   }, [selectedPlatform, activeInteractionDate]);
 
   useEffect(() => {
-    const platformId = community?.platforms.find(
-      (platform) => platform.id === selectedPlatform
-    )?.id;
-
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const disengagedDateRange = getDateRange(disengagedMemberDate);
 
     fetchDisengagedMembers(
-      platformId,
+      platform?.id,
       disengagedDateRange[0],
       disengagedDateRange[1]
     );
   }, [selectedPlatform, disengagedMemberDate]);
 
   useEffect(() => {
-    const platformId = community?.platforms.find(
-      (platform) => platform.id === selectedPlatform
-    )?.id;
-
-    if (!platformId) {
+    if (!platform?.id) {
       return;
     }
 
     const inactiveMemberDateRange = getDateRange(inactiveMembersDate);
 
     fetchInactiveMembers(
-      platformId,
+      platform?.id,
       inactiveMemberDateRange[0],
       inactiveMemberDateRange[1]
     );
@@ -351,6 +339,7 @@ const Statistics = () => {
                 <ActiveMembersComposition
                   platformType={activePlatform}
                   activePeriod={activeMemberDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleActiveMembersDateRange}
                 />
               </Box>
@@ -364,6 +353,7 @@ const Statistics = () => {
                 <Onboarding
                   platformType={activePlatform}
                   activePeriod={onBoardingMemberDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleOnboardingMembersDate}
                 />
               </Box>
@@ -376,6 +366,7 @@ const Statistics = () => {
               >
                 <InteractionsSection
                   activePeriod={activeInteractionDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleActiveInteractionDate}
                 />
               </Box>
@@ -391,6 +382,7 @@ const Statistics = () => {
                 <DisengagedMembersComposition
                   platformType={activePlatform}
                   activePeriod={disengagedMemberDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleDisengagedMemberDateRange}
                 />
               </Box>
@@ -403,6 +395,7 @@ const Statistics = () => {
               >
                 <InactiveMembers
                   activePeriod={inactiveMembersDate}
+                  isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleInactiveMemberDateRange}
                 />
               </Box>

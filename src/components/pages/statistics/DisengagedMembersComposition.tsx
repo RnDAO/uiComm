@@ -21,6 +21,7 @@ import StatisticalData from './StatisticalData';
 export interface DisengagedMembersComposition {
   platformType: 'discord' | 'discourse';
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -69,6 +70,7 @@ const defaultOptions = {
 export default function DisengagedMembersComposition({
   platformType,
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: DisengagedMembersComposition) {
   const { disengagedMembers, disengagedMembersLoading } = useAppStore();
@@ -247,12 +249,10 @@ export default function DisengagedMembersComposition({
   };
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

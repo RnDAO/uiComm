@@ -12,12 +12,13 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiRefreshCcw } from 'react-icons/fi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
-import { MdExpandMore } from 'react-icons/md';
+import { MdCalendarMonth, MdExpandMore } from 'react-icons/md';
 import { MdChevronRight } from 'react-icons/md';
 import { RiTimeLine } from 'react-icons/ri';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcButton from '../../shared/TcButton';
+import TcDatePickerPopover from '../../shared/TcDatePickerPopover';
 import TcDialog from '../../shared/TcDialog';
 import TcSwitch from '../../shared/TcSwitch';
 import TcText from '../../shared/TcText';
@@ -28,6 +29,13 @@ import { useToken } from '../../../context/TokenContext';
 import { truncateCenter } from '../../../helpers/helper';
 import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
+
+export const PREMIUM_GUILDS = [
+  '732892373507375164', // fuel
+  '915914985140531240', // rndao
+  '980858613587382322',
+  '1007641784798691468',
+];
 
 interface TcDiscordIntegrationSettingsDialog {
   platform: IPlatformProps;
@@ -48,10 +56,10 @@ function TcDiscordIntegrationSettingsDialog({
   const [isAnalyizingDialogOpen, setIsAnalyizingDialogOpen] =
     useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-  // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [dateTimeDisplay, setDateTimeDisplay] = useState<string>('Filter Date');
 
-  // const [selectedDate, setSelectedDate] = useState<Date | null>();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
 
@@ -98,12 +106,12 @@ function TcDiscordIntegrationSettingsDialog({
       setDateTimeDisplay(newDateTimeDisplay);
     }
 
-    // if (
-    //   !selectedDate ||
-    //   (selectedDate && period && selectedDate.toISOString() !== period)
-    // ) {
-    //   setSelectedDate(new Date(period));
-    // }
+    if (
+      !selectedDate ||
+      (selectedDate && period && selectedDate.toISOString() !== period)
+    ) {
+      setSelectedDate(new Date(period));
+    }
     setLoading(true);
     const data = await retrievePlatformProperties({
       platformId: platform.id,
@@ -173,13 +181,15 @@ function TcDiscordIntegrationSettingsDialog({
 
   const handlePatchDiscordIntegrationSettings = async () => {
     try {
+      const period = PREMIUM_GUILDS.includes(platform?.metadata?.id)
+        ? selectedDate?.toISOString()
+        : new Date(new Date().setDate(new Date().getDate() - 90)).toISOString();
+
       const data = await patchPlatformById({
         id: platform.id,
         metadata: {
           selectedChannels: selectedChannels,
-          period: new Date(
-            new Date().setDate(new Date().getDate() - 90)
-          ).toISOString(),
+          period: period,
           analyzerStartedAt: new Date().toISOString(),
         },
       });
@@ -189,7 +199,9 @@ function TcDiscordIntegrationSettingsDialog({
         router.replace('/community-settings', {}, { shallow: true });
         setIsAnalyizingDialogOpen(true);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error updating Discord integration settings:', error);
+    }
   };
 
   const handleDisconnectDiscordIntegration = async (
@@ -219,32 +231,32 @@ function TcDiscordIntegrationSettingsDialog({
     }
   };
 
-  // const datePickerOpen = Boolean(anchorEl);
-  // const id = open ? 'date-time-popover' : undefined;
+  const datePickerOpen = Boolean(anchorEl);
+  const id = open ? 'date-time-popover' : undefined;
 
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  // const handleDateChange = (date: Date | null) => {
-  //   if (date) {
-  //     setSelectedDate(date);
-  //     const fullDateTime = moment(date);
-  //     setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
-  //     setAnchorEl(null);
-  //   }
-  // };
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      setSelectedDate(date);
+      const fullDateTime = moment(date);
+      setDateTimeDisplay(fullDateTime.format('D MMMM YYYY'));
+      setAnchorEl(null);
+    }
+  };
 
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  // const resetDateFilter = () => {
-  //   setSelectedDate(null);
-  //   setDateTimeDisplay('Filter Date');
+  const resetDateFilter = () => {
+    setSelectedDate(null);
+    setDateTimeDisplay('Filter Date');
 
-  //   setAnchorEl(null);
-  // };
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -303,46 +315,52 @@ function TcDiscordIntegrationSettingsDialog({
                   />
                 </div>
               </div>
-              <Alert severity='info' className='my-2 rounded-sm'>
-                <AlertTitle>Analyzing Your Community Data</AlertTitle>
-                <Typography variant='body2'>
-                  We're currently analyzing 90 days of your community's data.
-                  This process may take up to 6 hours. Once the analysis is
-                  complete, you will receive a message on Discord.
-                </Typography>
-              </Alert>
 
-              {/* <div>
-                <TcText
-                  text='Change date period for data analysis'
-                  variant='subtitle1'
-                  fontWeight='bold'
-                />
-                <TcText
-                  text='Choose the analysis start date (min. last 35 days for all the metrics to show properly).'
-                  variant='body2'
-                />
-              </div> */}
-              {/* <div className='w-1/2'>
-                <TcButton
-                  className='w-full'
-                  variant='outlined'
-                  startIcon={<MdCalendarMonth />}
-                  onClick={handleClick}
-                  text={dateTimeDisplay}
-                  aria-describedby={id}
-                />
+              {PREMIUM_GUILDS.includes(platform?.metadata?.id) ? (
+                <>
+                  <div>
+                    <TcText
+                      text='Change date period for data analysis'
+                      variant='subtitle1'
+                      fontWeight='bold'
+                    />
+                    <TcText
+                      text='Choose the analysis start date (min. last 35 days for all the metrics to show properly).'
+                      variant='body2'
+                    />
+                  </div>
+                  <div className='w-1/2'>
+                    <TcButton
+                      className='w-full'
+                      variant='outlined'
+                      startIcon={<MdCalendarMonth />}
+                      onClick={handleClick}
+                      text={dateTimeDisplay}
+                      aria-describedby={id}
+                    />
 
-                <TcDatePickerPopover
-                  open={datePickerOpen}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  selectedDate={selectedDate}
-                  onDateChange={handleDateChange}
-                  onResetDate={resetDateFilter}
-                  disableDaysFrom={30}
-                />
-              </div> */}
+                    <TcDatePickerPopover
+                      open={datePickerOpen}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      selectedDate={selectedDate}
+                      onDateChange={handleDateChange}
+                      onResetDate={resetDateFilter}
+                      disableDaysFrom={30}
+                    />
+                  </div>
+                </>
+              ) : (
+                <Alert severity='info' className='my-2 rounded-sm'>
+                  <AlertTitle>Analyzing Your Community Data</AlertTitle>
+                  <Typography variant='body2'>
+                    We're currently analyzing 90 days of your community's data.
+                    This process may take up to 6 hours. Once the analysis is
+                    complete, you will receive a message on Discord.
+                  </Typography>
+                </Alert>
+              )}
+
               <div className='my-2 flex flex-col md:flex-row md:items-center md:justify-between'>
                 <div>
                   <TcText

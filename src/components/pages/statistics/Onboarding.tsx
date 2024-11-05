@@ -21,6 +21,7 @@ import StatisticalData from './StatisticalData';
 export interface OnboardingProps {
   platformType: 'discord' | 'discourse';
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -69,6 +70,7 @@ const defaultOptions = {
 export default function Onboarding({
   platformType,
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: OnboardingProps) {
   const { onboardingMembers, onboardingMembersLoading } = useAppStore();
@@ -222,12 +224,10 @@ export default function Onboarding({
   };
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

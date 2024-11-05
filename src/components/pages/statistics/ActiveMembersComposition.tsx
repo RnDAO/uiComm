@@ -21,6 +21,7 @@ import StatisticalData from './StatisticalData';
 export interface ActiveMembersComposition {
   platformType: 'discord' | 'discourse';
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -69,6 +70,7 @@ const defaultOptions = {
 export default function ActiveMembersComposition({
   platformType,
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: ActiveMembersComposition) {
   const router = useRouter();
@@ -261,12 +263,10 @@ export default function ActiveMembersComposition({
   };
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

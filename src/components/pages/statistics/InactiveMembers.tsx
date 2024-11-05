@@ -17,6 +17,7 @@ import StatisticalData from './StatisticalData';
 
 export interface InactiveMembersProps {
   activePeriod: number;
+  isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
 }
 
@@ -64,6 +65,7 @@ const defaultOptions = {
 
 export default function InactiveMembers({
   activePeriod,
+  isPremiumGuild = false,
   handleDateRange,
 }: InactiveMembersProps) {
   const { inactiveMembers, inactiveMembersLoading } = useAppStore();
@@ -119,12 +121,10 @@ export default function InactiveMembers({
   }, [inactiveMembers]);
 
   useEffect(() => {
-    if (activePeriod === 4 || activePeriod === 5) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [activePeriod]);
+    const shouldShowOverlay =
+      !isPremiumGuild && (activePeriod === 4 || activePeriod === 5);
+    setShowOverlay(shouldShowOverlay);
+  }, [activePeriod, isPremiumGuild]);
 
   return (
     <>

@@ -12,6 +12,7 @@ import FilterByCategory from '@/components/global/FilterByCategory';
 
 import { ICommunityPlatfromProps } from '@/utils/interfaces';
 
+import { PREMIUM_GUILDS } from '../../communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import FilterByChannels from '../../global/FilterByChannels';
 import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
@@ -174,6 +175,16 @@ const HeatmapChart = () => {
   const handleDateRange = (dateRangeType: number): void => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
     let startDate: moment.Moment = moment(endDate).subtract(7, 'days');
+    const isPremiumGuild =
+      platform?.metadata?.id && PREMIUM_GUILDS.includes(platform.metadata.id);
+
+    const handleNonPremiumLoading = () => {
+      setShowOverlay(true);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
+    };
 
     switch (dateRangeType) {
       case 1:
@@ -196,20 +207,26 @@ const HeatmapChart = () => {
         break;
       case 4:
         setActiveDateRange(dateRangeType);
-        setShowOverlay(true);
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
+        if (isPremiumGuild) {
+          startDate = moment(endDate).subtract(6, 'months');
+          endDate = moment().subtract(1, 'day');
+          setShowOverlay(false);
+        } else {
+          handleNonPremiumLoading();
+        }
         break;
+
       case 5:
         setActiveDateRange(dateRangeType);
-        setShowOverlay(true);
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
+        if (isPremiumGuild) {
+          startDate = moment(endDate).subtract(12, 'months');
+          endDate = moment().subtract(1, 'day');
+          setShowOverlay(false);
+        } else {
+          handleNonPremiumLoading();
+        }
         break;
+
       default:
         break;
     }
