@@ -1,5 +1,5 @@
+import { Avatar } from '@mui/material';
 import clsx from 'clsx';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { MdGroups } from 'react-icons/md';
 
@@ -8,7 +8,6 @@ import TcText from '../../shared/TcText';
 import { conf } from '../../../configs';
 import { StorageService } from '../../../services/StorageService';
 import { IDiscordModifiedCommunity } from '../../../utils/interfaces';
-import { Avatar } from '@mui/material';
 
 /**
  * Props for the TcCommunityListItems component.

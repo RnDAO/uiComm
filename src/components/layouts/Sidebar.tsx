@@ -52,7 +52,7 @@ const Sidebar = () => {
     const discoursePlatformId = community?.platforms?.find((platform) => {
       return platform.name === 'discourse' && platform.disconnectedAt === null;
     })?.id;
-    
+
     if (discoursePlatformId && selectedPlatform) {
       setIsDiscourse(selectedPlatform === discoursePlatformId);
     } else {

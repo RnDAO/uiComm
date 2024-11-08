@@ -201,8 +201,9 @@ function TcUsersAutoComplete({
             />
             <TcText text={option.ngu} />
             <TcText
-              text={`${option.username ? '@' + truncateCenter(option.username, 10) : ''
-                }`}
+              text={`${
+                option.username ? '@' + truncateCenter(option.username, 10) : ''
+              }`}
               className='text-gray-500'
             />
           </div>
@@ -228,10 +229,11 @@ function TcUsersAutoComplete({
                   <TcText text={option.ngu} variant='caption' />
                 </div>
                 <TcText
-                  text={`${option.username
-                    ? '@' + truncateCenter(option.username, 10)
-                    : ''
-                    }`}
+                  text={`${
+                    option.username
+                      ? '@' + truncateCenter(option.username, 10)
+                      : ''
+                  }`}
                   variant='caption'
                   className='text-gray-500'
                 />

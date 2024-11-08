@@ -50,7 +50,8 @@ function Index() {
                             fontWeight: 'bold',
                             textDecoration: 'underline',
                           }}
-                          target='_blank' rel="noreferrer"
+                          target='_blank'
+                          rel='noreferrer'
                         >
                           Learn More
                         </a>

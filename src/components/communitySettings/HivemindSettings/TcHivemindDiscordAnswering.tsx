@@ -124,7 +124,10 @@ function TcHivemindDiscordAnswering({
         />
       </div>
       <div className='h-[23rem] overflow-y-scroll rounded-md border border-gray-400 bg-gray-50 p-4'>
-        <TcText text='Select the channels in which the AI assistant can answer questions' variant='h6' />
+        <TcText
+          text='Select the channels in which the AI assistant can answer questions'
+          variant='h6'
+        />
         <div className='flex items-center justify-end py-1'>
           <TcButton
             text='Refresh List'

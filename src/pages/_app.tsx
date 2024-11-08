@@ -6,6 +6,7 @@ import { hotjar } from 'react-hotjar';
 import '../styles/globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
+
 type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
     pageLayout?: React.ComponentType | any;
@@ -13,10 +14,16 @@ type ComponentWithPageLayout = AppProps & {
 };
 
 import { ThemeProvider } from '@mui/material';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Script from 'next/script';
 import { ToastContainer } from 'react-toastify';
+import { WagmiProvider } from 'wagmi';
 
+import '@rainbow-me/rainbowkit/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { wagmiConfig } from '@/rainbowKitConfig';
 
 import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
 import SafaryClubScript from '../components/global/SafaryClubScript';
@@ -26,6 +33,8 @@ import { TokenProvider } from '../context/TokenContext';
 import { usePageViewTracking } from '../helpers/amplitudeHelper';
 import PrivateRoute from '../utils/privateRoute';
 import { theme } from '../utils/theme';
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   usePageViewTracking();
@@ -58,21 +67,27 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
           })();
         `}
       </Script>
-      <ThemeProvider theme={theme}>
-        <TokenProvider>
-          <ChannelProvider>
-            {Component.pageLayout ? (
-              <PrivateRoute>
-                <Component.pageLayout>
-                  <Component {...pageProps} />
-                </Component.pageLayout>
-              </PrivateRoute>
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </ChannelProvider>
-        </TokenProvider>
-      </ThemeProvider>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <ThemeProvider theme={theme}>
+              <TokenProvider>
+                <ChannelProvider>
+                  {Component.pageLayout ? (
+                    <PrivateRoute>
+                      <Component.pageLayout>
+                        <Component {...pageProps} />
+                      </Component.pageLayout>
+                    </PrivateRoute>
+                  ) : (
+                    <Component {...pageProps} />
+                  )}
+                </ChannelProvider>
+              </TokenProvider>
+            </ThemeProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
       <ToastContainer />
     </>
   );

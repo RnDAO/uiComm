@@ -47,7 +47,7 @@ function TcGithubIntegration({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatform();
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (

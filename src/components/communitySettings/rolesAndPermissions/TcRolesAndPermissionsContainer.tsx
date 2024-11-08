@@ -221,7 +221,7 @@ function TcRolesAndPermissionsContainer() {
         }
         variant='contained'
         onClick={handlePermissionsChange}
-        className='min-w-[10rem] mt-6'
+        className='mt-6 min-w-[10rem]'
       />
     </div>
   );

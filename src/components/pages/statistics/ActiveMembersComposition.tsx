@@ -1,5 +1,4 @@
 import { Alert, AlertTitle, IconButton, Typography } from '@mui/material';
-import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';

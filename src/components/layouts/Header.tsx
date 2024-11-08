@@ -21,9 +21,7 @@ import { ICommunityPlatfromProps } from '../../utils/interfaces';
 
 const Header = () => {
   const { community, selectedPlatform, handleSwitchPlatform } = useToken();
-  const [platforms, setPlatforms] = useState<ICommunityPlatfromProps[]>(
-    []
-  );
+  const [platforms, setPlatforms] = useState<ICommunityPlatfromProps[]>([]);
 
   useEffect(() => {
     const fetchedPlatforms =

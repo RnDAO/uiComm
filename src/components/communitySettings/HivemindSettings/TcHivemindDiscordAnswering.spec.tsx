@@ -39,7 +39,9 @@ describe('TcHivemindDiscordAnswering', () => {
       />
     );
     expect(
-      screen.getByText('Select the channels in which the AI assistant can answer questions')
+      screen.getByText(
+        'Select the channels in which the AI assistant can answer questions'
+      )
     ).toBeInTheDocument();
   });
 });

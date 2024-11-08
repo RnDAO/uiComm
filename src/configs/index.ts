@@ -9,4 +9,5 @@ export const conf = {
   WEIGHT_ID: process.env.NEXT_PUBLIC_TAWK_WEIGHT_ID,
   DISCORD_CDN: process.env.NEXT_PUBLIC_DISCORD_CDN,
   GITBOOK_URL: process.env.NEXT_PUBLIC_GITBOOK_URL,
+  PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
 };

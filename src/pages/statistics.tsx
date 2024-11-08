@@ -304,7 +304,7 @@ const Statistics = () => {
       </>
     );
   }
-  
+
   if (loading) {
     return <SimpleBackdrop />;
   }

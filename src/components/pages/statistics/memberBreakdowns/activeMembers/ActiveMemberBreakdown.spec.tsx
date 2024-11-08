@@ -8,7 +8,7 @@ describe('ActiveMemberBreakdown', () => {
   it('renders the component', () => {
     render(
       <TokenProvider>
-        <ActiveMemberBreakdown platformType="discord" />
+        <ActiveMemberBreakdown platformType='discord' />
       </TokenProvider>
     );
 

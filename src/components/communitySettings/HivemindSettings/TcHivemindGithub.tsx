@@ -44,9 +44,7 @@ function TcHivemindGithub({
             }
             label='Enable the AI assistant to read public repositories of the selected organization on GitHub.'
           />
-          <TcIconWithTooltip
-            tooltipText='Only the pull requests, issues, comments, and commits of public repositories will be read.'
-          />
+          <TcIconWithTooltip tooltipText='Only the pull requests, issues, comments, and commits of public repositories will be read.' />
         </FormControl>
       </div>
       <div className='mt-6 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0'>

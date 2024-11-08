@@ -56,7 +56,7 @@ function TcNotionIntegration({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatform();
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -162,8 +162,9 @@ function TcNotionIntegration({
                 </>
               )}
             </div>
-            <Alert severity="info">
-              To edit pages access, please remove the Notion integration and add it again
+            <Alert severity='info'>
+              To edit pages access, please remove the Notion integration and add
+              it again
             </Alert>
           </div>
           <TcButton
