@@ -9,11 +9,9 @@ export const SUPPORTED_CHAINS: Chain[] = [sepolia];
 export const wagmiConfig = getDefaultConfig({
   appName: 'TogetherCrew',
   chains: SUPPORTED_CHAINS as any,
-  projectId: conf.PROJECT_ID as string,
-  ssr: true,
-  storage: createStorage({
-    storage: cookieStorage,
-  }),
+  projectId: 'test',
+  ssr: false,
+
   transports: SUPPORTED_CHAINS.reduce(
     (obj, chain) => ({ ...obj, [chain.id]: http() }),
     {}

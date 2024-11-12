@@ -8,9 +8,9 @@ interface IProps {
 }
 
 const SEO: FC<IProps> = ({
-  title,
-  titleTemplate,
-  description,
+  title = 'TogetherCrew',
+  titleTemplate = 'Community Insights',
+  description = 'TogetherCrew',
 }): JSX.Element => (
   <HelmetProvider>
     <Helmet>
@@ -22,11 +22,5 @@ const SEO: FC<IProps> = ({
     </Helmet>
   </HelmetProvider>
 );
-
-SEO.defaultProps = {
-  title: 'TogetherCrew',
-  titleTemplate: 'Community Insights',
-  description: 'TogetherCrew',
-};
 
 export default SEO;

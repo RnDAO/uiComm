@@ -1,3 +1,7 @@
+import { Tooltip } from '@mui/material';
+import React from 'react';
+import { MdOutlineInfo } from 'react-icons/md';
+
 /**
  * TcIconWithTooltip Component.
  *
@@ -14,28 +18,22 @@
  * <TcIconWithTooltip iconComponent={<MdHelp size="20px" color="#767676" />} tooltipText="This is a help icon" />
  * ```
  */
-
-import { Tooltip } from '@mui/material';
-import React from 'react';
-import { MdOutlineInfo } from 'react-icons/md';
-
 interface ITcIconWithTooltip {
   iconComponent?: React.ReactElement | JSX.Element;
   tooltipText: string;
 }
 
-function TcIconWithTooltip({ iconComponent, tooltipText }: ITcIconWithTooltip) {
+function TcIconWithTooltip({
+  iconComponent = (
+    <MdOutlineInfo data-testid='icon-svg' size='20px' color='#767676' />
+  ),
+  tooltipText,
+}: ITcIconWithTooltip) {
   return (
     <Tooltip title={tooltipText} placement='bottom'>
       <div>{iconComponent}</div>
     </Tooltip>
   );
 }
-
-TcIconWithTooltip.defaultProps = {
-  iconComponent: (
-    <MdOutlineInfo data-testid='icon-svg' size='20px' color='#767676' />
-  ),
-};
 
 export default TcIconWithTooltip;
