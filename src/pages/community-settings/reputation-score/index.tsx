@@ -94,7 +94,7 @@ function Index() {
                 <AlertTitle>
                   Reputation Score is enabled for this community.
                 </AlertTitle>
-                In order to make any change please contact to the community
+                In order to make any change please contact to the
                 customer support.
               </Alert>{' '}
             </div>
