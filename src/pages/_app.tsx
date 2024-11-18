@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import type { AppProps } from 'next/app';
-import React, { useEffect } from 'react';
 import { hotjar } from 'react-hotjar';
 
 import '../styles/globals.css';
@@ -14,7 +14,10 @@ type ComponentWithPageLayout = AppProps & {
 };
 
 import { ThemeProvider } from '@mui/material';
-import { darkTheme, lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import {
+  lightTheme,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Script from 'next/script';
 import { ToastContainer } from 'react-toastify';

@@ -1,5 +1,5 @@
-import { Alert, AlertProps } from '@mui/material';
 import React from 'react';
+import { Alert, AlertProps } from '@mui/material';
 
 /**
  * TcAlert Component

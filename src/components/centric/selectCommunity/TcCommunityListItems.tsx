@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { Avatar } from '@mui/material';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
 import { MdGroups } from 'react-icons/md';
 
 import TcAvatar from '../../shared/TcAvatar';

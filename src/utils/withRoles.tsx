@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
 import React, {
   ComponentType,
   FunctionComponent,
   useEffect,
   useState,
 } from 'react';
+import { useRouter } from 'next/router';
 
 import useAppStore from '../store/useStore';
 

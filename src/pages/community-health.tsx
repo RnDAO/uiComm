@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 import EmptyState from '@/components/global/EmptyState';
 import SimpleBackdrop from '@/components/global/LoadingBackdrop';

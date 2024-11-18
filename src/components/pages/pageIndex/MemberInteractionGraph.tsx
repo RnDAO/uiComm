@@ -1,6 +1,6 @@
+import React from 'react';
 import Image from 'next/image';
 import router from 'next/router';
-import React from 'react';
 
 import TcButton from '../../shared/TcButton';
 import networkGraph from '../../../assets/svg/networkGraph.svg';

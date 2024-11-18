@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import useAppStore from '@/store/useStore';
 

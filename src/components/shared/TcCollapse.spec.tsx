@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
 import React from 'react';
+import { render } from '@testing-library/react';
 
 import TcCollapse from './TcCollapse'; // Replace with the correct import path
 

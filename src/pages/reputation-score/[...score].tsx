@@ -4,12 +4,12 @@ import { FiShare2 } from 'react-icons/fi';
 
 import GaugeChart from '@/components/global/GaugeChart';
 import SimpleBackdrop from '@/components/global/LoadingBackdrop';
+import SEO from '@/components/global/SEO';
 import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
 
 import useAppStore from '@/store/useStore';
 
 import { useSnackbar } from '@/context/SnackbarContext';
-import SEO from '@/components/global/SEO';
 
 const ScorePage = () => {
   const { showMessage } = useSnackbar();

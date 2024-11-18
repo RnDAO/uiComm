@@ -1,10 +1,10 @@
+import React, { useContext, useEffect, useState } from 'react';
 import {
   FormControl,
   FormHelperText,
   InputLabel,
   MenuItem,
 } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
 import { BiError } from 'react-icons/bi';
 
 import { ChannelContext } from '../../../../context/ChannelContext';

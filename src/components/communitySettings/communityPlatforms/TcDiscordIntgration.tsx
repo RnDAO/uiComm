@@ -1,5 +1,5 @@
-import { CircularProgress, Paper } from '@mui/material';
 import React from 'react';
+import { CircularProgress, Paper } from '@mui/material';
 import { BiPlus } from 'react-icons/bi';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';

@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';

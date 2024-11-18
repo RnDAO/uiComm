@@ -14,9 +14,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
+import { RiNftFill } from 'react-icons/ri';
 
 import { ICommunityPlatfromProps } from '@/utils/interfaces';
-import { RiNftFill } from 'react-icons/ri';
 
 import TcText from '../shared/TcText';
 import { conf } from '../../configs/index';

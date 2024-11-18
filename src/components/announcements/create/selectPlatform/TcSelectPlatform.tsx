@@ -1,5 +1,5 @@
-import { FormControl, InputLabel } from '@mui/material';
 import React from 'react';
+import { FormControl, InputLabel } from '@mui/material';
 import { BsDiscord, BsTelegram } from 'react-icons/bs';
 
 import TcSelect from '../../../shared/TcSelect';

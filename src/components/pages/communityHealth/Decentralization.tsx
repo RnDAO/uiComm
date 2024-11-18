@@ -1,9 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import Highcharts from 'highcharts/highcharts.js';
 import highchartsMore from 'highcharts/highcharts-more.js';
 import solidGauge from 'highcharts/modules/solid-gauge.js';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 

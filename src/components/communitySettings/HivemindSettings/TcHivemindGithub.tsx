@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   CircularProgress,
   FormControl,
@@ -5,7 +6,6 @@ import {
   Switch,
 } from '@mui/material';
 import router from 'next/router';
-import { useState } from 'react';
 
 import TcButton from '../../shared/TcButton';
 import TcIconWithTooltip from '../../shared/TcIconWithTooltip';

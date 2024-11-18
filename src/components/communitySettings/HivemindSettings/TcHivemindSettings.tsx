@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 
 import TcHivemindDiscordAnswering from './TcHivemindDiscordAnswering';
 import TcHivemindDiscordLearnings from './TcHivemindDiscordLearnings';

@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import React, { useState } from 'react';
 import {
   Alert,
   Box,
@@ -13,7 +14,6 @@ import {
   Typography,
 } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import React, { useState } from 'react';
 import { FaTags } from 'react-icons/fa';
 
 import useAppStore from '@/store/useStore';

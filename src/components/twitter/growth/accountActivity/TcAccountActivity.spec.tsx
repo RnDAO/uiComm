@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
 import React from 'react';
+import { render } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 
 import TcAccountActivity from './TcAccountActivity';

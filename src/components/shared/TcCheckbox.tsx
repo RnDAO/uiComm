@@ -27,8 +27,8 @@
  * @returns {JSX.Element} Rendered Checkbox component.
  */
 
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import React from 'react';
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 
 type ITcCheckboxProps = CheckboxProps;
 

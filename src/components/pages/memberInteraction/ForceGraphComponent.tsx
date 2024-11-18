@@ -1,6 +1,6 @@
+import React, { useRef, useState } from 'react';
 import { Avatar, Box, Popover, Typography } from '@mui/material';
 import clsx from 'clsx';
-import React, { useRef, useState } from 'react';
 import ForceGraph2D, {
   ForceGraphMethods,
   NodeObject,

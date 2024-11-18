@@ -1,5 +1,5 @@
-import { Avatar, AvatarProps } from '@mui/material';
 import React from 'react';
+import { Avatar, AvatarProps } from '@mui/material';
 
 /**
  * ITcAvatarProps interface.
