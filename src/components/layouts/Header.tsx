@@ -1,3 +1,4 @@
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   AppBar,
   Box,
@@ -10,7 +11,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react';
 
 import TcCommunityPlatformIcon from '../communitySettings/communityPlatforms/TcCommunityPlatformIcon';
 import TcIconWithTooltip from '../shared/TcIconWithTooltip';

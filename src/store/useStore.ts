@@ -8,6 +8,7 @@ import communityHealthSlice from './slices/communityHealthSlice';
 import createMemberInteractionSlice from './slices/memberInteractionSlice';
 import moduleSlice from './slices/moduleSlice';
 import platformSlice from './slices/platformSlice';
+import reputationScoreSlice from './slices/reputationScore';
 import twitterSlice from './slices/twitterSlice';
 import userSlice from './slices/userSlice';
 
@@ -22,6 +23,7 @@ const useAppStore = create<any>()((...a) => ({
   ...userSlice(...a),
   ...announcementsSlice(...a),
   ...moduleSlice(...a),
+  ...reputationScoreSlice(...a),
 }));
 
 export default useAppStore;

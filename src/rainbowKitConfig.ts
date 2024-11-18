@@ -1,8 +1,7 @@
 import { Chain, getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { sepolia } from 'viem/chains';
-import { cookieStorage, createStorage, http } from 'wagmi';
+import { http } from 'wagmi';
 
-import { conf } from './configs';
 
 export const SUPPORTED_CHAINS: Chain[] = [sepolia];
 

@@ -5,6 +5,7 @@ import { FaDiscourse } from 'react-icons/fa';
 import { FaGithub } from 'react-icons/fa';
 import { FaGoogleDrive } from 'react-icons/fa';
 import { FaWikipediaW } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import { FaTelegram, FaTwitter } from 'react-icons/fa6';
 import { RiNotionFill } from 'react-icons/ri';
 
@@ -37,6 +38,8 @@ function TcCommunityPlatformIcon({
         return <RiNotionFill size={size} />;
       case 'MediaWiki':
         return <FaWikipediaW size={size} />;
+      case 'Google':
+        return <FaGoogle size={size} />;
       default:
         return null;
     }

@@ -1,6 +1,6 @@
-import { Button, Stack, Typography } from '@mui/material';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useEffect, useState } from 'react';
+import { Alert, AlertTitle, Button, Stack, Typography } from '@mui/material';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -20,7 +20,7 @@ import { defaultLayout } from '@/layouts/defaultLayout';
 
 function Index() {
   const [moduleId, setModuleId] = useState<string | null>(null);
-  const { retrieveModules, patchModule } = useAppStore();
+  const { dynamicNFTModuleInfo, retrieveModules, patchModule } = useAppStore();
   const { community } = useToken();
 
   const { isConnected } = useAccount();
@@ -30,10 +30,7 @@ function Index() {
       community: community?.id,
       name: 'dynamicNft',
     });
-    console.log(
-      { reputationScoreModule },
-      reputationScoreModule?.results[0]?.id
-    );
+
     setModuleId(reputationScoreModule?.results[0]?.id);
   };
 
@@ -63,19 +60,15 @@ function Index() {
     isPending,
   } = useWriteContract();
 
-  const { data: receipt, isFetching: isWaiting } = useWaitForTransactionReceipt(
-    {
-      hash: transactionHash,
-    }
-  );
+  const { isFetching: isWaiting } = useWaitForTransactionReceipt({
+    hash: transactionHash,
+  });
 
   useEffect(() => {
     if (transactionHash) {
       handlePatchReputationScore(transactionHash);
     }
   }, [transactionHash]);
-
-  console.log({ transactionHash, receipt });
 
   return (
     <>
@@ -93,49 +86,65 @@ function Index() {
             },
           ]}
         />
-        <TcBoxContainer
-          contentContainerChildren={
-            <Stack className='space-y-4'>
-              <Stack className='space-y-4 px-4 pt-4 pb-[1rem] md:px-10'>
-                <Typography variant='h6' fontWeight='bold'>
-                  Reputation Score
-                </Typography>
-                <Typography variant='body2'>
-                  Reputation score is a number that represents the
-                  trustworthiness of a user in the community. It is calculated
-                  based on the user's activity and behavior in the community.
-                </Typography>
-                <Stack className='flex w-full justify-end space-y-4'>
-                  <ConnectButton />
-                </Stack>
+        <div className='relative'>
+          {/* Blur Layer */}
+          {dynamicNFTModuleInfo?.isNFTModuleEnabled && (
+            <div className='absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-white/80 backdrop-blur-sm'>
+              <Alert severity='info'>
+                <AlertTitle>
+                  Reputation Score is enabled for this community.
+                </AlertTitle>
+                In order to make any change please contact to the community
+                customer support.
+              </Alert>{' '}
+            </div>
+          )}
 
-                {isConnected ? (
-                  <Button
-                    variant='contained'
-                    onClick={() =>
-                      writeContract({
-                        address: sepoliachain.contractAddress as `0x${string}`,
-                        abi: sepoliachain.contractABI,
-                        functionName: 'issue',
-                        args: [community?.name],
-                      })
-                    }
-                  >
-                    {isPending || isWaiting ? 'Processing...' : 'Issue Token'}
-                  </Button>
-                ) : (
-                  ''
-                )}
-
-                {transactionHash && (
-                  <Typography variant='body2'>
-                    Transaction Hash: {transactionHash}
+          <TcBoxContainer
+            contentContainerChildren={
+              <Stack className='space-y-4'>
+                <Stack className='space-y-4 px-4 pt-4 pb-[1rem] md:px-10'>
+                  <Typography variant='h6' fontWeight='bold'>
+                    Reputation Score
                   </Typography>
-                )}
+                  <Typography variant='body2'>
+                    Reputation score is a number that represents the
+                    trustworthiness of a user in the community. It is calculated
+                    based on the user's activity and behavior in the community.
+                  </Typography>
+                  <Stack className='flex w-full justify-end space-y-4'>
+                    <ConnectButton />
+                  </Stack>
+
+                  {isConnected ? (
+                    <Button
+                      variant='contained'
+                      onClick={() =>
+                        writeContract({
+                          address:
+                            sepoliachain.contractAddress as `0x${string}`,
+                          abi: sepoliachain.contractABI,
+                          functionName: 'issue',
+                          args: [community?.name],
+                        })
+                      }
+                    >
+                      {isPending || isWaiting ? 'Processing...' : 'Issue Token'}
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+
+                  {transactionHash && (
+                    <Typography variant='body2'>
+                      Transaction Hash: {transactionHash}
+                    </Typography>
+                  )}
+                </Stack>
               </Stack>
-            </Stack>
-          }
-        />
+            }
+          />
+        </div>
       </div>
     </>
   );

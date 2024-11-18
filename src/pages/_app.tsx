@@ -14,7 +14,7 @@ type ComponentWithPageLayout = AppProps & {
 };
 
 import { ThemeProvider } from '@mui/material';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { darkTheme, lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Script from 'next/script';
 import { ToastContainer } from 'react-toastify';
@@ -69,7 +69,13 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
       </Script>
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider>
+          <RainbowKitProvider
+            theme={lightTheme({
+              accentColor: '#804EE1',
+              accentColorForeground: 'white',
+              borderRadius: 'medium',
+            })}
+          >
             <ThemeProvider theme={theme}>
               <TokenProvider>
                 <ChannelProvider>

@@ -16,6 +16,7 @@ import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
 
 import { ICommunityPlatfromProps } from '@/utils/interfaces';
+import { RiNftFill } from 'react-icons/ri';
 
 import TcText from '../shared/TcText';
 import { conf } from '../../configs/index';
@@ -25,6 +26,7 @@ import useAppStore from '../../store/useStore';
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
+  const { dynamicNFTModuleInfo } = useAppStore();
   const { community, selectedPlatform } = useToken();
   const [isDiscourse, setIsDiscourse] = useState<boolean>(false);
 
@@ -100,6 +102,16 @@ const Sidebar = () => {
       ),
     },
   ];
+
+  if (dynamicNFTModuleInfo?.isNFTModuleEnabled) {
+    menuItems.splice(menuItems.length - 1, 0, {
+      name: 'Reputation Score',
+      path: '/reputation-score',
+      icon: (
+        <RiNftFill style={{ fontSize: 20, color: 'black', margin: '0 auto' }} />
+      ),
+    });
+  }
 
   if (!userPermissions.includes('admin')) {
     menuItems = menuItems.filter(
