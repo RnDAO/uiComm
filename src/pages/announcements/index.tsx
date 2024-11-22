@@ -24,6 +24,7 @@ import {
   IPlatformProps,
 } from '../../utils/interfaces';
 import { withRoles } from '../../utils/withRoles';
+import { Link, Stack, Typography } from '@mui/material';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
@@ -175,11 +176,24 @@ function Index() {
             <div className='flex max-h-[97dvh] min-h-[97dvh] flex-col justify-between space-y-4 p-4 md:p-10'>
               <div className='min-h-[calc(100vh-100px)] flex-grow overflow-auto'>
                 <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
-                  <TcText text='Announcement Scheduling' variant='h5' />
+                  <Stack spacing={1}>
+                    <TcText text='Announcement Scheduling' variant='h5' />
+                    <Typography variant='body2' className='text-left'>
+                    smart announcements allow you to send targeted messages to specific user segments.  {" "}
+                      <Link
+                        className='font-bold'
+                        color='primary'
+                        href='https://togethercrew.gitbook.io/onboarding/~/changes/NV24DFt4YIMi4FKjX30S/features/smart-announcements'
+                        target='_blank'
+                      >
+                      Learn more
+                      </Link>
+                    </Typography>
+                  </Stack>
                   <TcButton
                     text='Create Announcement'
                     startIcon={<BsPlus />}
-                    variant='outlined'
+                    variant='contained'
                     onClick={() =>
                       router.push('/announcements/create-new-announcements')
                     }
