@@ -1,3 +1,4 @@
+import { Link, Stack, Typography } from '@mui/material';
 import moment from 'moment';
 import router from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +14,6 @@ import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcButton from '../../components/shared/TcButton';
 import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
 import TcPagination from '../../components/shared/TcPagination';
-import TcText from '../../components/shared/TcText';
 import { useToken } from '../../context/TokenContext';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import { StorageService } from '../../services/StorageService';
@@ -24,7 +24,6 @@ import {
   IPlatformProps,
 } from '../../utils/interfaces';
 import { withRoles } from '../../utils/withRoles';
-import { Link, Stack, Typography } from '@mui/material';
 
 function Index() {
   const { retrieveAnnouncements, retrievePlatformById } = useAppStore();
@@ -177,16 +176,19 @@ function Index() {
               <div className='min-h-[calc(100vh-100px)] flex-grow overflow-auto'>
                 <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
                   <Stack spacing={1}>
-                    <TcText text='Announcement Scheduling' variant='h5' />
+                    <Typography variant='h5'>
+                      Announcement Scheduling
+                    </Typography>
                     <Typography variant='body2' className='text-left'>
-                    smart announcements allow you to send targeted messages to specific user segments.  {" "}
+                      smart announcements allow you to send targeted messages to
+                      specific user segments.{' '}
                       <Link
                         className='font-bold'
                         color='primary'
                         href='https://togethercrew.gitbook.io/onboarding/~/changes/NV24DFt4YIMi4FKjX30S/features/smart-announcements'
                         target='_blank'
                       >
-                      Learn more
+                        Learn more
                       </Link>
                     </Typography>
                   </Stack>
@@ -233,16 +235,16 @@ function Index() {
                   </div>
                 ) : (
                   <div className='mx-auto flex h-[65dvh] w-9/12 flex-col justify-center text-center md:w-4/12'>
-                    <TcText
-                      text='No announcements yet'
-                      variant='h6'
-                      fontWeight='bold'
-                    />
-                    <TcText
-                      text='Your announcements will show up for the month and timezone selected once you create them'
+                    <Typography variant='h6' fontWeight='bold'>
+                      No announcements yet
+                    </Typography>
+                    <Typography
                       variant='body2'
                       className='text-gray-400'
-                    />
+                    >
+                      Your announcements will show up for the month and timezone
+                      selected once you create them{' '}
+                    </Typography>
                   </div>
                 )}
               </div>
