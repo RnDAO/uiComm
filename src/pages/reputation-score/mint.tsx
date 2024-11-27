@@ -83,6 +83,8 @@ function Mint() {
     }
   }, [fetchUserAttestations, address, isConnected]);
 
+
+
   return (
     <>
       <SEO titleTemplate='Mint Reputation Score' />
@@ -162,8 +164,15 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
   isConnected,
   isLoading,
   userProfile,
-}) => (
-  <Stack className='space-y-4'>
+}) => {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    const url = "https://identity-on-chain-platform.pages.dev/permissions";
+    router.push(url);
+  };
+  return(
+    <Stack className='space-y-4'>
     <Stack className='space-y-2 px-4 pt-4 pb-[1rem] md:px-10'>
       <Typography variant='h6'>Join the On-Chain Platform</Typography>
       <Typography variant='body2'>
@@ -208,7 +217,7 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
                       idenitifers.
                     </Typography>
                   </Alert>
-                  <Button variant='contained' color='primary'>
+                  <Button variant='contained' color='primary' onClick={handleNavigation}>
                     Register On-chain Platform
                   </Button>
                 </Stack>
@@ -219,7 +228,9 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
       )}
     </Stack>
   </Stack>
-);
+  )
+
+}
 
 const MintSection: React.FC<MintSectionProps> = ({
   isLoading,
@@ -232,7 +243,7 @@ const MintSection: React.FC<MintSectionProps> = ({
   const { dynamicNFTModuleInfo } = useAppStore();
   const { data: hasMinted } = useReadContract({
     address: engagementContract?.address as `0x${string}`,
-    abi: engagementContract.abi as Abi,
+    abi: engagementContract?.abi as Abi,
     functionName: 'balanceOf',
     args: [address, dynamicNFTModuleInfo?.metadata[0]?.tokenId],
   });
@@ -320,8 +331,16 @@ const MintSection: React.FC<MintSectionProps> = ({
   );
 };
 
-const UserProfileBox: React.FC<UserProfileBoxProps> = ({ profile }) => (
-  <Box
+const UserProfileBox: React.FC<UserProfileBoxProps> = ({ profile }) => {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    const url = "https://identity-on-chain-platform.pages.dev/permissions";
+    router.push(url);
+  };
+ 
+  return (
+    <Box
     mt={2}
     boxShadow={1}
     borderRadius={2}
@@ -352,11 +371,13 @@ const UserProfileBox: React.FC<UserProfileBoxProps> = ({ profile }) => (
       variant={profile.hasAccess ? 'outlined' : 'contained'}
       fullWidth
       color={profile.hasAccess ? 'secondary' : 'primary'}
+      onClick={handleNavigation}
     >
       {profile.hasAccess ? 'Revoke' : 'Grant Access'}
     </Button>
   </Box>
-);
+  );
+};
 
 Mint.pageLayout = defaultLayout;
 
