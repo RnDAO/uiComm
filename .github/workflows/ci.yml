@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest]
-        node: [18.17.0]
+        node: [18.18.0, 20.0.0]
     name: test/node ${{ matrix.node }}/${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
     steps:
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '18.18.0'
           cache: 'npm'
       - run: npm ci
       - run: npm run build
