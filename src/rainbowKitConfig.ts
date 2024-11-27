@@ -9,7 +9,7 @@ export const SUPPORTED_CHAINS: Chain[] = [baseSepolia];
 export const wagmiConfig = getDefaultConfig({
   appName: 'TogetherCrew',
   chains: SUPPORTED_CHAINS as any,
-  projectId: 'e6cfdac03834b31ebda253eab5177e8d',
+  projectId: conf.PROJECT_ID as string,
   ssr: false,
 
   transports: SUPPORTED_CHAINS.reduce(
