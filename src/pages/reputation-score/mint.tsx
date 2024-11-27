@@ -11,9 +11,10 @@ import {
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/navigation';
 import { OciClient, UserAttestation } from 'oci-js-sdk';
+import { Abi } from 'viem';
 import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 
-import sepoliachain from '@/lib/contracts/engagement/sepoliaChain.json';
+import { engagementContracts } from '@/lib/contracts/engagement/contracts';
 
 import TcCommunityPlatformIcon from '@/components/communitySettings/communityPlatforms/TcCommunityPlatformIcon';
 import SEO from '@/components/global/SEO';
@@ -24,6 +25,7 @@ import TcIconWithTooltip from '@/components/shared/TcIconWithTooltip';
 import useAppStore from '@/store/useStore';
 
 import { conf } from '@/configs';
+import { useSnackbar } from '@/context/SnackbarContext';
 import { capitalizeFirstLetter } from '@/helpers/helper';
 import { defaultLayout } from '@/layouts/defaultLayout';
 import { withRoles } from '@/utils/withRoles';
@@ -36,6 +38,7 @@ interface AttestationSectionProps {
 
 interface MintSectionProps {
   isLoading: boolean;
+  engagementContract: any;
 }
 
 interface UserProfileBoxProps {
@@ -46,7 +49,11 @@ function Mint() {
   const [loading, setLoading] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<UserAttestation[]>([]);
 
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chainId } = useAccount();
+
+  const engagementContract = engagementContracts.find(
+    (contract) => contract.chainId === chainId
+  );
 
   const fetchUserAttestations = useCallback(async () => {
     try {
@@ -56,7 +63,7 @@ function Mint() {
         throw new Error('App developer address is not available');
       setLoading(true);
 
-      const ociClient = new OciClient({ chainId: 11155111 });
+      const ociClient = new OciClient({ chainId: chainId as number });
       const result = await ociClient.getUserProfileWithAppPermissions(
         address,
         conf.APP_DEVELOPER_PUBLIC_ADDRESS as `0x${string}`
@@ -123,7 +130,12 @@ function Mint() {
               </Stack>
             )}
             <TcBoxContainer
-              contentContainerChildren={<MintSection isLoading={loading} />}
+              contentContainerChildren={
+                <MintSection
+                  isLoading={loading}
+                  engagementContract={engagementContract}
+                />
+              }
             />
           </div>
         </div>
@@ -209,13 +221,18 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
   </Stack>
 );
 
-const MintSection: React.FC<MintSectionProps> = ({ isLoading }) => {
+const MintSection: React.FC<MintSectionProps> = ({
+  isLoading,
+  engagementContract,
+}) => {
   const router = useRouter();
+  const { showMessage } = useSnackbar();
+
   const { address } = useAccount();
   const { dynamicNFTModuleInfo } = useAppStore();
   const { data: hasMinted } = useReadContract({
-    address: sepoliachain.contractAddress as `0x${string}`,
-    abi: sepoliachain.contractABI,
+    address: engagementContract?.address as `0x${string}`,
+    abi: engagementContract.abi as Abi,
     functionName: 'balanceOf',
     args: [address, dynamicNFTModuleInfo?.metadata[0]?.tokenId],
   });
@@ -274,20 +291,26 @@ const MintSection: React.FC<MintSectionProps> = ({ isLoading }) => {
           <Button
             variant='contained'
             color='primary'
-            onClick={() =>
-              writeContractAsync({
-                address: sepoliachain.contractAddress as `0x${string}`,
-                abi: sepoliachain.contractABI,
-                functionName: 'mint',
-                args: [
-                  address,
-                  dynamicNFTModuleInfo.metadata[0].tokenId,
-                  1,
-                  '0x0',
-                ],
-              })
-            }
-            disabled={isPending}
+            onClick={async () => {
+              try {
+                await writeContractAsync({
+                  address: engagementContract?.address as `0x${string}`,
+                  abi: engagementContract?.abi as Abi,
+                  functionName: 'mint',
+                  args: [
+                    address,
+                    dynamicNFTModuleInfo.metadata[0].tokenId,
+                    1,
+                    '0x0',
+                  ],
+                });
+                showMessage('Minting successful', 'success');
+              } catch (error: any) {
+                console.error('Mint failed:', error);
+                showMessage('Minting failed', 'error');
+              }
+            }}
+            disabled={isPending || !dynamicNFTModuleInfo?.metadata[0]?.tokenId}
           >
             {isPending ? 'Minting...' : 'Mint Reputation Score'}
           </Button>

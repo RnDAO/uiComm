@@ -2,9 +2,10 @@ import { Alert, Button, Stack, Typography } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { Abi } from 'viem';
 import { useAccount, useReadContract } from 'wagmi';
 
-import sepoliachain from '@/lib/contracts/engagement/sepoliaChain.json';
+import { engagementContracts } from '@/lib/contracts/engagement/contracts';
 
 import SEO from '@/components/global/SEO';
 import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
@@ -16,13 +17,17 @@ import { defaultLayout } from '@/layouts/defaultLayout';
 import { withRoles } from '@/utils/withRoles';
 
 function ReputationScore() {
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chainId } = useAccount();
   const { dynamicNFTModuleInfo } = useAppStore();
   const router = useRouter();
 
+  const engagementContract = engagementContracts.find(
+    (contract) => contract.chainId === chainId
+  );
+
   const { data: hasMinted } = useReadContract({
-    address: sepoliachain.contractAddress as `0x${string}`,
-    abi: sepoliachain.contractABI,
+    address: engagementContract?.address as `0x${string}`,
+    abi: engagementContract?.abi as Abi,
     functionName: 'balanceOf',
     args: [address, dynamicNFTModuleInfo?.metadata[0]?.tokenId],
   });

@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { FaBars } from 'react-icons/fa';
 import { FiSettings } from 'react-icons/fi';
 import { MdKeyboardBackspace, MdOutlineAnnouncement } from 'react-icons/md';
+import { RiNftFill } from 'react-icons/ri';
 
 import TcText from '../../shared/TcText';
 import { conf } from '../../../configs';
@@ -24,6 +25,7 @@ import { ICommunityPlatfromProps } from '../../../utils/interfaces';
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
+  const { dynamicNFTModuleInfo } = useAppStore();
 
   const { community } = useToken();
 
@@ -97,6 +99,16 @@ const Sidebar = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  if (dynamicNFTModuleInfo?.isNFTModuleEnabled) {
+    menuItems.splice(menuItems.length - 1, 0, {
+      name: 'Reputation Score',
+      path: '/reputation-score',
+      icon: (
+        <RiNftFill style={{ fontSize: 30, color: 'black', margin: '0 auto' }} />
+      ),
+    });
+  }
 
   if (!userPermissions.includes('admin')) {
     menuItems = menuItems.filter(

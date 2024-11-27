@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Alert, AlertTitle, Button, Stack, Typography } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Abi } from 'viem';
 import {
   useAccount,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi';
 
-import sepoliachain from '@/lib/contracts/engagement/sepoliaChain.json';
+import { engagementContracts } from '@/lib/contracts/engagement/contracts';
 
 import SEO from '@/components/global/SEO';
 import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
@@ -23,7 +24,11 @@ function Index() {
   const { dynamicNFTModuleInfo, retrieveModules, patchModule } = useAppStore();
   const { community } = useToken();
 
-  const { isConnected } = useAccount();
+  const { isConnected, chainId } = useAccount();
+
+  const engagementContract = engagementContracts.find(
+    (contract) => contract.chainId === chainId
+  );
 
   const fetchReputationScore = async () => {
     const reputationScoreModule = await retrieveModules({
@@ -40,6 +45,7 @@ function Index() {
         {
           metadata: {
             transactionHash: txId,
+            chainId,
           },
         },
       ],
@@ -94,8 +100,8 @@ function Index() {
                 <AlertTitle>
                   Reputation Score is enabled for this community.
                 </AlertTitle>
-                In order to make any change please contact to the
-                customer support.
+                In order to make any change please contact to the customer
+                support.
               </Alert>{' '}
             </div>
           )}
@@ -121,11 +127,10 @@ function Index() {
                       variant='contained'
                       onClick={() =>
                         writeContract({
-                          address:
-                            sepoliachain.contractAddress as `0x${string}`,
-                          abi: sepoliachain.contractABI,
+                          address: engagementContract?.address as `0x${string}`,
+                          abi: engagementContract?.abi as Abi,
                           functionName: 'issue',
-                          args: [community?.name],
+                          args: [],
                         })
                       }
                     >

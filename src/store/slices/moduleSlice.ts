@@ -54,6 +54,9 @@ const createModuleSlice: StateCreator<IModule> = (set, get) => ({
 
       return data;
     } catch (error) {
+      set({
+        dynamicNFTModuleInfo: { isNFTModuleEnabled: false, metadata: null },
+      });
       console.error(error);
     }
   },

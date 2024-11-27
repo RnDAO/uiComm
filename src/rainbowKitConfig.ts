@@ -1,13 +1,15 @@
 import { Chain, getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { sepolia } from 'viem/chains';
+import { baseSepolia } from 'viem/chains';
 import { http } from 'wagmi';
 
-export const SUPPORTED_CHAINS: Chain[] = [sepolia];
+import { conf } from './configs';
+
+export const SUPPORTED_CHAINS: Chain[] = [baseSepolia];
 
 export const wagmiConfig = getDefaultConfig({
   appName: 'TogetherCrew',
   chains: SUPPORTED_CHAINS as any,
-  projectId: 'test',
+  projectId: conf.PROJECT_ID ? conf.PROJECT_ID : '',
   ssr: false,
 
   transports: SUPPORTED_CHAINS.reduce(
