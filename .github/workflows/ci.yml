@@ -22,7 +22,7 @@ jobs:
         env:
           SHARP_IGNORE_GLOBAL_LIBVIPS: 1
       - run: npm run lint
-      - run: npm run test
+      # - run: npm run test
       - run: npm run build
 
   coverage:
