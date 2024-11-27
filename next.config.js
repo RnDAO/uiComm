@@ -5,7 +5,6 @@ const nextConfig = {
   swcMinify: true,
   trailingSlash: true,
   images: {
-    loader:'custom',
     unoptimized: true,
   },
 };
