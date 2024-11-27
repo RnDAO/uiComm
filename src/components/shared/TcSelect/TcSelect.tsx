@@ -1,12 +1,14 @@
 import React, { ReactElement } from 'react';
-import { MenuItem, Select, SelectProps } from '@mui/material';
+import { BaseSelectProps, MenuItem, Select } from '@mui/material';
 import { IconType } from 'react-icons';
 
 import TcText from '../TcText';
 
-/**
- * Interface for TcSelect props
- */
+// Create a new type that includes the properties you need from SelectProps
+type SelectProps = BaseSelectProps & {
+  // Add any additional properties you need here
+};
+
 interface ITcSelectProps extends SelectProps {
   /**
    * options - Array of option objects for the select dropdown
@@ -14,6 +16,7 @@ interface ITcSelectProps extends SelectProps {
    *   - value (string | number): The value of the option
    *   - label (string): The display label for the option
    *   - icon (ReactElement<IconType>): Optional icon to display alongside the label
+   *   - disabled (boolean): Whether the option is disabled
    */
   options?: Array<{
     value: string | number;
@@ -21,7 +24,15 @@ interface ITcSelectProps extends SelectProps {
     icon?: ReactElement<IconType>;
     disabled?: boolean;
   }>;
+  /**
+   * Support for multiple selection
+   */
+  multiple?: boolean;
   children?: React.ReactNode;
+  /**
+   * Label ID for the select component
+   */
+  labelId?: string;
 }
 
 /**

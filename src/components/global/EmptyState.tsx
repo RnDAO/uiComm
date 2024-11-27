@@ -4,9 +4,9 @@ import TcButton from '../shared/TcButton';
 
 type IProps = {
   image: JSX.Element;
-  title: string;
-  description: string;
-  customButtonLabel: string;
+  title?: string;
+  description?: string;
+  customButtonLabel?: string;
 };
 
 export default function EmptyState({
