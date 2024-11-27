@@ -22,6 +22,7 @@ module.exports = {
       'warn',
       { props: 'never', children: 'never' },
     ], // Enforce no unnecessary curly braces in JSX
+    "react/no-deprecated": "warn", // Enable warning for deprecated methods in React
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
     'no-empty': 'off',
