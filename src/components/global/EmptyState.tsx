@@ -11,9 +11,9 @@ type IProps = {
 
 export default function EmptyState({
   image,
-  title,
-  description,
-  customButtonLabel,
+  title= 'Almost there!',
+  description = "To get an overview of your member's insights, community health, and more, connect your community.",
+  customButtonLabel= 'Connect your community',
 }: IProps) {
   const router = useRouter();
   return (
@@ -32,10 +32,3 @@ export default function EmptyState({
     </div>
   );
 }
-
-EmptyState.defaultProps = {
-  title: 'Almost there!',
-  description:
-    "To get an overview of your member's insights, community health, and more, connect your community.",
-  customButtonLabel: 'Connect your community',
-};

@@ -19,7 +19,7 @@ interface ITcTableBodyProps extends TableBodyProps {
  * @param {ITcTableBodyProps} props - Props including rowItems and other TableBodyProps
  */
 
-function TcTableBody({ rowItems, ...props }: ITcTableBodyProps) {
+function TcTableBody({ rowItems=[], ...props }: ITcTableBodyProps) {
   return (
     <TableBody {...props}>
       {rowItems.map((row, index) => (
@@ -34,9 +34,5 @@ function TcTableBody({ rowItems, ...props }: ITcTableBodyProps) {
     </TableBody>
   );
 }
-
-TcTableBody.defaultProps = {
-  rowItems: [],
-};
 
 export default TcTableBody;
