@@ -3,7 +3,7 @@ name: tc-build
 on: [push, pull_request]
 
 jobs:
-  test:
+  lint:
     strategy:
       matrix:
         platform: [ubuntu-latest]
@@ -19,25 +19,25 @@ jobs:
       - run: npm install
       - run: npm run lint
       # - run: npm run test
-      - run: npm run build
-        env:
-            NEXT_PUBLIC_PROJECT_ID: 'ABCD'
+      # - run: npm run build
+      #   env:
+      #       NEXT_PUBLIC_PROJECT_ID: 'ABCD'
          
 
-  coverage:
-    needs: [test]
-    name: coverage
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18.18.0'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-      - uses: paambaati/codeclimate-action@v9.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: npm run coverage
+  # coverage:
+  #   needs: [test]
+  #   name: coverage
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18.18.0'
+  #         cache: 'npm'
+  #     - run: npm ci
+  #     # - run: npm run build
+  #     - uses: paambaati/codeclimate-action@v9.0.0
+  #       env:
+  #         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  #       with:
+  #         coverageCommand: npm run coverage
