@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { TreeItem, TreeView } from '@mui/lab';
 import {
   Alert,
   AlertTitle,
@@ -7,6 +6,7 @@ import {
   FormControlLabel,
   Typography,
 } from '@mui/material';
+import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -15,6 +15,7 @@ import { IoClose, IoSettingsSharp } from 'react-icons/io5';
 import { MdCalendarMonth, MdExpandMore } from 'react-icons/md';
 import { MdChevronRight } from 'react-icons/md';
 import { RiTimeLine } from 'react-icons/ri';
+import '@mui/lab';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcButton from '../../shared/TcButton';
@@ -398,13 +399,15 @@ function TcDiscordIntegrationSettingsDialog({
                     <CircularProgress />
                   </div>
                 ) : (
-                  <TreeView
-                    defaultCollapseIcon={<MdExpandMore />}
-                    defaultExpandIcon={<MdChevronRight />}
+                  <SimpleTreeView
+                    slots={{
+                      collapseIcon: MdExpandMore,
+                      expandIcon: MdChevronRight,
+                    }}
                   >
                     {discordPlatformChannels?.map((channel, index) => (
                       <TreeItem
-                        nodeId={channel.channelId}
+                        itemId={channel.channelId}
                         label={
                           <div className='flex items-center justify-between'>
                             <TcText
@@ -442,7 +445,7 @@ function TcDiscordIntegrationSettingsDialog({
                       >
                         {channel.subChannels.map((subChannel, index) => (
                           <TreeItem
-                            nodeId={subChannel.channelId}
+                            itemId={subChannel.channelId}
                             label={
                               <div className='flex items-center justify-between'>
                                 <TcText
@@ -476,7 +479,7 @@ function TcDiscordIntegrationSettingsDialog({
                         ))}
                       </TreeItem>
                     ))}
-                  </TreeView>
+                  </SimpleTreeView>
                 )}
               </div>
             </>
@@ -528,7 +531,7 @@ function TcDiscordIntegrationSettingsDialog({
               variant='h6'
             />
           </div>
-          <div className='flex flex-col justify-between space-y-4 pb-8 md:flex-row md:space-y-0 md:space-x-5 md:py-12'>
+          <div className='flex flex-col justify-between space-y-4 pb-8 md:flex-row md:space-x-5 md:space-y-0 md:py-12'>
             <div className='space-y-4 rounded-md px-4 py-6 shadow-xl'>
               <TcText
                 text='Disconnect and delete data'
