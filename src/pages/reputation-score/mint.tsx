@@ -12,7 +12,12 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/navigation';
 import { OciClient, UserAttestation } from 'oci-js-sdk';
 import { Abi } from 'viem';
-import { useAccount, useReadContract, useWriteContract } from 'wagmi';
+import {
+  useAccount,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from 'wagmi';
 
 import { engagementContracts } from '@/lib/contracts/engagement/contracts';
 
@@ -83,8 +88,6 @@ function Mint() {
     }
   }, [fetchUserAttestations, address, isConnected]);
 
-
-
   return (
     <>
       <SEO titleTemplate='Mint Reputation Score' />
@@ -148,7 +151,7 @@ function Mint() {
 
 const ConnectWalletSection: React.FC = () => (
   <Stack className='space-y-4'>
-    <Stack className='space-y-2 px-4 pt-4 pb-[1rem] md:px-10'>
+    <Stack className='space-y-2 px-4 pb-[1rem] pt-4 md:px-10'>
       <Typography variant='h6'>Connect Your Wallet</Typography>
       <Typography variant='body2'>
         To mint your reputation score, please connect your wallet.
@@ -168,69 +171,72 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
   const router = useRouter();
 
   const handleNavigation = () => {
-    const url = "https://identity-on-chain-platform.pages.dev/permissions";
+    const url = 'https://identity-on-chain-platform.pages.dev/permissions';
     router.push(url);
   };
-  return(
+  return (
     <Stack className='space-y-4'>
-    <Stack className='space-y-2 px-4 pt-4 pb-[1rem] md:px-10'>
-      <Typography variant='h6'>Join the On-Chain Platform</Typography>
-      <Typography variant='body2'>
-        TogetherCrew has partnered with an on-chain platform to create secure,
-        on-chain attestations of user credentials. With on-chain access, you can
-        grant permission to applications, enabling them to decrypt and verify
-        your credentials.
-      </Typography>
-      {isConnected && (
-        <Stack
-          display='flex'
-          flexDirection='row'
-          alignItems='center'
-          spacing={2}
-          className='space-x-3'
-        >
-          {isLoading ? (
-            <Box
-              width={200}
-              height={140}
-              mx='auto'
-              display='flex'
-              justifyContent='center'
-              alignItems='center'
-            >
-              <CircularProgress size={44} />
-            </Box>
-          ) : (
-            <>
-              {userProfile.length > 0 ? (
-                userProfile.map((profile, index) => (
-                  <UserProfileBox key={index} profile={profile} />
-                ))
-              ) : (
-                <Stack className='space-y-3'>
-                  <Alert severity='error'>
-                    <AlertTitle>No Attestations Found</AlertTitle>
-                    <Typography variant='body2'>
-                      In order to mint your reputation score, you need to have
-                      idenitifers connected to wallet address. please register
-                      your wallet on On-chain platform and attestation your
-                      idenitifers.
-                    </Typography>
-                  </Alert>
-                  <Button variant='contained' color='primary' onClick={handleNavigation}>
-                    Register On-chain Platform
-                  </Button>
-                </Stack>
-              )}
-            </>
-          )}
-        </Stack>
-      )}
+      <Stack className='space-y-2 px-4 pb-[1rem] pt-4 md:px-10'>
+        <Typography variant='h6'>Join the On-Chain Platform</Typography>
+        <Typography variant='body2'>
+          TogetherCrew has partnered with an on-chain platform to create secure,
+          on-chain attestations of user credentials. With on-chain access, you
+          can grant permission to applications, enabling them to decrypt and
+          verify your credentials.
+        </Typography>
+        {isConnected && (
+          <Stack
+            display='flex'
+            flexDirection='row'
+            alignItems='center'
+            spacing={2}
+            className='space-x-3'
+          >
+            {isLoading ? (
+              <Box
+                width={200}
+                height={140}
+                mx='auto'
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+              >
+                <CircularProgress size={44} />
+              </Box>
+            ) : (
+              <>
+                {userProfile.length > 0 ? (
+                  userProfile.map((profile, index) => (
+                    <UserProfileBox key={index} profile={profile} />
+                  ))
+                ) : (
+                  <Stack className='space-y-3'>
+                    <Alert severity='error'>
+                      <AlertTitle>No Attestations Found</AlertTitle>
+                      <Typography variant='body2'>
+                        In order to mint your reputation score, you need to have
+                        idenitifers connected to wallet address. please register
+                        your wallet on On-chain platform and attestation your
+                        idenitifers.
+                      </Typography>
+                    </Alert>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={handleNavigation}
+                    >
+                      Register On-chain Platform
+                    </Button>
+                  </Stack>
+                )}
+              </>
+            )}
+          </Stack>
+        )}
+      </Stack>
     </Stack>
-  </Stack>
-  )
-
-}
+  );
+};
 
 const MintSection: React.FC<MintSectionProps> = ({
   isLoading,
@@ -248,11 +254,19 @@ const MintSection: React.FC<MintSectionProps> = ({
     args: [address, dynamicNFTModuleInfo?.metadata[0]?.tokenId],
   });
 
-  const { writeContractAsync, isPending } = useWriteContract();
+  const {
+    data: transactionHash,
+    writeContractAsync,
+    isPending,
+  } = useWriteContract();
+
+  const { isPending: isWaiting } = useWaitForTransactionReceipt({
+    hash: transactionHash,
+  });
 
   return (
     <Stack className='space-y-4'>
-      <Stack className='space-y-2 px-4 pt-4 pb-[1rem] md:px-10'>
+      <Stack className='space-y-2 px-4 pb-[1rem] pt-4 md:px-10'>
         <Typography variant='h6'>Mint Your Reputation Score</Typography>
         <Typography variant='body2'>
           Mint your reputation score to gain access to exclusive features and
@@ -315,13 +329,11 @@ const MintSection: React.FC<MintSectionProps> = ({
                     '0x0',
                   ],
                 });
-                showMessage('Minting successful', 'success');
               } catch (error: any) {
                 console.error('Mint failed:', error);
-                showMessage('Minting failed', 'error');
               }
             }}
-            disabled={isPending || !dynamicNFTModuleInfo?.metadata[0]?.tokenId}
+            disabled={isPending || isWaiting || !dynamicNFTModuleInfo?.metadata[0]?.tokenId}
           >
             {isPending ? 'Minting...' : 'Mint Reputation Score'}
           </Button>
@@ -335,47 +347,47 @@ const UserProfileBox: React.FC<UserProfileBoxProps> = ({ profile }) => {
   const router = useRouter();
 
   const handleNavigation = () => {
-    const url = "https://identity-on-chain-platform.pages.dev/permissions";
+    const url = 'https://identity-on-chain-platform.pages.dev/permissions';
     router.push(url);
   };
- 
+
   return (
     <Box
-    mt={2}
-    boxShadow={1}
-    borderRadius={2}
-    p={2}
-    display='flex'
-    flexDirection='column'
-    alignItems='center'
-    justifyContent='center'
-    width={200}
-    height={140}
-  >
-    <TcCommunityPlatformIcon
-      platform={capitalizeFirstLetter(profile.provider)}
-    />
-    <Stack
-      direction='row'
+      mt={2}
+      boxShadow={1}
+      borderRadius={2}
+      p={2}
+      display='flex'
+      flexDirection='column'
       alignItems='center'
       justifyContent='center'
-      spacing={1}
-      mt={1}
+      width={200}
+      height={140}
     >
-      <Typography variant='h6' align='center'>
-        {capitalizeFirstLetter(profile.provider)}
-      </Typography>
-      <TcIconWithTooltip tooltipText={profile.attestationId} />
-    </Stack>
-    <Button
-      variant={profile.hasAccess ? 'outlined' : 'contained'}
-      fullWidth
-      color={profile.hasAccess ? 'secondary' : 'primary'}
-      onClick={handleNavigation}
-    >
-      {profile.hasAccess ? 'Revoke' : 'Grant Access'}
-    </Button>
-  </Box>
+      <TcCommunityPlatformIcon
+        platform={capitalizeFirstLetter(profile.provider)}
+      />
+      <Stack
+        direction='row'
+        alignItems='center'
+        justifyContent='center'
+        spacing={1}
+        mt={1}
+      >
+        <Typography variant='h6' align='center'>
+          {capitalizeFirstLetter(profile.provider)}
+        </Typography>
+        <TcIconWithTooltip tooltipText={profile.attestationId} />
+      </Stack>
+      <Button
+        variant={profile.hasAccess ? 'outlined' : 'contained'}
+        fullWidth
+        color={profile.hasAccess ? 'secondary' : 'primary'}
+        onClick={handleNavigation}
+      >
+        {profile.hasAccess ? 'Revoke' : 'Grant Access'}
+      </Button>
+    </Box>
   );
 };
 
