@@ -1,5 +1,5 @@
-import { FormControlLabel } from '@mui/material';
 import React from 'react';
+import { FormControlLabel } from '@mui/material';
 
 import TcCheckbox from '../../../../shared/TcCheckbox';
 import TcText from '../../../../shared/TcText';

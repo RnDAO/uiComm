@@ -1,5 +1,5 @@
-import router from 'next/router';
 import React, { useEffect, useState } from 'react';
+import router from 'next/router';
 import { BsPlus } from 'react-icons/bs';
 
 import TcCommunityList from './TcCommunityList';

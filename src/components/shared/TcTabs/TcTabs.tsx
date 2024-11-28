@@ -1,5 +1,5 @@
-import { Tabs, TabsProps } from '@mui/material';
 import React from 'react';
+import { Tabs, TabsProps } from '@mui/material';
 
 interface ITcTabsProps extends TabsProps {
   children: React.ReactElement | React.ReactElement[];

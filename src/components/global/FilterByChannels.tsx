@@ -1,5 +1,5 @@
-import { Alert, Box, Popover, Typography } from '@mui/material';
 import React, { useContext } from 'react';
+import { Alert, Box, Popover, Typography } from '@mui/material';
 import { FaHashtag } from 'react-icons/fa';
 
 import TcPlatformChannelList from '../communitySettings/platform/TcPlatformChannelList';

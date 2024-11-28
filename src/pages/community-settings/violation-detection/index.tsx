@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   AlertTitle,
@@ -14,7 +15,6 @@ import {
   Typography,
 } from '@mui/material';
 import router from 'next/router';
-import React, { useEffect, useState } from 'react';
 
 import TcButton from '@/components/shared/TcButton';
 

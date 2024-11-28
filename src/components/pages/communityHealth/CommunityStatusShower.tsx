@@ -8,7 +8,7 @@ interface ICommunityStatusShowerProps {
 }
 
 function CommunityStatusShower({
-  scoreStatus,
+  scoreStatus = -1,
   toggleTipDialog,
   isFragmentation,
 }: ICommunityStatusShowerProps) {
@@ -53,9 +53,5 @@ function CommunityStatusShower({
     </div>
   );
 }
-
-CommunityStatusShower.defaultProps = {
-  scoreStatus: -1,
-};
 
 export default CommunityStatusShower;

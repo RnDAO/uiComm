@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import TcCommunityPlatforms from '../../components/communitySettings/communityPlatforms';
 import TcRolesAndPermissions from '../../components/communitySettings/rolesAndPermissions';

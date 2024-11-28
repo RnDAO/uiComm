@@ -1,7 +1,7 @@
 // TcAvatar.test.tsx
 
-import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect'; // For the "toBeInTheDocument" matcher
 
 import TcAvatar from './TcAvatar'; // Adjust the path as needed

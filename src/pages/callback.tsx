@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import { useSnackbar } from '../context/SnackbarContext';

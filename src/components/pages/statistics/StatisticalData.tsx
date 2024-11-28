@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { ClickAwayListener, Tooltip } from '@mui/material';
 import clsx from 'clsx';
 import router from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { RxArrowBottomRight, RxArrowTopRight } from 'react-icons/rx';
 
@@ -19,10 +19,20 @@ type StatisticalDataProps = {
 };
 
 const StatisticalData: React.FC<StatisticalDataProps> = ({
-  statistics,
-  ableToFilter,
+  statistics = [
+    {
+      label: '',
+      value: 0,
+      description: '',
+      percentageChange: 0,
+      colorBadge: '',
+      hasTooltip: false,
+      tooltipText: '',
+    },
+  ],
+  ableToFilter = false,
   overviewType,
-  hideInformationText,
+  hideInformationText = false,
   handleSelectedOption,
 }) => {
   const [activeState, setActiveState] = useState<string | string[]>();
@@ -165,22 +175,6 @@ const StatisticalData: React.FC<StatisticalDataProps> = ({
       )}
     </>
   );
-};
-
-StatisticalData.defaultProps = {
-  statistics: [
-    {
-      label: '',
-      value: 0,
-      description: '',
-      percentageChange: 0,
-      colorBadge: '',
-      hasTooltip: false,
-      tooltipText: '',
-    },
-  ],
-  ableToFilter: false,
-  hideInformationText: false,
 };
 
 export default StatisticalData;

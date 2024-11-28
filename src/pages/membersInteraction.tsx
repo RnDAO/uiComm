@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { Paper, Popover } from '@mui/material';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
 import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 
 import EmptyState from '@/components/global/EmptyState';

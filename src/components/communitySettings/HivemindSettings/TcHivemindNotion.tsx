@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Alert,
   Autocomplete,
@@ -11,7 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import router from 'next/router';
-import React, { useState } from 'react';
 
 import TcButton from '../../shared/TcButton';
 
@@ -54,9 +54,17 @@ function TcHivemindNotion({
   return (
     <>
       <div className='flex flex-col items-center justify-between space-y-3'>
-        <Alert className='flex justify-start w-full rounded-md' severity='info'>
+        <Alert className='flex w-full justify-start rounded-md' severity='info'>
           <Typography variant='body2' className='text-left'>
-            See documentation for how to <Link className='font-bold' color='inherit' href='https://togethercrew.gitbook.io/onboarding/fundamentals/setting-up-hivemind' target='_blank'>integrate Notion to Hivemind</Link>
+            See documentation for how to{' '}
+            <Link
+              className='font-bold'
+              color='inherit'
+              href='https://togethercrew.gitbook.io/onboarding/fundamentals/setting-up-hivemind'
+              target='_blank'
+            >
+              integrate Notion to Hivemind
+            </Link>
           </Typography>
         </Alert>
         <FormControl fullWidth>

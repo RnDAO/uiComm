@@ -1,6 +1,6 @@
+import React from 'react';
 import { Dialog, DialogProps } from '@mui/material';
 import { Avatar } from '@mui/material';
-import React from 'react';
 import { IoClose } from 'react-icons/io5';
 
 import { conf } from '../../../../configs';

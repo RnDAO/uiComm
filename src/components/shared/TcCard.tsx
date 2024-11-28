@@ -19,8 +19,8 @@
  * ```
  */
 
-import { Card, CardProps } from '@mui/material';
 import React from 'react';
+import { Card, CardProps } from '@mui/material';
 
 interface ITcCard extends CardProps {
   children: JSX.Element | React.ReactElement;

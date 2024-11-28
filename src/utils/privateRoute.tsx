@@ -1,5 +1,9 @@
-import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+
+import useAppStore from '@/store/useStore';
+
+import { useToken } from '@/context/TokenContext';
 
 import { IToken } from './types';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
@@ -10,6 +14,22 @@ export default function PrivateRoute({
 }: {
   children: React.ReactNode;
 }) {
+  const { community } = useToken();
+  const { retrieveModules } = useAppStore();
+
+  const fetchModules = async () => {
+    if (community?.id) {
+      await retrieveModules({
+        community: community?.id,
+        name: 'dynamicNft',
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchModules();
+  }, [community]);
+
   const [token, setToken] = useState<IToken | null>(null);
   const router = useRouter();
 

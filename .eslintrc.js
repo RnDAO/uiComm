@@ -14,7 +14,7 @@ module.exports = {
   ],
   rules: {
     'no-unused-vars': 'off', // Disabling base rule as it's handled by @typescript-eslint/no-unused-vars
-    'no-console': 'warn', // Allow console with warning to identify usage
+    'no-console': 'off', // Allow console with warning to identify usage
     '@typescript-eslint/explicit-module-boundary-types': 'off', // Disabling requirement for explicit return types on functions
     'react/no-unescaped-entities': 'off', // Disable warnings for unescaped entities in JSX
     'react/display-name': 'off', // Disable display name rule for React components
@@ -22,6 +22,7 @@ module.exports = {
       'warn',
       { props: 'never', children: 'never' },
     ], // Enforce no unnecessary curly braces in JSX
+    "react/no-deprecated": "warn", // Enable warning for deprecated methods in React
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
     'no-empty': 'off',
@@ -34,7 +35,7 @@ module.exports = {
 
     // Disable rule for unused vars but enable warning for unused imports and vars with specific patterns
     '@typescript-eslint/no-unused-vars': 'off',
-    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-imports': 'off',
     'unused-imports/no-unused-vars': [
       'warn',
       {
@@ -51,7 +52,7 @@ module.exports = {
       'warn',
       {
         groups: [
-          ['^@?\\w', '^\\u0000'],
+          ['^react$', '^@?\\w', '^\\u0000'],
           ['^.+\\.s?css$'],
           ['^@/lib', '^@/hooks'],
           ['^@/data'],

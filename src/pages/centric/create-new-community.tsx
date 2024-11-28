@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { FormControlLabel } from '@mui/material';
 import router from 'next/router';
-import React, { useState } from 'react';
 
 import SimpleBackdrop from '../../components/global/LoadingBackdrop';
 import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';

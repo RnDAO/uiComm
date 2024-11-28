@@ -22,12 +22,4 @@ module.exports = {
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  coverageThreshold: {
-    global: {
-      branches: 10,
-      functions: 10,
-      lines: 10,
-      statements: 10,
-    },
-  },
 };

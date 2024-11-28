@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
@@ -59,6 +59,8 @@ function TcCommunityPlatforms() {
     violationDetectionManageIsLoading,
     setViolationDetectionManageIsLoading,
   ] = useState<boolean>(false);
+  const [reputationScoreManageIsLoading, setReputationScoreManageIsLoading] =
+    useState<boolean>(false);
   const router = useRouter();
 
   const communityId =
@@ -143,6 +145,31 @@ function TcCommunityPlatforms() {
       console.log('error', error);
     } finally {
       setViolationDetectionManageIsLoading(false);
+    }
+  };
+
+  const handleReputationScoreModule = async () => {
+    try {
+      setReputationScoreManageIsLoading(true);
+      const reputationScoreModule = await retrieveModules({
+        community: communityId,
+        name: 'dynamicNft',
+      });
+
+      if (reputationScoreModule.results.length > 0) {
+        router.push('/community-settings/reputation-score');
+      } else {
+        await createModule({
+          name: 'dynamicNft',
+          community: communityId,
+        });
+        router.push('/community-settings/reputation-score');
+      }
+      setReputationScoreManageIsLoading(false);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setReputationScoreManageIsLoading(false);
     }
   };
 
@@ -312,6 +339,29 @@ function TcCommunityPlatforms() {
                   }
                   variant='text'
                   onClick={() => handleViolationDetectionModule()}
+                />
+              </div>
+            }
+          />
+          <TcCard
+            className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText
+                  text='Reputation Score'
+                  variant='subtitle1'
+                  fontWeight='bold'
+                />
+                <TcButton
+                  text={
+                    reputationScoreManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleReputationScoreModule()}
                 />
               </div>
             }

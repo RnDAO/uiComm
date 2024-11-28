@@ -1,6 +1,6 @@
+import React from 'react';
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import React from 'react';
 
 interface TcAutocompleteProps<T>
   extends Omit<AutocompleteProps<T, boolean, boolean, boolean>, 'renderInput'> {

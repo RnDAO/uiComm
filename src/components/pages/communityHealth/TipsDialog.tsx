@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import React from 'react';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 
 interface TipsDialogProps {

@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { Alert, CircularProgress, Paper } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
@@ -56,7 +56,7 @@ function TcNotionIntegration({
         showMessage('Platform disconnected successfully.', 'success');
         handleUpdateCommunityPlatform();
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -162,8 +162,9 @@ function TcNotionIntegration({
                 </>
               )}
             </div>
-            <Alert severity="info">
-              To edit pages access, please remove the Notion integration and add it again
+            <Alert severity='info'>
+              To edit pages access, please remove the Notion integration and add
+              it again
             </Alert>
           </div>
           <TcButton

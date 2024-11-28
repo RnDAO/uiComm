@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
+import { RiNftFill } from 'react-icons/ri';
 
 import { ICommunityPlatfromProps } from '@/utils/interfaces';
 
@@ -25,6 +26,7 @@ import useAppStore from '../../store/useStore';
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
+  const { dynamicNFTModuleInfo } = useAppStore();
   const { community, selectedPlatform } = useToken();
   const [isDiscourse, setIsDiscourse] = useState<boolean>(false);
 
@@ -52,7 +54,7 @@ const Sidebar = () => {
     const discoursePlatformId = community?.platforms?.find((platform) => {
       return platform.name === 'discourse' && platform.disconnectedAt === null;
     })?.id;
-    
+
     if (discoursePlatformId && selectedPlatform) {
       setIsDiscourse(selectedPlatform === discoursePlatformId);
     } else {
@@ -100,6 +102,16 @@ const Sidebar = () => {
       ),
     },
   ];
+
+  if (dynamicNFTModuleInfo?.isNFTModuleEnabled) {
+    menuItems.splice(menuItems.length - 1, 0, {
+      name: 'Reputation Score',
+      path: '/reputation-score',
+      icon: (
+        <RiNftFill style={{ fontSize: 20, color: 'black', margin: '0 auto' }} />
+      ),
+    });
+  }
 
   if (!userPermissions.includes('admin')) {
     menuItems = menuItems.filter(

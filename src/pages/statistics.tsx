@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 
 import emptyState from '../assets/svg/empty-state.svg';
@@ -304,7 +304,7 @@ const Statistics = () => {
       </>
     );
   }
-  
+
   if (loading) {
     return <SimpleBackdrop />;
   }

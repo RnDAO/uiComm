@@ -1,7 +1,6 @@
-import { Alert, AlertTitle, IconButton, Typography } from '@mui/material';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Alert, AlertTitle, IconButton, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
 

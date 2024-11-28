@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
 import * as amplitude from '@amplitude/analytics-browser';
 import jwt_decode from 'jwt-decode';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 import { StorageService } from '../services/StorageService';
 import {
