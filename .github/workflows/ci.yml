@@ -20,6 +20,9 @@ jobs:
       - run: npm run lint
       # - run: npm run test
       - run: npm run build
+        env:
+            NEXT_PUBLIC_PROJECT_ID: 'ABCD'
+         
 
   coverage:
     needs: [test]
