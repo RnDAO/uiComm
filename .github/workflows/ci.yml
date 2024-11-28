@@ -36,7 +36,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
-      - uses: paambaati/codeclimate-action@v3.2.0
+      - uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
