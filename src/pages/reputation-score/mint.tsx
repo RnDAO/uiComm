@@ -333,7 +333,7 @@ const MintSection: React.FC<MintSectionProps> = ({
                 console.error('Mint failed:', error);
               }
             }}
-            disabled={isPending || isWaiting || !dynamicNFTModuleInfo?.metadata[0]?.tokenId}
+            disabled={isPending || !dynamicNFTModuleInfo?.metadata[0]?.tokenId}
           >
             {isPending ? 'Minting...' : 'Mint Reputation Score'}
           </Button>
