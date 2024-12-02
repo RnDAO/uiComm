@@ -16,6 +16,7 @@ const ScorePage = () => {
   const { retrieveReputationScore } = useAppStore();
   const router = useRouter();
 
+  const [communityName, setCommunityName] = useState<string | null>(null);
   const [reputationScore, setReputationScore] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [tokenId, setTokenId] = useState<string | null>(null);
@@ -48,7 +49,8 @@ const ScorePage = () => {
           });
 
           console.log('Reputation Score Retrieved:', score);
-          setReputationScore(score ?? 0);
+          setReputationScore(score.reputationScore ?? 0);
+          setCommunityName(score.communityName);
         } catch (error) {
           console.error('Error fetching reputation score:', error);
           showMessage('Failed to load reputation score.', 'error');
@@ -162,7 +164,8 @@ const ScorePage = () => {
               <div className='flex flex-col items-center space-y-6 py-10'>
                 <GaugeChart options={gaugeOptions} />
                 <p className='text-center text-sm text-gray-500'>
-                  Your score is dynamically calculated from platform activity.
+                  Your score is dynamically calculated from platform activity on{' '}
+                  <b>{communityName}</b>
                 </p>
               </div>
             }

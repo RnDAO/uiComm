@@ -29,8 +29,7 @@ const Statistics = () => {
   const router = useRouter();
 
   const platform = community?.platforms.find(
-    (platform) =>
-      platform.disconnectedAt === null && platform.name === 'discord'
+    (platform) => platform.id === selectedPlatform
   );
 
   const isPremiumGuild: boolean = Boolean(
