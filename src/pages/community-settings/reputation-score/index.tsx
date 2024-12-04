@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, AlertTitle, Button, Stack, Typography } from '@mui/material';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Link from 'next/link';
 import { Abi } from 'viem';
 import {
   useAccount,
@@ -18,7 +19,6 @@ import useAppStore from '@/store/useStore';
 
 import { useToken } from '@/context/TokenContext';
 import { defaultLayout } from '@/layouts/defaultLayout';
-import Link from 'next/link';
 
 function Index() {
   const [moduleId, setModuleId] = useState<string | null>(null);
@@ -127,11 +127,56 @@ function Index() {
                     A member’s reputation score captures their involvement in
                     your community. The score is stored onchain and updates
                     weekly and combines a member’s activity and influence. No
-                    identifiable information is stored onchain. 
+                    identifiable information is stored onchain.{' '}
+                    <Link
+                      href='https://togethercrew.gitbook.io/onboarding/features/reputation'
+                      target='_blank'
+                      className='font-bold text-secondary underline'
+                    >
+                      Read more
+                    </Link>
                   </Typography>
                   <Stack className='flex w-full justify-end space-y-4'>
                     <ConnectButton />
                   </Stack>
+
+                  <Alert
+                    severity='info'
+                    sx={{
+                      borderRadius: 2,
+                      zIndex: 0,
+                    }}
+                  >
+                    <AlertTitle fontWeight='bold'>How it works</AlertTitle>
+                    <Stack gap={2}>
+                      <Typography variant='body2'>
+                        1.You activate the reputation module for your community.
+                        We will link your community with a specific community id
+                        token.
+                      </Typography>
+                      <Typography variant='body2'>
+                        2.Any member who has{' '}
+                        <Link
+                          href='/community-settings'
+                          className='font-bold underline'
+                        >
+                          view
+                        </Link>{' '}
+                        access to togethercrew.com can mint their reputation
+                        score.
+                      </Typography>
+                      <Typography variant='body2'>
+                        3.Your members will log into togethercrew.com, connect
+                        their wallet and link their discord handle to their
+                        wallet. This attestation is encrypted. Personal
+                        identifiers are not stored onchain.
+                      </Typography>
+                      <Typography variant='body2'>
+                        4.Your members can see their reputation score on
+                        togethercrew.com and in their wallet.
+                      </Typography>
+                    </Stack>
+                  </Alert>
 
                   {isConnected ? (
                     <Button

@@ -1,10 +1,14 @@
 import { Chain, getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { baseSepolia } from 'viem/chains';
+import { arbitrum, baseSepolia } from 'viem/chains';
 import { http } from 'wagmi';
 
 import { conf } from './configs';
 
-export const SUPPORTED_CHAINS: Chain[] = [baseSepolia];
+const isProduction = process.env.NODE_ENV === 'production';
+
+export const SUPPORTED_CHAINS: Chain[] = isProduction
+  ? [arbitrum]
+  : [baseSepolia];
 
 export const wagmiConfig = getDefaultConfig({
   appName: 'TogetherCrew',

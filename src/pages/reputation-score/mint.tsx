@@ -157,7 +157,7 @@ const ConnectWalletSection: React.FC = () => (
         To mint your reputation score, please connect your wallet.
       </Typography>
       <Stack className='flex w-full flex-row justify-end'>
-        <ConnectButton />
+        <ConnectButton chainStatus='none' />
       </Stack>
     </Stack>
   </Stack>
@@ -212,7 +212,7 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
                     <UserProfileBox key={index} profile={profile} />
                   ))
                 ) : (
-                  <Stack className='space-y-3 w-full'>
+                  <Stack className='w-full space-y-3'>
                     <Alert severity='error'>
                       <AlertTitle>No Attestations Found</AlertTitle>
                       <Typography variant='body2'>
