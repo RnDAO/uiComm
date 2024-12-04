@@ -157,7 +157,7 @@ const ConnectWalletSection: React.FC = () => (
         To mint your reputation score, please connect your wallet.
       </Typography>
       <Stack className='flex w-full flex-row justify-end'>
-        <ConnectButton chainStatus='none' />
+        <ConnectButton />
       </Stack>
     </Stack>
   </Stack>
@@ -168,11 +168,10 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
   isLoading,
   userProfile,
 }) => {
-  const router = useRouter();
 
   const handleNavigation = () => {
     const url = 'https://identity-on-chain-platform.pages.dev/permissions';
-    router.push(url);
+    window.open(url, '_blank');
   };
   return (
     <Stack className='space-y-4'>
