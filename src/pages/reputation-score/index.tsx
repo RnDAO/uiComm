@@ -52,7 +52,7 @@ function ReputationScore() {
                 <Typography variant='h5' fontWeight='bold'>
                   Reputation Score
                 </Typography>
-                <ConnectButton chainStatus='none' />
+                <ConnectButton />
               </Stack>
               <Typography variant='body2'>
                 Reputation Score is a number between 0 and 100 that represents
