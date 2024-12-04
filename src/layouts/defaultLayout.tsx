@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Header from '../components/layouts/Header';
 import TcPrompt from '../components/layouts/shared/TcPrompt';
 import Sidebar from '../components/layouts/Sidebar';
 import SidebarXs from '../components/layouts/xs/SidebarXs';
@@ -17,7 +16,6 @@ export const defaultLayout = ({ children }: IDefaultLayoutProps) => {
         <Sidebar />
         <SidebarXs />
         <main className='flex-1 md:ml-[100px] xl:ml-[150px]'>
-          <Header />
           {children}
         </main>
       </div>

@@ -19,7 +19,7 @@ import { capitalizeFirstChar } from '../../helpers/helper';
 import { StorageService } from '../../services/StorageService';
 import { ICommunityPlatfromProps } from '../../utils/interfaces';
 
-const Header = () => {
+const SwitchPlatform = () => {
   const { community, selectedPlatform, handleSwitchPlatform } = useToken();
   const [platforms, setPlatforms] = useState<ICommunityPlatfromProps[]>([]);
 
@@ -77,59 +77,53 @@ const Header = () => {
   };
 
   return (
-    <AppBar
-      position='sticky'
-      className='flex hidden flex-col rounded-br-xl bg-gray-background px-4 py-2 text-inherit shadow-inner md:block md:px-12'
-    >
-      <Stack direction='row' className='w-full space-x-1.5'>
-        <FormControl className='ml-auto flex flex-row items-center space-x-2'>
-          <Typography variant='caption' fontWeight='bold'>
-            Select Platform:
-          </Typography>
-          <TcIconWithTooltip tooltipText='Choose a platform to view community-related metrics for that platform.' />
-          <Select
-            variant='filled'
-            size='small'
-            value={selectedPlatform}
-            onChange={handlePlatformChange}
-            autoWidth
-            sx={{
-              paddingTop: 0,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              '.MuiSelect-select': {
-                paddingTop: '8px',
-                paddingBottom: '8px',
-              },
-            }}
-            disableUnderline
-            renderValue={(selected) => {
-              const selectedPlatformObj = platforms.find(
-                (platform) => platform.id === selected
-              );
-              return selectedPlatformObj ? (
-                <Box display='flex' alignItems='center'>
-                  <TcCommunityPlatformIcon
-                    size={28}
-                    platform={
-                      capitalizeFirstChar(selectedPlatformObj.name) as string
-                    }
-                  />
-                  <ListItemText className='pl-2'>
-                    {capitalizeFirstChar(selectedPlatformObj.name)}
-                  </ListItemText>
-                </Box>
-              ) : (
-                'Select Platform'
-              );
-            }}
-          >
-            {platformOptions}
-          </Select>
-        </FormControl>
-      </Stack>
-    </AppBar>
+    <Stack direction='row' className='w-full space-x-1.5'>
+      <FormControl className='ml-auto flex flex-row items-center space-x-2'>
+        <Typography variant='caption' fontWeight='bold'>
+          Select Platform:
+        </Typography>
+        <TcIconWithTooltip tooltipText='Choose a platform to view community-related metrics for that platform.' />
+        <Select
+          variant='filled'
+          size='small'
+          value={selectedPlatform}
+          onChange={handlePlatformChange}
+          autoWidth
+          sx={{
+            paddingTop: 0,
+            paddingBottom: 0,
+            '.MuiSelect-select': {
+              paddingTop: '8px',
+              paddingBottom: '8px',
+            },
+          }}
+          disableUnderline
+          renderValue={(selected) => {
+            const selectedPlatformObj = platforms.find(
+              (platform) => platform.id === selected
+            );
+            return selectedPlatformObj ? (
+              <Box display='flex' alignItems='center'>
+                <TcCommunityPlatformIcon
+                  size={28}
+                  platform={
+                    capitalizeFirstChar(selectedPlatformObj.name) as string
+                  }
+                />
+                <ListItemText className='pl-2'>
+                  {capitalizeFirstChar(selectedPlatformObj.name)}
+                </ListItemText>
+              </Box>
+            ) : (
+              'Select Platform'
+            );
+          }}
+        >
+          {platformOptions}
+        </Select>
+      </FormControl>
+    </Stack>
   );
 };
 
-export default Header;
+export default SwitchPlatform;

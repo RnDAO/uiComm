@@ -52,9 +52,10 @@ function ReputationScore() {
               </Stack>
               <Typography variant='body2'>
                 Reputation Score is a number between 0 and 100 that represents
-                the trustworthiness of a user. It is calculated based on the
-                user's activity on the platform. The higher the score, the more
-                trustworthy the user is.
+                how involved in the community a member is. It is calculated
+                based on a user's interactions with other community members on
+                the community platforms. The higher the score the more involved
+                a member is.
               </Typography>
               <div className='relative'>
                 {!isConnected && (

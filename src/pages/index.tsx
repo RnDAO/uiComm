@@ -1,5 +1,8 @@
 import React from 'react';
+import { Stack } from '@mui/material';
 import Image from 'next/image';
+
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 import emptyState from '../assets/svg/empty-state.svg';
 import EmptyState from '../components/global/EmptyState';
@@ -34,9 +37,24 @@ function Index(): JSX.Element {
       <SEO />
       <div className='container flex flex-col justify-between space-y-8 px-4 py-4 md:px-12'>
         <div className='block'>
-          <h3 className='pb-6 text-lg font-medium text-lite-black'>
-            Community Insights
-          </h3>
+          <Stack
+            direction={{
+              xs: 'column',
+              md: 'row',
+            }}
+            justifyContent='space-between'
+            alignItems='center'
+            gap={2}
+            pb={2}
+          >
+            <Stack>
+              <h3 className='whitespace-nowrap text-lg font-medium text-lite-black'>
+                Community Insights
+              </h3>{' '}
+            </Stack>
+            <SwitchPlatform />
+          </Stack>
+
           <div className='space-y-4'>
             <ActiveMemberComposition />
             <HeatmapChart />
