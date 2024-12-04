@@ -41,20 +41,25 @@ function ReputationScore() {
             <div className='flex flex-col justify-between space-y-4 p-4 md:p-10'>
               <Stack
                 display='flex'
-                flexDirection='row'
+                flexDirection={{
+                  xs: 'column',
+                  md: 'row',
+                }}
                 justifyContent='space-between'
-                alignItems='center'
+                alignItems={{ xs: 'flex-start', md: 'center' }}
+                gap={2}
               >
                 <Typography variant='h5' fontWeight='bold'>
                   Reputation Score
                 </Typography>
-                <ConnectButton />
+                <ConnectButton chainStatus='none' />
               </Stack>
               <Typography variant='body2'>
                 Reputation Score is a number between 0 and 100 that represents
-                the trustworthiness of a user. It is calculated based on the
-                user's activity on the platform. The higher the score, the more
-                trustworthy the user is.
+                how involved in the community a member is. It is calculated
+                based on a user's interactions with other community members on
+                the community platforms. The higher the score the more involved
+                a member is.
               </Typography>
               <div className='relative'>
                 {!isConnected && (
@@ -66,7 +71,7 @@ function ReputationScore() {
                     </Alert>
                   </Stack>
                 )}
-                <Stack className='mx-auto w-1/3 p-2' spacing={2}>
+                <Stack className='mx-auto p-2 md:w-1/3' spacing={2}>
                   <Image
                     src={dynamicNft}
                     width={500}

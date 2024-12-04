@@ -157,7 +157,7 @@ const ConnectWalletSection: React.FC = () => (
         To mint your reputation score, please connect your wallet.
       </Typography>
       <Stack className='flex w-full flex-row justify-end'>
-        <ConnectButton />
+        <ConnectButton chainStatus='none' />
       </Stack>
     </Stack>
   </Stack>
@@ -177,12 +177,14 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
   return (
     <Stack className='space-y-4'>
       <Stack className='space-y-2 px-4 pb-[1rem] pt-4 md:px-10'>
-        <Typography variant='h6'>Join the On-Chain Platform</Typography>
+        <Typography variant='h6'>
+          Verify your identity across platforms
+        </Typography>
         <Typography variant='body2'>
-          TogetherCrew has partnered with an on-chain platform to create secure,
-          on-chain attestations of user credentials. With on-chain access, you
-          can grant permission to applications, enabling them to decrypt and
-          verify your credentials.
+          We use secure onchain verification through the LogID platform created
+          by TogetherCrew. LogID enables you to verify your ID, create a privacy
+          preserving proof (encrypted), and manage which applications can see
+          your credentials by decrypting the data.
         </Typography>
         {isConnected && (
           <Stack
@@ -210,14 +212,12 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
                     <UserProfileBox key={index} profile={profile} />
                   ))
                 ) : (
-                  <Stack className='space-y-3'>
+                  <Stack className='w-full space-y-3'>
                     <Alert severity='error'>
                       <AlertTitle>No Attestations Found</AlertTitle>
                       <Typography variant='body2'>
-                        In order to mint your reputation score, you need to have
-                        idenitifers connected to wallet address. please register
-                        your wallet on On-chain platform and attestation your
-                        idenitifers.
+                        To mind your reputation score, please connect at least
+                        one account and verify ownership.
                       </Typography>
                     </Alert>
                     <Button
@@ -225,7 +225,7 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
                       color='primary'
                       onClick={handleNavigation}
                     >
-                      Register On-chain Platform
+                      Register and grant permission
                     </Button>
                   </Stack>
                 )}

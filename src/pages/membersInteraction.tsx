@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Popover } from '@mui/material';
+import { Paper, Popover, Stack } from '@mui/material';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
@@ -16,6 +16,7 @@ import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { withRoles } from '../utils/withRoles';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const ForceGraphComponent = dynamic(
   () =>
@@ -170,9 +171,22 @@ function MembersInteraction() {
           }}
           className='space-y-4 overflow-hidden rounded-xl px-4 py-6 shadow-box md:px-8'
         >
-          <h3 className='text-xl font-medium text-lite-black'>
-            Member interactions graph
-          </h3>
+          <Stack
+            direction={{
+              xs: 'column',
+              md: 'row',
+            }}
+            justifyContent='space-between'
+            alignItems='center'
+            gap={2}
+          >
+            <Stack>
+              <h3 className='whitespace-nowrap text-lg font-medium text-lite-black'>
+                Member interactions graph
+              </h3>{' '}
+            </Stack>
+            <SwitchPlatform />
+          </Stack>
           <p>Data from the last 7 days</p>
           <div className='flex flex-col md:flex-row md:items-start md:space-x-5'>
             <div className='border-gray-150 items-center justify-center overflow-hidden rounded-lg border bg-gray-hover shadow-sm lg:w-11/12'>

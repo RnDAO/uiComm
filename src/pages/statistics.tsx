@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -23,6 +23,7 @@ import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { withRoles } from '../utils/withRoles';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const Statistics = () => {
   const { community, selectedPlatform } = useToken();
@@ -316,12 +317,21 @@ const Statistics = () => {
         }
       />
       <div className='container flex flex-col justify-between px-4 py-3 md:px-12'>
-        <Link to='/' className='mb-3'>
-          <div className='flex items-center text-base text-gray-subtitle hover:text-black'>
-            <AiOutlineLeft />
-            <span className='pl-1'>Community Insights</span>
-          </div>
-        </Link>{' '}
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent='space-between'
+          alignItems={{ xs: 'flex-start', md: 'center' }}
+          gap={2}
+          pb={2}
+        >
+          <Link to='/'>
+            <div className='flex items-center whitespace-nowrap text-base text-gray-subtitle hover:text-black'>
+              <AiOutlineLeft />
+              <span className='pl-1'>Community Insights</span>
+            </div>
+          </Link>
+          <SwitchPlatform />
+        </Stack>
         <CustomTab
           activeTab={activeTab}
           onTabChange={handleTabChange}

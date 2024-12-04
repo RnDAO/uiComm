@@ -19,6 +19,8 @@ import {
 import { withRoles } from '@/utils/withRoles';
 
 import emptyState from '../assets/svg/empty-state.svg';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
+import { Stack } from '@mui/material';
 
 function CommunityHealth() {
   const { community, selectedPlatform } = useToken();
@@ -68,9 +70,22 @@ function CommunityHealth() {
       <SEO titleTemplate='Community Health' />
       <div className='container flex flex-col justify-between space-y-4 px-4 py-3 md:px-12'>
         <HeaderSection />
-        <h3 className='pb-6 pt-4 text-lg font-medium text-lite-black'>
-          Community Health
-        </h3>
+        <Stack
+          direction={{
+            xs: 'column',
+            md: 'row',
+          }}
+          justifyContent='space-between'
+          alignItems={{ xs: 'flex-start', md: 'center' }}
+          gap={2}
+        >
+          <Stack>
+            <h3 className='whitespace-nowrap text-lg font-medium text-lite-black'>
+              Community Health
+            </h3>{' '}
+          </Stack>
+          <SwitchPlatform />
+        </Stack>
         <Fragmentation scoreData={fragmentationScoreData} />
         <Decentralization scoreData={decentralisationScoreData} />
       </div>
