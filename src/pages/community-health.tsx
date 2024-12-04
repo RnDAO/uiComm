@@ -76,7 +76,7 @@ function CommunityHealth() {
             md: 'row',
           }}
           justifyContent='space-between'
-          alignItems='center'
+          alignItems={{ xs: 'flex-start', md: 'center' }}
           gap={2}
         >
           <Stack>

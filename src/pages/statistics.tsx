@@ -320,16 +320,16 @@ const Statistics = () => {
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           justifyContent='space-between'
-          alignItems='center'
+          alignItems={{ xs: 'flex-start', md: 'center' }}
           gap={2}
           pb={2}
         >
           <Link to='/'>
-            <div className='flex items-center text-base text-gray-subtitle hover:text-black whitespace-nowrap'>
+            <div className='flex items-center whitespace-nowrap text-base text-gray-subtitle hover:text-black'>
               <AiOutlineLeft />
               <span className='pl-1'>Community Insights</span>
             </div>
-          </Link>{' '}
+          </Link>
           <SwitchPlatform />
         </Stack>
         <CustomTab
