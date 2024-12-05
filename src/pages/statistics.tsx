@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
-import { Box } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Stack } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 
 import emptyState from '../assets/svg/empty-state.svg';
@@ -23,14 +23,14 @@ import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { withRoles } from '../utils/withRoles';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const Statistics = () => {
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
   const router = useRouter();
 
   const platform = community?.platforms.find(
-    (platform) =>
-      platform.disconnectedAt === null && platform.name === 'discord'
+    (platform) => platform.id === selectedPlatform
   );
 
   const isPremiumGuild: boolean = Boolean(
@@ -47,6 +47,9 @@ const Statistics = () => {
     '2': 'disengagedMembers',
   };
 
+  const [activePlatform, setActivePlatform] = useState<'discord' | 'discourse'>(
+    'discord'
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);
   const [onBoardingMemberDate, setOnBoardingMemberDate] = useState(1);
@@ -64,6 +67,15 @@ const Statistics = () => {
   const [activeTab, setActiveTab] = useState<string>(
     tabMap[router.query.tab as string] || '1'
   );
+
+  useEffect(() => {
+    const platform = community?.platforms.find(
+      (platform) => platform.id === selectedPlatform
+    );
+    setActivePlatform(
+      platform?.name.includes('discord') ? 'discord' : 'discourse'
+    );
+  }, [selectedPlatform]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -94,6 +106,10 @@ const Statistics = () => {
   };
 
   useEffect(() => {
+    const platform = community?.platforms.find(
+      (platform) => platform.id === selectedPlatform
+    );
+
     const fetchData = async () => {
       try {
         if (!platform?.id) {
@@ -114,10 +130,12 @@ const Statistics = () => {
             activeDateRange[0],
             activeDateRange[1]
           );
+
           await fetchInteractions(
             platform?.id,
             activeIntegrationDateRange[0],
-            activeIntegrationDateRange[1]
+            activeIntegrationDateRange[1],
+            platform.name.includes('discourse') ? 'discourse' : 'discord'
           );
           await fetchOnboardingMembers(
             platform?.id,
@@ -149,7 +167,7 @@ const Statistics = () => {
     };
 
     fetchData();
-  }, [activeTab]);
+  }, [selectedPlatform, activeTab]);
 
   useEffect(() => {
     if (!platform?.id) {
@@ -172,7 +190,7 @@ const Statistics = () => {
       onBoardingMemberDateRange[0],
       onBoardingMemberDateRange[1]
     );
-  }, [onBoardingMemberDate]);
+  }, [selectedPlatform, onBoardingMemberDate]);
 
   useEffect(() => {
     if (!platform?.id) {
@@ -184,9 +202,10 @@ const Statistics = () => {
     fetchInteractions(
       platform?.id,
       activeIntegrationDateRange[0],
-      activeIntegrationDateRange[1]
+      activeIntegrationDateRange[1],
+      platform.name.includes('discourse') ? 'discourse' : 'discord'
     );
-  }, [activeInteractionDate]);
+  }, [selectedPlatform, activeInteractionDate]);
 
   useEffect(() => {
     if (!platform?.id) {
@@ -200,7 +219,7 @@ const Statistics = () => {
       disengagedDateRange[0],
       disengagedDateRange[1]
     );
-  }, [disengagedMemberDate]);
+  }, [selectedPlatform, disengagedMemberDate]);
 
   useEffect(() => {
     if (!platform?.id) {
@@ -214,7 +233,7 @@ const Statistics = () => {
       inactiveMemberDateRange[0],
       inactiveMemberDateRange[1]
     );
-  }, [inactiveMembersDate]);
+  }, [selectedPlatform, inactiveMembersDate]);
 
   const getDateRange = (dateRangeType: number): string[] => {
     let endDate: moment.Moment = moment().subtract(1, 'day');
@@ -271,7 +290,13 @@ const Statistics = () => {
     setInactiveMembersDate(dateRangeType);
   };
 
-  if (!community || community?.platforms?.length === 0) {
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
     return (
       <>
         <SEO />
@@ -292,12 +317,21 @@ const Statistics = () => {
         }
       />
       <div className='container flex flex-col justify-between px-4 py-3 md:px-12'>
-        <Link to='/' className='mb-3'>
-          <div className='flex items-center text-base text-gray-subtitle hover:text-black'>
-            <AiOutlineLeft />
-            <span className='pl-1'>Community Insights</span>
-          </div>
-        </Link>{' '}
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent='space-between'
+          alignItems={{ xs: 'flex-start', md: 'center' }}
+          gap={2}
+          pb={2}
+        >
+          <Link to='/'>
+            <div className='flex items-center whitespace-nowrap text-base text-gray-subtitle hover:text-black'>
+              <AiOutlineLeft />
+              <span className='pl-1'>Community Insights</span>
+            </div>
+          </Link>
+          <SwitchPlatform />
+        </Stack>
         <CustomTab
           activeTab={activeTab}
           onTabChange={handleTabChange}
@@ -312,6 +346,7 @@ const Statistics = () => {
                 className='rounded-md p-6 shadow-lg'
               >
                 <ActiveMembersComposition
+                  platformType={activePlatform}
                   activePeriod={activeMemberDate}
                   isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleActiveMembersDateRange}
@@ -325,6 +360,7 @@ const Statistics = () => {
                 className='rounded-md p-6 shadow-lg'
               >
                 <Onboarding
+                  platformType={activePlatform}
                   activePeriod={onBoardingMemberDate}
                   isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleOnboardingMembersDate}
@@ -353,6 +389,7 @@ const Statistics = () => {
                 className='rounded-md p-6 shadow-lg'
               >
                 <DisengagedMembersComposition
+                  platformType={activePlatform}
                   activePeriod={disengagedMemberDate}
                   isPremiumGuild={isPremiumGuild}
                   handleDateRange={handleDisengagedMemberDateRange}

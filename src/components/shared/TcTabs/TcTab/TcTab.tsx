@@ -1,5 +1,5 @@
-import { Tab, TabProps } from '@mui/material';
 import React from 'react';
+import { Tab, TabProps } from '@mui/material';
 
 type ITcTabProps = TabProps;
 

@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 import TcAlert from '../../shared/TcAlert';
 import TcButton from '../../shared/TcButton';
@@ -9,7 +9,7 @@ import { useToken } from '../../../context/TokenContext';
 
 function TcPrompt() {
   const router = useRouter();
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
 
   const shouldShowPrompt = useMemo(() => {
     const currentRoute = router.pathname;
@@ -19,27 +19,40 @@ function TcPrompt() {
 
     const hasNoPlatforms = community?.platforms.length === 0;
 
-    const isPlatformInProgress = community?.platforms.some(
-      (platform) => platform?.metadata.isInProgress === true
+    const isSelectedPlatformInProgress = community?.platforms.some(
+      (platform) =>
+        platform?.id === selectedPlatform &&
+        platform?.metadata?.isInProgress === true
     );
 
-    return !isExcludedRoute && (hasNoPlatforms || isPlatformInProgress);
-  }, [router.pathname, community?.platforms]);
+    return !isExcludedRoute && (hasNoPlatforms || isSelectedPlatformInProgress);
+  }, [router.pathname, community?.platforms, selectedPlatform]);
 
   if (!shouldShowPrompt) {
     return null;
   }
 
-  const isPlatformInProgress = community?.platforms.some(
-    (platform) => platform?.metadata?.isInProgress === true
+  const selectedPlatformData = community?.platforms.find(
+    (platform) => platform?.id === selectedPlatform
   );
 
-  const promptData = isPlatformInProgress
-    ? {
-        backgroundColor: 'bg-orange',
-        message:
-          'Data import is in progress. It might take up to 6 hours to finish the data import. Once it is done we will send you a message on Discord.',
-      }
+  const promptData = selectedPlatformData
+    ? selectedPlatformData.name === 'discord'
+      ? {
+          backgroundColor: 'bg-orange',
+          message:
+            'Data import is in progress. It might take up to 6 hours to finish the data import. Once it is done we will send you a message on Discord.',
+        }
+      : selectedPlatformData.name === 'discourse'
+        ? {
+            backgroundColor: 'bg-orange',
+            message:
+              'Data extraction is in progress for Discourse. This process may take more than 6 hours to complete.',
+          }
+        : {
+            backgroundColor: 'bg-orange',
+            message: `Data processing is in progress for ${selectedPlatformData.name}. Please check back later.`,
+          }
     : {
         backgroundColor: 'bg-orange',
         message: (
@@ -60,6 +73,10 @@ function TcPrompt() {
         redirectRouteParams: '/?platform=Discord',
       };
 
+  if (!promptData) {
+    return null;
+  }
+
   const { backgroundColor, message, buttonText, redirectRouteParams } =
     promptData;
 
@@ -69,7 +86,7 @@ function TcPrompt() {
       sx={{
         position: 'sticky',
         top: 0,
-        zIndex: 999,
+        zIndex: 9999999,
         '&:MuiPaper-root': {
           display: 'flex',
           justifyContent: 'center',

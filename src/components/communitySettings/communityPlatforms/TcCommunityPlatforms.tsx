@@ -1,10 +1,11 @@
+import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcDiscordIntgration from './TcDiscordIntgration';
+import TcDiscourse from './TcDiscourse';
 import TcGdriveIntegration from './TcGdriveIntegration';
 import TcGithubIntegration from './TcGithubIntegration';
 import TcMediaWiki from './TcMediaWiki';
@@ -54,6 +55,12 @@ function TcCommunityPlatforms() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [hivemindManageIsLoading, setHivemindManageIsLoading] =
     useState<boolean>(false);
+  const [
+    violationDetectionManageIsLoading,
+    setViolationDetectionManageIsLoading,
+  ] = useState<boolean>(false);
+  const [reputationScoreManageIsLoading, setReputationScoreManageIsLoading] =
+    useState<boolean>(false);
   const router = useRouter();
 
   const communityId =
@@ -66,11 +73,12 @@ function TcCommunityPlatforms() {
       'github',
       'notion',
       'mediaWiki',
+      'discourse',
     ];
+
     const platformName = platformNames[activeTab];
 
     if (!platformName) {
-      console.log('Unexpected tab index');
       return;
     }
 
@@ -115,6 +123,56 @@ function TcCommunityPlatforms() {
     }
   };
 
+  const handleViolationDetectionModule = async () => {
+    try {
+      setViolationDetectionManageIsLoading(true);
+      const hivemindModules = await retrieveModules({
+        community: communityId,
+        name: 'violationDetection',
+      });
+
+      if (hivemindModules.results.length > 0) {
+        router.push('/community-settings/violation-detection');
+      } else {
+        await createModule({
+          name: 'violationDetection',
+          community: communityId,
+        });
+        router.push('/community-settings/violation-detection');
+      }
+      setViolationDetectionManageIsLoading(false);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setViolationDetectionManageIsLoading(false);
+    }
+  };
+
+  const handleReputationScoreModule = async () => {
+    try {
+      setReputationScoreManageIsLoading(true);
+      const reputationScoreModule = await retrieveModules({
+        community: communityId,
+        name: 'dynamicNft',
+      });
+
+      if (reputationScoreModule.results.length > 0) {
+        router.push('/community-settings/reputation-score');
+      } else {
+        await createModule({
+          name: 'dynamicNft',
+          community: communityId,
+        });
+        router.push('/community-settings/reputation-score');
+      }
+      setReputationScoreManageIsLoading(false);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setReputationScoreManageIsLoading(false);
+    }
+  };
+
   const handleUpdateCommunityPlatform = async () => {
     await fetchPlatformsByType();
   };
@@ -124,10 +182,7 @@ function TcCommunityPlatforms() {
       <Paper className='rounded-none bg-gray-100 p-4 shadow-none'>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
           <TcText text='Platforms' variant='h6' fontWeight='bold' />
-          <TcText
-            text='Add/remove platform integrations'
-            variant='body1'
-          />
+          <TcText text='Add/remove platform integrations' variant='body1' />
         </div>
         <Box>
           <Tabs
@@ -143,11 +198,12 @@ function TcCommunityPlatforms() {
                   activeTab === index
                     ? 'bg-secondary/80 text-white'
                     : ![
-                      'Discord',
-                      'Github',
-                      'Notion',
-                      'MediaWiki',
-                    ].includes(platform)
+                          'Discord',
+                          'Discourse',
+                          'Github',
+                          'Notion',
+                          'MediaWiki',
+                        ].includes(platform)
                       ? 'bg-white'
                       : 'bg-white text-black'
                 )}
@@ -156,16 +212,19 @@ function TcCommunityPlatforms() {
                   <div className='flex flex-col items-center space-x-2'>
                     <TcCommunityPlatformIcon platform={platform} />
                     <TcText text={platform} variant='body2' />
-                    {
-                      platform === "GDrive" && (
-                        <TcText variant='caption' className='text-gray-300' text="Coming soon" />
-                      )
-                    }
+                    {platform === 'GDrive' && (
+                      <TcText
+                        variant='caption'
+                        className='text-gray-300'
+                        text='Coming soon'
+                      />
+                    )}
                   </div>
                 }
                 disabled={
                   ![
                     'Discord',
+                    'Discourse',
                     'Github',
                     'Notion',
                     'MediaWiki',
@@ -221,6 +280,15 @@ function TcCommunityPlatforms() {
               />
             </TabPanel>
           )}
+          {activeTab === 5 && (
+            <TabPanel value={activeTab} index={5}>
+              <TcDiscourse
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
+              />
+            </TabPanel>
+          )}
         </Box>
       </Paper>
       <div className='py-4'>
@@ -232,25 +300,73 @@ function TcCommunityPlatforms() {
           />
         </div>
 
-        <TcCard
-          className='min-h-[6rem] max-w-[10rem]'
-          children={
-            <div className='flex flex-col items-center justify-center space-y-2 py-4'>
-              <TcText text='AI assistant' variant='subtitle1' fontWeight='bold' />
-              <TcButton
-                text={
-                  hivemindManageIsLoading ? (
-                    <CircularProgress size={20} />
-                  ) : (
-                    'Manage'
-                  )
-                }
-                variant='text'
-                onClick={() => handleManageHivemindModule()}
-              />
-            </div>
-          }
-        />
+        <div className='flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4'>
+          <TcCard
+            className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
+                <TcButton
+                  text={
+                    hivemindManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleManageHivemindModule()}
+                />
+              </div>
+            }
+          />
+          <TcCard
+            className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText
+                  text='Violation Detection'
+                  variant='subtitle1'
+                  fontWeight='bold'
+                />
+                <TcButton
+                  text={
+                    violationDetectionManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleViolationDetectionModule()}
+                />
+              </div>
+            }
+          />
+          <TcCard
+            className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
+            children={
+              <div className='flex flex-col items-center justify-center space-y-2 py-4'>
+                <TcText
+                  text='Reputation Score'
+                  variant='subtitle1'
+                  fontWeight='bold'
+                />
+                <TcButton
+                  text={
+                    reputationScoreManageIsLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      'Manage'
+                    )
+                  }
+                  variant='text'
+                  onClick={() => handleReputationScoreModule()}
+                />
+              </div>
+            }
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-import { Typography, TypographyProps } from '@mui/material';
 import React from 'react';
+import { Typography, TypographyProps } from '@mui/material';
 
 /**
  * TcTitle Component

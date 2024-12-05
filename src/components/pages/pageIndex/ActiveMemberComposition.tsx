@@ -1,15 +1,18 @@
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+
+import TcButton from '@/components/shared/TcButton';
+
+import useAppStore from '@/store/useStore';
+
+import { useToken } from '@/context/TokenContext';
+import { StatisticsProps } from '@/utils/interfaces';
 
 import StatisticalData from '../statistics/StatisticalData';
-import TcButton from '../../shared/TcButton';
-import { useToken } from '../../../context/TokenContext';
-import useAppStore from '../../../store/useStore';
-import { StatisticsProps } from '../../../utils/interfaces';
 
 const ActiveMemberComposition = () => {
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
 
   const router = useRouter();
   const { fetchActiveMembers, activeMembers } = useAppStore();
@@ -20,14 +23,13 @@ const ActiveMemberComposition = () => {
     const startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
     const platformId = community?.platforms.find(
-      (platform) =>
-        platform.disconnectedAt === null && platform.name === 'discord'
+      (platform) => platform.id === selectedPlatform
     )?.id;
 
     if (platformId) {
       fetchActiveMembers(platformId, startDate, endDate);
     }
-  }, []);
+  }, [selectedPlatform]);
 
   useEffect(() => {
     setStatistics([

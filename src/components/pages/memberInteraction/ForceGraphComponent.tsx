@@ -1,6 +1,6 @@
-import { Avatar, Box, Paper, Popover, Typography } from '@mui/material';
-import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
+import { Avatar, Box, Popover, Typography } from '@mui/material';
+import clsx from 'clsx';
 import ForceGraph2D, {
   ForceGraphMethods,
   NodeObject,
@@ -24,7 +24,12 @@ interface CustomNode {
   id?: string;
 }
 
-const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
+const ForceGraphComponent = ({
+  nodes,
+  links,
+  numberOfnodes,
+  platformType,
+}: any) => {
   const [popOverOpen, setpopOverOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [user, setUser] = useState<IUserProfile>();
@@ -199,7 +204,11 @@ const ForceGraphComponent = ({ nodes, links, numberOfnodes }: any) => {
         <div className='flex flex-col items-start space-y-3 px-3 py-3'>
           <div className='flex flex-row items-center space-x-3'>
             <Avatar
-              src={`${conf.DISCORD_CDN}avatars/${user?.discordId}/${user?.avatar}.png`}
+              src={
+                platformType === 'discourse'
+                  ? user?.avatar
+                  : `${conf.DISCORD_CDN}avatars/${user?.discordId}/${user?.avatar}.png`
+              }
               alt='User Avatar'
             />{' '}
             <div className='flex flex-col items-baseline'>

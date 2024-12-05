@@ -1,7 +1,7 @@
-import { TreeItem, TreeView } from '@mui/lab';
-import { FormControlLabel } from '@mui/material';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { FormControlLabel } from '@mui/material';
+import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
+import moment from 'moment';
 import { MdCalendarMonth, MdExpandMore } from 'react-icons/md';
 import { MdChevronRight } from 'react-icons/md';
 import { TbRefresh } from 'react-icons/tb';
@@ -203,14 +203,16 @@ function TcHivemindDiscordLearnings({
             <Loading />
           </div>
         ) : (
-          <TreeView
-            defaultCollapseIcon={<MdExpandMore />}
-            defaultExpandIcon={<MdChevronRight />}
+          <SimpleTreeView
+            slots={{
+              collapseIcon: MdExpandMore,
+              expandIcon: MdChevronRight,
+            }}
           >
             {discordPlatformChannels.map((channel, index) => (
               <TreeItem
                 key={index}
-                nodeId={channel.channelId}
+                itemId={channel.channelId}
                 label={
                   <div className='flex items-center justify-between'>
                     <TcText
@@ -245,7 +247,7 @@ function TcHivemindDiscordLearnings({
                 {channel.subChannels.map((subChannel, index) => (
                   <TreeItem
                     key={index}
-                    nodeId={subChannel.channelId}
+                    itemId={subChannel.channelId}
                     label={
                       <div className='flex items-center justify-between'>
                         <TcText text={subChannel.name} variant='subtitle1' />
@@ -276,7 +278,7 @@ function TcHivemindDiscordLearnings({
                 ))}
               </TreeItem>
             ))}
-          </TreeView>
+          </SimpleTreeView>
         )}
       </div>
     </div>

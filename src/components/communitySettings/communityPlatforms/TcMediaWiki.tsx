@@ -1,5 +1,5 @@
-import { CircularProgress, FormControl, Paper, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { CircularProgress, FormControl, Paper, TextField } from '@mui/material';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
@@ -176,7 +176,7 @@ function TcMediaWiki({
                     fontWeight='bold'
                   />
                   <TcText
-                    text={`MediaWiki URL: ${activePlatform.metadata.baseURL}`}
+                    text={`${activePlatform.metadata.baseURL}`}
                     variant='body1'
                   />
                 </div>

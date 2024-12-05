@@ -1,6 +1,6 @@
+import React from 'react';
 import { Box, Container } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
 
 import tcLogo from '../assets/svg/tc-logo.svg';
 

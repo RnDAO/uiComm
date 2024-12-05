@@ -1,6 +1,6 @@
+import React from 'react';
 import { Paper } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
 
 import Link from '../../global/Link';
 import communityhealth from '../../../assets/svg/communityhealth.svg';

@@ -1,7 +1,12 @@
-import { Paper, Popover } from '@mui/material';
-import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
+import { Paper, Popover, Stack } from '@mui/material';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
+
+import EmptyState from '@/components/global/EmptyState';
+
+import emptyState from '@/assets/svg/empty-state.svg';
 
 import Link from '../components/global/Link';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
@@ -10,8 +15,8 @@ import HintBox from '../components/pages/memberInteraction/HintBox';
 import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
-import { IUser } from '../utils/types';
 import { withRoles } from '../utils/withRoles';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const ForceGraphComponent = dynamic(
   () =>
@@ -89,14 +94,13 @@ const transformApiResponseToMockData = (apiResponse: any[]) => {
 };
 
 function MembersInteraction() {
-  const { community } = useToken();
+  const { community, selectedPlatform } = useToken();
 
   const [nodes, setNodes] = useState<any[]>([]);
   const [links, setLinks] = useState<any[]>([]);
 
   const [nodeSizes, setNodeSizes] = useState<number[]>([]);
 
-  const [user, setUser] = useState<IUser | undefined>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<null | HTMLElement>(
     null
   );
@@ -104,21 +108,22 @@ function MembersInteraction() {
   const { getMemberInteraction, isLoading } = useAppStore();
 
   useEffect(() => {
-    const platformId = community?.platforms.find(
-      (platform) =>
-        platform.disconnectedAt === null && platform.name === 'discord'
-    )?.id;
+    const platform = community?.platforms.find(
+      (platform) => platform.id === selectedPlatform
+    );
 
-    if (platformId) {
-      getMemberInteraction(platformId).then((apiResponse: any[]) => {
-        const { nodes, links } = transformApiResponseToMockData(apiResponse);
-        const nodeSizes = nodes.map((node) => node.size);
-        setNodes(nodes);
-        setLinks(links);
-        setNodeSizes(nodeSizes);
-      });
+    if (platform) {
+      getMemberInteraction(selectedPlatform, platform.name).then(
+        (apiResponse: any[]) => {
+          const { nodes, links } = transformApiResponseToMockData(apiResponse);
+          const nodeSizes = nodes.map((node) => node.size);
+          setNodes(nodes);
+          setLinks(links);
+          setNodeSizes(nodeSizes);
+        }
+      );
     }
-  }, []);
+  }, [selectedPlatform]);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setPopoverAnchorEl(event.currentTarget);
@@ -130,6 +135,21 @@ function MembersInteraction() {
 
   const open = Boolean(popoverAnchorEl);
   const popoverId = open ? 'hint-popover' : undefined;
+
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
+    return (
+      <>
+        <SEO />
+        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
+      </>
+    );
+  }
 
   if (isLoading) {
     return <SimpleBackdrop />;
@@ -151,17 +171,35 @@ function MembersInteraction() {
           }}
           className='space-y-4 overflow-hidden rounded-xl px-4 py-6 shadow-box md:px-8'
         >
-          <h3 className='text-xl font-medium text-lite-black'>
-            Member interactions graph
-          </h3>
+          <Stack
+            direction={{
+              xs: 'column',
+              md: 'row',
+            }}
+            justifyContent='space-between'
+            alignItems='center'
+            gap={2}
+          >
+            <Stack>
+              <h3 className='whitespace-nowrap text-lg font-medium text-lite-black'>
+                Member interactions graph
+              </h3>{' '}
+            </Stack>
+            <SwitchPlatform />
+          </Stack>
           <p>Data from the last 7 days</p>
           <div className='flex flex-col md:flex-row md:items-start md:space-x-5'>
-            <div className='items-center justify-center overflow-hidden lg:w-11/12 bg-gray-hover border border-gray-150 rounded-lg shadow-sm'>
+            <div className='border-gray-150 items-center justify-center overflow-hidden rounded-lg border bg-gray-hover shadow-sm lg:w-11/12'>
               <ForceGraphComponent
                 nodes={nodes}
                 links={links}
                 nodeRelSize={nodeSizes}
                 numberOfnodes={nodes.length}
+                platformType={
+                  community?.platforms.find(
+                    (platform) => platform.id === selectedPlatform
+                  )?.name
+                }
               />
             </div>
             <div className='hidden justify-end md:flex md:w-1/2  lg:flex-1'>

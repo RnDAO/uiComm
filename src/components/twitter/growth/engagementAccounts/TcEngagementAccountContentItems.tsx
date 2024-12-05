@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import React from 'react';
+import clsx from 'clsx';
 import { MdOutlineInfo } from 'react-icons/md';
 
 import TcIconWithTooltip from '../../../shared/TcIconWithTooltip';

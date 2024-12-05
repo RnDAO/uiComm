@@ -1,5 +1,5 @@
-import router from 'next/router';
 import React from 'react';
+import router from 'next/router';
 
 import TcActiveCommunity from './TcActiveCommunity';
 import TcButton from '../../shared/TcButton';

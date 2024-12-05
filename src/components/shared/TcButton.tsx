@@ -9,8 +9,8 @@
  * @returns {React.ReactElement} Rendered button component.
  */
 
-import { Button, ButtonProps } from '@mui/material';
 import React from 'react';
+import { Button, ButtonProps } from '@mui/material';
 
 import TcText from './TcText';
 

@@ -1,6 +1,6 @@
+import React from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useRouter } from 'next/router';
-import React from 'react';
 import { MdChevronRight } from 'react-icons/md';
 
 import TcLink from './TcLink';

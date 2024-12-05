@@ -1,6 +1,6 @@
+import { ReactElement, SyntheticEvent } from 'react';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Tab from '@mui/material/Tab';
-import { ReactElement, SyntheticEvent } from 'react';
 
 interface ICustomTab {
   activeTab: string;

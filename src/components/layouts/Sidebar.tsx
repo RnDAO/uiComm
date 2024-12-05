@@ -1,37 +1,41 @@
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 type items = {
   name: string;
   path: string;
   icon: any;
+  isVisible?: boolean;
 };
 
 import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Avatar } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
 import { MdOutlineAnnouncement } from 'react-icons/md';
+import { RiNftFill } from 'react-icons/ri';
+
+import { ICommunityPlatfromProps } from '@/utils/interfaces';
 
 import TcText from '../shared/TcText';
 import { conf } from '../../configs/index';
 import { useToken } from '../../context/TokenContext';
 import useAppStore from '../../store/useStore';
-import { ICommunityDiscordPlatfromProps } from '../../utils/interfaces';
-import { Avatar } from '@mui/material';
 
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
-  const { community } = useToken();
+  const { dynamicNFTModuleInfo } = useAppStore();
+  const { community, selectedPlatform } = useToken();
+  const [isDiscourse, setIsDiscourse] = useState<boolean>(false);
 
   const userPermissions = useAppStore(
     (state) => state.userRolePermissions || []
   );
 
   const [connectedPlatform, setConnectedPlatform] =
-    useState<ICommunityDiscordPlatfromProps | null>(null);
+    useState<ICommunityPlatfromProps | null>(null);
 
   useEffect(() => {
     const storedCommunity = community;
@@ -45,6 +49,18 @@ const Sidebar = () => {
       setConnectedPlatform(foundPlatform ?? null);
     }
   }, [community]);
+
+  useEffect(() => {
+    const discoursePlatformId = community?.platforms?.find((platform) => {
+      return platform.name === 'discourse' && platform.disconnectedAt === null;
+    })?.id;
+
+    if (discoursePlatformId && selectedPlatform) {
+      setIsDiscourse(selectedPlatform === discoursePlatformId);
+    } else {
+      setIsDiscourse(false);
+    }
+  }, [community, selectedPlatform]);
 
   let menuItems: items[] = [
     {
@@ -87,12 +103,26 @@ const Sidebar = () => {
     },
   ];
 
+  if (dynamicNFTModuleInfo?.isNFTModuleEnabled) {
+    menuItems.splice(menuItems.length - 1, 0, {
+      name: 'Reputation Score',
+      path: '/reputation-score',
+      icon: (
+        <RiNftFill style={{ fontSize: 20, color: 'black', margin: '0 auto' }} />
+      ),
+    });
+  }
+
   if (!userPermissions.includes('admin')) {
     menuItems = menuItems.filter(
       (item) =>
         item.name !== 'Community Settings' &&
         item.name !== 'Smart Announcements'
     );
+  }
+
+  if (isDiscourse) {
+    menuItems = menuItems.filter((item) => item.name !== 'Smart Announcements');
   }
 
   const menuItem = menuItems.map((el) => (

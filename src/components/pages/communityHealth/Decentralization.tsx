@@ -1,18 +1,20 @@
+import React, { useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import Highcharts from 'highcharts/highcharts.js';
 import highchartsMore from 'highcharts/highcharts-more.js';
 import solidGauge from 'highcharts/modules/solid-gauge.js';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 
+import GaugeChart from '@/components/global/GaugeChart';
+
+import centralized from '@/assets/svg/centralized.svg';
+import decentralized from '@/assets/svg/decentralized.svg';
+import { IDecentralisationScoreResponse } from '@/utils/interfaces';
+
 import CommunityStatusShower from './CommunityStatusShower';
 import TipsDialog from './TipsDialog';
-import GaugeChart from '../../global/GaugeChart';
-import centralized from '../../../assets/svg/centralized.svg';
-import decentralized from '../../../assets/svg/decentralized.svg';
-import { IDecentralisationScoreResponse } from '../../../utils/interfaces';
 
 // Initialize the Highcharts networkgraph module
 if (typeof Highcharts === 'object') {

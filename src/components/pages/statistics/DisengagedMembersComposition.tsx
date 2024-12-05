@@ -1,19 +1,24 @@
-import { Alert, AlertTitle, IconButton,Typography } from '@mui/material';
-import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { Alert, AlertTitle, IconButton, Typography } from '@mui/material';
+import router from 'next/router';
 import { FaDiscord, FaEnvelope, FaTelegram, FaXTwitter } from 'react-icons/fa6';
 import { FiCalendar } from 'react-icons/fi';
 
+import { communityActiveDates } from '@/lib/data/dateRangeValues';
+
+import LineGraph from '@/components/global/LineGraph';
+import Loading from '@/components/global/Loading';
+import RangeSelect from '@/components/global/RangeSelect';
+
+import useAppStore from '@/store/useStore';
+
+import { SeriesData, StatisticsProps } from '@/utils/interfaces';
+
 import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengagedMembersComposition/DisengagedMembersCompositionBreakdown';
 import StatisticalData from './StatisticalData';
-import LineGraph from '../../global/LineGraph';
-import Loading from '../../global/Loading';
-import RangeSelect from '../../global/RangeSelect';
-import { communityActiveDates } from '../../../lib/data/dateRangeValues';
-import useAppStore from '../../../store/useStore';
-import { SeriesData, StatisticsProps } from '../../../utils/interfaces';
 
 export interface DisengagedMembersComposition {
+  platformType: 'discord' | 'discourse';
   activePeriod: number;
   isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
@@ -62,6 +67,7 @@ const defaultOptions = {
 };
 
 export default function DisengagedMembersComposition({
+  platformType,
   activePeriod,
   isPremiumGuild = false,
   handleDateRange,
@@ -268,7 +274,7 @@ export default function DisengagedMembersComposition({
         />
       </div>
 
-      <DisengagedMembersCompositionBreakdown />
+      <DisengagedMembersCompositionBreakdown platformType={platformType} />
 
       <div className='w-full'>
         <div className='flex flex-col items-center justify-between space-y-2 pb-4 md:flex-row md:space-y-0'>

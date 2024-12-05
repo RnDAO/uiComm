@@ -1,6 +1,5 @@
-import { Popover } from '@mui/material';
 import React, { useContext } from 'react';
-import { BiError } from 'react-icons/bi';
+import { Alert, Box, Popover, Typography } from '@mui/material';
 import { FaHashtag } from 'react-icons/fa';
 
 import TcPlatformChannelList from '../communitySettings/platform/TcPlatformChannelList';
@@ -63,22 +62,21 @@ const FilterByChannels = ({
           style: { width: '32rem' },
         }}
       >
-        <div className='w-full px-8 py-4'>
-          <p className='text-md pb-3 font-bold'>
-            Select channels to view activity
-          </p>
-          <div className='rounded-md border border-gray-300'>
+        <Box px={4} py={2}>
+          <Typography variant='body1' fontWeight='bold' pb={1}>
+            Select categories to view activity
+          </Typography>
+          <Box className='rounded-md border border-gray-300'>
             <TcPlatformChannelList
               refreshTrigger={false}
               disableSubChannelsByAnnouncement={false}
               channelListCustomClass='px-4 py-3'
             />
-          </div>
-          <div className='flex items-center pt-4 text-sm text-orange'>
-            <BiError size={18} className='mr-0.5' />
+          </Box>
+          <Alert severity='warning' className='mt-4 rounded-lg'>
             At least one channel needs to be selected. Please select channel.
-          </div>
-          <div className='mx-auto pt-4 text-center'>
+          </Alert>
+          <Box textAlign='center' pt={2}>
             <TcButton
               text='Save channels'
               variant='contained'
@@ -91,8 +89,8 @@ const FilterByChannels = ({
                 setAnchorEl(null);
               }}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Popover>
     </div>
   );

@@ -1,8 +1,8 @@
+import React from 'react';
 import { StaticTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import React from 'react';
 import { FiCalendar } from 'react-icons/fi';
 import { MdAccessTime } from 'react-icons/md';
 

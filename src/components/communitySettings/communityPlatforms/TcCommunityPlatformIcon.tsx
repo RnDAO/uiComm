@@ -5,34 +5,41 @@ import { FaDiscourse } from 'react-icons/fa';
 import { FaGithub } from 'react-icons/fa';
 import { FaGoogleDrive } from 'react-icons/fa';
 import { FaWikipediaW } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import { FaTelegram, FaTwitter } from 'react-icons/fa6';
 import { RiNotionFill } from 'react-icons/ri';
 
 interface TcCommunityPlatformIconProps {
   platform: string;
+  size?: number;
 }
 
-function TcCommunityPlatformIcon({ platform }: TcCommunityPlatformIconProps) {
+function TcCommunityPlatformIcon({
+  platform,
+  size = 44,
+}: TcCommunityPlatformIconProps) {
   const renderIcon = () => {
     switch (platform) {
       case 'Discord':
-        return <FaDiscord size={44} />;
+        return <FaDiscord size={size} />;
       case 'Twitter':
-        return <FaTwitter size={44} />;
+        return <FaTwitter size={size} />;
       case 'Discourse':
-        return <FaDiscourse size={44} />;
+        return <FaDiscourse size={size} />;
       case 'Telegram':
-        return <FaTelegram size={44} />;
+        return <FaTelegram size={size} />;
       case 'Snapshot':
-        return <AiFillThunderbolt size={44} />;
+        return <AiFillThunderbolt size={size} />;
       case 'Github':
-        return <FaGithub size={44} />;
+        return <FaGithub size={size} />;
       case 'GDrive':
-        return <FaGoogleDrive size={44} />;
+        return <FaGoogleDrive size={size} />;
       case 'Notion':
-        return <RiNotionFill size={44} />;
+        return <RiNotionFill size={size} />;
       case 'MediaWiki':
-        return <FaWikipediaW size={44} />;
+        return <FaWikipediaW size={size} />;
+      case 'Google':
+        return <FaGoogle size={size} />;
       default:
         return null;
     }

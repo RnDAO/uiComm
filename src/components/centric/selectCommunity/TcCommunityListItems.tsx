@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import { Avatar } from '@mui/material';
+import clsx from 'clsx';
 import { MdGroups } from 'react-icons/md';
 
 import TcAvatar from '../../shared/TcAvatar';
@@ -70,18 +70,15 @@ function TcCommunityListItems({
       );
     }
 
-    if (
-      activeCommunityPlatformIcon &&
-      activeCommunityPlatformIcon.metadata &&
-      activeCommunityPlatformIcon.metadata.icon
-    ) {
+    if (activeCommunityPlatformIcon?.metadata?.icon) {
       return (
-        <Image
+        <Avatar
           src={`${conf.DISCORD_CDN}icons/${activeCommunityPlatformIcon.metadata.id}/${activeCommunityPlatformIcon.metadata.icon}`}
-          width='100'
-          height='100'
-          alt={activeCommunityPlatformIcon.metadata.name || ''}
-          className='rounded-full'
+          alt={
+            activeCommunityPlatformIcon.metadata.name
+              ? activeCommunityPlatformIcon.metadata.name
+              : ''
+          }
         />
       );
     }

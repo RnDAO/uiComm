@@ -169,7 +169,7 @@ export interface Permissions {
   ReadData: ReadData;
 }
 
-export interface ICommunityDiscordPlatfromProps {
+export interface ICommunityPlatfromProps {
   id: string;
   name: string;
   metadata: {
@@ -192,7 +192,7 @@ export interface metaData {
 
 export interface IDiscordModifiedCommunity
   extends Omit<ICommunity, 'platforms'> {
-  platforms: ICommunityDiscordPlatfromProps[];
+  platforms: ICommunityPlatfromProps[];
 }
 
 export interface IUser {

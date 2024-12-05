@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { debounce } from '@mui/material';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
 import { MdGroups } from 'react-icons/md';
 
 import Loading from '../../global/Loading';

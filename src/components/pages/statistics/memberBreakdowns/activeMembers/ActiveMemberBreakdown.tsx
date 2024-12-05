@@ -1,7 +1,7 @@
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 import clsx from 'clsx';
 import router from 'next/router';
-import { useEffect, useRef, useState } from 'react';
 import { BsFiletypeCsv } from 'react-icons/bs';
 
 import CustomPagination from '../CustomPagination';
@@ -19,11 +19,17 @@ import {
 } from '../../../../../utils/interfaces';
 import TcButton from '../../../../shared/TcButton';
 
-const columns: Column[] = [
+const discordMemberBreakdownTableColumns: Column[] = [
   { id: 'username', label: 'Name' },
   { id: 'roles', label: 'Roles' },
   { id: 'activityComposition', label: 'Activity composition' },
   { id: 'joinedAt', label: 'DAO member since' },
+];
+
+const discourseMemberBreakdownTableColumns: Column[] = [
+  { id: 'username', label: 'Name' },
+  { id: 'activityComposition', label: 'Activity composition' },
+  { id: 'joined_at', label: 'DAO member since' },
 ];
 
 const options: IActivityCompositionOptions[] = [
@@ -35,9 +41,15 @@ const options: IActivityCompositionOptions[] = [
   { name: 'Others', value: 'others', color: '#AAAAAA' },
 ];
 
-export default function ActiveMemberBreakdown() {
+interface IAcriveMemberBreakdownProps {
+  platformType: 'discord' | 'discourse';
+}
+
+export default function ActiveMemberBreakdown({
+  platformType,
+}: IAcriveMemberBreakdownProps) {
   const { getActiveMemberCompositionTable } = useAppStore();
-  const { community } = useToken();
+  const { selectedPlatform } = useToken();
 
   const tableTopRef = useRef<HTMLDivElement>(null);
 
@@ -58,11 +70,6 @@ export default function ActiveMemberBreakdown() {
     totalResults: 0,
   });
 
-  const platformId = community?.platforms.find(
-    (platform) =>
-      platform.disconnectedAt === null && platform.name === 'discord'
-  )?.id;
-
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
     if (tableTopRef.current && isExpanded) {
@@ -71,14 +78,15 @@ export default function ActiveMemberBreakdown() {
   };
 
   useEffect(() => {
-    if (!platformId) {
+    if (!selectedPlatform) {
       return;
     }
 
     setLoading(true);
     const fetchData = async () => {
       const res = await getActiveMemberCompositionTable(
-        platformId,
+        selectedPlatform,
+        platformType,
         activityComposition,
         roles,
         username,
@@ -90,7 +98,7 @@ export default function ActiveMemberBreakdown() {
     };
 
     fetchData();
-  }, [page, roles, activityComposition, username, sortBy]);
+  }, [page, roles, activityComposition, username, sortBy, platformType]);
 
   useEffect(() => {
     setPage(1);
@@ -151,7 +159,7 @@ export default function ActiveMemberBreakdown() {
   };
 
   const handleDownloadCSV = async () => {
-    if (!platformId) {
+    if (!selectedPlatform) {
       return;
     }
 
@@ -159,7 +167,8 @@ export default function ActiveMemberBreakdown() {
       const limit = fetchedData.totalResults;
 
       const { results } = await getActiveMemberCompositionTable(
-        platformId,
+        selectedPlatform,
+        platformType,
         activityComposition,
         roles,
         username,
@@ -213,7 +222,11 @@ export default function ActiveMemberBreakdown() {
 
           <CustomTable
             data={fetchedData?.results ? fetchedData.results : []}
-            columns={columns}
+            columns={
+              platformType === 'discord'
+                ? discordMemberBreakdownTableColumns
+                : discourseMemberBreakdownTableColumns
+            }
             handleRoleSelectionChange={handleRoleSelectionChange}
             handleActivityOptionSelectionChange={
               handleActivityOptionSelectionChange

@@ -15,8 +15,8 @@
  * ```
  */
 
-import clsx from 'clsx';
 import React from 'react';
+import clsx from 'clsx';
 
 interface ITcBoxTitleContainer {
   children: JSX.Element;

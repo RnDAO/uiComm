@@ -19,42 +19,71 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
   onboardingMembersLoading: false,
   fetchHeatmapData: async (
     platformId: string,
+    platformType: 'discord' | 'discourse',
     startDate: string,
     endDate: string,
     timeZone: string,
-    channelIds: string[]
+    channelIds?: string[],
+    allCategories?: boolean,
+    includeCategories?: string[],
+    excludeCategories?: string[]
   ) => {
     try {
+      const endpoint =
+        platformType === 'discourse'
+          ? `/discourse/heatmaps/${platformId}/heatmap-chart`
+          : `/heatmaps/${platformId}/heatmap-chart`;
+
       set(() => ({ isLoading: true }));
-      const { data } = await axiosInstance.post(
-        `/heatmaps/${platformId}/heatmap-chart`,
-        {
-          startDate,
-          endDate,
-          timeZone,
-          channelIds: channelIds,
+
+      const payload: any = {
+        startDate,
+        endDate,
+        timeZone,
+      };
+
+      if (platformType === 'discord' && channelIds) {
+        payload.channelIds = channelIds;
+      }
+
+      if (platformType === 'discourse') {
+        payload.allCategories = allCategories ?? false;
+
+        if (includeCategories && includeCategories.length > 0) {
+          payload.include = includeCategories;
         }
-      );
+
+        if (excludeCategories && excludeCategories.length > 0) {
+          payload.exclude = excludeCategories;
+        }
+      }
+
+      const { data } = await axiosInstance.post(endpoint, payload);
       set({ heatmapRecords: [...data], isLoading: false });
+
       return data;
     } catch (error) {
+      console.error('Error fetching heatmap data:', error);
       set(() => ({ isLoading: false }));
     }
   },
   fetchInteractions: async (
     platformId: string,
     startDate: string,
-    endDate: string
+    endDate: string,
+    platformType: 'discord' | 'discourse'
   ) => {
+    const endpoint =
+      platformType === 'discourse'
+        ? `/discourse/heatmaps/${platformId}/line-graph`
+        : `/heatmaps/${platformId}/line-graph`;
+
     try {
       set(() => ({ interactionsLoading: true }));
-      const { data } = await axiosInstance.post(
-        `/heatmaps/${platformId}/line-graph`,
-        {
-          startDate,
-          endDate,
-        }
-      );
+      const { data } = await axiosInstance.post(endpoint, {
+        startDate,
+        endDate,
+      });
       set({ interactions: data, interactionsLoading: false });
     } catch (error) {
       set(() => ({ interactionsLoading: false }));

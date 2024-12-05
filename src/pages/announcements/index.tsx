@@ -1,9 +1,14 @@
+import React, { useEffect, useState } from 'react';
 import { Link, Stack, Typography } from '@mui/material';
 import moment from 'moment';
+import Image from 'next/image';
 import router from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { MdCalendarMonth } from 'react-icons/md';
+
+import EmptyState from '@/components/global/EmptyState';
+
+import emptyState from '@/assets/svg/empty-state.svg';
 
 import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
 import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
@@ -160,6 +165,21 @@ function Index() {
   const handlePageChange = (selectedPage: number) => {
     setPage(selectedPage);
   };
+
+  const hasActivePlatform = community?.platforms?.some(
+    (platform) =>
+      (platform.name === 'discord' || platform.name === 'discourse') &&
+      platform.disconnectedAt === null
+  );
+
+  if (!hasActivePlatform) {
+    return (
+      <>
+        <SEO />
+        <EmptyState image={<Image alt='Image Alt' src={emptyState} />} />
+      </>
+    );
+  }
 
   if (isFirstLoad && loading) {
     return <SimpleBackdrop />;

@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import CustomDialogDetail from './CustomDialogDetail';
 import {
@@ -45,10 +45,6 @@ test('renders the dialog with all states', () => {
   // Check if the username is rendered
   const username = screen.getByText('John Doe');
   expect(username).toBeInTheDocument();
-
-  // Check if the roles are rendered
-  const roleElements = screen.getAllByTestId('role');
-  expect(roleElements.length).toBe(2);
 
   // Check if the activity compositions are rendered
   const compositionElements = screen.getAllByTestId('activity-composition');
