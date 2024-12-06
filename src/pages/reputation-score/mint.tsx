@@ -170,7 +170,7 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
 }) => {
 
   const handleNavigation = () => {
-    const url = 'https://logid.xyz/permissions';
+    const url = 'https://app.logid.xyz/permissions';
     window.open(url, '_blank');
   };
   return (
@@ -346,7 +346,7 @@ const UserProfileBox: React.FC<UserProfileBoxProps> = ({ profile }) => {
   const router = useRouter();
 
   const handleNavigation = () => {
-    const url = 'https://logid.xyz/permissions';
+    const url = 'https://app.logid.xyz/permissions';
     router.push(url);
   };
 
