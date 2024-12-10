@@ -10,6 +10,7 @@ import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
 import useAppStore from '@/store/useStore';
 
 import { useSnackbar } from '@/context/SnackbarContext';
+import { withRoles } from '@/utils/withRoles';
 
 const ScorePage = () => {
   const { showMessage } = useSnackbar();
@@ -41,19 +42,15 @@ const ScorePage = () => {
       const fetchReputationScore = async () => {
         setLoading(true);
         try {
-          console.log('Fetching reputation score for:', { tokenId, address });
-
           const score = await retrieveReputationScore({
             tokenId,
             address,
           });
 
-          console.log('Reputation Score Retrieved:', score);
           setReputationScore(score.reputationScore ?? 0);
           setCommunityName(score.communityName);
         } catch (error) {
           console.error('Error fetching reputation score:', error);
-          showMessage('Failed to load reputation score.', 'error');
         } finally {
           setLoading(false);
         }
@@ -176,4 +173,4 @@ const ScorePage = () => {
   );
 };
 
-export default ScorePage;
+export default withRoles(ScorePage, []);
