@@ -86,7 +86,7 @@ function ReputationScore() {
                         color='primary'
                         onClick={() =>
                           router.push(
-                            `/reputation-score/${dynamicNFTModuleInfo?.metadata[0]?.tokenId}/${address}/score`
+                            `/${dynamicNFTModuleInfo?.metadata[0]?.tokenId}/${address}/score`
                           )
                         }
                         disabled={!isConnected}

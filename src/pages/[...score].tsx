@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { FiShare2 } from 'react-icons/fi';
@@ -10,7 +12,6 @@ import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
 import useAppStore from '@/store/useStore';
 
 import { useSnackbar } from '@/context/SnackbarContext';
-import { withRoles } from '@/utils/withRoles';
 
 const ScorePage = () => {
   const { showMessage } = useSnackbar();
@@ -20,45 +21,38 @@ const ScorePage = () => {
   const [communityName, setCommunityName] = useState<string | null>(null);
   const [reputationScore, setReputationScore] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [tokenId, setTokenId] = useState<string | null>(null);
-  const [address, setAddress] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const parseUrl = () => {
-      const pathSegments = router.asPath.split('/');
-      const tokenIndex = pathSegments.indexOf('reputation-score') + 1;
+    const fetchReputationScore = async (tokenId: string, address: string) => {
+      setLoading(true);
+      setError(null);
 
-      if (tokenIndex > 0 && tokenIndex + 1 < pathSegments.length) {
-        setTokenId(pathSegments[tokenIndex]);
-        setAddress(pathSegments[tokenIndex + 1]);
+      try {
+        const score = await retrieveReputationScore({ tokenId, address });
+
+        setReputationScore(score.reputationScore ?? 0);
+        setCommunityName(score.communityName);
+      } catch (err) {
+        console.error('Error fetching reputation score:', err);
+        setError('Failed to fetch reputation score.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    parseUrl();
-  }, [router.asPath]);
+    if (router.isReady) {
+      const { score } = router.query; // Retrieve query params from URL
+      if (!score || !Array.isArray(score) || score.length < 2) {
+        setError('Invalid URL format. Missing tokenId or address.');
+        setLoading(false);
+        return;
+      }
 
-  useEffect(() => {
-    if (tokenId && address) {
-      const fetchReputationScore = async () => {
-        setLoading(true);
-        try {
-          const score = await retrieveReputationScore({
-            tokenId,
-            address,
-          });
-
-          setReputationScore(score.reputationScore ?? 0);
-          setCommunityName(score.communityName);
-        } catch (error) {
-          console.error('Error fetching reputation score:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchReputationScore();
+      const [tokenId, address] = score;
+      fetchReputationScore(tokenId, address);
     }
-  }, [tokenId, address]);
+  }, [router.isReady, router.query, retrieveReputationScore]);
 
   const gaugeOptions = {
     chart: {
@@ -124,6 +118,17 @@ const ScorePage = () => {
 
   if (loading) {
     return <SimpleBackdrop />;
+  }
+
+  if (error) {
+    return (
+      <div className='flex min-h-screen items-center justify-center bg-gray-100'>
+        <div className='max-w-xl rounded-lg bg-white p-6 shadow-lg'>
+          <h1 className='text-2xl font-bold text-red-600'>Error</h1>
+          <p className='mt-4 text-gray-600'>{error}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
