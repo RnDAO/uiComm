@@ -73,6 +73,7 @@ function Mint() {
         address,
         conf.APP_DEVELOPER_PUBLIC_ADDRESS as `0x${string}`
       );
+
       setUserProfile(result);
       setLoading(false);
     } catch (error) {
@@ -168,7 +169,6 @@ const AttestationSection: React.FC<AttestationSectionProps> = ({
   isLoading,
   userProfile,
 }) => {
-
   const handleNavigation = () => {
     const url = 'https://app.logid.xyz/permissions';
     window.open(url, '_blank');
@@ -246,7 +246,7 @@ const MintSection: React.FC<MintSectionProps> = ({
 
   const { address } = useAccount();
   const { dynamicNFTModuleInfo } = useAppStore();
-  const { data: hasMinted } = useReadContract({
+  const { data: hasMinted, refetch } = useReadContract({
     address: engagementContract?.address as `0x${string}`,
     abi: engagementContract?.abi as Abi,
     functionName: 'balanceOf',
@@ -259,9 +259,38 @@ const MintSection: React.FC<MintSectionProps> = ({
     isPending,
   } = useWriteContract();
 
-  const { isPending: isWaiting } = useWaitForTransactionReceipt({
+  const handleMintNFT = async () => {
+    try {
+      await writeContractAsync({
+        address: engagementContract?.address as `0x${string}`,
+        abi: engagementContract?.abi as Abi,
+        functionName: 'mint',
+        args: [address, dynamicNFTModuleInfo.metadata[0].tokenId, 1, '0x0'],
+      });
+    } catch (error: any) {
+      console.error('Mint failed:', error);
+    }
+  };
+
+  const {
+    data: receipt,
+    isSuccess,
+    isError,
+    isFetching: isWaitingForReceiptConfirmation,
+  } = useWaitForTransactionReceipt({
     hash: transactionHash,
   });
+
+  useEffect(() => {
+    if (receipt && isSuccess) {
+      showMessage(
+        'Your Reputation NFT has been successfully minted!',
+        'success'
+      );
+
+      refetch();
+    }
+  }, [receipt, isSuccess, isError]);
 
   return (
     <Stack className='space-y-4'>
@@ -315,26 +344,16 @@ const MintSection: React.FC<MintSectionProps> = ({
           <Button
             variant='contained'
             color='primary'
-            onClick={async () => {
-              try {
-                await writeContractAsync({
-                  address: engagementContract?.address as `0x${string}`,
-                  abi: engagementContract?.abi as Abi,
-                  functionName: 'mint',
-                  args: [
-                    address,
-                    dynamicNFTModuleInfo.metadata[0].tokenId,
-                    1,
-                    '0x0',
-                  ],
-                });
-              } catch (error: any) {
-                console.error('Mint failed:', error);
-              }
-            }}
-            disabled={isPending || !dynamicNFTModuleInfo?.metadata[0]?.tokenId}
+            onClick={handleMintNFT}
+            disabled={
+              isPending ||
+              isWaitingForReceiptConfirmation ||
+              !dynamicNFTModuleInfo?.metadata[0]?.tokenId
+            }
           >
-            {isPending ? 'Minting...' : 'Mint Reputation Score'}
+            {isPending || isWaitingForReceiptConfirmation
+              ? 'Minting...'
+              : 'Mint Reputation Score'}
           </Button>
         )}
       </Stack>
