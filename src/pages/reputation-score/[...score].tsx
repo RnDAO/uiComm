@@ -173,4 +173,4 @@ const ScorePage = () => {
   );
 };
 
-export default withRoles(ScorePage);
+export default ScorePage;
