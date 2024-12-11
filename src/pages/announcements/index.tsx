@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link, Stack, Typography } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
 import router from 'next/router';
@@ -18,7 +19,6 @@ import TcBoxContainer from '../../components/shared/TcBox/TcBoxContainer';
 import TcButton from '../../components/shared/TcButton';
 import TcDatePickerPopover from '../../components/shared/TcDatePickerPopover';
 import TcPagination from '../../components/shared/TcPagination';
-import TcText from '../../components/shared/TcText';
 import { useToken } from '../../context/TokenContext';
 import { defaultLayout } from '../../layouts/defaultLayout';
 import { StorageService } from '../../services/StorageService';
@@ -195,11 +195,27 @@ function Index() {
             <div className='flex max-h-[97dvh] min-h-[97dvh] flex-col justify-between space-y-4 p-4 md:p-10'>
               <div className='min-h-[calc(100vh-100px)] flex-grow overflow-auto'>
                 <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
-                  <TcText text='Announcement Scheduling' variant='h5' />
+                  <Stack spacing={1}>
+                    <Typography variant='h5'>
+                      Announcement Scheduling
+                    </Typography>
+                    <Typography variant='body2' className='text-left'>
+                      smart announcements allow you to send targeted messages to
+                      specific user segments.{' '}
+                      <Link
+                        className='font-bold'
+                        color='primary'
+                        href='https://togethercrew.gitbook.io/onboarding/~/changes/NV24DFt4YIMi4FKjX30S/features/smart-announcements'
+                        target='_blank'
+                      >
+                        Learn more
+                      </Link>
+                    </Typography>
+                  </Stack>
                   <TcButton
                     text='Create Announcement'
                     startIcon={<BsPlus />}
-                    variant='outlined'
+                    variant='contained'
                     onClick={() =>
                       router.push('/announcements/create-new-announcements')
                     }
@@ -239,16 +255,16 @@ function Index() {
                   </div>
                 ) : (
                   <div className='mx-auto flex h-[65dvh] w-9/12 flex-col justify-center text-center md:w-4/12'>
-                    <TcText
-                      text='No announcements yet'
-                      variant='h6'
-                      fontWeight='bold'
-                    />
-                    <TcText
-                      text='Your announcements will show up for the month and timezone selected once you create them'
+                    <Typography variant='h6' fontWeight='bold'>
+                      No announcements yet
+                    </Typography>
+                    <Typography
                       variant='body2'
                       className='text-gray-400'
-                    />
+                    >
+                      Your announcements will show up for the month and timezone
+                      selected once you create them{' '}
+                    </Typography>
                   </div>
                 )}
               </div>

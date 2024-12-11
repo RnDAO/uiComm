@@ -1,5 +1,6 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { FiShare2 } from 'react-icons/fi';
 
 import GaugeChart from '@/components/global/GaugeChart';
@@ -14,54 +15,43 @@ import { useSnackbar } from '@/context/SnackbarContext';
 const ScorePage = () => {
   const { showMessage } = useSnackbar();
   const { retrieveReputationScore } = useAppStore();
-  const router = useRouter();
 
   const [communityName, setCommunityName] = useState<string | null>(null);
   const [reputationScore, setReputationScore] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [tokenId, setTokenId] = useState<string | null>(null);
-  const [address, setAddress] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const parseUrl = () => {
-      const pathSegments = router.asPath.split('/');
-      const tokenIndex = pathSegments.indexOf('reputation-score') + 1;
+    const fetchReputationScore = async (tokenId: string, address: string) => {
+      setLoading(true);
+      setError(null);
 
-      if (tokenIndex > 0 && tokenIndex + 1 < pathSegments.length) {
-        setTokenId(pathSegments[tokenIndex]);
-        setAddress(pathSegments[tokenIndex + 1]);
+      try {
+        const score = await retrieveReputationScore({ tokenId, address });
+
+        setReputationScore(score.reputationScore ?? 0);
+        setCommunityName(score.communityName);
+      } catch (err) {
+        console.error('Error fetching reputation score:', err);
+        setError('Failed to fetch reputation score.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    parseUrl();
-  }, [router.asPath]);
+    // Use URLSearchParams to extract query parameters
+    const params = new URLSearchParams(window.location.search);
+    const tokenId = params.get('tokenId');
+    const address = params.get('address');
 
-  useEffect(() => {
-    if (tokenId && address) {
-      const fetchReputationScore = async () => {
-        setLoading(true);
-        try {
-          console.log('Fetching reputation score for:', { tokenId, address });
-
-          const score = await retrieveReputationScore({
-            tokenId,
-            address,
-          });
-
-          console.log('Reputation Score Retrieved:', score);
-          setReputationScore(score.reputationScore ?? 0);
-          setCommunityName(score.communityName);
-        } catch (error) {
-          console.error('Error fetching reputation score:', error);
-          showMessage('Failed to load reputation score.', 'error');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchReputationScore();
+    if (!tokenId || !address) {
+      setError('Invalid URL format. Missing tokenId or address.');
+      setLoading(false);
+      return;
     }
-  }, [tokenId, address]);
+
+    fetchReputationScore(tokenId, address);
+  }, [retrieveReputationScore]);
 
   const gaugeOptions = {
     chart: {
@@ -127,6 +117,17 @@ const ScorePage = () => {
 
   if (loading) {
     return <SimpleBackdrop />;
+  }
+
+  if (error) {
+    return (
+      <div className='flex min-h-screen items-center justify-center bg-gray-100'>
+        <div className='max-w-xl rounded-lg bg-white p-6 shadow-lg'>
+          <h1 className='text-2xl font-bold text-red-600'>Error</h1>
+          <p className='mt-4 text-gray-600'>{error}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
