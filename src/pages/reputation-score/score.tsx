@@ -40,7 +40,6 @@ const ScorePage = () => {
       }
     };
 
-    // Use URLSearchParams to extract query parameters
     const params = new URLSearchParams(window.location.search);
     const tokenId = params.get('tokenId');
     const address = params.get('address');
