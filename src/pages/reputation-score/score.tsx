@@ -11,6 +11,7 @@ import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
 import useAppStore from '@/store/useStore';
 
 import { useSnackbar } from '@/context/SnackbarContext';
+import { withRoles } from '@/utils/withRoles';
 
 const ScorePage = () => {
   const { showMessage } = useSnackbar();
@@ -39,7 +40,6 @@ const ScorePage = () => {
       }
     };
 
-    // Use URLSearchParams to extract query parameters
     const params = new URLSearchParams(window.location.search);
     const tokenId = params.get('tokenId');
     const address = params.get('address');
@@ -177,4 +177,4 @@ const ScorePage = () => {
   );
 };
 
-export default ScorePage;
+export default withRoles(ScorePage, []);
