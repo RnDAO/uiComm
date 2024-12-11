@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { FiShare2 } from 'react-icons/fi';
 
 import GaugeChart from '@/components/global/GaugeChart';
@@ -16,7 +15,6 @@ import { useSnackbar } from '@/context/SnackbarContext';
 const ScorePage = () => {
   const { showMessage } = useSnackbar();
   const { retrieveReputationScore } = useAppStore();
-  const router = useRouter();
 
   const [communityName, setCommunityName] = useState<string | null>(null);
   const [reputationScore, setReputationScore] = useState<number | null>(null);
@@ -41,18 +39,19 @@ const ScorePage = () => {
       }
     };
 
-    if (router.isReady) {
-      const { score } = router.query; // Retrieve query params from URL
-      if (!score || !Array.isArray(score) || score.length < 2) {
-        setError('Invalid URL format. Missing tokenId or address.');
-        setLoading(false);
-        return;
-      }
+    // Use URLSearchParams to extract query parameters
+    const params = new URLSearchParams(window.location.search);
+    const tokenId = params.get('tokenId');
+    const address = params.get('address');
 
-      const [tokenId, address] = score;
-      fetchReputationScore(tokenId, address);
+    if (!tokenId || !address) {
+      setError('Invalid URL format. Missing tokenId or address.');
+      setLoading(false);
+      return;
     }
-  }, [router.isReady, router.query, retrieveReputationScore]);
+
+    fetchReputationScore(tokenId, address);
+  }, [retrieveReputationScore]);
 
   const gaugeOptions = {
     chart: {
