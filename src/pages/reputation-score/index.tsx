@@ -7,6 +7,7 @@ import { useAccount, useReadContract } from 'wagmi';
 
 import { engagementContracts } from '@/lib/contracts/engagement/contracts';
 
+import SimpleBackdrop from '@/components/global/LoadingBackdrop';
 import SEO from '@/components/global/SEO';
 import TcBoxContainer from '@/components/shared/TcBox/TcBoxContainer';
 
@@ -25,12 +26,16 @@ function ReputationScore() {
     (contract) => contract.chainId === chainId
   );
 
-  const { data: hasMinted } = useReadContract({
+  const { data: hasMinted, isLoading } = useReadContract({
     address: engagementContract?.address as `0x${string}`,
     abi: engagementContract?.abi as Abi,
     functionName: 'balanceOf',
     args: [address, dynamicNFTModuleInfo?.metadata[0]?.tokenId],
   });
+
+  if(isConnected && isLoading) {
+    return <SimpleBackdrop />
+  }
 
   return (
     <>

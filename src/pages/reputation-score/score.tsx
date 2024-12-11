@@ -95,7 +95,7 @@ const ScorePage = () => {
     series: [
       {
         name: 'Score',
-        data: [reputationScore ?? 0],
+        data: [reputationScore ? parseFloat(reputationScore.toFixed(1)) : 0],
         tooltip: {
           valueSuffix: ' /100',
         },
@@ -177,4 +177,4 @@ const ScorePage = () => {
   );
 };
 
-export default withRoles(ScorePage, []);
+export default ScorePage;
