@@ -40,37 +40,15 @@ const ScorePage = () => {
       }
     };
 
+    // Use URLSearchParams to extract query parameters
     const params = new URLSearchParams(window.location.search);
     const tokenId = params.get('tokenId');
     const address = params.get('address');
 
-<<<<<<< HEAD:src/pages/reputation-score/[...score].tsx
-  useEffect(() => {
-    if (tokenId && address) {
-      const fetchReputationScore = async () => {
-        setLoading(true);
-        try {
-          const score = await retrieveReputationScore({
-            tokenId,
-            address,
-          });
-
-          setReputationScore(score.reputationScore ?? 0);
-          setCommunityName(score.communityName);
-        } catch (error) {
-          console.error('Error fetching reputation score:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchReputationScore();
-=======
     if (!tokenId || !address) {
       setError('Invalid URL format. Missing tokenId or address.');
       setLoading(false);
       return;
->>>>>>> c561fd3 (Fix/public page view (#360)):src/pages/reputation-score/score.tsx
     }
 
     fetchReputationScore(tokenId, address);
