@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
   ComponentType,
   FunctionComponent,
@@ -5,6 +7,8 @@ import React, {
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
+
+import SimpleBackdrop from '@/components/global/LoadingBackdrop';
 
 import useAppStore from '../store/useStore';
 
@@ -21,7 +25,7 @@ interface ComponentWithLayout<P = {}> extends FunctionComponent<P> {
 
 export function withRoles<P extends WithRolesProps>(
   Component: ComponentWithLayout<P>,
-  requiredPermissions: string[]
+  requiredPermissions: string[] = []
 ): ComponentWithLayout<P> {
   const WithRolesWrapper: ComponentWithLayout<P> = (props) => {
     const userPermissions = useAppStore(
@@ -31,6 +35,11 @@ export function withRoles<P extends WithRolesProps>(
     const router = useRouter();
 
     useEffect(() => {
+      if (requiredPermissions.length === 0) {
+        setIsPermissionLoaded(true);
+        return;
+      }
+
       const hasPermission = requiredPermissions.some((permission) =>
         userPermissions.includes(permission)
       );
