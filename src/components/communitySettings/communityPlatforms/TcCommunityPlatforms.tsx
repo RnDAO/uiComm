@@ -69,11 +69,11 @@ function TcCommunityPlatforms() {
   const fetchPlatformsByType = async () => {
     const platformNames = [
       'discord',
-      'google',
       'github',
+      'discourse',
       'notion',
       'mediaWiki',
-      'discourse',
+      'google',
     ];
 
     const platformName = platformNames[activeTab];
@@ -180,7 +180,7 @@ function TcCommunityPlatforms() {
   return (
     <div>
       <Paper className='rounded-none bg-gray-100 p-4 shadow-none'>
-        <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
+        <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-x-3 md:space-y-0'>
           <TcText text='Platforms' variant='h6' fontWeight='bold' />
           <TcText text='Add/remove platform integrations' variant='body1' />
         </div>
@@ -246,7 +246,7 @@ function TcCommunityPlatforms() {
           )}
           {activeTab === 1 && (
             <TabPanel value={activeTab} index={1}>
-              <TcGdriveIntegration
+              <TcGithubIntegration
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
                 handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
@@ -255,7 +255,7 @@ function TcCommunityPlatforms() {
           )}
           {activeTab === 2 && (
             <TabPanel value={activeTab} index={2}>
-              <TcGithubIntegration
+              <TcDiscourse
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
                 handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
@@ -282,7 +282,7 @@ function TcCommunityPlatforms() {
           )}
           {activeTab === 5 && (
             <TabPanel value={activeTab} index={5}>
-              <TcDiscourse
+              <TcGdriveIntegration
                 isLoading={isLoading}
                 connectedPlatforms={platforms}
                 handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
@@ -292,7 +292,7 @@ function TcCommunityPlatforms() {
         </Box>
       </Paper>
       <div className='py-4'>
-        <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-3'>
+        <div className='flex flex-col space-y-3 md:flex-row md:items-center md:space-x-3 md:space-y-0'>
           <TcText text='Modules' variant='h6' fontWeight='bold' />
           <TcText
             text='Turn on/off modules and change their settings'
@@ -300,7 +300,7 @@ function TcCommunityPlatforms() {
           />
         </div>
 
-        <div className='flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4'>
+        <div className='flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0'>
           <TcCard
             className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
             children={
