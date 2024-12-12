@@ -7,6 +7,7 @@ import { FaGoogleDrive } from 'react-icons/fa';
 import { FaWikipediaW } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
 import { FaTelegram, FaTwitter } from 'react-icons/fa6';
+import { FaSquareXTwitter } from "react-icons/fa6";
 import { RiNotionFill } from 'react-icons/ri';
 
 interface TcCommunityPlatformIconProps {
@@ -24,6 +25,8 @@ function TcCommunityPlatformIcon({
         return <FaDiscord size={size} />;
       case 'Twitter':
         return <FaTwitter size={size} />;
+      case 'X':
+        return <FaSquareXTwitter size={size} />;
       case 'Discourse':
         return <FaDiscourse size={size} />;
       case 'Telegram':

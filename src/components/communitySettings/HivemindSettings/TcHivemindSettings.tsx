@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Paper, Tab, Tabs } from '@mui/material';
 import clsx from 'clsx';
@@ -51,6 +52,18 @@ function a11yProps(index: number) {
     'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
+
+const PLATFORM_ORDER = [
+  IntegrationPlatform.Discord,
+  IntegrationPlatform.Github,
+  IntegrationPlatform.Notion,
+  IntegrationPlatform.MediaWiki,
+  IntegrationPlatform.Discourse,
+  IntegrationPlatform.Telegram,
+  IntegrationPlatform.X,
+  IntegrationPlatform.Snapshot,
+  IntegrationPlatform.GDrive,
+];
 
 function HivemindSettings() {
   const { retrievePlatforms, retrieveModules, patchModule } = useAppStore();
@@ -113,22 +126,6 @@ function HivemindSettings() {
       case 1:
         setIsActivePlatformLoading(true);
         const { results: googleResults } = await retrievePlatforms({
-          name: 'google',
-          community: communityId,
-        });
-        const gdriveHivemindModule = hivemindModules.results.find(
-          (hivemindModule: IModuleProps) =>
-            hivemindModule.community === communityId
-        );
-
-        setHivemindModule(gdriveHivemindModule);
-        setPlatforms(googleResults);
-        setIsActivePlatformLoading(false);
-        break;
-
-      case 2:
-        setIsActivePlatformLoading(true);
-        const { results: githubResults } = await retrievePlatforms({
           name: 'github',
           community: communityId,
         });
@@ -138,28 +135,27 @@ function HivemindSettings() {
         );
 
         setHivemindModule(githubHivemindModule);
-        setPlatforms(githubResults);
+        setPlatforms(googleResults);
         setIsActivePlatformLoading(false);
         break;
 
-      case 3:
+      case 2:
         setIsActivePlatformLoading(true);
-        const { results: notionResults } = await retrievePlatforms({
+        const { results: githubResults } = await retrievePlatforms({
           name: 'notion',
           community: communityId,
         });
-
         const notionHivemindModule = hivemindModules.results.find(
           (hivemindModule: IModuleProps) =>
             hivemindModule.community === communityId
         );
 
         setHivemindModule(notionHivemindModule);
-        setPlatforms(notionResults);
+        setPlatforms(githubResults);
         setIsActivePlatformLoading(false);
         break;
 
-      case 4:
+      case 3:
         setIsActivePlatformLoading(true);
         const { results: mediaWikiResults } = await retrievePlatforms({
           name: 'mediaWiki',
@@ -174,6 +170,8 @@ function HivemindSettings() {
         setHivemindModule(mediaWikiHivemindModule);
         setPlatforms(mediaWikiResults);
         setIsActivePlatformLoading(false);
+        break;
+
       default:
         break;
     }
@@ -341,14 +339,14 @@ function HivemindSettings() {
 
   return (
     <>
-      <div className='bg-gray-100 py-4 px-5'>
+      <div className='bg-gray-100 px-5 py-4'>
         <Tabs
           orientation='horizontal'
           variant='scrollable'
           value={activePlatform}
           onChange={(event, newValue) => setActivePlatform(newValue)}
         >
-          {Object.keys(IntegrationPlatform).map((platform, index) => (
+          {PLATFORM_ORDER.map((platform, index) => (
             <Tab
               className={clsx(
                 'mr-3 min-h-[6rem] min-w-[10rem] rounded-sm shadow-lg',
@@ -365,7 +363,7 @@ function HivemindSettings() {
                 <div className='flex flex-col items-center space-x-2'>
                   <TcCommunityPlatformIcon platform={platform} />
                   <TcText text={platform} variant='body2' />
-                  {platform === 'GDrive' && (
+                  {platform === IntegrationPlatform.GDrive && (
                     <TcText
                       variant='caption'
                       className='text-gray-300'
@@ -382,7 +380,7 @@ function HivemindSettings() {
           ))}
         </Tabs>
       </div>
-      <div className='bg-gray-100 py-4 px-5'>
+      <div className='bg-gray-100 px-5 py-4'>
         {platforms && platforms.length > 0 ? (
           <Tabs
             orientation='horizontal'
@@ -477,23 +475,6 @@ function HivemindSettings() {
         {activePlatform === 1 && (
           <TabPanel value={activePlatform} index={1}>
             {platforms && platforms.length > 0 && (
-              <TcHivemindGoogle
-                defaultGoogleHivemindConfig={
-                  hivemindModule?.options?.platforms.find(
-                    (platform) => platform.name === 'google'
-                  )?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
-                }
-                handlePatchHivemindGoogle={(payload) =>
-                  handlePatchModule('google', payload)
-                }
-                isLoading={loading}
-              />
-            )}
-          </TabPanel>
-        )}
-        {activePlatform === 2 && (
-          <TabPanel value={activePlatform} index={2}>
-            {platforms && platforms.length > 0 && (
               <TcHivemindGithub
                 defaultGithubHivemindConfig={
                   hivemindModule?.options?.platforms.find(
@@ -508,8 +489,8 @@ function HivemindSettings() {
             )}
           </TabPanel>
         )}
-        {activePlatform === 3 && (
-          <TabPanel value={activePlatform} index={3}>
+        {activePlatform === 2 && (
+          <TabPanel value={activePlatform} index={2}>
             {platforms && platforms.length > 0 && (
               <TcHivemindNotion
                 isLoading={loading}
@@ -525,8 +506,8 @@ function HivemindSettings() {
             )}
           </TabPanel>
         )}
-        {activePlatform === 4 && (
-          <TabPanel value={activePlatform} index={4}>
+        {activePlatform === 3 && (
+          <TabPanel value={activePlatform} index={3}>
             {platforms && platforms.length > 0 && (
               <TcHivemindMediaWiki
                 isLoading={loading}
@@ -538,6 +519,23 @@ function HivemindSettings() {
                 handlePatchHivemindMediaWiki={(payload) =>
                   handlePatchModule('mediaWiki', payload)
                 }
+              />
+            )}
+          </TabPanel>
+        )}
+        {activePlatform === 4 && (
+          <TabPanel value={activePlatform} index={4}>
+            {platforms && platforms.length > 0 && (
+              <TcHivemindGoogle
+                defaultGoogleHivemindConfig={
+                  hivemindModule?.options?.platforms.find(
+                    (platform) => platform.name === 'google'
+                  )?.metadata || { driveIds: [], folderIds: [], fileIds: [] }
+                }
+                handlePatchHivemindGoogle={(payload) =>
+                  handlePatchModule('google', payload)
+                }
+                isLoading={loading}
               />
             )}
           </TabPanel>
