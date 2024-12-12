@@ -29,7 +29,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { wagmiConfig } from '@/rainbowKitConfig';
 
 import AmplitudeAnalytics from '../components/global/AmplitudeAnalytics';
-import SafaryClubScript from '../components/global/SafaryClubScript';
 import { conf } from '../configs';
 import { ChannelProvider } from '../context/ChannelContext';
 import { TokenProvider } from '../context/TokenContext';
@@ -56,7 +55,6 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
       <AmplitudeAnalytics />
-      <SafaryClubScript />
       <Script id='tawk' strategy='lazyOnload'>
         {`
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
