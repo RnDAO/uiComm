@@ -332,7 +332,7 @@ const MintSection: React.FC<MintSectionProps> = ({
                 variant='contained'
                 onClick={() =>
                   router.push(
-                    `/reputation-score/${dynamicNFTModuleInfo?.metadata[0]?.tokenId}/${address}/score`
+                    `/reputation-score/score?tokenId=${dynamicNFTModuleInfo?.metadata[0]?.tokenId}&address=${address}`
                   )
                 }
               >
