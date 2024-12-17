@@ -47,12 +47,12 @@ function Index(): JSX.Element {
             gap={2}
             pb={2}
           >
-            <Stack>
+            <Stack direction='row' alignItems='center' gap={2}>
               <h3 className='whitespace-nowrap text-lg font-medium text-lite-black'>
                 Community Insights
               </h3>{' '}
+              <SwitchPlatform />
             </Stack>
-            <SwitchPlatform />
           </Stack>
 
           <div className='space-y-4'>
