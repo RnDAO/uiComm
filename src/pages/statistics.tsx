@@ -324,13 +324,15 @@ const Statistics = () => {
           gap={2}
           pb={2}
         >
-          <Link to='/'>
-            <div className='flex items-center whitespace-nowrap text-base text-gray-subtitle hover:text-black'>
-              <AiOutlineLeft />
-              <span className='pl-1'>Community Insights</span>
-            </div>
-          </Link>
-          <SwitchPlatform />
+          <Stack direction='row' alignItems='center' gap={2}>
+            <Link to='/'>
+              <div className='flex items-center whitespace-nowrap text-base text-gray-subtitle hover:text-black'>
+                <AiOutlineLeft />
+                <span className='pl-1'>Community Insights</span>
+              </div>
+            </Link>
+            <SwitchPlatform />
+          </Stack>
         </Stack>
         <CustomTab
           activeTab={activeTab}

@@ -79,10 +79,6 @@ const SwitchPlatform = () => {
   return (
     <Stack direction='row' className='w-full space-x-1.5'>
       <FormControl className='ml-auto flex flex-row items-center space-x-2'>
-        <Typography variant='caption' fontWeight='bold'>
-          Select Platform:
-        </Typography>
-        <TcIconWithTooltip tooltipText='Choose a platform to view community-related metrics for that platform.' />
         <Select
           variant='filled'
           size='small'
@@ -121,6 +117,7 @@ const SwitchPlatform = () => {
         >
           {platformOptions}
         </Select>
+        <TcIconWithTooltip tooltipText='Choose a platform to view community-related metrics for that platform.' />
       </FormControl>
     </Stack>
   );
