@@ -10,6 +10,7 @@ import TcGdriveIntegration from './TcGdriveIntegration';
 import TcGithubIntegration from './TcGithubIntegration';
 import TcMediaWiki from './TcMediaWiki';
 import TcNotionIntegration from './TcNotionIntegration';
+import TcTelegram from './tcTelegram/TcTelegram';
 import TcButton from '../../shared/TcButton';
 import TcCard from '../../shared/TcCard';
 import TcText from '../../shared/TcText';
@@ -66,13 +67,14 @@ function TcCommunityPlatforms() {
   const communityId =
     StorageService.readLocalStorage<IDiscordModifiedCommunity>('community')?.id;
 
-  const fetchPlatformsByType = async () => {
+  const fetchPlatformsByType = async () => {    
     const platformNames = [
       'discord',
       'github',
       'discourse',
       'notion',
       'mediaWiki',
+      'telegram',
       'google',
     ];
 
@@ -203,6 +205,7 @@ function TcCommunityPlatforms() {
                           'Github',
                           'Notion',
                           'MediaWiki',
+                          'Telegram',
                         ].includes(platform)
                       ? 'bg-white'
                       : 'bg-white text-black'
@@ -228,6 +231,7 @@ function TcCommunityPlatforms() {
                     'Github',
                     'Notion',
                     'MediaWiki',
+                    'Telegram',
                   ].includes(platform)
                 }
                 {...a11yProps(index)}
@@ -282,6 +286,15 @@ function TcCommunityPlatforms() {
           )}
           {activeTab === 5 && (
             <TabPanel value={activeTab} index={5}>
+              <TcTelegram
+                isLoading={isLoading}
+                connectedPlatforms={platforms}
+                handleUpdateCommunityPlatform={handleUpdateCommunityPlatform}
+              />
+            </TabPanel>
+          )}
+          {activeTab === 6 && (
+            <TabPanel value={activeTab} index={6}>
               <TcGdriveIntegration
                 isLoading={isLoading}
                 connectedPlatforms={platforms}

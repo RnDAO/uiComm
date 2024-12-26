@@ -79,12 +79,12 @@ function CommunityHealth() {
           alignItems={{ xs: 'flex-start', md: 'center' }}
           gap={2}
         >
-          <Stack>
+          <Stack direction='row' alignItems='center' gap={2}>
             <h3 className='whitespace-nowrap text-lg font-medium text-lite-black'>
               Community Health
             </h3>{' '}
+            <SwitchPlatform />
           </Stack>
-          <SwitchPlatform />
         </Stack>
         <Fragmentation scoreData={fragmentationScoreData} />
         <Decentralization scoreData={decentralisationScoreData} />
