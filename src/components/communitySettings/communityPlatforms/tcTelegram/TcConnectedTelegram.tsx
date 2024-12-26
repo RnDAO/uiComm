@@ -55,7 +55,7 @@ const TcConnectedTelegram: React.FC<TcConnectedTelegramProps> = ({
   };
 
   return (
-    <div>
+    <div className='flex flex-row space-x-3'>
       {platforms &&
         platforms[0]?.name === 'telegram' &&
         platforms.map((platform, index) => (
