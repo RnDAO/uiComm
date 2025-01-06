@@ -47,9 +47,9 @@ const Statistics = () => {
     '2': 'disengagedMembers',
   };
 
-  const [activePlatform, setActivePlatform] = useState<'discord' | 'discourse'>(
-    'discord'
-  );
+  const [activePlatform, setActivePlatform] = useState<
+    'discord' | 'discourse' | 'telegram'
+  >('discord');
   const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);
   const [onBoardingMemberDate, setOnBoardingMemberDate] = useState(1);
@@ -72,9 +72,13 @@ const Statistics = () => {
     const platform = community?.platforms.find(
       (platform) => platform.id === selectedPlatform
     );
-    setActivePlatform(
-      platform?.name.includes('discord') ? 'discord' : 'discourse'
-    );
+    if (platform?.name === 'discord') {
+      setActivePlatform('discord');
+    } else if (platform?.name === 'discourse') {
+      setActivePlatform('discourse');
+    } else if (platform?.name === 'telegram') {
+      setActivePlatform('telegram');
+    }
   }, [selectedPlatform]);
 
   useEffect(() => {

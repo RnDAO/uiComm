@@ -14,7 +14,7 @@ export default interface ICharts {
   selectedChannelsList: any[];
   fetchHeatmapData: (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     startDate: string,
     endDate: string,
     timeZone: string,
@@ -27,7 +27,7 @@ export default interface ICharts {
     platformId: string,
     startDate: string,
     endDate: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     timeZone: string
   ) => any;
   fetchActiveMembers: (

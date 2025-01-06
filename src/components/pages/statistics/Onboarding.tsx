@@ -18,7 +18,7 @@ import OnboardingMembersBreakdown from './memberBreakdowns/onboardingMembers/Onb
 import StatisticalData from './StatisticalData';
 
 export interface OnboardingProps {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
   activePeriod: number;
   isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;

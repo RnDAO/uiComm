@@ -27,8 +27,7 @@ const SwitchPlatform = () => {
     const fetchedPlatforms =
       community?.platforms.filter(
         ({ name, disconnectedAt }) =>
-          (name.includes('discord') || name.includes('discourse')) &&
-          !disconnectedAt
+          ['discord', 'discourse', 'telegram'].some((platform) => name.includes(platform)) && !disconnectedAt
       ) || [];
 
     setPlatforms(fetchedPlatforms);

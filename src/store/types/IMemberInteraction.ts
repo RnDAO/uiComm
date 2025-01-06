@@ -3,6 +3,6 @@ export default interface IMemberInteraction {
   memberInteractionRecords: any[];
   getMemberInteraction: (
     platformId: string,
-    platformType: 'discord' | 'discourse'
+    platformType: 'discord' | 'discourse' | 'telegram'
   ) => any;
 }

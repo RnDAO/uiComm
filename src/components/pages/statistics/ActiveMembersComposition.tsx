@@ -18,7 +18,7 @@ import ActiveMemberBreakdown from './memberBreakdowns/activeMembers/ActiveMember
 import StatisticalData from './StatisticalData';
 
 export interface ActiveMembersComposition {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
   activePeriod: number;
   isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
