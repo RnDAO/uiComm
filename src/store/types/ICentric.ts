@@ -17,7 +17,17 @@ export interface IPatchCommunityProps {
   tcaAt?: string;
 }
 
+export interface IGenerateTokenProps {
+  type: 'telegram_verification';
+  communityId: string;
+}
+
 export default interface ICentric {
+  telegram: {
+    value: string | null;
+    expiresAt: string | null;
+  };
+  setTelegram: (value: string | null, expiresAt: string | null) => void;
   discordAuthorization: () => void;
   retrieveCommunities: ({
     page,
@@ -38,4 +48,5 @@ export default interface ICentric {
     avatarURL,
     tcaAt,
   }: IPatchCommunityProps) => void;
+  generateToken: ({ type, communityId }: IGenerateTokenProps) => void;
 }

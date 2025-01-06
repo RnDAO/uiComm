@@ -2,6 +2,7 @@ import { StateCreator } from 'zustand';
 
 import ICentric, {
   ICreateCommunitieProps,
+  IGenerateTokenProps,
   IPatchCommunityProps,
   IRetrieveCommunitiesProps,
 } from '../types/ICentric';
@@ -11,6 +12,13 @@ import { conf } from '../../configs';
 const BASE_URL = conf.API_BASE_URL;
 
 const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
+  telegram: {
+    value: '',
+    expiresAt: '',
+  },
+  setTelegram: (value: string | null, expiresAt: string | null) => {
+    set({ telegram: { value, expiresAt } });
+  },
   discordAuthorization: () => {
     location.replace(`${BASE_URL}/auth/discord/authorize`);
   },
@@ -28,7 +36,7 @@ const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
         ...(name ? { name } : {}),
       };
 
-      const { data } = await axiosInstance.get(`/communities/`, { params });
+      const { data } = await axiosInstance.get('/communities/', { params });
       return data;
     } catch (error) {
       console.error('Failed to retrieve communities:', error);
@@ -74,6 +82,39 @@ const createCentricSlice: StateCreator<ICentric> = (set, get) => ({
       );
       return data;
     } catch (error) {}
+  },
+  generateToken: async ({ type, communityId }: IGenerateTokenProps) => {
+    const currentTime = new Date().toISOString();
+    const { telegram } = get();
+
+    if (
+      telegram.value &&
+      telegram.expiresAt &&
+      telegram.expiresAt > currentTime
+    ) {
+      return {
+        value: telegram.value,
+        expiresAt: telegram.expiresAt,
+      };
+    }
+
+    try {
+      const { data } = await axiosInstance.post('/auth/generate-token', {
+        type,
+        communityId,
+      });
+
+      set(() => ({
+        telegram: {
+          value: data?.value || null,
+          expiresAt: data?.expiresAt || null,
+        },
+      }));
+
+      return data;
+    } catch (error) {
+      console.error('Failed to generate token:', error);
+    }
   },
 });
 

@@ -146,6 +146,8 @@ export interface IPlatformProps {
   id: string;
   disconnectedAt: string | null;
   metadata: metaData;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface UserPermissions {
