@@ -42,7 +42,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 interface IAcriveMemberBreakdownProps {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
 }
 
 export default function ActiveMemberBreakdown({

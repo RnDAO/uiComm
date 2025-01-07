@@ -10,7 +10,7 @@ import TcGdriveIntegration from './TcGdriveIntegration';
 import TcGithubIntegration from './TcGithubIntegration';
 import TcMediaWiki from './TcMediaWiki';
 import TcNotionIntegration from './TcNotionIntegration';
-import TcTelegram from './tcTelegram/TcTelegram';
+import TcTelegram from './TcTelegram/TcTelegram';
 import TcButton from '../../shared/TcButton';
 import TcCard from '../../shared/TcCard';
 import TcText from '../../shared/TcText';

@@ -49,10 +49,16 @@ function TcPrompt() {
             message:
               'Data extraction is in progress for Discourse. This process may take more than 6 hours to complete.',
           }
-        : {
-            backgroundColor: 'bg-orange',
-            message: `Data processing is in progress for ${selectedPlatformData.name}. Please check back later.`,
-          }
+        : selectedPlatformData.name === 'telegram'
+          ? {
+              backgroundColor: 'bg-orange',
+              message:
+                'Data extraction is in progress for Telegram. This process may take more than 6 hours to complete.',
+            }
+          : {
+              backgroundColor: 'bg-orange',
+              message: `Data processing is in progress for ${selectedPlatformData.name}. Please check back later.`,
+            }
     : {
         backgroundColor: 'bg-orange',
         message: (

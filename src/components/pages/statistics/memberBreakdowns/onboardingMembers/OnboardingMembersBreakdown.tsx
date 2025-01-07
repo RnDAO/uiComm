@@ -40,7 +40,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 interface IOnboardingMembersBreakdown {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
 }
 
 export default function OnboardingMembersBreakdown({
