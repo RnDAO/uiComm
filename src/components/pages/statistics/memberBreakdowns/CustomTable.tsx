@@ -652,7 +652,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           </div>
                         ) : column.id === 'joinedAt' ||
                           column.id === 'joined_at' ? (
-                          formatDate(row.joinedAt ?? row.joined_at)
+                          row.joinedAt ? formatDate(row.joinedAt) : '-'
                         ) : (
                           row[column.id]
                         )}
