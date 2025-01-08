@@ -261,20 +261,43 @@ function TcDiscourse({
             )}
           </div>
           {!activePlatform && (
-            <div className='flex items-center justify-between px-5'>
-              <TcButton
-                className='w-1/3'
-                text='Cancel'
-                variant='outlined'
-                onClick={() => setIsOpen(false)}
-              />
-              <TcButton
-                className='w-1/3'
-                text={isCreatePlatformLoading ? 'Confirming...' : 'Confirm'}
-                variant='contained'
-                disabled={!!urlError || !url || isCreatePlatformLoading}
-                onClick={handleCreateNewPlatform}
-              />
+            <div className='px-5'>
+              <div className='flex items-center justify-between'>
+                <TcButton
+                  className='w-1/3'
+                  text='Cancel'
+                  variant='outlined'
+                  onClick={() => setIsOpen(false)}
+                />
+                <TcButton
+                  className='w-1/3'
+                  text={isCreatePlatformLoading ? 'Confirming...' : 'Confirm'}
+                  variant='contained'
+                  disabled={!!urlError || !url || isCreatePlatformLoading}
+                  onClick={handleCreateNewPlatform}
+                />
+              </div>
+              <Typography variant='body1' pt={2} color='textSecondary'>
+                Need help? View our{' '}
+                <a
+                  href='https://togethercrew.gitbook.io/onboarding/fundamentals/adding-platforms/discourse'
+                  target='_blank'
+                  rel='noreferrer'
+                  className='text-secondary underline'
+                >
+                  documentation
+                </a>{' '}
+                or contact our{' '}
+                <a
+                  href='https://www.togethercrew.com/contact-us'
+                  target='_blank'
+                  rel='noreferrer'
+                  className='text-secondary underline'
+                >
+                  support team
+                </a>
+                .
+              </Typography>
             </div>
           )}
         </div>
@@ -303,7 +326,7 @@ function TcDiscourse({
           <div className='mx-auto text-center md:w-4/5'>
             <TcText text='Are you sure you want to disconnect?' variant='h6' />
           </div>
-          <div className='flex flex-col justify-between space-y-4 pb-8 md:flex-row md:space-y-0 md:space-x-5 md:py-12'>
+          <div className='flex flex-col justify-between space-y-4 pb-8 md:flex-row md:space-x-5 md:space-y-0 md:py-12'>
             <div className='space-y-4 rounded-md px-4 py-6 shadow-xl'>
               <TcText
                 text='Disconnect and delete data'

@@ -276,11 +276,21 @@ const TcTelegramIntegrationDialog: React.FC<
             )}
             <Typography variant='body1' color='textSecondary'>
               Need help? View our{' '}
-              <a href='/documentation' className='text-secondary underline'>
+              <a
+                href='https://togethercrew.gitbook.io/onboarding/fundamentals/adding-platforms/telegram'
+                target='_blank'
+                rel='noreferrer'
+                className='text-secondary underline'
+              >
                 documentation
               </a>{' '}
               or contact our{' '}
-              <a href='/support' className='text-secondary underline'>
+              <a
+                href='https://www.togethercrew.com/contact-us'
+                target='_blank'
+                rel='noreferrer'
+                className='text-secondary underline'
+              >
                 support team
               </a>
               .
