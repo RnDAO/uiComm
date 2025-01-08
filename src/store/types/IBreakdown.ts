@@ -8,7 +8,7 @@ export default interface IBreakdown {
   roles: any[];
   getActiveMemberCompositionTable: (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     activityComposition: string[],
     roles?: IRolesPayload,
     username?: string,
@@ -18,7 +18,7 @@ export default interface IBreakdown {
   ) => any;
   getOnboardingMemberCompositionTable: (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     activityComposition: string[],
     roles?: IRolesPayload,
     username?: string,
@@ -28,7 +28,7 @@ export default interface IBreakdown {
   ) => any;
   getDisengagedMembersCompositionTable: (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     activityComposition: string[],
     roles?: IRolesPayload,
     username?: string,

@@ -3,7 +3,6 @@ import { CircularProgress } from '@mui/material';
 
 import useAppStore from '@/store/useStore';
 
-import { truncateCenter } from '@/helpers/helper';
 import { StorageService } from '@/services/StorageService';
 import { IntegrationPlatform } from '@/utils/enums';
 import { IDiscordModifiedCommunity, IPlatformProps } from '@/utils/interfaces';

@@ -107,6 +107,16 @@ const HeatmapChart = () => {
         );
 
         updateHeatmapData(data);
+      } else if (platform && platform.name === 'telegram') {
+        const data = await fetchHeatmapData(
+          platform.id,
+          platform.name,
+          dateRange[0],
+          dateRange[1],
+          selectedZone
+        );
+
+        updateHeatmapData(data);
       }
     } catch (error) {
       console.error('Error fetching heatmap data:', error);
@@ -306,7 +316,7 @@ const HeatmapChart = () => {
             Hourly messages summed over the selected time period.
           </p>
         </div>
-        <div className='flex w-full flex-col-reverse space-y-3 px-2.5 md:w-auto md:flex-row md:space-y-0 md:space-x-3'>
+        <div className='flex w-full flex-col-reverse space-y-3 px-2.5 md:w-auto md:flex-row md:space-x-3 md:space-y-0'>
           <RangeSelect
             options={communityActiveDates}
             icon={<FiCalendar size={18} />}
@@ -336,7 +346,7 @@ const HeatmapChart = () => {
                     handleFetchHeatmapByChannels={handleFetchHeatmapByChannels}
                   />
                 </div>
-              ) : (
+              ) : platform?.name === 'discourse' ? (
                 <div className='flex flex-wrap'>
                   <FilterByCategory
                     handleFetchHeatmapByCategories={
@@ -344,7 +354,7 @@ const HeatmapChart = () => {
                     }
                   />
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
           <div className='relative'>

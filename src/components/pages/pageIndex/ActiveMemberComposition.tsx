@@ -22,6 +22,7 @@ const ActiveMemberComposition = () => {
     const endDate: moment.Moment = moment().subtract(1, 'day');
     const startDate: moment.Moment = moment(endDate).subtract(7, 'days');
 
+
     const platformId = community?.platforms.find(
       (platform) => platform.id === selectedPlatform
     )?.id;
@@ -109,7 +110,7 @@ const ActiveMemberComposition = () => {
   }, [activeMembers]);
 
   return (
-    <div className='rounded-lg bg-white py-8 px-5 shadow-box'>
+    <div className='rounded-lg bg-white px-5 py-8 shadow-box'>
       <div className='px-3'>
         <div className='flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0'>
           <h3 className='pb-3 text-xl font-bold md:text-2xl'>
@@ -129,7 +130,7 @@ const ActiveMemberComposition = () => {
             onClick={() => {
               router.push('/statistics');
             }}
-            className='py-2 px-[5rem]'
+            className='px-[5rem] py-2'
           />
         </div>
       </div>

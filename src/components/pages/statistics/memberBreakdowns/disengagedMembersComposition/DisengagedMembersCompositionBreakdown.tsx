@@ -53,7 +53,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 interface IDisengagedMembersCompositionBreakdown {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
 }
 
 export default function DisengagedMembersCompositionBreakdown({
@@ -262,7 +262,7 @@ export default function DisengagedMembersCompositionBreakdown({
         )}
       </div>
       {fetchedData && fetchedData?.totalResults > 3 ? (
-        <div className='mt-2 mb-12 flex justify-center'>
+        <div className='mb-12 mt-2 flex justify-center'>
           <TcButton
             text={isExpanded ? 'Show less' : 'Show member breakdown'}
             variant='outlined'

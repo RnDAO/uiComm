@@ -12,7 +12,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   roles: [],
   getActiveMemberCompositionTable: async (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     activityComposition: string[],
     roles?: IRolesPayload,
     username?: string,
@@ -56,7 +56,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const baseUrl =
         platformType === 'discourse'
           ? `/discourse/member-activity/${platformId}/active-members-composition-table`
-          : `/member-activity/${platformId}/active-members-composition-table`;
+          : platformType === 'telegram'
+            ? `/telegram/member-activity/${platformId}/active-members-composition-table`
+            : `/member-activity/${platformId}/active-members-composition-table`;
 
       const url = `${baseUrl}?${params.toString()}`;
 
@@ -69,7 +71,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   },
   getOnboardingMemberCompositionTable: async (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     activityComposition: string[],
     roles?: IRolesPayload,
     username?: string,
@@ -113,7 +115,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const baseUrl =
         platformType === 'discourse'
           ? `/discourse/member-activity/${platformId}/active-members-onboarding-table`
-          : `/member-activity/${platformId}/active-members-onboarding-table`;
+          : platformType === 'telegram'
+            ? `/telegram/member-activity/${platformId}/active-members-onboarding-table`
+            : `/member-activity/${platformId}/active-members-onboarding-table`;
 
       const url = `${baseUrl}?${params.toString()}`;
 
@@ -126,7 +130,7 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
   },
   getDisengagedMembersCompositionTable: async (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     activityComposition: string[],
     roles?: IRolesPayload,
     username?: string,
@@ -170,7 +174,9 @@ const createBreakdownsSlice: StateCreator<IBreakdown> = (set, get) => ({
       const baseUrl =
         platformType === 'discourse'
           ? `/discourse/member-activity/${platformId}/disengaged-members-composition-table`
-          : `/member-activity/${platformId}/disengaged-members-composition-table`;
+          : platformType === 'telegram'
+            ? `/telegram/member-activity/${platformId}/disengaged-members-composition-table`
+            : `/member-activity/${platformId}/disengaged-members-composition-table`;
 
       const url = `${baseUrl}?${params.toString()}`;
 

@@ -18,7 +18,7 @@ import DisengagedMembersCompositionBreakdown from './memberBreakdowns/disengaged
 import StatisticalData from './StatisticalData';
 
 export interface DisengagedMembersComposition {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
   activePeriod: number;
   isPremiumGuild: boolean;
   handleDateRange: (range: number) => void;
