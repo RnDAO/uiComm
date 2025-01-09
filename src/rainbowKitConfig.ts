@@ -4,7 +4,7 @@ import { http } from 'wagmi';
 
 import { conf } from './configs';
 
-const isProduction = conf.IS_MAINNET === 'true';
+export const isProduction = conf.IS_MAINNET === 'true';
 
 export const SUPPORTED_CHAINS: Chain[] = isProduction
   ? [arbitrum]
