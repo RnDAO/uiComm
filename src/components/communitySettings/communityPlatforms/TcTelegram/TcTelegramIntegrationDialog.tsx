@@ -22,6 +22,7 @@ import { StorageService } from '@/services/StorageService';
 import { IntegrationPlatform } from '@/utils/enums';
 
 import TcCommunityPlatformIcon from '../TcCommunityPlatformIcon';
+import { isProduction } from '@/rainbowKitConfig';
 
 interface TcTelegramIntegrationDialogProps {
   isOpen: boolean;
@@ -166,32 +167,44 @@ const TcTelegramIntegrationDialog: React.FC<
       <DialogContent>
         <Stack spacing={2}>
           <Stack spacing={1}>
+            <Alert severity='warning' sx={{ borderRadius: 1 }}>
+              <b>Note:</b> Activity in your telegram group will be analysed from
+              the moment you complete this setup. Previous activity can not be
+              analysed.
+            </Alert>
             <Typography variant='body1' className='font-bold'>
               Step 1: Add the bot
             </Typography>
-            <Stack pl={2}>
-              <ol className='list-decimal'>
-                <li>
-                  Add <b className='text-secondary'>@TogetherCrewBot</b> to your
-                  group or channel.
-                </li>
-                <li>
-                  Enable <b>Admin Rights</b> and disable other privileges.
-                </li>
-                <li>
-                  Press <b>Add Bot as Admin</b> and confirm.
-                </li>
-              </ol>
-            </Stack>
             <Alert
               severity='info'
               sx={{
                 borderRadius: 1,
               }}
             >
-              <b>Note:</b> To add the bot, you must have the "Add New Admins"
+              To add the bot, you must have the <b>"Add New Admins"</b>{' '}
               privilege.
             </Alert>
+            <Stack pl={2}>
+              <ol className='list-decimal'>
+                <li>
+                  Add{' '}
+                  <b className='text-secondary'>
+                    {isProduction
+                      ? '@TogetherCrewBot'
+                      : '@TogetherCrewStagingBot'}
+                  </b>{' '}
+                  to your telegram group or channel.
+                </li>
+                <li>
+                  Find the bot in your list of members and right click then
+                  select <b>promote to admin</b>, then remove all permissions.
+                </li>
+                <li>
+                  In the chat of your telegram group, copy the command below to
+                  verify the bot.
+                </li>
+              </ol>
+            </Stack>
           </Stack>
           <Stack spacing={1}>
             <Typography variant='body1' className='font-bold'>
@@ -276,11 +289,21 @@ const TcTelegramIntegrationDialog: React.FC<
             )}
             <Typography variant='body1' color='textSecondary'>
               Need help? View our{' '}
-              <a href='/documentation' className='text-secondary underline'>
+              <a
+                href='https://togethercrew.gitbook.io/onboarding/fundamentals/adding-platforms/telegram'
+                target='_blank'
+                rel='noreferrer'
+                className='text-secondary underline'
+              >
                 documentation
               </a>{' '}
               or contact our{' '}
-              <a href='/support' className='text-secondary underline'>
+              <a
+                href='https://www.togethercrew.com/contact-us'
+                target='_blank'
+                rel='noreferrer'
+                className='text-secondary underline'
+              >
                 support team
               </a>
               .
