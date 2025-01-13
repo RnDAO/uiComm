@@ -6,6 +6,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AiOutlineLeft } from 'react-icons/ai';
 
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
+
+import { availablePlatforms } from '.';
 import emptyState from '../assets/svg/empty-state.svg';
 import { PREMIUM_GUILDS } from '../components/communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import CustomTab from '../components/global/CustomTab';
@@ -23,7 +26,6 @@ import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { withRoles } from '../utils/withRoles';
-import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const Statistics = () => {
   const { community, selectedPlatform } = useToken();
@@ -295,11 +297,10 @@ const Statistics = () => {
   };
 
   const hasActivePlatform = community?.platforms?.some(
-    (platform) =>
-      (platform.name === 'discord' || platform.name === 'discourse') &&
-      platform.disconnectedAt === null
+    ({ name, disconnectedAt }) =>
+      availablePlatforms.includes(name) && disconnectedAt === null
   );
-
+  
   if (!hasActivePlatform) {
     return (
       <>

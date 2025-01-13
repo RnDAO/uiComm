@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Stack } from '@mui/material';
 import Image from 'next/image';
 
 import EmptyState from '@/components/global/EmptyState';
 import SimpleBackdrop from '@/components/global/LoadingBackdrop';
 import SEO from '@/components/global/SEO';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 import Decentralization from '@/components/pages/communityHealth/Decentralization';
 import Fragmentation from '@/components/pages/communityHealth/Fragmentation';
 import HeaderSection from '@/components/pages/communityHealth/HeaderSection';
@@ -18,9 +20,8 @@ import {
 } from '@/utils/interfaces';
 import { withRoles } from '@/utils/withRoles';
 
+import { availablePlatforms } from '.';
 import emptyState from '../assets/svg/empty-state.svg';
-import SwitchPlatform from '@/components/layouts/SwitchPlatform';
-import { Stack } from '@mui/material';
 
 function CommunityHealth() {
   const { community, selectedPlatform } = useToken();
@@ -47,9 +48,8 @@ function CommunityHealth() {
   }, [getDecentralisation, getFragmentation, selectedPlatform]);
 
   const hasActivePlatform = community?.platforms?.some(
-    (platform) =>
-      (platform.name === 'discord' || platform.name === 'discourse') &&
-      platform.disconnectedAt === null
+    ({ name, disconnectedAt }) =>
+      availablePlatforms.includes(name) && disconnectedAt === null
   );
 
   if (!hasActivePlatform) {
