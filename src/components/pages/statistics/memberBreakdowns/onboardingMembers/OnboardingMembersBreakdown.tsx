@@ -76,7 +76,7 @@ export default function OnboardingMembersBreakdown({
   };
 
   useEffect(() => {
-    if (!selectedPlatform) {
+    if (!selectedPlatform || !platformType) {
       return;
     }
     setLoading(true);
@@ -249,7 +249,7 @@ export default function OnboardingMembersBreakdown({
         )}
       </div>
       {fetchedData && fetchedData?.totalResults > 3 ? (
-        <div className='mt-2 mb-12 flex justify-center'>
+        <div className='mb-12 mt-2 flex justify-center'>
           <TcButton
             text={isExpanded ? 'Show less' : 'Show member breakdown'}
             variant='outlined'
