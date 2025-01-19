@@ -51,7 +51,10 @@ const Statistics = () => {
 
   const [activePlatform, setActivePlatform] = useState<
     'discord' | 'discourse' | 'telegram'
-  >('discord');
+  >(
+    community?.platforms.find((platform) => platform.id === selectedPlatform)
+      ?.name as 'discord' | 'discourse' | 'telegram'
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);
   const [onBoardingMemberDate, setOnBoardingMemberDate] = useState(1);
@@ -300,7 +303,7 @@ const Statistics = () => {
     ({ name, disconnectedAt }) =>
       availablePlatforms.includes(name) && disconnectedAt === null
   );
-  
+
   if (!hasActivePlatform) {
     return (
       <>

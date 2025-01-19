@@ -473,7 +473,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               <span className='text-base font-semibold'>
                                 {row.ngu}
                               </span>
-                              {row[column.id].length > 10 ? (
+                              {row[column?.id]?.length > 10 ? (
                                 <ClickAwayListener
                                   onClickAway={handleTooltipClose}
                                 >

@@ -89,7 +89,7 @@ export default function DisengagedMembersCompositionBreakdown({
   };
 
   useEffect(() => {
-    if (!selectedPlatform) {
+    if (!selectedPlatform || !platformType) {
       return;
     }
     setLoading(true);
