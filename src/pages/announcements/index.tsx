@@ -10,6 +10,7 @@ import EmptyState from '@/components/global/EmptyState';
 
 import emptyState from '@/assets/svg/empty-state.svg';
 
+import { availablePlatforms } from '..';
 import TcAnnouncementsAlert from '../../components/announcements/TcAnnouncementsAlert';
 import TcAnnouncementsTable from '../../components/announcements/TcAnnouncementsTable';
 import TcTimeZone from '../../components/announcements/TcTimeZone';
@@ -167,9 +168,8 @@ function Index() {
   };
 
   const hasActivePlatform = community?.platforms?.some(
-    (platform) =>
-      (platform.name === 'discord' || platform.name === 'discourse') &&
-      platform.disconnectedAt === null
+    ({ name, disconnectedAt }) =>
+      availablePlatforms.includes(name) && disconnectedAt === null
   );
 
   if (!hasActivePlatform) {

@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { AiOutlineExclamationCircle, AiOutlineLeft } from 'react-icons/ai';
 
 import EmptyState from '@/components/global/EmptyState';
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 import emptyState from '@/assets/svg/empty-state.svg';
 
+import { availablePlatforms } from '.';
 import Link from '../components/global/Link';
 import SimpleBackdrop from '../components/global/LoadingBackdrop';
 import SEO from '../components/global/SEO';
@@ -16,7 +18,6 @@ import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { withRoles } from '../utils/withRoles';
-import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const ForceGraphComponent = dynamic(
   () =>
@@ -137,9 +138,8 @@ function MembersInteraction() {
   const popoverId = open ? 'hint-popover' : undefined;
 
   const hasActivePlatform = community?.platforms?.some(
-    (platform) =>
-      (platform.name === 'discord' || platform.name === 'discourse') &&
-      platform.disconnectedAt === null
+    ({ name, disconnectedAt }) =>
+      availablePlatforms.includes(name) && disconnectedAt === null
   );
 
   if (!hasActivePlatform) {

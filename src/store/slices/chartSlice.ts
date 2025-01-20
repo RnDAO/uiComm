@@ -19,7 +19,7 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
   onboardingMembersLoading: false,
   fetchHeatmapData: async (
     platformId: string,
-    platformType: 'discord' | 'discourse',
+    platformType: 'discord' | 'discourse' | 'telegram',
     startDate: string,
     endDate: string,
     timeZone: string,
@@ -32,7 +32,9 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
       const endpoint =
         platformType === 'discourse'
           ? `/discourse/heatmaps/${platformId}/heatmap-chart`
-          : `/heatmaps/${platformId}/heatmap-chart`;
+          : platformType === 'telegram'
+            ? `/telegram/heatmaps/${platformId}/heatmap-chart`
+            : `/heatmaps/${platformId}/heatmap-chart`;
 
       set(() => ({ isLoading: true }));
 
@@ -71,12 +73,14 @@ const chartSlice: StateCreator<ICharts> = (set, get) => ({
     platformId: string,
     startDate: string,
     endDate: string,
-    platformType: 'discord' | 'discourse'
+    platformType: 'discord' | 'discourse' | 'telegram'
   ) => {
     const endpoint =
       platformType === 'discourse'
         ? `/discourse/heatmaps/${platformId}/line-graph`
-        : `/heatmaps/${platformId}/line-graph`;
+        : platformType === 'telegram'
+          ? `/telegram/heatmaps/${platformId}/line-graph`
+          : `/heatmaps/${platformId}/line-graph`;
 
     try {
       set(() => ({ interactionsLoading: true }));

@@ -502,6 +502,27 @@ function TcDiscordIntegrationSettingsDialog({
               onClick={() => handlePatchDiscordIntegrationSettings()}
             />
           </div>
+          <Typography variant='body1' pt={2} color='textSecondary'>
+            Need help? View our{' '}
+            <a
+              href='https://togethercrew.gitbook.io/onboarding/fundamentals/adding-platforms/discord'
+              target='_blank'
+              rel='noreferrer'
+              className='text-secondary underline'
+            >
+              documentation
+            </a>{' '}
+            or contact our{' '}
+            <a
+              href='https://www.togethercrew.com/contact-us'
+              target='_blank'
+              rel='noreferrer'
+              className='text-secondary underline'
+            >
+              support team
+            </a>
+            .
+          </Typography>
         </div>
       </TcDialog>
       <TcDialog

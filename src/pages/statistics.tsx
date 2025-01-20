@@ -6,6 +6,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AiOutlineLeft } from 'react-icons/ai';
 
+import SwitchPlatform from '@/components/layouts/SwitchPlatform';
+
+import { availablePlatforms } from '.';
 import emptyState from '../assets/svg/empty-state.svg';
 import { PREMIUM_GUILDS } from '../components/communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import CustomTab from '../components/global/CustomTab';
@@ -23,7 +26,6 @@ import { transformToMidnightUTC } from '../helpers/momentHelper';
 import { defaultLayout } from '../layouts/defaultLayout';
 import useAppStore from '../store/useStore';
 import { withRoles } from '../utils/withRoles';
-import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
 const Statistics = () => {
   const { community, selectedPlatform } = useToken();
@@ -47,8 +49,11 @@ const Statistics = () => {
     '2': 'disengagedMembers',
   };
 
-  const [activePlatform, setActivePlatform] = useState<'discord' | 'discourse'>(
-    'discord'
+  const [activePlatform, setActivePlatform] = useState<
+    'discord' | 'discourse' | 'telegram'
+  >(
+    community?.platforms.find((platform) => platform.id === selectedPlatform)
+      ?.name as 'discord' | 'discourse' | 'telegram'
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [activeMemberDate, setActiveMemberDate] = useState(1);
@@ -72,9 +77,13 @@ const Statistics = () => {
     const platform = community?.platforms.find(
       (platform) => platform.id === selectedPlatform
     );
-    setActivePlatform(
-      platform?.name.includes('discord') ? 'discord' : 'discourse'
-    );
+    if (platform?.name === 'discord') {
+      setActivePlatform('discord');
+    } else if (platform?.name === 'discourse') {
+      setActivePlatform('discourse');
+    } else if (platform?.name === 'telegram') {
+      setActivePlatform('telegram');
+    }
   }, [selectedPlatform]);
 
   useEffect(() => {
@@ -291,9 +300,8 @@ const Statistics = () => {
   };
 
   const hasActivePlatform = community?.platforms?.some(
-    (platform) =>
-      (platform.name === 'discord' || platform.name === 'discourse') &&
-      platform.disconnectedAt === null
+    ({ name, disconnectedAt }) =>
+      availablePlatforms.includes(name) && disconnectedAt === null
   );
 
   if (!hasActivePlatform) {

@@ -42,7 +42,7 @@ const options: IActivityCompositionOptions[] = [
 ];
 
 interface IAcriveMemberBreakdownProps {
-  platformType: 'discord' | 'discourse';
+  platformType: 'discord' | 'discourse' | 'telegram';
 }
 
 export default function ActiveMemberBreakdown({
@@ -78,7 +78,7 @@ export default function ActiveMemberBreakdown({
   };
 
   useEffect(() => {
-    if (!selectedPlatform) {
+    if (!selectedPlatform || !platformType) {
       return;
     }
 
@@ -252,7 +252,7 @@ export default function ActiveMemberBreakdown({
         )}
       </div>
       {fetchedData && fetchedData?.totalResults > 3 ? (
-        <div className='mt-2 mb-12 flex justify-center'>
+        <div className='mb-12 mt-2 flex justify-center'>
           <TcButton
             text={isExpanded ? 'Show less' : 'Show member breakdown'}
             variant='outlined'

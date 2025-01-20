@@ -14,13 +14,14 @@ import { useToken } from '../context/TokenContext';
 import { defaultLayout } from '../layouts/defaultLayout';
 import { withRoles } from '../utils/withRoles';
 
+export const availablePlatforms = ['discord', 'discourse', 'telegram'];
+
 function Index(): JSX.Element {
   const { community } = useToken();
 
   const hasActivePlatform = community?.platforms?.some(
-    (platform) =>
-      (platform.name === 'discord' || platform.name === 'discourse') &&
-      platform.disconnectedAt === null
+    ({ name, disconnectedAt }) =>
+      availablePlatforms.includes(name) && disconnectedAt === null
   );
 
   if (!hasActivePlatform) {
