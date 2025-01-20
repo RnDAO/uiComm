@@ -318,7 +318,7 @@ function TcCommunityPlatforms() {
             className='max-h-[6rem] min-h-[6rem] min-w-[10rem] max-w-[10rem] flex-grow'
             children={
               <div className='flex flex-col items-center justify-center space-y-2 py-4'>
-                <TcText text='Hivemind' variant='subtitle1' fontWeight='bold' />
+                <TcText text='Q&A AI assistant' variant='subtitle1' fontWeight='bold' />
                 <TcButton
                   text={
                     hivemindManageIsLoading ? (
