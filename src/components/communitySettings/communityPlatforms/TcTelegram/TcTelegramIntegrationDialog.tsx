@@ -198,6 +198,10 @@ const TcTelegramIntegrationDialog: React.FC<
                 <li>
                   Find the bot in your list of members and right click then
                   select <b>promote to admin</b>, then remove all permissions.
+                  If the promote to admin option doesn't show: go to group
+                  settings (click on group, then pencil icon on top right
+                  corner). Then click on administrators, add the bot, and
+                  disable all admin permissions for the bot. (no need to save).
                 </li>
                 <li>
                   In the chat of your telegram group, copy the command below to
