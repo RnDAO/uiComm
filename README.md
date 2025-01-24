@@ -20,6 +20,53 @@ Before you begin, ensure you have the following installed:
 2.  Navigate to the project directory.
 3.  Run `npm install` to install all the dependencies listed in `package.json`.
 
+### Environment Variables
+
+To set up environment variables:
+
+1. **Copy the Example File**:  
+   Run:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. **Update Variables**:  
+   Replace placeholders in `.env.local` with actual values.
+
+> **Note**: Do not commit `.env.local` to version control; use `.env.example` to document new variables.
+
+### Premium Guilds Configuration
+
+The application includes a list of premium platforms, defined in the `PREMIUM_GUILDS` array. Premium platforms receive special treatment or features within the application.
+
+#### **How to Add a New Premium Platform**
+1. Locate the `PREMIUM_GUILDS` array in the configuration file:
+   ```javascript
+   export const PREMIUM_GUILDS = [
+     '732892373507375164', // fuel
+     '915914985140531240', // rndao
+     '980858613587382322',
+     '1007641784798691468',
+   ];
+   ```
+
+2. Add the new platform's unique ID to the array. For example:
+   ```javascript
+   export const PREMIUM_GUILDS = [
+     '732892373507375164', // fuel
+     '915914985140531240', // rndao
+     '980858613587382322',
+     '1007641784798691468',
+     '123456789012345678', // new platform
+   ];
+   ```
+
+#### **Notes**
+- The platform ID must be a unique identifier.
+
+This setup allows for easy customization and management of premium platforms in the application.
+
 ### Available Scripts
 
 In the project directory, you can run:

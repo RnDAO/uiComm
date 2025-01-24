@@ -17,13 +17,14 @@ import { MdChevronRight } from 'react-icons/md';
 import { RiTimeLine } from 'react-icons/ri';
 import '@mui/lab';
 
+import { conf, PREMIUM_GUILDS } from '@/configs';
+
 import TcCommunityPlatformIcon from './TcCommunityPlatformIcon';
 import TcButton from '../../shared/TcButton';
 import TcDatePickerPopover from '../../shared/TcDatePickerPopover';
 import TcDialog from '../../shared/TcDialog';
 import TcSwitch from '../../shared/TcSwitch';
 import TcText from '../../shared/TcText';
-import { conf } from '../../../configs';
 import { Channel } from '../../../context/ChannelContext';
 import { useSnackbar } from '../../../context/SnackbarContext';
 import { useToken } from '../../../context/TokenContext';
@@ -31,12 +32,7 @@ import { truncateCenter } from '../../../helpers/helper';
 import useAppStore from '../../../store/useStore';
 import { IPlatformProps } from '../../../utils/interfaces';
 
-export const PREMIUM_GUILDS = [
-  '732892373507375164', // fuel
-  '915914985140531240', // rndao
-  '980858613587382322',
-  '1007641784798691468',
-];
+
 
 interface TcDiscordIntegrationSettingsDialog {
   platform: IPlatformProps;
