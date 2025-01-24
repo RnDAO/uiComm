@@ -8,9 +8,10 @@ import { AiOutlineLeft } from 'react-icons/ai';
 
 import SwitchPlatform from '@/components/layouts/SwitchPlatform';
 
+import { PREMIUM_GUILDS } from '@/configs';
+
 import { availablePlatforms } from '.';
 import emptyState from '../assets/svg/empty-state.svg';
-import { PREMIUM_GUILDS } from '../components/communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import CustomTab from '../components/global/CustomTab';
 import EmptyState from '../components/global/EmptyState';
 import Link from '../components/global/Link';
