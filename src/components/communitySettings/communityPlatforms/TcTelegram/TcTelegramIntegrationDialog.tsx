@@ -18,11 +18,11 @@ import { IoClose } from 'react-icons/io5';
 import useAppStore from '@/store/useStore';
 
 import { useSnackbar } from '@/context/SnackbarContext';
+import { isProduction } from '@/rainbowKitConfig';
 import { StorageService } from '@/services/StorageService';
 import { IntegrationPlatform } from '@/utils/enums';
 
 import TcCommunityPlatformIcon from '../TcCommunityPlatformIcon';
-import { isProduction } from '@/rainbowKitConfig';
 
 interface TcTelegramIntegrationDialogProps {
   isOpen: boolean;
