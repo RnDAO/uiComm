@@ -112,6 +112,8 @@ function Welcome() {
 	const platformNames =
 		community?.platforms?.map((platform) => platform.name) || [];
 
+	const isAdmin = userPermissions.includes("admin");
+
 	const handleUpvote = (dataSource: string) => () => {
 		try {
 			setAmplitudeUserIdFromToken();
@@ -270,13 +272,15 @@ function Welcome() {
 				<Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
 					Welcome to <b>{community?.name}</b>
 				</Typography>
-				<Alert
-					className="flex w-full justify-start rounded-md"
-					severity="warning"
-				>
-					<b>Add/Manage</b> community <b>Data-sources/Applications</b> needs
-					admin permissions. please contact your admin to get access.
-				</Alert>
+				{!isAdmin && (
+					<Alert
+						className="flex w-full justify-start rounded-md"
+						severity="warning"
+					>
+						<b>Add/Manage</b> community <b>Data-sources/Applications</b> needs
+						admin permissions. please contact your admin to get access.
+					</Alert>
+				)}
 			</Grid>
 			<Grid container direction="row" spacing={2}>
 				<Grid
@@ -385,7 +389,7 @@ function Welcome() {
 														md: 120,
 													},
 												}}
-												disabled={userPermissions.includes("view")}
+												disabled={!isAdmin}
 												disableElevation
 												onClick={
 													isConnected
@@ -457,6 +461,9 @@ function Welcome() {
 													fullWidth
 													disableElevation
 													onClick={handleOpenApplication(application.title)}
+													disabled={
+														!isAdmin && application.title === "Announcements"
+													}
 												>
 													Open
 												</Button>
@@ -467,7 +474,7 @@ function Welcome() {
 													fullWidth
 													disableElevation
 													onClick={handleManageApplication(application.title)}
-													disabled={userPermissions.includes("view")}
+													disabled={!isAdmin}
 												>
 													Manage
 												</Button>
@@ -480,7 +487,7 @@ function Welcome() {
 												disableElevation
 												onClick={handleOpenForum}
 											>
-												Apply
+												Vote
 											</Button>
 										)}
 									</div>
