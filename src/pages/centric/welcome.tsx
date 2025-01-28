@@ -27,6 +27,7 @@ import {
 	trackAmplitudeEvent,
 } from "@/helpers/amplitudeHelper";
 import { defaultLayout } from "@/layouts/defaultLayout";
+import { withRoles } from "@/utils/withRoles";
 
 const DATA_SOURCES = [
 	{ title: "Discord", isComingSoon: false },
@@ -46,7 +47,7 @@ const APPLICATION_MARKETPLACES = [
 		icon: <IoStatsChart />,
 		title: "Analytics",
 		description:
-			"Master your community's engagement with detailed insights. Monitor active vs. inactive members, track participation across user groups, and identify your most valuable contributors.",
+			"Master your community's engagement with detailed insights. Monitor active vs. inactive members, identify new joiners and those disengaging, track participation across user groups, and identify your most valuable contributors.",
 		isManageable: true,
 		isOpenable: true,
 	},
@@ -54,7 +55,7 @@ const APPLICATION_MARKETPLACES = [
 		icon: <IoStatsChart />,
 		title: "Announcements",
 		description:
-			"Take control of your announcements and communication to members. Send targeted messages to specific types of member based on their roles or engagement levels.",
+			"Take control of your announcements and communication with members. Send targeted messages to specific types of member based on their roles or engagement levels. Schedule announcements in advance and even reach disengaged members with (safe) DMs.",
 		isManageable: false,
 		isOpenable: true,
 	},
@@ -62,7 +63,7 @@ const APPLICATION_MARKETPLACES = [
 		icon: <IoStatsChart />,
 		title: "Ai Assistance",
 		description:
-			"24/7 support for your community. Our AI assistant uses your connected data sources to answer member questions instantly, freeing you to focus on strategic tasks while ensuring consistent, reliable member support.",
+			"24/7 Q&A support for your community. Our AI assistant uses your connected data sources to answer member questions instantly, freeing you to focus on strategic tasks while ensuring consistent, reliable member support.",
 		isManageable: true,
 		isOpenable: false,
 	},
@@ -76,9 +77,9 @@ const APPLICATION_MARKETPLACES = [
 	},
 	{
 		icon: <IoStatsChart />,
-		title: "Violation Detection",
+		title: "Community Guardian",
 		description:
-			"Keep your community safe with intelligent automation. Our system detects and handles violations according to your preferences. Maintain standards without constant surveillance.",
+			"Keep your community safe with automatic detection of violent language and community guidelines violations. Our AI ensures credible neutrality, keeping your moderators safe and your standards objective.",
 		isManageable: true,
 		isOpenable: false,
 	},
@@ -86,7 +87,7 @@ const APPLICATION_MARKETPLACES = [
 		icon: <IoStatsChart />,
 		title: "Coming Soon",
 		description:
-			"Be part of something bigger. Vote on upcoming features and shape our roadmap. Your input directly influences our development priorities, ensuring we build what matters most to you.",
+			"Vote on upcoming features and shape our roadmap. Your input directly influences our development priorities, ensuring we build what matters most to you.",
 		isManageable: false,
 		isOpenable: false,
 	},
@@ -161,6 +162,17 @@ function Welcome() {
 	};
 
 	const handleOpenApplication = (application: string) => () => {
+		setAmplitudeUserIdFromToken();
+
+		trackAmplitudeEvent({
+			eventType: "Open Application Marketplace",
+			eventProperties: {
+				communityId: community?.id,
+				communityName: community?.name,
+				platform: application,
+			},
+		});
+
 		switch (application) {
 			case "Analytics":
 				router.push("/");
@@ -174,7 +186,7 @@ function Welcome() {
 			case "Reputation":
 				router.push("/reputation-score/");
 				break;
-			case "Violation Detection":
+			case "Community Guardian":
 				router.push("/community-settings/violation-detection/");
 				break;
 			case "Coming Soon":
@@ -186,6 +198,17 @@ function Welcome() {
 	};
 
 	const handleManageApplication = (application: string) => () => {
+		setAmplitudeUserIdFromToken();
+
+		trackAmplitudeEvent({
+			eventType: "Manage Application Marketplace",
+			eventProperties: {
+				communityId: community?.id,
+				communityName: community?.name,
+				platform: application,
+			},
+		});
+
 		switch (application) {
 			case "Analytics":
 				router.push("/community-settings/");
@@ -199,7 +222,7 @@ function Welcome() {
 			case "Reputation":
 				router.push("/community-settings/reputation-score/");
 				break;
-			case "Violation Detection":
+			case "Community Guardian":
 				router.push("/community-settings/violation-detection/");
 				break;
 			case "Coming Soon":
@@ -208,6 +231,10 @@ function Welcome() {
 			default:
 				break;
 		}
+	};
+
+	const handleOpenForum = () => {
+		window.open("https://tally.so/r/m6WNE5", "_blank");
 	};
 
 	return (
@@ -416,10 +443,10 @@ function Welcome() {
 									</Stack>
 									{!application.isOpenable && !application.isManageable && (
 										<Button
-											variant="outlined"
+											variant="contained"
 											fullWidth
 											disableElevation
-											disabled
+											onClick={handleOpenForum}
 										>
 											Apply
 										</Button>
@@ -436,4 +463,4 @@ function Welcome() {
 
 Welcome.pageLayout = defaultLayout;
 
-export default Welcome;
+export default withRoles(Welcome, ["admin"]);
