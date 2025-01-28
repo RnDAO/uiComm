@@ -25,10 +25,6 @@ export interface CommunityData {
 
 function TcSelectCommunity() {
 	const { retrieveCommunities } = useAppStore();
-	const userPermissions = useAppStore(
-		(state) => state.userRolePermissions || [],
-	);
-
 	const { updateCommunity } = useToken();
 
 	const [loading, setLoading] = useState<boolean>(false);
@@ -67,11 +63,7 @@ function TcSelectCommunity() {
 				activeCommunity,
 			);
 
-			if (userPermissions.includes("admin")) {
-				router.push("/centric/welcome");
-			} else {
-				router.push("/");
-			}
+			router.push("/centric/welcome");
 		}
 	};
 

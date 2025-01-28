@@ -1,5 +1,6 @@
 import React from "react";
 import {
+	Alert,
 	Box,
 	Button,
 	Chip,
@@ -19,6 +20,8 @@ import { FaHashtag } from "react-icons/fa6";
 import { IoStatsChart } from "react-icons/io5";
 
 import TcCommunityPlatformIcon from "@/components/communitySettings/communityPlatforms/TcCommunityPlatformIcon";
+
+import useAppStore from "@/store/useStore";
 
 import { useSnackbar } from "@/context/SnackbarContext";
 import { useToken } from "@/context/TokenContext";
@@ -99,6 +102,9 @@ interface IDataSources {
 }
 
 function Welcome() {
+	const userPermissions = useAppStore(
+		(state) => state.userRolePermissions || [],
+	);
 	const router = useRouter();
 	const { community } = useToken();
 	const { showMessage } = useSnackbar();
@@ -234,6 +240,15 @@ function Welcome() {
 	};
 
 	const handleOpenForum = () => {
+		setAmplitudeUserIdFromToken();
+
+		trackAmplitudeEvent({
+			eventType: "Coming Soon Forum",
+			eventProperties: {
+				communityId: community?.id,
+				communityName: community?.name,
+			},
+		});
 		window.open("https://tally.so/r/m6WNE5", "_blank");
 	};
 
@@ -247,13 +262,21 @@ function Welcome() {
 					xs: 2,
 					md: 12,
 				},
+				pb: 2,
 				gap: 1,
 			}}
 		>
-			<Grid item xs={12}>
+			<Grid item xs={12} pb={2}>
 				<Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
 					Welcome to <b>{community?.name}</b>
 				</Typography>
+				<Alert
+					className="flex w-full justify-start rounded-md"
+					severity="warning"
+				>
+					<b>Add/Manage</b> community <b>Data-sources/Applications</b> needs
+					admin permissions. please contact your admin to get access.
+				</Alert>
 			</Grid>
 			<Grid container direction="row" spacing={2}>
 				<Grid
@@ -362,6 +385,7 @@ function Welcome() {
 														md: 120,
 													},
 												}}
+												disabled={userPermissions.includes("view")}
 												disableElevation
 												onClick={
 													isConnected
@@ -401,56 +425,65 @@ function Welcome() {
 								<Paper
 									elevation={0}
 									sx={{
+										display: "flex",
+										flexDirection: "column",
+										justifyContent: "space-between",
 										minWidth: "100%",
 										maxWidth: 120,
 										px: 1,
 										py: 1,
 										boxShadow: 1,
 										borderRadius: 2,
+										minHeight: "250px",
 									}}
 									className="space-y-3"
 								>
-									<Stack direction="row" alignItems="center" gap={1}>
-										<Box>{application.icon}</Box>
-										<Typography variant="body1" fontWeight="600">
-											{application.title}
+									<div>
+										<Stack direction="row" alignItems="center" gap={1}>
+											<Box>{application.icon}</Box>
+											<Typography variant="body1" fontWeight="600">
+												{application.title}
+											</Typography>
+										</Stack>
+										<Typography variant="body2" color="GrayText">
+											{application.description}
 										</Typography>
-									</Stack>
-									<Typography variant="body2" color="GrayText">
-										{application.description}
-									</Typography>
-									<Stack direction="row" gap={1}>
-										{application.isOpenable && (
+									</div>
+									<div>
+										<Stack direction="row" gap={1}>
+											{application.isOpenable && (
+												<Button
+													variant="contained"
+													fullWidth
+													disableElevation
+													onClick={handleOpenApplication(application.title)}
+												>
+													Open
+												</Button>
+											)}
+											{application.isManageable && (
+												<Button
+													variant="outlined"
+													fullWidth
+													disableElevation
+													onClick={handleManageApplication(application.title)}
+													disabled={userPermissions.includes("view")}
+												>
+													Manage
+												</Button>
+											)}
+										</Stack>
+										{!application.isOpenable && !application.isManageable && (
 											<Button
 												variant="contained"
 												fullWidth
 												disableElevation
-												onClick={handleOpenApplication(application.title)}
+												onClick={handleOpenForum}
 											>
-												Open
+												Apply
 											</Button>
 										)}
-										{application.isManageable && (
-											<Button
-												variant="outlined"
-												fullWidth
-												disableElevation
-												onClick={handleManageApplication(application.title)}
-											>
-												Manage
-											</Button>
-										)}
-									</Stack>
-									{!application.isOpenable && !application.isManageable && (
-										<Button
-											variant="contained"
-											fullWidth
-											disableElevation
-											onClick={handleOpenForum}
-										>
-											Apply
-										</Button>
-									)}
+									</div>
 								</Paper>
 							</Grid>
 						))}
@@ -463,4 +496,4 @@ function Welcome() {
 
 Welcome.pageLayout = defaultLayout;
 
-export default withRoles(Welcome, ["admin"]);
+export default withRoles(Welcome, ["admin", "view"]);
