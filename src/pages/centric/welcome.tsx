@@ -7,7 +7,6 @@ import {
 	Grid,
 	List,
 	ListItem,
-	ListItemButton,
 	ListItemIcon,
 	ListItemText,
 	Paper,
@@ -16,10 +15,12 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FaCaretUp } from "react-icons/fa";
+import { FaDatabase, FaStore } from "react-icons/fa";
 import { FaHashtag } from "react-icons/fa6";
 import { IoStatsChart } from "react-icons/io5";
 
 import TcCommunityPlatformIcon from "@/components/communitySettings/communityPlatforms/TcCommunityPlatformIcon";
+import SEO from "@/components/global/SEO";
 
 import useAppStore from "@/store/useStore";
 
@@ -255,249 +256,235 @@ function Welcome() {
 	};
 
 	return (
-		<Grid
-			container
-			direction="row"
-			sx={{
-				mx: "auto",
-				px: {
-					xs: 2,
-					md: 12,
-				},
-				pb: 2,
-				gap: 1,
-			}}
-		>
-			<Grid item xs={12} pb={2}>
-				<Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
-					Welcome to <b>{community?.name}</b>
-				</Typography>
-				{!isAdmin && (
-					<Alert
-						className="flex w-full justify-start rounded-md"
-						severity="warning"
-					>
-						<b>Add/Manage</b> community <b>Data-sources/Applications</b> needs
-						admin permissions. please contact your admin to get access.
-					</Alert>
-				)}
-			</Grid>
-			<Grid container direction="row" spacing={2}>
-				<Grid
-					item
-					xs={12}
-					md={6}
-					sx={{
-						borderRight: (theme) => {
-							return {
-								xs: "none",
-								md: `1px solid ${theme.palette.grey[300]}`,
-							};
-						},
-					}}
-					pr={{
-						md: 2,
-					}}
-				>
-					<Paper
-						elevation={0}
-						sx={{
-							maxWidth: 120,
-							backgroundColor: (theme) => theme.palette.grey[200],
-							px: 1,
-							py: 1,
-							textAlign: "center",
-							borderRadius: 2,
-						}}
-					>
-						<Typography variant="body1" fontWeight="500">
-							Data Source
-						</Typography>
-					</Paper>
-					<List>
-						{DATA_SOURCES.map((dataSource) => {
-							const isConnected = platformNames.includes(
-								dataSource.title.toLowerCase(),
-							);
-
-							return (
-								<ListItem
-									key={dataSource.title}
-									sx={{
-										boxShadow: 1,
-										mt: 1,
-										borderRadius: 2,
-									}}
-								>
-									<ListItemIcon
-										sx={{
-											minWidth: 40,
-										}}
-									>
-										<TcCommunityPlatformIcon
-											platform={dataSource.title}
-											size={19}
-										/>
-									</ListItemIcon>
-									<ListItemText
-										sx={{
-											flex: "1 1 auto",
-											gap: 1,
-											alignItems: "center",
-										}}
-									>
-										{dataSource.title === "Google"
-											? "GDrive"
-											: dataSource.title}
-										{dataSource.isComingSoon && (
-											<Chip
-												label="Soon"
-												size="small"
-												sx={{
-													ml: 1,
-												}}
-											/>
-										)}
-									</ListItemText>
-									<Stack
-										sx={{
-											padding: 0,
-											display: "flex",
-											justifyContent: "end",
-										}}
-									>
-										{dataSource.isComingSoon ? (
-											<Button
-												variant="outlined"
-												sx={{
-													minWidth: {
-														xs: "auto",
-														md: 120,
-													},
-												}}
-												startIcon={<FaCaretUp />}
-												onClick={handleUpvote(dataSource.title)}
-											>
-												Upvote
-											</Button>
-										) : (
-											<Button
-												variant={isConnected ? "outlined" : "contained"}
-												sx={{
-													minWidth: {
-														xs: "auto",
-														md: 120,
-													},
-												}}
-												disabled={!isAdmin}
-												disableElevation
-												onClick={
-													isConnected
-														? handleConnectPlatform(dataSource)
-														: handleManagePlatform(dataSource)
-												}
-											>
-												{isConnected ? "Manage" : "Add"}
-											</Button>
-										)}
-									</Stack>
-								</ListItem>
-							);
-						})}
-					</List>
+		<>
+			<SEO title="Welcome" />
+			<Grid
+				container
+				direction="row"
+				sx={{
+					mx: "auto",
+					px: {
+						xs: 2,
+						md: 12,
+					},
+					pb: 2,
+					gap: 1,
+				}}
+			>
+				<Grid item xs={12} pb={2}>
+					<Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
+						Welcome to <b className="text-secondary">{community?.name}</b>
+					</Typography>
+					{!isAdmin && (
+						<Alert
+							className="flex w-full justify-start rounded-md"
+							severity="warning"
+						>
+							<b>Add/Manage</b> community <b>Data-sources/Applications</b> needs
+							admin permissions. please contact your admin to get access.
+						</Alert>
+					)}
 				</Grid>
-
-				<Grid item xs={12} md={6}>
-					<Paper
-						elevation={0}
+				<Grid container direction="row" spacing={2}>
+					<Grid
+						item
+						xs={12}
+						md={6}
 						sx={{
-							maxWidth: 200,
-							backgroundColor: (theme) => theme.palette.grey[200],
-							px: 1,
-							py: 1,
-							textAlign: "center",
-							borderRadius: 2,
+							borderRight: (theme) => {
+								return {
+									xs: "none",
+									md: `1px solid ${theme.palette.grey[300]}`,
+								};
+							},
+						}}
+						pr={{
+							md: 2,
 						}}
 					>
-						<Typography variant="body1" fontWeight="500">
-							Application Marketplace
-						</Typography>
-					</Paper>
-					<Grid container direction="row" spacing={2} mt={1}>
-						{APPLICATION_MARKETPLACES.map((application) => (
-							<Grid item xs={12} md={6} key={application.title}>
-								<Paper
-									elevation={0}
-									sx={{
-										display: "flex",
-										flexDirection: "column",
-										justifyContent: "space-between",
-										minWidth: "100%",
-										maxWidth: 120,
-										px: 1,
-										py: 1,
-										boxShadow: 1,
-										borderRadius: 2,
-										minHeight: "250px",
-									}}
-									className="space-y-3"
-								>
-									<div>
-										<Stack direction="row" alignItems="center" gap={1}>
-											<Box>{application.icon}</Box>
-											<Typography variant="body1" fontWeight="600">
-												{application.title}
-											</Typography>
+						<Stack direction="row" alignItems="center" gap={1}>
+							<FaDatabase size={24} />
+							<Typography variant="h6" fontWeight="500">
+								Data Source
+							</Typography>
+						</Stack>
+						<List>
+							{DATA_SOURCES.map((dataSource) => {
+								const isConnected = platformNames.includes(
+									dataSource.title.toLowerCase(),
+								);
+
+								return (
+									<ListItem
+										key={dataSource.title}
+										sx={{
+											boxShadow: 1,
+											mt: 1,
+											borderRadius: 2,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 40,
+											}}
+										>
+											<TcCommunityPlatformIcon
+												platform={dataSource.title}
+												size={19}
+											/>
+										</ListItemIcon>
+										<ListItemText
+											sx={{
+												flex: "1 1 auto",
+												gap: 1,
+												alignItems: "center",
+											}}
+										>
+											{dataSource.title === "Google"
+												? "GDrive"
+												: dataSource.title}
+											{dataSource.isComingSoon && (
+												<Chip
+													label="Soon"
+													size="small"
+													sx={{
+														ml: 1,
+													}}
+												/>
+											)}
+										</ListItemText>
+										<Stack
+											sx={{
+												padding: 0,
+												display: "flex",
+												justifyContent: "end",
+											}}
+										>
+											{dataSource.isComingSoon ? (
+												<Button
+													variant="outlined"
+													sx={{
+														minWidth: {
+															xs: "auto",
+															md: 120,
+														},
+													}}
+													startIcon={<FaCaretUp />}
+													onClick={handleUpvote(dataSource.title)}
+												>
+													Upvote
+												</Button>
+											) : (
+												<Button
+													variant={isConnected ? "outlined" : "contained"}
+													sx={{
+														minWidth: {
+															xs: "auto",
+															md: 120,
+														},
+													}}
+													disabled={!isAdmin}
+													disableElevation
+													onClick={
+														isConnected
+															? handleConnectPlatform(dataSource)
+															: handleManagePlatform(dataSource)
+													}
+												>
+													{isConnected ? "Manage" : "Add"}
+												</Button>
+											)}
 										</Stack>
-										<Typography variant="body2" color="GrayText">
-											{application.description}
-										</Typography>
-									</div>
-									<div>
-										<Stack direction="row" gap={1}>
-											{application.isOpenable && (
+									</ListItem>
+								);
+							})}
+						</List>
+					</Grid>
+
+					<Grid item xs={12} md={6}>
+						<Stack direction="row" alignItems="center" gap={1}>
+							<FaStore size={24} />
+							<Typography variant="h6" fontWeight="500">
+								Application Marketplace
+							</Typography>
+						</Stack>
+
+						<Grid container direction="row" spacing={2} mt={1}>
+							{APPLICATION_MARKETPLACES.map((application) => (
+								<Grid item xs={12} md={6} key={application.title}>
+									<Paper
+										elevation={0}
+										sx={{
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "space-between",
+											minWidth: "100%",
+											maxWidth: 120,
+											px: 1,
+											py: 1,
+											boxShadow: 1,
+											borderRadius: 2,
+											minHeight: "250px",
+										}}
+										className="space-y-3"
+									>
+										<div>
+											<Stack direction="row" alignItems="center" gap={1}>
+												<Box>{application.icon}</Box>
+												<Typography variant="body1" fontWeight="600">
+													{application.title}
+												</Typography>
+											</Stack>
+											<Typography variant="body2" color="GrayText">
+												{application.description}
+											</Typography>
+										</div>
+										<div>
+											<Stack direction="row" gap={1}>
+												{application.isOpenable && (
+													<Button
+														variant="contained"
+														fullWidth
+														disableElevation
+														onClick={handleOpenApplication(application.title)}
+														disabled={
+															!isAdmin && application.title === "Announcements"
+														}
+													>
+														Open
+													</Button>
+												)}
+												{application.isManageable && (
+													<Button
+														variant="outlined"
+														fullWidth
+														disableElevation
+														onClick={handleManageApplication(application.title)}
+														disabled={!isAdmin}
+													>
+														Manage
+													</Button>
+												)}
+											</Stack>
+											{!application.isOpenable && !application.isManageable && (
 												<Button
 													variant="contained"
 													fullWidth
 													disableElevation
-													onClick={handleOpenApplication(application.title)}
-													disabled={
-														!isAdmin && application.title === "Announcements"
-													}
+													onClick={handleOpenForum}
 												>
-													Open
+													Vote
 												</Button>
 											)}
-											{application.isManageable && (
-												<Button
-													variant="outlined"
-													fullWidth
-													disableElevation
-													onClick={handleManageApplication(application.title)}
-													disabled={!isAdmin}
-												>
-													Manage
-												</Button>
-											)}
-										</Stack>
-										{!application.isOpenable && !application.isManageable && (
-											<Button
-												variant="contained"
-												fullWidth
-												disableElevation
-												onClick={handleOpenForum}
-											>
-												Vote
-											</Button>
-										)}
-									</div>
-								</Paper>
-							</Grid>
-						))}
+										</div>
+									</Paper>
+								</Grid>
+							))}
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
-		</Grid>
+		</>
 	);
 }
 
