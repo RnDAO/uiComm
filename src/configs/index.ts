@@ -14,3 +14,11 @@ export const conf = {
     process.env.NEXT_PUBLIC_APP_DEVELOPER_PUBLIC_ADDRESS,
   IS_MAINNET: process.env.NEXT_PUBLIC_IS_MAINNET,
 };
+
+
+export const PREMIUM_GUILDS = [
+  '732892373507375164', // fuel
+  '915914985140531240', // rndao
+  '980858613587382322',
+  '1007641784798691468',
+];

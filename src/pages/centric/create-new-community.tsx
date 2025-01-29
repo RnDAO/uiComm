@@ -31,7 +31,7 @@ function CreateNewCommunity() {
 
     updateCommunity(community);
 
-    router.push('/');
+    router.push('/centric/welcome');
   };
   if (loading) {
     return (

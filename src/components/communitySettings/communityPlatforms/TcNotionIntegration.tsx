@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, CircularProgress, Paper } from '@mui/material';
 import moment from 'moment';
+import { useSearchParams } from 'next/navigation';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiPlus } from 'react-icons/bi';
 import { IoClose, IoSettingsSharp } from 'react-icons/io5';
@@ -27,12 +28,22 @@ function TcNotionIntegration({
   connectedPlatforms,
   handleUpdateCommunityPlatform,
 }: TcNotionIntegrationProps) {
+  const searchParams = useSearchParams();
   const { connectNewPlatform, deletePlatform, getUser } = useAppStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>('');
 
   const { showMessage } = useSnackbar();
+
+	const addPlatform = searchParams.get("addPlatform");
+
+	useEffect(() => {
+		if (addPlatform === "notion" && userId) {
+			connectNewPlatform("notion", userId);
+		}
+	}, [addPlatform,userId]);
+
 
   useEffect(() => {
     const fetchUser = async () => {

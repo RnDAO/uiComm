@@ -10,9 +10,9 @@ import 'moment-timezone';
 
 import FilterByCategory from '@/components/global/FilterByCategory';
 
+import { PREMIUM_GUILDS } from '@/configs';
 import { ICommunityPlatfromProps } from '@/utils/interfaces';
 
-import { PREMIUM_GUILDS } from '../../communitySettings/communityPlatforms/TcDiscordIntegrationSettingsDialog';
 import FilterByChannels from '../../global/FilterByChannels';
 import Loading from '../../global/Loading';
 import RangeSelect from '../../global/RangeSelect';
