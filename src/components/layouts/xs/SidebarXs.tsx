@@ -6,7 +6,7 @@ type items = {
   icon: any;
 };
 
-import { faHeartPulse, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { faHeartPulse, faHome, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Drawer } from '@mui/material';
 import Link from 'next/link';
@@ -50,6 +50,16 @@ const Sidebar = () => {
   }, [community]);
 
   let menuItems: items[] = [
+    {
+			name: "Home",
+			path: "/centric/welcome",
+			icon: (
+				<FontAwesomeIcon
+					icon={faHome}
+					style={{ fontSize: 30, color: "black" }}
+				/>
+			),
+		},
     {
       name: 'Community Insights',
       path: '/',

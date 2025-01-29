@@ -7,11 +7,16 @@ type items = {
 	isVisible?: boolean;
 };
 
-import { faHeartPulse, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+	faHeartPulse,
+	faHome,
+	faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FaHome } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineAnnouncement } from "react-icons/md";
 import { RiNftFill } from "react-icons/ri";
@@ -63,6 +68,16 @@ const Sidebar = () => {
 	}, [community, selectedPlatform]);
 
 	let menuItems: items[] = [
+		{
+			name: "Home",
+			path: "/centric/welcome",
+			icon: (
+				<FontAwesomeIcon
+					icon={faHome}
+					style={{ fontSize: 20, color: "black" }}
+				/>
+			),
+		},
 		{
 			name: "Community Insights",
 			path: "/",
