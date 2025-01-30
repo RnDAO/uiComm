@@ -33,8 +33,8 @@ function Index() {
 							/>
 							<div className="flex justify-center text-center">
 								<LoginButton
-									botUsername={conf.TELEGRAM_BOT_USERNAME as string}
-									authCallbackUrl={`${conf.API_BASE_URL}/auth/telegram/authorize/callback`}
+									botUsername="Togethercrew_Staging_Bot"
+									authCallbackUrl="https://api.togethercrew.de/api/v1/auth/telegram/authorize/callback"
 									buttonSize="large"
 									requestAccess="write"
 									cornerRadius={5}
