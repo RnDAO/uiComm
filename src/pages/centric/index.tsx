@@ -8,6 +8,8 @@ import centricLayout from "../../layouts/centricLayout";
 import useAppStore from "../../store/useStore";
 
 function Index() {
+  console.log(conf.TELEGRAM_BOT_USERNAME );
+  
 	const { discordAuthorization } = useAppStore();
 	return (
 		<div>
