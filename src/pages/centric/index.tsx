@@ -32,7 +32,7 @@ function Index() {
 								variant="contained"
 								onClick={() => discordAuthorization()}
 							/>
-							<div className="flex justify-center text-center">
+							<div className="flex justify-center text-center py-2">
 								<LoginButton
 									botUsername={conf.TELEGRAM_BOT_USERNAME as string}
 									authCallbackUrl={`${conf.API_BASE_URL}/auth/telegram/authorize/callback`}

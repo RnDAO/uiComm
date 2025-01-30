@@ -26,11 +26,16 @@ function TcDiscordIntgration({
 	handleUpdateCommunityPlatform,
 }: TcDiscordIntgrationProps) {
 	const router = useRouter();
+
 	const searchParams = useSearchParams();
 
 	const addPlatform = searchParams.get("addPlatform");
 
-	const { connectNewPlatform } = useAppStore();
+	const { userProfile,connectNewPlatform } = useAppStore();
+
+	const hasDiscordIdentity = userProfile?.identities?.some(
+		(identity: any) => identity.provider === "discord",
+	);
 
 	const handleConnect = () => {
 		connectNewPlatform(platformType);
@@ -55,6 +60,7 @@ function TcDiscordIntgration({
 						color="primary"
 						startIcon={<BiPlus />}
 						onClick={() => handleConnect()}
+						disabled={!hasDiscordIdentity}
 					/>
 				</div>
 			</Paper>
