@@ -10,9 +10,8 @@ import centricLayout from "../../layouts/centricLayout";
 import useAppStore from "../../store/useStore";
 
 function Index() {
-	console.log(conf.TELEGRAM_BOT_USERNAME);
-
 	const { discordAuthorization } = useAppStore();
+	
 	return (
 		<div>
 			<TcBoxContainer
@@ -33,15 +32,17 @@ function Index() {
 								variant="contained"
 								onClick={() => discordAuthorization()}
 							/>
-							<LoginButton
-								botUsername="Togethercrew_Staging_Bot"
-								authCallbackUrl="https://api.togethercrew.de/api/v1/auth/telegram/authorize/callback"
-								buttonSize="large" // "large" | "medium" | "small"
-                requestAccess="write"
-								cornerRadius={5} // 0 - 20
-								showAvatar={true} // true | false
-								lang="en"
-							/>
+							<div className="flex justify-center text-center">
+								<LoginButton
+									botUsername={conf.TELEGRAM_BOT_USERNAME as string}
+									authCallbackUrl={`${conf.API_BASE_URL}/auth/telegram/authorize/callback`}
+									buttonSize="large"
+									requestAccess="write"
+									cornerRadius={5}
+									showAvatar={true}
+									lang="en"
+								/>
+							</div>
 						</div>
 						<TcText
 							variant="body1"
