@@ -31,7 +31,7 @@ type TokenProviderProps = {
 };
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
-  const { retrieveCommunityById, getUserCommunityRole } = useAppStore();
+  const { retrieveCommunityById, getUserCommunityRole, getUser} = useAppStore();
   const [selectedPlatform, setSelectedPlatform] = useState<string>('');
   const [token, setToken] = useState<IToken | null>(null);
   const [community, setCommunity] = useState<IDiscordModifiedCommunity | null>(
@@ -53,6 +53,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     if (storedCommunity) {
       setCommunity(storedCommunity);
       getUserCommunityRole(storedCommunity.id);
+      getUser();
     }
 
     const fetchAndUpdateCommunity = async () => {
